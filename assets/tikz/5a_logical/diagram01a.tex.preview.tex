@@ -1,0 +1,82 @@
+\documentclass[tikz, convert={outext=.svg,pdf2svg}]{standalone}
+
+\usepackage{tikz,amsmath, amssymb,bm,color}
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{calc, backgrounds}
+
+\definecolor{myblue}{RGB}{175, 204, 233}
+
+\begin{document}
+%\begin{tikzpicture}[background rectangle/.style={fill=cyan}, show background rectangle]
+\begin{tikzpicture}
+
+\tikzstyle{square} = [draw,outer sep=5,inner sep=3,minimum size=10,line width=0, 
+very thick, draw=black, top color=white,bottom color=white]
+\tikzstyle{noborder} = [draw,outer sep=0,inner sep=0,minimum size=20,line width=1, 
+draw=none]
+\tikzstyle{blue} = [draw,outer sep=35,inner sep=0,minimum size=20, line width=1, 
+very thick, draw=none, top color=myblue, bottom color=myblue]
+
+\node [square] at (8,18) {\begin{tabular}{c} evaluate \textit{a}\end{tabular}};
+\draw[-triangle 60]  (9.3,18.55) -- (10.5,18.55);
+ \draw[-triangle 60]  (9.3,17.55) -- (10.5,17.55);
+ \draw  (9.3,18.55) -- (9.3,17.55);
+
+\node [noborder] at (11.6,18.55) {\begin{tabular}{c} if \textit{a} is true\end{tabular}};
+\draw[-triangle 60]  (12.6,18.55) -- (13.25,18.55);
+\node [blue] at (14.5,18.55) {\begin{tabular}{c} return \textit{true} \end{tabular}};
+
+ 
+\node [noborder] at (11.6,17.5) {\begin{tabular}{c} if \textit{a} is false \end{tabular}}; 
+\draw[-triangle 60]  (12.6,17.5) -- (13.25,17.5);
+\node [square] at (14.5,17.5) {\begin{tabular}{c} evaluate \textit{b} \end{tabular}};
+
+\draw[-triangle 60]  (15.8,18) -- (16.8,18);
+ \draw[-triangle 60]  (15.8,17) -- (16.8,17);
+ \draw  (15.8,18) -- (15.8,17);
+
+\node [noborder] at (17.9,18.05) {\begin{tabular}{c} if \textit{b} is true\end{tabular}};
+\draw[-triangle 60]  (18.85,18.05) -- (19.9,18.05);
+\node [blue] at (21.15,18.05) {\begin{tabular}{c} return \textit{true} \end{tabular}};
+
+\node [noborder] at (17.9,16.95) {\begin{tabular}{c} if \textit{b} is false \end{tabular}}; 
+\draw[-triangle 60]  (18.85,16.95) -- (19.9,16.95);
+\node [square] at (21.15,16.95) {\begin{tabular}{c} evaluate \textit{c} \end{tabular}};
+
+\draw[-triangle 60]  (22.3,16.95) -- (22.95,16.95);
+\node [blue] at (24.85,16.95) {\begin{tabular}{c} return the value of \textit{c} \end{tabular}};
+
+
+
+\phantom{
+%\draw[dashed,color=red!80!black,thick,fill=red!80!black, opacity=0.2] (7.5,14.7) rectangle (12.95,13.05);
+%\draw[dashed,color=red!80!black,thick,fill=red!80!black, opacity=0.2] (7.5,12.2) rectangle (12.7,10.55);
+}
+
+
+
+
+
+\usetikzlibrary{calc}
+\pgftransformreset
+\node[inner sep=0pt,outer sep=0pt,minimum size=0pt,line width=0pt,text width=0pt,text height=0pt] at (current bounding box) {};
+%add border to avoid cropping by pdflibnet
+\foreach \border in {0.1}
+  \useasboundingbox (current bounding box.south west)+(-\border,-\border) rectangle (current bounding box.north east)+(\border,\border);
+\newwrite\metadatafile
+\immediate\openout\metadatafile=\jobname_BB.txt
+\path
+  let
+    \p1=(current bounding box.south west),
+    \p2=(current bounding box.north east)
+  in
+  node[inner sep=0pt,outer sep=0pt,minimum size=0pt,line width=0pt,text width=0pt,text height=0pt,draw=white] at (current bounding box) {
+\immediate\write\metadatafile{\p1,\p2}
+};
+\immediate\closeout\metadatafile
+\end{tikzpicture}
+
+\end{document}
+
+t}
+

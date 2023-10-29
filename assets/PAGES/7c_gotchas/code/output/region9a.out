@@ -1,0 +1,17 @@
+MethodInstance for foo(::Int64)
+  from foo(x; y) @ Main C:\Users\marti\Google Drive\WEBSITES\julia_book2\_assets\PAGES\7c_gotchas\code\region9a.jl:1
+Arguments
+  #self#::Core.Const(foo)
+  x::Int64
+Locals
+  closure2::var"#closure2#124"{var"#closure1#123"}
+  closure1::var"#closure1#123"
+Body::Int64
+1 ─      (closure1 = %new(Main.:(var"#closure1#123")))
+│   %2 = Main.:(var"#closure2#124")::Core.Const(var"#closure2#124")
+│   %3 = Core.typeof(closure1)::Core.Const(var"#closure1#123")
+│   %4 = Core.apply_type(%2, %3)::Core.Const(var"#closure2#124"{var"#closure1#123"})
+│        (closure2 = %new(%4, closure1))
+│   %6 = (closure2)(x)::Int64
+└──      return %6
+

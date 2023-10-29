@@ -1,0 +1,1 @@
+print_compact((viral_new_nrvideos, viral_new_views, viral_new_money)) #hide

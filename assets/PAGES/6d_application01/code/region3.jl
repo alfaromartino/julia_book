@@ -1,0 +1,1 @@
+print_compact(views_per_video)

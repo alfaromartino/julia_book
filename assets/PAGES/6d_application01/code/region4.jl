@@ -1,0 +1,1 @@
+print_compact(money_per_view)

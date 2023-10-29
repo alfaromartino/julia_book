@@ -1,0 +1,18 @@
+MethodInstance for foo(::Int64)
+  from foo(x) @ Main C:\Users\marti\Google Drive\WEBSITES\julia_book2\_assets\PAGES\7c_gotchas\code\region3c.jl:1
+Arguments
+  #self#::Core.Const(foo)
+  x::Int64
+Locals
+  β::CORE.BOX
+  bar::var"#bar#104"{Int64}
+Body::ANY
+1 ─      (β = Core.Box())
+│   %2 = Main.:(var"#bar#104")::Core.Const(var"#bar#104")
+│   %3 = Core.typeof(x)::Core.Const(Int64)
+│   %4 = Core.apply_type(%2, %3)::Core.Const(var"#bar#104"{Int64})
+│        (bar = %new(%4, x, β))
+│        Core.setfield!(β, :contents, 0)
+│   %7 = (bar)()::ANY
+└──      return %7
+

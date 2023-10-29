@@ -1,0 +1,17 @@
+MethodInstance for foo()
+  from foo(; x) @ Main C:\Users\marti\Google Drive\WEBSITES\julia_book2\_assets\PAGES\7c_gotchas\code\region8c.jl:1
+Arguments
+  #self#::Core.Const(foo)
+Locals
+  x::CORE.BOX
+  bar::var"#bar#117"
+Body::Int64
+1 ─      (x = Core.Box())
+│        (bar = %new(Main.:(var"#bar#117"), x))
+│   %3 = x::CORE.BOX
+│   %4 = Base.convert(Main.Int64, 1)::Core.Const(1)
+│   %5 = Core.typeassert(%4, Main.Int64)::Core.Const(1)
+│        Core.setfield!(%3, :contents, %5)
+│   %7 = (bar)()::Int64
+└──      return %7
+
