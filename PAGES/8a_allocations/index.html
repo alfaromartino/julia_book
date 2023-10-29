@@ -1983,10 +1983,10 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Interpreting Memory Allocation</h2></p>
 <p>Memory allocation is the process of reserving memory to run a program, which can slow down computations substantially. The trade-off between speed and memory allocation is a complex one. In fact, <strong> reducing memory allocation is neither necessary nor sufficient for increasing speed</strong>—we&#39;ll see that it&#39;s not uncommon to have a function allocating more memory, yet being faster. </p>
-<p>Broadly speaking, copying data requires additional instructions to be executed by the CPU. However, it also stores elements in a contiguous memory block, allowing the CPU to access elements more quickly and efficiently. From a practical point of view, <strong> a disproportionate memory allocation constitutes a red flag</strong>. If two approaches for a same operation convey big differences in memory allocation, you&#39;ll quite likely see pronounced differences in performance.</p>
+<p>Broadly speaking, copying data requires additional instructions to be executed by the CPU. However, it also stores elements in a contiguous memory block, allowing the CPU to access elements more quickly and efficiently. From a practical point of view, <strong> a disproportionate memory allocation constitutes a red flag</strong>. If two approaches for a same operation convey big differences in memory allocation, it&#39;s quite likely that you see pronounced differences in performance too. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     Memory allocations can occur on either the   <span style="color: rgb(62, 121, 180);"><strong> heap</strong></span> or the   <span style="color: rgb(62, 121, 180);"><strong> stack</strong></span>. Throughout the website, memory allocations will refer to heap allocations exclusively, as they&#39;re the ones that slow down computations. Thus, for instance, we&#39;ll say that tuples don&#39;t allocate memory, because they&#39;re not allocated on the heap, even though tuples allocate memory on the stack.  </div>  </div>
+      <b>Remark</b> </span>  </div>  <div class=content>     Memory allocations can occur on either the   <span style="color: rgb(62, 121, 180);"><strong> heap</strong></span> or the   <span style="color: rgb(62, 121, 180);"><strong> stack</strong></span>. Throughout the website, memory allocations will refer to heap allocations exclusively, as they&#39;re the ones that slow down computations. Thus, for instance, we&#39;ll say that tuples don&#39;t allocate memory because they&#39;re not allocated on the heap. This is despite tuples do allocate memory, albeit on the stack.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2806,19 +2806,30 @@ document.onkeydown = function(evt) {
 
 
 @media (max-width: 850px){
-     .franklin-content,.jumbotron, .left_bar{
+     .jumbotron, .left_bar{
         font-size:90% !important;}
 
         .franklin-content{
         font-size:100% !important;}
 
+        .franklin-content{padding-left: 1%; padding-right:1%;}
+
       .index_container,  .index_container section{font-size: 100%;}
       
-
       .index_container{
         padding-left:1%;
         padding-right:1%;              
       }
+
+      .index_container ul li {padding-right: 5%; padding-left: 0}
+      .index_container ul {padding-right: 0; padding-left: 5%;}
+
+      
+      .home_container section {font-size: 100%; line-height:1.55em;}
+      .home_container ul li {padding-right: 1%; padding-left: 0;}
+      .home_container ul {padding-right: 0; padding-left: 0%;}
+      .home_container .row li {padding-left:0; padding-bottom:1.55em; margin-left:0;}
+      .home_container .bullets_nomarker ul li p {line-height:1.55 !important;}
 
       h1 {font-size: 180%; padding-top:0.5em ;padding-bottom:0em; }
       h2, .lead {font-size: 110%; }
@@ -2842,26 +2853,35 @@ document.onkeydown = function(evt) {
 
         
       
-      .franklin-content{
-         padding-left: 0 !important;}
+      
      
-     .left_bar{      
-      position:absolute;
-      top: 0 ;
-      left: 0 ;
-      height:auto;
-      background-image: none;}
-     
+     .left_bar{
+      position        : absolute;
+      top             : -52px ;
+      left            : 0 ;
+      height          : auto;
+      background-image: none;
+
+    }
+
+         
      
 
       /* .left_bar ul {padding-left:0 !important; margin-left:0}   */
-      .left_bar ul, .left_bar ul li {text-indent:0; padding-top:0.5em;padding-bottom:1.5em !important; height:auto;}
+      .left_bar ul, .left_bar ul li {margin-bottom:-0.5em !important; text-indent:0; padding-top:0.0em !important; padding-bottom:0.0em !important; height:auto;}
       
       .left_bar ul li a {width:60px !important;}  
 
-      .left_bar img{
-      width:0% !important; height:0% !important; visibility: hidden;}  
-    
+      .left_bar img{width:0% !important; height:0% !important; visibility: hidden;}  
+          
+      
+      
+
+      .modal {padding: 2px !important;}
+
+      .bullets ol, .itemNoSpace ol{padding: 4px; }
+      .bullets ul li, .itemNoSpace ul li{padding-right: 5%; padding-left:0;margin-left:0;}
+      .bullets ul li p, .itemNoSpace ul li p {line-height:1.65;}      
       
 }
 
@@ -2874,7 +2894,8 @@ document.onkeydown = function(evt) {
         .franklin-content{font-size:100% !important}
 
       .index_container,  .index_container section{font-size: 100%;}
-      
+      .index_container ul li {padding-right: 5%; padding-left: 0}
+      .index_container ul {padding-right: 0; padding-left: 5%;}      
 
       .index_container{
         padding-left:1%;
@@ -2906,11 +2927,11 @@ document.onkeydown = function(evt) {
         .franklin-content{
          padding-left: 0 !important;}
      
-     .left_bar{      
-      position:absolute;
-      top: 0 ;
-      left: 0 ;
-      height:auto;
+      .left_bar{
+      position        : absolute;
+      top             : -52px ;
+      left            : 0 ;
+      height          : auto;
       background-image: none;}
      
      
@@ -2922,6 +2943,15 @@ document.onkeydown = function(evt) {
 
       .left_bar img{
       width:0% !important; height:0% !important; visibility: hidden;}  
+
+      .modal {padding: 2px !important;}
+      
+      .bullets ol, .itemNoSpace ol{padding: 6px; }
+      .bullets ul li, .itemNoSpace ul li{padding-right: 5%; padding-left:0;margin-left:0;}
+      .bullets ul li p, .itemNoSpace ul li p {line-height:1.55;}
+      
+      .index_container ul li {padding-right: 5%; padding-left: 0}
+      .index_container ul {padding-right: 0; padding-left: 5%;}
 }
 
 
