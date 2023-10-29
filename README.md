@@ -1,2 +1,2 @@
 # Online Book: Julia as your First Programming Language
-Unfinished Preliminary book on Julia programming language
+**Unfinished Preliminary** book on the Julia programming language
