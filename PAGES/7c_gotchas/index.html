@@ -2318,9 +2318,8 @@ foo&#40;x; y &#61; 2*x&#41; &#61; x * y
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 6: Closures can Easily Introduce Type Instabilities</h2></p>
-<p>  <span style="color: rgb(62, 121, 180);"><strong> Closures</strong></span> refer to <strong> functions defined inside functions</strong>. They encompass both defining function explicitly, but also when we execute functions that have an anonymous function as an argument. Closures in Julia can easily introduce type instability. This is why, although there have been improvements in this area, it&#39;s still recommended steering clear of them.</p>
-<p>To illustrate the issue, let&#39;s consider a scenario where closures can look appealing. It arises when we first need to prepare information &#40;like defining parameters or initializing variables&#41; and then compute an output. Closures make it possible to keep both processes within the same function, making the code tidy and self-contained. In particular, there&#39;d be no need to specify all the initializations and parameters as function arguments. </p>
-<p>The following example considers a scenario like this, implemented with and without a closure. Despite the advantages of using closures, you should write operations as in &quot;No Closure&quot; if you want to be on the safe side. </p>
+<p>While the concept of   <span style="color: rgb(62, 121, 180);"><strong> closures</strong></span> is more general, we&#39;ll refer in particular to the <strong> definition of functions inside functions</strong>. This can occur either when define a function explicitly within a function, but also when we have anonymous function defined as a function argument. Writing these types of closures in Julia can easily introduce type instability. Although there have been improvements in this area, Julia&#39;s developers have worked on this matter for several years.</p>
+<p>To illustrate the issue, let&#39;s consider a scenario where closures are appealing. This consists in first preparing information &#40;like defining parameters or initializing variables&#41;, and then computing an output. Closures make it possible to keep both processes within the same function, making the code tidy and self-contained. The following example implements this scenario with and without a closure. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2361,8 +2360,8 @@ task&#40;&#41;</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>To justify why the approach with closures is problematic, we present several examples. Briefly, type instability emerges when we use closures and additionally either redefine variables/arguments &#40;e.g., when we update a variable in an output&#41;, change the order in which we define functions, or use anonymous functions.</p>
-<p>The examples refer to the containing function as the  <em> outer function</em>, and refer to the closure function as the  <em> inner function</em>. </p>
+<p>The approach with closures can introduce type instability when we use closures and additionally either redefine variables/arguments &#40;e.g., when we update a variable in an output&#41;, change the order in which we define functions, or use anonymous functions.</p>
+<p>We delve into these cases below. Throughout the examples, we refer to the containing function as the  <em> outer function</em>, and the closure function as the  <em> inner function</em>. </p>
  <h4> When the Issue Arises </h4>
 <p>Before introducing examples arising in real applications, let&#39;s consider 3 abstract examples that starkly illustrate the issue. All have in common that <strong> the closure is accessing variables or functions from its outer function scope, without passing them as arguments</strong>. Depending on how we perform this operation, type stability might arise. </p>
 <p>We&#39;ll also show that you could solve these issues by specifying the arguments of the inner function,  <em> including the functions used</em>. While passing all variables as arguments is natural in Julia, additionally including the used functions as arguments is not. This is why we recommend instead defining the outer and inner functions as two separate functions, as in &quot;No Closure&quot; above.</p>
@@ -2739,7 +2738,7 @@ end
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\8a_allocations" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified October 30, 2023 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified October 31, 2023 </span>  
   </div>
 <!-- </p>  -->
 </footer>
