@@ -2031,9 +2031,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>So far, the functions we&#39;ve defined have to be called through the syntax <code>foo&#40;2,4&#41;</code> exclusively. The distinctive feature of these functions is that the first argument 2 is assigned to <code>x</code> and the second argument 4 to <code>y</code>, making the order of the arguments matter in a statement like <code>foo&#40;2,4&#41;</code>. Functions called in this way are said to have <strong> positional arguments</strong>.</p>
-<p>One downside of functions with positional arguments is that they&#39;re prone to silent errors: even if we mistakenly swap the positions of arguments, the function could still provide an output. The issue becomes more severe as the number of arguments in the function grows, as it increases the likelihood of introducing these bugs. </p>
-<p>In this section, we present a way to circumvent this issue, based on what&#39;s known as <strong> keyword arguments</strong>. This allows the function to be called by explicitly indicating its arguments, such as in <code>foo&#40;x&#61;2,y&#61;4&#41;</code>. With keyword arguments, the order of the arguments is unimportant, and so <code>foo&#40;x&#61;2,y&#61;4&#41;</code> and <code>foo&#40;y&#61;4,x&#61;2&#41;</code> provide the same result.</p>
+<p>Up to this point, we&#39;ve been calling a function <code>foo&#40;x,y&#41;</code> using the syntax <code>foo&#40;2,4&#41;</code>. The distinctive feature of this syntax is that the first argument is assigned to <code>x</code> and the second argument 4 to <code>y</code>, so that the order of the arguments matter. Functions called in this manner have what&#39;s known as <strong> positional arguments</strong>.</p>
+<p>One downside of functions defined with positional arguments is that they&#39;re prone to silent errors: if we mistakenly swap the positions of arguments, the function could still provide an output. The issue becomes more severe as the number of arguments in the function grows, in which case the likelihood of introducing these bugs increases.</p>
+<p>In this section, we present a way to circumvent this issue, based on what&#39;s known as <strong> keyword arguments</strong>. This allows the function to be called by explicitly indicating its arguments, such as in <code>foo&#40;x&#61;2,y&#61;4&#41;</code>. With keyword arguments, the order of arguments is unimportant, and so <code>foo&#40;x&#61;2,y&#61;4&#41;</code> and <code>foo&#40;y&#61;4,x&#61;2&#41;</code> provide the same result.</p>
 <p>      </div>
     </div>
   </div>
@@ -2043,7 +2043,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Positional and Keyword Arguments</h2></p>
-<p>The following examples illustrate how to define and run functions with positional and keyword arguments. We also show that both approaches for calling arguments can be combined, so that the function can be called with a mix of positional and keyword arguments.</p>
+<p>The following examples illustrate how to define and run functions with positional and keyword arguments. Both approaches can be combined, thus allowing for a mix of positional and keyword arguments.</p>
+<p>Note that positional arguments necessarily require the use a semicolon for its definition. However, the semicolon can be substituted with a comma when we run the function.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2067,7 +2068,6 @@ color: white;
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;1 ; y&#61;1&#41;</code><br/><div class="akin_to_pre">2</div> </div> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;1 , y&#61;1&#41;</code> # alternative notation<br/><div class="akin_to_pre">2</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The examples where functions have both types of arguments rationalize the use of a semicolon for keyword arguments. The semicolon can be substituted by a comma when we run a function with keyword arguments.</p>
 <p>      </div>
     </div>
   </div>
@@ -2077,7 +2077,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Keyword Arguments with Default Values</h2></p>
-<p>Keyword arguments allow for the inclusion of default values. These values are automatically assumed when a function is run without providing inputs.</p>
+<p>Keyword arguments make it possible to set default values, as shown below. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2105,7 +2105,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Using Arguments as Inputs of Other Arguments</h2></p>
-<p>When we execute a function, the arguments are evaluated sequentially, from left to right. This makes it possible to use an argument on the left for defining arguments appearing after it. For instance, given <code>foo&#40;;x,y&#41;</code>, the definition of variable <code>y</code> could depend on <code>x</code>. This provides greater flexibility to define default values, as the following example demonstrates.</p>
+<p>When a function is called, its arguments are evaluated sequentially from left to right. This allows a previous argument to be used when defining arguments appearing later. For instance, given <code>foo&#40;;x,y&#41;</code>, the default value of <code>y</code> could depend on <code>x</code>. </p>
  <div class=" code_box"> <details  open><summary> Preceding Arguments to Define Default Values  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo&#40;; x, y &#61; x&#43;1&#41; &#61; x &#43; y</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;x&#61;2&#41;</code>     #function run with implicit value &#39;y&#61;3&#39;<br/><div class="akin_to_pre">5</div> </div></div> </div>   </details></div>
@@ -2118,7 +2118,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Splatting</h2></p>
-<p>It&#39;s possible to use each element of a collection as the arguments of a function. This means that, given a function <code>foo&#40;x,y&#41;</code>, we can define the arguments <code>x</code> and <code>y</code> by using a tuple or a vector <code>z</code>. To implement this, we need to introduce the splat operator, <code>...</code>, which extracts the individual elements of a collection and uses them as separate values.  </p>
+<p>Given a function <code>foo&#40;x,y&#41;</code>, we can define the arguments <code>x</code> and <code>y</code> by using the elements of a tuple or a vector <code>z</code>. To implement this, we need to introduce the splat operator, <code>...</code>, which extracts the individual elements of a collection and uses them as separate values.  </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2152,7 +2152,7 @@ z &#61; &#91;2,3&#93;</code></pre>
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\4d_vectorizing" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified November 3, 2023 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified November 4, 2023 </span>  
   </div>
 <!-- </p>  -->
 </footer>
