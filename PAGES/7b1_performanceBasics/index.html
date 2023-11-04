@@ -1984,10 +1984,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Type Stability</h2></p>
-<p>Julia always assumes that a variable has type <code>Any</code> by default, where <code>Any</code> contains all the possible types in Julia. For instance, <code>foo&#40;x&#41; &#61; x * 2</code> is equivalent to <code>foo&#40;x::Any&#41; &#61; x * 2</code>. Note that even when <code>foo</code> has only one method, multiple dispatch still occurs because <code>*</code> has multiple methods itself &#40;e.g., different implementations of <code>*</code> for <code>Int64</code> and <code>Float64</code>&#41;.</p>
-<p>The compiler&#39;s ability to generate fast code depends critically on the notion of   <span style="color: rgb(62, 121, 180);"><strong> type stability</strong></span>: given the argument types of a function, the compiler can infer the  <em> concrete types</em> of each variable and output contained in the function. Concrete types, unlike abstract types, allows the compiler to specialize operations. Otherwise, it&#39;s forced to account for multiple possible implementations, resulting in slow code.</p>
-<p>To know whether a function is type stable, Julia provides the macro <code>@code_warntype</code>. This prints what the compiler knows about the types of each variable and output when you execute a function. </p>
-<p>To make the discussion more concrete, let&#39;s consider a function that redefines a variable <code>x</code> as <code>y</code>, and then computes an operation using <code>y</code>. </p>
+<p>Julia assumes by default that a variable has type <code>Any</code>, where <code>Any</code> contains all the possible types in Julia. For instance, <code>foo&#40;x&#41; &#61; x * 2</code> is equivalent to <code>foo&#40;x::Any&#41; &#61; x * 2</code>. When we call <code>foo&#40;1&#41;</code>, multiple dispatch identifies the method for executing <code>*</code>, based on that <code>x &#61; 1</code> is <code>Int64</code> and that the operation <code>x * 2</code> involves <code>2</code>, which is also <code>Int64</code>. </p>
+<p>The compiler&#39;s ability to generate fast code depends critically on the notion of   <span style="color: rgb(62, 121, 180);"><strong> type stability</strong></span>: given the argument types of a function, the compiler has to be capable of inferring the  <em> concrete types</em> of each variable and output contained in the function. Concrete types, unlike abstract types, allows the compiler to specialize operations. Otherwise, it&#39;s forced to account for multiple possible implementations, resulting in slow code. </p>
+<p>In the example provided, Julia can infer that <code>x</code> is <code>Int64</code>, and therefore that <code>x * 2</code> is also <code>Int64</code>. This allows the compiler to specialize the method for <code>*</code> to <code>Int64</code>, which is fast.</p>
+<p>To know whether a function is type stable, Julia provides the macro <code>@code_warntype</code>. This prints what the compiler knows about the types of each variable and output when you execute a function. To illustrate this macro, consider a function that redefines a variable <code>x</code> as <code>y</code>, and then computes an operation using <code>y</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2023,7 +2023,7 @@ end</code></pre>
     </div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>While the result of <code>@code_warntype</code> is not so easy to interpret, each line is colored to facilitate its reading:</p>
+<p>While each line returned by <code>@code_warntype</code> may be hard to interpret, the colors used facilitate the reading:</p>
 <div class="itemNoSpace"><ul>
 <li><p>If all lines are   <span style="color: rgb(62, 121, 180);"><strong> blue</strong></span>, the function is   <span style="color: rgb(62, 121, 180);"><strong> type stable</strong></span> as Julia was able to identify a concrete type for each variable and output.</p>
 </li>
@@ -2101,8 +2101,8 @@ end</code></pre>
 <p>In the first case, the operation is given by <code>y * 2</code>, thereby calling <code>y</code> only once. The impact of this type instability on performance is minimal, reflected in a yellow warning when using <code>@code_warntype</code>. Conversely, the second case performs the operation <code>y * i</code>  <em> multiple times</em> without knowing the type of <code>y</code>. This makes <code>@code_warntype</code> provide a red warning, as the type instability has a severe impact on performance. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     Yellow warnings always show up when you run a for-loop. This arises due to how iterates work, which return either a tuple for the next element or <code>nothing</code> when no element remains. </p>
- <div class=" code_box"> <details  open><summary> Type Instability with For-Loops  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
+      <b>Remark</b> </span>  </div>  <div class=content>     Yellow warnings always appear when running a for-loop, and hence can be completely ignored. This occurs because how iterates work, which return either a tuple to compute the next element or <code>nothing</code> if no element remains. </p>
+<p> <div class=" code_box"> <details  open><summary> Type Instability with For-Loops  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">function foo&#40;&#41;
     for i in &#91;1,2,3&#93;
         i * 2
@@ -2113,8 +2113,7 @@ end</code></pre>
           <img style="width:45%; height:auto; max-width:100%;" src="/julia_book/assets/PAGES/7b1_performanceBasics/pics/03.png"/>
           </span>
     </p>
-    </div> </div>   </details></div>
-<p>For-loops constitute a typical example of a &quot;yellow&quot; type instability that can be completely ignored.  </div>  </div>
+    </div> </div>   </details></div>  </div>  </div>
 <p>      </div>
     </div>
   </div>

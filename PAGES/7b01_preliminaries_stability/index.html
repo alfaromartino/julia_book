@@ -1984,20 +1984,20 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>We&#39;ll focus on two key aspects of performance: ensuring type stability &#40;which includes avoiding global variables&#41; and reducing memory allocation. While there are other aspects to consider regarding performance, these two aspects are the most basic ones. </p>
-<p>The focus on this section is in particular on type stability. This requires the code to be inside a function as a necessary condition, demanding that Julia can infer the type of each variable. In this way, it can specialize code to each variable&#39;s type. In practical terms, <strong> any attempt to generate fast code without ensuring type stability is doomed to fail</strong>.</p>
+<p>We&#39;ll focus on two key aspects of performance: type stability and memory allocation. While there are other aspects to consider for performance, they&#39;re the most basic ones. </p>
+<p>The focus on this section is in particular on ensuring type stability. A necessary condition for this is that each task to be executed is wrapped in a function. In this way, the task Julia starts by identifying the type of each variable, allowing it to specialize code to each variable&#39;s type. <strong> Any attempt to generate fast code without ensuring type stability is doomed to fail</strong>, thereby making it essential to performance.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="type_annotating_variables" class="scrollspy">
+<section id="type-annotating_variables" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Type Annotating Variables</h2></p>
-<p>Before starting the discussion about type stability, it&#39;s important to bear in mind the distinction between <strong> concrete and abstract types</strong> presented <a href="http://localhost:8000/PAGES/3a_variables/#variable_types">here</a>. Abstract types are collections of concrete types, while concrete types are single types that act as primitives. For example, the type <code>Number</code> is an abstract type comprising all the types representing a numeric variable, including the concrete types <code>Int64</code> and <code>Float64</code>. </p>
-<p>It&#39;s possible to set the type of a variable. This can be done in two ways: by directly specifying the type through the operator <code>::</code>, or by combining the operator subtype <code>&lt;:</code> with the keyword <code>where</code>. The operator <code>::</code> takes a variable as its left operand and a type as its right operand, as in <code>x::Int64</code>. Conversely, <code>T &lt;: S</code> requires that <code>T</code> and <code>S</code> are types, and it&#39;s actually a Boolean operator indicating whether <code>T</code> is a subtype of <code>S</code>. For instance, <code>Int64 &lt;: Number</code> is <code>true</code> because <code>Int64</code> is a subtype of <code>Number</code>.</p>
-<p>The following shows how these operators can be used to set the type of a variable.</p>
+        <h2>Type-Annotating Variables</h2></p>
+<p>Before studying type stability, let&#39;s revisit some topics referred to <strong> concrete and abstract types</strong> presented <a href="http://localhost:8000/PAGES/3a_variables/#variable_types">here</a>: abstract types are collections of concrete types, while concrete types are single types that act as primitives. For example, <code>Number</code> is an abstract type that comprises all the types representing a numeric variable, including the concrete types <code>Int64</code> and <code>Float64</code>. </p>
+<p>It&#39;s possible to restrict the type of a variable by either specifying the type through the operator <code>::</code>, or by combining the operator subtype <code>&lt;:</code> with the keyword <code>where</code>. The operator <code>::</code> takes a variable as its left operand and a type as its right operand, as in <code>x::Int64</code>. Likewise, <code>&lt;:</code> is actually a Boolean Operator, where <code>T &lt;: S</code> indicates whether the type <code>T</code> is a subtype of <code>S</code>. For instance, <code>Int64 &lt;: Number</code> is <code>true</code>, since <code>Int64</code> is a subtype of <code>Number</code>.</p>
+<p>The following shows how these operators can be used to set a variable&#39;s type.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2019,15 +2019,16 @@ y::T where T &lt;: Number  &#61; 2     # or y::T where &#123;T &lt;: Number&#125
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> 2.0 </div> <br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> 2 </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The two approaches restrict the types of variables from that point on. For instance, if you run the code in the first tab and then <code>a &#61; &quot;hello&quot;</code>, it&#39;ll throw an error.  Note that when we restrict variables to a supertype comprising multiple concrete types, Julia will assume that the variable has the most specific type of the value. For instance, <code>b::Number</code> restricts <code>b</code> to take values of type <code>Number</code>. But when we assign <code>b &#61; 2</code>, Julia assumes that <code>b</code> has type <code>Int64</code> because <code>2</code> is an integer. You can still redefine <code>b</code> with a value having type <code>Number</code>, so that <code>b &#61; 2.5</code> would be valid.</p>
-<p>When we don&#39;t specify the type of a variable, Julia is implicitly assuming that the variable has type <code>Any</code>. This is why we&#39;ve been able to assign any value to a variable without throwing an error. To illustrate this, all the following variables are equivalent regarding their type, where we use different names for the variables because Julia would throw an error otherwise &#40;you can&#39;t respecify the type of a variable once you define it&#41;.</p>
+<p>The two approaches presented restrict the types of variables from that point on. For instance, if you run the code in the first tab and then <code>a &#61; &quot;hello&quot;</code>, it&#39;ll throw an error. </p>
+<p>Note that when we restrict a variable to a supertype and then define its value, Julia will set it to the most specific type corresponding to the value. For instance, <code>b::Number</code> restricts <code>b</code> to take values of type <code>Number</code>. Thus, when we assign <code>b::Number &#61; 2</code>, Julia identifies the object held by <code>b</code> as having type <code>Int64</code>. Additionally, it establishes that you can only redefine <code>b</code> with values having type <code>Number</code>, such that <code>b &#61; 2.5</code>.</p>
+<p>When we don&#39;t specify a variable&#39;s type, Julia implicitly assumes that the variable has type <code>Any</code>. This explains why we can assign any value to a variable, without throwing an error. To illustrate this, all the following variables have type <code>Any</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> We use different names for the variables, because otherwise Julia would throw an error. You can&#39;t re-specify a variable&#39;s type once you define it.  </span></span> </p>
  <div class=" code_box"> <details  open><summary> Type Any  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">a                   &#61; 2
 b::Any              &#61; 2
 d::T where T        &#61; 2
 c::T where T &lt;: Any &#61; 2</code></pre>
 <p></div> </div>  </details></div>
-<p>Note in particular the notation <code>T</code> without <code>&lt;:</code>, which is equivalent to assuming <code>T &lt;: Any</code>.</p>
+<p>Note in particular the notation for <code>d</code>, which is equivalent to assuming <code>T &lt;: Any</code> as we omitted specifying the type after <code>T</code>. </p>
 <p>      </div>
     </div>
   </div>
@@ -2037,25 +2038,25 @@ c::T where T &lt;: Any &#61; 2</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Multiple Dispatch and Compilation</h2></p>
-<p>The execution of a function in Julia involves two steps: <strong> dispatch and compilation</strong>. A brief explanation of these concepts will help us understand the definition of type stability, which is Julia&#39;s most important feature for generating fast machine code.</p>
-<p> <h4> Multiple Dispatch </h4> The idea of multiple dispatch hinges on the distinction between a function and its methods. Essentially,   <span style="color: rgb(62, 121, 180);"><strong> a function</strong></span> is a name that groups different methods, with each   <span style="color: rgb(62, 121, 180);"><strong> method</strong></span> defining the behavior of the function for a specific argument type. For example, <code>sum</code> is defined as a function comprising 10 methods in Julia, where each method corresponds to a particular argument type. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> You can use the function <code>methods</code> to get the list of methods defined for a given function &#40;e.g., <code>methods&#40;sum&#41;</code>&#41;.  </span></span> This means that <code>sum&#40;x&#41;</code> has one method for <code>x</code> with type <code>Vector&#123;Int64&#125;</code>, another method for <code>x</code> with type <code>Vector&#123;Float64&#125;</code>, and other 8 methods for other types.</p>
-<p>When a function is run, Julia engages in a process called   <span style="color: rgb(62, 121, 180);"><strong> multiple dispatch</strong></span>: it goes through all the existing methods, and then identifies the specific method that should be invoked for the argument types.</p>
-<p>The distinction can be seen more clearly if we define our own function <code>foo</code> along with its methods. Specific methods can be defined by annotating function arguments through <code>::</code>, which restricts a variable to take a specific types. For example, <code>x::Int64</code> means that <code>x</code> can only take values of type <code>Int64</code>.</p>
+<p>Running a function in Julia triggers two actions: <strong> dispatch and compilation</strong>. A brief explanation of these concepts will help us understand the definition of type stability, which is one of Julia&#39;s most basic feature for generating fast machine code.</p>
+<p> <h4> Multiple Dispatch </h4> The idea of multiple dispatch hinges on the distinction between a function and its methods. Essentially,   <span style="color: rgb(62, 121, 180);"><strong> a function</strong></span> is a name that groups different methods, with each   <span style="color: rgb(62, 121, 180);"><strong> method</strong></span> defining the behavior of the function for a specific argument type. For example, <code>sum</code> is defined as a function comprising 10 methods in Julia, where each method corresponds to a particular argument type. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> You can use the function <code>methods</code> to get the list of methods defined for a given function &#40;e.g., <code>methods&#40;sum&#41;</code>&#41;.  </span></span> This means that <code>sum&#40;x&#41;</code> has one method for <code>x</code> with type <code>Vector&#123;Int64&#125;</code>, another method for <code>x</code> with type <code>Vector&#123;Float64&#125;</code>, and 8 remaining for other types.</p>
+<p>When a function is called in Julia, it undergoes a process known as   <span style="color: rgb(62, 121, 180);"><strong> multiple dispatch</strong></span>. This involves exploring all the available methods for the function, eventually choosing the specific method for the types of the function arguments.</p>
+<p>To illustrate multiple dispatch, let&#39;s define a function <code>foo</code> and its corresponding methods. To define specific methods, you need to constrain the function arguments through the operator <code>::</code>. </p>
  <div class=" code_box"> <details  open><summary> Methods  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo&#40;x::Int64&#41;  &#61; println&#40;x&#41;
 foo&#40;x::String&#41; &#61; println&#40;&quot;The Number &#36;x&quot;&#41;</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;2&#41;</code> <br/> 2 </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;&quot;Two&quot;&#41;</code> <br/> The Number Two </div></div> </div>   </details></div>
-<p>The example defines the function <code>foo</code> and two methods: one for <code>x</code> with type <code>Int64</code> and another for <code>x</code> with type <code>String</code>.  Multiple dispatch determines that executing <code>foo&#40;2&#41;</code> calls the method <code>foo&#40;x::Int64&#41;</code>, given that <code>2</code> has type <code>Int64</code>. </p>
+<p>The example defines a function <code>foo</code> along with two methods: one for <code>x</code> with type <code>Int64</code> and another for <code>x</code> with type <code>String</code>. When we call <code>foo&#40;2&#41;</code>, multiple dispatch calls the method <code>foo&#40;x::Int64&#41;</code>, given that <code>2</code> has type <code>Int64</code>. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     The methods of a function don&#39;t have to perform similar operations or even have the same number of arguments. For instance, one could define the following function <code>foo</code>:</p>
+      <b>Remark</b> </span>  </div>  <div class=content>     You can define multiple methods for a function, and they don&#39;t need to perform similar operations or even have the same number of arguments. For instance, one could define a function<code>foo</code> with the following two methods:</p>
 <p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo&#40;x::Int64&#41;               &#61; x ^ 2
 foo&#40;x::Float64, y::Float64&#41; &#61; x * y</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;2&#41;</code> <br/> 4 </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;2. , 2.&#41;</code> # 2. is shorthand for 2.0 <br/> 4.0 </div></div> </div>   </details></div>  </div>  </div>
  <h4> Compilation </h4>
-<p>Calling a function with specific arguments identifies an appropriate method. After this, some code is compiled to translate Julia code for the method into machine code. At this stage, the compiler creates a specialized implementation for the method, which is optimized for the specific argument types. </p>
-<p>The compiler can generate fast optimized code when it can infer the types of each variable and output in a function. This is what we refer to as <strong> type stability</strong>, which we describe in detail in the next section.</p>
+<p>Multiple dispatch is the first action triggered when you call a function, which identifies an appropriate method for the types of the function arguments. After this, Julia engages in a process known as   <span style="color: rgb(62, 121, 180);"><strong> compilation</strong></span>, where the compiler creates machine code to implement a specialized version for the function, optimized for the specific argument types. </p>
+<p>The compiler can generate fast optimized code when it&#39;s capable of inferring the types of each variable and output in a function. In other words, the function has to be <strong> type stable</strong>, which is the focus in the upcoming sections.</p>
 <p>      </div>
     </div>
   </div>
@@ -2562,7 +2563,7 @@ for multiple pics in a row
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#type_annotating_variables" data-offset="-40">Type Annotating Variables</a>
+        <a class="nav-link" href="#type-annotating_variables" data-offset="-40">Type-Annotating Variables</a>
       </li>
       
       <li class="nav-item">
