@@ -2043,8 +2043,8 @@ color: white;
 <li><p>Sets</p>
 </li>
 </ul>
-<p>  <span style="color: rgb(62, 121, 180);"><strong> Arrays</strong></span> represent the most common data structure for collections. They are formally defined as objects with type <code>Array&#123;T,d&#125;</code>, where <code>d</code> is the array&#39;s dimension and <code>T</code> is its elements&#39; type &#40;e.g., <code>Int64</code> or <code>Float64</code>&#41;.</p>
-<p>Two special types of arrays are   <span style="color: rgb(62, 121, 180);"><strong> vectors</strong></span> &#40;1-dimensional arrays&#41; and   <span style="color: rgb(62, 121, 180);"><strong> matrices</strong></span> &#40;2-dimensional arrays&#41;: the type <code>Vector&#123;T&#125;</code> is an alias for <code>Array&#123;T,1&#125;</code>, whereas <code>Matrix&#123;T&#125;</code> is an alias for <code>Array&#123;T,2&#125;</code>. Although we include an optional section about matrices, the website will almost exclusively concentrate on vectors, as they&#39;re sufficient for explaining the fundamentals of Julia.</p>
+<p>  <span style="color: rgb(62, 121, 180);"><strong> Arrays</strong></span> represent one of the most common data structure for collections. They are formally defined as objects with type <code>Array&#123;T,d&#125;</code>, where <code>d</code> is the array&#39;s dimension and <code>T</code> is its elements&#39; type &#40;e.g., <code>Int64</code> or <code>Float64</code>&#41;.</p>
+<p>Two special types of arrays are   <span style="color: rgb(62, 121, 180);"><strong> vectors</strong></span> &#40;1-dimensional arrays&#41; and   <span style="color: rgb(62, 121, 180);"><strong> matrices</strong></span> &#40;2-dimensional arrays&#41;. Specifically, the type <code>Vector&#123;T&#125;</code> is an alias for <code>Array&#123;T,1&#125;</code>, whereas <code>Matrix&#123;T&#125;</code> is an alias for <code>Array&#123;T,2&#125;</code>. Although we include an optional section about matrices, the website will almost exclusively concentrate on vectors, as they&#39;re sufficient for explaining the fundamentals of Julia.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Remark</b> </span>  </div>  <div class=content> <strong> Julia uses 1 as an array's first index</strong>. This contrasts with many other languages &#40;e.g., Python&#41;, where 0 is used as the first index.  </div>  </div>
@@ -2087,10 +2087,10 @@ x &#61; &#91;1; 2; 3&#93;          # equivalent notation to define &#96;x&#96;</
 <p>The second approach is through a <strong> range</strong>. Its syntax is <code>&lt;first&gt;:&lt;steps&gt;:&lt;last&gt;</code>, where Julia assumes increments of 1 by default if we omit <code>&lt;steps&gt;</code>. To indicate the first and last index into a range, we can use the keywords <code>begin</code> and <code>end</code>, respectively.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;4, 5, 6, 7, 8&#93;</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;1:2&#93;</code>       # steps with unit increments assumed by default<br/><div class="akin_to_pre">2-element Vector{Int64}:
+<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;1:2&#93;</code>       # steps with unit increments &#40;assumed by default&#41;<br/><div class="akin_to_pre">2-element Vector{Int64}:
  4
  5</div> </div></p>
-<div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;1:2:5&#93;</code>          # steps with increments of 2 indicated<br/><div class="akin_to_pre">3-element Vector{Int64}:
+<div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;1:2:5&#93;</code>          # steps with increments of 2 &#40;explicitly indicated&#41;<br/><div class="akin_to_pre">3-element Vector{Int64}:
  4
  6
  8</div> </div>
