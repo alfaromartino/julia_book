@@ -2043,8 +2043,8 @@ z &#61; log&#40;y&#41;</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Concrete Types and Supertypes </h2></p>
-<p>Avoiding global variables doesn&#39;t guarantee type stability—<strong> wrapping code in a self-contained function is only a necessary condition to achieve type stability</strong>. Achieving type stability additionally requires that the compiler can identify a concrete type for each variable used. </p>
-<p>It&#39;s worth emphasizing that a function might be type stable for some inputs, but not for others. A typical example without type stability is when the arguments passed have abstract types, such as the union of several types. This case is illustrated in the examples below. It includes in particular a scenario where the vector has elements with type <code>Number</code>, defined as the union of all numeric types &#40;e.g., <code>Int64</code>, <code>Float64</code>, etc.&#41;</p>
+<p>Avoiding global variables doesn&#39;t guarantee type stability on its own. Instead, <strong> wrapping code in a self-contained function is only a necessary condition to achieve type stability</strong>. Type stability additionally requires that the compiler can identify a concrete type for each variable used. </p>
+<p>It&#39;s worth emphasizing that a function might be type stable for some inputs, and not for others. A typical example without type stability is when the arguments passed have abstract types, such as the union of several types. This case is illustrated in the examples below. It includes in particular a scenario where the vector has elements with type <code>Number</code>, defined as the union of all numeric types &#40;e.g., <code>Int64</code>, <code>Float64</code>, etc.&#41;</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2202,7 +2202,7 @@ foo&#40;x::Vector&#123;Number&#125;&#41; &#61; sum&#40;log.&#40;x&#41;&#41;</cod
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\7b3_barriers" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified November 4, 2023 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified November 5, 2023 </span>  
   </div>
 <!-- </p>  -->
 </footer>

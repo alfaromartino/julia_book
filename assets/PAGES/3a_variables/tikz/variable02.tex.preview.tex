@@ -1,0 +1,80 @@
+\documentclass[tikz, convert={outext=.svg,pdf2svg}]{standalone}
+
+\usepackage{tikz,amsmath, amssymb,bm,color}
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{calc, backgrounds}
+
+\definecolor{myblue}{RGB}{175, 204, 233}
+
+\begin{document}
+%\begin{tikzpicture}[background rectangle/.style={fill=cyan}, show background rectangle]
+\begin{tikzpicture}
+
+\tikzstyle{square} = [draw,outer sep=5,inner sep=3,minimum size=10,line width=0, 
+very thick, draw=black!100, top color=white,bottom color=white]
+\tikzstyle{noborder} = [draw,outer sep=0,inner sep=0,minimum size=20,line width=1, 
+draw=none, scale=0.75]
+\tikzstyle{blue} = [draw,outer sep=35,inner sep=3,minimum size=20, line width=1, 
+very thick, draw=none, top color=myblue, bottom color=myblue]
+
+\node [square] at (8,17.7) {\begin{tabular}{c} Objects\end{tabular}};
+\draw[-triangle 60]  (9.3,19.15) -- (10.5,19.15);
+ \draw[-triangle 60]  (9.3,16.2) -- (10.5,16.2);
+ \draw  (9.3,19.15) -- (9.3,16.2);
+
+\node [blue] at (12.1,19.1) {\begin{tabular}{c} Single element Objects \end{tabular}}; 
+\draw[-triangle 60]  (14.05,19.85) -- (15.25,19.85);
+ \draw[-triangle 60]  (14.05,19.05) -- (15.25,19.05);
+ \draw[-triangle 60]  (14.05,18.3) -- (15.25,18.3);
+ \draw  (14.05,19.85) -- (14.05,18.3);
+
+\node [noborder] at (16.9,19.85) {\begin{tabular}{l} Numbers (integer, float) \end{tabular}};
+\node [noborder] at (16.7,19.05) {\begin{tabular}{l} Booleans (true/false) \end{tabular}};
+\node [noborder] at (16.25,18.3) {\begin{tabular}{l} Strings (text) \end{tabular}};
+
+
+
+
+\node [blue] at (12.05,16.2) {\begin{tabular}{c} Collections\end{tabular}};
+
+
+\draw[-triangle 60]  (13.7,17.41) -- (14.9,17.4);
+ \draw[-triangle 60]  (13.7,16.7) -- (14.9,16.7);
+  \draw[-triangle 60]  (13.7,16) -- (14.9,16);
+  \draw[-triangle 60]  (13.7,15.35) -- (14.9,15.35);
+  \draw[-triangle 60]  (13.7,14.65) -- (14.9,14.65);
+ \draw  (13.7,17.4) -- (13.7,14.65);
+ 
+
+\node [noborder] at (16.6,17.4) {\begin{tabular}{l} Arrays (vectors, matrices) \end{tabular}};
+\node [noborder] at (15.5,16.7) {\begin{tabular}{l} Tuples \end{tabular}};
+\node [noborder] at (15.95,16) {\begin{tabular}{l} Named Tuples \end{tabular}};
+\node [noborder] at (15.8,15.35) {\begin{tabular}{l} Dictionaries\end{tabular}};
+\node [noborder] at (15.35,14.65) {\begin{tabular}{l} Sets\end{tabular}};
+
+
+
+
+\usetikzlibrary{calc}
+\pgftransformreset
+\node[inner sep=0pt,outer sep=0pt,minimum size=0pt,line width=0pt,text width=0pt,text height=0pt] at (current bounding box) {};
+%add border to avoid cropping by pdflibnet
+\foreach \border in {0.1}
+  \useasboundingbox (current bounding box.south west)+(-\border,-\border) rectangle (current bounding box.north east)+(\border,\border);
+\newwrite\metadatafile
+\immediate\openout\metadatafile=\jobname_BB.txt
+\path
+  let
+    \p1=(current bounding box.south west),
+    \p2=(current bounding box.north east)
+  in
+  node[inner sep=0pt,outer sep=0pt,minimum size=0pt,line width=0pt,text width=0pt,text height=0pt,draw=white] at (current bounding box) {
+\immediate\write\metadatafile{\p1,\p2}
+};
+\immediate\closeout\metadatafile
+\end{tikzpicture}
+
+\end{document}
+
+
+
