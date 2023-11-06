@@ -2064,10 +2064,10 @@ this is invisible this is invisible this is invisible this is invisible this is 
 </li>
 <li><p><code>views_per_video</code>: viewers per video &#40;in thousands&#41;.</p>
 </li>
-<li><p><code>money_per_view</code>: Dollars paid for 1,000 views per video. We suppose the payment fluctuates between &#36;2 and &#36;6. This is consistent with how YouTube pays in real life, where the payment varies according to the video&#39;s content.</p>
+<li><p><code>money_per_view</code>: Dollars paid per video for 1,000 views. We suppose the payment fluctuates between &#36;2 and &#36;6. This random feature is consistent with how YouTube pays in real life, which depends on thevideo&#39;s content.</p>
 </li>
 </ul></div>
-<p>The scenario is modeled by generating some mock data. The way the data are specified is unimportant, but added below for completeness.</p>
+<p>The scenario is modeled by generating some mock data. The details of how data are created is unimportant, but added below for completeness.</p>
  <div class=" code_box"> <details  closed><summary> Mock Data Creation  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">using Statistics, Distributions
 using Random; Random.seed&#33;&#40;123&#41;
 
@@ -2084,7 +2084,7 @@ nr_videos &#61; 30
 
 views_per_video &#61; audience&#40;nr_videos, median_target &#61; 50&#41;      # in thousands of views
 money_per_view  &#61; rand&#40;2:6, nr_videos&#41;                         # per thousands of views</code></pre> </div> </div>  </details></div>
-<p>The code defines two variables that appear as follows. </p>
+<p>The code defines the following two variables.</p>
 <p><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>views_per_video</code> # in thousands <br/> <pre><code class="plaintext code-output">30-element Vector{Float64}:
   75.7723
  125.211
@@ -2097,7 +2097,7 @@ money_per_view  &#61; rand&#40;2:6, nr_videos&#41;                         # per
  ⋮
  6
  4</code></pre> </div></div> </div> <br/></p>
-<p>These two variables are all the information we need to derive further stats. For instance, they enable us to compute the total money per video.</p>
+<p>These two variables are all the information needed to derive further stats. For instance, they enable us to compute the total money per video.</p>
  <div class=" code_box"> <details  open><summary> Additional Variable  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">money_per_video &#61; views_per_video .* money_per_view</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>money_per_video</code> <br/> <pre><code class="plaintext code-output">30-element Vector{Float64}:
  227.317
  250.422
