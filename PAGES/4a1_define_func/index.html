@@ -2031,7 +2031,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Functions can be classified into three:  <em> i)</em> built-in functions,  <em> ii)</em> third-party functions, and  <em> iii)</em> user-defined functions. The previous section has covered the first two, and we now focus on the  <em> iii)</em>.</p>
+<p>Functions can be classified into three:  <em> i)</em> built-in functions,  <em> ii)</em> third-party functions, and  <em> iii)</em> user-defined functions. The previous section has covered the first two. We now focus on  <em> iii)</em>.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Remark</b> - Notation </span>  </div>  <div class=content>     Developers of Julia and their packages <strong> denote functions by using lowercase letters</strong>, such as <code>sum</code> or <code>log</code>. Note that this is only a convention, not a requirement.  </div>  </div>
@@ -2044,28 +2044,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>User-Defined Functions</h2></p>
-<p>When you write a script in Julia, you&#39;ll often need to define your own functions. These functions can then be called without using any prefix. For instance, if you define a function <code>foo</code>, you can run it through <code>foo&#40;x&#41;</code>.</p>
-<p> <!-- Trigger/Open The Modal -->
-<div style="text-indent:0;"> <button class="modalButton">
-  <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"> Remark - Modules <strong> (OPTIONAL)</strong> </button> </div>
-
-<!-- The Modal -->
-<div class="modal" style="padding-left: 180px">
-  <!-- Modal content -->
-  <div class="modal-content">
-    <div class="modal-header">
-      <span class="modalClose">&times;</span>
-      <h2>  Modules </h2>
-    </div>
-    <div class="modal-body"><p> Strictly speaking, the way to call a function depends on the <strong> module</strong> where the function is defined. We briefly mentioned modules when we described packages. </p>
-<p>Modules can be &quot;used&quot; or &quot;imported&quot;, which determines how their functions will eventually be called. This explains the behavior of packages: <strong> a package is simply a module written by a third party</strong>, which exports functions when it&#39;s loaded so that the user can apply them. </p>
-<p>The concept of modules is more general than packages. In fact, the user can define multiple modules in their own scripts. Each of them would work as separate workspaces, without sharing variables in common. Indeed, when you start a new session in Julia, you&#39;re actually working on a module called <code>Main</code>. The prefix for calling a function isn&#39;t necessary in two cases: when you call a function within the same module or when you&#39;ve &quot;used&quot; a module rather than &quot;imported&quot; it. </p>
-<p>We won&#39;t cover modules on this website. Nonetheless, working with modules helps you organize code if you work on a relatively large project.  </p>
-    </div>    
-  </div>
-
-</div> </p>
-<p>There are two ways to define functions. We&#39;ll refer to them as <strong> the standard form</strong> and <strong> the compact form</strong>. The standard form is the most general, and is how functions are commonly defined in programming languages. Conversely, the compact form is typically used for single-line functions, and is akin to how functions are defined in mathematics. To illustrate each form, we consider a function <code>foo</code> that performs the sum of two variables <code>x</code> and <code>y</code>. </p>
+<p>When you write a script in Julia, you&#39;ll often need to define your own functions. These functions can be called without using any prefix, such that if you define a function <code>foo</code>, you can run it using <code>foo&#40;x&#41;</code>.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Strictly speaking, the way to call a function depends on the <strong> module</strong> in which the function is defined, and whether this module has been &quot;imported&quot; or &quot;used&quot;. We won&#39;t cover modules on this website, but you should explore them if you work on a relatively large project. Users can create multiple modules within their own scripts, each operating as independent workspaces that don&#39;t share variables. When initiating a new session in Julia, you&#39;re actually working within a module called <code>Main</code>. When you call functions belonging to the same module, you don&#39;t need to add prefix indicating the module.  </span></span></p>
+<p>There are two ways to define functions, which we&#39;ll refer to as <strong> the standard form</strong> and <strong> the compact form</strong>. The standard form is the most general, and is how functions are commonly defined in programming languages. Conversely, the compact form is typically used for single-line functions, and is akin to how functions are defined in mathematics. To illustrate each form, we consider a function <code>foo</code> that performs the sum of two variables <code>x</code> and <code>y</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2083,9 +2063,9 @@ end</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The compact form is ideal for concise functions, as they can be written in a single. On the other hand, the standard form can expand over multiple lines if needed. </p>
-<p>In both examples above, no output is explicitly specified. For the compact form, this isn&#39;t needed as there&#39;s only one possible output. As for the standard form, the function returns the last line as its output when none is specified. Nonetheless, you can still specify the output to return, through the keyword <code>return</code>. </p>
-<p>Note that functions can return multiple outputs if we define the result as a tuple &#40;or any other collection&#41;. When the outputs are returned in a tuple, it&#39;s common to omit <code>&#40;&#41;</code>, instead only separating the elements by a comma <code>,</code>. All these approaches to specifying an output are illustrated below.</p>
+<p>The compact form is ideal for concise functions, as they can be written in a single line. On the other hand, the standard form can expand over multiple lines if needed. </p>
+<p>When no output is specified, Julia returns the last line as its output. This is without loss of generality in the compact form, as there&#39;s only one line. As for the standard form, you can alternatively specify the output to return through the keyword <code>return</code>. Note that functions can return multiple outputs, by defining the result as a tuple &#40;or any other collection&#41;. </p>
+<p>All these approaches to specifying an output are illustrated below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2117,7 +2097,7 @@ end</code></pre>
     term1 &#61; x &#43; y
     term2 &#61; x * y 
 
-    return term1, term2     # a tuple
+    return term1, term2     # a tuple, using the notation that omits the parentheses
 end</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;10,2&#41;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
