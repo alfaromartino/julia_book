@@ -2031,7 +2031,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>The previous section introduced the concept of variables, distinguishing between those containing a single element and those acting as collections &#40;i.e., variables containing multiple elements, such as vectors and matrices&#41;. This section exclusively focuses on numeric single-element variables. </p>
+<p>The previous section introduced the concept of variables, distinguishing between those containing a single element and those acting as collections &#40;i.e., variables containing multiple elements, such as vectors and matrices&#41;. This section exclusively focuses on single-element variables containing a number. </p>
 <p>      </div>
     </div>
   </div>
@@ -2050,7 +2050,7 @@ color: white;
 </li>
 </ul>
 <p>The number 64 in <code>Int64</code> and <code>Float64</code> indicates the level of precision, expressed through the number of bits of memory allocated for each number. It basically establishes the maximum range or number of decimals that the data types support. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For instance, a positive number with type <code>Int64</code> can&#39;t be larger than 9,223,372,036,854,775,807, while a number with type <code>Float64</code> has at most 16 digits &#40;this statement is a simplification, good enough for our purposes&#41;.  </span></span> </p>
-<p>For practical purposes, it&#39;s important to emphasize that <code>Int64</code> and <code>Float64</code> are different data types. This implies that <code>1</code> has type <code>Int64</code>, but the same number in <code>Float64</code> is <code>1.0</code>. Therefore, to represent an integer as a <code>Float64</code>, you need to add either a zero decimal or a dot.</p>
+<p>It&#39;s important to emphasize that <code>Int64</code> and <code>Float64</code> are different data types. This implies that <code>1</code> has type <code>Int64</code>, but the same number in <code>Float64</code> is <code>1.0</code>. Therefore, to represent an integer as a <code>Float64</code>, you need to add either a zero decimal or a dot.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; 1       # &#96;Int64&#96;
 
@@ -2067,7 +2067,7 @@ y &#61; 1_000_000             #equivalent to &#96;x&#96; and more readable
 x &#61; 1000000.24            
 y &#61; 1_000_000.24          #&#96;_&#96; can be used with decimal numbers</code></pre>
 <p></div> </div>  </details></div>  </div>  </div>
-<p>The type <code>Float64</code> includes not only decimal numbers, but also two special values: <code>Inf</code> for infinity, and <code>NaN</code> for indeterminate expressions such as 0/0 &#40;<code>NaN</code> stands for &quot;not a number&quot;&#41;. This is why all the following variables have type <code>Float64</code>.</p>
+<p>The type <code>Float64</code> includes not only decimal numbers, but also two special values: <code>Inf</code> for infinity, and <code>NaN</code> for indeterminate expressions such as 0/0 &#40;<code>NaN</code> stands for &quot;not a number&quot;&#41;. Considering this, all the following variables have type <code>Float64</code>.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; 2.5
 
@@ -2084,7 +2084,8 @@ z &#61; 0/0</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Boolean Variables</h2></p>
-<p>A particular numerical type is <code>Bool</code>, which represents   <span style="color: rgb(62, 121, 180);"><strong> Boolean variables</strong></span>: a subtype of integers that only accepts the values <code>1</code> and <code>0</code>. Boolean values commonly arise when we assess conditions &#40;e.g., whether a number is greater than another&#41;. Moreover, the values <code>1</code> and <code>0</code> are used interchangeably with <code>true</code> and <code>false</code>.</p>
+<p>A particular numerical type is <code>Bool</code>, which represents   <span style="color: rgb(62, 121, 180);"><strong> Boolean variables</strong></span>. These variables can only take the values <code>true</code> and <code>false</code>, and internally are a subtype of integers that only accepts the values <code>1</code> and <code>0</code>. This is why, once we define a <code>Bool</code> variable, the values <code>1</code> and <code>0</code> can be used interchangeably with <code>true</code> and <code>false</code>.</p>
+<p>Boolean values commonly arise when we assess conditions &#40;e.g., whether a number is greater than another&#41;, as we show below.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; 2
 y &#61; 1
@@ -2101,7 +2102,7 @@ z &#61; x &gt; y         # alternative notation &#40;potentially confusing, it d
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Arithmetic Operators</h2></p>
-<p>We can manipulate numbers using <strong> arithmetic operators</strong>. Their symbols are similar to other software. Next, we state the main ones. </p>
+<p>Numbers can be manipulated using <strong> arithmetic operators</strong>. The symbols for these operators are akin to those used in other software. Next, we state the main ones. </p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -2146,7 +2147,7 @@ z &#61; x &gt; y         # alternative notation &#40;potentially confusing, it d
 </tbody>
 </table>
  <br/></p>
-<p>It&#39;s worth noting that all the operators presented above are  <em> binary</em>. This determines that their syntax is <code>x &lt;symbol&gt; y</code> &#40;recall the discussion <a href="/julia_book/PAGES/3a_variables/#operators">here</a> on the syntax of operators.&#41;.</p>
+<p>It&#39;s worth noting that all the operators presented above are  <em> binary</em>. Consequently, their syntax is <code>x &lt;symbol&gt; y</code> &#40;recall the discussion <a href="/julia_book/PAGES/3a_variables/#operators">here</a> about the syntax of operators.&#41;.</p>
 <p>      </div>
     </div>
   </div>
@@ -2159,7 +2160,7 @@ z &#61; x &gt; y         # alternative notation &#40;potentially confusing, it d
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\3b2_strings" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified November 6, 2023 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified November 8, 2023 </span>  
   </div>
 <!-- </p>  -->
 </footer>

@@ -1,0 +1,61 @@
+\documentclass[tikz, convert={outext=.svg,pdf2svg}]{standalone}
+
+\usepackage{tikz,amsmath, amssymb,bm,color}
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{calc, backgrounds}
+
+\definecolor{myblue}{RGB}{175, 204, 233}
+
+\begin{document}
+%\begin{tikzpicture}[background rectangle/.style={fill=cyan}, show background rectangle]
+\begin{tikzpicture}
+
+\tikzstyle{square} = [draw,outer sep=5,inner sep=3,minimum size=10,line width=0, 
+very thick, draw=black!100, top color=white,bottom color=white]
+\tikzstyle{noborder} = [draw,outer sep=0,inner sep=0,minimum size=20,line width=1, 
+draw=none, scale=0.75]
+\tikzstyle{blue} = [draw,outer sep=35,inner sep=3,minimum size=20, line width=1, 
+very thick, draw=none, top color=myblue, bottom color=myblue]
+
+\node [blue] at (8,17.5) {\begin{tabular}{c} Objects\end{tabular}};
+\draw[-triangle 60]  (9.3,19.15) -- (10.5,19.15);
+ \draw[-triangle 60]  (9.3,15.75) -- (10.5,15.75);
+ \draw  (9.3,19.15) -- (9.3,15.75);
+
+\node [square] at (12.1,19.1) {\begin{tabular}{c} Single-Element \\Objects \end{tabular}}; 
+\draw[-triangle 60]  (14.05,19.85) -- (15.25,19.85);
+ \draw[-triangle 60]  (14.05,19.05) -- (15.25,19.05);
+ \draw[-triangle 60]  (14.05,18.3) -- (15.25,18.3);
+ \draw  (14.05,19.85) -- (14.05,18.3);
+
+\node [noborder] at (16.95,19.85) {\begin{tabular}{l} Numbers (integers, floats) \end{tabular}};
+\node [noborder] at (16.65,19.05) {\begin{tabular}{l} Booleans (true/false) \end{tabular}};
+\node [noborder] at (16.95,18.3) {\begin{tabular}{l} Characters (basis for text) \end{tabular}};
+
+
+
+
+\node [square] at (12.15,15.75) {\begin{tabular}{c} Collections\end{tabular}};
+
+
+\draw[-triangle 60]  (14.05,17.41) -- (15.25,17.4);
+\draw[-triangle 60]  (14.05,16.75) -- (15.25,16.75);
+ \draw[-triangle 60]  (14.05,16.1) -- (15.25,16.1); 
+  \draw[-triangle 60]  (14.05,15.4) -- (15.25,15.4);
+  \draw[-triangle 60]  (14.05,14.75) -- (15.25,14.75);
+  \draw[-triangle 60]  (14.05,14.05) -- (15.25,14.05);
+ \draw  (14.05,17.4) -- (14.05,14.05);
+ 
+
+\node [noborder] at (16.95,17.4) {\begin{tabular}{l} Arrays (vectors, matrices) \end{tabular}};
+\node [noborder] at (17.35,16.725) {\begin{tabular}{l} Strings (collection of characters)\end{tabular}};
+\node [noborder] at (15.85,16.1) {\begin{tabular}{l} Tuples \end{tabular}};
+\node [noborder] at (16.3,15.4) {\begin{tabular}{l} Named Tuples \end{tabular}};
+\node [noborder] at (16.15,14.75) {\begin{tabular}{l} Dictionaries\end{tabular}};
+\node [noborder] at (15.7,14.05) {\begin{tabular}{l} Sets\end{tabular}};
+
+
+
+\end{tikzpicture}
+
+\end{document}
