@@ -2032,13 +2032,13 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>Programming languages have multiple approaches for transforming collections of objects. These methods are useful when, for instance, we seek to compute the squared elements of <code>x&#61;&#91;2,3,4&#93;</code>, resulting in a new variable <code>y&#61;&#91;4,9,16&#93;</code>.</p>
-<p>In this section, we explore one way to execute these transformations:   <span style="color: rgb(62, 121, 180);"><strong> vectorization</strong></span>, also known as   <span style="color: rgb(62, 121, 180);"><strong> broadcasting</strong></span>. Unlike other methods, broadcasting transforms an object through a simple syntax. Formally, broadcasting refers to an element-wise application of <strong> functions</strong> and <strong> operators</strong> to iterable collections, such as vectors, tuples, and ranges. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Formally, iterable collections refer to collections whose elements can be accessed sequentially.  </span></span></p>
+<p>In this section, we explore one way to execute these transformations:   <span style="color: rgb(62, 121, 180);"><strong> vectorization</strong></span>, also known as   <span style="color: rgb(62, 121, 180);"><strong> broadcasting</strong></span>. Formally, broadcasting allows the user to apply <strong> functions</strong> and <strong> operators</strong> an element-wise to iterable collections, such as vectors, tuples, and ranges. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Formally, iterable collections refer to collections whose elements can be accessed sequentially.  </span></span> Unlike other methods, broadcasting makes it possible to perform these operations through a simple syntax.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     The terms <strong> vectorization</strong> and <strong> broadcasting</strong> will be used interchangeably on this website. Strictly speaking, vectorization assumes arrays of the same size, while broadcasting is an extension of vectorization allowing for single-element objects.  </div>  </div>
+      <b>Remark</b> </span>  </div>  <div class=content>     The terms <strong> vectorization</strong> and <strong> broadcasting</strong> will be used interchangeably on this website. Strictly speaking, vectorization requires arrays of the same size, with broadcasting being an extension that allows for scalars.  </div>  </div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Later on the website, we&#39;ll explore <strong> for-loops</strong> as an alternative approach to transforming arrays. Several languages strongly recommend vectorizing operations to improve speed, highly discouraging for-loops. <br/><br/><strong> Such advice does not apply to Julia</strong>. In fact, when it comes to optimizing code in Julia, for-loops are often the key to achieving faster performance. The main advantage of vectorizing code in Julia is to streamline code without sacrificing much speed.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     Later on the website, we&#39;ll explore <strong> for-loops</strong> as an alternative approach to transforming arrays. Several languages strongly recommend vectorizing operations to improve speed, highly discouraging for-loops. <br/><br/><strong> Such advice does not apply to Julia</strong>. In fact, when it comes to optimizing code in Julia, for-loops are often the key to achieving faster performance. In this context, the main advantage of vectorization in Julia is to streamline code without sacrificing much speed.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2049,7 +2049,8 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Map Function</h2></p>
 <p>To motivate broadcasting, let&#39;s consider an alternative approach to computing operations element-wise. This is given by the function <code>map</code>. </p>
-<p>For a single-argument function <code>foo</code> and a vector <code>x</code>, its syntax is <code>map&#40;foo, x&#41;</code> and is equivalent to <code>&#91;foo&#40;x&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;&#41;...&#93;</code>. The function <code>map</code> also allows for functions <code>foo</code> consisting of multiple arguments. For instance, given <code>foo</code> that requires two arguments, <code>map&#40;foo, x, y&#41;</code> for vectors <code>x</code> and <code>y</code> returns <code>&#91;foo&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;,y&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;,y&#91;3&#93;&#41;...&#93;</code>. Finally, <code>foo</code> can be replaced by an anonymous function, and we in fact used <code>map</code> when we illustrated this topic.</p>
+<p>Its syntax is <code>map&#40;foo, x&#41;</code> for a single-argument function <code>foo</code> and a vector <code>x</code>, and is equivalent to <code>&#91;foo&#40;x&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;&#41;...&#93;</code>. The function <code>map</code> also allows for functions <code>foo</code> having multiple arguments, such that <code>map&#40;foo, x, y&#41;</code> for vectors <code>x</code> and <code>y</code> returns <code>&#91;foo&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;,y&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;,y&#91;3&#93;&#41;...&#93;</code>. </p>
+<p>Below we illustrate the use of <code>map</code>. We also show that <code>foo</code> can be replaced by an anonymous function.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2100,8 +2101,8 @@ z &#61; map&#40;a -&gt; 2*a, x&#41;</code></pre>
  6</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>As the examples demonstrate, <code>map</code> can become somewhat terse to use for multiple operations. This is where broadcasting can become helpful, as it provides a simpler alternative to perform element-wise operations.</p>
-<p>To introduce broadcasting progressively, we start next by considering functions and operators separately. Moreover, we restrict the analysis to vectors of the same size. After this, we extend the use of broadcasting to applications that combine scalars and vectors. Essentially, this determines that the scalar is treated as a vector that repeats the value of the scalar. </p>
+<p>As the examples demonstrate, <code>map</code> can become overly verbose for multiple operations. This is where broadcasting becomes helpful, offering a simpler syntax for performing element-wise operations.</p>
+<p>Below, we delve into the concept of broadcasting progressively. To begin, we explore the broadcasting of functions and operators, addressing each separately. The presentation at this stage focuses exclusively on vectors of equal size. After this, we expand the scope of broadcasting to scenarios that combine scalars and vectors. In such cases, the scalar is treated as a vector that replicates the scalar value.</p>
 <p>      </div>
     </div>
   </div>
@@ -2112,7 +2113,7 @@ z &#61; map&#40;a -&gt; 2*a, x&#41;</code></pre>
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Functions</h2></p>
 <p>  <span style="color: rgb(62, 121, 180);"><strong> Function broadcasting</strong></span> plays a similar role as <code>map</code>, allowing the user to apply a function element-wise. The operation requires appending a dot <strong>  <em> after</em></strong> the name of the function. For example, <code>log.&#40;x&#41;</code> applies <code>log</code> to each element of a vector <code>x</code>. </p>
-<p>Remarkably, <strong> all functions</strong> <code>f</code> <strong> have a vectorized version</strong> <code>f.</code>, including both third-party and user-defined functions.</p>
+<p>Remarkably, <strong> any function</strong> <code>f</code> <strong> has a vectorized version</strong> <code>f.</code>, regardless of whether function is defined by the user or a third party.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2146,8 +2147,8 @@ x &#61; &#91;1,2,3&#93;</code></pre>
  9</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Broadcasting is not restricted to functions with single arguments—it&#39;s possible to broadcast a function <code>f&#40;a,b&#41;</code> where <code>a</code> and <code>b</code> are uni-dimensional. This means that, given vectors <code>x</code> and <code>y</code>, the broadcasting version <code>f.&#40;x,y&#41;</code> applies <code>f</code> element-wise for each  <em> pair</em> of elements from <code>&#40;x,y&#41;</code>. Formally, <code>f.&#40;x,y&#41;</code> applies <code>f&#40;x&#91;i&#93;,y&#91;i&#93;&#41;</code> for every possible index <code>i</code> . Thus, it&#39;s equivalent to <code>&#91;f&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, f&#40;x&#91;2&#93;,y&#91;2&#93;&#41;, ...&#93;</code>.</p>
-<p>We illustrate this below through the function <code>max</code>, which returns the maximum of two numbers &#40;e.g., <code>max&#40;1,2&#41;</code> returns <code>2</code>&#41;.</p>
+<p>Broadcasting is not restricted to functions with single arguments—it&#39;s possible to broadcast a function with multiple arguments. This means that, given vectors <code>x</code> and <code>y</code>, the broadcasting version <code>f.&#40;x,y&#41;</code> applies <code>f</code> element-wise for each pair of elements from <code>&#40;x,y&#41;</code>. Formally, <code>f.&#40;x,y&#41;</code> computes <code>f&#40;x&#91;i&#93;,y&#91;i&#93;&#41;</code> for every possible index <code>i</code>, which is equivalent to <code>&#91;f&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, f&#40;x&#91;2&#93;,y&#91;2&#93;&#41;, ...&#93;</code>.</p>
+<p>To illustrate this use, we refer to the function <code>max</code>, which returns the maximum of two numbers &#40;e.g., <code>max&#40;1,2&#41;</code> returns <code>2</code>&#41;.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2202,8 +2203,8 @@ region        &#61;  &#91;&quot;South America&quot;, &quot;North America&quot;&#
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Operators</h2></p>
-<p>It&#39;s also possible to   <span style="color: rgb(62, 121, 180);"><strong> broadcast operators</strong></span>, whereby the operator is applied element-wise. Its use requires prepending a dot <strong>  <em> before</em></strong> the operator. </p>
-<p>To broadcasting operators, it&#39;s helpful to recall the classification of operators based on the number of operands, along with their corresponding syntax. Specifically, the syntax of  <em> unary operators</em> is <code>&lt;symbol&gt;x</code>, so that <code>.√x</code> broadcasts <code>√</code> . Likewise, the syntax for  <em> binary operators</em> is <code>x &lt;symbol&gt; y</code>, such that <code>x .&#43; y</code> computes the element-wise sum of vectors <code>x</code> and <code>y</code>, resulting in <code>&#91;x&#91;1&#93;&#43;y&#91;1&#93;, x&#91;2&#93;&#43;y&#91;2&#93;, ...&#93;</code>. </p>
+<p>It&#39;s also possible to   <span style="color: rgb(62, 121, 180);"><strong> broadcast operators</strong></span>, making the operator apply element-wise. Its use requires prepending a dot <strong>  <em> before</em></strong> the operator. </p>
+<p>In this respect, it&#39;s helpful to recall the classification of operators based on the number of operands, along with their corresponding syntax. Specifically, the syntax of  <em> unary operators</em> is <code>&lt;symbol&gt;x</code>, so that <code>.√x</code> broadcasts <code>√</code>. Likewise, the syntax for  <em> binary operators</em> is <code>x &lt;symbol&gt; y</code>, such that <code>x .&#43; y</code> computes the element-wise sum of vectors <code>x</code> and <code>y</code>, resulting in <code>&#91;x&#91;1&#93;&#43;y&#91;1&#93;, x&#91;2&#93;&#43;y&#91;2&#93;, ...&#93;</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2319,7 +2320,7 @@ y &#61; 1:3</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Functions and Operators Simultaneously</h2></p>
-<p>It&#39;s possible to combine broadcasted operations with operators and functions. To demonstrate this, the following code snippet computes the element-wise sum of two vectors, eventually taking logs of each resulting element.</p>
+<p>It&#39;s possible to broadcast operations that combine operators and functions. The following code snippet demonstrates this, by computing the element-wise sum of two vectors and then taking logs of each resulting element.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;1, 0, 2&#93;
 y &#61; &#91;1, 2, 0&#93;
@@ -2329,7 +2330,8 @@ square&#40;x&#41; &#61; x^2</code></pre>
  4
  4
  4</div> </div></div> </div>   </details></div>
-<p>When we want to perform an operation over multiple elements, combining broadcasting versions of operators and functions provides two options to define functions. First, we could define a function operating on single elements, which we then broadcast. Alternatively, we could define a vectorized function, returning a vector directly. To demonstrate both approaches, suppose a vector <code>x</code>, where we aim to obtain the squared elements of <code>x</code>.</p>
+ <h4> Implications for Function Definitions </h4>
+<p>In scenarios where we seek to simultaneously broadcast operators and functions, there are two approaches we can follow. First, we could define a function that operates on single elements, and eventually broadcast. Alternatively, we could directly define the vectorized function. To demonstrate both approaches, suppose a vector <code>x</code> and that our aim is to get the squared elements of <code>x</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2357,7 +2359,7 @@ x &#61; &#91;1, 2, 3&#93;</code></pre>
  9</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p><strong> Broadcasting functions over single elements is a better choice</strong>. First, it allows the user to use the function for both single and multiple elements. Second, it keeps the code more modular, as it separates the operation we want to operate element-wise and its application. Furthermore, by calling the function through <code>number_square.&#40;x&#41;</code>, we can immediately recognize that it&#39;s applied element-wise. </p>
+<p>Between these two alternatives, <strong> defining a function that operates on a single element is a better choice</strong>. This is due to several reasons. First, the approach allows the user to perform computations for both scalars and collections. Second, it keeps the code more modular, as it separates the operation and its element-wise application. Finally, the computation <code>number_square.&#40;x&#41;</code> makes it clear that it&#39;s an element-wise operation, which otherwise would be hidden.</p>
 <p>      </div>
     </div>
   </div>
@@ -2367,9 +2369,8 @@ x &#61; &#91;1, 2, 3&#93;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Over One Argument Only</h2></p>
-<p>We&#39;ve explored two cases of broadcasting when functions/operators apply to two or more arguments. The first case involved vectors <code>x</code> and <code>y</code> of the same size, in which case both vectors are simultaneously iterated.  The second case referred to a vector <code>x</code> and a scalar <code>y</code>, with iterations occurring over each element of <code>x</code> and repeating the single-element <code>y</code>.</p>
-<p>Focusing on the first case, we could be interested in iterating only over <code>x</code> while keeping <code>y</code> fixed. To see a specific scenario where this could arise, let&#39;s consider the function <code>in&#40;a,list&#41;</code>. This assesses whether the scalar <code>a</code> equals some element in the vector <code>list</code>. It&#39;s such that executing <code>in&#40;2, &#91;1,2,3&#93;&#41;</code> returns <code>true</code>, because <code>2</code> is an element of the vector <code>&#91;1,2,3&#93;</code>. </p>
-<p>Suppose now that we have a vector <code>x</code>, and seek to check whether  <em> each</em> number in a vector <code>x</code> equals a number in <code>list &#61; &#91;1,2,3&#93;</code>. The following examples show that we can&#39;t implement this by directly broadcasting <code>in</code>. The first example shows that we&#39;d not be able to perform the broadcasting, or even worse obtain a result not sought.</p>
+<p>When we broadcast a function or operator over vectors <code>x</code> and <code>y</code>, both are simultaneously iterated. However, we could be interested in operations where we want to iterate only over <code>x</code>, while keeping <code>y</code> fixed. A specific scenario where this could arise is with the function <code>in&#40;a,list&#41;</code>. This function assesses whether the scalar <code>a</code> equals some element in the vector <code>list</code>. Thus, executing <code>in&#40;2, &#91;1,2,3&#93;&#41;</code> returns <code>true</code>, because <code>2</code> is an element of the vector <code>&#91;1,2,3&#93;</code>. </p>
+<p>Suppose instead that, given a vector <code>x</code>, we wish to verify whether  <em> each</em> of its numbers equals a number in <code>list &#61; &#91;1,2,3&#93;</code>. Below, we show that this can&#39;t be implemented directly by broadcasting <code>in</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2393,8 +2394,8 @@ list &#61; &#91;1, 2, 3&#93;</code></pre>
  </div></div>
 <p>  </p></details></div>
 <p>In the first example, <code>in.&#40;x, list&#41;</code> errors because <code>x</code> and <code>list</code> should either have the same size or one of them be a scalar. The second example provides an output, but it&#39;s not the one we&#39;re aiming for: it checks whether <code>1&#61;&#61;1</code>, <code>2&#61;&#61;2</code>, and <code>4&#61;&#61;3</code>, when our goal is to check whether <code>1</code> is in <code>&#91;1,2,3&#93;</code>, <code>2</code> is in <code>&#91;1,2,3&#93;</code>, and <code>3</code> is in <code>&#91;1,2,3&#93;</code>.</p>
-<p>Intuitively, we need a way to signal Julia that <code>list</code> should be treated as a single element, while iterating over <code>x</code>. This can be accomplished either by enclosing <code>list</code> in a vector/tuple or by using the function <code>Ref</code>.  The syntax of each case is respectively <code>&#91;list&#93;</code>, <code>&#40;list,&#41;</code>, and <code>Ref&#40;list&#41;</code>. Both <code>&#91;list&#93;</code> and <code>&#40;list,&#41;</code> transform the variable into a single-element vector/tuple, whose only element is in turn a vector/tuple. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that tuples with a single element must be written as <code>&#40;list,&#41;</code> to be interpreted as such—the expression <code>&#40;list&#41;</code> is instead equivalent to <code>list</code>, and hence would be treated as a vector.  </span></span> </p>
-<p>Explaining what <code>Ref</code> does is beyond the scope of this text. What matters for practical purposes is that <code>Ref&#40;x&#41;</code> makes <code>x</code> be treated as a scalar. <code>Ref</code> has become the standard approach to broadcast over a single argument, which is why we&#39;ve included it in the presentation. However, <code>Ref&#40;list&#41;</code> is equivalent to using <code>&#40;list,&#41;</code>, even in terms of performance &#40;there&#39;s some performance penalty in using <code>&#91;list&#93;</code>&#41;. </p>
+<p>Intuitively, we need a way to signal Julia that <code>list</code> should be treated as a single element, while iterating over <code>x</code>. This can be accomplished either by enclosing <code>list</code> in a vector/tuple or by using the function <code>Ref</code>.  The syntax of each case is respectively <code>&#91;list&#93;</code>, <code>&#40;list,&#41;</code>, and <code>Ref&#40;list&#41;</code>. </p>
+<p>Both <code>&#91;list&#93;</code> and <code>&#40;list,&#41;</code> transform the variable into a vector/tuple, whose only element is itself a vector/tuple. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that tuples with a single element must be written with a trailing comma, as in <code>&#40;list,&#41;</code>. If instead we use the expression <code>&#40;list&#41;</code>, this would be interpreted as <code>list</code>, and hence treated as a vector.  </span></span>  Explaining what <code>Ref</code> does is beyond our scope at this point. What matters for practical purposes is that <code>Ref&#40;x&#41;</code> makes <code>x</code> be treated as a scalar, and is as perform as using a tuple &#40;there&#39;s some performance penalty in using <code>&#91;list&#93;</code>&#41;. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2433,8 +2434,8 @@ list &#61; &#91;1, 2, 3&#93;        # &#39;x&#91;1&#93;&#39; equals the element 
 <p><a id="insyntax" class="anchor"></a>The output vector is a <code>BitVector</code>, and hence equivalent to <code>&#91;true, false, false&#93;</code>. The result reflects that <code>x&#91;1&#93;</code> equals <code>2</code> and <code>2</code> belongs to <code>list</code>, whereas the <code>x&#91;2&#93;</code> and <code>x&#91;3&#93;</code> don&#39;t equal any element in <code>list</code>.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Although it&#39;s possible to wrap the list in a vector to be treated as a single element, <strong> you should use either a tuple or</strong> <code>Ref</code>. <strong> They're faster</strong>.  </div>  </div>
-<p>Although we&#39;ve considered functions, the same principle applies to operators. This can be seen through <code>∈</code>, which is an operator analogous to the function <code>in</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> <code>∈</code> can also be used as a function, and its syntax is the same as <code>in</code> &#40;i.e., <code>∈&#40;x,list&#41;</code>&#41;  </span></span> To emphasize that we should broadcast using a vector or <code>Ref</code>, the following examples avoid the use of a vector. </p>
+      <b>Warning!</b> </span>  </div>  <div class=content>     Although it&#39;s possible to wrap the list in a vector to be treated as a single element, <strong> you should use either a tuple or</strong> <code>Ref</code>. They are more performant.  </div>  </div>
+<p>Although we&#39;ve considered functions, the same principle applies to operators. This can be seen through <code>∈</code>, which is an operator analogous to the function <code>in</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> <code>∈</code> can also be used as a function, and its syntax is the same as <code>in</code> &#40;i.e., <code>∈&#40;x,list&#41;</code>&#41;  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2460,6 +2461,7 @@ list &#61; &#91;1, 2, 3&#93;</code></pre>
  0</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
+<p>We&#39;ve avoided the broadcasting option with a vector to emphasize that we should broadcast using <code>Ref</code> or a tuple.</p>
 <p>      </div>
     </div>
   </div>
