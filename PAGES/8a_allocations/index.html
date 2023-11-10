@@ -1984,11 +1984,12 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Interpreting Memory Allocation</h2></p>
-<p>Memory allocation is the process of reserving memory to run a program, which can slow down computations substantially. The trade-off between speed and memory allocation is a complex one. In fact, <strong> reducing memory allocation is neither necessary nor sufficient for increasing speed</strong>—we&#39;ll see that it&#39;s not uncommon to have a function allocating more memory, yet being faster. </p>
-<p>Broadly speaking, copying data requires additional instructions to be executed by the CPU. However, it also stores elements in a contiguous memory block, allowing the CPU to access elements more quickly and efficiently. From a practical point of view, <strong> a disproportionate memory allocation constitutes a red flag</strong>. If two approaches for a same operation convey big differences in memory allocation, it&#39;s quite likely that you see pronounced differences in performance too. </p>
+<p>  <span style="color: rgb(62, 121, 180);"><strong> Memory allocation</strong></span> is the process of reserving memory to run a program. This procedure can slow down computations substantially, although the trade-off between speed and memory allocation is a complex one. In fact, <strong> reducing memory allocation is neither necessary nor sufficient for speed up computations</strong>—we&#39;ll see that it&#39;s not uncommon to have a function allocating more memory, yet being faster. </p>
+<p>The indeterminacy arises because, on the one hand, copying data requires the execution of additional instructions. However, copies also store elements in a contiguous memory block, allowing faster CPU access. </p>
+<p>From a practical point of view, <strong> a disproportionate memory allocation constitutes a red flag</strong>. It&#39;s quite likely that, if two approaches to the same operation convey big differences in memory allocation, they&#39;ll also entail pronounced performance differences. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     Memory allocations can occur on either the   <span style="color: rgb(62, 121, 180);"><strong> heap</strong></span> or the   <span style="color: rgb(62, 121, 180);"><strong> stack</strong></span>. Throughout the website, memory allocations will refer to heap allocations exclusively, as they&#39;re the ones that slow down computations. Thus, for instance, we&#39;ll say that tuples don&#39;t allocate memory because they&#39;re not allocated on the heap. This is despite tuples do allocate memory, albeit on the stack.  </div>  </div>
+      <b>Remark</b> </span>  </div>  <div class=content>     Memory allocations can occur on either the   <span style="color: rgb(62, 121, 180);"><strong> heap</strong></span> or the   <span style="color: rgb(62, 121, 180);"><strong> stack</strong></span>. Throughout the website, we&#39;ll refer to memory allocations as heap allocations exclusively. This is a common approach adopted in programming, including Julia, as allocation on the heap are the ones slowing down computations.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -1998,7 +1999,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Numbers, Tuples, Named Tuples, and Ranges Don't Allocate</h2></p>
-<p>The following objects do not allocate memory:</p>
+<p>Some objects that don&#39;t allocate memory include:</p>
 <ul>
 <li><p>numbers</p>
 </li>
@@ -2009,7 +2010,7 @@ color: white;
 <li><p>ranges </p>
 </li>
 </ul>
-<p>The fact that these objects don&#39;t allocate implies that the creation, access, and operations based on them don&#39;t allocate. The following examples demonstrate both aspects. </p>
+<p>A consequence of this is that creating, accessing, and operating on these objects don&#39;t allocate memory either. This is demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2025,7 +2026,7 @@ color: white;
 end
 
 @btime foo&#40;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  0.700 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  0.800 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;&#41;
@@ -2035,7 +2036,7 @@ end
 end
 
 @btime foo&#40;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  0.700 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  0.800 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;&#41;
@@ -2068,19 +2069,64 @@ end
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Arrays and Slices Do Allocate Memory</h2></p>
-<p>There are two circumstances where working with arrays don&#39;t allocate: when we access/operate on the whole vector or a single element of it, assuming that the output doesn&#39;t return a new vector. The following examples illustrate this by executing the function <code>foo</code>.</p>
+<p>Array creation allocates memory, regardless of whether the result is stored or not. For instance, executing the following function allocate memory.</p>
+ <div class=" code_box"> <details  open><summary> Vector Creation  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">foo&#40;&#41;  &#61; &#91;1,2,3&#93;
+
+
+@btime foo&#40;&#41;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  12.613 ns (1 allocation: 80 bytes)
+</code></pre> </div></div> </div>   </details></div>
+<p>Array creation not only occurs when we compute expressions such as <code>&#91;1,2,3&#93;</code>. It also arises when we perform array comprehensions and broadcasting. In the latter case, the operation even allocates memory when broadcasting results in a temporary vector, as we show below in the &quot;Broadcasting 2&quot; tab.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Whole Vector </button>
-    <button class="tablink" data-id=""> Single Element of Vector </button>
+    <button class="tablink first_tab active" data-id=""> Array Comprehension</button>        
+    <button class="tablink" data-id=""> Broadcasting 1</button>
+    <button class="tablink" data-id=""> Broadcasting 2</button>    
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">foo&#40;&#41;  &#61; &#91;a for a in 1:3&#93;
+
+
+@btime foo&#40;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  13.213 ns (1 allocation: 80 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
+foo&#40;x&#41; &#61; x .* x
+
+@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  17.234 ns (1 allocation: 80 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
+foo&#40;x&#41; &#61; sum&#40;x .* x&#41;                # 1 allocation from temporary vector &#39;x .* x&#39; 
+
+@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  21.665 ns (1 allocation: 80 bytes)
+</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>Finally, another common operation that allocates memory is slicing, as it creates a copy by default. The only exception to this rule is when we access a single element, in which case no memory allocation occurs. </p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Slice with Range as Index</button>    
+    <button class="tablink" data-id=""> Slice with Vector as Index </button>
+    <button class="tablink" data-id=""> Slice with a Single Element</button>        
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
 
-foo&#40;x&#41; &#61; 2 * sum&#40;x&#41;             
+foo&#40;x&#41; &#61; x&#91;1:2&#93;                 # ONE allocation, since ranges don&#39;t allocate &#40;but &#39;x&#91;1:2&#93;&#39; itself does&#41;
 
 @btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  2.100 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  16.633 ns (1 allocation: 80 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
+
+foo&#40;x&#41; &#61; x&#91;&#91;1,2&#93;&#93;               # TWO allocations &#40;one for &#39;&#91;1,2&#93;&#39; and another for &#39;x&#91;&#91;1,2&#93;&#93;&#39; itself&#41;
+
+@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  30.050 ns (2 allocations: 160 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
@@ -2088,69 +2134,7 @@ foo&#40;x&#41; &#61; 2 * sum&#40;x&#41;
 foo&#40;x&#41; &#61; x&#91;1&#93; * x&#91;2&#93; &#43; x&#91;3&#93;
 
 @btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.300 ns (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>
-<p>In contrast, <strong> creating arrays allocates memory</strong>. The creation of arrays encompass not only expressions such as <code>&#91;1,2,3&#93;</code>, but also array comprehensions and broadcasting. Example &quot;Broadcasting 2&quot; reveals that broadcasting even allocates when it&#39;s used for creating a temporary vector, regardless of whether the final output is a scalar. </p>
- <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Vector Creation </button>    
-    <button class="tablink" data-id=""> Array Comprehension</button>
-    <button class="tablink" data-id=""> Broadcasting 1</button>
-    <button class="tablink" data-id=""> Broadcasting 2</button>
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">foo&#40;&#41;  &#61; &#91;1,2,3&#93;
-
-
-@btime foo&#40;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  12.425 ns (1 allocation: 80 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">foo&#40;&#41;  &#61; &#91;a for a in 1:3&#93;
-
-
-@btime foo&#40;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  13.126 ns (1 allocation: 80 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
-foo&#40;x&#41; &#61; x .* x
-
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  16.533 ns (1 allocation: 80 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
-foo&#40;x&#41; &#61; sum&#40;x .* x&#41;                # 1 allocation from temporary vector &#39;x .* x&#39; 
-
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  21.586 ns (1 allocation: 80 bytes)
-</code></pre> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>
-<p>A special case of an array creation is by operating on a slice, as this creates a temporary copy by default. </p>
- <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Slices with Vector as Indices </button>    
-    <button class="tablink" data-id=""> Slices with Ranges as Indices</button>    
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
-
-foo&#40;x&#41; &#61; x&#91;&#91;1,2&#93;&#93;               # TWO allocations &#40;one for &#39;&#91;1,2&#93;&#39; and another for &#39;x&#91;&#91;1,2&#93;&#93;&#39; itself&#41;
-
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  29.879 ns (2 allocations: 160 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
-
-foo&#40;x&#41; &#61; x&#91;1:2&#93;                 # ONE allocation, since ranges don&#39;t allocates &#40;but &#39;x&#91;1:2&#93;&#39; itself does&#41;
-
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  16.934 ns (1 allocation: 80 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.500 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2166,7 +2150,7 @@ foo&#40;x&#41; &#61; x&#91;1:2&#93;                 # ONE allocation, since rang
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\8b_views_preallocation" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified November 8, 2023 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified November 9, 2023 </span>  
   </div>
 <!-- </p>  -->
 </footer>
