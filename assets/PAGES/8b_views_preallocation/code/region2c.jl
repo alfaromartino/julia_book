@@ -1,8 +1,6 @@
-x       = collect(1:100)
-indices = isodd.(1:length(x))
+using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+x = rand(1_000)
 
-function foo(x, indices)
-    sum(x[indices])
-end
+foo(x) = sum(x[x .> 0.5])
 
-@btime foo(ref($x), ref($indices));
+@btime foo(ref($x))

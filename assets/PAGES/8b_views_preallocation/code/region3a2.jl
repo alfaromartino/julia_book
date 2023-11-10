@@ -1,8 +1,6 @@
 using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
-nr_obs  = 10_000
-x       = rand(nr_obs)
-indices = randperm(nr_obs)          # indices to be used for subsetting (randomly permuted)
+x = rand(100_000)
 
-foo(x, indices) = max.(view(x,indices).^2 , 0.25)
+foo(x) = max.(@view(x[1:2:length(x)]), 0.5)
 
-@btime foo(ref($x), ref($indices));
+@btime foo(ref($x));

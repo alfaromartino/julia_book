@@ -1,8 +1,7 @@
-x       = collect(1:100)
+#
+using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+x = rand(1_000)
 
-
-@views function foo(x)
-    sum(x[1:2:end])
-end
+foo(x) = sum(a for a in x if a > 0.5)
 
 @btime foo(ref($x));

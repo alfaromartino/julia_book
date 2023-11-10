@@ -8,127 +8,74 @@ print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), 
  
  x = [1, 2, 3]
 
-function foo(x)
-    a = x[1:2]          # it allocates ONE vector -> the slice 'x[1:2]'
-    sum(a)
-end
+foo(x)= sum(x[1:2])           # it allocates ONE vector -> the slice 'x[1:2]'
 
 @btime foo(ref($x)) 
  
  x = [1, 2, 3]
 
-function foo(x)    
-    sum(x[1:2])         # it allocates ONE vector -> the slice 'x[1:2]'
-end
+foo(x) = sum(@view(x[1:2]))    # it doesn't allocate
 
 @btime foo(ref($x)) 
  
- x = [1, 2, 3]
+ using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+x = rand(1_000)
 
-function foo(x)
-    a = view(x, 1:2)    # it doesn't allocate
-    sum(a)
-end
+foo(x) = sum(x[x .> 0.5])
 
 @btime foo(ref($x)) 
  
- x = [1, 2, 3]
+ using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+x = rand(1_000)
 
-function foo(x)
-    a = x[1:2]
-    b = x[2:3]
+foo(x) = @views sum(x[x .> 0.5])
 
-    sum(a) * sum(b)
-end
-
-replicate(x) = [foo(x) for _ in 1:100]
-
-@btime replicate(ref($x)) 
+@btime foo(ref($x)) 
  
- x = [1, 2, 3]
+ using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+x = rand(1_000)
 
-@views function foo(x)
-    a = x[1:2]
-    b = x[2:3]
+foo(x) = sum(x[x .> 0.5])
 
-    sum(a) * sum(b)
-end
-
-replicate(x) = [foo(x) for _ in 1:100]
-
-@btime replicate(ref($x)) 
- 
- x       = collect(1:100)
-indices = isodd.(1:length(x))
-
-function foo(x, indices)
-    sum(x[indices])
-end
-
-@btime foo(ref($x), ref($indices)); 
- 
- x       = collect(1:100)
-indices = isodd.(1:length(x))
-
-@views function foo(x, indices)
-    sum(x[indices])
-end
-
-@btime foo(ref($x), ref($indices)); 
- 
- x       = collect(1:100)
-
-
-function foo(x)
-    sum(x[1:2:end])
-end
-
-@btime foo(ref($x)); 
- 
- x       = collect(1:100)
-
-
-@views function foo(x)
-    sum(x[1:2:end])
-end
-
-@btime foo(ref($x)); 
+@btime foo(ref($x)) 
  
  using Skipper
-x = collect(1:100)
+using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+x = rand(1_000)
 
-function foo(x)
-    sum(skip(isodd, x))
-end
+foo(x) = sum(skip(≤(0.5), x))
 
 @btime foo(ref($x)); 
  
- using Skipper
-x = collect(1:100)
+ #
+using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+x = rand(1_000)
 
-@views function foo(x)
-    sum(skip(isodd, x))
-end
+foo(x) = sum(Iterators.filter(>(0.5), x))
+
+@btime foo(ref($x)); 
+ 
+ #
+using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+x = rand(1_000)
+
+foo(x) = sum(a for a in x if a > 0.5)
 
 @btime foo(ref($x)); 
  
  using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
-nr_obs  = 10_000
-x       = rand(nr_obs)
-indices = randperm(nr_obs)          # indices to be used for subsetting (randomly permuted)
+x = rand(100_000)
 
-foo(x, indices) = max.(x[indices].^2 , 0.25)
+foo(x) = max.(x[1:2:length(x)], 0.5)
 
-@btime foo(ref($x), ref($indices)); 
+@btime foo(ref($x)); 
  
  using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
-nr_obs  = 10_000
-x       = rand(nr_obs)
-indices = randperm(nr_obs)          # indices to be used for subsetting (randomly permuted)
+x = rand(100_000)
 
-foo(x, indices) = max.(view(x,indices).^2 , 0.25)
+foo(x) = max.(@view(x[1:2:length(x)]), 0.5)
 
-@btime foo(ref($x), ref($indices)); 
+@btime foo(ref($x)); 
  
  x           = [1,2,3]
 repetitions = 100_000                       # repetitions in a for-loop

@@ -1,12 +1,6 @@
-x = [1, 2, 3]
+using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+x = rand(1_000)
 
-function foo(x)
-    a = x[1:2]
-    b = x[2:3]
+foo(x) = sum(x[x .> 0.5])
 
-    sum(a) * sum(b)
-end
-
-replicate(x) = [foo(x) for _ in 1:100]
-
-@btime replicate(ref($x))
+@btime foo(ref($x))
