@@ -1640,7 +1640,7 @@ color: white;
   
 
 
-    <h1><i>9c.</i> Small Vectors: Static Vectors</h1>    
+    <h1><i>9e.</i> Small Vectors: Static Vectors</h1>    
     <div class="lead"> </div>
     
     
@@ -1740,6 +1740,10 @@ color: white;
 
   
 
+  
+
+  
+
 <div class="bar_top">
   <ul>
      <li>
@@ -1800,11 +1804,15 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\8a_allocations/"><i>a</i>. Objects Allocating Memory</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8b_views_preallocation/"><i>b</i>. Views and Pre-Allocations</a></li><br>
+                <li><a href="/julia_book/PAGES\8b1_views/"><i>b</i>. Views</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8c_staticVectors/"><i>c</i>. Small Vectors: Static Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\8b2_preallocations/"><i>c</i>. Pre-Allocations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8d_lazy/"><i>d</i>. Lazy Operations</a></li><br>
+                <li><a href="/julia_book/PAGES\8b3_reductions/"><i>d</i>. Reductions</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\8c_staticVectors/"><i>e</i>. Small Vectors: Static Vectors</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\8d_lazy/"><i>f</i>. Lazy Operations</a></li><br>
                 
               </ul>
             </li>            
@@ -1979,16 +1987,16 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy">
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>The creation of vectors entails allocating memory, which has the downside of slowing down computations. Vector creation occurs not only when defining a new variable, but also when computing temporary vectors for intermediate steps. For instance, executing <code>sum&#40;x .* y&#41;</code> implicitly creates a temporary vector to store the result of <code>x .* y</code>. Similarly, a temporary vector is created in computations relying on a vector&#39;s slice, such as <code>x&#91;1:2&#93;</code>.</p>
-<p>We&#39;ve already shown that memory allocations can be avoided if we work with <strong> tuples</strong>. This section extends this idea, by focusing on textbf&#123;static vectors&#125;, available though the package <code>StaticArrays</code>. Static vectors are tuples under the hood, entailing that static vectors are <strong> only suitable for objects comprising a few elements</strong>. This is why you should keep using regular vectors when collections are large. As a general guideline, you should <strong> use static vectors for up to 75 elements</strong>. Beyond that, the cost of their creation and access will outweigh any potential benefit, or directly become computationally unfeasible.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The number of elements I provide is lower than what it&#39;s typically suggested. For instance, the official documentation of <code>StaticArrays</code> suggests their use for up to 100 elements. However, once you&#39;re reaching that limit, you&#39;ll likely spend more time benchmarking and ultimately get similar performance to regular vectors.  </span></span> </p>
+<p>Creating vectors results in memory allocations, which has the downside of slowing down computations. Vector creations occur not only when defining a new variable, Furthermore, we also create vectors when computing temporary vectors for intermediate steps. For instance, a temporary vector is created when referring to a vector&#39;s slice, such as <code>x&#91;1:2&#93;</code>. Similarly, executing <code>sum&#40;x .* y&#41;</code> implicitly creates a temporary vector to store the result of <code>x .* y</code>.</p>
+<p>We&#39;ve already shown that memory allocations can be avoided if we work with <strong> tuples</strong>. This section extends this idea, by focusing on <strong> static vectors</strong>, available though the package <code>StaticArrays</code>. Static vectors are tuples under the hood, entailing that static vectors are <strong> only suitable for objects comprising a few elements</strong>. Due to this feature, you should keep using regular vectors when collections are large. As a general guideline, you ought to <strong> use static vectors for up to 75 elements</strong>. Beyond that, the cost of their creation and access will outweigh any potential benefit, or directly become computationally unfeasible.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The number of elements I provide is lower than what it&#39;s typically suggested. For instance, the official documentation of <code>StaticArrays</code> suggests their use for up to 100 elements. However, once you&#39;re reaching that limit, you&#39;ll likely spend more time benchmarking and ultimately get similar performance to regular vectors.  </span></span> </p>
 <p>When the number of elements is small, static vectors have several benefits over tuples. Firstly, for certain operations, static vectors are capable of maintaining their performance for larger collections than tuples. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> You can see this by executing <code>sum&#40;x .* y&#41;</code> when <code>x</code> and <code>y</code> are treated as tuples or static vectors  </span></span>. </p>
 <p>Secondly, static vectors can be manipulated just like regular vectors. In fact, <code>StaticArrays</code> allows for manipulating other types of arrays beyond vectors, including matrices &#40;hence the name of the package&#41;. </p>
-<p>Finally, while tuples are immutable collections, <code>StaticArrays</code> offers mutable variants. These mutable variants retain the performance benefits of their immutable counterparts. Nonetheless, it&#39;s important to note that the immutable options are the most performant option.</p>
+<p>Finally, while tuples are immutable collections, <code>StaticArrays</code> offers mutable variants. These mutable variants retain the performance benefits of their immutable counterparts, despite that the immutable options are the most performant.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content>     To avoid repeating ourselves,<strong> the entire section supposes that the collections comprise a few elements</strong>. This allows us to highlight the advantages of static arrays, without repeating the same caveat in every statement. <strong> We'll also assume you've executed the line of code</strong> <code>using StaticArrays</code>, thus avoiding the inclusion of this line in every code snippet.  </div>  </div>
@@ -1996,7 +2004,7 @@ color: white;
     </div>
   </div>
 </section>
-<section id="creating_static_vectors" class="scrollspy section-bg-color">
+<section id="creating_static_vectors" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2073,7 +2081,7 @@ slice2 &#61; sx&#91;&#91;1,2&#93;&#93;</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="svectors_dont_allocate_and_are_faster" class="scrollspy">
+<section id="svectors_dont_allocate_and_are_faster" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2192,7 +2200,7 @@ foo&#40;x&#41; &#61; sum&#40;a -&gt; 10 &#43; 2a &#43;  3a^2, x&#41;
     </div>
   </div>
 </section>
-<section id="svector_type_and_its_mutable_variant" class="scrollspy section-bg-color">
+<section id="svector_type_and_its_mutable_variant" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2269,7 +2277,7 @@ mx &#61; similar&#40;sx&#41;        # it defines an MVector with undef elements<
     </div>
   </div>
 </section>
-<section id="using_static_vectors" class="scrollspy">
+<section id="using_static_vectors" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2368,7 +2376,7 @@ end
     </div>
   </div>
 </section>
-<section id="the_number_of_elements_is_part_of_svectors_type" class="scrollspy section-bg-color">
+<section id="the_number_of_elements_is_part_of_svectors_type" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2439,11 +2447,11 @@ end
 <footer class="py-1">    
     <!-- <p class="m-0"> -->
     <div class="container">
-       <span class="left-text"><a href="/julia_book/PAGES\8b_views_preallocation" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png"
+       <span class="left-text"><a href="/julia_book/PAGES\8b3_reductions" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\8d_lazy" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified November 10, 2023 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified November 12, 2023 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2927,7 +2935,7 @@ for multiple pics in a row
 <nav class="navbar navbar-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
-    <a class="navbar-brand"><i>9c.</i> Small Vectors: Static Vectors</a>
+    <a class="navbar-brand"><i>9e.</i> Small Vectors: Static Vectors</a>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">

@@ -1640,7 +1640,7 @@ color: white;
   
 
 
-    <h1><i>9d.</i> Lazy Operations</h1>    
+    <h1><i>9f.</i> Lazy Operations</h1>    
     <div class="lead"> </div>
     
     
@@ -1742,6 +1742,10 @@ color: white;
 
   
 
+  
+
+  
+
 <div class="bar_top">
   <ul>
      <li>
@@ -1802,11 +1806,15 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\8a_allocations/"><i>a</i>. Objects Allocating Memory</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8b_views_preallocation/"><i>b</i>. Views and Pre-Allocations</a></li><br>
+                <li><a href="/julia_book/PAGES\8b1_views/"><i>b</i>. Views</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8c_staticVectors/"><i>c</i>. Small Vectors: Static Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\8b2_preallocations/"><i>c</i>. Pre-Allocations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8d_lazy/"><i>d</i>. Lazy Operations</a></li><br>
+                <li><a href="/julia_book/PAGES\8b3_reductions/"><i>d</i>. Reductions</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\8c_staticVectors/"><i>e</i>. Small Vectors: Static Vectors</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\8d_lazy/"><i>f</i>. Lazy Operations</a></li><br>
                 
               </ul>
             </li>            
@@ -1985,7 +1993,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>In programming, there&#39;s a distinction between &quot;lazy&quot; and &quot;eager&quot; computations.   <span style="color: rgb(62, 121, 180);"><strong> Lazy operations</strong></span> describe the code to be executed, without immediately generating the output. An example of lazy evaluation is a function definition, as it doesn&#39;t compute anything until the function is called—it only stores the function code in memory. On the other hand,   <span style="color: rgb(62, 121, 180);"><strong> eager operations</strong></span> are executed as soon as they&#39;re defined, providing immediate access to their results. Most of the operations performed so far on this website have been eager.</p>
-<p>Lazy operations have the potential to enhance performance, particularly when applied to intermediate computations. This advantage stems from two key factors. Firstly, lazy evaluation makes it possible <strong> to avoid unnecessary memory allocations</strong>. By deferring computations until they&#39;re required, Julia can perform calculations on the fly, without creating intermediate vectors. The second reason relates to   <span style="color: rgb(62, 121, 180);"><strong> fusing operations</strong></span>, which is the process of combining multiple operations into a single one. This provides the compiler with a comprehensive view of the intended operation, enabling the implementation of more efficient approaches.</p>
+<p>Lazy operations have the potential to enhance performance, particularly when applied to intermediate computations. The advantage stems from two key factors. Firstly, lazy evaluation makes it possible <strong> to avoid unnecessary memory allocations</strong>. By deferring computations until they&#39;re required, Julia can perform calculations on the fly, without creating intermediate vectors. The second reason relates to   <span style="color: rgb(62, 121, 180);"><strong> fusing operations</strong></span>, which is the process of combining multiple operations into a single one. This provides the compiler with a comprehensive view of the intended operation, enabling the implementation of more efficient approaches.</p>
 <p>      </div>
     </div>
   </div>
@@ -1995,9 +2003,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Generators</h2></p>
-<p>  <span style="color: rgb(62, 121, 180);"><strong> Generators</strong></span> are <strong> the lazy counterpart of array comprehensions</strong>: they provide a way to create arrays by iterating over a set of values, but deferring the computation of their elements until they need to be materialized in an operation. </p>
-<p>Generators share the same syntax as array comprehensions, except that generators are enclosed in parentheses <code>&#40; &#41;</code> instead of square brackets <code>&#91; &#93;</code>. Indeed, generators allow for the same flexibility as array comprehensions, including the possibility of adding conditions or simultaneously iterating over multiple collections.</p>
-<p>The code snippet below exemplifies the creation of generators. They formally return an object with type <code>Base.Generator</code>.</p>
+<p>  <span style="color: rgb(62, 121, 180);"><strong> Generators</strong></span> are <strong> the lazy counterpart of array comprehensions</strong>: they provide a way to create arrays by iterating over a set of values, but delaying the computation of their elements until they&#39;re required. </p>
+<p>Generators share the same syntax as array comprehensions, except that they&#39;re enclosed in parentheses <code>&#40; &#41;</code> instead of square brackets <code>&#91; &#93;</code>. Indeed, generators allow for the same flexibility as array comprehensions, including the possibility of adding conditions and simultaneously iterations over multiple collections.</p>
+<p>The code snippet below exemplifies generators, which are formally an object with type <code>Base.Generator</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2016,8 +2024,7 @@ color: white;
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">Base.Generator{UnitRange{Int64}, typeof(identity)}(identity, 1:10)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>To show the impact of generators on performance, let&#39;s explore a scenario where we create an intermediate vector, whose elements will eventually be summed. The example highlights that generators avoid the memory allocation of the intermediate result: the generator directly feeds the result as an input to <code>sum</code>, avoiding the need for temporary storage. Overall, there&#39;s no memory allocation, as <code>sum</code> returns a scalar value and scalars don&#39;t allocate.</p>
-<p>The last tab below additionally shows that generators can be passed directly as a function argument. This approach can be applied to  <em> any</em> function taking a collection as its argument.</p>
+<p>To show the impact of generators on performance, let&#39;s explore a scenario where we create a vector and then sum its elements. The example highlights how generators avoid memory allocations of intermediate results: the generator directly feeds the result as an input to <code>sum</code>, avoiding the need for temporary storage. Overall, there&#39;s no memory allocation, as <code>sum</code> returns a scalar value and scalars don&#39;t allocate.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2058,6 +2065,7 @@ foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
+<p>The last tab shows that generators can also be passed directly as a function argument. This approach can be applied to  <em> any</em> function taking a collection as its argument.</p>
 <p>      </div>
     </div>
   </div>
@@ -2250,7 +2258,7 @@ end
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified November 10, 2023 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified November 12, 2023 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2734,7 +2742,7 @@ for multiple pics in a row
 <nav class="navbar navbar-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
-    <a class="navbar-brand"><i>9d.</i> Lazy Operations</a>
+    <a class="navbar-brand"><i>9f.</i> Lazy Operations</a>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">
