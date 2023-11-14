@@ -4,33 +4,21 @@ print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), 
  
  x = [4, 5, 6] 
  
- print_asis(keys(x)) #hide 
- 
  print_asis(collect(keys(x))) #hide 
  
  print_asis(values(x)) #hide 
- 
- print_asis(collect(values(x))) #hide 
  
  x = (4, 5, 6) 
  
- print_asis(keys(x)) #hide 
- 
  print_asis(collect(keys(x))) #hide 
  
  print_asis(values(x)) #hide 
- 
- print_asis(collect(values(x))) #hide 
  
  x = (a=4, b=5, c=6) 
  
- print_asis(keys(x)) #hide 
- 
  print_asis(collect(keys(x))) #hide 
  
  print_asis(values(x)) #hide 
- 
- print_asis(collect(values(x))) #hide 
  
  dict = Dict("a" => 10, "b" => 20)
 print_asis(dict) #hide 
