@@ -2018,7 +2018,7 @@ color: white;
 foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;
 
 @btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  65.337 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  68.335 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2033,7 +2033,7 @@ function foo&#40;x&#41;
 end
 
 @btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  25.803 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  26.004 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2065,7 +2065,7 @@ end
 foo&#40;x&#41; &#61; maximum&#40;2 .* x&#41;
 
 @btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  209.369 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  208.257 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2108,7 +2108,7 @@ end
 foo&#40;x&#41; &#61; sum&#40;a -&gt; 2 * a, x&#41;
 
 @btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  6.800 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  6.900 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2116,7 +2116,7 @@ foo&#40;x&#41; &#61; sum&#40;a -&gt; 2 * a, x&#41;
 foo&#40;x&#41; &#61; maximum&#40;a -&gt; 2 * a, x&#41;
 
 @btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  183.728 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  183.847 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2124,7 +2124,7 @@ foo&#40;x&#41; &#61; maximum&#40;a -&gt; 2 * a, x&#41;
 foo&#40;x&#41; &#61; prod&#40;a -&gt; 2 * a, x&#41;
 
 @btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  7.000 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  7.007 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2139,23 +2139,23 @@ foo&#40;x&#41; &#61; prod&#40;a -&gt; 2 * a, x&#41;
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;; y &#61; rand&#40;100&#41;
 
-foo&#40;x,y&#41; &#61; sum&#40;a -&gt; &#40;a&#91;1&#93; * a&#91;2&#93;&#41;, zip&#40;x,y&#41;&#41;
+foo&#40;x,y&#41; &#61; sum&#40;a -&gt; a&#91;1&#93; * a&#91;2&#93;, zip&#40;x,y&#41;&#41;
 
 @btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;y&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  32.193 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  32.093 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;; y &#61; rand&#40;100&#41;
 
-foo&#40;x,y&#41; &#61; maximum&#40;a -&gt; &#40;a&#91;1&#93; * a&#91;2&#93;&#41;, zip&#40;x,y&#41;&#41;
+foo&#40;x,y&#41; &#61; maximum&#40;a -&gt; a&#91;1&#93; * a&#91;2&#93;, zip&#40;x,y&#41;&#41;
 
 @btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;y&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  183.333 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  183.143 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;; y &#61; rand&#40;100&#41;
 
-foo&#40;x,y&#41; &#61; prod&#40;a -&gt; &#40;a&#91;1&#93; * a&#91;2&#93;&#41;, zip&#40;x,y&#41;&#41;
+foo&#40;x,y&#41; &#61; prod&#40;a -&gt; a&#91;1&#93; * a&#91;2&#93;, zip&#40;x,y&#41;&#41;
 
 @btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;y&#41;&#41;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  52.333 ns (0 allocations: 0 bytes)
