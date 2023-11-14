@@ -2052,18 +2052,16 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Map Function</h2></p>
-<p>To motivate broadcasting, let&#39;s consider an alternative approach to computing operations element-wise. This is given by the function <code>map</code>. </p>
-<p>Its syntax is <code>map&#40;foo, x&#41;</code> for a single-argument function <code>foo</code> and a vector <code>x</code>, and is equivalent to <code>&#91;foo&#40;x&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;&#41;...&#93;</code>. The function <code>map</code> also allows for functions <code>foo</code> having multiple arguments, such that <code>map&#40;foo, x, y&#41;</code> for vectors <code>x</code> and <code>y</code> returns <code>&#91;foo&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;,y&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;,y&#91;3&#93;&#41;...&#93;</code>. </p>
-<p>Below we illustrate the use of <code>map</code>. We also show that <code>foo</code> can be replaced by an anonymous function.</p>
+<p>To motivate broadcasting, let&#39;s consider the most basic approach to computing operations element-wise. This is given by the function <code>map</code>. </p>
+<p>Its syntax is <code>map&#40;foo, x&#41;</code> for a single-argument function <code>foo</code> and a vector <code>x</code>, and is equivalent to <code>&#91;foo&#40;x&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;&#41;...&#93;</code>. Below we illustrate the use of <code>map</code>, where <code>foo</code> accepts an anonymous function.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id="">Single-Argument Function</button>
-    <button class="tablink" data-id=""> Multiple-Argument Function</button>
-    <button class="tablink" data-id=""> With Anonymous Function</button>
+    <button class="tablink first_tab active" data-id="">Single-Argument Function</button>    
+    <button class="tablink" data-id=""> Single-Argument Anonymous Function</button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91; 1, 2, 3&#93;
+<pre><code class="language-julia">x &#61; &#91;1, 2, 3&#93;
 
 
 z &#61; map&#40;log,x&#41;</code></pre>
@@ -2076,6 +2074,29 @@ z &#61; map&#40;log,x&#41;</code></pre>
  0.6931471805599453
  1.0986122886681098</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91;1, 2, 3&#93;
+
+
+z &#61; map&#40;a -&gt; 2*a, x&#41;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 2
+ 4
+ 6</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;2*x&#91;1&#93;, 2*x&#91;2&#93;, 2*x&#91;3&#93;&#93;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 2
+ 4
+ 6</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>The function <code>map</code> also allows for functions <code>foo</code> with multiple arguments. When, <code>x</code> and <code>y</code> have the same size, <code>map&#40;foo, x, y&#41;</code> returns <code>&#91;foo&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;,y&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;,y&#91;3&#93;&#41;...&#93;</code>. Furthermore, <code>x</code> and <code>y</code> can have a different size, in which case <code>foo</code> is applied element-wise until one of the vectors is exhausted. The same rule applies when either <code>x</code> or <code>y</code> is a scalar. </p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Vector of Same Size </button>
+    <button class="tablink" data-id=""> Vectors of Different Size </button>
+    <button class="tablink" data-id=""> A Vector and a Scalar </button>
+</div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91; 1, 2, 3&#93;
 y &#61; &#91;-1,-2,-3&#93;
@@ -2092,21 +2113,29 @@ z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91; 1, 2, 3&#93;
+y &#61; &#91;-1,-2&#93;
 
-
-z &#61; map&#40;a -&gt; 2*a, x&#41;</code></pre>
+z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an operator and a function</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
- 2
- 4
- 6</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;2*x&#91;1&#93;, 2*x&#91;2&#93;, 2*x&#91;3&#93;&#93;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
- 2
- 4
- 6</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 0
+ 0</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;&#43;&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, &#43;&#40;x&#91;2&#93;,y&#91;2&#93;&#41;&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 0
+ 0</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91; 1, 2, 3&#93;
+y &#61;  -1
+
+z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an operator and a function</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">1-element Vector{Int64}:
+ 0</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;&#43;&#40;x&#91;1&#93;,y&#91;1&#93;&#41;&#93;</code><br/><div class="akin_to_pre">1-element Vector{Int64}:
+ 0</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>As the examples demonstrate, <code>map</code> can become overly verbose for multiple operations. This is where broadcasting becomes helpful, offering a simpler syntax for performing element-wise operations.</p>
-<p>Below, we delve into the concept of broadcasting progressively. To begin, we explore the broadcasting of functions and operators, addressing each separately. The presentation at this stage focuses exclusively on vectors of equal size. After this, we expand the scope of broadcasting to scenarios that combine scalars and vectors. In such cases, the scalar is treated as a vector that replicates the scalar value.</p>
+<p>We can imagine from the examples that <code>map</code> can become overly verbose when we need to perform multiple operations. This is where broadcasting becomes helpful, offering a simpler syntax for performing element-wise operations.</p>
+<p>Below, we delve into the concept of broadcasting progressively. To begin, we explore the broadcasting of functions and operators, addressing each separately. The presentation at this stage focuses exclusively on vectors of equal size. After this, we show that, although broadcasting doesn&#39;t allow for vectors of different sizes in general, it accepts operations that combine scalars and vectors. In such cases, the scalar is treated as a vector that replicates the scalar value.</p>
 <p>      </div>
     </div>
   </div>
@@ -2600,7 +2629,7 @@ list &#61; &#91;1, 2, 3&#93;</code></pre>
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\5a_logical" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified November 12, 2023 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified November 13, 2023 </span>  
   </div>
 <!-- </p>  -->
 </footer>
