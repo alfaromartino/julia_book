@@ -17,5 +17,5 @@ notviral         = stats_subset(views_per_video, money_per_view, is_notviral)
 
 # videos created in specific days
 days_to_consider = (1, 10, 25)
-is_firstdays     = in.(eachindex(views_per_video), Ref(days_to_consider))
-firstdays        = stats_subset(views_per_video, money_per_view, is_firstdays)
+is_day           = in.(eachindex(views_per_video), Ref(days_to_consider))
+specific_days    = stats_subset(views_per_video, money_per_view, is_firstdays)
