@@ -112,7 +112,7 @@ end
 
 viral_threshold = 100
 is_viral        = (views_per_video .>= viral_threshold)
-viral           = stats_subset(views_per_video, money_per_video, is_viral)
+viral           = stats_subset(views_per_video, money_per_view, is_viral)
 print_compact(viral) #hide 
  
  print_compact(viral.nrvideos) #hide 
@@ -132,7 +132,7 @@ end
 
 viral_threshold = 100
 is_viral        = (views_per_video .>= viral_threshold)
-viral           = stats_subset(views_per_video, money_per_video, is_viral) 
+viral           = stats_subset(views_per_video, money_per_view, is_viral) 
  
  using Pipe
 function stats_subset(views_per_video, money_per_view, condition)
@@ -147,7 +147,7 @@ end
 
 viral_threshold = 100
 is_viral        = (views_per_video .>= viral_threshold)
-viral           = stats_subset(views_per_video, money_per_video, is_viral) 
+viral           = stats_subset(views_per_video, money_per_view, is_viral) 
  
  function stats_subset(views_per_video, money_per_view, condition)
     nrvideos = sum(condition)
@@ -160,16 +160,16 @@ end
 #for virals
 viral_threshold  = 100
 is_viral         = (views_per_video .>= viral_threshold)
-viral            = stats_subset(views_per_video, money_per_video, is_viral)
+viral            = stats_subset(views_per_video, money_per_view, is_viral)
 
 #for non-virals
 is_notviral      = .!(is_viral)      # '!' is negating a boolean value, which we then broadcast
-notviral         = stats_subset(views_per_video, money_per_video, is_notviral)
+notviral         = stats_subset(views_per_video, money_per_view, is_notviral)
 
 # videos created in the first 15 days of the month
 days_to_consider = 1:15
 is_firstdays     = in.(eachindex(views_per_video), Ref(days_to_consider))
-firstdays        = stats_subset(views_per_video, money_per_video, is_firstdays) 
+firstdays        = stats_subset(views_per_video, money_per_view, is_firstdays) 
  
  print_compact(viral) #hide 
  
@@ -185,7 +185,7 @@ temp       = @view new_views[new_views .< viral_threshold]
 temp      .= 1.2 .* temp
 
 allvideos      = trues(length(new_views))
-targetNonViral = stats_subset(new_views, money_per_video, allvideos)
+targetNonViral = stats_subset(new_views, money_per_view, allvideos)
 print_compact(targetNonViral) #hide 
  
  # 'temp' modifies 'new_views'
@@ -194,7 +194,7 @@ temp       = @view new_views[new_views .≥ viral_threshold]
 temp      .= 1.2 .* temp
 
 allvideos      = trues(length(new_views))
-targetViral    = stats_subset(new_views, money_per_video, allvideos)
+targetViral    = stats_subset(new_views, money_per_view, allvideos)
 print_compact(targetViral) #hide 
  
  targetNonViral = let views = views_per_video, money = money_per_video, threshold = viral_threshold

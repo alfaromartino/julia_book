@@ -11,5 +11,5 @@ end
 
 viral_threshold = 100
 is_viral        = (views_per_video .>= viral_threshold)
-viral           = stats_subset(views_per_video, money_per_video, is_viral)
+viral           = stats_subset(views_per_video, money_per_view, is_viral)
 print_compact(viral) #hide
