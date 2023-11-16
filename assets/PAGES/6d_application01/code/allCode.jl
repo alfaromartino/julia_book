@@ -166,8 +166,8 @@ viral            = stats_subset(views_per_video, money_per_view, is_viral)
 is_notviral      = .!(is_viral)      # '!' is negating a boolean value, which we then broadcast
 notviral         = stats_subset(views_per_video, money_per_view, is_notviral)
 
-# videos created in the first 15 days of the month
-days_to_consider = 1:15
+# videos created in specific days
+days_to_consider = (1, 10, 25)
 is_firstdays     = in.(eachindex(views_per_video), Ref(days_to_consider))
 firstdays        = stats_subset(views_per_video, money_per_view, is_firstdays) 
  
