@@ -7,7 +7,7 @@
 
 
 
-# TO REFER TO ASSETS (for images and the link to codeDownload)
+# TO REFER TO ASSETS (for images)
 function add_assets!(dftoc)
     x                 = [replace(x, r".md$" => "", r"\\\\" => "/") for x in dftoc.section]
     add_asset(a)      = "/assets/" * a
@@ -18,24 +18,34 @@ end
 dftoc.path_assets       = add_assets!(dftoc)
 dftoc.path_pics         = dftoc.path_assets .* "/pics"
 dftoc.path_tikz         = dftoc.path_assets .* "/tikz"
-dftoc.path_codeDownload = dftoc.path_assets .* "/codeDownload"
+
 
 
 getPath_assets(dftoc, local_page)       = string(first(dftoc[dftoc.section.==local_page,:path_assets]))
 getPath_pics(dftoc, local_page)         = string(first(dftoc[dftoc.section.==local_page,:path_pics]))
 getPath_tikz(dftoc, local_page)         = string(first(dftoc[dftoc.section.==local_page,:path_tikz]))
-getPath_codeDownload(dftoc, local_page) = string(first(dftoc[dftoc.section.==local_page,:path_codeDownload]))
 
 
+############################################################################
+#
+#                           FOR DOWNLOADING FILES IN ASSETS
+#
+############################################################################
+# TO REFER TO ASSETS (for images and the link to codeDownload)
+#assets_folder(PAGEfile) = "/assets/$(subfolder)/$(PAGEfile)"
+#dftoc.path_assets       = assets_folder.(dftoc.name)
 
-#=
 let dftoc = dftoc
     assets_folder(PAGEfile) = "/assets/$(subfolder)/$(PAGEfile)"
     html_tree               = "https://github.com/alfaromartino/$(path_prepath)/tree/main/"
     dftoc.path_codeDownload = string.(html_tree, dftoc.path_assets, "/codeDownload")
 end
 
+getPath_codeDownload(dftoc, local_page) = string(first(dftoc[dftoc.section.==local_page,:path_codeDownload]))
 
+
+
+#=
 
 # FOR GOOGLE ROBOTS
 url    = "https://alfaromartino.github.io/blog/PAGES/"

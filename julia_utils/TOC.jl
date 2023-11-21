@@ -1,5 +1,7 @@
 using DataFrames
 
+path_prepath = "julia_book"
+
 #FUNCTIONS to CREATE THE TOC
 assign_letter(x) = [Char((Int('a') .+ i - 1)) for i in eachindex(x)] 
 
