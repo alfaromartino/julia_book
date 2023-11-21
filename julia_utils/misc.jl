@@ -15,14 +15,18 @@ function add_assets!(dftoc)
     return [add_asset(a) for a in x]
 end
 
-dftoc.path_assets = add_assets!(dftoc)
-dftoc.path_pics   = dftoc.path_assets .* "/pics"
-dftoc.path_tikz   = dftoc.path_assets .* "/tikz"
+dftoc.path_assets       = add_assets!(dftoc)
+dftoc.path_pics         = dftoc.path_assets .* "/pics"
+dftoc.path_tikz         = dftoc.path_assets .* "/tikz"
+dftoc.path_codeDownload = dftoc.path_assets .* "/codeDownload"
 
 
-getPath_assets(dftoc, local_page) = string(first(dftoc[dftoc.section.==local_page,:path_assets]))
-getPath_pics(dftoc, local_page)   = string(first(dftoc[dftoc.section.==local_page,:path_pics]))
-getPath_tikz(dftoc, local_page)   = string(first(dftoc[dftoc.section.==local_page,:path_tikz]))
+getPath_assets(dftoc, local_page)       = string(first(dftoc[dftoc.section.==local_page,:path_assets]))
+getPath_pics(dftoc, local_page)         = string(first(dftoc[dftoc.section.==local_page,:path_pics]))
+getPath_tikz(dftoc, local_page)         = string(first(dftoc[dftoc.section.==local_page,:path_tikz]))
+getPath_codeDownload(dftoc, local_page) = string(first(dftoc[dftoc.section.==local_page,:path_codeDownload]))
+
+
 
 #=
 let dftoc = dftoc
