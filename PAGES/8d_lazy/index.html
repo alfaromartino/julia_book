@@ -2041,7 +2041,7 @@ function foo&#40;x&#41;
 end
     
 @btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  60.634 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  54.582 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2053,7 +2053,7 @@ function foo&#40;x&#41;
 end
     
 @btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  24.699 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  24.197 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2061,7 +2061,7 @@ end
 foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations
     
 @btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  23.896 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  23.795 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2076,7 +2076,7 @@ foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations
       <div class="col-lg- mx-auto">
         <h2>Iterators</h2></p>
 <p>The package <code>Iterators</code> is &quot;imported&quot; every time we run a session in Julia. It provides several methods for generating lazy sequences of numbers, along with a few functions that perform operations lazily. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> See also the package <code>IterTools</code>, which offers additional options.  </span></span> </p>
-<p>We already created lazy iterators throughout the website, without realizing it. For instance, a range <code>1:10</code> represents a lazy sequence of numbers, which are accessed one at a time on demand when included in a for-loop. The lazy nature of ranges determines that we must apply the function <code>collect</code> to materialize a range into a vector. Other examples of functions that created lazy iterators were <code>eachindex</code>, <code>enumerate</code>, and <code>zip</code>. </p>
+<p>We&#39;ve already created lazy iterators throughout the website without realizing it. For instance, a range <code>1:10</code> represents a lazy sequence of numbers, which are accessed one at a time on demand when included in a for-loop. As ranges are a lazy object, we must apply the function <code>collect</code> to materialize them into vectors. Other examples we&#39;ve covered that create lazy iterators are <code>eachindex</code>, <code>enumerate</code>, and <code>zip</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2111,7 +2111,7 @@ function foo&#40;x&#41;
 end
     
 @btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  64.826 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  56.314 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; collect&#40;1:100&#41;
@@ -2143,7 +2143,7 @@ function foo&#40;x&#41;
 end
     
 @btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  58.519 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  50.870 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2155,7 +2155,7 @@ function foo&#40;x&#41;
 end
     
 @btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  23.972 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  23.896 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2169,7 +2169,7 @@ end
       <div class="col-lg- mx-auto">
         <h2>Lazy Broadcasting</h2></p>
 <p>There&#39;s a lazy version of broadcasting, available through the package <code>LazyArrays</code>. This requires the inclusion of the macro <code>@~</code> at the start of the operation to be broadcasted.</p>
-<p>Regardless of whether we store the result, any broadcasted operation creates a temporary vector. A solution would be replacing the broadcasted expressions by a generator. However, this would turn code extremely verbose. On the contrary, <code>@~</code> keeps the code short and readable. This is illustrated in the following example, where notice that lazy broadcasting has zero memory allocations.</p>
+<p>Even if we don&#39;t store the result, any broadcasted operation creates a temporary vector. One solution would be to replace the broadcasted expressions with a generator. However, this would make the code overly verbose. On the contrary, <code>@~</code> keeps the code short and readable. This is illustrated in the following example, where lazy broadcasting additionally entails zero memory allocations.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2182,7 +2182,7 @@ x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
 foo&#40;x,y&#41; &#61; sum&#40;2 .* x&#41; &#43; sum&#40;2 .* y&#41; / sum&#40;x .* y&#41;
 
 @btime foo&#40;&#36;x,&#36;y&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  157.373 ns (3 allocations: 2.62 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  160.279 ns (3 allocations: 2.62 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using LazyArrays
@@ -2191,7 +2191,7 @@ x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
 foo&#40;x,y&#41; &#61; sum&#40;@~ 2 .* x&#41; &#43; sum&#40;@~ 2 .* y&#41; / sum&#40;@~ x .* y&#41;
 
 @btime foo&#40;&#36;x,&#36;y&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  28.471 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  28.543 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2214,7 +2214,7 @@ function foo&#40;x,y&#41;
 end
 
 @btime foo&#40;ref&#40;&#36;x&#41;,ref&#40;&#36;y&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  223.662 ns (3 allocations: 2.62 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  223.192 ns (3 allocations: 2.62 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
@@ -2228,7 +2228,7 @@ function foo&#40;x,y&#41;
 end
 
 @btime foo&#40;ref&#40;&#36;x&#41;,ref&#40;&#36;y&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  123.333 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  123.385 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
@@ -2242,7 +2242,7 @@ function foo&#40;x,y&#41;
 end
 
 @btime foo&#40;ref&#40;&#36;x&#41;,ref&#40;&#36;y&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  43.883 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  43.838 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2258,7 +2258,7 @@ end
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified November 20, 2023 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified December 8, 2023 </span>  
   </div>
 <!-- </p>  -->
 </footer>

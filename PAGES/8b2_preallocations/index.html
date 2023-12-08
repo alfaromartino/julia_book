@@ -1992,8 +1992,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section explores the advantages of   <span style="color: rgb(62, 121, 180);"><strong> pre-allocating</strong></span> vectors in for-loops. The strategy involves <strong> initializing the output vector prior to executing a for-loop</strong>, rather than inside a for-loop. The subject is particularly relevant for the computation of nested for-loops. By pre-allocating the vector, it&#39;s possible to reuse the same vector in each iteration, and hence avoid memory allocations from creating a new object in each instance. </p>
-<p>We begin by presenting effective methods to initialize vectors, which is a prerequisite to pre-allocate them. Then, we show two scenarios where pre-allocations prove to be advantageous. Both cases share their need for intermediate steps.</p>
+<p>This section explores the advantages of   <span style="color: rgb(62, 121, 180);"><strong> pre-allocating</strong></span> vectors in for-loops. The strategy involves <strong> initializing the output vector prior to executing a for-loop</strong>, rather than doing so within the for-loop. By pre-allocating the vector, it&#39;s possible to reuse the same vector in each iteration, and hence avoid memory allocations from creating a new object in each instance. The subject is particularly relevant for the computation of nested for-loops.</p>
+<p>We begin by presenting effective methods to initialize vectors, which is a prerequisite to pre-allocate them. Then, we show two scenarios where pre-allocations prove to be advantageous. Both cases require intermediate steps.</p>
 <p>      </div>
     </div>
   </div>
@@ -2003,8 +2003,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Initializing Vectors</h2></p>
-<p>  <span style="color: rgb(62, 121, 180);"><strong> Initializing an array</strong></span> refers to creating an array to subsequently fill it with values. The process involves two steps: reserving the space in memory and populating it with some initial values. An efficient way to initialize an array is by only executing the first step, leaving whatever is in the memory address. Values that aren&#39;t filled are represented in Julia by <code>undef</code>, and vary all the time as they reflect the content of the memory address at that moment.</p>
-<p>There are two ways to initialize an array with <code>undef</code> values. The first requires specifying the type and length of the array, and its syntax resembles the creation of new vectors. The second uses the function <code>similar</code>, which mimics the type and length of another vector. This method is especially useful for transforming vectors, where the output inherits the structure of the vector to be transformed.</p>
+<p>  <span style="color: rgb(62, 121, 180);"><strong> Initializing an array</strong></span> refers to creating an array to be subsequently filled with values. The process involves two steps: reserving the space in memory and populating it with some initial values. An efficient way to initialize an array is by only performing the first step, leaving whatever is in the memory address. In Julia, unfilled values are represented by <code>undef</code>, which reflect the content of the memory address at that moment.</p>
+<p>There are two methods for initializing an array with <code>undef</code> values. The first requires specifying the type and length of the array, and its syntax resembles the creation of new vectors. The second is based on the function <code>similar</code>, which creates a vector with the same type and dimensions as another existing vector. </p>
 <p>Below, we compare the performance of several approaches to initializing a vector. In particular, we show that working with <code>undef</code> values is faster than setting a value. To starkly show these differences, we create a vector with 100 elements and repeat the procedure 100,000 times. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2085,7 +2085,7 @@ end
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Remark</b> </span>  </div>  <div class=content>     Recall that using <code>_</code> as the iterating variable in a for-loop is simply a convention adopted in Julia. It&#39;s implemented to indicate that we simply seek to repeat the operation, hinting that we don&#39;t need to define any iteration variable for the computations. Any other symbol could be adopted instead, as the iteration variable isn&#39;t part of the calculations.  </div>  </div>
  <h4> Approaches to Initializing Vectors </h4>
-<p>We can initialize <code>output</code> by including it as a keyword argument of the function. This approach allows for using <code>similar&#40;x&#41;</code>, where <code>x</code> is a previous function&#39;s argument. Indeed, the following two implementations are equivalent.</p>
+<p>We can initialize <code>output</code> by passing it as a keyword argument to the function. This allows us to use <code>similar&#40;x&#41;</code>, where <code>x</code> is a previous function&#39;s argument. Indeed, the following two implementations are equivalent.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2149,8 +2149,8 @@ end
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Pre-Allocating Vectors in Nested For-Loops</h2></p>
-<p>Certain operations taking vectors as inputs require the creation of new vectors, whether as intermediate or final results. These operations can occur through the use of for-loops, but also with broadcasting. </p>
-<p>For instance, the following code implements operations with a for-loop and broadcasting. Both allocate a new vector. Note that broadcasting in the example generates a temporary intermediate vector, even when the operation is eventually reduced to a scalar.</p>
+<p>Some operations taking vectors as inputs require the creation of new vectors, whether as intermediate or final results. These operations can arise with the use of for-loops, but also with broadcasting. </p>
+<p>For instance, the following code implements operations with a for-loop and broadcasting, where both allocate a new vector. Notably, broadcasting creates a temporary intermediate vector, despite that the operation is ultimately reduced to a scalar.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2543,7 +2543,7 @@ calling_foo_in_a_loop&#40;x, output, temp&#41; &#61; &#91;foo&#33;&#40;x, output
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\8b3_reductions" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified November 20, 2023 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified December 8, 2023 </span>  
   </div>
 <!-- </p>  -->
 </footer>
