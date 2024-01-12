@@ -2035,7 +2035,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section introduces types that represent text. The discussion will be kept to a minimum, as the website doesn&#39;t focus on string analysis. The only two relevant concepts you should get from this section are how to write text and the concept of string interpolation. </p>
+<p>This section introduces types for representing text. The discussion will be brief, as string analysis isn&#39;t a focus of this website. Considering this, the only two relevant concepts you should get are how to express text and know what string interpolation is. </p>
 <p>      </div>
     </div>
   </div>
@@ -2045,7 +2045,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Characters</h2> </p>
-<p><code>Char</code> is the type for representing characters. It forms the basis for the type <code>String</code>, which is used to represent text. <code>Char</code> supports Unicode characters, thus including numbers, letters, and symbols. The notation for character <code>x</code> is <code>&#39;x&#39;</code>.</p>
+<p><code>Char</code> is the type for representing characters, which forms the basis for the type <code>String</code>. The type <code>String</code> is formally an ordered collection of characters, allowing us to to represent text. </p>
+<p><code>Char</code> supports Unicode characters, thus including numbers, letters, and symbols. A character <code>x</code> is defined by using the syntax <code>&#39;x&#39;</code>.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia"># x equals the character &#39;a&#39;
 x &#61; &#39;a&#39;
@@ -2071,7 +2072,7 @@ z  &#61; &#39;🐒&#39;       # z equals the character 🐒</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Strings</h2> </p>
-<p>On this website, we&#39;ll rarely use variables of type <code>Char</code> directly. Instead, we&#39;ll work with the type <code>String</code>, which is formally an ordered collection of characters.  The type <code>String</code> is used to express text, and is defined within double quotes <code>&quot; &quot;</code>. For strings expanding over several lines, triple quotes <code>&quot;&quot;&quot; &quot;&quot;&quot;</code> are more convenient, as they handle spaces and new lines better. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For the differences between these two approaches, see <a href="https://docs.julialang.org/en/v1/manual/strings/#Triple-Quoted-String-Literals">here</a>  </span></span></p>
+<p>On this website, we&#39;ll rarely use the type <code>Char</code> directly. Instead, we&#39;ll work mostly with the type <code>String</code>, which are expressed within double quotes <code>&quot; &quot;</code>. For strings spanning multiple  lines, triple quotes <code>&quot;&quot;&quot; &quot;&quot;&quot;</code> are more convenient, as they handle spaces and new lines better. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For more on the differences between single and triple quotes, see <a href="https://docs.julialang.org/en/v1/manual/strings/#Triple-Quoted-String-Literals">here</a>  </span></span></p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &quot;Hello, beautiful world&quot;
 
@@ -2086,9 +2087,8 @@ x &#61; &quot;&quot;&quot;Hello, beautiful world&quot;&quot;&quot;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>String Interpolation</h2> </p>
-<p>When we work with a variable of type <code>String</code>, it&#39;s possible to include text that will be evaluated as Julia code. This text will then be replaced with its resulting output. The technique is referred to as   <span style="color: rgb(62, 121, 180);"><strong> string interpolation</strong></span>. </p>
-<p>String interpolation accepts any expression that Julia can evaluate, and is inserted into the text by adding <code>&#36;</code>. If the expression requires more than one word, you need to delimit the expression with curly braces <code>&#36;&#40;&#41;</code>. </p>
-<p>The following examples interpolate text with a variable and a computation.</p>
+<p>  <span style="color: rgb(62, 121, 180);"><strong> String interpolation</strong></span> lets you embed Julia code into a string. This code is eventually evaluated and replaced into the string with its resulting output. The technique represents a convenient way to insert content that depends on variables, computations, or expressions.</p>
+<p>The syntax to interpolate a variable requires preceding it with <code>&#36;</code>. Likewise, expressions spanning several words need to be delimited with curly braces <code>&#36;&#40;&#41;</code>. The following examples interpolate text with a variable and with a computation, respectively.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2112,7 +2112,7 @@ x &#61; &quot;Last year, Messi scored &#36;&#40;number_matches * goals_per_match
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">"Last year, Messi scored 100 goals"</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p><br/>       </div>
+<p>      </div>
     </div>
   </div>
 </section>
