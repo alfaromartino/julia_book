@@ -2035,8 +2035,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section introduces the concepts of <strong> variables</strong> and their <strong> types</strong>. We&#39;ll also cover <strong> operators</strong>, with a focus on their syntax, which varies depending on the number of inputs they accept. </p>
-<p>To ensure a smooth learning experience, I&#39;ve minimized the reliance on objects we haven&#39;t covered yet. The only one introduced is that of vectors, whose syntax requires enclosing elements in brackets &#40;e.g., <code>&#91;1,2,3&#93;</code>&#41;. More broadly, we only scratch the surface of the concepts introduced, in particular that of types. At this point, we only need a rough idea of them until we can introduce other fundamental concepts, such as functions and for-loops.</p>
+<p>This section introduces the concepts of <strong> variables</strong> and their <strong> types</strong>. We&#39;ll also cover <strong> operators</strong>, with a focus on their syntax.</p>
+<p>The section only scratches the surface of the concepts introduced, in particular that of types—we only introduce them to clearly understand other fundamental concepts, such as functions and for-loops. To ensure a smooth learning experience, I&#39;ve also minimized the reliance on objects we haven&#39;t covered yet. The only one introduced is that of vectors, whose syntax requires enclosing elements in brackets &#40;e.g., <code>&#91;1,2,3&#93;</code>&#41;. </p>
 <p>      </div>
     </div>
   </div>
@@ -2076,29 +2076,41 @@ x₁ &#61; 2
       <span class="modalClose">&times;</span>
       <h2>  Names not Allowed </h2>
     </div>
-    <div class="modal-body"><p> Variables can start with a letter or <code>_</code>, but never with a number. Moreover, symbols are not generally allowed.</p>
+    <div class="modal-body"><p> Variables can&#39;t start with a number or include most of the symbols &#40;with the exception of <code>_</code>&#41;.</p>
+ <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Warning!</b> </span>  </div>  <div class=content>     Unlike other programming languages, <strong> Julia doesn't let you delete variables</strong>. Once a variable is created, it remains in memory until the program terminates. If a variable is taking up too much memory, you can free up space by assigning a lighter object to it.  </div>  </div>
 <p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">_x1 &#61; 2 #this is allowed
-
-1x  &#61; 2 #this throws an error
+<pre><code class="language-julia">1x  &#61; 2 #this throws an error
 x^  &#61; 2 #this throws an error
-&#37;x  &#61; 2 #this throws an error</code></pre>
+&#37;x  &#61; 2 #this throws an error
+
+_x1 &#61; 2 #this is allowed</code></pre>
 <p></div> </div>  </details></div>  </p>
     </div>    
   </div>
 
 </div>
-<p>A variable’s value can be <strong> updated</strong>. This means that you can assign a new value to a variable by using the variable itself.</p>
+ <h4> Updating Variables </h4>
+<p>We can assign a value to a variable by using the variable itself. The process is usually referred to as <strong> updating a variable</strong>.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x  &#61; 2
 
-x  &#61; x &#43; 3   # &#39;x&#39; now equals 5
-
-x &#43;&#61; 3       #shorthand notation for &#39;x &#61; x &#43; 3&#39;</code></pre>
+x  &#61; x &#43; 3    # &#39;x&#39; now equals 5</code></pre>
 <p></div> </div>  </details></div>
- <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Unlike other programming languages, <strong> Julia doesn't let you delete variables</strong>. Once a variable is created, it remains in memory until the program terminates. If a variable is taking up too much memory, you can free up space by assigning a lighter object to it.  </div>  </div>
+<p>Julia offers a concise syntax for updates relying on common operators. This requires adding the operator before the assignment operator <code>&#61;</code>. </p>
+ <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x  &#61; 2
+
+x  &#61; x &#43; 3
+x &#43;&#61; 3        # equivalent
+
+x  &#61; x * 3
+x *&#61; 3        # equivalent
+
+x  &#61; x - 3
+x -&#61; 3        # equivalent</code></pre>
+<p></div> </div>  </details></div>
 <p>      </div>
     </div>
   </div>
@@ -2163,7 +2175,7 @@ x &#43;&#61; 3       #shorthand notation for &#39;x &#61; x &#43; 3&#39;</code><
 </li>
 </ul>
 <ul>
-<li><p>  <span style="color: rgb(62, 121, 180);"><strong> Ternary operators</strong></span>: They use  <em> three operands</em>, and their syntax is <code>x &lt;operator1&gt; y &lt;operator2&gt; z</code>. Ternary operators are uncommon, explaining why the specific operator <code>x ? y : z</code> is referred to as  <em> the</em> ternary operator. This operator executes a conditional evaluation, with <code>y</code> returned if <code>x</code> is true and <code>z</code> returned otherwise.</p>
+<li><p>  <span style="color: rgb(62, 121, 180);"><strong> Ternary operators</strong></span>: They use  <em> three operands</em>, and their syntax is <code>x &lt;operator1&gt; y &lt;operator2&gt; z</code>. Ternary operators are uncommon, explaining why the specific operator <code>x ? y : z</code> is directly referred to as  <em> the</em> ternary operator. This executes a conditional evaluation, with <code>y</code> returned if <code>x</code> is true and <code>z</code> returned otherwise.</p>
 </li>
 </ul></div>
 <p>      </div>
@@ -2178,7 +2190,7 @@ x &#43;&#61; 3       #shorthand notation for &#39;x &#61; x &#43; 3&#39;</code><
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\3b_univariables" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified January 11, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified January 12, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
