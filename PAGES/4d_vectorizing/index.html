@@ -2039,7 +2039,7 @@ color: white;
 <p>In this section, we explore one way to execute these transformations:   <span style="color: rgb(62, 121, 180);"><strong> vectorization</strong></span>, also known as   <span style="color: rgb(62, 121, 180);"><strong> broadcasting</strong></span>. Formally, broadcasting allows the user to apply <strong> functions</strong> and <strong> operators</strong> an element-wise to iterable collections, such as vectors, tuples, and ranges. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Formally, iterable collections refer to collections whose elements can be accessed sequentially.  </span></span> Unlike other methods, broadcasting makes it possible to perform these operations through a simple syntax.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     The terms <strong> vectorization</strong> and <strong> broadcasting</strong> will be used interchangeably on this website. Strictly speaking, vectorization requires arrays of the same size, with broadcasting being an extension that allows for scalars.  </div>  </div>
+      <b>Remark</b> </span>  </div>  <div class=content>     The terms <strong> vectorization</strong> and <strong> broadcasting</strong> will be used interchangeably on this website. Strictly speaking, vectorization arises with arrays of the same size, while broadcasting is an extension additionally allowing for scalars.  </div>  </div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content>     Later on the website, we&#39;ll explore <strong> for-loops</strong> as an alternative approach to transforming arrays. Several languages strongly recommend vectorizing operations to improve speed, highly discouraging for-loops. <br/><br/><strong> Such advice does not apply to Julia</strong>. In fact, when it comes to optimizing code in Julia, for-loops are often the key to achieving faster performance. In this context, the main advantage of vectorization in Julia is to streamline code without sacrificing much speed.  </div>  </div>
@@ -2101,7 +2101,7 @@ z &#61; map&#40;a -&gt; 2*a, x&#41;</code></pre>
 <pre><code class="language-julia">x &#61; &#91; 1, 2, 3&#93;
 y &#61; &#91;-1,-2,-3&#93;
 
-z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an operator and a function</code></pre>
+z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; exists as both operator and function</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  0
