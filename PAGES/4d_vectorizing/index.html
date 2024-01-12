@@ -2052,8 +2052,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Map Function</h2></p>
-<p>To motivate broadcasting, let&#39;s consider the most basic approach to computing operations element-wise. This is given by the function <code>map</code>. </p>
-<p>Its syntax is <code>map&#40;foo, x&#41;</code> for a single-argument function <code>foo</code> and a vector <code>x</code>, and is equivalent to <code>&#91;foo&#40;x&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;&#41;...&#93;</code>. Below we illustrate the use of <code>map</code>, where <code>foo</code> accepts an anonymous function.</p>
+<p>To motivate broadcasting, let&#39;s begin by consider the most basic approach to computing operations element-wise. This is given by the function <code>map</code>. </p>
+<p>Given a single-argument function <code>foo</code> and a vector <code>x</code>, its syntax is <code>map&#40;foo, x&#41;</code> and provides as result <code>&#91;foo&#40;x&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;&#41;...&#93;</code>. The function <code>map</code> is commonly employed with a function <code>foo</code> that is anonymous, as shown below. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2078,7 +2078,7 @@ z &#61; map&#40;log,x&#41;</code></pre>
 <pre><code class="language-julia">x &#61; &#91;1, 2, 3&#93;
 
 
-z &#61; map&#40;a -&gt; 2*a, x&#41;</code></pre>
+z &#61; map&#40;a -&gt; 2 * a, x&#41;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  2
@@ -2089,7 +2089,7 @@ z &#61; map&#40;a -&gt; 2*a, x&#41;</code></pre>
  6</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The function <code>map</code> also allows for functions <code>foo</code> with multiple arguments. When, <code>x</code> and <code>y</code> have the same size, <code>map&#40;foo, x, y&#41;</code> returns <code>&#91;foo&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;,y&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;,y&#91;3&#93;&#41;...&#93;</code>. Furthermore, <code>x</code> and <code>y</code> can have a different size, in which case <code>foo</code> is applied element-wise until one of the vectors is exhausted. The same rule applies when either <code>x</code> or <code>y</code> is a scalar. </p>
+<p><code>map</code> also allows functions <code>foo</code> with multiple arguments. When, <code>x</code> and <code>y</code> have the same size, <code>map&#40;foo, x, y&#41;</code> returns <code>&#91;foo&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;,y&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;,y&#91;3&#93;&#41;...&#93;</code>. Instead, when <code>x</code> and <code>y</code> have different sizes, <code>foo</code> is applied element-wise until one of the vectors is exhausted. This rule applies in particular when either <code>x</code> or <code>y</code> is a scalar. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2134,8 +2134,8 @@ z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an
  0</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>We can imagine from the examples that <code>map</code> can become overly verbose when we need to perform multiple operations. This is where broadcasting becomes helpful, offering a simpler syntax for performing element-wise operations.</p>
-<p>Below, we delve into the concept of broadcasting progressively. To begin, we explore the broadcasting of functions and operators, addressing each separately. The presentation at this stage focuses exclusively on vectors of equal size. After this, we show that, although broadcasting doesn&#39;t allow for vectors of different sizes in general, it accepts operations that combine scalars and vectors. In such cases, the scalar is treated as a vector that replicates the scalar value.</p>
+<p>From the examples, we can guess that <code>map</code> can become overly verbose if we need to perform multiple operations. This is when broadcasting becomes helpful, by offering a simpler syntax for performing element-wise operations.</p>
+<p>Below, we delve into the concept of broadcasting progressively. To begin, we explore broadcasting of functions and operators, addressing each separately. The presentation at this stage focuses exclusively on vectors of equal size. After this, we show that, although broadcasting doesn&#39;t always allow for vectors of different sizes, it does accept operations that combine scalars and vectors. In such cases, the scalar is treated as a vector with the same size as the other vectors, with the scalar value repeated.</p>
 <p>      </div>
     </div>
   </div>
