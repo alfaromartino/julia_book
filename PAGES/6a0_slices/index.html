@@ -1703,6 +1703,10 @@ color: white;
 
   
 
+  
+
+  
+
 <div class="bar_top">
   <ul>
      <li>
@@ -1729,7 +1733,7 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\1a_installation/"><i>a</i>. Installation and Resources</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\2a_basics/"><i>b</i>. Basics of Julia</a></li><br>
+                <li><a href="/julia_book/PAGES\2a_basics/"><i>b</i>. Running Julia</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\1c_vscode/"><i>c</i>. VS Code (OPTIONAL)</a></li><br>
                 
@@ -1740,15 +1744,17 @@ color: white;
             <li>2. <u>Variables</u>
               <ul>
                 
-                <li><a href="/julia_book/PAGES\3a_variables/"><i>a</i>. Variables, Types, and Operators</a></li><br>
+                <li><a href="/julia_book/PAGES\overview_1/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3b_univariables/"><i>b</i>. Numbers</a></li><br>
+                <li><a href="/julia_book/PAGES\3a_variables/"><i>b</i>. Variables, Types, and Operators</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3b2_strings/"><i>c</i>. Strings</a></li><br>
+                <li><a href="/julia_book/PAGES\3b_univariables/"><i>c</i>. Numbers</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3c_arrays/"><i>d</i>. Arrays (Vectors and Matrices)</a></li><br>
+                <li><a href="/julia_book/PAGES\3b2_strings/"><i>d</i>. Strings</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3c2_tuples/"><i>e</i>. Tuples</a></li><br>
+                <li><a href="/julia_book/PAGES\3c_arrays/"><i>e</i>. Arrays (Vectors and Matrices)</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3c2_tuples/"><i>f</i>. Tuples</a></li><br>
                 
               </ul>
             </li>            
@@ -1760,26 +1766,28 @@ color: white;
             <li>3. <u>Functions</u>
               <ul>
                 
-                <li><a href="/julia_book/PAGES\4a0_packages/"><i>a</i>. Packages and Function Calls</a></li><br>
+                <li><a href="/julia_book/PAGES\overview_2/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\4a1_define_func/"><i>b</i>. Defining Your Own Functions</a></li><br>
+                <li><a href="/julia_book/PAGES\4a0_packages/"><i>b</i>. Function Execution and Packages</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\4b_scope/"><i>c</i>. Variable Scope & Relevance of Functions</a></li><br>
+                <li><a href="/julia_book/PAGES\4a1_define_func/"><i>c</i>. Defining Your Own Functions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\4c_arguments/"><i>d</i>. Positional and Keyword Arguments</a></li><br>
+                <li><a href="/julia_book/PAGES\4b_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\4d_vectorizing/"><i>e</i>. Vectorization (Broadcasting)</a></li><br>
+                <li><a href="/julia_book/PAGES\4d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a></li><br>
                 
               </ul>
             </li>
             <li>4. <u>Control Flow</u>
               <ul>
                 
-                <li><a href="/julia_book/PAGES\5a_logical/"><i>a</i>. Conditions</a></li><br>
+                <li><a href="/julia_book/PAGES\overview_3/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\5b_conditionals/"><i>b</i>. Conditional Statements</a></li><br>
+                <li><a href="/julia_book/PAGES\5a_logical/"><i>b</i>. Conditions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\5c_forLoops/"><i>c</i>. For-Loops</a></li><br>
+                <li><a href="/julia_book/PAGES\5b_conditionals/"><i>c</i>. Conditional Statements</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\5c_forLoops/"><i>d</i>. For-Loops</a></li><br>
                 
               </ul>
             </li>            
@@ -2036,7 +2044,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>In the previous section, we clearly distinguished between the use of <code>&#61;</code> for assignments and mutations. We now introduce another key concept for mutations, which is the behavior of a vector&#39;s slice. </p>
-<p>A   <span style="color: rgb(62, 121, 180);"><strong> slice</strong></span> is a subset of vector&#39;s elements. It formally corresponds to an object <code>x&#91;&lt;indices&gt;&#93;</code>, and <strong> behaves differently depending on where we include the slice</strong>: it can act as a view or a copy. It&#39;s only when <code>x&#91;&lt;indices&gt;&#93;</code> is a view that we&#39;re referencing the original object <code>x</code> and hence mutate it.</p>
+<p>A   <span style="color: rgb(62, 121, 180);"><strong> slice</strong></span> is a subset of vector&#39;s elements, which formally corresponds to an object <code>x&#91;&lt;indices&gt;&#93;</code>. Slices <strong> can act as views or copies of the original vector, depending on where they're included</strong>. The distinction is essential for mutations, as this operation requires a slice referencing the original object, which corresponds to the definition of a view. In contrast, slices acting as copies don&#39;t reference the original vector, and thus their mutations don&#39;t affect it.</p>
 <p>      </div>
     </div>
   </div>
@@ -2046,10 +2054,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Slices and =</h2></p>
-<p>Mutating a vector <code>x</code> requires referring to a slice of <code>x</code>, and then applying the operator <code>&#61;</code> to modify their values. However, <strong> a slice acts as a view when it's on the left-hand side of</strong> <code>&#61;</code>, <strong> and as a copy when it's on the right-hand side of</strong> <code>&#61;</code>. </p>
-<p>To illustrate this, suppose that <code>x&#91;&lt;indices&gt;&#93;</code> is on <strong> the left-hand side of</strong> <code>&#61;</code>, such as in <code>x&#91;&lt;indices&gt;&#93; &#61; &lt;expression&gt;</code>. In this case, <code>x&#91;&lt;indices&gt;&#93;</code> refers to the original elements of <code>x</code>, stored in the memory address of <code>x</code>. The implication of this is that <code>x&#91;&lt;indices&gt;&#93; &#61; &lt;expression&gt;</code> mutates <code>x</code>, as <code>x&#91;&lt;indices&gt;&#93;</code> is referencing <code>x</code>. </p>
-<p>On the contrary, consider that <code>x&#91;&lt;indices&gt;&#93;</code> is on <strong> the right-hand side of</strong> <code>&#61;</code>, such as when we define a variable <code>y</code> through <code>y &#61; x&#91;&lt;indices&gt;&#93;</code>. In this case,  Julia creates a copy, meaning that <code>y</code> points to a new object holding the value <code>x&#91;&lt;indices&gt;&#93;</code>, allocated in some new memory address. Consequently, <code>x</code> and <code>y</code> are references to different objects, and therefore have no relation. This implies that modifying the elements of <code>y</code> has no impact on <code>x</code>.</p>
-<p>Note that the rules we&#39;ve described only apply to <strong> slices on the right-hand side of</strong> <code>&#61;</code>, such as in statements <code>y &#61; x&#91;&lt;indices&gt;&#93;</code>.  Instead, having the whole object <code>x</code> on the right-hand side of <code>&#61;</code>, as in <code>y &#61; x</code>,  transforms the operation into an aliasing assignment. We studied aliasing in the previous section. This makes <code>y</code> and <code>x</code> reference the same object, so that modifications of <code>y</code> also affect <code>x</code>.</p>
+<p>Mutating a vector <code>x</code> requires referring to a slice of <code>x</code>, and then applying the operator <code>&#61;</code> to modify their values. However, <strong> a slice only acts as a view when it's on the left-hand side of</strong> <code>&#61;</code>, <strong> and as a copy when it's on the right-hand side of</strong> <code>&#61;</code>. </p>
+<p>To illustrate this, suppose that <code>x&#91;&lt;indices&gt;&#93;</code> is on <strong> the left-hand side of</strong> <code>&#61;</code>, such as in <code>x&#91;&lt;indices&gt;&#93; &#61; &lt;expression&gt;</code>. In this case, <code>x&#91;&lt;indices&gt;&#93;</code> refers to the original elements of <code>x</code>, stored in the memory address of <code>x</code>. The implication is that <code>x&#91;&lt;indices&gt;&#93; &#61; &lt;expression&gt;</code> mutates <code>x</code>, as <code>x&#91;&lt;indices&gt;&#93;</code> is referencing <code>x</code>. </p>
+<p>On the contrary, consider that <code>x&#91;&lt;indices&gt;&#93;</code> is on <strong> the right-hand side of</strong> <code>&#61;</code>, such as when we define a variable <code>y</code> through <code>y &#61; x&#91;&lt;indices&gt;&#93;</code>. In this case, Julia implicitly creates a copy, meaning that <code>y</code> points to a new object holding the value <code>x&#91;&lt;indices&gt;&#93;</code>, allocated in some new memory address. Consequently, <code>x</code> and <code>y</code> are references to different objects, and therefore have no relation. This implies that modifying the elements of <code>y</code> has no impact on <code>x</code>. </p>
+<p>Note that the rule just described only applies to <strong> slices</strong>  on the right-hand side of <code>&#61;</code>, such as in statements <code>y &#61; x&#91;&lt;indices&gt;&#93;</code>.  Instead, having the whole object <code>x</code> on the right-hand side of <code>&#61;</code>, as in <code>y &#61; x</code>,  transforms the operation into an aliasing assignment. We studied aliasing in the previous section. This makes <code>y</code> and <code>x</code> reference the same object, so that modifications of <code>y</code> also affect <code>x</code>.</p>
 <p>The following code snippet demonstrates these behaviors, where we refer to the left-hand side as  <em> LHS</em>, and the right-hand side as  <em> RHS</em>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2212,7 +2220,7 @@ end</code></pre>
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\6a1_indexing" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified January 12, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified January 18, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

@@ -1699,6 +1699,10 @@ color: white;
 
   
 
+  
+
+  
+
 <div class="bar_top">
   <ul>
      <li>
@@ -1725,7 +1729,7 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\1a_installation/"><i>a</i>. Installation and Resources</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\2a_basics/"><i>b</i>. Basics of Julia</a></li><br>
+                <li><a href="/julia_book/PAGES\2a_basics/"><i>b</i>. Running Julia</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\1c_vscode/"><i>c</i>. VS Code (OPTIONAL)</a></li><br>
                 
@@ -1736,15 +1740,17 @@ color: white;
             <li>2. <u>Variables</u>
               <ul>
                 
-                <li><a href="/julia_book/PAGES\3a_variables/"><i>a</i>. Variables, Types, and Operators</a></li><br>
+                <li><a href="/julia_book/PAGES\overview_1/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3b_univariables/"><i>b</i>. Numbers</a></li><br>
+                <li><a href="/julia_book/PAGES\3a_variables/"><i>b</i>. Variables, Types, and Operators</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3b2_strings/"><i>c</i>. Strings</a></li><br>
+                <li><a href="/julia_book/PAGES\3b_univariables/"><i>c</i>. Numbers</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3c_arrays/"><i>d</i>. Arrays (Vectors and Matrices)</a></li><br>
+                <li><a href="/julia_book/PAGES\3b2_strings/"><i>d</i>. Strings</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3c2_tuples/"><i>e</i>. Tuples</a></li><br>
+                <li><a href="/julia_book/PAGES\3c_arrays/"><i>e</i>. Arrays (Vectors and Matrices)</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3c2_tuples/"><i>f</i>. Tuples</a></li><br>
                 
               </ul>
             </li>            
@@ -1756,26 +1762,28 @@ color: white;
             <li>3. <u>Functions</u>
               <ul>
                 
-                <li><a href="/julia_book/PAGES\4a0_packages/"><i>a</i>. Packages and Function Calls</a></li><br>
+                <li><a href="/julia_book/PAGES\overview_2/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\4a1_define_func/"><i>b</i>. Defining Your Own Functions</a></li><br>
+                <li><a href="/julia_book/PAGES\4a0_packages/"><i>b</i>. Function Execution and Packages</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\4b_scope/"><i>c</i>. Variable Scope & Relevance of Functions</a></li><br>
+                <li><a href="/julia_book/PAGES\4a1_define_func/"><i>c</i>. Defining Your Own Functions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\4c_arguments/"><i>d</i>. Positional and Keyword Arguments</a></li><br>
+                <li><a href="/julia_book/PAGES\4b_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\4d_vectorizing/"><i>e</i>. Vectorization (Broadcasting)</a></li><br>
+                <li><a href="/julia_book/PAGES\4d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a></li><br>
                 
               </ul>
             </li>
             <li>4. <u>Control Flow</u>
               <ul>
                 
-                <li><a href="/julia_book/PAGES\5a_logical/"><i>a</i>. Conditions</a></li><br>
+                <li><a href="/julia_book/PAGES\overview_3/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\5b_conditionals/"><i>b</i>. Conditional Statements</a></li><br>
+                <li><a href="/julia_book/PAGES\5a_logical/"><i>b</i>. Conditions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\5c_forLoops/"><i>c</i>. For-Loops</a></li><br>
+                <li><a href="/julia_book/PAGES\5b_conditionals/"><i>c</i>. Conditional Statements</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\5c_forLoops/"><i>d</i>. For-Loops</a></li><br>
                 
               </ul>
             </li>            
@@ -2030,15 +2038,26 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="mutable_and_immutable_objects" class="scrollspy section-bg-color">
+<section id="defining_mutable_and_immutable_objects" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Mutable and Immutable Objects</h2></p>
-<p>We start exploring approaches to mutating vectors, for which several preliminary concepts are needed. In this section in particular, we introduce a distinction between mutable and immutable objects. </p>
-<p>Specifically,   <span style="color: rgb(62, 121, 180);"><strong> mutable objects</strong></span> allow their elements to be modified, added, or removed. An example of mutable objects in Julia is <strong> vectors</strong>.</p>
-<p>In contrast,   <span style="color: rgb(62, 121, 180);"><strong> immutable objects</strong></span> can&#39;t be changed: we&#39;re unable to add or remove elements, or mutate the values of their existing elements. Immutability offers code safety, by preventing unintended modifications of read-only variables. Furthermore, it potentially entails performance benefits under certain conditions. Two examples of immutable objects in Julia are <strong> strings</strong> and <strong> tuples</strong>.</p>
-<p>The following examples show what occurs when we want to modify existing elements of mutable and immutable objects.</p>
+        <h2>Defining Mutable and Immutable Objects</h2></p>
+<p>We begin by introducing the distinction between mutable and immutable objects.   <span style="color: rgb(62, 121, 180);"><strong> Mutable objects</strong></span> allow their elements to be modified, added, or removed. An example of mutable objects is <strong> vectors</strong>.</p>
+<p>In contrast,   <span style="color: rgb(62, 121, 180);"><strong> immutable objects</strong></span> can&#39;t be changed: we&#39;re unable to add or remove elements, or mutate the values of their existing elements. Immutability offers code safety, by preventing unintended modifications of read-only variables. Furthermore, it potentially entails performance benefits. Examples of immutable objects are <strong> tuples</strong> and <strong> strings</strong>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that strings are a sequence of characters. Thus, mutability refers to the possibility of changing its characters.  </span></span></p>
+ <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Remark</b> </span>  </div>  <div class=content>     A popular package called <code>StaticArrays</code> defines <strong> immutable vectors</strong>. We&#39;ll explore this package when we study high performance, which significantly accelerates computations involving small vectors.  </div>  </div>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="examples" class="scrollspy section-bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Examples</h2></p>
+<p>The following examples show what occurs when we attempt to modify existing elements of mutable and immutable objects.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2065,10 +2084,55 @@ color: white;
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;1&#93;</code><br/><div class="akin_to_pre">'h': ASCII/Unicode U+0068 (category Ll: Letter, lowercase)</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;1&#93; &#61; &quot;a&quot;</code><br/><div class="akin_to_pre">ERROR: MethodError: no method matching setindex!(::String, ::Int64, ::Int64)</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Note that the mutability of objects is not only related to modifying existing elements, as in the example. In the next sections, we&#39;ll introduce functions that enable adding or removing elements.</p>
- <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     A popular package called <code>StaticArrays</code> defines static vectors, which include a special type defining <strong> immutable vectors</strong>. We&#39;ll explore the package when we deal with high performance in Julia, as static vectors can speed up calculations when vectors contain a small number of elements.  </div>  </div>
+<p>Mutability also means that we can add or remove elements. Next, we provide several functions that achieve this. </p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Add One Element </button>
+    <button class="tablink" data-id=""> Add Multiple Elements </button>
+    <button class="tablink" data-id=""> Remove One Element </button>
+    <button class="tablink" data-id=""> Remove Multiple Elements </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91;3,4&#93;
+
+push&#33;&#40;x, 10&#41;            # add element 10 at the end</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 3
+ 4
+ 10</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91;3,4&#93;
+
+append&#33;&#40;x, &#91;5,6&#93;&#41;       # add elements 5 and 6 at the end</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">4-element Vector{Int64}:
+ 3
+ 4
+ 5
+ 6</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91;3,4,5&#93;
+
+pop&#33;&#40;x&#41;                 # delete last element</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 3
+ 4</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91;7,8,9&#93;
+
+deleteat&#33;&#40;x, &#91;1,3&#93;&#41;     # &#91;1,3&#93; are the indices to be deleted</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">1-element Vector{Int64}:
+ 8</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>The function <code>push&#33;</code> is particularly helpful to collect results in a vector: as it doesn&#39;t require any prior knowledge about the number of elements to be stored, we can dynamically grow the vector as more results are added.</p>
 <p>      </div>
     </div>
   </div>
@@ -2081,7 +2145,7 @@ color: white;
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\3d_mutation" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified January 12, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified January 18, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2571,7 +2635,11 @@ for multiple pics in a row
     <ul class="navbar-nav">
       
       <li class="nav-item">
-        <a class="nav-link" href="#mutable_and_immutable_objects" data-offset="-40">Mutable and Immutable Objects</a>
+        <a class="nav-link" href="#defining_mutable_and_immutable_objects" data-offset="-40">Defining Mutable and Immutable Objects</a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" href="#examples" data-offset="-40">Examples</a>
       </li>
       
     </ul>
