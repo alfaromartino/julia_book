@@ -2090,7 +2090,7 @@ foo&#40;&#41;   &#61; sum&#40;b&#41;
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content> <strong> If you have to modify the value of a constant global variable, change the definition of the constant and then re-run the entire script.</strong> Redefining the value later in the code will trigger a warning in the REPL. The reason is that functions defined earlier in the code will still rely on the constant&#39;s original value. It&#39;s only if you rerun the whole script that changes will take effect </p>
-<p>To illustrate it, compare the following code snippets. Both execute the function <code>foo</code> for a constant value of <code>x&#61;1</code>, and then for a value of <code>x&#61;2</code>. The first tab shows the consequences of a script including two different constant values for <code>x</code>, where the value returned by <code>foo</code> is still based on <code>x &#61; 1</code>. On the contrary, rerunning the entire script based on a new value for <code>x</code> avoids the issue, as demonstrated in the second tab.</p>
+<p>To illustrate it, compare the following code snippets. Both execute the function <code>foo</code> for a constant value of <code>x&#61;1</code>, and then for a value of <code>x&#61;2</code>. The first tab shows the consequences of a script including two different constant values for <code>x</code>, where the value returned by <code>foo</code> is still based on <code>x &#61; 1</code>. On the contrary, rerunning the entire script based on a new value for <code>x</code> circumvents the issue, as demonstrated in the second tab.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2139,7 +2139,7 @@ foo&#40;&#41;          # type stable</code></pre>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong> Type-annotating a function argument doesn't improve performance</strong>  </span>  </div>  <div class=content>     Type-annotating function arguments is commonly done when packages are written. The goal is to ensure that the function only accepts arguments with a specific type. By doing so, the developer shields the user from getting an output despite passing variables with wrong types. </p>
-<p>For instance, <code>*</code> applied to strings in Julia would concatenate words. Thus, if we want to define a function whose aim is to multiple numbers, a way to prevent its misuse by users is restrict the operation to numeric types.</p>
+<p>For instance, <code>*</code> applied to strings in Julia would concatenate words. Thus, if we want to define a function whose aim is to multiple numbers, a way to prevent its misuse by users is by restricting the operation to numeric types.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
