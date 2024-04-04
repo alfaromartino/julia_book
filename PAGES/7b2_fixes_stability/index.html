@@ -2116,7 +2116,7 @@ foo&#40;&#41;             # it gives 2</code></pre>
 <p>Redefining constants was introduced to facilitate code testing, as the user doesn&#39;t need to start a new Julia session for each new constant value. Despite this, you should be cautious when doing so.  </div>  </div>
  <h4> Type-Annotating a Global Variable </h4>
 <p>The second approach to ensure type stability is by specifying a global variable&#39;s type. This is done by including the operator <code>::</code> after the variable&#39;s name, such as <code>x::Int64</code>. Relative to <code>const</code>, this approach enables you to redefine the global variable without unexpected consequences, as <code>::</code> only affects the type of the variable, not its value.</p>
-<p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Int64 </button>
@@ -2136,36 +2136,41 @@ foo&#40;&#41;              &#61; sum&#40;y&#41;
 foo&#40;&#41;          # type stable</code></pre>
 <p></div></div> 
  </div></div>
-<p>  </p></details></div> , as shown in the code snippet below. However,  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong> </strong>  </span>  </div>  <div class=content>     Type-annotating a function argument doesn&#39;t improve performance  </div>  </div>&#123;Type-annotating function arguments is commonly done when packages are written. The goal is to ensure that the function only accepts arguments with a specific type. By doing so, the developer shields the user from getting an output despite passing variables with wrong types. </p>
+<p>  </p></details></div>
+ <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong> Type-annotating a function argument doesn't improve performance</strong>  </span>  </div>  <div class=content>     Type-annotating function arguments is commonly done when packages are written. The goal is to ensure that the function only accepts arguments with a specific type. By doing so, the developer shields the user from getting an output despite passing variables with wrong types. </p>
 <p>For instance, <code>*</code> applied to strings in Julia would concatenate words. Thus, if we want to define a function whose aim is to multiple numbers, a way to prevent its misuse by users is restrict the operation to numeric types.</p>
-<p>\hideTabs&#123;open&#125;&#123;&#125;&#123; &lt;&#33;– #region –&gt; \html&#123; &lt;div class&#61;&quot;tab<em>wrapper&quot;&gt;  &lt;div class&#61;&quot;tab</em>code<em>links&quot;&gt;     &lt;button class&#61;&quot;tablink first</em>tab active&quot; data-id&#61;&quot;&quot;&gt; Untyped Arguments &lt;/button&gt;     &lt;button class&#61;&quot;tablink&quot; data-id&#61;&quot;&quot;&gt; Typed-Annotated Arguments &lt;/button&gt; &lt;/div&gt;&lt;div data-id&#61;&quot;&quot; class&#61;&quot;tabcontent active&quot;&gt;&#125;</p>
-<p>\Mcode&#123;</p>
-<p>foo1&#40;a,b&#41; &#61; a * b
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Untyped Arguments </button>
+    <button class="tablink" data-id=""> Typed-Annotated Arguments </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">foo1&#40;a,b&#41; &#61; a * b
 
 a &#61; 1 
 b &#61; 2
 
 x &#61; &quot;hello &quot;
-y &#61; &quot;world&quot;</p>
-<p>&#125;</p>
-<p>\out&#123;\Jout&#123;<code>foo1&#40;a,b&#41;</code>&#125;&#123;2&#125;\
-\Jout&#123;<code>foo1&#40;x,y&#41;</code>&#125;&#123;&quot;hello world&quot;}}</p>
-<p>\html&#123;&lt;/div&gt;&lt;div data-id&#61;&quot;&quot; class&#61;&quot;tabcontent&quot;&gt;&#125;</p>
-<p>\Mcode&#123;</p>
-<p>foo2&#40;a::Number, b::Number&#41; &#61; a * b
+y &#61; &quot;world&quot;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo1&#40;a,b&#41;</code><br/><div class="akin_to_pre">2</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo1&#40;x,y&#41;</code><br/><div class="akin_to_pre">"hello world"</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">foo2&#40;a::Number, b::Number&#41; &#61; a * b
 
 a &#61; 1 
 b &#61; 2
 
 x &#61; &quot;hello &quot;
-y &#61; &quot;world&quot;</p>
-<p>&#125;</p>
-<p>\out&#123;\Jout&#123;<code>foo2&#40;a,b&#41;</code>&#125;&#123;2&#125;\
-\Jout&#123;<code>foo2&#40;x,y&#41;</code>&#125;&#123;~~~\redcode&#123;ERROR&#125;~~~: MethodError: no method matching foo2&#40;::String, ::String&#41;&#125; &#125;</p>
-<p>\html&#123;&lt;/div&gt;&lt;/div&gt;&#125; &lt;&#33;– #endregion –&gt; &#125;</p>
+y &#61; &quot;world&quot;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo2&#40;a,b&#41;</code><br/><div class="akin_to_pre">2</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo2&#40;x,y&#41;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching foo2(::String, ::String)</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
 <p>Beyond this use, type-annotating function arguments doesn&#39;t affect type stability. The reason is that a function always checks the types of its arguments, regardless of whether you type annotate them. </p>
-<p>Type-annotating a function argument is only relevant for type stability when keyword arguments employ global variables as their default value. We&#39;ll expand on this in a <a href="/julia_book/PAGES/7c_gotchas/#gotcha_5_global_variables_as_default_values_of_keyword_arguments">subsequent section</a>. &#125;</p>
+<p>Type-annotating a function argument is only relevant for type stability when keyword arguments employ global variables as their default value. We&#39;ll expand on this in a <a href="/julia_book/PAGES/7c_gotchas/#gotcha_5_global_variables_as_default_values_of_keyword_arguments">subsequent section</a>.  </div>  </div>
 <p>      </div>
     </div>
   </div>
