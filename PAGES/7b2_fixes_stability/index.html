@@ -1798,17 +1798,19 @@ color: white;
             <li>9. <u>Reducing Memory Allocations</u>
               <ul>
                 
-                <li><a href="/julia_book/PAGES\8a_allocations/"><i>a</i>. Objects Allocating Memory</a></li><br>
+                <li><a href="/julia_book/PAGES\8a0_memory_allocations/"><i>a</i>. Preliminaries for Memory Allocations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8b1_views/"><i>b</i>. Views</a></li><br>
+                <li><a href="/julia_book/PAGES\8a_allocations/"><i>b</i>. Objects Allocating Memory</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8b2_preallocations/"><i>c</i>. Pre-Allocations</a></li><br>
+                <li><a href="/julia_book/PAGES\8b1_views/"><i>c</i>. Views</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8b3_reductions/"><i>d</i>. Reductions</a></li><br>
+                <li><a href="/julia_book/PAGES\8b2_preallocations/"><i>d</i>. Pre-Allocations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8c_staticVectors/"><i>e</i>. Small Vectors: Static Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\8b3_reductions/"><i>e</i>. Reductions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8d_lazy/"><i>f</i>. Lazy Operations</a></li><br>
+                <li><a href="/julia_book/PAGES\8c_staticVectors/"><i>f</i>. Small Vectors: Static Vectors</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\8d_lazy/"><i>g</i>. Lazy Operations</a></li><br>
                 
               </ul>
             </li>            
@@ -1823,6 +1825,8 @@ color: white;
 </div>
 
 
+
+  
 
   
 
@@ -2003,20 +2007,20 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>  <span style="color: rgb(62, 121, 180);"><strong> Global variables</strong></span> can be accessed and modified anywhere in the code. In contrast,   <span style="color: rgb(62, 121, 180);"><strong> local variables</strong></span> are only accessible within a certain scope &#40;e.g., in a function or a loop&#41;. </p>
-<p><strong> Operations with global variables are a common source of type instability</strong>: since they can be redefined at any point, Julia treats them as having type <code>Any</code>. Due to this, performing operations in the global scope is slow—the compiler has to consider multiple possible methods for each operation, and hence is unable to specialize.</p>
-<p>This section expands on the use of global variables. Furthermore, we explore two fixes that turn operations with global variables type stable: type-annotating global variables and declaring global variables as constants. The latter approach is particularly convenient, allowing us to define variables that won&#39;t be modified throughout the script, like <code>π &#61; 3.1415926535897</code>.</p>
+<p><strong> Operations with global variables are a common source of type instability</strong>: since they can be redefined at any point, Julia treats them as having type <code>Any</code>. This explains why performing operations in the global scope is slow—the compiler has to consider multiple possible methods for each operation, precluding specialization.</p>
+<p>This section expands on the use of global variables. Furthermore, we explore two fixes that turn operations with global variables type stable: type-annotating global variables and declaring global variables as constants. The latter approach is particularly convenient for parameters, understood as variables that remain unmodified throughout the script, like <code>π &#61; 3.1415926535897</code>.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong> Local Variables</strong>  </span>  </div>  <div class=content>     We&#39;ll exclusively refer to  <em> local variables as those existing in a function's scope</em>, thereby excluding those defined inside a for-loop. Note that a function&#39;s local variables include both function arguments and variables defined within the function.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong> Local Variables</strong>  </span>  </div>  <div class=content> <strong> We'll exclusively refer to local variables as those existing in a function's scope</strong>, without including those defined inside a for-loop. Note that a function&#39;s local variables encompass both function arguments and variables defined inside a function.  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="what_are_global_variables" class="scrollspy section-bg-color">
+<section id="when_are_we_using_global_variables" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>What Are Global Variables?</h2></p>
-<p>The first tab below shows that <strong> a self-contained function avoids using global variables</strong>. Moreover, we depict two common scenarios that rely on global variables and hence should be avoided: a function including variables defined outside its scope and operations performed in the global scope. </p>
+        <h2>When Are We Using Global Variables?</h2></p>
+<p><strong> Self-contained functions avoid the use of global variables</strong>. These are functions whose variables encompass only their arguments and local variables. The first tab below shows an example of a self-contained function. This contrasts with the following two tabs, which depict scenarios that should be avoided as they rely on global variables: functions including variables defined outside its scope and operations performed in the global scope. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2062,15 +2066,14 @@ z &#61; log&#40;y&#41;</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Achieving Type Stability With Global Variables</h2></p>
-<p>Next, we explore two ways to achieve type stability with global variables. They require either setting the global variable as a constant or type-annotating it. Note, nonetheless, that writing self-contained functions not depending on global variables should be the first option to be considered—functions help understand what the code does, without the need of tracking global variables across your script to discern their calculations.</p>
+<p>Although directly with global variables turn operations unstable, there are two approaches that address the issue. The consist of setting the global variable as a constant or type-annotating it with a concrete type. Note, nonetheless, that writing self-contained functions should be the first option to consider. Aside performance considerations, functions have additional benefits: they keep the code modular and easier to understand, without the need to track global variables across the script to discern the task implemented.</p>
  <h4> Constant Global Variables </h4>
-<p>The first approach is to set a global variable as a constant. This is done by using the <code>const</code> keyword before the variable&#39;s name. For instance, <code>const x &#61; 3</code>. </p>
-<p>A constant global variable doesn&#39;t entail any of the performance penalties of using  global variable. However, <strong> you should only declare a global variable as a constant when its value won't change throughout the script</strong>—in other words, the global variable should be a truly constant, such as the value of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">\pi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">π</span></span></span></span>. </p>
-<p>Declaring a global variable as a constant when its value eventually changes could create silent bugs. In particular, functions defined previous to redefining the constant will be relying on its old value. This explains why a warning is printed in the REPL when you execute such an operation. </p>
+<p>The first approach to achieving type stability is to set a global variable as a constant. This is done by adding the keyword <code>const</code> before the variable&#39;s name, such as in <code>const x &#61; 3</code>. </p>
+<p>A constant global variable doesn&#39;t incur the performance penalties of using a global variable. However, <strong> you should declare a global variable as a constant only if its value won't change throughout the script</strong>. In other words, the global variable should be a truly constant, such as the value of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mo>=</mo><mn>3.1415</mn></mrow><annotation encoding="application/x-tex">\pi = 3.1415</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">π</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">.</span><span class="mord">1</span><span class="mord">4</span><span class="mord">1</span><span class="mord">5</span></span></span></span>. Reassigning its value at some point in the script may lead to silent bugs. In particular, functions defined earlier in the code will still rely on the constant&#39;s original value, explaining why such operation triggers a warning in the REPL.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content> <strong> If you truly need to execute your code with a different constant global variable, you should re-run the whole script</strong>. This means that you need to change the value of the constant where you were defining it, rather than redefining the value later in the code. </p>
-<p>To see this, compare the following code snippets. They show our intention of first executing <code>f</code> for a value of <code>x&#61;1</code>, and then for a value of <code>x&#61;2</code>. The first tab shows that eventually replacing <code>x</code> in the code creates a silent bug. Instead, we should re-run the whole script, as we do in the second tab. </p>
+      <b>Warning!</b> </span>  </div>  <div class=content> <strong> If you truly need to modify the value of a constant global variable, re-run the whole script</strong>. Specifically, you should change the value of the constant where it&#39;s firstly defined and re-run the script, rather than redefining the value later in the code. </p>
+<p>To see why you should follow this advice, compare the following code snippets. They execute the function <code>foo</code> for a value of <code>x&#61;1</code>, and then for a value of <code>x&#61;2</code>. The first tab shows that eventually replacing <code>x</code> in the code creates a silent bug. This doesn&#39;t occur when we re-run the whole script, as we do in the second tab. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2079,21 +2082,21 @@ z &#61; log&#40;y&#41;</code></pre> </div></div>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">const x &#61; 1
-f&#40;&#41; &#61; x
-f&#40;&#41;             # it gives 1
+foo&#40;&#41;   &#61; x
+foo&#40;&#41;             # it gives 1
 
 x &#61; 2
-f&#40;&#41;             # it still gives 1</code></pre>
+foo&#40;&#41;             # it still gives 1</code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">const x &#61; 2
-f&#40;&#41; &#61; x
-f&#40;&#41;             # it gives 2</code></pre>
+foo&#40;&#41;   &#61; x
+foo&#40;&#41;             # it gives 2</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The possibility of redefining constants was only conceived for stages where you&#39;re testing code. It makes it possible to re-execute the code, without starting a new Julia session for each constant you want to specify.  </div>  </div>
+<p>The possibility of redefining constants had the purpose of testing code, without the need of starting a new Julia session for each new constant value. Despite this, avoid it if you can.  </div>  </div>
 <p>Note that we can declare any variable as a constant, including vectors. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2157,7 +2160,7 @@ foo&#40;x::Vector&#123;Number&#125;&#41; &#61; sum&#40;log.&#40;x&#41;&#41;</cod
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\7b3_barriers" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 2, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 3, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2651,7 +2654,7 @@ for multiple pics in a row
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#what_are_global_variables" data-offset="-40">What Are Global Variables?</a>
+        <a class="nav-link" href="#when_are_we_using_global_variables" data-offset="-40">When Are We Using Global Variables?</a>
       </li>
       
       <li class="nav-item">

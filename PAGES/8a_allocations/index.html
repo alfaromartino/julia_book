@@ -1640,7 +1640,7 @@ color: white;
   
 
 
-    <h1><i>9a.</i> Objects Allocating Memory</h1>    
+    <h1><i>9b.</i> Objects Allocating Memory</h1>    
     <div class="lead"> </div>
     
     
@@ -1744,6 +1744,8 @@ color: white;
 
   
 
+  
+
 <div class="bar_top">
   <ul>
      <li>
@@ -1804,17 +1806,19 @@ color: white;
             <li>9. <u>Reducing Memory Allocations</u>
               <ul>
                 
-                <li><a href="/julia_book/PAGES\8a_allocations/"><i>a</i>. Objects Allocating Memory</a></li><br>
+                <li><a href="/julia_book/PAGES\8a0_memory_allocations/"><i>a</i>. Preliminaries for Memory Allocations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8b1_views/"><i>b</i>. Views</a></li><br>
+                <li><a href="/julia_book/PAGES\8a_allocations/"><i>b</i>. Objects Allocating Memory</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8b2_preallocations/"><i>c</i>. Pre-Allocations</a></li><br>
+                <li><a href="/julia_book/PAGES\8b1_views/"><i>c</i>. Views</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8b3_reductions/"><i>d</i>. Reductions</a></li><br>
+                <li><a href="/julia_book/PAGES\8b2_preallocations/"><i>d</i>. Pre-Allocations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8c_staticVectors/"><i>e</i>. Small Vectors: Static Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\8b3_reductions/"><i>e</i>. Reductions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8d_lazy/"><i>f</i>. Lazy Operations</a></li><br>
+                <li><a href="/julia_book/PAGES\8c_staticVectors/"><i>f</i>. Small Vectors: Static Vectors</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\8d_lazy/"><i>g</i>. Lazy Operations</a></li><br>
                 
               </ul>
             </li>            
@@ -2002,7 +2006,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Interpreting Memory Allocation</h2></p>
-<p>  <span style="color: rgb(62, 121, 180);"><strong> Memory allocation</strong></span> is the process of reserving memory to run a program. This procedure can slow down computations substantially, although the trade-off between speed and memory allocation is a complex one. In fact, <strong> reducing memory allocation is neither necessary nor sufficient for speed up computations</strong>—we&#39;ll see that it&#39;s not uncommon to have a function allocating more memory, yet being faster. </p>
+<p>  <span style="color: rgb(62, 121, 180);"><strong> Memory allocation</strong></span> is the process of reserving memory to run a program or store data. This procedure can slow down computations substantially, although the trade-off between speed and memory allocation is a complex one. In fact, <strong> reducing memory allocation is neither necessary nor sufficient for speed up computations</strong>—we&#39;ll see that it&#39;s not uncommon to have a function allocating more memory, yet being faster. </p>
 <p>The indeterminacy arises because, on the one hand, copying data requires the execution of additional instructions. However, copies also store elements in a contiguous memory block, allowing faster CPU access. </p>
 <p>From a practical point of view, <strong> a disproportionate memory allocation constitutes a red flag</strong>. It&#39;s quite likely that, if two approaches to the same operation convey big differences in memory allocation, they&#39;ll also entail pronounced performance differences. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
@@ -2126,7 +2130,7 @@ foo&#40;x&#41; &#61; x&#91;1&#93; * x&#91;2&#93; &#43; x&#91;3&#93;
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Array creation not only occurs when we compute expressions such as <code>&#91;1,2,3&#93;</code>. It also arises when we perform array comprehensions and broadcasting. In the latter case, the operation even allocates memory when broadcasting results in a temporary vector, as we show below in the &quot;Broadcasting 2&quot; tab.</p>
+<p>Array creation not only occurs when we compute expressions such as <code>&#91;1,2,3&#93;</code>. It also arises with array comprehensions and broadcasting operations. In the latter case, the operation even allocates memory when the output vector is only stored temporarily, as we show below in the &quot;Broadcasting 2&quot; tab.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2164,11 +2168,11 @@ foo&#40;x&#41; &#61; sum&#40;x .* x&#41;                # 1 allocation from temp
 <footer class="py-1">    
     <!-- <p class="m-0"> -->
     <div class="container">
-       <span class="left-text"><a href="/julia_book/PAGES\7c_gotchas" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png"
+       <span class="left-text"><a href="/julia_book/PAGES\8a0_memory_allocations" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\8b1_views" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 2, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 3, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2652,7 +2656,7 @@ for multiple pics in a row
 <nav class="navbar navbar-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
-    <a class="navbar-brand"><i>9a.</i> Objects Allocating Memory</a>
+    <a class="navbar-brand"><i>9b.</i> Objects Allocating Memory</a>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">
