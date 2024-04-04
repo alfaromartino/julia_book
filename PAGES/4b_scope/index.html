@@ -2051,7 +2051,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>  <span style="color: rgb(62, 121, 180);"><strong> Variable scope</strong></span> refers to the code block in which a variable is accessible. The concept allows us to distinguish between   <span style="color: rgb(62, 121, 180);"><strong> global variables</strong></span>, which are visible in any part of the code, and   <span style="color: rgb(62, 121, 180);"><strong> local variables</strong></span>, which only exist within a specific code block. The existence of scopes determines that the same variable <code>x</code> could refer to different objects, depending on where it&#39;s called.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong> Variable scope</strong></span> refers to the code block in which a variable is accessible. The concept allows us to distinguish between <span style="color: rgb(62, 121, 180);"><strong> global variables</strong></span>, which are visible in any part of the code, and <span style="color: rgb(62, 121, 180);"><strong> local variables</strong></span>, which only exist within a specific code block. The existence of scopes determines that the same variable <code>x</code> could refer to different objects, depending on where it&#39;s called.</p>
 <p>Julia adheres to specific rules for variable scope when it comes to functions. Specifically, given a variable <code>x</code> defined outside a function:</p>
 <ul>
 <li><p>if a new variable <code>x</code> is defined inside a function or is passed to the function as an argument, then <code>x</code> is considered  <em> local</em> to that function. Moreover, any reference to <code>x</code> within the function refers to the local variable, without any relation to the variable <code>x</code> defined outside the function.</p>
@@ -2090,7 +2090,7 @@ end</code></pre>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;1&#41;</code><br/><div class="akin_to_pre">1                          # local x
 3                          # local y</div> </div></p>
 <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">"hello"</div> </div>
-<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">ERROR: UndefVarError: y not defined</div> </div></div> </div> 
+<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: y not defined</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">z &#61; 2
@@ -2104,7 +2104,7 @@ end</code></pre>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;1&#41;</code><br/><div class="akin_to_pre">1                          # local x
 3                          # local y
 2                          # global z</div> </div></p>
-<div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">ERROR: UndefVarError: x not defined</div> </div>
+<div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: x not defined</div> </div>
 <p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">2</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2214,14 +2214,14 @@ function foo&#40;&#41;
 
     return x
 end</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;&#41;</code><br/><div class="akin_to_pre">ERROR: UndefVarError: x not defined</div> </div></div> </div>   </details></div> <br/> The error arises because Julia reads the entire function before its execution: the function&#39;s second line assigns a value to <code>x</code>, causing Julia to consider <code>x</code> a local variable. The consequence is that, when the function is run, <code>x</code> in <code>y &#61; x &#43; 2</code> is interpreted as a local variable that hasn&#39;t been defined yet.</p>
+<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;&#41;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: x not defined</div> </div></div> </div>   </details></div> <br/> The error arises because Julia reads the entire function before its execution: the function&#39;s second line assigns a value to <code>x</code>, causing Julia to consider <code>x</code> a local variable. The consequence is that, when the function is run, <code>x</code> in <code>y &#61; x &#43; 2</code> is interpreted as a local variable that hasn&#39;t been defined yet.</p>
 <p> </p>
     </div>    
   </div>
 
 </div>
  <h4> Modularity </h4>
-<p>We&#39;ve emphasized the importance of viewing functions as self-contained mini-programs, with each designed to perform a specific task. This perspective leads us to highlight the importance of   <span style="color: rgb(62, 121, 180);"><strong> modularity</strong></span>: the practice of breaking down a program into multiple small functions, each with its own purpose, inputs, and outputs. </p>
+<p>We&#39;ve emphasized the importance of viewing functions as self-contained mini-programs, with each designed to perform a specific task. This perspective leads us to highlight the importance of <span style="color: rgb(62, 121, 180);"><strong> modularity</strong></span>: the practice of breaking down a program into multiple small functions, each with its own purpose, inputs, and outputs. </p>
 <p>The primary benefit of modularity is the possibility of working with independent code blocks. By keeping these blocks separate, we&#39;re able to turn complex problems into multiple manageable tasks, making it easier to test and debug code. Furthermore, it enables you to eventually improve or substitute parts of your code, without breaking the entire program.</p>
 <p>The principle can be better grasped considering the analogy of building a Lego minifigure. In a first step, multiple blocks are created independently, each representing a specific part of the figure &#40;e.g., legs, torso, arms, head&#41;. In a second stage, the individual blocks are brought together and assembled into an integrated minifigure. </p>
 <p>This two-step approach makes it possible to focus on each block individually, concentrating on those parts critical for the figure. Furthermore, it provides great flexibility: as each block is created independently, we can modify certain blocks without needing to rebuild the entire figure. For example, if we want to change the figure&#39;s head, we can simply swap out the corresponding block without starting from scratch.</p>

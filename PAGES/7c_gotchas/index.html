@@ -2340,7 +2340,7 @@ foo&#40;x; y &#61; 2*x&#41; &#61; x * y
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 6: Closures can Easily Introduce Type Instabilities</h2></p>
-<p>While the concept of   <span style="color: rgb(62, 121, 180);"><strong> closures</strong></span> is more general, we&#39;ll refer in particular to the <strong> definition of functions inside functions</strong>. This can occur either when we define a function explicitly within a function, but also when we have anonymous function defined as a function argument. Writing closures in Julia can easily introduce type instability and, although there have been some improvements in this area, the issue has been around for several years. </p>
+<p>While the concept of <span style="color: rgb(62, 121, 180);"><strong> closures</strong></span> is more general, we&#39;ll refer in particular to the <strong> definition of functions inside functions</strong>. This can occur either when we define a function explicitly within a function, but also when we have anonymous function defined as a function argument. Writing closures in Julia can easily introduce type instability and, although there have been some improvements in this area, the issue has been around for several years. </p>
 <p>To illustrate the issue, let&#39;s consider a scenario where closures are appealing. This consists in first preparing information &#40;like defining parameters or initializing variables&#41;, and then computing an output. Closures make it possible to keep both processes within the same function, making the code tidy and self-contained. The following example implements this scenario with and without a closure. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2576,7 +2576,7 @@ closure1&#40;x&#41; &#61; x
 <p>  </p></details></div>
  <h4> &quot;But No One Writes Code like That&quot; </h4>
 <p>Next, we provide common applications of closures giving rise to type instability. </p>
-<p> <h5>  <span style="color: rgb(62, 121, 180);"><strong>  <em> i)</em> Transforming Variables through Conditionals</strong></span>  </h5></p>
+<p> <h5><span style="color: rgb(62, 121, 180);"><strong>  <em> i)</em> Transforming Variables through Conditionals</strong></span>  </h5></p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2635,7 +2635,7 @@ end
  </div></div>
 <p>  </p></details></div>
 <p>Notice that the compiler doesn&#39;t dispatch by value, and thus it doesn&#39;t matter whether the condition holds or not. That&#39;s why the type instability would still hold if we wrote <code>&#40;1 &lt; 0&#41;</code> instead of <code>β &lt; 0</code>. Moreover, the value used to redefine <code>β</code> is unimportant, with the same issue arising even if you write <code>β &#61; β</code>. Both aspects are shown below. </p>
-<p> <h5>  <span style="color: rgb(62, 121, 180);"><strong>  <em> ii)</em> Anonymous Functions inside a Function</strong></span>  </h5></p>
+<p> <h5><span style="color: rgb(62, 121, 180);"><strong>  <em> ii)</em> Anonymous Functions inside a Function</strong></span>  </h5></p>
 <p>The use of an anonymous function inside a function is an example of closure. This is why type instability also arise if we replace the inner function <code>bar</code> in the example above for an anonymous function. To demonstrate this, we apply <code>filter</code> with an anonymous function that selects the values in <code>x</code> greater than <code>β</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2675,7 +2675,7 @@ end
 @code_warntype foo&#40;x, β&#41;        # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p> <h5>  <span style="color: rgb(62, 121, 180);"><strong>  <em> iii)</em> Variable Updates</strong></span>  </h5></p>
+<p> <h5><span style="color: rgb(62, 121, 180);"><strong>  <em> iii)</em> Variable Updates</strong></span>  </h5></p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2720,7 +2720,7 @@ function foo&#40;x, β&#41;
 end
 
 @code_warntype foo&#40;x, β&#41;        # type unstable</code></pre> </div> </div>  </details></div>
-<p> <h5>  <span style="color: rgb(62, 121, 180);"><strong>  <em> iv)</em> The Order in Which you Define Functions Could Matter Inside a Function</strong></span>  </h5></p>
+<p> <h5><span style="color: rgb(62, 121, 180);"><strong>  <em> iv)</em> The Order in Which you Define Functions Could Matter Inside a Function</strong></span>  </h5></p>
 <p>To demonstrate this, let&#39;s say you want to define a variable, <code>x</code> that depends on a parameter <code>β</code>. However, <code>β</code> is measured in one unit &#40;e.g., meters&#41;, while <code>x</code> requires that <code>β</code> is in a different unit of measurement &#40;e.g., centimeters&#41;. This implies that we first need to rescale <code>β</code>, before defining <code>x</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">

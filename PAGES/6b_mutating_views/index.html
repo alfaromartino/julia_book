@@ -2051,7 +2051,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section discusses <strong> approaches for updating the values of a vector</strong>. These techniques are commonly referred to as   <span style="color: rgb(62, 121, 180);"><strong> in-place assignments</strong></span>, giving rise to the expression &quot;modifying a value in place&quot;. Technically, it entails mutating the existing elements of a vector with new values. In-place assignments will prove useful when we analyze gains in performance, as they allow us to reuse the same vector, eliminating the need for memory allocation to create a new object.</p>
+<p>This section discusses <strong> approaches for updating the values of a vector</strong>. These techniques are commonly referred to as <span style="color: rgb(62, 121, 180);"><strong> in-place assignments</strong></span>, giving rise to the expression &quot;modifying a value in place&quot;. Technically, it entails mutating the existing elements of a vector with new values. In-place assignments will prove useful when we analyze gains in performance, as they allow us to reuse the same vector, eliminating the need for memory allocation to create a new object.</p>
 <p>For what it follows, it&#39;ll be important to recall the definitions of slices and views provided <a href="/julia_book/PAGES/6a_indexing/#slices">in the previous section</a>. Specifically, given a vector <code>x</code>, a <strong> slice</strong> refers to a subset of <code>x</code>&#39;s elements, and is created through the expression <code>x&#91;&lt;indices&gt;&#93;</code>. Likewise, a <strong> view of a slice</strong> is a reference to the memory address of <code>x</code>. This contrasts with a <strong> copy of a slice</strong>, which creates a new object with its own memory address. </p>
 <p>In particular, a slice is a view when <code>x&#91;&lt;indices&gt;&#93;</code> is on the left-hand side of <code>&#61;</code>. This means that <code>x&#91;&lt;indices&gt;&#93; &#61; &lt;expression&gt;</code> mutates the contents of the object. Thus,  statements like <code>x&#91;1:2&#93; &#61; &#91;2,4&#93;</code> modify the values that <code>x</code> holds.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
@@ -2317,7 +2317,7 @@ for i in eachindex&#40;x&#41;
     x&#91;i&#93; &#61; i * 2.5                
 end</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">ERROR: InexactError: Int64(2.5)</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: InexactError: Int64(2.5)</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">y &#61; &#91;3,4,5&#93;
@@ -2327,7 +2327,7 @@ for i in eachindex&#40;x&#41;
     x&#91;i&#93; &#61; i * 2.5
 end</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">ERROR: InexactError: Int64(2.5)</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: InexactError: Int64(2.5)</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; zeros&#40;Int64,3&#41;         # &#96;x&#96; is Vector&#123;Int64&#125; with 3 elements equal to zero
@@ -2337,7 +2337,7 @@ for i in eachindex&#40;x&#41;
     x&#91;i&#93; &#61; i * 2.5 
 end</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">ERROR: InexactError: Int64(2.5)</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: InexactError: Int64(2.5)</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
 <p>      </div>

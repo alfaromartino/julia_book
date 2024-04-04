@@ -2006,7 +2006,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section explores the advantages of   <span style="color: rgb(62, 121, 180);"><strong> pre-allocating</strong></span> vectors in for-loops. The strategy involves <strong> initializing the output vector prior to executing a for-loop</strong>, rather than doing so within the for-loop. By pre-allocating the vector, it&#39;s possible to reuse the same vector in each iteration, and hence avoid memory allocations from creating a new object in each instance. The subject is particularly relevant for the computation of nested for-loops.</p>
+<p>This section explores the advantages of <span style="color: rgb(62, 121, 180);"><strong> pre-allocating</strong></span> vectors in for-loops. The strategy involves <strong> initializing the output vector prior to executing a for-loop</strong>, rather than doing so within the for-loop. By pre-allocating the vector, it&#39;s possible to reuse the same vector in each iteration, and hence avoid memory allocations from creating a new object in each instance. The subject is particularly relevant for the computation of nested for-loops.</p>
 <p>We begin by presenting effective methods to initialize vectors, which is a prerequisite to pre-allocate them. Then, we show two scenarios where pre-allocations prove to be advantageous. Both cases require intermediate steps.</p>
 <p>      </div>
     </div>
@@ -2017,7 +2017,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Initializing Vectors</h2></p>
-<p>  <span style="color: rgb(62, 121, 180);"><strong> Initializing an array</strong></span> refers to creating an array to be subsequently filled with values. The process involves two steps: reserving the space in memory and populating it with some initial values. An efficient way to initialize an array is by only performing the first step, leaving whatever is in the memory address. In Julia, unfilled values are represented by <code>undef</code>, which reflect the content of the memory address at that moment.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong> Initializing an array</strong></span> refers to creating an array to be subsequently filled with values. The process involves two steps: reserving the space in memory and populating it with some initial values. An efficient way to initialize an array is by only performing the first step, leaving whatever is in the memory address. In Julia, unfilled values are represented by <code>undef</code>, which reflect the content of the memory address at that moment.</p>
 <p>There are two methods for initializing an array with <code>undef</code> values. The first requires specifying the type and length of the array, and its syntax resembles the creation of new vectors. The second is based on the function <code>similar</code>, which creates a vector with the same type and dimensions as another existing vector. </p>
 <p>Below, we compare the performance of several approaches to initializing a vector. In particular, we show that working with <code>undef</code> values is faster than setting a value. To starkly show these differences, we create a vector with 100 elements and repeat the procedure 100,000 times. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2196,7 +2196,7 @@ foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;                  # 2 .* x implicitly cr
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>If we&#39;re interested in storing the result, there&#39;s nothing we can do about it—we necessarily have to allocate a new vector. This occurs in particular when the result computed is the final output. However, the operation could represent an intermediate step of a larger computation, which could in turn involve a call in another for-loop. We refer to these scenarios as   <span style="color: rgb(62, 121, 180);"><strong> nested for-loops</strong></span>. </p>
+<p>If we&#39;re interested in storing the result, there&#39;s nothing we can do about it—we necessarily have to allocate a new vector. This occurs in particular when the result computed is the final output. However, the operation could represent an intermediate step of a larger computation, which could in turn involve a call in another for-loop. We refer to these scenarios as <span style="color: rgb(62, 121, 180);"><strong> nested for-loops</strong></span>. </p>
 <p>The following example demonstrates how every iteration in the second for-loop creates a new vector for the intermediate step.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">

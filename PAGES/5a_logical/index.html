@@ -2064,7 +2064,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Conditions</h2></p>
-<p>  <span style="color: rgb(62, 121, 180);"><strong> Conditions</strong></span> are expressions of type <code>Bool</code>, evaluating to either <code>true</code> or <code>false</code>. They&#39;re internally represented as integers restricted to <code>1</code> and <code>0</code>. </p>
+<p><span style="color: rgb(62, 121, 180);"><strong> Conditions</strong></span> are expressions of type <code>Bool</code>, evaluating to either <code>true</code> or <code>false</code>. They&#39;re internally represented as integers restricted to <code>1</code> and <code>0</code>. </p>
 <p>In the REPL, Julia displays <code>true</code> and <code>false</code> for <code>Bool</code> scalars, and <code>1</code> and <code>0</code> for <code>Bool</code> vectors. Note that the output displayed is different, but the two approaches are actually equivalent. Below, we demonstrate each representation by using <code>&gt;</code> as an example.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2104,7 +2104,7 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
       <div class="col-lg- mx-auto">
         <h2>Comparison Operators and Logical Operators</h2></p>
 <p>Conditions are defined through the use of <strong> comparison operators</strong> and <strong> logical operators</strong>. The former are intended for object comparisons, while the latter enable the combination of multiple conditions into a single condition.</p>
-<p>Formally,   <span style="color: rgb(62, 121, 180);"><strong> comparison operators</strong></span> take operands of various types &#40;e.g., numbers, strings&#41; and return a <code>Bool</code> value. The next list defines common comparison operators. Note that all the operators listed are  <em> binary</em>, thereby explaining their syntax.</p>
+<p>Formally, <span style="color: rgb(62, 121, 180);"><strong> comparison operators</strong></span> take operands of various types &#40;e.g., numbers, strings&#41; and return a <code>Bool</code> value. The next list defines common comparison operators. Note that all the operators listed are  <em> binary</em>, thereby explaining their syntax.</p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -2174,7 +2174,7 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
 &gt;&#61;&#40;1,2&#41;     # same as 1 ≥ 2
  &gt;&#40;1,2&#41;     # same as 1 &gt; 2</code></pre>
 <p></div> </div>  </details></div>  </div>  </div>
-<p>For its part,   <span style="color: rgb(62, 121, 180);"><strong> logical operators</strong></span> return <code>Bool</code> values, but instead take <code>Bool</code> expressions as operands. They allow the representation of compounded conditions, i.e. multiple expressions that combine into a single condition. The following are the main logical operators used in Julia. </p>
+<p>For its part, <span style="color: rgb(62, 121, 180);"><strong> logical operators</strong></span> return <code>Bool</code> values, but instead take <code>Bool</code> expressions as operands. They allow the representation of compounded conditions, i.e. multiple expressions that combine into a single condition. The following are the main logical operators used in Julia. </p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -2241,7 +2241,7 @@ y2 &#61; &#33;&#40;x ≤ 0&#41;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Logical Operators as Short-Circuit Operators</h2></p>
-<p>One key feature of <code>&amp;&amp;</code> and <code>||</code> is that they&#39;re   <span style="color: rgb(62, 121, 180);"><strong> short-circuit operators</strong></span>. This means that, once an operand is evaluated, the remaining operands are evaluated only if the previous operands didn&#39;t establish the truth or falseness of the expression. More specifically:</p>
+<p>One key feature of <code>&amp;&amp;</code> and <code>||</code> is that they&#39;re <span style="color: rgb(62, 121, 180);"><strong> short-circuit operators</strong></span>. This means that, once an operand is evaluated, the remaining operands are evaluated only if the previous operands didn&#39;t establish the truth or falseness of the expression. More specifically:</p>
 <div class="itemNoSpace"><ul>
 <li><p><code>&#40;x &gt; 0&#41; || &#40;y &gt; 0&#41;</code><br/> The expression is true when  <em> at least one condition</em> is satisfied. Internally, Julia begins by analyzing <code>x &gt; 0</code>. If this expression is true, it doesn&#39;t evaluate any subsequent expression—it directly returns <code>true</code>. Julia would only evaluate <code>y &gt; 0</code> in case <code>x &gt; 0</code> is false. </p>
 </li>
@@ -2258,12 +2258,12 @@ y2 &#61; &#33;&#40;x ≤ 0&#41;</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; 10</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#40;x &lt; 0&#41; &amp;&amp; &#40;this-is-not-even-legitimate-code&#41;</code><br/><div class="akin_to_pre">false</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#40;x &gt; 0&#41; &amp;&amp; &#40;this-is-not-even-legitimate-code&#41;</code><br/><div class="akin_to_pre">ERROR: UndefVarError: `this` not defined</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#40;x &lt; 0&#41; &amp;&amp; &#40;this-is-not-even-legitimate-code&#41;</code><br/><div class="akin_to_pre">false</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#40;x &gt; 0&#41; &amp;&amp; &#40;this-is-not-even-legitimate-code&#41;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `this` not defined</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; 10</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#40;x &gt; 0&#41; || &#40;this-is-not-even-legitimate-code&#41;</code><br/><div class="akin_to_pre">true</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#40;x &lt; 0&#41; || &#40;this-is-not-even-legitimate-code&#41;</code><br/><div class="akin_to_pre">ERROR: UndefVarError: `this` not defined</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#40;x &gt; 0&#41; || &#40;this-is-not-even-legitimate-code&#41;</code><br/><div class="akin_to_pre">true</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#40;x &lt; 0&#41; || &#40;this-is-not-even-legitimate-code&#41;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `this` not defined</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
