@@ -2008,7 +2008,7 @@ color: white;
         <h2>Introduction</h2></p>
 <p>As a programmer, you&#39;ll need to work with data. This data needs to be stored in the computer&#39;s memory to be accessed and manipulated. The process of reserving a portion of the memory to store data is called <span style="color: rgb(62, 121, 180);"><strong> memory allocation</strong></span>, and it can have a significant impact on performance. </p>
 <p>From a practical standpoint, <strong> a disproportionate memory allocation constitutes a red flag</strong>: when two approaches for an identical operation exhibit big differences in memory allocation, they&#39;ll likely differ in execution speed. The reason is that allocating and deallocating memory slow down computations, as it requires additional instructions to be executed by the CPU. </p>
-<p>However, the relationship between memory allocation and performance is complex. In fact, <strong> reducing memory allocation is neither necessary nor sufficient for speed up computations</strong>—we&#39;ll see instances where a function allocating more memory turns out to be faster. The reason is that data will then be stored in a contiguous block of memory, allowing the CPU to access information more efficiently. </p>
+<p>Despite this, the relationship between memory allocation and performance is complex. In fact, <strong> reducing memory allocation is neither necessary nor sufficient for speed up computations</strong>—we&#39;ll see instances where a function allocating more memory turns out to be faster. Basically, creating a new object stores the information in a contiguous block of memory, allowing the CPU to access information more efficiently. </p>
 <p>      </div>
     </div>
   </div>
@@ -2019,8 +2019,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Heaps vs Stack</h2></p>
 <p>When we write code in Julia, objects and variables are allocated in the RAM &#40;Random Access Memory&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> There&#39;s another part of the memory know as cache, which we won&#39;t cover. The <span style="color: rgb(62, 121, 180);"><strong> cache</strong></span> is a small fast memory that sits between the CPU and the RAM. It&#39;s typically much faster than the RAM, but its size is significantly smaller. It&#39;s primarily used to store only the most frequently used data and programming instructions.  </span></span></p>
-<p>The stack and heap are not physical regions of memory, but rather approaches to managing memory allocation and deallocation.</p>
-<p>Now, let&#39;s talk about the different types of memory allocation:</p>
+<p>The stack and heap are not physical regions of memory, but rather approaches to managing memory allocation and deallocation. </p>
 <ul>
 <li><p><span style="color: rgb(62, 121, 180);"><strong> Heap Allocation</strong></span>: This is the type of memory allocation that typically has a greater impact on performance. Data allocated on the heap is stored in a large pool of memory, and the operating system manages the allocation and deallocation of this memory. Heap allocations can be slower than stack allocations because they involve more complex memory management operations.</p>
 </li>
@@ -2031,21 +2030,9 @@ color: white;
 </ul>
 <p>In programming languages like Julia, the focus is often on heap allocations because they are the ones that can significantly impact performance. However, it&#39;s important to understand both heap and stack allocations to write efficient and performant code.</p>
 <p>Remember, memory allocation is a complex topic, and the impact on performance can vary depending on the specific use case, programming language, and hardware. It&#39;s always a good idea to measure and profile your code to identify and address performance bottlenecks effectively.</p>
-<p>      </div>
-    </div>
-  </div>
-</section>
-<section id="interpreting_memory_allocation" class="scrollspy">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg- mx-auto">
-        <h2>Interpreting Memory Allocation</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong> Memory allocation</strong></span> is the process of reserving memory to run a program or store data. This procedure can slow down computations substantially, although the trade-off between speed and memory allocation is a complex one. In fact, <strong> reducing memory allocation is neither necessary nor sufficient for speed up computations</strong>—we&#39;ll see that it&#39;s not uncommon to have a function allocating more memory, yet being faster. </p>
-<p>The indeterminacy arises because, on the one hand, copying data requires the execution of additional instructions. However, copies also store elements in a contiguous memory block, allowing faster CPU access. </p>
-<p>From a practical point of view, <strong> a disproportionate memory allocation constitutes a red flag</strong>. It&#39;s quite likely that, if two approaches to the same operation convey big differences in memory allocation, they&#39;ll also entail pronounced performance differences. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     Memory allocations can occur on either the <span style="color: rgb(62, 121, 180);"><strong> heap</strong></span> or the <span style="color: rgb(62, 121, 180);"><strong> stack</strong></span>. Throughout the website, we&#39;ll refer to memory allocations as heap allocations exclusively. This is a common approach adopted in programming, including Julia, as allocation on the heap are the ones slowing down computations.  </div>  </div>
+      <b>Remark</b> </span>  </div>  <div class=content>     Throughout the website, <strong> we'll refer to memory allocations as heap allocations exclusively</strong>. This is a common approach adopted in programming, including Julia, as allocation on the heap are the ones slowing down computations.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2058,7 +2045,7 @@ color: white;
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\8a_allocations" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 3, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 4, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2553,10 +2540,6 @@ for multiple pics in a row
       
       <li class="nav-item">
         <a class="nav-link" href="#heaps_vs_stack" data-offset="-40">Heaps vs Stack</a>
-      </li>
-      
-      <li class="nav-item">
-        <a class="nav-link" href="#interpreting_memory_allocation" data-offset="-40">Interpreting Memory Allocation</a>
       </li>
       
     </ul>

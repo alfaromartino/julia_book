@@ -2006,12 +2006,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Interpreting Memory Allocation</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong> Memory allocation</strong></span> is the process of reserving memory to run a program or store data. This procedure can slow down computations substantially, although the trade-off between speed and memory allocation is a complex one. In fact, <strong> reducing memory allocation is neither necessary nor sufficient for speed up computations</strong>—we&#39;ll see that it&#39;s not uncommon to have a function allocating more memory, yet being faster. </p>
-<p>The indeterminacy arises because, on the one hand, copying data requires the execution of additional instructions. However, copies also store elements in a contiguous memory block, allowing faster CPU access. </p>
-<p>From a practical point of view, <strong> a disproportionate memory allocation constitutes a red flag</strong>. It&#39;s quite likely that, if two approaches to the same operation convey big differences in memory allocation, they&#39;ll also entail pronounced performance differences. </p>
- <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     Memory allocations can occur on either the <span style="color: rgb(62, 121, 180);"><strong> heap</strong></span> or the <span style="color: rgb(62, 121, 180);"><strong> stack</strong></span>. Throughout the website, we&#39;ll refer to memory allocations as heap allocations exclusively. This is a common approach adopted in programming, including Julia, as allocation on the heap are the ones slowing down computations.  </div>  </div>
+<p>Recall that memory allocations can occur on either the <span style="color: rgb(62, 121, 180);"><strong> heap</strong></span> or the <span style="color: rgb(62, 121, 180);"><strong> stack</strong></span>. Julia refers to memory allocations as heap allocations exclusively given that they&#39;re slow down computations. In the following will mention several objects that avoid the use of the heap for their storage. </p>
 <p>      </div>
     </div>
   </div>
@@ -2172,7 +2167,7 @@ foo&#40;x&#41; &#61; sum&#40;x .* x&#41;                # 1 allocation from temp
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\8b1_views" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 3, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 4, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
