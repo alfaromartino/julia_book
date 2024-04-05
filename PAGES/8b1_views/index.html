@@ -2007,8 +2007,8 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>In the section <a href="/julia_book/PAGES/6a0_slices/">Slices and Views</a>, we&#39;ve defined a <strong>slice</strong> as a subvector of the parent vector <code>x</code>, e.g. <code>x&#91;1:2&#93;</code> or <code>x&#91;x .&gt; 0&#93;</code>. Slices create a copy by default and therefore allocate memory, except when they&#39;re on the left-hand side of <code>&#61;</code>. </p>
-<p>Next, we consider the use of <strong>views</strong> to avoid these allocations. Views directly reference the parent object rather than create a copy, thereby not allocating. We also offer some caveats about when views could be useful. In particular, we show that views are helpful when the slice is <strong>indexed through ranges</strong>, but <strong>not when they employ Boolean indexing</strong>.</p>
-<p>Finally, we demonstrate that <strong>copying data may be faster than using views</strong>, despite creating more allocations. This is because vectors are contiguous blocks in memory, and therefore easier to be accessed by the CPU.</p>
+<p>Next, we consider the use of <strong>views</strong> to avoid these allocations. Views avoid allocating by directly referencing the parent object rather than creating a copy. We also offer some caveats about when views could be useful. In particular, we show that they&#39;re helpful when the slice is <strong>indexed through ranges</strong>, but <strong>not when they employ Boolean indexing</strong>.</p>
+<p>Finally, we demonstrate that <strong>copying data in some occasions may be faster than using views</strong>, despite allocating. This follows because vectors create a contiguous block in memory, enabling a more efficient access to their elements.</p>
 <p>      </div>
     </div>
   </div>
@@ -2018,7 +2018,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Views of Slices</h2></p>
-<p>The following example demonstrates that views don&#39;t allocate memory  <em> when the slice is indexed by a range</em>. By avoiding these allocations, views can be more performant than creating a copy, which is what slices do by default.</p>
+<p>The following example shows that views don&#39;t allocate memory  <em> when the slice is indexed by a range</em>. By avoiding these allocations, views tend to be more performant than regular slices, which create a copy by default.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2042,7 +2042,7 @@ foo&#40;x&#41; &#61; sum&#40;@view&#40;x&#91;1:2&#93;&#41;&#41;    # it doesn&#3
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The examples consider indexing through ranges, which is the most common way to slice vectors. However, views won&#39;t necessarily reduce memory allocations or be more performant. This is what occurs when the slice is created with Boolean indexing, in which case views should be avoided. This is illustrated below.</p>
+<p>While views entail performance advantages under range indexing, they won&#39;t reduce memory allocations or be more performant for Boolean indexing. Thus, we should avoid them if our goal is to speed up computations. This is illustrated below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2075,8 +2075,8 @@ foo&#40;x&#41; &#61; @views sum&#40;x&#91;x .&gt; 0.5&#93;&#41;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Copying Data May Be Faster</h2></p>
-<p>Copying data may be faster than using views, despite creating more allocations. This is because vectors are contiguous blocks in memory, and therefore easier to be accessed by the CPU. On the contrary, views could be accessing data that are too dispersed in memory, thereby slowing down the computations. </p>
-<p>In this context, incurring the cost of creating a copy could outweigh the cost of accessing non-contiguous blocks memory. This is illustrated below. </p>
+<p>Despite creating more allocations, copying data may be faster than using views. This is because vectors are contiguous blocks in memory, and therefore can be accessed more easily by the CPU. On the contrary, views could end up accessing data too dispersed in memory, thereby slowing down the computations. </p>
+<p>In this context, incurring the cost of creating a copy may outweigh the cost of accessing non-contiguous blocks memory, as illustrated below. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
