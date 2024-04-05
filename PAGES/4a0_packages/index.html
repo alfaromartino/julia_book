@@ -2060,7 +2060,7 @@ color: white;
 <li><p>user-defined functions.</p>
 </li>
 </ol></div>
-<p><strong> This section focuses on i) and ii)</strong>, relegating iii&#41; to the next section. We consider in particular how to apply functions, which in turn takes us to the discussion of packages. </p>
+<p><strong>This section focuses on i) and ii)</strong>, relegating iii&#41; to the next section. We consider in particular how to apply functions, which in turn takes us to the discussion of packages. </p>
 <p>      </div>
     </div>
   </div>
@@ -2070,9 +2070,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Packages</h2></p>
-<p>When you start a new session in Julia, only a handful of very basic functions are available &#40;e.g., those for sums, products, and subtractions&#41;. This is a deliberate choice made by Julia developers, who rely on <strong> packages</strong> for incorporating additional functions into the workspace. Both built-in functions and third-party developer functions are contained in packages—the only difference is that built-in functions are loaded by default.</p>
+<p>When you start a new session in Julia, only a handful of very basic functions are available &#40;e.g., those for sums, products, and subtractions&#41;. This is a deliberate choice made by Julia developers, who rely on <strong>packages</strong> for incorporating additional functions into the workspace. Both built-in functions and third-party developer functions are contained in packages—the only difference is that built-in functions are loaded by default.</p>
 <p>The approach is not unique to Julia. However, Julia embraces this philosophy more than other programming languages. Thus, it doesn&#39;t even include standard functions such as averages or standard deviations, which are instead relegated to a package called <code>Statistics</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The extent to which Julia advocates for this principle is evident in <code>Statistics</code> itself, where functions for computing distributions are included in another package, called <code>Distributions</code>.  </span></span></p>
-<p>The logic is based on a programming principle known as <a href="https://en.wikipedia.org/wiki/Modular_programming"><strong> modularity</strong></a>. This promotes the development of small reusable modules, rather than large intertwined code. Its main advantage is letting packages evolve independently, without bugs and deprecations spreading across the entire Julia ecosystem. The practical implication for users is that it becomes necessary to load several packages in each session, even to perform simple tasks.</p>
+<p>The logic is based on a programming principle known as <a href="https://en.wikipedia.org/wiki/Modular_programming"><strong>modularity</strong></a>. This promotes the development of small reusable modules, rather than large intertwined code. Its main advantage is letting packages evolve independently, without bugs and deprecations spreading across the entire Julia ecosystem. The practical implication for users is that it becomes necessary to load several packages in each session, even to perform simple tasks.</p>
 <p>      </div>
     </div>
   </div>
@@ -2082,8 +2082,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Loading Packages and Calling Functions</h2></p>
-<p>The concept of packages is tightly related to modules, as they are a particular case of the latter. Formally, <span style="color: rgb(62, 121, 180);"><strong> modules</strong></span> are independent blocks of code, each acting as a separate workspace and exporting a set of functions. When you run Julia, you&#39;re in fact writing your script in a module called <code>Main</code>. </p>
-<p><span style="color: rgb(62, 121, 180);"><strong> Packages</strong></span> are a special types of modules that hold information about its <strong> dependencies</strong>, which refer to the necessary packages to run the package itself. To get access to a package&#39;s functions, you need to load by using either the keyword <code>import</code> or <code>using</code>. The choice between them determines how the functions are eventually called: if you load a package with <code>import</code>, you need to prefix the function&#39;s name with the package&#39;s name; instead, no prefix is needed when the package is loaded with <code>use</code>.</p>
+<p>The concept of packages is tightly related to modules, as they are a particular case of the latter. Formally, <span style="color: rgb(62, 121, 180);"><strong>modules</strong></span> are independent blocks of code, each acting as a separate workspace and exporting a set of functions. When you run Julia, you&#39;re in fact writing your script in a module called <code>Main</code>. </p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Packages</strong></span> are a special types of modules that hold information about its <strong>dependencies</strong>, which refer to the necessary packages to run the package itself. To get access to a package&#39;s functions, you need to load by using either the keyword <code>import</code> or <code>using</code>. The choice between them determines how the functions are eventually called: if you load a package with <code>import</code>, you need to prefix the function&#39;s name with the package&#39;s name; instead, no prefix is needed when the package is loaded with <code>use</code>.</p>
 <p>Below, we demonstrate the syntax of each approach. For the example, we call the function <code>mean</code> from the package <code>Statistics</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> You don&#39;t need to install the package <code>Statistics</code>. This comes pre-installed with Julia, although it isn&#39;t loaded by default.  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">

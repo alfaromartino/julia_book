@@ -2006,7 +2006,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section considers <span style="color: rgb(62, 121, 180);"><strong> barrier functions</strong></span>, which is a powerful technique to address type instability. These are type-stable functions acting as intermediaries inside a type-unstable function. It harnesses that functions identify the types of its arguments, making any ambiguous type be solved by the barrier function.</p>
+<p>This section considers <span style="color: rgb(62, 121, 180);"><strong>barrier functions</strong></span>, which is a powerful technique to address type instability. These are type-stable functions acting as intermediaries inside a type-unstable function. It harnesses that functions identify the types of its arguments, making any ambiguous type be solved by the barrier function.</p>
 <p>Bear in mind that barrier functions should only be used when the type instability isn&#39;t easily fixable or is inherent to the operations performed. The reason is that the outer function is still type unstable, which could lead to some issues under certain circumstances. </p>
 <p>      </div>
     </div>
@@ -2029,7 +2029,7 @@ end
 @code_warntype foo&#40;1.&#41;      # type unstable</code></pre>
 <p></div> </div>  </details></div>
 <p>The issue arises because <code>0</code> is an integer, whereas <code>x</code> could be either an integer or a float. Specifically, if <code>x</code> is an integer, then <code>y</code> will be for sure an integer, explaining why <code>foo&#40;1&#41;</code> is type stable. Conversely, if <code>x</code> is a float, the compiler can&#39;t determine whether <code>y</code> will be an integer or a float. This results in <code>foo&#40;1.&#41;</code> be type unstable.</p>
-<p>A solution to this problem is <strong> using a barrier function</strong>: <strong> wrapping the operation into a type-stable function that takes</strong> <code>y</code> <strong> as its argument</strong>. This is illustrated below. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For this particular case, a better fix is to change <code>0</code> by <code>zero&#40;x&#41;</code>, where <code>zero&#40;x&#41;</code> provides the specific zero element for the type of <code>x</code>.  </span></span></p>
+<p>A solution to this problem is <strong>using a barrier function</strong>: <strong>wrapping the operation into a type-stable function that takes</strong> <code>y</code> <strong>as its argument</strong>. This is illustrated below. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For this particular case, a better fix is to change <code>0</code> by <code>zero&#40;x&#41;</code>, where <code>zero&#40;x&#41;</code> provides the specific zero element for the type of <code>x</code>.  </span></span></p>
  <div class=" code_box"> <details  open><summary> Barrier Function  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">operation&#40;y&#41; &#61; &#91;y * i for i in 1:100&#93;
 

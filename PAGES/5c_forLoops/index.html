@@ -2051,12 +2051,12 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>A key feature of programming is its ability to automate repetitive tasks. One way to implement this is through <span style="color: rgb(62, 121, 180);"><strong> for-loops</strong></span>, which run the same code block on each element of a list.</p>
+<p>A key feature of programming is its ability to automate repetitive tasks. One way to implement this is through <span style="color: rgb(62, 121, 180);"><strong>for-loops</strong></span>, which run the same code block on each element of a list.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong> Always Wrap For-Loops in Functions</strong>  </span>  </div>  <div class=content>     At this stage of the website, where we&#39;re still introducing fundamental concepts, subjects are presented as simple as possible. The presentation of for-loops in particular are written in the global scope to simplify the presentation. </p>
-<p>However, <strong> you should always wrap for-loops in functions</strong>. Executing for-loops outside a function severely degrade performance and are subject to different rules regarding variable scoping. In fact, older versions of Julia didn&#39;t allow certain operations involving for-loops in the global scope.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Always Wrap For-Loops in Functions</strong>  </span>  </div>  <div class=content>     At this stage of the website, where we&#39;re still introducing fundamental concepts, subjects are presented as simple as possible. The presentation of for-loops in particular are written in the global scope to simplify the presentation. </p>
+<p>However, <strong>you should always wrap for-loops in functions</strong>. Executing for-loops outside a function severely degrade performance and are subject to different rules regarding variable scoping. In fact, older versions of Julia didn&#39;t allow certain operations involving for-loops in the global scope.  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong> About High Performance</strong>  </span>  </div>  <div class=content>     In certain languages &#40;e.g., Matlab, Python, and R&#41;, for-loops can negatively impact performance. These languages recommend instead using vectorized code, which is a technique operating over the whole vector rather than its individual elements. Such a recommendation has no bearing on Julia, where <strong> for-loops are as fast as vectorized code</strong>. In fact, speeding up operations in Julia commonly rely on for-loops, making it crucial to achieve high-performance.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>About High Performance</strong>  </span>  </div>  <div class=content>     In certain languages &#40;e.g., Matlab, Python, and R&#41;, for-loops can negatively impact performance. These languages recommend instead using vectorized code, which is a technique operating over the whole vector rather than its individual elements. Such a recommendation has no bearing on Julia, where <strong>for-loops are as fast as vectorized code</strong>. In fact, speeding up operations in Julia commonly rely on for-loops, making it crucial to achieve high-performance.  </div>  </div>
 <p>To illustrate the syntax of for-loops, consider the function <code>println&#40;a&#41;</code>. This evaluates <code>a</code> and displays its output in the REPL. In case <code>a</code> has type <code>String</code>, <code>println&#40;a&#41;</code> simply displays the word stored in <code>a</code>. The syntax of for-loops requires the keyword <code>for</code> at the beginning and the keyword <code>end</code> at the end, as shown below. </p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">for x in &#91;&quot;hello&quot;,&quot;beautiful&quot;,&quot;world&quot;&#93;
@@ -2067,15 +2067,15 @@ end</code></pre>
 "world"</div></div></div> </div>   </details></div>
 <p>There are three components that characterize a for-loop:</p>
 <div class="itemNoSpace"><ul>
-<li><p><strong> A code block to be executed</strong>: represented by <code>println&#40;x&#41;</code> in the example.</p>
+<li><p><strong>A code block to be executed</strong>: represented by <code>println&#40;x&#41;</code> in the example.</p>
 </li>
 </ul>
 <ul>
-<li><p><strong> A list of elements</strong>: this is <code>&#91;&quot;hello&quot;,&quot;beautiful&quot;,&quot;world&quot;&#93;</code> in the example, and represents the elements over which we&#39;ll apply the code block. The list can consist of elements having any data type &#40;e.g., strings, numbers, and even functions&#41;. The only restriction is that it has to be <span style="color: rgb(62, 121, 180);"><strong> iterable object</strong></span>, defined as a container allowing the user to access each element individually. Examples of iterable objects are vectors &#40;as in the example&#41;, but they&#39;re not the only option. One important iterable object that we&#39;ll explore is ranges, which specify vector indices.</p>
+<li><p><strong>A list of elements</strong>: this is <code>&#91;&quot;hello&quot;,&quot;beautiful&quot;,&quot;world&quot;&#93;</code> in the example, and represents the elements over which we&#39;ll apply the code block. The list can consist of elements having any data type &#40;e.g., strings, numbers, and even functions&#41;. The only restriction is that it has to be <span style="color: rgb(62, 121, 180);"><strong>iterable object</strong></span>, defined as a container allowing the user to access each element individually. Examples of iterable objects are vectors &#40;as in the example&#41;, but they&#39;re not the only option. One important iterable object that we&#39;ll explore is ranges, which specify vector indices.</p>
 </li>
 </ul>
 <ul>
-<li><p><strong> An iteration variable</strong>: this corresponds to <code>x</code> in the example. It serves as a label that references each element in the list, with no significance outside the for-loop. As we expand upon below, the iteration variable is a local variable.</p>
+<li><p><strong>An iteration variable</strong>: this corresponds to <code>x</code> in the example. It serves as a label that references each element in the list, with no significance outside the for-loop. As we expand upon below, the iteration variable is a local variable.</p>
 </li>
 </ul></div>
 <br/>
@@ -2126,9 +2126,9 @@ end</code></pre>
       <div class="col-lg- mx-auto">
         <h2>Iterating over Indices</h2></p>
 <p>All the examples considered so far have used <code>&#91;&quot;hello&quot;, &quot;beautiful&quot;, &quot;world&quot;&#93;</code> as the list to iterate over. Although useful for demonstration purposes, constructing lists by specifying each element individually can be impractical when working with larger or more complex data sets. Furthermore, the method is unsuitable for building sequences. </p>
-<p>Now, we will delve into different strategies to tackle this issue. When it comes to for-loops, defining in particular sequences is essential to <strong> iterate over vector indices</strong>.</p>
+<p>Now, we will delve into different strategies to tackle this issue. When it comes to for-loops, defining in particular sequences is essential to <strong>iterate over vector indices</strong>.</p>
  <h4> Ranges </h4>
-<p>One common technique for generating a sequence of values is through <span style="color: rgb(62, 121, 180);"><strong> ranges</strong></span>. The syntax for defining a range is <code>&lt;begin&gt;:&lt;steps&gt;:&lt;end&gt;</code>, where <code>&lt;begin&gt;</code> and <code>&lt;end&gt;</code> respectively refer to the first and last index. The term <code>&lt;steps&gt;</code> refers to the increments between two consecutive values, with negative values reversing the range order. Moreover, if you write <code>&lt;begin&gt;:&lt;end&gt;</code> and thus omit <code>&lt;steps&gt;</code>, Julia assumes steps equal to one.</p>
+<p>One common technique for generating a sequence of values is through <span style="color: rgb(62, 121, 180);"><strong>ranges</strong></span>. The syntax for defining a range is <code>&lt;begin&gt;:&lt;steps&gt;:&lt;end&gt;</code>, where <code>&lt;begin&gt;</code> and <code>&lt;end&gt;</code> respectively refer to the first and last index. The term <code>&lt;steps&gt;</code> refers to the increments between two consecutive values, with negative values reversing the range order. Moreover, if you write <code>&lt;begin&gt;:&lt;end&gt;</code> and thus omit <code>&lt;steps&gt;</code>, Julia assumes steps equal to one.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2264,7 +2264,7 @@ end</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Rules for Variable Scope in For-Loops</h2><a id="scope" class="anchor"></a></p>
-<p>For-loops create a new scope for variables, analogous to what occurs with functions. In fact, the scoping rules for functions and for-loops are quite similar—<strong> the main difference is that for-loops can redefine the value of a global variable, while functions can't</strong>.</p>
+<p>For-loops create a new scope for variables, analogous to what occurs with functions. In fact, the scoping rules for functions and for-loops are quite similar—<strong>the main difference is that for-loops can redefine the value of a global variable, while functions can't</strong>.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content>     The rules of variable scope we present apply in all circumstances, with one exception that arises from following bad practices. Since this case is rare, we won&#39;t cover it.</p>
@@ -2279,7 +2279,7 @@ end</code></pre>
 <li><p>if there is a variable named <code>x</code> outside the for-loop, <code>x</code> refers to this variable. </p>
 </li>
 </ul></div>
-<p>In the following, we illustrate the first two rules, which refer to local variables exclusively. The second example in particular highlights <strong> a common beginner mistake</strong>: running a for-loop with a local variable, and then trying to access that variable outside the for-loop. </p>
+<p>In the following, we illustrate the first two rules, which refer to local variables exclusively. The second example in particular highlights <strong>a common beginner mistake</strong>: running a for-loop with a local variable, and then trying to access that variable outside the for-loop. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2343,7 +2343,7 @@ end</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Array Comprehensions</h2></p>
-<p>The previous section showed that we can define an array by following a two-step procedure: initializing an array, and then setting its values through a for-loop. However, performing two operations is inconvenient and verbose. An alternative is provided by <span style="color: rgb(62, 121, 180);"><strong> array comprehensions</strong></span>, which makes it possible <strong> to create arrays through for-loops</strong> with a more concise syntax:<code>&#91;&lt;expression&gt; for... if...&#93;</code>, where <code>&lt;expression&gt;</code> can be an operation or a function. </p>
+<p>The previous section showed that we can define an array by following a two-step procedure: initializing an array, and then setting its values through a for-loop. However, performing two operations is inconvenient and verbose. An alternative is provided by <span style="color: rgb(62, 121, 180);"><strong>array comprehensions</strong></span>, which makes it possible <strong>to create arrays through for-loops</strong> with a more concise syntax:<code>&#91;&lt;expression&gt; for... if...&#93;</code>, where <code>&lt;expression&gt;</code> can be an operation or a function. </p>
 <p>To illustrate its use, consider a vector <code>x</code>. Moreover, the goal is to create a vector <code>y</code>, with each element in <code>y</code> is the square of the corresponding element in <code>x</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> This example only aims at explaining the syntax of array comprehensions—<code>y</code> could be simply created by <code>y &#61; x .* x</code> or <code>y &#61; x .^ 2</code>.  </span></span> The following examples show two approaches to creating <code>y</code> using array comprehensions. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2398,7 +2398,7 @@ y      &#61; &#91;foo&#40;a&#41; for a in x&#93;          # or y &#61; &#91;foo&
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Multiple Iterations</h2></p>
-<p>Thus far, we&#39;ve considered for-loops that iterate over single values. We now extend the applications of for-loops to <strong> iterate over multiple values</strong>. In particular, we consider simultaneous iterations over two lists and iterations over indices and values of a vector. </p>
+<p>Thus far, we&#39;ve considered for-loops that iterate over single values. We now extend the applications of for-loops to <strong>iterate over multiple values</strong>. In particular, we consider simultaneous iterations over two lists and iterations over indices and values of a vector. </p>
  <h4> Iterating over Two Lists </h4>
 <p>Depending on the combination of elements aimed, there are two ways to simultaneously iterate over two lists <code>x</code> and <code>y</code>. If you seek to iterate over all the possible combinations of their elements, you need the function <code>Iterators.product&#40;x,y&#41;</code>, where the package <code>Iterators</code> is &quot;imported&quot; by default in each Julia session.</p>
 <p>Alternatively, you can iterate over all the ordered pairs of <code>x</code> and <code>y</code>, where each iteration considers the  <em> i</em>-th element of <code>x</code> and <code>y</code>. This operation requires the function <code>zip&#40;x,y&#41;</code>. </p>
@@ -2495,7 +2495,7 @@ y &#61; &#91;index * value for &#40;index,value&#41; in enumerate&#40;x&#41;&#93
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Iterating over Functions</h2><a id="iterate_functions" class="anchor"></a></p>
-<p>Functions in Julia are <span style="color: rgb(62, 121, 180);"><strong> first-class objects</strong></span>. This means that they can be manipulated in a similar way as other primitive objects, such as strings and numbers. In particular, we can define a vector of functions and iterate over them. The next example illustrates this, by providing descriptive statics of a vector <code>x</code>.</p>
+<p>Functions in Julia are <span style="color: rgb(62, 121, 180);"><strong>first-class objects</strong></span>. This means that they can be manipulated in a similar way as other primitive objects, such as strings and numbers. In particular, we can define a vector of functions and iterate over them. The next example illustrates this, by providing descriptive statics of a vector <code>x</code>.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">using Statistics    # to get access to the function &#96;mean&#96; and &#96;median&#96;
 

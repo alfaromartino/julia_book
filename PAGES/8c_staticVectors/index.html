@@ -2006,12 +2006,12 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Creating vectors results in memory allocations, which can significantly slow down computations. Vector creations occur not only when defining new vectors, but also when computing temporary vectors for intermediate steps. For example, accessing a vector slice &#40;e.g., <code>x&#91;1:2&#93;</code>&#41; or broadcasted operations for intermediate steps &#40;e.g., <code>sum&#40;x .* y&#41;</code>&#41; involve creating temporary vectors.</p>
-<p>As discussed in previous sections, <strong> tuples</strong> can help avoid allocations. Building upon this approach, this section introduces <strong> static vectors</strong>, available though the package <code>StaticArrays</code>. Static vectors are essentially tuples under the hood, and therefore <strong> only suitable for objects comprising a few elements</strong>. As a general guideline, consider <strong> using static vectors for up to 75 elements</strong>. Beyond this limit, the creation and access cost will outweigh any potential benefit, or directly become computationally infeasible.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The number of elements I suggest is lower than the official documentation&#39;s recommendation of 100. However, when you approach that upper limit, the time savings compared to regular vectors diminishes. Quite likely, you&#39;ll end up spending more time benchmarking performance than you would gain in speed benefits.  </span></span> </p>
-<p>When the number of elements is small, static vectors have several advantages over tuples. Firstly, they maintain their performance for larger collections than tuples. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> You can see this by executing <code>sum&#40;x .* y&#41;</code> when <code>x</code> and <code>y</code> are treated as tuples or static vectors  </span></span>. Secondly, static vectors can be manipulated like regular vectors, also allowing for other array types such as matrices &#40;hence the name of the package&#41;. Finally, while tuples are immutable collections, <code>StaticArrays</code> offers some mutable variants. While immutable options still offer the best performance, the mutable alternatives still provide performance benefits.</p>
+<p>Vector creations can be a performance bottleneck, as they cause memory allocations. These creations occur not only when defining new vectors, but also when computing temporary vectors for intermediate steps. For example, accessing a vector slice &#40;e.g., <code>x&#91;1:2&#93;</code>&#41; or performing broadcasted operations for intermediate steps &#40;e.g., <code>sum&#40;x .* y&#41;</code>&#41; involve the creation of temporary vectors.</p>
+<p>As discussed in previous sections, <strong>tuples</strong> can avoid these allocations. Building upon this approach, this section introduces <strong>static vectors</strong>, available though the <code>StaticArrays</code> package. Static vectors are essentially tuples at their core, and are therefore <strong>only suitable for objects comprising a few elements</strong>. As a rule of thumb, consider <strong>using static vectors for up to 75 elements</strong>. Beyond this limit, the creation and access overhead will outweigh any potential speed gain, or directly become computationally infeasible.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The number of elements I suggest is lower than the official documentation&#39;s recommendation, which indicate 100 elements. As you approach that upper limit, the time savings compared to regular vectors diminishes pronouncedly. Quite likely, you might end up spending more time benchmarking performance than you would gain in speed benefits.  </span></span> </p>
+<p>When the number of elements is small, static vectors have several advantages over tuples. Firstly, they maintain their performance for larger collections. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> You can see this by executing <code>sum&#40;x .* y&#41;</code> when <code>x</code> and <code>y</code> are treated as tuples or static vectors  </span></span>. Secondly, static vectors are manipulated in the same manner as regular vectors, even supporting other array types such as matrices &#40;hence the name of the package&#41;. Finally, unlike tuples that are immutable collections, <code>StaticArrays</code> offers mutable variants. These provide performance benefits relative to arrays, although immutable options still offer the best performance.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     To avoid repeating ourselves,<strong> the entire section supposes that the collections used comprise a few elements</strong>. This allows us to highlight the advantages of static arrays, without repeating the same caveat in every statement. <strong> We'll also assume you've executed the line of code</strong> <code>using StaticArrays</code>.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     To avoid repetition,<strong>the entire section assumes that all collections contain a few elements</strong>. This allows us to highlight the advantages of static arrays, without repeating the same caveat in every statement. Moreover, <strong>we'll proceed as if you had executed</strong> <code>using StaticArrays</code> at the beginning of each script, to access the package.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2021,8 +2021,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Creating Static Vectors</h2></p>
-<p>There are several variants of static vectors. We&#39;ll primarily deal with vectors of type <code>SVector</code>, which we simply refer to as SVectors. </p>
-<p>The following are different approaches to creating SVectors. These approaches serve different purposes, as one directly specifies the elements, while the other converts a regular vector into an SVector.</p>
+<p>There are several variants of static vectors, and we&#39;ll mainly focus on the type <code>SVector</code>. We&#39;ll simply refer to them as SVectors. </p>
+<p>The following are different approaches to creating SVectors. They serve different purposes, with one directly stating the elements, and the other converting a regular vector into an SVector.</p>
+<p>There are two approaches to creating SVectors, each with one specific purpose. The first one involves directly specifying the elements of the SVector, while the other converts a regular vector into an SVector.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2057,8 +2058,8 @@ sx &#61; @SVector &#91;a for a in x&#93;</code></pre> </div></div>
  10</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Among these methods, we&#39;ll exclusively use the function <code>SVector</code>, occasionally employing <code>SA</code> for indexing purposes. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Approaches like the macro <code>@SVector</code> require some caveats. For instance, you can&#39;t specify ranges through local variables &#40;e.g., <code>eachindex&#40;x&#41;</code> is not allowed, unless <code>x</code> is a global variable&#41;.  </span></span> Note the use of <a href="/julia_book/PAGES/4c_arguments/#splatting">splatting operator</a> <code>...</code> to turn a regular vector into an SVector. The operator <code>...</code> is necessary for the function <code>SVector</code>, as it transforms a collection into a sequence of arguments. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For instance, <code>foo&#40;x...&#41;</code> is equivalent to <code>foo&#40;x&#91;1&#93;, x&#91;2&#93;, x&#91;3&#93;&#41;</code> given a vector or tuple <code>x</code> with 3 elements.  </span></span></p>
-<p>We can also define slices of an SVector <code>sx</code>. However, we must be mindful of how indexing of SVectors work: when indices are specified as SVectors, a slice remains an SVector, whereas if we use ranges or regular vectors for indexing, the slice becomes an ordinary vector. The only exception to this rule is when the slice is created through <code>sx&#91;:&#93;</code>, in which case an SVector is returned.</p>
+<p>Among these approaches, we&#39;ll mainly utilize the function <code>SVector</code>, occasionally employing the approach of <code>SA</code> exclusively for indexing. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Approaches like the macro <code>@SVector</code> require some caveats. For instance, you can&#39;t specify ranges through local variables &#40;e.g., <code>eachindex&#40;x&#41;</code> is not allowed, unless <code>x</code> is a global variable&#41;.  </span></span> Note the use of <a href="/julia_book/PAGES/4c_arguments/#splatting">splatting operator</a> <code>...</code> to turn a regular vector into an SVector. The operator <code>...</code> is necessary for the function <code>SVector</code>, as it transforms a collection into a sequence of arguments. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For instance, <code>foo&#40;x...&#41;</code> is equivalent to <code>foo&#40;x&#91;1&#93;, x&#91;2&#93;, x&#91;3&#93;&#41;</code> given a vector or tuple <code>x</code> with 3 elements.  </span></span></p>
+<p>We can also define slices of an SVector <code>sx</code>. However, we must be mindful of how indexing works for SVectors: a slice remains an SVector when indices are specified as SVectors, whereas the slice becomes an ordinary vector for ranges or regular vectors as indices. The sole exception to this rule is when the slice is created through <code>sx&#91;:&#93;</code>, in which case an SVector is returned.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2160,7 +2161,7 @@ end
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The memory allocation behavior of SVectors becomes particularly relevant for operations with temporary vectors, such as broadcasting.</p>
+<p>The avoidance of memory allocation is particularly relevant for operations creating temporary vectors, such as broadcasting.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2184,7 +2185,7 @@ foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Even if an operation doesn&#39;t allocate with regular vectors, SVectors provide performance advantages. To illustrate this, consider the operation <code>sum&#40;f, &lt;vector&gt;&#41;</code>, which sums the elements of <code>&lt;vector&gt;</code> after they&#39;re transformed via <code>f</code>. The implementation below shows that, despite not allocating memory under regular vectors, the operation is faster with SVectors.</p>
+<p>Even if an operation doesn&#39;t allocate with regular vectors, SVectors still provide performance advantages. To illustrate this, consider the function <code>sum&#40;f, &lt;vector&gt;&#41;</code>, which sums the elements of <code>&lt;vector&gt;</code> after they&#39;re transformed via <code>f</code>. The implementation below shows that, despite not allocating memory under regular vectors, the operation is faster with SVectors.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2217,8 +2218,8 @@ foo&#40;x&#41; &#61; sum&#40;a -&gt; 10 &#43; 2a &#43;  3a^2, x&#41;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>SVector Type and Its Mutable Variant</h2></p>
-<p>Julia formally defines SVectors as objects with type <code>SVector&#123;N,T&#125;</code>, where <code>N</code> is the number of elements and <code>T</code> is the element&#39;s type. For instance, <code>SVector&#40;4,5,6&#41;</code> has type <code>SVector&#123;3,Int64&#125;</code>, as it consists of 3 elements with type <code>Int64</code>. Note that <strong> the number of elements is part of the type</strong> <code>SVector</code>, a feature that is shared with tuples.</p>
-<p>Just like tuples, <strong> the type</strong> <code>SVector</code> also <strong> defines an immutable object</strong>. Thus, we can&#39;t add, remove, or modify its elements. If we need a mutable collection, the package <code>StaticArrays</code> provides the type <code>MVector</code>. MVectors and their slices have the same syntax as SVectors, where we need to substitute the function <code>Svector</code> by <code>MVector</code>. This is shown in the following example. </p>
+<p>Julia formally defines SVectors as objects with type <code>SVector&#123;N,T&#125;</code>, where <code>N</code> is the number of elements and <code>T</code> is the element&#39;s type. For instance, <code>SVector&#40;4,5,6&#41;</code> has type <code>SVector&#123;3,Int64&#125;</code>, as it consists of 3 elements with type <code>Int64</code>. Note that <strong>the number of elements is part of the</strong> <code>SVector</code> <strong>type</strong>, a feature that is also present in tuples.</p>
+<p>Just like tuples, <strong>the type</strong> <code>SVector</code> also <strong>defines an immutable object</strong>. Thus, we can&#39;t add, remove, or modify its elements. In case we need mutable collections, the package <code>StaticArrays</code> provides the type <code>MVector</code>. MVectors and their slices have the same syntax as SVectors, where only substitute the function <code>Svector</code> by <code>MVector</code>. This is illustrated in the following.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2243,8 +2244,8 @@ mx&#91;1&#93; &#61; 0</code></pre> </div></div>
  3</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>MVectors are faster than regular vectors, but possibly slower than SVectors, even resulting in memory allocations. If you&#39;re certain that the collection won&#39;t be mutated, you should work with SVectors—due to their immutable nature, SVectors will perform equally or better than MVectors, but never worse.</p>
-<p>To demonstrate this, we present two examples: one where there&#39;s no difference between SVectors and MVectors regarding performance and allocations, and another where the difference exists. The examples also reveal that, despite this, both Svectors and MVectors outperform regular vectors.</p>
+<p>MVectors are faster than regular vectors, but equal or slower than SVectors. Additionally, MVectors may result in memory allocations. If you&#39;re certain that the collection won&#39;t be mutated, you should work with SVectors—due to their immutable nature, SVectors will perform equally or better than MVectors, but never worse.</p>
+<p>To demonstrate this, we present examples with and without differences between SVectors and MVectors regarding performance and allocations. They also reveal that, despite this, both Svectors and MVectors outperform regular vectors.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2278,7 +2279,7 @@ foo&#40;x&#41; &#61; 10 &#43; 2x &#43;  3x^2
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Given their mutable nature, MVectors can be used for initializing a vector to be filled via a for-loop. In fact, the function <code>similar&#40;sx&#41;</code> for an SVector <code>sx</code> automatically returns an MVector. </p>
+<p>Given their mutable nature, MVectors can be used for initializing a vector that we eventually fill via a for-loop. In fact, the function <code>similar&#40;sx&#41;</code> with <code>sx</code> an SVector automatically returns an MVector. </p>
  <div class=" code_box"> <details  open><summary> &#39;similar&#39; for SVectors  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">sx &#61; SVector&#40;1,2,3&#41;
 
 mx &#61; similar&#40;sx&#41;        # it defines an MVector with undef elements</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">3-element MVector{3, Int64} with indices SOneTo(3):

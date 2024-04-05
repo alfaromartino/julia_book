@@ -2051,12 +2051,12 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section discusses <strong> approaches for updating the values of a vector</strong>. These techniques are commonly referred to as <span style="color: rgb(62, 121, 180);"><strong> in-place assignments</strong></span>, giving rise to the expression &quot;modifying a value in place&quot;. Technically, it entails mutating the existing elements of a vector with new values. In-place assignments will prove useful when we analyze gains in performance, as they allow us to reuse the same vector, eliminating the need for memory allocation to create a new object.</p>
-<p>For what it follows, it&#39;ll be important to recall the definitions of slices and views provided <a href="/julia_book/PAGES/6a_indexing/#slices">in the previous section</a>. Specifically, given a vector <code>x</code>, a <strong> slice</strong> refers to a subset of <code>x</code>&#39;s elements, and is created through the expression <code>x&#91;&lt;indices&gt;&#93;</code>. Likewise, a <strong> view of a slice</strong> is a reference to the memory address of <code>x</code>. This contrasts with a <strong> copy of a slice</strong>, which creates a new object with its own memory address. </p>
+<p>This section discusses <strong>approaches for updating the values of a vector</strong>. These techniques are commonly referred to as <span style="color: rgb(62, 121, 180);"><strong>in-place assignments</strong></span>, giving rise to the expression &quot;modifying a value in place&quot;. Technically, it entails mutating the existing elements of a vector with new values. In-place assignments will prove useful when we analyze gains in performance, as they allow us to reuse the same vector, eliminating the need for memory allocation to create a new object.</p>
+<p>For what it follows, it&#39;ll be important to recall the definitions of slices and views provided <a href="/julia_book/PAGES/6a_indexing/#slices">in the previous section</a>. Specifically, given a vector <code>x</code>, a <strong>slice</strong> refers to a subset of <code>x</code>&#39;s elements, and is created through the expression <code>x&#91;&lt;indices&gt;&#93;</code>. Likewise, a <strong>view of a slice</strong> is a reference to the memory address of <code>x</code>. This contrasts with a <strong>copy of a slice</strong>, which creates a new object with its own memory address. </p>
 <p>In particular, a slice is a view when <code>x&#91;&lt;indices&gt;&#93;</code> is on the left-hand side of <code>&#61;</code>. This means that <code>x&#91;&lt;indices&gt;&#93; &#61; &lt;expression&gt;</code> mutates the contents of the object. Thus,  statements like <code>x&#91;1:2&#93; &#61; &#91;2,4&#93;</code> modify the values that <code>x</code> holds.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Although the technique is called an &quot;in-place assignment&quot;, <strong> the concept is not related to assignments, but rather mutations</strong>. The name simply reflects that we rely on the assignment operator <code>&#61;</code>, which can be used for either assignments or mutations.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     Although the technique is called an &quot;in-place assignment&quot;, <strong>the concept is not related to assignments, but rather mutations</strong>. The name simply reflects that we rely on the assignment operator <code>&#61;</code>, which can be used for either assignments or mutations.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2134,7 +2134,7 @@ x&#91;:&#93; &#61; x .* 10</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting over = </h2></p>
-<p>Broadcasting the assignment operator <code>&#61;</code> is another way to mutate a slice. The syntax is <code>x .&#61; &lt;expression&gt;</code>, where <code>x</code> is either an existing vector or a slice. This operation <strong> updates</strong> the values in <code>x</code> with those produced by <code>&lt;expression&gt;</code>.</p>
+<p>Broadcasting the assignment operator <code>&#61;</code> is another way to mutate a slice. The syntax is <code>x .&#61; &lt;expression&gt;</code>, where <code>x</code> is either an existing vector or a slice. This operation <strong>updates</strong> the values in <code>x</code> with those produced by <code>&lt;expression&gt;</code>.</p>
 <p>When we work with a slice on the left-hand side of <code>&#61;</code> and replace its values by  <em> a vector</em>, using <code>.&#61;</code> produces the same output as using <code>&#61;</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2163,7 +2163,7 @@ x&#91;x .≥ 3&#93;  &#61; x&#91;x .≥ 3&#93; .* 10</code></pre>
  40</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Additionally, <code>.&#61;</code> makes it possible <strong> to update each value of a slice with the same element</strong>. For instance, the following code snippet replaces each negative value in a vector with zero.</p>
+<p>Additionally, <code>.&#61;</code> makes it possible <strong>to update each value of a slice with the same element</strong>. For instance, the following code snippet replaces each negative value in a vector with zero.</p>
  <div class=" code_box"> <details  open><summary> Replacement for the Same Element  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x          &#61; &#91;-1, -2, 1, 2&#93;
 

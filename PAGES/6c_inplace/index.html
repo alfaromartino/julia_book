@@ -2051,7 +2051,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section continues exploring <strong> approaches to mutating a vector</strong>. Specifically, we focus on functions that mutate at least one of their arguments, known as <strong> in-place functions</strong>. The significance of these functions will become apparent when we explore performance matters, as they avoid memory allocations.  </p>
+<p>This section continues exploring <strong>approaches to mutating a vector</strong>. Specifically, we focus on functions that mutate at least one of their arguments, known as <strong>in-place functions</strong>. The significance of these functions will become apparent when we explore performance matters, as they avoid memory allocations.  </p>
 <p>Notably, several built-in functions in Julia have an in-place alternative. These functions store the output in the vector passed as argument, rather than creating a new object, which enhances computational speed.</p>
 <p>A common in-place function is one that wraps a for-loop with the goal of modifying the vector passed as an argument. Due to this reason, the section provides several examples based on this approach.</p>
 <p>      </div>
@@ -2063,7 +2063,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>In-Place Functions</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong> In-place functions</strong></span>, also known as <span style="color: rgb(62, 121, 180);"><strong> mutating functions</strong></span>, modify at least one of the variables passed as arguments. Formally, given a vector <code>x</code>, the function <code>foo&#40;x&#41;</code> is in-place when it mutates <code>x</code>&#39;s elements. </p>
+<p><span style="color: rgb(62, 121, 180);"><strong>In-place functions</strong></span>, also known as <span style="color: rgb(62, 121, 180);"><strong>mutating functions</strong></span>, modify at least one of the variables passed as arguments. Formally, given a vector <code>x</code>, the function <code>foo&#40;x&#41;</code> is in-place when it mutates <code>x</code>&#39;s elements. </p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">y &#61; &#91;0,0&#93;
 
@@ -2077,7 +2077,7 @@ end</code></pre>
  0</div> </div></div> </div>   </details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     Functions can mutate the values of variables, but <strong> they can't reassign variables</strong>. If we attempt to redefine variable within a function, Julia will interpret it as a new local variable.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Strictly speaking, it&#39;s possible to reassign a variable by using the <code>global</code> keyword. However, we won&#39;t cover this, as its use is not recommended.  </span></span> </p>
+      <b>Remark</b> </span>  </div>  <div class=content>     Functions can mutate the values of variables, but <strong>they can't reassign variables</strong>. If we attempt to redefine variable within a function, Julia will interpret it as a new local variable.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Strictly speaking, it&#39;s possible to reassign a variable by using the <code>global</code> keyword. However, we won&#39;t cover this, as its use is not recommended.  </span></span> </p>
 <p>The following code illustrates this aspect by redefining a function argument and a global variable. The result reflects that <code>foo</code> interprets <code>x</code> as a new local variable when <code>x</code> is redefined. This determines that <code>x</code> only exists within <code>foo</code>&#39;s scope.</p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2168,10 +2168,10 @@ end</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Built-In In-Place Functions</h2></p>
-<p>In Julia, several built-in functions that accept a  <em> vector</em> as an argument are available in two forms: a &quot;standard&quot; version and an in-place version. Julia&#39;s developers follow a convention where <strong> any function that ends with</strong> <code>&#33;</code> <strong> corresponds to an in-place function</strong>.</p>
+<p>In Julia, several built-in functions that accept a  <em> vector</em> as an argument are available in two forms: a &quot;standard&quot; version and an in-place version. Julia&#39;s developers follow a convention where <strong>any function that ends with</strong> <code>&#33;</code> <strong>corresponds to an in-place function</strong>.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content> <strong> Ending a function with</strong> <code>&#33;</code> <strong> does not affect the function's behavior in any way</strong>. It&#39;s simply a convention adopted and suggested by Julia&#39;s developers, which hints at mutable nature of the operation. The purpose is to prevent users from unintentionally modifying the object.  </div>  </div>
+      <b>Remark</b> </span>  </div>  <div class=content> <strong>Ending a function with</strong> <code>&#33;</code> <strong>does not affect the function's behavior in any way</strong>. It&#39;s simply a convention adopted and suggested by Julia&#39;s developers, which hints at mutable nature of the operation. The purpose is to prevent users from unintentionally modifying the object.  </div>  </div>
 <p>We illustrate its use through the function <code>sort</code>. This orders the elements of a vector in increasing order &#40;or decreasing order through the option <code>rev&#61;true</code>&#41;. <code>sort&#40;x&#41;</code> creates a new vector containing the sorted elements, without affecting the original vector <code>x</code>. In contrast, the in-place version <code>sort&#33;&#40;x&#41;</code> stores the resulting vector in <code>x</code>, rather than creating a new object for the output. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">

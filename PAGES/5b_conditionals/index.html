@@ -2051,17 +2051,17 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong> Conditional statements</strong></span> refer to conditional executions of code blocks. Each code block is referrd to as a <span style="color: rgb(62, 121, 180);"><strong> branch</strong></span>, giving rise to three types of conditional statements according to the number of branches:</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Conditional statements</strong></span> refer to conditional executions of code blocks. Each code block is referrd to as a <span style="color: rgb(62, 121, 180);"><strong>branch</strong></span>, giving rise to three types of conditional statements according to the number of branches:</p>
 <div class="itemNoSpace"><ul>
-<li><p><strong> if-then statement</strong>: It consists of only one branch, running a specific operation if a condition is met, without performing any alternative operation if the condition isn&#39;t satisfied.</p>
+<li><p><strong>if-then statement</strong>: It consists of only one branch, running a specific operation if a condition is met, without performing any alternative operation if the condition isn&#39;t satisfied.</p>
 </li>
 </ul>
 <ul>
-<li><p><strong> if-else statement</strong>: It consists of two branches, executing one operation if a condition is met, and another operation if the condition isn&#39;t satisfied.</p>
+<li><p><strong>if-else statement</strong>: It consists of two branches, executing one operation if a condition is met, and another operation if the condition isn&#39;t satisfied.</p>
 </li>
 </ul>
 <ul>
-<li><p><strong> if-else-if statement</strong>: It&#39;s the most general type of conditional statement, allowing for multiple branches. It arises when there are two or more possible options, and each option executes a different code block.</p>
+<li><p><strong>if-else-if statement</strong>: It&#39;s the most general type of conditional statement, allowing for multiple branches. It arises when there are two or more possible options, and each option executes a different code block.</p>
 </li>
 </ul></div>
 <p>The presentation builds heavily on the logical operators introduced <a href="/julia_book/PAGES/5a_logical/">in the previous section</a>. If you haven&#39;t read this section, I highly recommend that you do so before continuing.</p>
@@ -2074,7 +2074,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>If-Then Statements</h2></p>
-<p>The purpose of <span style="color: rgb(62, 121, 180);"><strong> if-then statements</strong></span> is to <strong> execute an operation if a condition is satisfied</strong>. There are three ways to write them: one based on the keyword <code>if</code>, and another two using the logical operators <code>&amp;&amp;</code> and <code>||</code>. </p>
+<p>The purpose of <span style="color: rgb(62, 121, 180);"><strong>if-then statements</strong></span> is to <strong>execute an operation if a condition is satisfied</strong>. There are three ways to write them: one based on the keyword <code>if</code>, and another two using the logical operators <code>&amp;&amp;</code> and <code>||</code>. </p>
 <p>Before elaborating on each form, we provide examples of their syntax. They make use of the function <code>println</code>, which outputs the text passed as an argument in the REPL.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2109,7 +2109,7 @@ end</code></pre>
 <p>  </p></details></div>
 <p>Note that, regardless of the method used, there would be no output displayed in the REPL if we had defined <code>x &#61; -1</code>—all the examples consider whether to perform an action if <code>x</code> is positive, with no alternative specified otherwise. This explains why these conditionals are referred to as if-then statements. </p>
 <p>The <code>if</code> approach is somewhat verbose for simple conditional statements. However, it also constitutes the most versatile option, as we&#39;ll see later. Both features make this approach be commonly reserved for more complex conditional statements, where multiple branches are included. </p>
-<p>In contrast, <code>&amp;&amp;</code> and <code>||</code> are more concise, helping us keep the code more streamlined. For these operators to act as if-then statements, it&#39;s required <strong> a condition as the first operand and an operation as a second operand</strong>. This is in contrast to their use for writing multiple conditions, where all operands are conditions and hence given by <code>Bool</code> values.</p>
+<p>In contrast, <code>&amp;&amp;</code> and <code>||</code> are more concise, helping us keep the code more streamlined. For these operators to act as if-then statements, it&#39;s required <strong>a condition as the first operand and an operation as a second operand</strong>. This is in contrast to their use for writing multiple conditions, where all operands are conditions and hence given by <code>Bool</code> values.</p>
 <p>Concretely, <code>&amp;&amp;</code> executes an operation if the condition considered is true, whereas <code>||</code> runs an operation when the condition is  <em> not</em> satisfied. In fact, <code>||</code> is equivalent to <code>&amp;&amp;</code> with its condition negated. This can be appreciated in the example above, where <code>x ≤ 0</code> and <code>&#33;&#40;x &gt; 0&#41;</code> represent the same condition and therefore the examples using <code>&amp;&amp;</code> and <code>||</code> provide an identical result.</p>
 <p>If-then statements using <code>||</code> emerge naturally when our goal is to invalidate certain operations. This is typically implemented by combining <code>||</code> with the function <code>error</code>. The function <code>error</code> interrupts the script&#39;s execution, displaying the message given by its argument to explain why. For instance, suppose you&#39;re defining a function <code>foo&#40;x&#41;</code> that only accepts a non-negative value for <code>x</code> &#40;e.g., the logarithmic function&#41;. Moreover, suppose you include <code>x &gt; 0 || error&#40;&quot;x must be positive&quot;&#41;</code> as the first line of the function definition. Then, running <code>foo&#40;x&#41;</code> will stop its execution if <code>x</code> is not positive, with the message &quot;x must be positive&quot;  displayed in the REPL.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
@@ -2124,8 +2124,8 @@ end</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>If-Else Statements</h2></p>
-<p>If-then statements handle the execution of a single operation when a condition is met. However, we could additionally aim to execute an operation when the condition is  <em> not</em> met. This can be achieved through <span style="color: rgb(62, 121, 180);"><strong> if-else statements</strong></span>.</p>
-<p>These statements have two representations: one that extends the use of <code>if</code> through the keyword <code>else</code>, and another relying on what&#39;s known as the ternary operator. The <span style="color: rgb(62, 121, 180);"><strong> ternary operator</strong></span> is given by <code>&lt;condition&gt; ? &lt;operation if true&gt; : &lt;operation if false&gt;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The operator has the adjective ternary because it takes three arguments, and besides it&#39;s the only ternary operator in many programming languages.  </span></span> We illustrate the syntax of each approach below.</p>
+<p>If-then statements handle the execution of a single operation when a condition is met. However, we could additionally aim to execute an operation when the condition is  <em> not</em> met. This can be achieved through <span style="color: rgb(62, 121, 180);"><strong>if-else statements</strong></span>.</p>
+<p>These statements have two representations: one that extends the use of <code>if</code> through the keyword <code>else</code>, and another relying on what&#39;s known as the ternary operator. The <span style="color: rgb(62, 121, 180);"><strong>ternary operator</strong></span> is given by <code>&lt;condition&gt; ? &lt;operation if true&gt; : &lt;operation if false&gt;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The operator has the adjective ternary because it takes three arguments, and besides it&#39;s the only ternary operator in many programming languages.  </span></span> We illustrate the syntax of each approach below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2182,7 +2182,7 @@ x_absolute_value &#61; ifelse.&#40;x .≥ 0, x, -x&#41;</code></pre>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     Notice that <code>ifelse</code> <strong> requires broadcasting both</strong> <code>ifelse</code> <strong> and the condition</strong>. The first example, for case, would throw an error if we only broadcasdt <code>ifelse</code> through <code>ifelse.&#40;x&gt;0, true, false&#41;</code>. This happens because <code>x &gt; 0</code> checks whether the  <em> entire vector</em> is positive, which is an undefined operation in Julia.  </div>  </div>
+      <b>Remark</b> </span>  </div>  <div class=content>     Notice that <code>ifelse</code> <strong>requires broadcasting both</strong> <code>ifelse</code> <strong>and the condition</strong>. The first example, for case, would throw an error if we only broadcasdt <code>ifelse</code> through <code>ifelse.&#40;x&gt;0, true, false&#41;</code>. This happens because <code>x &gt; 0</code> checks whether the  <em> entire vector</em> is positive, which is an undefined operation in Julia.  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Remark</b> </span>  </div>  <div class=content>     We could define our own version of <code>ifelse</code>. This requires wrapping <code>if</code>-<code>else</code> or the ternary operator into a function, and then broadcasting it. These types of examples lay bare the power of broadcasting for operating with vectors. In the following, we show this by rewriting the previous examples through these functions.</p>
