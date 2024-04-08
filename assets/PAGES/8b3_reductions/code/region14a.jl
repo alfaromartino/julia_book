@@ -3,4 +3,4 @@ x = rand(100)
 
 foo(x) = sum(a -> 2 * a, x)
 
-@btime foo(ref($x))
+@btime foo(ref($x))     #hide

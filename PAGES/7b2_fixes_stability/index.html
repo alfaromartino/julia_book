@@ -2068,6 +2068,9 @@ z &#61; log&#40;y&#41;</code></pre> </div></div>
         <h2>Achieving Type Stability With Global Variables</h2></p>
 <p>Working with global variables is a practice often discouraged in modern programming paradigms, and additionally affects performance by turning operations type unstable. However, there are some scenarios where global variables could come in handy. In that case, there are two approaches addressing the performance issue: setting a global variable as a constant or annotating it with a concrete type. </p>
 <p>Note, nonetheless, that writing self-contained functions should be the first option to consider. Aside performance considerations, these functions maintain the code modular and easier to understand, without the need to track global variables across the script to discern its purpose.</p>
+ <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Warning!</b> - You Should Still Wrap Code in a Function </span>  </div>  <div class=content>     Keep in mind that functions implement additional optimizations that aren&#39;t possible in the global scope. Due to this, even if you implement the fixes we propose in this section, you should additionally keep using functions when you care about performance.  </div>  </div>
  <h4> Constant Global Variables </h4>
 <p>Declaring a global variable as a constant requires adding the keyword <code>const</code> before the variable&#39;s name, such as <code>const x &#61; 3</code>. We can declare any variable as a constant, including vectors, as the following examples show.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2184,7 +2187,7 @@ y &#61; &quot;world&quot;</code></pre>
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\7b3_barriers" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 4, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 7, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
