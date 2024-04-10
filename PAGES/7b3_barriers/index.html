@@ -2006,8 +2006,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section considers <span style="color: rgb(62, 121, 180);"><strong>barrier functions</strong></span>, which is a powerful technique to address type instability. These are type-stable functions acting as intermediaries inside a type-unstable function. It harnesses that functions identify the types of its arguments, making any ambiguous type be solved by the barrier function.</p>
-<p>Bear in mind that barrier functions should only be used when the type instability isn&#39;t easily fixable or is inherent to the operations performed. The reason is that the outer function is still type unstable, which could lead to some issues under certain circumstances. </p>
+<p>This section discusses <span style="color: rgb(62, 121, 180);"><strong>barrier functions</strong></span> for addressing type instability. They&#39;re type-stable functions embedded in a type-unstable function, forcing the compiler to infer the types of their arguments at their call site. This resolves any ambiguous type, as the the barrier function is able to identify the data types involved.</p>
+<p> <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Warning!</b> - Barrier Functions Should be a Second Option </span>  </div>  <div class=content>     Barrier functions should be reserved for situations where the type instability is either difficult to fix or inherent to the operations performed. The reason is that the original function would still be type unstable. Whenever possible, the preferred approach is still to write type-stable code from the start.  </div>  </div> </p>
 <p>      </div>
     </div>
   </div>
@@ -2017,7 +2019,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Applying Barrier Functions</h2></p>
-<p>The concept of barrier functions is best explained through an example. We in particular revisit the example from <a href="/julia_book/PAGES/7b1_performanceBasics/#type_stability">Type Stability: A Definition</a> This considers a function that redefines a variable <code>x</code> as <code>y</code>, and then computes an operation using <code>y</code>. </p>
+<p>To best explain barrier functions, let&#39;s revisit the example from <a href="/julia_book/PAGES/7b1_performanceBasics/#type_stability">Type Stability: A Definition</a>. This considers a function that redefines a variable <code>x</code> as <code>y</code>, and then computes an operation using <code>y</code>. </p>
  <div class=" code_box"> <details  open><summary> Type Instability  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">function foo&#40;x&#41;
     y &#61; &#40;x &lt; 0&#41; ?  0  :  x
@@ -2028,8 +2030,8 @@ end
 @code_warntype foo&#40;1&#41;       # type stable
 @code_warntype foo&#40;1.&#41;      # type unstable</code></pre>
 <p></div> </div>  </details></div>
-<p>The issue arises because <code>0</code> is an integer, whereas <code>x</code> could be either an integer or a float. Specifically, if <code>x</code> is an integer, then <code>y</code> will be for sure an integer, explaining why <code>foo&#40;1&#41;</code> is type stable. Conversely, if <code>x</code> is a float, the compiler can&#39;t determine whether <code>y</code> will be an integer or a float. This results in <code>foo&#40;1.&#41;</code> be type unstable.</p>
-<p>A solution to this problem is <strong>using a barrier function</strong>: <strong>wrapping the operation into a type-stable function that takes</strong> <code>y</code> <strong>as its argument</strong>. This is illustrated below. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For this particular case, a better fix is to change <code>0</code> by <code>zero&#40;x&#41;</code>, where <code>zero&#40;x&#41;</code> provides the specific zero element for the type of <code>x</code>.  </span></span></p>
+<p>The issue arises because <code>0</code> is an integer, whereas <code>x</code> could be either an integer or a float. In case <code>x</code> is <code>Int64</code>, then <code>y</code> will also be an integer, explaining why <code>foo&#40;1&#41;</code> is type stable. Conversely, if <code>x</code> is <code>Float64</code>, the compiler is unable to determine whether <code>y</code> will be an integer or a float, making <code>foo&#40;1.&#41;</code> be type unstable.</p>
+<p>To solve this problem, we can use <span style="color: rgb(62, 121, 180);"><strong>a barrier function</strong></span>, which embeds a type-stable function into <code>foo</code> to identify the ambiguous type of <code>y</code>. In the example below, the barrier function is referred to as <code>operation</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The example is simply for illustrative purposes. In this case, a better fix is to change <code>0</code> by <code>zero&#40;x&#41;</code>, where <code>zero&#40;x&#41;</code> provides the specific zero element for the type of <code>x</code>.  </span></span></p>
  <div class=" code_box"> <details  open><summary> Barrier Function  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">operation&#40;y&#41; &#61; &#91;y * i for i in 1:100&#93;
 
@@ -2045,12 +2047,11 @@ end
 @code_warntype foo&#40;1&#41;          # type stable
 @code_warntype foo&#40;1.&#41;         # type stable &#40;only yellow warning&#41;</code></pre>
 <p></div> </div>  </details></div>
-<p>The variable <code>y</code> is still ambiguous regarding its type. Nevertheless, <code>operation&#40;y&#41;</code> will identify the type of <code>y</code> before its execution. Thus, the operation <code>&#91;y * i for i in 1:100&#93;</code> will be run using a method specialized for the type of <code>y</code>. </p>
-<p>Note that <code>foo&#40;1.&#41;</code> still provides a yellow warning. Although this kind of warning can be safely ignored, this simply indicates that <code>foo&#40;1.&#41;</code> can&#39;t determine the type of <code>y</code> and hence of its output. But this is irrelevant for the subsequent operation, as <code>operation&#40;y&#41;</code> is type stable regardless of whether <code>y</code> is an integer or a float. In other words, <code>operation&#40;y&#41;</code> can then identify the type of <code>y</code> and <code>operation</code>&#39;s output, and so <code>operation&#40;y&#41;</code> will be fast. </p>
+<p>In this version, <code>foo&#40;1.&#41;</code> still provides a yellow warning because the variable <code>y</code> could be an <code>Int64</code> or <code>Float64</code>. However, this fact is irrelevant for the subsequent computations, as <code>operation&#40;y&#41;</code> will identify the type of <code>y</code> before executing the for-loop. Thus, <code>&#91;y * i for i in 1:100&#93;</code> will be executed using a method specialized for the type of <code>y</code>. </p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Barrier Functions should resolve the type instability before the operation is executed. Otherwise, we&#39;re back to the original issue, where the compiler has to check the type <code>y</code> at each iteration and then select a method accordingly. </p>
-<p>For example, <code>foo&#40;1.&#41;</code> in the following code is type unstable. The reason is that <code>y</code> could be <code>Float64</code> or <code>Int64</code>, and <code>operation&#40;y,i&#41;</code> only identifies the type within the for-loop. This implies that the compiler needs the execute the for-loop checking the type of <code>y</code> at each iteration.</p>
+      <b>Warning!</b> </span>  </div>  <div class=content>     Barrier Functions should resolve the type instability before the operation is executed. Otherwise, we&#39;re back to the original issue, where the compiler has to check <code>y</code>&#39;s type at each iteration and select a method accordingly, leading to the original performance issues.</p>
+<p>For example, <code>foo&#40;1.&#41;</code> in the code below isn&#39;t using a barrier function properly. The reason is that <code>y</code> could be <code>Float64</code> or <code>Int64</code>, and <code>operation&#40;y,i&#41;</code> only identifies the type inside the for-loop. This implies that the compiler must check <code>y</code>&#39;s at each iteration of the for-loop.</p>
 <p> <div class=" code_box"> <details  open><summary> Wrong Use  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">operation&#40;y,i&#41; &#61; y * i 
 
@@ -2075,7 +2076,7 @@ end
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\7c_gotchas" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 7, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 9, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

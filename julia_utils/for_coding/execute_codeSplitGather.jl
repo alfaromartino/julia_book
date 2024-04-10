@@ -1,29 +1,27 @@
-
 ###################
-#       BASICS
+#       BASICS 
 ###################
-include(joinpath("C:/", "JULIA_UTILS", "initial_folders.jl"))
+include(joinpath("/JULIA_UTILS", "initial_folders.jl"))
 
-include(joinpath(folder_googleDrive, "JULIA", "main", "initial_folders.jl"))
-include(joinpath(folder_googleDrive, "JULIA", "main", "for_websites","code_split_gather_v01.jl"))
-
+# it loads multiple auxiliar utils
+location_basics = joinpath(folderBook.julia_utils, "for_coding", "auxiliars")
+                  include(joinpath(location_basics, "aux_include_at_top.jl"))
 
 
 #######################################################################################################################
 #                                                   PAGE-SPECIFIC INFORMATION
 ########################################################################################################################
-
 #name of PAGE in Franklin 
 page_folder = basename(@__DIR__)
 
 #location of julia file
-filejl = "$(folderBook.calculations)\\$(page_folder)\\01_calculations_used.jl"
+filejl = joinpath(folderBook.calculations, page_folder, "01_calculations_used.jl")
+
 
 
 ###################
 #       CREATE FOLDERS (if they don't already exist)
 ###################
-
 function create_folder(x) 
     isdir(x) || (mkdir(x))
     x

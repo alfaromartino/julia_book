@@ -1,11 +1,13 @@
 ###################
 #       BASICS
 ###################
-include(joinpath("C:/", "JULIA_UTILS", "initial_folders.jl"))
+# root folders
+include(joinpath("/JULIA_UTILS", "initial_folders.jl"))
 
-include(joinpath(folder_googleDrive, "JULIA", "main", "initial_folders.jl"))
-include(joinpath(folder_googleDrive, "JULIA", "main", "user_IO_utils_v01.jl"))
-include(joinpath(folder_googleDrive, "JULIA", "main", "for_websites","code_split_gather_v01.jl"))
+# it loads multiple auxiliar utils
+location_basics = joinpath(folderBook.julia_utils, "for_coding", "auxiliars")
+                  include(joinpath(location_basics, "aux_include_at_top.jl"))
+
 
 
 ############################################################################
@@ -13,10 +15,12 @@ include(joinpath(folder_googleDrive, "JULIA", "main", "for_websites","code_split
 #              COPYING FILES "execute_codeSplitGather.jl"
 #
 ############################################################################
+# code to copy a single file to multiple directories 
+    # (in this case, we copy `execute_codeSplitGather.jl` to each element in `destination_folders`)
 
-source_folder = "$(folderBook.julia_utils)\\for_coding"
-name_file     = "execute_codeSplitGather.jl"
-source_file   = "$(source_folder)\\$(name_file)"
+source_folder       = joinpath(folderBook.julia_utils, "for_coding") # "$(folderBook.julia_utils)\\for_coding"
+name_file           = "execute_codeSplitGather.jl"
+source_file         = joinpath(source_folder, name_file) # "$(source_folder)\\$(name_file)"
 
 path_calculation    = folderBook.calculations
 list                = readdir(path_calculation)
@@ -34,8 +38,6 @@ cp.(source_file, destination_files, force=true)
 #
 ############################################################################
 # folder   = "C:\\Users\\marti\\Google Drive\\WEBSITES\\julia_book2\\PAGES"
-# pattern  = raw"""[include("$(@__DIR__)\\julia_utils\\basics\\$(file)") for file in readdir("julia_utils")]"""
-# new_text = raw"""[include("$(@__DIR__)\\julia_utils\\basics\\$(file)") for file in readdir("julia_utils\\basics")]"""
+# pattern  = raw"""[include(joinpath(@__DIR__, "julia_utils", "basics", file) for file in readdir("julia_utils")]"""
+# new_text = raw"""[include(joinpath(@__DIR__, "julia_utils", "basics", file) for file in readdir("julia_utils\\basics")]"""
 # folderFiles_replace!(folder, ".md", pattern, new_text)
-
-

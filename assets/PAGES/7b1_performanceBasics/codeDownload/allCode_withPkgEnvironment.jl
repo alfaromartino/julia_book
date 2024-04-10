@@ -1,7 +1,6 @@
 ####################################################
 #	PACKAGE ENVIRONMENT
 ####################################################
-
 # This code allows you to reproduce the code with the exact package versions used when writing this note.
 # It requires having all files (allCode_withPkgEnvironment.jl, Manifest.toml, and Project.toml) in the same folder.
 
@@ -9,19 +8,11 @@ Pkg.activate(@__DIR__)
 Pkg.instantiate() #to install the packages
 
 
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-
 # to execute the benchmarks
 using BenchmarkTools
 ref(x) = (Ref(x))[]
 
-# Functions to print result with a specific format (only relevant for the website)
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
+# Functions to print result with a specific format (only relevant for the website)= show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)= show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
  
 ############################################################################
 #

@@ -1,19 +1,12 @@
 ####################################################
 #	PACKAGE ENVIRONMENT
 ####################################################
-
 # This code allows you to reproduce the code with the exact package versions used when writing this note.
 # It requires having all files (allCode_withPkgEnvironment.jl, Manifest.toml, and Project.toml) in the same folder.
 
 Pkg.activate(@__DIR__)
 Pkg.instantiate() #to install the packages
 
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
 
 # necessary packages for this file
 using Pipe
@@ -22,11 +15,7 @@ using Pipe
 using BenchmarkTools
 ref(x) = (Ref(x))[]
 
-# To print results with a specific format (only relevant for the website construction)
-print_asis(x)             = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_asis(x,nr_lines)    = show(IOContext(stdout, :limit => true, :displaysize =>(nr_lines,100)), MIME("text/plain"), x)
-print_compact(x)          = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-print_compact(x,nr_lines) = show(IOContext(stdout, :limit => true, :displaysize =>(nr_lines,6), :compact => true), MIME("text/plain"), x)
+# To print results with a specific format (only relevant for the website construction)= show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)= show(IOContext(stdout, :limit => true, :displaysize =>(nr_lines,100)), MIME("text/plain"), x)= show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)= show(IOContext(stdout, :limit => true, :displaysize =>(nr_lines,6), :compact => true), MIME("text/plain"), x)
 
 ################################################################################################################################  ###code region1a (((
 using Pipe
@@ -38,8 +27,6 @@ using Pipe
 a = -2
 
 output = round(log(abs(a)))
- 
-print_asis(output)
  
 a = -2
 
@@ -75,8 +62,6 @@ output = let x = x
    x[1] = 0
 end
  
-print_asis(x)
- 
 # just like functions, be careful as you can mutate the global variable   # hide 
 # just like functions too, you can't reassign a value through a let block # hide 
 x = [2,2,2]
@@ -84,8 +69,6 @@ x = [2,2,2]
 output = let x = x
    x = 0
 end
- 
-print_asis(x)
  
 ####################################################
 #	                     EXAMPLE 2
@@ -95,7 +78,7 @@ x = [-1,2,3]
 
 output = sum(log.(abs.(x)))
  
-print_asis(output) # hide
+# hide
  
 x = [-1,2,3]
 
@@ -115,7 +98,7 @@ x = [-1,2,3]
 
 output = round.(abs.(x) ./ sum(abs.(x)))
  
-print_asis(output) # hide
+# hide
  
 x = [-1,2,3]
 
@@ -149,7 +132,7 @@ variable_with_a_long_name = 2
 
 output = variable_with_a_long_name - log(variable_with_a_long_name) / abs(variable_with_a_long_name)
  
-print_asis(output) # hide
+# hide
  
 variable_with_a_long_name = 2
 
@@ -186,7 +169,7 @@ object_with_a_long_name = [-1,2,3]
 temp   = object_with_a_long_name
 output = [abs(temp[i]) + temp[i] / exp(temp[i]) for i in eachindex(temp)]
  
-print_asis(output) # hide
+# hide
  
 object_with_a_long_name = [-1,2,3]
 

@@ -1,16 +1,16 @@
-
 ###################
 #       BASICS
 ###################
-include(joinpath("C:/", "JULIA_UTILS", "initial_folders.jl"))
+# root folders
+include(joinpath("/JULIA_UTILS", "initial_folders.jl"))
 
-include(joinpath(folder_googleDrive, "JULIA", "main", "initial_folders.jl"))
-include(joinpath(folder_googleDrive, "JULIA", "main", "user_IO_utils_v01.jl"))
-include(joinpath(folder_googleDrive, "JULIA", "main", "for_websites","code_split_gather_v01.jl"))
+# it loads multiple auxiliar utils
+location_basics = joinpath(folderBook.julia_utils, "for_coding", "auxiliars")
+                  include(joinpath(location_basics, "aux_include_at_top.jl"))
 
 
 #names of PAGES in Franklin 
-include(joinpath(folderBook.julia_utils, "for_coding", "aux_identify_folders.jl"))
+include(joinpath(location_basics, "aux_identify_folders.jl"))
 pages_folder = identify_folder_names(folderBook.index)
 
 
@@ -57,7 +57,7 @@ end
 ###################
 
 # file with julia code
-function src_file(page_folder)
+function _src_file(page_folder)
     src_folder = folderBook.calculations
     name_file  = "00_calculations_toprint.jl"
 
@@ -65,7 +65,7 @@ function src_file(page_folder)
 end
 
 # folder to store the code
-function dst_path(page_folder)
+function _dst_path(page_folder)
     asset_folder = folderBook.assets
     dst_folder   = "codeDownload"    
         
@@ -73,12 +73,12 @@ function dst_path(page_folder)
 end
 
 function code_for_download(page_folder)
-    code_file  = src_file(page_folder)
-    dst_folder = dst_path(page_folder)
+    code_file  = _src_file(page_folder)
+    dst_folder = _dst_path(page_folder)
 
     if isfile(code_file)
         onlyGatherCode(dst_folder, code_file; name_file="allCode")
     end
 end
 
-code_for_download.(pages_folder)
+    code_for_download.(pages_folder)

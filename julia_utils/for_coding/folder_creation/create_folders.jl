@@ -1,13 +1,13 @@
 ###################
 #       BASICS
 ###################
-include(joinpath("C:/", "JULIA_UTILS", "initial_folders.jl"))
+# it loads multiple auxiliar utils
+location_basics = joinpath(folderBook.julia_utils, "for_coding", "auxiliars")
+                  include(joinpath(location_basics, "aux_include_at_top.jl"))
 
-include(joinpath(folder_googleDrive, "JULIA", "main", "initial_folders.jl"))
-include(joinpath(folder_googleDrive, "JULIA", "main", "user_IO_utils_v01.jl"))
-include(joinpath(folder_googleDrive, "JULIA", "main", "for_websites","code_split_gather_v01.jl"))
+#names of PAGES in Franklin 
+include(joinpath(location_basics, "aux_identify_folders.jl"))
 
-include(joinpath(folderBook.julia_utils, "for_coding", "aux_identify_folders.jl"))
 
 
 ###################
