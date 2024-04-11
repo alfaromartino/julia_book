@@ -1,5 +1,5 @@
 using Statistics, Distributions
-using Random; Random.seed!(123)
+using Random; Random.seed!(1234)
 
 function audience(nr_videos; median_target)
     shape = log(4,5)
@@ -13,4 +13,4 @@ end
 nr_videos = 30
 
 views_per_video = audience(nr_videos, median_target = 50)      # in thousands of views
-money_per_view  = rand(2:6, nr_videos)                         # per thousands of views
+pay_per_views   = rand(2:6, nr_videos)                         # per thousands of views

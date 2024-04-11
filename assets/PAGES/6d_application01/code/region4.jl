@@ -1,1 +1,1 @@
-print_compact(money_per_view)
+print_compact(pay_per_views)

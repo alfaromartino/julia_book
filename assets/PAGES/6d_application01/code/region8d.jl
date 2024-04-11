@@ -1,9 +1,9 @@
 # characterization
-viral_threshold    = 100
-money_above_avg    = 3
+viral_threshold = 100
+pay_above_avg   = 3
 
-is_viral           = (views_per_video .>= viral_threshold)
-is_viral_lucrative = (views_per_video .>= viral_threshold) .&& (money_per_view .> money_above_avg)
+is_viral           = (views_per_video .≥ viral_threshold)
+is_viral_lucrative = (views_per_video .≥ viral_threshold) .&& (pay_per_views .> pay_above_avg)
 
 # stat
 proportion_viral_lucrative = sum(is_viral_lucrative) / sum(is_viral) * 100

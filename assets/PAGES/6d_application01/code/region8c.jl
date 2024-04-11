@@ -1,1 +1,1 @@
-print_compact(viral_money) #hide
+print_compact(viral_pay) #hide

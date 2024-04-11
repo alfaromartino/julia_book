@@ -1,2 +1,2 @@
-money_per_video = views_per_video .* money_per_view
-print_compact(money_per_video) #hide
+pay_per_video = views_per_video .* pay_per_views
+print_compact(pay_per_video) #hide
