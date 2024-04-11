@@ -2053,11 +2053,11 @@ color: white;
         <h2>Introduction</h2></p>
 <p>Through the example, we&#39;ll show the convenience of the following features:</p>
 <ol>
+<li><p>Boolean indexing for focusing on subsets of the data </p>
+</li>
 <li><p>organizing code around functions </p>
 </li>
 <li><p>pipes to enhance code readability</p>
-</li>
-<li><p>Boolean indexing for focusing on subsets of the data </p>
 </li>
 <li><p>use of views to modify subsets of the data</p>
 </li>
@@ -2129,7 +2129,7 @@ pay_per_views   &#61; rand&#40;2:6, nr_videos&#41;                         # per
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Boolean Variables</h2></p>
-<p>In the following, we showcase the use of Boolean indexing to obtain and characterize subsets of data. With this purpose, let&#39;s characterize Johnny&#39;s viral videos. The focus is on the number of views and revenue generated from them, where a video is classified as viral if it&#39;s reached a threshold of 100k views.</p>
+<p>In the following, we demonstrate the use of Boolean indexing to extract and characterize subsets of data. With this purpose, we&#39;ll characterize Johnny&#39;s viral videos. The focus is on the number of views and revenue generated from them, where a video is classified as viral if it&#39;s reached a threshold of 100k views.</p>
 <p>We identify the viral videos through a Boolean vector, with <code>true</code> identifying a viral video and <code>false</code> returned otherwise. Once this vector is defined, we can apply it to any variable we&#39;re interested in. For instance, we use it below to indicate the number of viral videos, as well as the total views and earnings derived from them. </p>
  <div class=" code_box"> <details  open><summary> Viral Videos  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia"># characterization of viral videos
 viral_threshold &#61; 100
@@ -2141,7 +2141,7 @@ viral_views    &#61; sum&#40;views_per_video&#91;is_viral&#93;&#41;
 viral_pay      &#61; sum&#40;pay_per_video&#91;is_viral&#93;&#41;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>viral_nrvideos</code> <br/> <pre><code class="plaintext code-output">6</code></pre> </div></p>
 <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>viral_views</code> <br/> <pre><code class="plaintext code-output">1243.63</code></pre> </div>
 <p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>viral_money</code> <br/> <pre><code class="plaintext code-output">6133.19</code></pre> </div></div> </div>   </details></div>
-<p>It&#39;s also possible to subset data that satisfies multiple conditions. For instance, we can identify the proportion of videos generating more than &#36;3 per thousand views, out of the viral videos.</p>
+<p>We can also subset data that satisfies multiple conditions. For instance, we can determine the proportion of videos generating more than &#36;3 per thousand views, out of the viral videos.</p>
  <div class=" code_box"> <details  open><summary> More Complex Condition  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia"># characterization
 viral_threshold &#61; 100
 pay_above_avg   &#61; 3
@@ -2152,8 +2152,8 @@ is_viral_lucrative &#61; &#40;views_per_video .≥ viral_threshold&#41; .&amp;&a
 # stat
 proportion_viral_lucrative &#61; sum&#40;is_viral_lucrative&#41; / sum&#40;is_viral&#41; * 100</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>proportion_viral_lucrative</code> <br/> <pre><code class="plaintext code-output">83.3333</code></pre> </div></div> </div>   </details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Rounding Outputs</strong>  </span>  </div>  <div class=content>     You can express results with rounded numbers via the function <code>round</code>. By default, this provides the closest integer expressed as a <code>Float64</code> number. </p>
-<p>The function permits some other specifications. For instance, we can indicate the number of decimals used for the approximation using the keyword argument <code>digits</code>. Additionally, we can express the number as <code>Int64</code>.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Rounding Outputs</strong>  </span>  </div>  <div class=content>     You can express results with rounded numbers via the function <code>round</code>. By default, this returns the nearest integer expressed as a <code>Float64</code> number. </p>
+<p>The function also offers additional specifications. For instance, you can control the number of decimal places in the approximation using the <code>digits</code> keyword argument. Furthermore, it&#39;s possible to represent the number as an <code>Int64</code> using the argument <code>Int</code>.</p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2180,9 +2180,9 @@ proportion_viral_lucrative &#61; sum&#40;is_viral_lucrative&#41; / sum&#40;is_vi
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Functions to Represent Tasks</h2></p>
-<p>The approach above allows for a quick exploration of Johnny&#39;s viral videos. However, it lacks the ability to provide a systematic analysis that extends to other subsets. The limitation can be addressed by automating the process with a function, which can then be applied to multiple subsets of data.</p>
-<p>Recall that a function should embody the task to be performed, regardless of the specific application we seek. In our case, the goal is to subset data and then obtain some specific statistics from it. In particular, we&#39;re interested in the number, views, and revenue made from a subset of videos. </p>
-<p>The function below implements the task. Its arguments are given by the raw data &#40;<code>views_per_video</code> and <code>pay_per_views</code>&#41; and the defining condition of the subset &#40;<code>condition</code>&#41;. By keeping the condition generic, we can easily perform the same analysis to different subsets of Johnny&#39;s video content. The example also showcases the convenience of pipes for computing intermediate temporary steps. In this case, they&#39;re used to retrieve the income earned from a subset of videos.</p>
+<p>The approach above enables a quick exploration of Johnny&#39;s viral videos. However, it lacks the ability to provide a systematic analysis that can be extended to other subsets. The limitation can be addressed by automating the process with a function, which can then be applied to multiple subsets of data.</p>
+<p>Recall that a function should embody the task to be performed, regardless of its specific application. In our case, the goal is to subset data and then obtain some specific statistics from it. In particular, we&#39;re interested in the number, views, and revenue made from a subset of videos. </p>
+<p>The function below implements this task. Its arguments consist of the raw data &#40;<code>views_per_video</code> and <code>pay_per_views</code>&#41; and the condition defining the subset &#40;<code>condition</code>&#41;. Keeping the condition generic allows us to easily perform the same analysis to different subsets of Johnny&#39;s video content. The example also showcases the convenience of pipes for computing intermediate temporary steps. In our case, a pipe is employed when we retrieve the income earned from a subset of videos.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2224,7 +2224,7 @@ function stats_subset&#40;views_per_video, pay_per_views, condition&#41;
 end</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The practicality of this function is illustrated in the following, by applying it to various subsets of data. </p>
+<p>The practicality of this function is illustrated in the following, by applying it to various subsets of data.</p>
  <div class=" code_box"> <details  open><summary> Various Applications  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">#for virals
 viral_threshold  &#61; 100
 is_viral         &#61; &#40;views_per_video .≥ viral_threshold&#41;
@@ -2249,8 +2249,8 @@ specific_days    &#61; stats_subset&#40;views_per_video, pay_per_views, is_day&#
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Mutating Variables</h2></p>
-<p>Seeking to boost audience engagement, Johnny has decided to advertise his videos. His estimates indicate that ads will increase his viewership per video by 20&#37;. However, Johnny&#39;s budget constraints only allow him to promote either his non-viral videos or his viral videos, not both. To make an informed decision, Johnny decides to leverage the available data and obtain some rough estimates. In particular, he&#39;ll calculate how much he would&#39;ve earned with targeted ads.</p>
-<p>The computations require a copy of <code>views_per_video</code>, where the targeted videos&#39; audience needs to be modified. Given this new audience, we can apply the function <code>stats_subset</code> defined above to calculate the corresponding earnings. In the following, we show an implementation based on views. The results suggest that advertising viral videos would be a more profitable strategy.</p>
+<p>Seeking to enhance audience engagement, Johnny has decided to promote his videos through advertising. His estimates indicate that advertisements will boost his viewership per video by 20&#37;. However, Johnny&#39;s budget constraints only allow him to advertise either his non-viral videos or his viral videos, not both. To make an informed decision, Johnny decides to leverage the available data to obtain some rough estimates. In particular, he&#39;ll calculate how much he would&#39;ve earned this month with targeted ads.</p>
+<p>The computations require a copy of <code>views_per_video</code>, adjusting the audience data for targeted videos. With this updated audience data, we can apply the previously defined <code>stats_subset</code> function to estimate the corresponding earnings. In the following, we show an implementation based on views. The results suggest that promoting viral videos would be a more profitable strategy.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2276,7 +2276,7 @@ targetNonViral  &#61; stats_subset&#40;new_views, pay_per_views, allvideos&#41;<
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>targetNonViral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 30, views = 2646.58, pay = 12098.4)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Note that updating <code>temp</code> requires an in-place operation to ensure that the parent object is mutated. In our case, this was achieved via the broadcasted operator <code>.&#61;</code>. Below, we examine some potential misuses of views that would fail to deliver the appropriate result. </p>
+<p>It&#39;s important to note that updating <code>temp</code> requires an in-place operation to ensure the parent object is mutated. In our case, this was achieved via the broadcasted operator <code>.&#61;</code>. Below, we state some potential misuses of views that fail to produce the desired result. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2304,7 +2304,7 @@ temp  &#61; temp .* 1.2             # it creates a new variable &#39;temp&#39;, 
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Use of "Let Blocks" To Avoid Bugs</strong>  </span>  </div>  <div class=content>     Regardless of the scenario, we&#39;ve referred to each variable by an identical name. This increases the risk of unintentionally referencing a variable from a different scenario. The issue can be mitigated by employing &quot;let blocks&quot;, which also help preserve a clean namespace by defining its own scope.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Use of "Let Blocks" To Avoid Bugs</strong>  </span>  </div>  <div class=content>     Regardless of the scenario, we&#39;ve referred to each variable by an identical name. This increases the risk of accidentally referring to a variable from a different scenario. The issue can be alleviated by employing &quot;let blocks&quot;, which help maintain a clean namespace by defining their own scope.</p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2341,7 +2341,7 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Over a List of Functions (<strong><i>OPTIONAL</i></strong>)</h2></p>
-<p>To gather insights about Johnny&#39;s audience per video, we can derive descriptive statistics. The subsection is optional, as descriptive statistics can be more easily obtained through a package we haven&#39;t covered &#40;<code>DataFrames</code>&#41;. Despite this, the presentation illustrates the advantages of functions being first-class objects in Julia. This means that a function has the same properties as any other variable, enabling us to define a list of functions and apply them element-wise to a variable.</p>
+<p>To gain insights about Johnny&#39;s audience per video, we can derive descriptive statistics. The subsection is optional, as descriptive statistics can be more easily obtained through a package we haven&#39;t covered &#40;<code>DataFrames</code>&#41;. Despite this, the presentation highlights the benefits of functions being first-class objects in Julia. This property entails that a function behave like any other variable, making it possible to define a list of functions and apply them element-wise to a variable.</p>
  <div class=" code_box"> <details  open><summary> Descriptive Statistics  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">list_functions &#61; &#91;sum, median, mean, maximum, minimum&#93;
 stats_views    &#61; &#91;fun&#40;views_per_video&#41; for fun in list_functions&#93;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>stats_views</code> <br/> <pre><code class="plaintext code-output">5-element Vector{Float64}:
  2412.76
@@ -2349,7 +2349,7 @@ stats_views    &#61; &#91;fun&#40;views_per_video&#41; for fun in list_functions
    80.4252
   451.428
    27.7205</code></pre> </div></div> </div>   </details></div>
-<p>By broadcasting the operation, we can also compute stats for multiple variables. For instance, below we characterize <code>views_per_video</code> and <code>pay_per_video</code> simultaneously. </p>
+<p>By broadcasting the operation, we can also compute stats for multiple variables concurrently. For instance, below we characterize <code>views_per_video</code> and <code>pay_per_video</code> simultaneously. </p>
  <div class=" code_box"> <details  open><summary> Descriptive Statistics  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">list_functions &#61; &#91;sum, median, mean, maximum, minimum&#93;
 
 stats_views    &#61; &#91;fun.&#40;&#91;views_per_video, pay_per_views&#93;&#41; for fun in list_functions&#93;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>stats_views</code> <br/> <pre><code class="plaintext code-output">5-element Vector{Vector{Float64}}:
@@ -2358,8 +2358,8 @@ stats_views    &#61; &#91;fun.&#40;&#91;views_per_video, pay_per_views&#93;&#41;
  [80.4252, 4.26667]
  [451.428, 6.0]
  [27.7205, 2.0]</code></pre> </div></div> </div>   </details></div>
-<p>One issue with the current method is that it fails to capture the name of each statistic. This can be overcome by using a named tuple, which we refer to as <code>stats_views</code>. The approach makes it possible to access stats by their specific names, such as <code>stats_views.mean</code> or <code>stats_views&#91;:mean&#93;</code> for the mean. </p>
-<p>To implement it, we need to introduce the function <code>Symbol</code>. This transforms any string into an identifier, which is necessary to programmatically access a named tuple&#39;s keys.</p>
+<p>One limitation of the current method is its inability to capture the name of each statistic. To address this, we can employ a named tuple, which we&#39;ll call <code>stats_views</code>. The approach allows us to access stats using their respective names, such as <code>stats_views.mean</code> or <code>stats_views&#91;:mean&#93;</code> for the mean. </p>
+<p>To implement this, we need to introduce the function <code>Symbol</code>. This converts any string into an identifier, which is necessary to programmatically access a named tuple&#39;s keys.</p>
  <div class=" code_box"> <details  open><summary> Descriptive Statistics  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">vector_of_tuples &#61; &#91;&#40;Symbol&#40;fun&#41;, fun&#40;views_per_video&#41;&#41; for fun in list_functions&#93;
 stats_views      &#61; NamedTuple&#40;vector_of_tuples&#41;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>stats_views</code> <br/> <pre><code class="plaintext code-output">(sum = 2412.76, median = 52.7884, mean = 80.4252, maximum = 451.428, minimum = 27.7205)</code></pre> </div></p>
 <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>stats_views.mean</code> <br/> <pre><code class="plaintext code-output">80.4252</code></pre> </div>
@@ -2376,7 +2376,7 @@ stats_views      &#61; NamedTuple&#40;vector_of_tuples&#41;</code></pre> </div> 
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\6e_useful_funs" class="nextPage">Next Section <img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 10, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 11, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
