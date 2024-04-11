@@ -3,4 +3,4 @@ x  = rand(10)
 
 foo(x) = sum(a -> 10 + 2a +  3a^2, x)
 
-@btime foo(ref($x));
+@btime foo(ref($x)) #hide

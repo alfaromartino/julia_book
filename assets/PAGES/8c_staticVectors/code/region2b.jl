@@ -8,4 +8,4 @@ x = rand(10)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo(ref($x))
+@btime foo(ref($x)) #hide

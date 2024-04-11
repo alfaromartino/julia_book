@@ -1,4 +1,4 @@
-# all 'sx' define the same static vector, mimicking 'x'
+# all 'sx' define a static vector with same elements as 'x'
 x = collect(1:10)
 
 sx = SVector(x...)

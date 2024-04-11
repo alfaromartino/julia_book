@@ -3,4 +3,4 @@ x = rand(10)
 
 foo(x) = sum(2 .* x)
 
-@btime foo(ref($x));
+@btime foo(ref($x)) #hide

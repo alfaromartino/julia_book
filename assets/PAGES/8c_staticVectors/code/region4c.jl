@@ -9,5 +9,3 @@ function foo(x; output = Vector{Float64}(undef, length(x)))
 
     return output
 end
-
-@btime foo(ref($sx));

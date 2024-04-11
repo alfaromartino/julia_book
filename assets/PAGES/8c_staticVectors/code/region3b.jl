@@ -3,4 +3,4 @@ x = rand(10);   sx = SVector(x...)
 
 foo(x) = sum(2 .* x)
 
-@btime foo(ref($sx));
+@btime foo(ref($sx)) #hide

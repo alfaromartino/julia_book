@@ -9,5 +9,3 @@ function foo(x; output = MVector{length(x),eltype(x)}(undef))
 
     return output
 end
-
-@btime foo(ref($sx));

@@ -8,4 +8,4 @@ function foo(x)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo(ref($tup))
+@btime foo(ref($tup)) #hide

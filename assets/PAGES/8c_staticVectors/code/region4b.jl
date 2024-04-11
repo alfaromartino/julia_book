@@ -1,7 +1,7 @@
 using Random, StaticArrays; Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(50)
 
-function foo(x; output=similar(x), temp=similar(x))
+function foo(x; output = similar(x), temp = similar(x))
     for i in eachindex(x)
         @. temp      = x > x[i]
            output[i] = sum(temp)
@@ -9,5 +9,3 @@ function foo(x; output=similar(x), temp=similar(x))
 
     return output
 end
-
-@btime foo(ref($x));

@@ -9,5 +9,3 @@ function foo(x; output = similar(x))
 
     return output
 end
-
-@btime foo(ref($sx));
