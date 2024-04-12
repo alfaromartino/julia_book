@@ -7,4 +7,4 @@ function foo(x)
     sum(y)
 end
     
-@btime foo(ref($x))
+@btime foo(ref($x)) #hide

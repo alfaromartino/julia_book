@@ -2052,10 +2052,8 @@ function foo&#40;x&#41;
     y &#61; &#91;a * 2 for a in x&#93;                  # 1 allocation &#40;same as y &#61; x .* 2&#41;
     
     sum&#40;y&#41;
-end
-    
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  54.582 ns (1 allocation: 896 bytes)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  48.122 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2064,18 +2062,14 @@ function foo&#40;x&#41;
     y &#61; &#40;a * 2 for a in x&#41;                  # 0 allocations
     
     sum&#40;y&#41;
-end
-    
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  24.197 ns (0 allocations: 0 bytes)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  23.470 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
-foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations
-    
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  23.795 ns (0 allocations: 0 bytes)
+foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  23.547 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2122,10 +2116,8 @@ function foo&#40;x&#41;
     y &#61; filter&#40;a -&gt; a &gt; 50, x&#41;              # 1 allocation 
 
     sum&#40;y&#41;
-end
-    
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  56.314 ns (1 allocation: 896 bytes)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  50.916 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; collect&#40;1:100&#41;
@@ -2134,10 +2126,8 @@ function foo&#40;x&#41;
     y &#61; Iterators.filter&#40;a -&gt; a &gt; 50, x&#41;    # 0 allocations 
 
     sum&#40;y&#41;
-end
-    
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  44.040 ns (0 allocations: 0 bytes)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  48.374 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2154,10 +2144,8 @@ function foo&#40;x&#41;
     y &#61; map&#40;a -&gt; a * 2, x&#41;                  # 1 allocation
 
     sum&#40;y&#41;
-end
-    
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  50.870 ns (1 allocation: 896 bytes)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  47.919 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2166,10 +2154,8 @@ function foo&#40;x&#41;
     y &#61; Iterators.map&#40;a -&gt; a * 2, x&#41;        # 0 allocations
 
     sum&#40;y&#41;
-end
-    
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  23.896 ns (0 allocations: 0 bytes)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  24.072 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2193,19 +2179,15 @@ end
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia"># eager implementation
 x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
 
-foo&#40;x,y&#41; &#61; sum&#40;2 .* x&#41; &#43; sum&#40;2 .* y&#41; / sum&#40;x .* y&#41;
-
-@btime foo&#40;&#36;x,&#36;y&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  160.279 ns (3 allocations: 2.62 KiB)
+foo&#40;x,y&#41; &#61; sum&#40;2 .* x&#41; &#43; sum&#40;2 .* y&#41; / sum&#40;x .* y&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  137.175 ns (3 allocations: 2.62 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using LazyArrays
 x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
 
-foo&#40;x,y&#41; &#61; sum&#40;@~ 2 .* x&#41; &#43; sum&#40;@~ 2 .* y&#41; / sum&#40;@~ x .* y&#41;
-
-@btime foo&#40;&#36;x,&#36;y&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  28.543 ns (0 allocations: 0 bytes)
+foo&#40;x,y&#41; &#61; sum&#40;@~ 2 .* x&#41; &#43; sum&#40;@~ 2 .* y&#41; / sum&#40;@~ x .* y&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  25.803 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2225,10 +2207,8 @@ function foo&#40;x,y&#41;
     
     
     sum&#40;lx ./ ly&#41;
-end
-
-@btime foo&#40;ref&#40;&#36;x&#41;,ref&#40;&#36;y&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  223.192 ns (3 allocations: 2.62 KiB)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  186.739 ns (11 allocations: 2.69 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
@@ -2239,10 +2219,8 @@ function foo&#40;x,y&#41;
     temp&#40;a,b&#41; &#61; lx&#40;a&#41; / ly&#40;b&#41;
     
     sum&#40;Iterators.map&#40;temp, x,y&#41;&#41;
-end
-
-@btime foo&#40;ref&#40;&#36;x&#41;,ref&#40;&#36;y&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  123.385 ns (0 allocations: 0 bytes)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  122.829 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
@@ -2253,10 +2231,8 @@ function foo&#40;x,y&#41;
     temp&#40;a,b&#41; &#61; lx&#40;a&#41; / ly&#40;b&#41;
     
     sum&#40;@~ temp.&#40;x,y&#41;&#41;
-end
-
-@btime foo&#40;ref&#40;&#36;x&#41;,ref&#40;&#36;y&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  43.838 ns (0 allocations: 0 bytes)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  44.040 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>

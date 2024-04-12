@@ -8,4 +8,4 @@ function foo(x)
     sum(all_conditions)
 end
 
-@btime foo(ref($x))
+@btime foo(ref($x)) #hide

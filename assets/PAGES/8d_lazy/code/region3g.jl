@@ -9,4 +9,4 @@ function foo(x,y)
     sum(@~ temp.(x,y))
 end
 
-@btime foo(ref($x),ref($y))
+@btime foo(ref($x),ref($y)) #hide

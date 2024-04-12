@@ -3,4 +3,4 @@ x = rand(100)
 
 foo(x) = sum(a * 2 for a in x)              # 0 allocations
     
-@btime foo(ref($x))
+@btime foo(ref($x)) #hide

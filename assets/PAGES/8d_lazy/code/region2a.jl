@@ -5,4 +5,4 @@ function foo(x)
     sum(x .> 50)                            # 1 allocation
 end
     
-@btime foo(ref($x))
+@btime foo(ref($x)) #hide
