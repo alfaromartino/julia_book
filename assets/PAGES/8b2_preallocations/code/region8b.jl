@@ -11,4 +11,4 @@ function foo(x)
     return output
 end
 
-@btime foo(ref($x))
+@btime foo(ref($x)) #hide

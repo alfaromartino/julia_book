@@ -4,4 +4,4 @@ output = similar(x)
 
 foo!(output,x) = (output .= 2 .* x)
 
-@btime foo!(ref($output), ref($x));
+@btime foo!(ref($output), ref($x)) #hide

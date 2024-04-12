@@ -12,4 +12,4 @@ function foo!(x; output = similar(x), temp = similar(x))
     return output
 end
 
-@btime foo!(ref($x))
+@btime foo!(ref($x)) #hide

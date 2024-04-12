@@ -2036,10 +2036,8 @@ function foo&#40;x, repetitions&#41;
     for _ in 1:repetitions
         Vector&#123;Int64&#125;&#40;undef, length&#40;x&#41;&#41;
     end
-end
-
-@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  2.722 ms (100000 allocations: 85.45 MiB)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  16.506 ms (100000 allocations: 85.45 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; collect&#40;1:100&#41;
@@ -2049,10 +2047,8 @@ function foo&#40;x, repetitions&#41;
     for _ in 1:repetitions
         similar&#40;x&#41;
     end
-end
-
-@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  2.735 ms (100000 allocations: 85.45 MiB)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  16.623 ms (100000 allocations: 85.45 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; collect&#40;1:100&#41;
@@ -2062,10 +2058,8 @@ function foo&#40;x, repetitions&#41;
     for _ in 1:repetitions
         zeros&#40;Int64, length&#40;x&#41;&#41;
     end
-end
-
-@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  8.546 ms (100000 allocations: 85.45 MiB)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  23.267 ms (100000 allocations: 85.45 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; collect&#40;1:100&#41;
@@ -2075,10 +2069,8 @@ function foo&#40;x, repetitions&#41;
     for _ in 1:repetitions
         ones&#40;Int64, length&#40;x&#41;&#41;
     end
-end
-
-@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  5.231 ms (100000 allocations: 85.45 MiB)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  21.326 ms (100000 allocations: 85.45 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; collect&#40;1:100&#41;
@@ -2088,10 +2080,8 @@ function foo&#40;x, repetitions&#41;
     for _ in 1:repetitions
         fill&#40;2, length&#40;x&#41;&#41;                  # vector filled with integer 2
     end
-end
-
-@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  5.902 ms (100000 allocations: 85.45 MiB)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  21.863 ms (100000 allocations: 85.45 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2109,14 +2099,14 @@ end
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">function foo&#40;x&#41;
    output &#61; similar&#40;x&#41; 
-   # &lt;some computations using &#39;output&#39;&gt;
+   # &lt;some calculations using &#39;output&#39;&gt;
 end</code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">function foo&#40;x; output &#61; similar&#40;x&#41;&#41;
 
-   # &lt;some computations using &#39;output&#39;&gt;
+   # &lt;some calculations using &#39;output&#39;&gt;
 end</code></pre>
 <p></div></div> 
  </div></div>
@@ -2132,24 +2122,18 @@ end</code></pre>
 
 function foo&#40;x&#41;
     a,b,c &#61; &#91;similar&#40;x&#41; for _ in 1:3&#93;
-
     # &lt;some calculations using a,b,c&gt;
-end
-
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  54.472 ns (4 allocations: 320 bytes)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  54.002 ns (4 allocations: 320 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;1,2,3&#93;
 
 function foo&#40;x&#41;
     a,b,c &#61; &#40;similar&#40;x&#41; for _ in 1:3&#41;
-
     # &lt;some calculations using a,b,c&gt;
-end
-
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  37.273 ns (3 allocations: 240 bytes)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  39.174 ns (3 allocations: 240 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>   </p>
@@ -2181,18 +2165,14 @@ function foo&#40;x&#41;
     end
 
     return output
-end
-
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  50.659 ns (1 allocation: 896 bytes)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  49.036 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
-foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;                  # 2 .* x implicitly creates a temporary vector  
-
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  48.627 ns (1 allocation: 896 bytes)
+foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;                  # 2 .* x implicitly creates a temporary vector</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  42.583 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2214,20 +2194,16 @@ function foo&#40;x; output &#61; similar&#40;x&#41;&#41;
     return output
 end
 
-calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#40;x&#41;&#41; for _ in 1:100&#93;
-
-@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  5.175 μs (101 allocations: 88.38 KiB)
+calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#40;x&#41;&#41; for _ in 1:100&#93;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  5.620 μs (101 allocations: 88.38 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
 foo&#40;x&#41; &#61; 2 .* x
 
-calling_foo_in_a_loop&#40;x&#41; &#61; &#91;sum&#40;foo&#40;x&#41;&#41; for _ in 1:100&#93;
-
-@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  5.360 μs (101 allocations: 88.38 KiB)
+calling_foo_in_a_loop&#40;x&#41; &#61; &#91;sum&#40;foo&#40;x&#41;&#41; for _ in 1:100&#93;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  5.140 μs (101 allocations: 88.38 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2250,10 +2226,8 @@ function foo&#33;&#40;output,x&#41;
     end
 
     return output
-end
-
-@btime foo&#33;&#40;ref&#40;&#36;output&#41;, ref&#40;&#36;x&#41;&#41;;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  5.300 ns (0 allocations: 0 bytes)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;output&#41;, ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  6.100 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
@@ -2267,10 +2241,8 @@ function foo&#33;&#40;output,x&#41;
     return output
 end
 
-calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x&#41;&#41; for _ in 1:100&#93;
-
-@btime calling_foo_in_a_loop&#40;ref&#40;&#36;output&#41;,ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.430 μs (1 allocation: 896 bytes)
+calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x&#41;&#41; for _ in 1:100&#93;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;output&#41;, ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.420 μs (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2286,10 +2258,15 @@ calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
 output &#61; similar&#40;x&#41;
 
-foo&#33;&#40;output,x&#41; &#61; &#40;output .&#61; 2 .* x&#41;
+foo&#33;&#40;output,x&#41; &#61; &#40;output .&#61; 2 .* x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;output&#41;, ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  6.500 ns (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
+output &#61; similar&#40;x&#41;
 
-@btime foo&#33;&#40;ref&#40;&#36;output&#41;, ref&#40;&#36;x&#41;&#41;;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  8.509 ns (0 allocations: 0 bytes)
+foo&#33;&#40;output,x&#41; &#61; &#40;@. output &#61; 2 * x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;output&#41;, ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  6.100 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
@@ -2297,19 +2274,8 @@ output &#61; similar&#40;x&#41;
 
 foo&#33;&#40;output,x&#41; &#61; &#40;@. output &#61; 2 * x&#41;
 
-@btime foo&#33;&#40;ref&#40;&#36;output&#41;, ref&#40;&#36;x&#41;&#41;;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  8.108 ns (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
-output &#61; similar&#40;x&#41;
-
-foo&#33;&#40;output,x&#41; &#61; &#40;@. output &#61; 2 * x&#41;
-
-calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x&#41;&#41; for _ in 1:100&#93;
-
-@btime calling_foo_in_a_loop&#40;ref&#40;&#36;output&#41;,ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.740 μs (1 allocation: 896 bytes)
+calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x&#41;&#41; for _ in 1:100&#93;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;output&#41;,ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.500 μs (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2363,18 +2329,14 @@ function foo&#40;x; output &#61; similar&#40;x&#41;&#41;
     end
 
     return output
-end
-
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  15.900 μs (201 allocations: 11.81 KiB)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  10.000 μs (201 allocations: 11.81 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
-foo&#40;x&#41; &#61; &#91;sum&#40;x .&gt; x&#91;i&#93;&#41; for i in eachindex&#40;x&#41;&#93;
-
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  15.600 μs (201 allocations: 11.81 KiB)
+foo&#40;x&#41; &#61; &#91;sum&#40;x .&gt; x&#91;i&#93;&#41; for i in eachindex&#40;x&#41;&#93;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  10.100 μs (201 allocations: 11.81 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2382,10 +2344,8 @@ foo&#40;x&#41; &#61; &#91;sum&#40;x .&gt; x&#91;i&#93;&#41; for i in eachindex&#
 function foo&#40;x&#41; 
     temp   &#61; &#91;x .&gt; x&#91;i&#93; for i in eachindex&#40;x&#41;&#93;
     output &#61; sum.&#40;temp&#41;
-end
-
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  16.400 μs (202 allocations: 12.69 KiB)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  10.000 μs (202 allocations: 12.69 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2411,10 +2371,8 @@ function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40
     end
 
     return output
-end
-
-@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.970 μs (2 allocations: 1.75 KiB)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.960 μs (2 allocations: 1.75 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2426,10 +2384,8 @@ function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40
     end
 
     return output
-end
-
-@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.850 μs (2 allocations: 1.75 KiB)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.850 μs (2 allocations: 1.75 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2441,10 +2397,8 @@ function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40
     end
 
     return output
-end
-
-@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.850 μs (2 allocations: 1.75 KiB)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.820 μs (2 allocations: 1.75 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>   </p>
@@ -2472,10 +2426,8 @@ function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40
     end
 
     return output
-end
-
-@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.960 μs (2 allocations: 1.75 KiB)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.950 μs (2 allocations: 1.75 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2489,10 +2441,8 @@ function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40
     end
 
     return output
-end
-
-@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.970 μs (2 allocations: 1.75 KiB)
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.890 μs (2 allocations: 1.75 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2518,10 +2468,8 @@ function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40
     return output
 end
 
-calling_foo_in_a_loop&#40;x&#41; &#61; &#91;foo&#33;&#40;x&#41; for _ in 1:1_000&#93;
-
-@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  2.005 ms (2001 allocations: 1.72 MiB)
+calling_foo_in_a_loop&#40;x&#41; &#61; &#91;foo&#33;&#40;x&#41; for _ in 1:1_000&#93;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.917 ms (2001 allocations: 1.72 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
@@ -2538,10 +2486,8 @@ function foo&#33;&#40;x, output, temp&#41;
     return output
 end
 
-calling_foo_in_a_loop&#40;x, output, temp&#41; &#61; &#91;foo&#33;&#40;x, output, temp&#41; for _ in 1:1_000&#93;
-
-@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;output&#41;, ref&#40;&#36;temp&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.905 ms (1 allocation: 7.94 KiB)
+calling_foo_in_a_loop&#40;x, output, temp&#41; &#61; &#91;foo&#33;&#40;x, output, temp&#41; for _ in 1:1_000&#93;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;output&#41;, ref&#40;&#36;temp&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.841 ms (1 allocation: 7.94 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>

@@ -6,4 +6,4 @@ function foo(x)
     output = sum.(temp)
 end
 
-@btime foo(ref($x))
+@btime foo(ref($x)) #hide

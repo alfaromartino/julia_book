@@ -15,4 +15,4 @@ end
 
 calling_foo_in_a_loop(x, output, temp) = [foo!(x, output, temp) for _ in 1:1_000]
 
-@btime calling_foo_in_a_loop(ref($x), ref($output), ref($temp))
+@btime calling_foo_in_a_loop(ref($x), ref($output), ref($temp)) #hide

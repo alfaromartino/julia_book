@@ -10,4 +10,4 @@ function foo!(output,x)
     return output
 end
 
-@btime foo!(ref($output), ref($x));
+@btime foo!(ref($output), ref($x)) #hide

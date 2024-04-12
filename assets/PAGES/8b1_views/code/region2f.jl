@@ -4,4 +4,4 @@ x = rand(1_000)
 
 foo(x) = sum(a for a in x if a > 0.5)
 
-@btime foo(ref($x));
+@btime foo(ref($x)) #hide

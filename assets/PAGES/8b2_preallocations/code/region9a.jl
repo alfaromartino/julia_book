@@ -5,4 +5,4 @@ foo(x) = 2 .* x
 
 calling_foo_in_a_loop(x) = [sum(foo(x)) for _ in 1:100]
 
-@btime calling_foo_in_a_loop(ref($x))
+@btime calling_foo_in_a_loop(ref($x)) #hide

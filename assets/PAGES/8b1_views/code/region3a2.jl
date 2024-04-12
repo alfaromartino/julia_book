@@ -3,4 +3,4 @@ x = rand(100_000)
 
 foo(x) = max.(@view(x[1:2:length(x)]), 0.5)
 
-@btime foo(ref($x));
+@btime foo(ref($x)) #hide

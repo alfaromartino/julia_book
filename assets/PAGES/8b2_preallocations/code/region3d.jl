@@ -7,4 +7,4 @@ function foo(x, repetitions)
     end
 end
 
-@btime foo(ref($x), ref($repetitions))
+@btime foo(ref($x), ref($repetitions)) #hide

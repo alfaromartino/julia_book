@@ -3,4 +3,4 @@ x = rand(100)
 
 foo(x) = sum(2 .* x)                  # 2 .* x implicitly creates a temporary vector  
 
-@btime foo(ref($x))
+@btime foo(ref($x)) #hide

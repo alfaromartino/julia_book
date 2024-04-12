@@ -3,4 +3,4 @@ x = rand(1_000)
 
 foo(x) = @views sum(x[x .> 0.5])
 
-@btime foo(ref($x))
+@btime foo(ref($x)) #hide

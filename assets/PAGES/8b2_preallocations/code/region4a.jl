@@ -3,4 +3,4 @@ x = rand(100)
 
 foo(x) = [sum(x .> x[i]) for i in eachindex(x)]
 
-@btime foo(ref($x))
+@btime foo(ref($x)) #hide
