@@ -1803,13 +1803,15 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\3d_mutation/"><i>c</i>. Assignments vs Mutations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a0_slices/"><i>d</i>. Slices and Views</a></li><br>
+                <li><a href="/julia_book/PAGES\5bc_initializing/"><i>d</i>. Initializing and Creating Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>e</i>. Array Indexing</a></li><br>
+                <li><a href="/julia_book/PAGES\6a0_slices/"><i>e</i>. Slices and Views</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>f</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6c_inplace/"><i>g</i>. In-Place Functions</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
               </ul>
             </li>
@@ -1820,9 +1822,9 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6f_pipes/"><i>b</i>. Let Blocks and Pipes</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6d_application01/"><i>c</i>. Illustration 1</a></li><br>
+                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>c</i>. Useful Functions for Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\6d_application01/"><i>d</i>. Illustration - Johnny, the YouTuber</a></li><br>
                 
               </ul>
             </li>            
@@ -1837,6 +1839,8 @@ color: white;
 </div>
 
 
+
+  
 
   
 
@@ -2046,26 +2050,27 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy section-bg-color">
+<section id="defining_mutability" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Introduction</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Mutable objects</strong></span> allow their elements to be modified, added, or removed. An example of mutable objects is <strong>vectors</strong>.</p>
-<p>In contrast, <span style="color: rgb(62, 121, 180);"><strong>immutable objects</strong></span> can&#39;t be changed: we&#39;re unable to add or remove elements, or mutate the values of their existing elements. Immutability offers code safety, by preventing unintended modifications of read-only variables. Furthermore, it potentially entails performance benefits. Examples of immutable objects are <strong>tuples</strong> and <strong>strings</strong>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that strings are a sequence of characters. Thus, mutability refers to the possibility of changing its characters.  </span></span></p>
+        <h2>Defining Mutability</h2></p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Mutable objects</strong></span> are designed to be flexible, allowing their elements to be modified, added, or removed at will. A prime example is <strong>vectors</strong>, which can be transformed as needed. </p>
+<p>In contrast, <span style="color: rgb(62, 121, 180);"><strong>immutable objects</strong></span> are unchangeable, prohibiting any additions, removals, or modifications to their elements. Immutability provides a safeguard against unintended changes to read-only variables, thus ensuring code safety. Moreover, it can lead to performance gains. Notable examples of immutable objects include <strong>tuples</strong>, which remain unchanged once created. </p>
+<p>This section is brief and only aims to show the difference between mutable and immutable objects.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     A popular package called <code>StaticArrays</code> defines <strong>immutable vectors</strong>. We&#39;ll explore this package when we study high performance, which significantly accelerates computations involving small vectors.  </div>  </div>
+      <b>Remark</b> </span>  </div>  <div class=content>     A popular package called <code>StaticArrays</code> provides an implementation of <strong>immutable vectors</strong>. We&#39;ll explore this package when we discuss high performance, as it significantly accelerates computations involving small vectors.  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="examples" class="scrollspy">
+<section id="examples_of_mutability_and_immutability" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Examples</h2></p>
-<p>The following examples show what occurs when we attempt to modify existing elements of mutable and immutable objects.</p>
+        <h2>Examples of Mutability and Immutability</h2></p>
+<p>The following examples show what occurs when we attempt to modify existing elements of mutable and immutable objects. In addition to vectors and tuples, we add a more subtle example, as is <strong>strings</strong>. Recall that strings should be understood as a sequence of characters. Its immutability means that its characters can&#39;t be changed.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2092,55 +2097,41 @@ color: white;
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;1&#93;</code><br/><div class="akin_to_pre">'h': ASCII/Unicode U+0068 (category Ll: Letter, lowercase)</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;1&#93; &#61; &quot;a&quot;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching setindex!(::String, ::Int64, ::Int64)</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Mutability also means that we can add or remove elements. Next, we provide several functions that achieve this. </p>
+<p>Mutability also entails that elements can be removed or added. <a href="/julia_book/PAGES/5bc_initializing/#adding_removing_and_replacing_elements_optional">A later section</a> provides several functions to do this. Here, we only show the possibility through the functions <code>push&#33;</code> and <code>pop&#33;</code>, which respectively add and remove one element at the end. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Add One Element </button>
-    <button class="tablink" data-id=""> Add Multiple Elements </button>
-    <button class="tablink" data-id=""> Remove One Element </button>
-    <button class="tablink" data-id=""> Remove Multiple Elements </button>
+    <button class="tablink first_tab active" data-id=""> Add  (Mutable)</button>
+    <button class="tablink" data-id=""> Remove (Mutable) </button>    
+    <button class="tablink" data-id=""> Add/Remove Immutable </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;3,4&#93;
 
-push&#33;&#40;x, 10&#41;            # add element 10 at the end</code></pre>
+push&#33;&#40;x, 5&#41;    # add element 5 at the end</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  3
  4
- 10</div> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;3,4&#93;
-
-append&#33;&#40;x, &#91;5,6&#93;&#41;       # add elements 5 and 6 at the end</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">4-element Vector{Int64}:
- 3
- 4
- 5
- 6</div> </div></div> </div> 
+ 5</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;3,4,5&#93;
 
-pop&#33;&#40;x&#41;                 # delete last element</code></pre>
+pop&#33;&#40;x&#41;          # delete last element</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  3
  4</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;7,8,9&#93;
+<pre><code class="language-julia">x &#61; &#40;3,4,5&#41;
 
-deleteat&#33;&#40;x, &#91;1,3&#93;&#41;     # &#91;1,3&#93; are the indices to be deleted</code></pre>
+pop&#33;&#40;x&#41;                 # error, just like push&#33;&#40;x, &lt;some element&gt;&#41;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">1-element Vector{Int64}:
- 8</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching pop&#33;&#40;::Tuple&#123;Int64, Int64, Int64&#125;&#41; </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The function <code>push&#33;</code> is particularly helpful to collect results in a vector: as it doesn&#39;t require any prior knowledge about the number of elements to be stored, we can dynamically grow the vector as more results are added.</p>
 <p>      </div>
     </div>
   </div>
@@ -2153,7 +2144,7 @@ deleteat&#33;&#40;x, &#91;1,3&#93;&#41;     # &#91;1,3&#93; are the indices to b
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\3d_mutation" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 11, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2643,11 +2634,11 @@ for multiple pics in a row
     <ul class="navbar-nav">
       
       <li class="nav-item">
-        <a class="nav-link" href="#introduction" data-offset="-40">Introduction</a>
+        <a class="nav-link" href="#defining_mutability" data-offset="-40">Defining Mutability</a>
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#examples" data-offset="-40">Examples</a>
+        <a class="nav-link" href="#examples_of_mutability_and_immutability" data-offset="-40">Examples of Mutability and Immutability</a>
       </li>
       
     </ul>

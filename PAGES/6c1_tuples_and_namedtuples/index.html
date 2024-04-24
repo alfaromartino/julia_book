@@ -1717,6 +1717,8 @@ color: white;
 
   
 
+  
+
 <div class="bar_top">
   <ul>
      <li>
@@ -1815,13 +1817,15 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\3d_mutation/"><i>c</i>. Assignments vs Mutations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a0_slices/"><i>d</i>. Slices and Views</a></li><br>
+                <li><a href="/julia_book/PAGES\5bc_initializing/"><i>d</i>. Initializing and Creating Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>e</i>. Array Indexing</a></li><br>
+                <li><a href="/julia_book/PAGES\6a0_slices/"><i>e</i>. Slices and Views</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>f</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6c_inplace/"><i>g</i>. In-Place Functions</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
               </ul>
             </li>
@@ -1832,9 +1836,9 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6f_pipes/"><i>b</i>. Let Blocks and Pipes</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6d_application01/"><i>c</i>. Illustration 1</a></li><br>
+                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>c</i>. Useful Functions for Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\6d_application01/"><i>d</i>. Illustration - Johnny, the YouTuber</a></li><br>
                 
               </ul>
             </li>            
@@ -2124,12 +2128,12 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Named Tuples</h2></p>
-<p>Named tuples share several similarities with regular tuples, including their <strong>immutability</strong>. The primary difference between them lies in how they access elements: <strong>regular tuples use numerical indices, while named tuples employ symbols.</strong>. </p>
+<p>Named tuples share several similarities with regular tuples, including their <strong>immutability</strong>. However, they access their elements differently: <strong>regular tuples use numerical indices</strong>, while <strong>named tuples employ symbols</strong>. </p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content> <strong>Tuples and named tuples are only suitable for small collections</strong>. Using them for large collections can lead to slow operations or even stack overflows, exceeding the computer&#39;s processing capacity. For such situations, arrays remain preferable. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Tuples are allocated in a part of the RAM known as the stack, which has a limited capacity. Instead, vectors are allocated in another part of the RAM, known as the heap, capable of handling much larger collections.  </span></span></p>
-<p>Defining  <em> small</em> in this context remains challenging and, unfortunately, there are no definitive answers in this regard. We can only claim that collections with less than 10 elements are undoubtedly small, while those exceeding hundreds of elements clearly violate the definition.  </div>  </div>
-<p>Named tuples differ syntactically from tuples in several ways. First, they always need to be enclosed in parentheses <code>&#40;&#41;</code>—omitting them is not possible, as is the case with regular tuples. Also, a named tuple&#39;s elements can be specified by either <code>&#61;</code> or <code>&#61;&gt;</code>. For instance, you can define the element with key <code>a</code> by <code>a &#61; 10</code> or <code>:a &#61;&gt; 10</code>. The notation <code>&#61;&gt;</code> in Julia is used for <strong>pairs of key-values</strong>, and it formally defines an object with type <code>Pairs</code>. </p>
+<p>Defining  <em> small</em> in this context remains challenging, and unfortunately there are no definitive answers in this regard. We can only claim that collections with less than 10 elements are undoubtedly small, while those exceeding hundreds of elements clearly violate the definition.  </div>  </div>
+<p>Additionaly, named tuples differ syntactically from tuples in various ways. First, they always need to be enclosed in parentheses <code>&#40;&#41;</code>—omitting them is not possible, as is the case with regular tuples. Also, a named tuple&#39;s elements can be specified by either <code>&#61;</code> or <code>&#61;&gt;</code>. For instance, you can define the element with key <code>a</code> by <code>a &#61; 10</code> or <code>:a &#61;&gt; 10</code>. The notation <code>&#61;&gt;</code> in Julia is used for <strong>pairs of key-values</strong>, and it formally defines an object with type <code>Pairs</code>. </p>
 <p>Second, defining a named tuple with a single element requires adding a comma <code>,</code> after the element &#40;as occurs with tuples&#41;. However, it  also accepts adding a semicolon <code>;</code> before the element. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The semicolon notation <code>;</code> may seem strange, but it follows naturally from how keyword arguments are incorporated into functions.  </span></span> </p>
 <p>Finally, the method for accessing their elements is twofold: accessing the element <code>a</code> of a named tuple <code>nt</code> can be done through either <code>nt&#91;:a&#93;</code> or <code>nt.a</code> </p>
 <p>The following code snippet illustrates all this. </p>
@@ -2207,7 +2211,7 @@ tup &#61; &#40;x, &#41;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Dictionaries</h2></p>
-<p>Dictionaries are collections consisting of key-value pairs, exhibiting three distinctive features:</p>
+<p>Dictionaries are collections of key-value pairs, exhibiting three distinctive features:</p>
 <div class="itemNoSpace"><ul>
 <li><p><strong>The keys of dictionaries can be any object</strong>: strings, numbers, or other objects &#40;e.g., vectors, tuples&#41; are all possible. </p>
 </li>
@@ -2246,7 +2250,7 @@ tup &#61; &#40;x, &#41;</code></pre>
   (1, 1) => 10</code></pre> </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict&#91;&#40;1,1&#41;&#93;</code> <br/> <pre><code class="plaintext code-output">10</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>As dictionaries are unordered, accessing their elements doesn&#39;t follow any pattern. The following example illustrates this, where a vector collects the keys of a dictionary.</p>
+<p>As regular dictionaries are unordered, accessing their elements doesn&#39;t follow any pattern. The following example illustrates this, where a vector collects the keys of a dictionary. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The package <code>OrderedCollections</code> addresses this, by offering a special dictionary called <code>OrderedDict</code>. It behaves pretty similarly to regular dictionaries, including its syntax.  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2648,7 +2652,7 @@ end</code></pre>
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\6f_pipes" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 11, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

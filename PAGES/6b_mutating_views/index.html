@@ -1640,7 +1640,7 @@ color: white;
   
 
 
-    <h1><i>5f.</i> Mutations and In-Place Assignments</h1>    
+    <h1><i>5g.</i> Mutations and In-Place Assignments</h1>    
     <div class="lead"> </div>
     
     
@@ -1663,6 +1663,8 @@ color: white;
 
     
     
+  
+
   
 
   
@@ -1811,13 +1813,15 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\3d_mutation/"><i>c</i>. Assignments vs Mutations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a0_slices/"><i>d</i>. Slices and Views</a></li><br>
+                <li><a href="/julia_book/PAGES\5bc_initializing/"><i>d</i>. Initializing and Creating Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>e</i>. Array Indexing</a></li><br>
+                <li><a href="/julia_book/PAGES\6a0_slices/"><i>e</i>. Slices and Views</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>f</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6c_inplace/"><i>g</i>. In-Place Functions</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
               </ul>
             </li>
@@ -1828,9 +1832,9 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6f_pipes/"><i>b</i>. Let Blocks and Pipes</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6d_application01/"><i>c</i>. Illustration 1</a></li><br>
+                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>c</i>. Useful Functions for Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\6d_application01/"><i>d</i>. Illustration - Johnny, the YouTuber</a></li><br>
                 
               </ul>
             </li>            
@@ -2061,11 +2065,11 @@ color: white;
     </div>
   </div>
 </section>
-<section id="replacing_slices_by_vectors" class="scrollspy">
+<section id="mutation_through_vectors" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Replacing Slices by Vectors</h2></p>
+        <h2>Mutation Through Vectors</h2></p>
 <p>The easiest way to mutate a slice is by replacing it with a new vector. This new vector can even reuse the original slice, as we show below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2129,11 +2133,11 @@ x&#91;:&#93; &#61; x .* 10</code></pre>
     </div>
   </div>
 </section>
-<section id="broadcasting_over" class="scrollspy section-bg-color">
+<section id="mutation_through_broadcasting_over" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Broadcasting over = </h2></p>
+        <h2>Mutation Through Broadcasting Over = </h2></p>
 <p>Broadcasting the assignment operator <code>&#61;</code> is another way to mutate a slice. The syntax is <code>x .&#61; &lt;expression&gt;</code>, where <code>x</code> is either an existing vector or a slice. This operation <strong>updates</strong> the values in <code>x</code> with those produced by <code>&lt;expression&gt;</code>.</p>
 <p>When we work with a slice on the left-hand side of <code>&#61;</code> and replace its values by  <em> a vector</em>, using <code>.&#61;</code> produces the same output as using <code>&#61;</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2245,13 +2249,13 @@ y  &#61; x&#91;x .≥ 3&#93; .* 10    # this creates a new variable &#39;y&#39;<
     </div>
   </div>
 </section>
-<section id="filling_vectors_with_values_through_for-loops" class="scrollspy">
+<section id="mutation_through_for-loops" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Filling Vectors With Values Through For-Loops</h2></p>
-<p>In-place assignments can handle scenarios where we modify a strict subset of a vector&#39;s elements, but also when we replace all their values. The latter arises when we initialize a vector to eventually fill it with specific values. We&#39;ll show later on the website that updating all values of a variable creates speed gains: it makes it possible to reuse the same vector, avoiding the memory allocation of creating a new object.</p>
-<p>The procedure requires two steps. First, we create a vector to store values, which can be done by either the function <code>similar</code> or initializing an object with <code>undef</code> values. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> To review the multiple ways to initialize an array, see <a href="/julia_book/PAGES/3c_arrays/#initializearray">here</a>.  </span></span> The second step consists in mutating each value of this vector.</p>
+        <h2>Mutation Through For-Loops</h2></p>
+<p>In-place assignments handle scenarios where we modify a strict subset of a vector&#39;s elements, but also when we replace all their values. The latter arises when we initialize a vector to eventually fill it with specific values. We&#39;ll show later on the website that updating all values of a variable creates speed gains: it makes it possible to reuse the same vector, avoiding the memory allocation of creating a new object.</p>
+<p>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2301,7 +2305,7 @@ end</code></pre>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     The vector can only be mutated by elements with the same  type. For instance, we would&#39;ve obtained an error above if the values replaced had any type different from <code>Int64</code>. </p>
+      <b>Remark</b> </span>  </div>  <div class=content>     The vectors created can only be mutated by elements with the same type. For instance, we would&#39;ve obtained an error above if the values replaced had any type different from <code>Int64</code>. </p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2352,7 +2356,7 @@ end</code></pre>
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\6c_inplace" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 11, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2836,7 +2840,7 @@ for multiple pics in a row
 <nav class="navbar navbar-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
-    <a class="navbar-brand"><i>5f.</i> Mutations and In-Place Assignments</a>
+    <a class="navbar-brand"><i>5g.</i> Mutations and In-Place Assignments</a>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">
@@ -2846,15 +2850,15 @@ for multiple pics in a row
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#replacing_slices_by_vectors" data-offset="-40">Replacing Slices by Vectors</a>
+        <a class="nav-link" href="#mutation_through_vectors" data-offset="-40">Mutation Through Vectors</a>
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#broadcasting_over" data-offset="-40">Broadcasting over = </a>
+        <a class="nav-link" href="#mutation_through_broadcasting_over" data-offset="-40">Mutation Through Broadcasting Over = </a>
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#filling_vectors_with_values_through_for-loops" data-offset="-40">Filling Vectors With Values Through For-Loops</a>
+        <a class="nav-link" href="#mutation_through_for-loops" data-offset="-40">Mutation Through For-Loops</a>
       </li>
       
     </ul>

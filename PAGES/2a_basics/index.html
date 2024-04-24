@@ -1765,13 +1765,15 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\3d_mutation/"><i>c</i>. Assignments vs Mutations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a0_slices/"><i>d</i>. Slices and Views</a></li><br>
+                <li><a href="/julia_book/PAGES\5bc_initializing/"><i>d</i>. Initializing and Creating Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>e</i>. Array Indexing</a></li><br>
+                <li><a href="/julia_book/PAGES\6a0_slices/"><i>e</i>. Slices and Views</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>f</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6c_inplace/"><i>g</i>. In-Place Functions</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
               </ul>
             </li>
@@ -1782,9 +1784,9 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6f_pipes/"><i>b</i>. Let Blocks and Pipes</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6d_application01/"><i>c</i>. Illustration 1</a></li><br>
+                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>c</i>. Useful Functions for Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\6d_application01/"><i>d</i>. Illustration - Johnny, the YouTuber</a></li><br>
                 
               </ul>
             </li>            
@@ -1799,6 +1801,8 @@ color: white;
 </div>
 
 
+
+  
 
   
 
@@ -2046,7 +2050,7 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy section-bg-color">
+<section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2056,7 +2060,7 @@ color: white;
     </div>
   </div>
 </section>
-<section id="using_julia_in_vs_code" class="scrollspy">
+<section id="using_julia_in_vs_code" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2077,7 +2081,7 @@ color: white;
     </div>
   </div>
 </section>
-<section id="adding_comments_in_a_script" class="scrollspy section-bg-color">
+<section id="adding_comments_in_a_script" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2097,35 +2101,36 @@ x &#61; 2   # &#96;x&#61;2&#96; is run, but anything after &#96;#&#96; won&#39;t
     </div>
   </div>
 </section>
-<section id="paths_of_files_and_folders" class="scrollspy">
+<section id="paths_of_files_and_folders" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Paths of Files and Folders</h2></p>
 <p>The way to specify a file path differs across operating systems. This is an aspect that extends beyond Julia. </p>
-<p>The following examples demonstrate how to define a path in Julia, according to each operating system. We also show the use of the function <code>joinpath</code>, which makes it possible to specify a path that is compatible across operating systems. The illustrations consider the folder <code>C:\user\julia</code> as their example. </p>
+<p>The following examples demonstrate how to define a path in Julia, according to each operating system. We also show introduce the function <code>joinpath</code>, which is a cross-platform way to construct file paths. It automatically uses the appropriate directory separator for the current operating system, making your code portable. As example, the illustrations consider the folder <code>C:\user\julia</code> on Windows or <code>/users/julia</code> on Linux/macOS. </p>
  <div class=" code_box"> <details  open><summary> Specifying Paths  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia"># On Windows
 &quot;C:\\user\\julia&quot;
 
-# On macOS or Linux
-&quot;C:/user/julia&quot;
+# On Unix-based systems &#40;e.g., macOS or Linux&#41;
+&quot;/user/julia&quot;
 
 # on any operating system
-joinpath&#40;&quot;C:/&quot;, &quot;user&quot;, &quot;julia&quot;&#41;</code></pre>
+joinpath&#40;&quot;/&quot;, &quot;user&quot;, &quot;julia&quot;&#41;</code></pre>
 <p></div> </div>  </details></div>
+<p>isdir&#40;&#41;</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="executing_code_from_a_file" class="scrollspy section-bg-color">
+<section id="executing_code_from_a_file" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Executing Code From a File</h2></p>
-<p>You can also work <span style="color: rgb(62, 121, 180);"><strong>non-interactively</strong></span> with Julia. This requires storing a script in a file, and eventually executing. For instance, a file at <code>C:\user\julia\graphs.jl</code> can be executed as follows:</p>
+<p>You can also work <span style="color: rgb(62, 121, 180);"><strong>non-interactively</strong></span> with Julia. This requires storing a script in a file to eventually execute it. For instance, a file at <code>C:\user\julia\graphs.jl</code> on Windows or <code>/users/julia/graphs.jl</code> on Unix systems can be executed as follows:</p>
  <div class=" code_box"> <details  open><summary> Executing Code From a File  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">include&#40;joinpath&#40;&quot;C:/&quot;, &quot;user&quot;, &quot;julia&quot;, &quot;graphs.jl&quot;&#41;&#41;</code></pre>
+<pre><code class="language-julia">include&#40;joinpath&#40;&quot;/&quot;, &quot;user&quot;, &quot;julia&quot;, &quot;graphs.jl&quot;&#41;&#41;</code></pre>
 <p></div> </div>  </details></div>
  <!-- Trigger/Open The Modal -->
 <div style="text-indent:0;"> <button class="modalButton">
@@ -2140,9 +2145,9 @@ joinpath&#40;&quot;C:/&quot;, &quot;user&quot;, &quot;julia&quot;&#41;</code></p
       <span class="modalClose">&times;</span>
       <h2>  Convenient Expressions for Paths </h2>
     </div>
-    <div class="modal-body"><p> There are two handy expressions to work with paths. As we haven&#39;t covered macros or functions yet, these are optional.</p>
+    <div class="modal-body"><p> There are two handy expressions to work with paths. As we haven&#39;t covered macros or functions yet, their reading is optional. For the example, let&#39;s consider Windows as the operating system. </p>
 <div class="bullets"><ul>
-<li><p>The first one is <code>@__DIR__</code>. This identifies the file&#39;s folder where your script is saved, enabling you to refer to folders relative to it. For instance, suppose that your scrip is saved in <code>C:/user/julia</code>. Then, <code>joinpath&#40;@__DIR__, &quot;graphs&quot;&#41;</code> refers to <code>C:/user/julia/graphs</code>.</p>
+<li><p>The first one is <code>@__DIR__</code>. This identifies the file&#39;s folder where your script is saved, enabling you to refer to folders relative to it. For instance, suppose that your script is saved in <code>C:/user/julia</code>. Then, <code>joinpath&#40;@__DIR__, &quot;graphs&quot;&#41;</code> refers to <code>C:/user/julia/graphs</code>.</p>
 </li>
 </ul>
 <ul>
@@ -2166,7 +2171,7 @@ joinpath&#40;&quot;C:/&quot;, &quot;user&quot;, &quot;julia&quot;&#41;</code></p
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\1c_vscode" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 11, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

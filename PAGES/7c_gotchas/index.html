@@ -1723,6 +1723,8 @@ color: white;
 
   
 
+  
+
 
 
 
@@ -1784,7 +1786,7 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\7b01_preliminaries_stability/"><i>b</i>. Preliminaries for Type Stability</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\7b1_performanceBasics/"><i>c</i>. Defining Type Stability</a></li><br>
+                <li><a href="/julia_book/PAGES\7b1_performanceBasics/"><i>c</i>. Definition of Type Stability</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\7b2_fixes_stability/"><i>d</i>. Global Variables</a></li><br>
                 
@@ -2001,17 +2003,20 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy">
+ <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Remark</b> </span>  </div>  <div class=content>     This section&#39;s scripts are available <a href="https://github.com/alfaromartino/julia_book/tree/main//assets/PAGES/7c_gotchas/codeDownload"><strong>here</strong></a>, under the name <code>allCode.jl</code>. They&#39;ve been tested under Julia 1.10.0.<br/><br/> For more accurate benchmarks, each variable is wrapped in <code>ref&#40;x&#41; &#61; &#40;Ref&#40;x&#41;&#41;&#91;&#93;</code> and interpolated through <code>&#36;</code>.  </div>  </div>
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section considers various scenarios causing type instabilities. We denominate them as &quot;gotchas&quot;, as they aren&#39;t immediately obvious. We also propose suggestions to address them.</p>
+<p>This section considers various scenarios that cause type instabilities. We denominate them as &quot;gotchas&quot;, as they aren&#39;t immediately obvious. We also propose suggestions to address them.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="gotcha_1_integers_and_floats" class="scrollspy section-bg-color">
+<section id="gotcha_1_integers_and_floats" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2048,7 +2053,7 @@ end
     </div>
   </div>
 </section>
-<section id="gotcha_2_collections_of_collections" class="scrollspy">
+<section id="gotcha_2_collections_of_collections" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2092,7 +2097,7 @@ foo&#40;data&#41; &#61; operation&#33;&#40;data&#91;2&#93;&#41;
     </div>
   </div>
 </section>
-<section id="gotcha_3_barrier_functions" class="scrollspy section-bg-color">
+<section id="gotcha_3_barrier_functions" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2150,7 +2155,7 @@ foo&#40;data&#41; &#61; operation&#33;&#40;data&#91;2&#93;&#41;
     </div>
   </div>
 </section>
-<section id="gotcha_4_inference_is_by_type_not_by_value" class="scrollspy">
+<section id="gotcha_4_inference_is_by_type_not_by_value" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2266,7 +2271,7 @@ end
     </div>
   </div>
 </section>
-<section id="gotcha_5_global_variables_as_default_values_of_keyword_arguments" class="scrollspy section-bg-color">
+<section id="gotcha_5_global_variables_as_default_values_of_keyword_arguments" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2335,7 +2340,7 @@ foo&#40;x; y &#61; 2*x&#41; &#61; x * y
     </div>
   </div>
 </section>
-<section id="gotcha_6_closures_can_easily_introduce_type_instabilities" class="scrollspy">
+<section id="gotcha_6_closures_can_easily_introduce_type_instabilities" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2760,7 +2765,7 @@ end
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\8a0_memory_allocations" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 11, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

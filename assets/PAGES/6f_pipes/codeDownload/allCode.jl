@@ -1,13 +1,18 @@
-# necessary packages for this file
-using Pipe
-
-# to execute the benchmarks
+############################################################################
+#   AUXILIAR FOR BENCHMARKING
+############################################################################
+# We use `foo(ref($x))` for more accurate benchmarks of the function `foo(x)`
 using BenchmarkTools
 ref(x) = (Ref(x))[]
 
-# To print results with a specific format (only relevant for the website construction)= show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)= show(IOContext(stdout, :limit => true, :displaysize =>(nr_lines,100)), MIME("text/plain"), x)= show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)= show(IOContext(stdout, :limit => true, :displaysize =>(nr_lines,6), :compact => true), MIME("text/plain"), x)
 
-################################################################################################################################  ###code region1a (((
+############################################################################
+#
+#                           START OF THE CODE 
+#
+############################################################################
+ 
+# necessary packages for this file
 using Pipe
  
 ####################################################

@@ -1640,7 +1640,7 @@ color: white;
   
 
 
-    <h1><i>6d.</i> Useful Functions for Vectors</h1>    
+    <h1><i>6c.</i> Useful Functions for Vectors</h1>    
     <div class="lead"> </div>
     
     
@@ -1821,13 +1821,15 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\3d_mutation/"><i>c</i>. Assignments vs Mutations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a0_slices/"><i>d</i>. Slices and Views</a></li><br>
+                <li><a href="/julia_book/PAGES\5bc_initializing/"><i>d</i>. Initializing and Creating Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>e</i>. Array Indexing</a></li><br>
+                <li><a href="/julia_book/PAGES\6a0_slices/"><i>e</i>. Slices and Views</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>f</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6c_inplace/"><i>g</i>. In-Place Functions</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
               </ul>
             </li>
@@ -1838,9 +1840,9 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6f_pipes/"><i>b</i>. Let Blocks and Pipes</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6d_application01/"><i>c</i>. Illustration 1</a></li><br>
+                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>c</i>. Useful Functions for Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\6d_application01/"><i>d</i>. Illustration - Johnny, the YouTuber</a></li><br>
                 
               </ul>
             </li>            
@@ -1855,6 +1857,8 @@ color: white;
 </div>
 
 
+
+  
 
 
 
@@ -2046,46 +2050,498 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="this_whole_section_is_to_be_written" class="scrollspy">
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>THIS WHOLE SECTION IS TO BE WRITTEN!!!!!</h2></p>
+        <h2>Introduction</h2></p>
+<p>When working with data in Julia, you&#39;ll often need to manipulate and analyze vectors. This section covers some essential functions for performing some common vector operations, such as sorting, finding unique elements, counting occurrences, and ranking. </p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="useful_functions_for_arrays" class="scrollspy section-bg-color">
+<section id="sorting_vectors" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Useful Functions for Arrays</h2></p>
-<ul>
-<li><p>length,size, ndims</p>
-</li>
-<li><p>linearindices</p>
-</li>
-<li><p>vcat, hcat, vec</p>
-</li>
-<li><p>reshape, permutedims</p>
-</li>
-<li><p>unique</p>
-</li>
-<li><p>sort</p>
-</li>
-<li><p>zeros, ones, trues, falses, repeat</p>
-</li>
-<li><p>append, push</p>
-</li>
-<li><p>set differences, union</p>
-</li>
-<li><p>cumsum, cumprod</p>
-</li>
-<li><p>replace</p>
-</li>
-<li><p>round</p>
-</li>
-</ul>
+        <h2>Sorting Vectors</h2></p>
+<p>The function <code>sort</code> orders elements in ascending order, with a descending order implemented through keyword <code>rev &#61; true</code>. Moreover, <code>sort</code> returns a new sorted copy of the original array, leaving the original unchanged. If you want to modify the original array instead, you can use the in-place version <code>sort&#33;&#40;x&#41;</code>.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> sort (ascending) </button>
+    <button class="tablink" data-id="">  sort (descending) </button>
+    <button class="tablink" data-id="">  sort! </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;4, 5, 3, 2&#93;
+
+y &#61; sort&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+ 2
+ 3
+ 4
+ 5</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;4, 5, 3, 2&#93;
+
+y &#61; sort&#40;x, rev&#61;true&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+ 5
+ 4
+ 3
+ 2</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;4, 5, 3, 2&#93;
+
+sort&#33;&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+ 2
+ 3
+ 4
+ 5</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p><code>sort</code> also enables ordering based on transformations. By applying a custom function <code>foo</code> to <code>x</code>, you can sort <code>x</code>&#39;s elements according to the resulting transformed values. This functionality is achieved using the keyword argument <code>by &#61; foo</code>.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Sort - Absolute</button>
+    <button class="tablink" data-id="">  Sort - Quadratic </button>
+    <button class="tablink" data-id="">  Sort - Negative  </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;4, -5, 3&#93;
+
+
+y      &#61; sort&#40;x, by &#61; abs&#41;      # &#39;abs&#39; computes the absolute value</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>abs.&#40;x&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 4
+ 5
+ 3</code></pre> </div></p>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+  3
+  4
+ -5</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;4, -5, 3&#93;
+
+foo&#40;a&#41; &#61; a^2
+y      &#61; sort&#40;x, by &#61; foo&#41;      # same as sort&#40;x, by &#61; x -&gt; x^2&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo.&#40;x&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 16
+ 25
+  9</code></pre> </div></p>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+  3
+  4
+ -5</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;4, -5, 3&#93;
+
+foo&#40;a&#41; &#61; -a
+y      &#61; sort&#40;x, by &#61; foo&#41;      # same as sort&#40;x, by &#61; x -&gt; -x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo.&#40;x&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ -4
+  5
+ -3</code></pre> </div></p>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+  4
+  3
+ -5</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="indices_of_sorted_elements" class="scrollspy section-bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Indices of Sorted Elements</h2></p>
+<p>The function <code>sort</code> returns the values of the vectors. In some cases, we could be interested in the  <em> indices</em> of the sorted elements. This is implemented by the function <code>sortperm</code>, which stands for &quot;sort permutation&quot;, although its name isn&#39;t quite intuitive. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> In the library <code>Numpy</code> of Python, <code>sortperm</code> corresponds to <code>sortarg</code>.  </span></span> </p>
+<p>By design, the function indicates the index of <code>x</code>&#39;s elements given by <code>sort&#40;x&#41;</code>, so that <code>x&#91;sortperm&#40;x&#41;&#93; &#61;&#61; sort&#40;x&#41;</code>. Furthermore, the indices are sorted according to an ascending order of the elements. </p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Example 1 </button>
+    <button class="tablink" data-id="">  Example 2</button>
+    <button class="tablink" data-id="">  Example 3 </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;1, 2, 3, 9&#93;
+
+sort_index &#61; sortperm&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sort_index</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+ 1
+ 2
+ 3
+ 4</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;1, 3, 5, 9&#93;
+
+sort_index &#61; sortperm&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sort_index</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+ 1
+ 2
+ 3
+ 4</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;1, 3, 4, 2&#93;
+
+sort_index &#61; sortperm&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sort_index</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+ 1
+ 4
+ 2
+ 3</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>One of the primary applications of <code>sortperm</code> is when we need to sort a variable based on the values of another variable. For example, suppose we want to arrange the days of the month according to the failures of a machine on each day. In particular, let&#39;s consider a simplified scenario where we focus on the first three days of the month, which we represent through strings. The following code snippet implements the task, where the days are ordered according to the number of failures.</p>
+ <div class=" code_box"> <details  open><summary> Days Sorted By Lowest Number of Failures  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">days     &#61; &#91;&quot;one&quot;, &quot;two&quot;, &quot;three&quot;&#93;
+failures &#61; &#91;8, 2, 4&#93;
+
+index            &#61; sortperm&#40;earnings&#41;
+days_by_failures &#61; days&#91;index&#93;                     # days sorted by lowest failures</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>index</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 2
+ 3
+ 1</code></pre> </div></p>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>days_by_earnings</code> <br/> <pre><code class="plaintext code-output">3-element Vector{String}:
+ "two"
+ "three"
+ "one"</code></pre> </div></div> </div>   </details></div>
+<p>Just like <code>sort</code>, we can retrieve the indices according to a descending order by using the keyword argument <code>rev &#61; true</code>. </p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Example 1 </button>
+    <button class="tablink" data-id="">  Example 2</button>
+    <button class="tablink" data-id="">  Example 3 </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;9, 3, 2, 1&#93;
+
+sort_index &#61; sortperm&#40;x, rev&#61;true&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sort_index</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+ 1
+ 2
+ 3
+ 4</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;9, 5, 3, 1&#93;
+
+sort_index &#61; sortperm&#40;x, rev&#61;true&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sort_index</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+ 1
+ 2
+ 3
+ 4</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;9, 3, 5, 1&#93;
+
+sort_index &#61; sortperm&#40;x, rev&#61;true&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sort_index</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+ 1
+ 3
+ 2
+ 4</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>Moreover, we can obtain the indices of the sorted elements based on transformed values, by using the keyword argument <code>by</code>.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Sort - Absolute</button>
+    <button class="tablink" data-id="">  Sort - Quadratic </button>
+    <button class="tablink" data-id="">  Sort - Negative  </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;4, -5, 3&#93;
+
+
+value  &#61; sort&#40;x, by &#61; abs&#41;      # &#39;abs&#39; computes the absolute value
+index  &#61; sortperm&#40;x, by &#61; abs&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>abs.&#40;x&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 4
+ 5
+ 3</code></pre> </div></p>
+<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>value</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+  3
+  4
+ -5</code></pre> </div>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>index</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 3
+ 1
+ 2</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;4, -5, 3&#93;
+
+foo&#40;a&#41; &#61; a^2
+value  &#61; sort&#40;x, by &#61; foo&#41;      # same as sort&#40;x, by &#61; x -&gt; x^2&#41;
+index  &#61; sortperm&#40;x, by &#61; foo&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo.&#40;x&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 16
+ 25
+  9</code></pre> </div></p>
+<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>value</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+  3
+  4
+ -5</code></pre> </div>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>index</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 3
+ 1
+ 2</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;4, -5, 3&#93;
+
+foo&#40;a&#41; &#61; -a
+value  &#61; sort&#40;x, by &#61; foo&#41;      # same as sort&#40;x, by &#61; x -&gt; -x&#41;
+index  &#61; sortperm&#40;x, by &#61; foo&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo.&#40;x&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ -4
+  5
+ -3</code></pre> </div></p>
+<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>value</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+  4
+  3
+ -5</code></pre> </div>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>index</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 1
+ 3
+ 2</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="unique_vectors" class="scrollspy">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Unique Vectors</h2></p>
+<p>The <code>unique</code> function returns an array that removes duplicates and keeps only one occurrence of each element. While <code>unique</code> provides a new copy, <code>unique&#33;</code> modifies the original array.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> unique </button>
+    <button class="tablink" data-id="">  unique! </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;2, 2, 3, 4&#93;
+
+y &#61; unique&#40;x&#41;       # returns a new vector</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+ 2
+ 2
+ 3
+ 4</code></pre> </div></p>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 2
+ 3
+ 4</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;2, 2, 3, 4&#93;
+
+unique&#33;&#40;x&#41;          # mutates &#39;x&#39;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 2
+ 3
+ 4</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>Related to it, the package <code>StatsBase</code> provides <code>countmap</code>.  This counts the number of occurrences of each element in a vector. Formally, it returns a dictionary, where the keys identify each unique element and the values return the counts of each element. Note that, by design, the keys in the dictionary are unsorted. In case you want to have sorted keys, you need to apply <code>sort</code>, in which case an object with type <code>OrderedDict</code> is created. </p>
+<p>The <code>StatsBase</code> package offers a related function <code>countmap</code>, which enumerates the occurrences of each element in a vector. Specifically, it returns a dictionary, where each unique element is a key and its corresponding value represents the count of that element. As the keys in this dictionary are unsorted by design, you need to apply the <code>sort</code> function to create an object of type <code>OrderedDict</code> object with sorted keys.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Unsorted Count </button>
+    <button class="tablink" data-id="">  Sorted Count </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using StatsBase
+x           &#61; &#91;6, 6, 0, 5&#93;
+
+y           &#61; countmap&#40;x&#41;              # Dict with &#96;element &#61;&gt; occurrences&#96;
+
+elements    &#61; collect&#40;keys&#40;y&#41;&#41;
+occurrences &#61; collect&#40;values&#40;y&#41;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">Dict{Int64, Int64} with 3 entries:
+  0 => 1
+  5 => 1
+  6 => 2</code></pre> </div></p>
+<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>elements</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 0
+ 5
+ 6</code></pre> </div>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>occurrences</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 1
+ 1
+ 2</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using StatsBase
+x           &#61; &#91;6, 6, 0, 5&#93;
+
+y           &#61; sort&#40;countmap&#40;x&#41;&#41;        # OrderedDict with &#96;element &#61;&gt; occurrences&#96;
+
+elements    &#61; collect&#40;keys&#40;y&#41;&#41;
+occurrences &#61; collect&#40;values&#40;y&#41;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">OrderedCollections.OrderedDict{Int64, Int64} with 3 entries:
+  0 => 1
+  5 => 1
+  6 => 2</code></pre> </div></p>
+<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>elements</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 0
+ 5
+ 6</code></pre> </div>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>occurrences</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 1
+ 1
+ 2</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p> <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Remark</b> </span>  </div>  <div class=content> <code>countmap</code> can be used in combination with <code>sort</code>. For instance, the following snippet sorts a vector based on the frequency of its elements. </p>
+<p> <div class=" code_box"> <details  open><summary> Application of countmap  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">using StatsBase
+
+function to_sort_x&#40;x&#41;
+    dict_count &#61; countmap&#40;x&#41;
+    sorted_x   &#61; sort&#40;x, by &#61; &#40;x -&gt; dict_count&#91;x&#93;&#41;&#41;
+    return sorted_x
+end
+
+x        &#61; &#91;0, 4, 4, 4, 5, 5&#93;
+sorted_x &#61; to_sort_x&#40;x&#41;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">6-element Vector{Int64}:
+ 0
+ 4
+ 4
+ 4
+ 5
+ 5</code></pre> </div></p>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sorted_x</code> <br/> <pre><code class="plaintext code-output">6-element Vector{Int64}:
+ 0
+ 5
+ 5
+ 4
+ 4
+ 4</code></pre> </div></div> </div>   </details></div>  </div>  </div>       </div>
+    </div>
+  </div>
+</section>
+<section id="rankings" class="scrollspy section-bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Rankings</h2></p>
+<p>Rather than sorting a vector, you may want to determine the rank position of each element. The <code>StatsBase</code> package offers various methods to achieve this. Specifically, it provides the functions <code>competerank</code> and <code>ordinalrank</code>. The key difference between them lies in how they handle identical elements: <code>competerank</code> assigns the same rank to identical elements, while <code>ordinalrank</code> assigns different ranks to these elements. Both functions return a rank where 1 corresponds to the lowest value. If you want to invert the ranking so that 1 corresponds to the highest value, you can use the <code>rev &#61; true</code> keyword argument.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Rank (With Repetition) </button>
+    <button class="tablink" data-id="">  Rank (With Repetition) </button>
+    <button class="tablink" data-id="">  Rank (All Repetition) </button>
+    <button class="tablink" data-id="">  Rank (All Repetition) </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using StatsBase
+x &#61; &#91;6, 6, 0, 5&#93;
+
+y &#61; competerank&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+ 3
+ 3
+ 1
+ 2</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using StatsBase
+x &#61; &#91;6, 6, 0, 5&#93;
+
+y &#61; competerank&#40;x, rev&#61;true&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+ 1
+ 1
+ 4
+ 3</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using StatsBase
+x &#61; &#91;6, 6, 0, 5&#93;
+
+y &#61; ordinalrank&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+ 3
+ 4
+ 1
+ 2</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using StatsBase
+x &#61; &#91;6, 6, 0, 5&#93;
+
+y &#61; ordinalrank&#40;x, rev&#61;true&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+ 1
+ 2
+ 4
+ 3</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+ <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Do not confuse <code>ordinalrank</code> and <code>sortperm</code></strong>  </span>  </div>  <div class=content>     The function <code>ordinalrank</code> indicates the position of each value in the  <em> sorted</em> vector, while <code>sortperm</code> indicates the position of each value in the  <em> unsorted</em> vector.  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> ordinalrank </button>
+    <button class="tablink" data-id=""> sortperm  </button>    
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using StatsBase
+x &#61; &#91;3, 1, 2&#93;
+
+y &#61; ordinalrank&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 3
+ 1
+ 2</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using StatsBase
+x &#61; &#91;3, 1, 2&#93;
+
+y &#61; sortperm&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 2
+ 3
+ 1</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>  </div>  </div>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="extrema_maximum_and_minimum" class="scrollspy">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Extrema (Maximum and Minimum)</h2></p>
+<p>You may also be interested in finding the extrema in a vector and their corresponding indices. Below, we illustrate the application with the maximum, but all the functions are available for the minimum. </p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Value of Maximum</button>
+    <button class="tablink" data-id="">  Index of Maximum </button>
+    <button class="tablink" data-id="">  Value and Index</button>    
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;6, 6, 0, 5&#93;
+
+y &#61; maximum&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">6</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;6, 6, 0, 5&#93;
+
+y &#61; argmax&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">1</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;6, 6, 0, 5&#93;
+
+y &#61; findmax&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">(6, 1)</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>Additionally, Julia provides a binary maximum function <code>max</code>, which returns the maximum of two values. Likewise, <code>min</code> returns the minimum of its arguments. </p>
+ <div class=" code_box"> <details  open><summary> Binary Maximum Function  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; 3
+y &#61; 4
+
+z &#61; max&#40;x,y&#41;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code> <br/> <pre><code class="plaintext code-output">4</code></pre> </div></div> </div>   </details></div>
 <p>      </div>
     </div>
   </div>
@@ -2094,11 +2550,11 @@ color: white;
 <footer class="py-1">    
     <!-- <p class="m-0"> -->
     <div class="container">
-       <span class="left-text"><a href="/julia_book/PAGES\6d_application01" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png"
+       <span class="left-text"><a href="/julia_book/PAGES\6f_pipes" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
-       <span class="right-text"><a href="/julia_book/PAGES\7a_introToPerformace" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
+       <span class="right-text"><a href="/julia_book/PAGES\6d_application01" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 11, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2582,17 +3038,33 @@ for multiple pics in a row
 <nav class="navbar navbar-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
-    <a class="navbar-brand"><i>6d.</i> Useful Functions for Vectors</a>
+    <a class="navbar-brand"><i>6c.</i> Useful Functions for Vectors</a>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">
       
       <li class="nav-item">
-        <a class="nav-link" href="#this_whole_section_is_to_be_written" data-offset="-40">THIS WHOLE SECTION IS TO BE WRITTEN!!!!!</a>
+        <a class="nav-link" href="#introduction" data-offset="-40">Introduction</a>
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#useful_functions_for_arrays" data-offset="-40">Useful Functions for Arrays</a>
+        <a class="nav-link" href="#sorting_vectors" data-offset="-40">Sorting Vectors</a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" href="#indices_of_sorted_elements" data-offset="-40">Indices of Sorted Elements</a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" href="#unique_vectors" data-offset="-40">Unique Vectors</a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" href="#rankings" data-offset="-40">Rankings</a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" href="#extrema_maximum_and_minimum" data-offset="-40">Extrema (Maximum and Minimum)</a>
       </li>
       
     </ul>

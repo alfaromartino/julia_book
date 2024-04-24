@@ -1,105 +1,19 @@
-
 ############################################################################
-#
-#                           START OF THE CODE 
-#
+#   AUXILIAR FOR BENCHMARKING
 ############################################################################
-
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-
-
-using LazyArrays
-
-# to execute the benchmarks
+# We use `foo(ref($x))` for more accurate benchmarks of the function `foo(x)`
 using BenchmarkTools
 ref(x) = (Ref(x))[]
 
-# To print results with a specific format (only relevant for the website construction)
-print_asis(x)             = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_asis(x,nr_lines)    = show(IOContext(stdout, :limit => true, :displaysize =>(nr_lines,100)), MIME("text/plain"), x)
-print_compact(x)          = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-print_compact(x,nr_lines) = show(IOContext(stdout, :limit => true, :displaysize =>(nr_lines,6), :compact => true), MIME("text/plain"), x)
+
+############################################################################
+#
+#                           START OF THE CODE 
+#
+############################################################################
+ 
+# necessary packages for this file
+using LazyArrays
  
 ####################################################
 #	GENERATORS VS ARRAY COMPREHENSIONS
@@ -107,21 +21,13 @@ print_compact(x,nr_lines) = show(IOContext(stdout, :limit => true, :displaysize 
  
 x = [a for a in 1:10]
  
-print_asis(x)
- 
 x = (a for a in 1:10)
- 
-print_asis(x)
  
 x = 1:10
  
-print_asis(x)
- 
 x = collect(1:10)
  
-print_asis(x)
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 function foo(x)
@@ -132,7 +38,7 @@ end
     
 @btime foo(ref($x))
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 function foo(x)
@@ -143,7 +49,7 @@ end
     
 @btime foo(ref($x))
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 foo(x) = sum(a * 2 for a in x)              # 0 allocations
@@ -162,7 +68,7 @@ foo(x) = sum(a * 2 for a in x)              # 0 allocations
 #	FILTER
 ####################################################
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = collect(1:100)
 
 function foo(x)
@@ -171,7 +77,7 @@ end
     
 @btime foo(ref($x))
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = collect(1:100)
 
 function foo(x)
@@ -182,7 +88,7 @@ end
     
 @btime foo(ref($x))
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = collect(1:100)
 
 function foo(x)
@@ -193,7 +99,7 @@ end
     
 @btime foo(ref($x))
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = collect(1:100)
 
 function foo(x)
@@ -208,7 +114,7 @@ end
 #	MAP
 ####################################################
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 function foo(x) 
@@ -219,7 +125,7 @@ end
     
 @btime foo(ref($x))
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 function foo(x)
@@ -236,15 +142,15 @@ end
 #
 ############################################################################
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
-# eager implementation
+using Random; Random.seed!(123)       #setting the seed for reproducibility
+# broadcasting eager by default
 x = rand(100) ; y = rand(100)
 
 foo(x,y) = sum(2 .* x) + sum(2 .* y) / sum(x .* y)
 
 @btime foo($x,$y)
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 using LazyArrays
 x = rand(100) ; y = rand(100)
 
@@ -252,7 +158,7 @@ foo(x,y) = sum(@~ 2 .* x) + sum(@~ 2 .* y) / sum(@~ x .* y)
 
 @btime foo($x,$y)
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100) ; y = rand(100)
 
 function foo(x,y) 
@@ -265,7 +171,7 @@ end
 
 @btime foo(ref($x),ref($y))
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100) ; y = rand(100)
 
 function foo(x,y) 
@@ -278,7 +184,7 @@ end
 
 @btime foo(ref($x),ref($y))
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100) ; y = rand(100)
 
 function foo(x,y) 
@@ -295,7 +201,7 @@ end
 #	CONDITIONS
 ####################################################
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 function foo(x)
@@ -308,7 +214,7 @@ end
 
 @btime foo(ref($x))
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 function foo(x)
@@ -321,19 +227,21 @@ end
 
 @btime foo(ref($x))
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 function foo(x)
-    condition1     = LazyArray(@~ x .> 0.25)
-    condition2     = LazyArray(@~ x .< 0.75)
+    condition(x) = 0.75 > x > 0.25
+    
 
-    sum(condition1 .&& condition2)
+
+    sum(@~ condition.(x))
 end
+
 
 @btime foo(ref($x))
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 function foo(x)
@@ -346,7 +254,7 @@ end
 
 @btime foo(ref($x))
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 function foo(x)
@@ -358,7 +266,7 @@ end
 
 @btime foo(ref($x))
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 function foo(x)
@@ -375,7 +283,7 @@ end
 #	CONDITIONS
 ####################################################
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x       = rand(100)
 weights = rand(100) |> (y ->  y ./ sum(y))
 
@@ -384,7 +292,7 @@ weighted_share(x,weights) = sum(temp.(x,weights))
 
 @btime weighted_share(ref($x), ref($weights))
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x       = rand(100)
 weights = rand(100) |> (y ->  y ./ sum(y))
 
@@ -393,7 +301,7 @@ weighted_share(x,weights) = sum(Iterators.map(temp, x, weights))
 
 @btime weighted_share(ref($x), ref($weights))
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+using Random; Random.seed!(123)       #setting the seed for reproducibility
 x       = rand(100)
 weights = rand(100) |> (y ->  y ./ sum(y))
 
@@ -402,17 +310,3 @@ weighted_share(x,weights) = sum(@~ temp.(x,weights))
 
 @btime weighted_share(ref($x), ref($weights))
  
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
-

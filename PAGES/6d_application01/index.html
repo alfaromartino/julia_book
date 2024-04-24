@@ -1640,7 +1640,7 @@ color: white;
   
 
 
-    <h1><i>6c.</i> Illustration 1</h1>    
+    <h1><i>6d.</i> Illustration - Johnny, the YouTuber</h1>    
     <div class="lead"> </div>
     
     
@@ -1663,6 +1663,10 @@ color: white;
 
     
     
+  
+
+  
+
   
 
   
@@ -1819,13 +1823,15 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\3d_mutation/"><i>c</i>. Assignments vs Mutations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a0_slices/"><i>d</i>. Slices and Views</a></li><br>
+                <li><a href="/julia_book/PAGES\5bc_initializing/"><i>d</i>. Initializing and Creating Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>e</i>. Array Indexing</a></li><br>
+                <li><a href="/julia_book/PAGES\6a0_slices/"><i>e</i>. Slices and Views</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>f</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6c_inplace/"><i>g</i>. In-Place Functions</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
               </ul>
             </li>
@@ -1836,9 +1842,9 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6f_pipes/"><i>b</i>. Let Blocks and Pipes</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6d_application01/"><i>c</i>. Illustration 1</a></li><br>
+                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>c</i>. Useful Functions for Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\6d_application01/"><i>d</i>. Illustration - Johnny, the YouTuber</a></li><br>
                 
               </ul>
             </li>            
@@ -1853,8 +1859,6 @@ color: white;
 </div>
 
 
-
-  
 
 
 
@@ -2046,14 +2050,17 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
+ <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Remark</b> </span>  </div>  <div class=content>     This section&#39;s scripts are available <a href="https://github.com/alfaromartino/julia_book/tree/main//assets/PAGES/6d_application01/codeDownload"><strong>here</strong></a>, under the name <code>allCode.jl</code>. They&#39;ve been tested under Julia 1.10.0.<br/><br/> For more accurate benchmarks, each variable is wrapped in <code>ref&#40;x&#41; &#61; &#40;Ref&#40;x&#41;&#41;&#91;&#93;</code> and interpolated through <code>&#36;</code>.  </div>  </div>
 <section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Through the example, we&#39;ll show the convenience of the following features:</p>
+<p>Through this section&#39;s illustration, we&#39;ll show the convenience of the following features:</p>
 <ol>
-<li><p>Boolean indexing for focusing on subsets of the data </p>
+<li><p>Boolean indexing for working with subsets of the data </p>
 </li>
 <li><p>organizing code around functions </p>
 </li>
@@ -2263,7 +2270,7 @@ specific_days    &#61; stats_subset&#40;views_per_video, pay_per_views, is_day&#
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Target Viral </button>
-    <button class="tablink" data-id=""> Target Non Viral </button>
+    <button class="tablink" data-id=""> Target Non-Viral </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia"># &#39;temp&#39; modifies &#39;new_views&#39;
 new_views       &#61; copy&#40;views_per_video&#41;
@@ -2317,7 +2324,7 @@ temp  &#61; temp .* 1.2             # it creates a new variable &#39;temp&#39;, 
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Target Viral </button>
-    <button class="tablink" data-id=""> Target Non Viral </button>
+    <button class="tablink" data-id=""> Target Non-Viral </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">targetViral    &#61; let views &#61; views_per_video, pay &#61; pay_per_video, threshold &#61; viral_threshold
     new_views &#61; copy&#40;views&#41;
@@ -2349,7 +2356,7 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Over a List of Functions (<strong><i>OPTIONAL</i></strong>)</h2></p>
-<p>To gain insights about Johnny&#39;s audience per video, we can derive descriptive statistics. The subsection is optional, as descriptive statistics can be more easily obtained through a package we haven&#39;t covered &#40;<code>DataFrames</code>&#41;. Despite this, the presentation highlights the benefits of functions being first-class objects in Julia. This property entails that a function behave like any other variable, making it possible to define a list of functions and apply them element-wise to a variable.</p>
+<p>To gain insights about Johnny&#39;s audience per video, we can derive descriptive statistics. The subsection is optional, as descriptive statistics can be more easily obtained through packages we haven&#39;t covered &#40;either <code>StatsBase</code> or <code>DataFrames</code>&#41;. Despite this, the presentation highlights the benefits of functions being first-class objects in Julia. This property entails that a function behave like any other variable, making it possible to define a list of functions and apply them element-wise to a variable.</p>
  <div class=" code_box"> <details  open><summary> Descriptive Statistics  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">list_functions &#61; &#91;sum, median, mean, maximum, minimum&#93;
 stats_views    &#61; &#91;fun&#40;views_per_video&#41; for fun in list_functions&#93;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>stats_views</code> <br/> <pre><code class="plaintext code-output">5-element Vector{Float64}:
  2412.76
@@ -2380,11 +2387,11 @@ stats_views      &#61; NamedTuple&#40;vector_of_tuples&#41;</code></pre> </div> 
 <footer class="py-1">    
     <!-- <p class="m-0"> -->
     <div class="container">
-       <span class="left-text"><a href="/julia_book/PAGES\6f_pipes" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png"
+       <span class="left-text"><a href="/julia_book/PAGES\6e_useful_funs" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
-       <span class="right-text"><a href="/julia_book/PAGES\6e_useful_funs" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
+       <span class="right-text"><a href="/julia_book/PAGES\7a_introToPerformace" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 11, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2868,7 +2875,7 @@ for multiple pics in a row
 <nav class="navbar navbar-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
-    <a class="navbar-brand"><i>6c.</i> Illustration 1</a>
+    <a class="navbar-brand"><i>6d.</i> Illustration - Johnny, the YouTuber</a>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">

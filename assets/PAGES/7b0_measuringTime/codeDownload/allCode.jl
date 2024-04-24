@@ -1,8 +1,19 @@
-# to execute the benchmarks
+############################################################################
+#   AUXILIAR FOR BENCHMARKING
+############################################################################
+# We use `foo(ref($x))` for more accurate benchmarks of the function `foo(x)`
 using BenchmarkTools
 ref(x) = (Ref(x))[]
 
-# Functions to print result with a specific format (only relevant for the website)= show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)= show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
+
+############################################################################
+#
+#                           START OF THE CODE 
+#
+############################################################################
+ 
+# necessary packages for this file
+using BenchmarkTools
  
 x = 1:100
 

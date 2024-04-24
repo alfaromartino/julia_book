@@ -1,0 +1,1 @@
+print_asis(x, 10) #hide

@@ -1640,7 +1640,7 @@ color: white;
   
 
 
-    <h1><i>5d.</i> Slices and Views</h1>    
+    <h1><i>5e.</i> Slices and Views</h1>    
     <div class="lead"> </div>
     
     
@@ -1663,6 +1663,8 @@ color: white;
 
     
     
+  
+
   
 
   
@@ -1807,13 +1809,15 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\3d_mutation/"><i>c</i>. Assignments vs Mutations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a0_slices/"><i>d</i>. Slices and Views</a></li><br>
+                <li><a href="/julia_book/PAGES\5bc_initializing/"><i>d</i>. Initializing and Creating Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>e</i>. Array Indexing</a></li><br>
+                <li><a href="/julia_book/PAGES\6a0_slices/"><i>e</i>. Slices and Views</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>f</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6c_inplace/"><i>g</i>. In-Place Functions</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
               </ul>
             </li>
@@ -1824,9 +1828,9 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6f_pipes/"><i>b</i>. Let Blocks and Pipes</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6d_application01/"><i>c</i>. Illustration 1</a></li><br>
+                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>c</i>. Useful Functions for Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\6d_application01/"><i>d</i>. Illustration - Johnny, the YouTuber</a></li><br>
                 
               </ul>
             </li>            
@@ -2046,50 +2050,73 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy">
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>In the previous section, we clearly distinguished between the use of <code>&#61;</code> for assignments and mutations. We now introduce another key concept for mutations, which is the behavior of a vector&#39;s slice. </p>
-<p>A <span style="color: rgb(62, 121, 180);"><strong>slice</strong></span> is a subset of vector&#39;s elements, which formally corresponds to an object <code>x&#91;&lt;indices&gt;&#93;</code>. Slices <strong>can act as views or copies of the original vector, depending on where they're included</strong>. The distinction is essential for mutations, as this operation requires a slice referencing the original object, which corresponds to the definition of a view. In contrast, slices acting as copies don&#39;t reference the original vector, and thus their mutations don&#39;t affect it.</p>
+<p>This section concludes with the preliminary concepts for studying mutations. In particular, it deals with the behavior of a vector&#39;s slice. </p>
+<p>A <span style="color: rgb(62, 121, 180);"><strong>slice</strong></span> is a subset of a vector&#39;s elements and is denoted as <code>x&#91;&lt;indices&gt;&#93;</code>. Importantly, <strong>slices act differently depending on where they're included</strong>. Formally, we need to distinguish between slices that act as:</p>
+<ul>
+<li><p><span style="color: rgb(62, 121, 180);"><strong>copies</strong></span> of the original vector: it creates a new object, allocated in a new memory address. </p>
+</li>
+<li><p><span style="color: rgb(62, 121, 180);"><strong>views</strong></span> of the original vector: it references the original object, and so both the original object and the slice point to the same memory address.</p>
+</li>
+</ul>
+<p>The distinction is essential when it comes to mutating an object through a slice, as the slice has to reference the original object—formally, mutations need to work with views. In contrast, slices acting as copies don&#39;t reference the original object, and thus their mutations don&#39;t affect it.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="slices_and" class="scrollspy section-bg-color">
+<section id="slices_and_the_operator" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Slices and =</h2></p>
-<p>Mutating a vector <code>x</code> requires referring to a slice of <code>x</code>, and then applying the operator <code>&#61;</code> to modify their values. However, <strong>a slice only acts as a view when it's on the left-hand side of</strong> <code>&#61;</code>, <strong>and as a copy when it's on the right-hand side of</strong> <code>&#61;</code>. </p>
-<p>To illustrate this, suppose that <code>x&#91;&lt;indices&gt;&#93;</code> is on <strong>the left-hand side of</strong> <code>&#61;</code>, such as in <code>x&#91;&lt;indices&gt;&#93; &#61; &lt;expression&gt;</code>. In this case, <code>x&#91;&lt;indices&gt;&#93;</code> refers to the original elements of <code>x</code>, stored in the memory address of <code>x</code>. The implication is that <code>x&#91;&lt;indices&gt;&#93; &#61; &lt;expression&gt;</code> mutates <code>x</code>, as <code>x&#91;&lt;indices&gt;&#93;</code> is referencing <code>x</code>. </p>
-<p>On the contrary, consider that <code>x&#91;&lt;indices&gt;&#93;</code> is on <strong>the right-hand side of</strong> <code>&#61;</code>, such as when we define a variable <code>y</code> through <code>y &#61; x&#91;&lt;indices&gt;&#93;</code>. In this case, Julia implicitly creates a copy, meaning that <code>y</code> points to a new object holding the value <code>x&#91;&lt;indices&gt;&#93;</code>, allocated in some new memory address. Consequently, <code>x</code> and <code>y</code> are references to different objects, and therefore have no relation. This implies that modifying the elements of <code>y</code> has no impact on <code>x</code>. </p>
-<p>Note that the rule just described only applies to <strong>slices</strong>  on the right-hand side of <code>&#61;</code>, such as in statements <code>y &#61; x&#91;&lt;indices&gt;&#93;</code>.  Instead, having the whole object <code>x</code> on the right-hand side of <code>&#61;</code>, as in <code>y &#61; x</code>,  transforms the operation into an aliasing assignment. We studied aliasing in the previous section. This makes <code>y</code> and <code>x</code> reference the same object, so that modifications of <code>y</code> also affect <code>x</code>.</p>
-<p>The following code snippet demonstrates these behaviors, where we refer to the left-hand side as  <em> LHS</em>, and the right-hand side as  <em> RHS</em>.</p>
+        <h2>Slices and the = Operator</h2></p>
+<p>Mutating a vector through a slice involves assigning new values through the operator <code>&#61;</code>. However, a slice behaves differently depending on its position in the assignment. <strong>A slice on the left-hand side of</strong> <code>&#61;</code> <strong>acts as a view</strong>, referencing the original elements and allowing mutation of the vector. In contrast, <strong>a slice on the right-hand side of</strong> <code>&#61;</code> <strong>creates a copy</strong>, making it point to a new object. This means that the objects have no relation, and thus modifying the slice doesn&#39;t affect the original vector.</p>
+<p>The following code snippet demonstrates this, where we refer to the left-hand side as  <em> LHS</em> and the right-hand side as  <em> RHS</em>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> A Slice on the LHS </button>
-    <button class="tablink" data-id=""> A Slice on the RHS</button>
-    <button class="tablink" data-id=""> A Slice of the Whole Object on the RHS</button>
-    <button class="tablink" data-id=""> The Whole Object on the RHS</button>
+    <button class="tablink" data-id=""> A Slice on the RHS</button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x    &#61; &#91;4,5&#93;
-x&#91;1&#93; &#61; 0        # a slice &#40;a view&#41;. It mutates &#39;x&#39;</code></pre>
+
+
+x&#91;1&#93; &#61; 0        # &#39;x&#91;1&#93;&#39; is a view and mutates &#39;x&#39;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  0
  5</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;4,5&#93;
-y &#61; x&#91;1&#93;        # a slice &#40;a copy&#41;
+<pre><code class="language-julia">x    &#61; &#91;4,5&#93;
+y    &#61; x&#91;1&#93;     # &#39;y&#39; is unrelated to &#39;x&#39; because &#39;x&#91;1&#93;&#39; is a copy
 
-x&#91;1&#93; &#61; 0        # it does NOT modify &#39;y&#39;</code></pre>
+x&#91;1&#93; &#61; 0        # it mutates &#39;x&#39; but does NOT modify &#39;y&#39;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">4</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+ <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Aliasing vs Copy</strong>  </span>  </div>  <div class=content>     The creation of copies for objects on the right-hand side of <code>&#61;</code> only applies to <strong>slices</strong>, such as in statements <code>y &#61; x&#91;&lt;indices&gt;&#93;</code>.  Instead, having the whole object <code>x</code> on the right-hand side of <code>&#61;</code>, as in <code>y &#61; x</code>, transforms the operation into an aliasing assignment. This makes <code>y</code> and <code>x</code> reference the same object, so that modifications of <code>y</code> would also affect <code>x</code>.</p>
+<p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Whole Object on the RHS (Aliasing) </button>
+    <button class="tablink" data-id=""> Slice of the Whole Object on the RHS (Copy) </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91;4,5&#93;
+y &#61; x           # the whole object &#40;a view&#41;
+
+x&#91;1&#93; &#61; 0        # it DOES modify &#39;y&#39;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 4
+ 5</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;4,5&#93;
@@ -2098,25 +2125,15 @@ y &#61; x&#91;:&#93;        # a slice of the whole object &#40;a copy&#41;
 x&#91;1&#93; &#61; 0        # it does NOT modify &#39;y&#39;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
- 4
- 5</div> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;4,5&#93;
-y &#61; x           # the whole object &#40;a view&#41;
-
-x&#91;1&#93; &#61; 0        # it DOES modify &#39;y&#39;</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  0
  5</div> </div></div> </div> 
  </div></div>
-<p>  </p></details></div>
+<p>  </p></details></div>  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="the_function_view" class="scrollspy">
+<section id="the_function_view" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2172,7 +2189,7 @@ x&#91;1:2&#93; .&#43; 2
     </div>
   </div>
 </section>
-<section id="macros_view_and_views" class="scrollspy section-bg-color">
+<section id="macros_view_and_views" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2224,11 +2241,11 @@ end</code></pre>
 <footer class="py-1">    
     <!-- <p class="m-0"> -->
     <div class="container">
-       <span class="left-text"><a href="/julia_book/PAGES\3d_mutation" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png"
+       <span class="left-text"><a href="/julia_book/PAGES\5bc_initializing" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\6a1_indexing" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 11, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2712,7 +2729,7 @@ for multiple pics in a row
 <nav class="navbar navbar-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
-    <a class="navbar-brand"><i>5d.</i> Slices and Views</a>
+    <a class="navbar-brand"><i>5e.</i> Slices and Views</a>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">
@@ -2722,7 +2739,7 @@ for multiple pics in a row
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#slices_and" data-offset="-40">Slices and =</a>
+        <a class="nav-link" href="#slices_and_the_operator" data-offset="-40">Slices and the = Operator</a>
       </li>
       
       <li class="nav-item">

@@ -1640,7 +1640,7 @@ color: white;
   
 
 
-    <h1><i>5e.</i> Array Indexing</h1>    
+    <h1><i>5f.</i> Array Indexing</h1>    
     <div class="lead"> </div>
     
     
@@ -1663,6 +1663,8 @@ color: white;
 
     
     
+  
+
   
 
   
@@ -1809,13 +1811,15 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\3d_mutation/"><i>c</i>. Assignments vs Mutations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a0_slices/"><i>d</i>. Slices and Views</a></li><br>
+                <li><a href="/julia_book/PAGES\5bc_initializing/"><i>d</i>. Initializing and Creating Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>e</i>. Array Indexing</a></li><br>
+                <li><a href="/julia_book/PAGES\6a0_slices/"><i>e</i>. Slices and Views</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>f</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6c_inplace/"><i>g</i>. In-Place Functions</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
               </ul>
             </li>
@@ -1826,9 +1830,9 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6f_pipes/"><i>b</i>. Let Blocks and Pipes</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6d_application01/"><i>c</i>. Illustration 1</a></li><br>
+                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>c</i>. Useful Functions for Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\6d_application01/"><i>d</i>. Illustration - Johnny, the YouTuber</a></li><br>
                 
               </ul>
             </li>            
@@ -2046,17 +2050,18 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy">
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>In order to mutate vectors, we first need to identify the elements we want to modify. Given this, the current section explores various approaches for selecting a vector&#39;s elements, leading us to handle <strong>vector indexing</strong>.</p>
-<p>We&#39;ve already introduced vectors and ranges to specify indices, thereby selecting the elements of a vector <code>x</code> through <code>x&#91;&#91;1,2,3&#93;&#93;</code> or <code>x&#91;1:3&#93;</code>. These approaches are effective for simple selections, but they fall short for selecting multiple elements that meet a certain condition. We now expand our toolbox with new forms of indexing, by applying the techniques we&#39;ve learned so far, primarily broadcasting and Boolean operations.       </div>
+<p>To mutate vectors, the first step is to identify the specific elements to be modified. This process is known as <strong>vector indexing</strong>. </p>
+<p>We&#39;ve already introduced vectors and ranges for vector indexing, making it possible to select elements of <code>x</code> through <code>x&#91;&#91;1,2,3&#93;&#93;</code> or <code>x&#91;1:3&#93;</code>. These approaches are effective for simple selections, but they fall short for selecting multiple elements meeting a certain condition. This section expands our toolbox by presenting new forms of indexing. The approaches are based on techniques we&#39;ve learned so far, primarily broadcasting and Boolean operations.</p>
+<p>      </div>
     </div>
   </div>
 </section>
-<section id="logical_indexing" class="scrollspy section-bg-color">
+<section id="logical_indexing" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2074,7 +2079,7 @@ y &#61; &#91;true, false, true&#93;</code></pre>
     </div>
   </div>
 </section>
-<section id="boolean_functions_and_operators_for_logical_indexing" class="scrollspy">
+<section id="boolean_functions_and_operators_for_logical_indexing" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2138,7 +2143,7 @@ y            &#61; x&#91;criterion.&#40;x&#41;&#93;</code></pre>
     </div>
   </div>
 </section>
-<section id="logical_indexing_through_in_and" class="scrollspy section-bg-color">
+<section id="logical_indexing_through_in_and" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2256,7 +2261,7 @@ bool_indices &#61; x .∉ Ref&#40;set_numbers&#41;</code></pre>
     </div>
   </div>
 </section>
-<section id="functions_to_select_elements" class="scrollspy">
+<section id="functions_to_select_elements" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2314,7 +2319,7 @@ y &#61; filter&#40;a -&gt; a &gt; 7, x&#41;</code></pre>
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\6b_mutating_views" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 11, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2798,7 +2803,7 @@ for multiple pics in a row
 <nav class="navbar navbar-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
-    <a class="navbar-brand"><i>5e.</i> Array Indexing</a>
+    <a class="navbar-brand"><i>5f.</i> Array Indexing</a>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">

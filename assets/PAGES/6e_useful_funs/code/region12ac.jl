@@ -1,0 +1,1 @@
+print_asis(days_by_earnings) #hide

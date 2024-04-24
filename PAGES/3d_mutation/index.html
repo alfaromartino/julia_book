@@ -1805,13 +1805,15 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\3d_mutation/"><i>c</i>. Assignments vs Mutations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a0_slices/"><i>d</i>. Slices and Views</a></li><br>
+                <li><a href="/julia_book/PAGES\5bc_initializing/"><i>d</i>. Initializing and Creating Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>e</i>. Array Indexing</a></li><br>
+                <li><a href="/julia_book/PAGES\6a0_slices/"><i>e</i>. Slices and Views</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>f</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6c_inplace/"><i>g</i>. In-Place Functions</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
               </ul>
             </li>
@@ -1822,9 +1824,9 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6f_pipes/"><i>b</i>. Let Blocks and Pipes</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6d_application01/"><i>c</i>. Illustration 1</a></li><br>
+                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>c</i>. Useful Functions for Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\6d_application01/"><i>d</i>. Illustration - Johnny, the YouTuber</a></li><br>
                 
               </ul>
             </li>            
@@ -1839,6 +1841,8 @@ color: white;
 </div>
 
 
+
+  
 
   
 
@@ -2046,23 +2050,32 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy section-bg-color">
+<section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>The upcoming sections will be devoted to the concept of <strong>vector mutation</strong>. However, to properly cover this subject, we first need to introduce some preliminary concepts. The current section in particular seeks to <strong>distinguish between assignments and mutations of variables</strong>. Likewise, the next section elaborates on vector indexing, providing flexible methods for selecting elements.</p>
-<p>The difference between assignments and mutations can easily go unnoticed by new users, as both operations use the operator <code>&#61;</code>, despite being fundamentally different. Establishing a clear distinction between these concepts is relevant not only for Julia, but also for other programming languages like Python. </p>
+<p>The upcoming sections will be devoted to the concept of <strong>vector mutation</strong>. However, to properly cover this subject, we first need to introduce some preliminary concepts:</p>
+<ul>
+<li><p>a distinction between assignments and mutations</p>
+</li>
+<li><p>initialize arrays to eventually mutate them</p>
+</li>
+<li><p>approaches to vector indexing for selecting elements</p>
+</li>
+</ul>
+<p>The current section in particular seeks to <strong>distinguish between assignments and mutations of variables</strong>. Likewise, the next two sections elaborate on the remaining concepts. </p>
+<p>The difference between assignments and mutations can easily go unnoticed by new users. The reason is that both operations use the operator <code>&#61;</code>, despite being fundamentally different. Establishing a clear distinction between these concepts is relevant not only for Julia, but also for other programming languages like Python. </p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="some_background" class="scrollspy">
+<section id="some_background" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Some Background</h2></p>
-<p>Recall that a <strong>variable</strong> is a label for an <strong>object</strong>, where the object in turn holds a <strong>value</strong>. Moreover, objects can have a different number of <strong>elements</strong>, encompassing both single-element objects &#40;e.g., integers, floating points&#41; and collections &#40;e.g., vectors&#41;.</p>
+<p>Recall that a <strong>variable</strong> is a label for an <strong>object</strong>, with the object in turn holding a <strong>value</strong>. Moreover, objects vary accoding the number of <strong>elements</strong> stored, encompassing both single-element objects &#40;e.g., integers, floating points&#41; and collections &#40;e.g., vectors&#41;.</p>
  <div class="multiple_pics">
 <div class="row">
   <div class="column2">
@@ -2075,12 +2088,12 @@ color: white;
   </div>  
 </div>
 </div>
-<p>The distinction between an object and its elements is crucial for the rest of the section, as  <em> assignments are operations related to objects</em>, whereas  <em> mutations are related to elements</em>. Specifically, assignments rebind variables to new objects, while mutations modify the elements of an existing object.</p>
+<p>The distinction between an object and its elements is crucial for the rest of the section. The reason is that textit&#123;assignments are operations related to objects&#125;, whereas  <em> mutations are related to elements</em>. More specifically, assignments rebind variables to new objects, while mutations modify the elements of an existing object.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="assignments" class="scrollspy section-bg-color">
+<section id="assignments" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2094,13 +2107,13 @@ color: white;
     </div>
   </div>
 </section>
-<section id="mutations" class="scrollspy">
+<section id="mutations" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Mutations</h2></p>
-<p>As we&#39;ve indicated, assignments associate the name <code>x</code> to an object. The operation works identically regardless of whether the object is a number or a vector. However, <strong>vectors open up the possibility of modifying an object's elements without necessarily creating a new object</strong>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Making such a distinction for numbers is unimportant for our purposes. Executing <code>x&#61;2</code> and then <code>x&#61;3</code> would ultimately entail a similar use of the operation <code>&#61;</code>. We&#39;ll revisit this matter when we cover the more general concepts of mutable and immutable objects in the next section.  </span></span> </p>
-<p>This leads us to distinguish between the use of <code>&#61;</code> for <span style="color: rgb(62, 121, 180);"><strong>assignments</strong></span> &#40;e.g., statements like <code>x &#61; &#91;4,5,6&#93;</code>&#41; and for <span style="color: rgb(62, 121, 180);"><strong>mutations</strong></span> &#40;e.g., statements like <code>x&#91;1&#93; &#61; 0</code>&#41;. The operations are fundamentally different, despite both using the operator <code>&#61;</code>. An assignment changes the object that <code>x</code> is bound to, meaning that it points to a new memory address. On the contrary, a mutation modifies the contents of the object, without changing its memory address.</p>
+<p>As we&#39;ve indicated, assignments associate the name <code>x</code> to an object. The operation works identically, regardless of whether the object is a number or a vector. However, <strong>vectors open up the possibility of modifying an object's elements, without necessarily creating a new object</strong>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Making such a distinction for numbers is unimportant for our purposes. Executing <code>x&#61;2</code> and then <code>x&#61;3</code> would ultimately entail a similar use of the operation <code>&#61;</code>. We&#39;ll revisit this matter when we cover the more general concepts of mutable and immutable objects in the next section.  </span></span> </p>
+<p>This leads us to distinguish between the use of <code>&#61;</code> for <span style="color: rgb(62, 121, 180);"><strong>assignments</strong></span> &#40;e.g., statements like <code>x &#61; &#91;4,5,6&#93;</code>&#41; and for <span style="color: rgb(62, 121, 180);"><strong>mutations</strong></span> &#40;e.g., statements like <code>x&#91;1&#93; &#61; 0</code>&#41;. Each operations is fundamentally different, despite both using the operator <code>&#61;</code>. An assignment changes the object that <code>x</code> is bound to, meaning that it points to a new memory address. On the contrary, a mutation modifies the contents of the object, without changing its memory address.</p>
 <p>As an example, suppose that we run <code>x &#61; &#91;4,5&#93;</code>. This creates an object with value <code>&#91;4,5&#93;</code> and stores it in some particular memory location. If we subsequently run <code>x &#61; &#91;6,7&#93;</code>, <code>x</code> will be associated with a new object holding <code>&#91;5,6&#93;</code>. This operation constitutes an  <em> assignment</em>. Conversely, if we execute <code>x&#91;1&#93; &#61; 0</code>, the operation modifies the object <code>&#91;4,5&#93;</code> and transforms it into <code>&#91;0,5&#93;</code>. The object will still be allocated in the same memory address, and so this case describes a  <em> mutation</em>.</p>
 <br/>
 <p> <div class="multiple_pics">
@@ -2130,7 +2143,7 @@ x&#91;:&#93; &#61;  &#91;0,0&#93;</code></pre>
     </div>
   </div>
 </section>
-<section id="alias_vs_copy" class="scrollspy section-bg-color">
+<section id="alias_vs_copy" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2219,9 +2232,9 @@ x&#91;1&#93; &#61;  0</code></pre>
     <div class="container">
        <span class="left-text"><a href="/julia_book/PAGES\3e_immutables" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
-       <span class="right-text"><a href="/julia_book/PAGES\6a0_slices" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
+       <span class="right-text"><a href="/julia_book/PAGES\5bc_initializing" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 11, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
