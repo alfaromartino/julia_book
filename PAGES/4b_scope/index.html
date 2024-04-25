@@ -1795,7 +1795,7 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. In-Place Assignments</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
@@ -2058,7 +2058,7 @@ color: white;
 <p><span style="color: rgb(62, 121, 180);"><strong>Variable scope</strong></span> refers to the code block in which a variable is accessible. The concept allows us to distinguish between <span style="color: rgb(62, 121, 180);"><strong>global variables</strong></span>, which are visible in any part of the code, and <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span>, which only exist within a specific code block. The existence of scopes determines that the same variable <code>x</code> could refer to different objects, depending on where it&#39;s called.</p>
 <p>Julia adheres to specific rules for variable scope when it comes to functions. Specifically, given a variable <code>x</code> defined outside a function:</p>
 <ul>
-<li><p>if a new variable <code>x</code> is defined inside a function or is passed to the function as an argument, then <code>x</code> is considered  <em> local</em> to that function. Moreover, any reference to <code>x</code> within the function refers to the local variable, without any relation to the variable <code>x</code> defined outside the function.</p>
+<li><p>if a new variable <code>x</code> is defined inside a function or is passed to the function as an argument, then <code>x</code> is considered  <em>local</em> to that function. Moreover, any reference to <code>x</code> within the function refers to the local variable, without any relation to the variable <code>x</code> defined outside the function.</p>
 </li>
 <li><p>if the function includes <code>x</code>, but it doesn&#39;t define a new <code>x</code> nor <code>x</code> is a function argument, then <code>x</code> refers to the variable defined outside the function &#40;i.e., the global variable&#41;.</p>
 </li>
@@ -2074,7 +2074,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Global and Local Variables</h2></p>
 <p>A variable that is local to a function only exists within the function&#39;s scope. Consequently, if we attempt to reference it outside the function, Julia will indicate that the variable doesn&#39;t exist. </p>
-<p>Variables local to a function encompass:  <em> i)</em> the function arguments, and  <em> ii)</em> variables defined in the function body. Any other variable appearing in a function refers to a global variable. </p>
+<p>Variables local to a function encompass:  <em>i)</em> the function arguments, and  <em>ii)</em> variables defined in the function body. Any other variable appearing in a function refers to a global variable. </p>
 <p>Identifying local variables in a function is crucial, as a local variable may share the same name as a global variable without them being related. The distinction between global and local variables is easier to grasp through the following examples.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2152,7 +2152,7 @@ y          &#61; double&#40;x&#41;</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The function in Approach 1 utilizes the global variable <code>x</code>. This practice is highly discouraged for several reasons. First, it makes the function not reusable, as it&#39;s exclusively confined to doubling the global variable <code>x</code>, rather than acting as a mini-program that doubles  <em> any</em> variable.</p>
+<p>The function in Approach 1 utilizes the global variable <code>x</code>. This practice is highly discouraged for several reasons. First, it makes the function not reusable, as it&#39;s exclusively confined to doubling the global variable <code>x</code>, rather than acting as a mini-program that doubles  <em>any</em> variable.</p>
 <p>Second, the inclusion of the global variable <code>x</code> prevents the function from being self-contained: the function&#39;s output varies depending on the value of <code>x</code> when executing the function. If you work on a long project, this feature makes the code prone to bugs.</p>
 <p>A final reason to avoid global variables is their detrimental impact on performance, which we&#39;ll study later on the website. In fact, global variables are directly a performance killer in Julia.</p>
 <p>On the contrary, Approach 2 refers to <code>x</code> as a local variable. This <code>x</code> is unrelated to the global variable <code>x</code>—it simply serves as a label to identify the variable we want to double. Indeed, we could&#39;ve used any other label, as is illustrated in Approach 3 through the monkey emoji, <code>🐒</code>.</p>
@@ -2328,7 +2328,7 @@ expenditure_iPhones &#61; expenditure&#40;gross_value, tax_paid&#41;</code></pre
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\4d_vectorizing" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 25, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

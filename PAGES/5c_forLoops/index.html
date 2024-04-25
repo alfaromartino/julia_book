@@ -1805,7 +1805,7 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. In-Place Assignments</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
@@ -2057,8 +2057,8 @@ color: white;
         <h2>Introduction</h2></p>
 <p>A key feature of programming is its ability to automate repetitive tasks. One way to implement this is through <span style="color: rgb(62, 121, 180);"><strong>for-loops</strong></span>, which run the same code block on each element of a list.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Always Wrap For-Loops in Functions</strong>  </span>  </div>  <div class=content>     At this stage of the website, where we&#39;re still introducing fundamental concepts, subjects are presented as simple as possible. The presentation of for-loops in particular are written in the global scope to simplify the presentation. </p>
-<p>However, <strong>you should always wrap for-loops in functions</strong>. Executing for-loops outside a function severely degrade performance and are subject to different rules regarding variable scoping. In fact, older versions of Julia didn&#39;t allow certain operations involving for-loops in the global scope.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Always Wrap For-Loops in Functions</strong>  </span>  </div>  <div class=content>     At this stage of the website where we&#39;re still introducing fundamental concepts, subjects are presented as simple as possible. This is why for-loops in particular are written in the global scope to simplify the presentation. </p>
+<p>However, <strong>you should always wrap for-loops in functions</strong>. Executing for-loops outside a function severely degrade performance and are subject to different rules regarding variable scoping. In fact, older versions of Julia weren&#39;t restricting for-loops in the global scope.  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>About High Performance</strong>  </span>  </div>  <div class=content>     In certain languages &#40;e.g., Matlab, Python, and R&#41;, for-loops can negatively impact performance. These languages recommend instead using vectorized code, which is a technique operating over the whole vector rather than its individual elements. Such a recommendation has no bearing on Julia, where <strong>for-loops are as fast as vectorized code</strong>. In fact, speeding up operations in Julia commonly rely on for-loops, making it crucial to achieve high-performance.  </div>  </div>
 <p>To illustrate the syntax of for-loops, consider the function <code>println&#40;a&#41;</code>. This evaluates <code>a</code> and displays its output in the REPL. In case <code>a</code> has type <code>String</code>, <code>println&#40;a&#41;</code> simply displays the word stored in <code>a</code>. The syntax of for-loops requires the keyword <code>for</code> at the beginning and the keyword <code>end</code> at the end, as shown below. </p>
@@ -2169,7 +2169,7 @@ end</code></pre>
  5
  6</div> </div></div> </div>   </details></div>  </div>  </div>
  <h4> Iterating over All Indices of an Array </h4>
-<p>To iterate over  <em> all</em> the indices of an array <code>x</code>, Julia provides the built-in function <code>eachindex&#40;x&#41;</code>. This is recommended by Julia&#39;s developers, as has been optimized to return a fast iterator for each type of array &#40;e.g., vectors, matrices, and other types of arrays we haven&#39;t covered yet&#41;.</p>
+<p>To iterate over  <em>all</em> the indices of an array <code>x</code>, Julia provides the built-in function <code>eachindex&#40;x&#41;</code>. This is recommended by Julia&#39;s developers, as has been optimized to return a fast iterator for each type of array &#40;e.g., vectors, matrices, and other types of arrays we haven&#39;t covered yet&#41;.</p>
 <p>Alternatively, you can iterate over all indices of <code>x</code> using a range. This requires the syntax <code>1:length&#40;x&#41;</code>, where <code>length&#40;x&#41;</code> indicates the number of elements in <code>x</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The syntax <code>begin:end</code> used for vector indexing isn&#39;t allowed for this purpose.  </span></span> </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2272,7 +2272,7 @@ end</code></pre>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content>     The rules of variable scope we present apply in all circumstances, with one exception that arises from following bad practices. Since this case is rare, we won&#39;t cover it.</p>
-<p>The issue occurs when  <em> i)</em> the for-loop is  <em> not</em> wrapped in a function,  <em> ii)</em> a local variable shares its name with a global variable, and  <em> iii)</em> the script is run non-interactively &#40;i.e., run by using the function <code>include</code>&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that there are two methods to execute a script, as we saw <a href="XXXXXXXXXXXXX">here</a>. The first method consists in working interactively with Julia. This includes running commands in the REPL&#39;s prompt <code>julia&gt;</code>and the execution of a script through a code editor. The second method consists of executing files storing scrips, through the function <code>include</code>.  </span></span> </p>
+<p>The issue occurs when  <em>i)</em> the for-loop is  <em>not</em> wrapped in a function,  <em>ii)</em> a local variable shares its name with a global variable, and  <em>iii)</em> the script is run non-interactively &#40;i.e., run by using the function <code>include</code>&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that there are two methods to execute a script, as we saw <a href="XXXXXXXXXXXXX">here</a>. The first method consists in working interactively with Julia. This includes running commands in the REPL&#39;s prompt <code>julia&gt;</code>and the execution of a script through a code editor. The second method consists of executing files storing scrips, through the function <code>include</code>.  </span></span> </p>
 <p>Unless the three conditions hold simultaneously, you don&#39;t have to worry about it. And even if this occurs, Julia will display a warning in the REPL indicating that there&#39;s a problem with your code.  </div>  </div>
 <p>We describe variable scope by referring to a variable <code>x</code>. The rules are as follows:</p>
 <div class="itemNoSpace"><ul>
@@ -2405,7 +2405,7 @@ y      &#61; &#91;foo&#40;a&#41; for a in x&#93;          # or y &#61; &#91;foo&
 <p>Thus far, we&#39;ve considered for-loops that iterate over single values. We now extend the applications of for-loops to <strong>iterate over multiple values</strong>. In particular, we consider simultaneous iterations over two lists and iterations over indices and values of a vector. </p>
  <h4> Iterating over Two Lists </h4>
 <p>Depending on the combination of elements aimed, there are two ways to simultaneously iterate over two lists <code>x</code> and <code>y</code>. If you seek to iterate over all the possible combinations of their elements, you need the function <code>Iterators.product&#40;x,y&#41;</code>, where the package <code>Iterators</code> is &quot;imported&quot; by default in each Julia session.</p>
-<p>Alternatively, you can iterate over all the ordered pairs of <code>x</code> and <code>y</code>, where each iteration considers the  <em> i</em>-th element of <code>x</code> and <code>y</code>. This operation requires the function <code>zip&#40;x,y&#41;</code>. </p>
+<p>Alternatively, you can iterate over all the ordered pairs of <code>x</code> and <code>y</code>, where each iteration considers the  <em>i</em>-th element of <code>x</code> and <code>y</code>. This operation requires the function <code>zip&#40;x,y&#41;</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2524,7 +2524,7 @@ descriptive&#40;vector,list&#41; &#61; &#91;foo&#40;vector&#41; for foo in list&
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\overview_4" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 25, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

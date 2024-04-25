@@ -1821,7 +1821,7 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. In-Place Assignments</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
@@ -2056,8 +2056,8 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>This section continues exploring <strong>approaches to mutating a vector</strong>. The emphasis is in particular on <strong>in-place functions</strong>, defined as functions that mutate at least one of their arguments. </p>
-<p>One common application of this is in this vector mutation, where the vector is passed as an argument to modify its values via a for-loop. Notably, several built-in functions have their own in-place version, allowing storing the output directly in the vector argument, rather than in a new object.</p>
-<p>The significance of these functions will become apparent when discussing performance matters, given that they allow us to reuse memory addresses and hence be more efficient.</p>
+<p>One common application of in-place functions is vector mutation, where the vector is passed as an argument to modify its values via a for-loop. Importantly, several built-in functions come with their own in-place version, allowing storing the output directly in the vector argument, rather than in a new object.</p>
+<p>The significance of these functions will become apparent when discussing performance matters, as they enable reusing memory addresses and hence are more efficient.</p>
 <p>      </div>
     </div>
   </div>
@@ -2172,10 +2172,10 @@ end</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Built-In In-Place Functions</h2></p>
-<p>Several built-in functions that accept a  <em> vector</em> as an argument are available in two forms: a &quot;standard&quot; version and an in-place version. Julia&#39;s developers follow a convention where <strong>any function that ends with</strong> <code>&#33;</code> <strong>corresponds to an in-place function</strong>.</p>
+<p>Several built-in functions that accept a  <em>vector</em> as an argument are available in two forms: a &quot;standard&quot; version and an in-place version. Julia&#39;s developers follow a convention where <strong>any function that ends with</strong> <code>&#33;</code> <strong>corresponds to an in-place function</strong>.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content> <strong>Ending a function with</strong> <code>&#33;</code> <strong>does not affect the function's behavior in any way</strong>. It&#39;s simply a notation adopted and suggested by Julia&#39;s developers, which hints at mutable nature of the operation. The purpose is to prevent users from unintentionally modifying the object.  </div>  </div>
+      <b>Remark</b> </span>  </div>  <div class=content> <strong>Ending a function with</strong> <code>&#33;</code> <strong>does not affect the function's behavior in any way</strong>. It&#39;s simply a convention adopted and suggested by Julia&#39;s developers, which hints at mutable nature of the operation. The purpose is to prevent users from unintentionally modifying the object.  </div>  </div>
 <p>We illustrate its use through the function <code>sort</code>. This orders the elements of a vector in increasing order, with the option <code>rev&#61;true</code> doing it in decreasing order. <code>sort&#40;x&#41;</code> creates a new vector containing the sorted elements, without affecting the original vector <code>x</code>. In contrast, the in-place version <code>sort&#33;&#40;x&#41;</code> stores the resulting vector in <code>x</code>, rather than creating a new object for the output. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2254,7 +2254,7 @@ map&#33;&#40;a -&gt; a^2, output, x&#41;</code></pre>
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\6c1_tuples_and_namedtuples" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 25, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

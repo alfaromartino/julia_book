@@ -1797,7 +1797,7 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. In-Place Assignments</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
@@ -2165,7 +2165,7 @@ z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Functions</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Function broadcasting</strong></span> plays a similar role as <code>map</code>, allowing the user to apply a function element-wise. The operation requires appending a dot <strong> <em> after</em></strong> the name of the function. For example, <code>log.&#40;x&#41;</code> applies <code>log</code> to each element of a vector <code>x</code>. </p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Function broadcasting</strong></span> plays a similar role as <code>map</code>, allowing the user to apply a function element-wise. The operation requires appending a dot <strong> <em>after</em></strong> the name of the function. For example, <code>log.&#40;x&#41;</code> applies <code>log</code> to each element of a vector <code>x</code>. </p>
 <p>Remarkably, <strong>any function</strong> <code>f</code> <strong>has a vectorized version</strong> <code>f.</code>, regardless of whether function is defined by the user or a third party.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2256,8 +2256,8 @@ region        &#61;  &#91;&quot;South America&quot;, &quot;North America&quot;&#
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Operators</h2></p>
-<p>It&#39;s also possible to <span style="color: rgb(62, 121, 180);"><strong>broadcast operators</strong></span>, making the operator apply element-wise. Its use requires prepending a dot <strong> <em> before</em></strong> the operator. </p>
-<p>In this respect, it&#39;s helpful to recall the classification of operators based on the number of operands, along with their corresponding syntax. Specifically, the syntax of  <em> unary operators</em> is <code>&lt;symbol&gt;x</code>, so that <code>.√x</code> broadcasts <code>√</code>. Likewise, the syntax for  <em> binary operators</em> is <code>x &lt;symbol&gt; y</code>, such that <code>x .&#43; y</code> computes the element-wise sum of vectors <code>x</code> and <code>y</code>, resulting in <code>&#91;x&#91;1&#93;&#43;y&#91;1&#93;, x&#91;2&#93;&#43;y&#91;2&#93;, ...&#93;</code>. </p>
+<p>It&#39;s also possible to <span style="color: rgb(62, 121, 180);"><strong>broadcast operators</strong></span>, making the operator apply element-wise. Its use requires prepending a dot <strong> <em>before</em></strong> the operator. </p>
+<p>In this respect, it&#39;s helpful to recall the classification of operators based on the number of operands, along with their corresponding syntax. Specifically, the syntax of  <em>unary operators</em> is <code>&lt;symbol&gt;x</code>, so that <code>.√x</code> broadcasts <code>√</code>. Likewise, the syntax for  <em>binary operators</em> is <code>x &lt;symbol&gt; y</code>, such that <code>x .&#43; y</code> computes the element-wise sum of vectors <code>x</code> and <code>y</code>, resulting in <code>&#91;x&#91;1&#93;&#43;y&#91;1&#93;, x&#91;2&#93;&#43;y&#91;2&#93;, ...&#93;</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2292,7 +2292,7 @@ y &#61; &#91;-1, -2, -3&#93;</code></pre>
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Operators With Single-Element Objects</h2></p>
 <p>In all the cases we&#39;ve covered, broadcasting required arguments of the same size. On the contrary, broadcasting <code>f&#40;x,y&#41;</code> over <code>x &#61; &#91;1,2&#93;</code> and <code>y&#61;&#91;3,4,5&#93;</code> is unfeasible. The explanation is that broadcasting has to be able to take pairs of values, which is not possible when the vectors have different sizes.</p>
-<p>However, there&#39;s one exception to this, which occurs when we broadcast functions/operations to:  <em> i)</em> vectors with more than one element having an equal size, and  <em> ii)</em> scalars. In these cases, scalars are treated as single-element objects having the same size as the vectors, with all entries equal to the scalar.</p>
+<p>However, there&#39;s one exception to this, which occurs when we broadcast functions/operations to:  <em>i)</em> vectors with more than one element having an equal size, and  <em>ii)</em> scalars. In these cases, scalars are treated as single-element objects having the same size as the vectors, with all entries equal to the scalar.</p>
 <p>For example, given <code>x &#61; &#91;1,2,3&#93;</code>, the expression <code>x .&#43; 2</code> produces the same result as defining <code>y&#61;&#91;2,2,2&#93;</code> and then executing <code>x .&#43; y</code>. We illustrate this below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2423,7 +2423,7 @@ x &#61; &#91;1, 2, 3&#93;</code></pre>
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Over One Argument Only</h2></p>
 <p>When we broadcast a function or operator over vectors <code>x</code> and <code>y</code>, both are simultaneously iterated. However, we could be interested in operations where we want to iterate only over <code>x</code>, while keeping <code>y</code> fixed. A specific scenario where this could arise is with the function <code>in&#40;a,list&#41;</code>. This function assesses whether the scalar <code>a</code> equals some element in the vector <code>list</code>. Thus, executing <code>in&#40;2, &#91;1,2,3&#93;&#41;</code> returns <code>true</code>, because <code>2</code> is an element of the vector <code>&#91;1,2,3&#93;</code>. </p>
-<p>Suppose instead that, given a vector <code>x</code>, we wish to verify whether  <em> each</em> of its numbers equals a number in <code>list &#61; &#91;1,2,3&#93;</code>. Below, we show that this can&#39;t be implemented directly by broadcasting <code>in</code>.</p>
+<p>Suppose instead that, given a vector <code>x</code>, we wish to verify whether  <em>each</em> of its numbers equals a number in <code>list &#61; &#91;1,2,3&#93;</code>. Below, we show that this can&#39;t be implemented directly by broadcasting <code>in</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2649,7 +2649,7 @@ list &#61; &#91;1, 2, 3&#93;</code></pre>
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\overview_3" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 25, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

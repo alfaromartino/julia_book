@@ -1801,7 +1801,7 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. In-Place Assignments</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
@@ -2108,7 +2108,7 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
       <div class="col-lg- mx-auto">
         <h2>Comparison Operators and Logical Operators</h2></p>
 <p>Conditions are defined through the use of <strong>comparison operators</strong> and <strong>logical operators</strong>. The former are intended for object comparisons, while the latter enable the combination of multiple conditions into a single condition.</p>
-<p>Formally, <span style="color: rgb(62, 121, 180);"><strong>comparison operators</strong></span> take operands of various types &#40;e.g., numbers, strings&#41; and return a <code>Bool</code> value. The next list defines common comparison operators. Note that all the operators listed are  <em> binary</em>, thereby explaining their syntax.</p>
+<p>Formally, <span style="color: rgb(62, 121, 180);"><strong>comparison operators</strong></span> take operands of various types &#40;e.g., numbers, strings&#41; and return a <code>Bool</code> value. The next list defines common comparison operators. Note that all the operators listed are  <em>binary</em>, thereby explaining their syntax.</p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -2215,7 +2215,7 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
 </tbody>
 </table>
 </p>
-<p>In terms of the syntax, notice that <code>&amp;&amp;</code> and <code>||</code> are  <em> binary</em> operators. The example below demonstrates how these operators can be applied.</p>
+<p>In terms of the syntax, notice that <code>&amp;&amp;</code> and <code>||</code> are  <em>binary</em> operators. The example below demonstrates how these operators can be applied.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; 2
 y &#61; 3
@@ -2247,9 +2247,9 @@ y2 &#61; &#33;&#40;x ≤ 0&#41;</code></pre>
         <h2>Logical Operators as Short-Circuit Operators</h2></p>
 <p>One key feature of <code>&amp;&amp;</code> and <code>||</code> is that they&#39;re <span style="color: rgb(62, 121, 180);"><strong>short-circuit operators</strong></span>. This means that, once an operand is evaluated, the remaining operands are evaluated only if the previous operands didn&#39;t establish the truth or falseness of the expression. More specifically:</p>
 <div class="itemNoSpace"><ul>
-<li><p><code>&#40;x &gt; 0&#41; || &#40;y &gt; 0&#41;</code><br/> The expression is true when  <em> at least one condition</em> is satisfied. Internally, Julia begins by analyzing <code>x &gt; 0</code>. If this expression is true, it doesn&#39;t evaluate any subsequent expression—it directly returns <code>true</code>. Julia would only evaluate <code>y &gt; 0</code> in case <code>x &gt; 0</code> is false. </p>
+<li><p><code>&#40;x &gt; 0&#41; || &#40;y &gt; 0&#41;</code><br/> The expression is true when  <em>at least one condition</em> is satisfied. Internally, Julia begins by analyzing <code>x &gt; 0</code>. If this expression is true, it doesn&#39;t evaluate any subsequent expression—it directly returns <code>true</code>. Julia would only evaluate <code>y &gt; 0</code> in case <code>x &gt; 0</code> is false. </p>
 </li>
-<li><p><code>&#40;x &gt; 0&#41; &amp;&amp; &#40;y &gt; 0&#41;</code><br/> The expression is true when  <em> both conditions</em> are satisfied. Internally, Julia begins by analyzing <code>x &gt; 0</code>. If this expression is false, it doesn&#39;t evaluate any subsequent expression—it directly returns <code>false</code>. Julia would only evaluate <code>y &gt; 0</code> in case <code>x &gt; 0</code> is true.</p>
+<li><p><code>&#40;x &gt; 0&#41; &amp;&amp; &#40;y &gt; 0&#41;</code><br/> The expression is true when  <em>both conditions</em> are satisfied. Internally, Julia begins by analyzing <code>x &gt; 0</code>. If this expression is false, it doesn&#39;t evaluate any subsequent expression—it directly returns <code>false</code>. Julia would only evaluate <code>y &gt; 0</code> in case <code>x &gt; 0</code> is true.</p>
 </li>
 </ul></div>
 <p>As not all the operands are necessarily evaluated, we might obtain an output even when some operands contain invalid expressions. This is demonstrated next, where we incorporate invalid Julia code as a condition.</p>
@@ -2346,7 +2346,7 @@ y &#61; -10</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Functions to Check Multiple Conditions: "all" and "any" </h2></p>
-<p>Julia has two built-in functions to evaluate multiple conditions: <code>all</code> and <code>any</code>. The function <code>all</code> returns <code>true</code> if  <em> every condition</em> is true, whereas the function <code>any</code> returns <code>true</code> if  <em> at least one condition</em> holds. Each function specifies the conditions to be evaluated through a vector or function. Instead, representing conditions through multiple separate arguments is disallowed. Next, we cover each case separately.</p>
+<p>Julia has two built-in functions to evaluate multiple conditions: <code>all</code> and <code>any</code>. The function <code>all</code> returns <code>true</code> if  <em>every condition</em> is true, whereas the function <code>any</code> returns <code>true</code> if  <em>at least one condition</em> holds. Each function specifies the conditions to be evaluated through a vector or function. Instead, representing conditions through multiple separate arguments is disallowed. Next, we cover each case separately.</p>
  <h4> Vectors for Representing Multiple Conditions </h4>
 <p>In the following, we demonstrate the syntax of <code>all</code> and <code>any</code> when they take a vector as their argument. The examples are based on the conditions <code>a&gt;0</code> and <code>b&gt;0</code> for some scalars <code>a</code> and <code>b</code>. </p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
@@ -2413,7 +2413,7 @@ is_one_positive  &#61; any.&#40;i -&gt; i &gt; 0, &#91;x,y&#93;&#41;</code></pre
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\5b_conditionals" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 25, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

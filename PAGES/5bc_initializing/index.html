@@ -1813,7 +1813,7 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. In-Place Assignments</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
@@ -2055,8 +2055,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>In the previous section, we clearly distinguished between the use of <code>&#61;</code> for assignments and mutations. We now introduce another preliminary concept for mutations, as is the creation of vectors.</p>
-<p>We start by covering how to initialize vectors, which involves reserving memory without assigning initial values to the vectors. The technique is particularly useful when our goal is to eventually populate a vector through a for-loop. After this, we&#39;ll provide approaches to creating vectors with specific values &#40;e.g., all zeros or ones&#41;. We also show how to concatenate multiple vectors to create a new one. </p>
+<p>We continue introducing preliminary concepts for implementing mutations. The previous section distinguished between the use of <code>&#61;</code> for assignments and mutations. Now, we&#39;ll deal with approaches to creating vectors.</p>
+<p>Our presentation starts by outlining the process of initializing vectors, which involves reserving memory without assigning initial values. We&#39;ll then discuss how to create vectors with predefined values, such as zeros or ones. The section concludes showing how to concatenate multiple vectors into a new one.</p>
 <p>      </div>
     </div>
   </div>
@@ -2066,9 +2066,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Initializing Vectors</h2></p>
-<p>Creating an array involves two steps: allocating memory space to hold the object and assigning initial values to it. However, when you intend to eventually populate the array with specific values, it&#39;s more efficient to only initialize the array. This involves reserving the memory space, without setting any initial values.</p>
-<p>The approach to initializing arrays without assigning values relies on the so-called <code>undef</code> values. Although <code>undef</code> values may appear as concrete numbers, they actually represent arbitrary content. They refer to the elements held in memory at the moment of reserving space. As a result, the numbers you observe vary every time you initialize and array and are meaningless.</p>
-<p>There are two methods for initializing arrays with <code>undef</code> values. The first requires specifying the type and length of the array. Its syntax is <code>Vector&#123;&lt;elements&#39; type&gt;&#125;&#40;undef, &lt;length&gt;&#41;</code>. The second approach is based on the function <code>similar</code>, which creates a vector with the same type and dimensions as another existing vector.</p>
+<p>Creating an array involves two steps: allocating memory space and assigning initial values to its elements. However, if you intend to eventually populate the array with specific values, it&#39;s more efficient to only initialize the array. This involves reserving memory space, but without setting any initial values.</p>
+<p>The approach relies on the so-called <code>undef</code> values, which represent arbitrary content held in memory at the moment of reserving space. Importantly, while <code>undef</code> provides concrete numbers, these values are meaningless and vary every time you initialize an array.</p>
+<p>There are two methods for initializing arrays with <code>undef</code> values. The first one requires specifying the type and length of the array., using the syntax <code>Vector&#123;&lt;elements&#39; type&gt;&#125;&#40;undef, &lt;length&gt;&#41;</code>. The second approach is based on the function <code>similar&#40;x&#41;</code> function, which creates a vector with the same type and dimensions as <code>x</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2092,7 +2092,7 @@ x &#61; similar&#40;y&#41;                      # &#96;x&#96; has the same type 
                    0</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The example starkly shows that the <code>undef</code> values returned have no meaning, and additionally vary every time the code is executed. They simply reflect the content held in RAM at the moment of execution. In fact, a more descriptive way to call <code>undef</code> values would be <strong>uninitialized values</strong>. Indeed, both expressions are often employed interchangeably.</p>
+<p>The example starkly shows that <code>undef</code> values have no significance. Moreover, you could check that these values vary every time the code is executed, as they capture any content held in RAM at the moment of allocation. In fact, a more descriptive way to call <code>undef</code> values would be <strong>uninitialized values</strong>, explaining why both expressions are often employed interchangeably.</p>
 <p>      </div>
     </div>
   </div>
@@ -2102,9 +2102,9 @@ x &#61; similar&#40;y&#41;                      # &#96;x&#96; has the same type 
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Creating Vectors</h2></p>
-<p>Initializing arrays with <code>undef</code> values is a useful approach when we plan to populate them with specific values later. However, there are scenarios where we seek to create arrays with a predefined value. Next, we present several approaches to do so.</p>
+<p>In the following, we present several approaches to creating arrays with predefined values. </p>
  <h4> Vectors With Range </h4>
-<p>The first method to create a vector is through a range. This approach has been extensively covered on this website, and can be implemented with the function <code>collect&#40;&lt;range&gt;&#41;</code>.</p>
+<p>We can create a sequence of values by specifying a range. This method has been extensively covered on the website, and take the form of a vector through <code>collect&#40;&lt;range&gt;&#41;</code>.</p>
  <div class=" code_box"> <details  open><summary> A Vector Filled With a Sequence  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">some_range &#61; 2:5
 
 x          &#61; collect&#40;some_range&#41;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
@@ -2112,8 +2112,8 @@ x          &#61; collect&#40;some_range&#41;</code></pre> </div> </div> <div cla
  3
  4
  5</code></pre> </div></div> </div>   </details></div>
-<p>Recall that the syntax of a range is <code>&lt;start&gt;: &lt;steps&gt;: &lt;stop&gt;</code>. By including <code>&lt;steps&gt;</code>, we&#39;re implicitly specifying the number of elements that the range will create. An alternative procedure would be specify the starting and ending points, but explicitly indicating the number of elements to store. This leaves the steps be implicitly determined. This approach is implemented through the function <code>range</code>. It creates a linearly spaced sequence, where the user specifies the number of elements to be created between two endpoints. Formally, it&#39;s equivalent to <code>&lt;start&gt; : 1 / &lt;number elements&gt; : &lt;end&gt;</code>.</p>
-<p>The syntax of the <code>range</code> with positional arguments is <code>range&#40;&lt;start&gt;, &lt;end&gt;, &lt;number elements&gt;&#41;</code>, although each can be specified through keyword arguments. The following snippet illustrates the application of this function by creating a range from 0 to 1, with the vector storing 5 elements in total. </p>
+<p>The syntax of range is <code>&lt;start&gt;: &lt;steps&gt;: &lt;stop&gt;</code>, where <code>&lt;steps&gt;</code> implicitly dictates the number of elements that to be created. Alternatively, you could indicate the number of elements to store, letting <code>&lt;steps&gt;</code> be implicitly determined. This is implemented through the function <code>range</code>. </p>
+<p><code>range</code> creates a linearly spaced sequence, where the user specifies the number of elements to be created between two endpoints. Formally, it&#39;s equivalent to <code>&lt;start&gt; : 1 / &lt;number elements&gt; : &lt;end&gt;</code>. Its syntax is <code>range&#40;&lt;start&gt;, &lt;end&gt;, &lt;number elements&gt;&#41;</code>, where you could alternatively set these values through keyword arguments. The following snippet demonstrates its use through a range from 0 to 1 that holds 5 elements. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2132,7 +2132,7 @@ x          &#61; collect&#40;some_range&#41;</code></pre> </div> </div> <div cla
  </div></div>
 <p>  </p></details></div>
  <h4> Vectors With Specific Values </h4>
-<p>There are several methods for creating vectors with specific repeated values, such as zeros and ones. These functions generate vectors with <code>Float64</code> elements by default, but you can also explicitly specify the element type. The following examples demonstrate some of these approaches. </p>
+<p>We can also create vectors with predefined values. For vectors filled with zeros and ones, Julia provides the functions <code>zeros</code> and <code>ones</code>. By default, these functions define <code>Float64</code> elements, although you also have the option of defining their type. The following examples demonstrate their use.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2174,7 +2174,7 @@ x             &#61; ones&#40;Int, length_vector&#41;</code></pre> </div></div>
  1</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>For specifically creating Boolean vectors, you can conveniently use the functions <code>trues</code> and <code>falses</code>. These are essentially shortcuts for calling <code>ones&#40;Bool, &lt;length&gt;&#41;</code> and <code>zeros&#40;Bool, &lt;length&gt;&#41;</code>, respectively. </p>
+<p>For creating Boolean vectors, you can conveniently use the functions <code>trues</code> and <code>falses</code>. These are shortcuts for respectively <code>ones&#40;Bool, &lt;length&gt;&#41;</code> and <code>zeros&#40;Bool, &lt;length&gt;&#41;</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2199,7 +2199,7 @@ x             &#61; falses&#40;length_vector&#41;   # equivalent to &#96;zeros&#
  </div></div>
 <p>  </p></details></div>
  <h4> Vectors Filled With a Repeated Object </h4>
-<p>We could also create vectors with repeated elements that aren&#39;t necessarily zeros or ones. This is achieved using the <code>fill</code> function, which offers great versatility as it accepts any object as the element to be repeated.</p>
+<p>To define vectors filled with elements different from zeros or ones, you can apply the <code>fill</code> function. This accepts any object as the element to be repeated.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2236,8 +2236,8 @@ x                &#61; fill&#40;filling_object, length_vector&#41;</code></pre> 
  </div></div>
 <p>  </p></details></div>
  <h4> Concatenating Vectors </h4>
-<p>Finally, we can also create a vector <code>z</code> that combines all the elements of two vectors <code>x</code> and <code>y</code>. One approach for doing this is through <code>z &#61; &#91;x ; y&#93;</code>, which is suitable when a few vectors need to be concatenated. However, the method becomes impractical when working programmatically or the number of vectors to concatenate is unknown.</p>
-<p>For these scenarios, we can employ the function <code>vcat</code>, which concatenates all the elements of its arguments. Its functionality can be extended to a list of vectors through the splat operator <code>...</code>.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that <code>...</code> splits a collection into multiple arguments. This makes it possible to use a vector or tuple to denote function arguments. For further information, see <a href="/julia_book/PAGES/4a1_define_func/#positional_and_keyword_arguments">here</a> under the subsection &quot;Splatting&quot;.  </span></span></p>
+<p>Finally, we can create a vector <code>z</code> that combines all the elements of two vectors <code>x</code> and <code>y</code>. Based on material we covered, one approach for doing this is through <code>z &#61; &#91;x ; y&#93;</code>. This method is suitable if only a few vectors need to be concatenated. However, the method becomes impractical when working programmatically or when the number of vectors to concatenate is unknown.</p>
+<p>For these scenarios, we can instead employ the function <code>vcat</code>, which merges all its arguments into one vector. By use of the splat operator <code>...</code>., this function also accepts a list of vectors as its arguments.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that the operator <code>...</code> splits a collection into multiple arguments. This enables the use of a vector or tuple to denote multiple function arguments. For further details, see <a href="/julia_book/PAGES/4a1_define_func/#positional_and_keyword_arguments">here</a> under the subsection &quot;Splatting&quot;.  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2269,7 +2269,7 @@ z &#61; vcat&#40;A...&#41;</code></pre> </div></div>
  8</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Closely related to vector concatenation is the <code>repeat</code> function. This makes it possible to create a vector that concatenates the same object multiple times. Importantly, <code>repeat</code> <strong>requires a vector as its input</strong>, throwing an error if a scalar is passed.</p>
+<p>Closely related to vector concatenation is the <code>repeat</code> function, which defines a vector containing the same object multiple times. Importantly, <code>repeat</code> <strong>requires a vector as its input</strong>, throwing an error if a scalar is passed.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2492,7 +2492,7 @@ y &#61; replace&#40;x, 3 &#61;&gt; 0, 5 &#61;&gt; 1&#41;   # new copy</code></pr
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\6a0_slices" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 25, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

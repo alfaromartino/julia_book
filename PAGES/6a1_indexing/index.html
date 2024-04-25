@@ -1817,7 +1817,7 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. In-Place Assignments</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
@@ -2115,7 +2115,7 @@ y            &#61; x&#91;criterion.&#40;x&#41;&#93;</code></pre>
 <p>  </p></details></div>
 <p>The first case uses logical indexing by broadcasting the operator <code>&lt;</code>. Its broadcasted version <code>x .&lt; 10</code> provides a <code>Bool</code> vector with <code>true</code> and <code>false</code>, which is used to select the elements of <code>x</code>. An identical result arises by broadcasting the function <code>criterion&#40;a&#41;</code>, as <code>criterion.&#40;x&#41;</code> returns the same vector as <code>x .&lt; 10</code>. Note that the application of functions for logical indexing is more convenient for more complex conditions than the one considered.</p>
 <p>Logical indexing significantly expands our options by incorporating the comparison tools learned in the section <a href="/julia_book/PAGES/5b_conditionals/">Conditional Statements</a>. In particular, we can express multiple conditions through the operators <code>&amp;&amp;</code> and <code>||</code>.</p>
-<p>To demonstrate this, let&#39;s show how to create  <em> i)</em> a vector comprising all the elements in <code>x</code> different from its extrema &#40;i.e., a&#39;s minimum and maximum&#41;, and  <em> ii)</em> a vector only including <code>x</code>&#39;s extrema. To do this, we use two built-in functions: <code>maximum</code> and <code>minimum</code>.</p>
+<p>To demonstrate this, let&#39;s show how to create  <em>i)</em> a vector comprising all the elements in <code>x</code> different from its extrema &#40;i.e., a&#39;s minimum and maximum&#41;, and  <em>ii)</em> a vector only including <code>x</code>&#39;s extrema. To do this, we use two built-in functions: <code>maximum</code> and <code>minimum</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2217,7 +2217,7 @@ bool_indices &#61; x&#91;in&#40;set_numbers&#41;.&#40;x&#41;&#93;       #curried
   100</div> </div></div> </div>   </details></div>  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     The functions and operators <code>in</code> and <code>∈</code> allow for negated versions, <code>&#33;in</code> and <code>∉</code> &#40;equivalent to <code>&#33;∈</code>&#41;, which select elements  <em> not</em> belonging to a set. </p>
+      <b>Remark</b> </span>  </div>  <div class=content>     The functions and operators <code>in</code> and <code>∈</code> allow for negated versions, <code>&#33;in</code> and <code>∉</code> &#40;equivalent to <code>&#33;∈</code>&#41;, which select elements  <em>not</em> belonging to a set. </p>
 <p>In the example below, they&#39;re used to keep those elements of <code>x</code> that are not its minimum or maximum. </p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2267,7 +2267,7 @@ bool_indices &#61; x .∉ Ref&#40;set_numbers&#41;</code></pre>
       <div class="col-lg- mx-auto">
         <h2>Functions to Select Elements</h2></p>
 <p>We close this section with two functions that select elements from a vector based on a condition: <code>findall</code> and <code>filter</code>. </p>
-<p>The function <code>findall</code> returns the  <em> indices</em> of a vector <code>x</code> that meet a condition. It can be implemented by specifying the condition in two different ways:  <em> i</em>&#41; through a function, and  <em> ii</em>&#41; through a Boolean vector. The following example illustrates both approaches, where we show what the function does and how to use its output for selecting elements.</p>
+<p>The function <code>findall</code> returns the  <em>indices</em> of a vector <code>x</code> that meet a condition. It can be implemented by specifying the condition in two different ways:  <em>i</em>&#41; through a function, and  <em>ii</em>&#41; through a Boolean vector. The following example illustrates both approaches, where we show what the function does and how to use its output for selecting elements.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2299,7 +2299,7 @@ z &#61; x&#91;findall&#40;x .&gt; 7&#41;&#93;</code></pre>
  9</div> </div><br/></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The second function is <code>filter</code>, which returns the  <em> elements</em> of a vector <code>x</code> that meet a condition. Despite what the name suggests, <code>filter</code> keeps elements rather than discarding them. It works similarly to <code>findall</code>, with the difference that it directly returns the elements, rather than the indices. Moreover, it requires passing both a function and a vector to implement it.</p>
+<p>The second function is <code>filter</code>, which returns the  <em>elements</em> of a vector <code>x</code> that meet a condition. Despite what the name suggests, <code>filter</code> keeps elements rather than discarding them. It works similarly to <code>findall</code>, with the difference that it directly returns the elements, rather than the indices. Moreover, it requires passing both a function and a vector to implement it.</p>
  <div class=" code_box"> <details  open><summary> Function filter  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;5,6,7,8,9&#93;
 
@@ -2319,7 +2319,7 @@ y &#61; filter&#40;a -&gt; a &gt; 7, x&#41;</code></pre>
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\6b_mutating_views" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 25, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

@@ -1827,7 +1827,7 @@ color: white;
                 
                 <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. Mutations and In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. In-Place Assignments</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
                 
@@ -2055,7 +2055,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>When working with data in Julia, you&#39;ll often need to manipulate and analyze vectors. This section covers some essential functions for performing some common vector operations, such as sorting, finding unique elements, counting occurrences, and ranking. </p>
+<p>When working with data in Julia, you&#39;ll often need to manipulate and analyze vectors. This section covers some essential functions for performing vector operations, such as sorting, finding unique elements, counting occurrences, and ranking. </p>
 <p>      </div>
     </div>
   </div>
@@ -2065,7 +2065,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Sorting Vectors</h2></p>
-<p>The function <code>sort</code> orders elements in ascending order, with a descending order implemented through keyword <code>rev &#61; true</code>. Moreover, <code>sort</code> returns a new sorted copy of the original array, leaving the original unchanged. If you want to modify the original array instead, you can use the in-place version <code>sort&#33;&#40;x&#41;</code>.</p>
+<p>The function <code>sort</code> orders elements in ascending order, with the possibility of sorting in descending order through the keyword <code>rev &#61; true</code>. Moreover, <code>sort</code> returns a new sorted copy of the original array, leaving the original unmodified. If you prefer to modify the original array instead, you can use the in-place version <code>sort&#33;&#40;x&#41;</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2158,8 +2158,8 @@ y      &#61; sort&#40;x, by &#61; foo&#41;      # same as sort&#40;x, by &#61; x
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Indices of Sorted Elements</h2></p>
-<p>The function <code>sort</code> returns the values of the vectors. In some cases, we could be interested in the  <em> indices</em> of the sorted elements. This is implemented by the function <code>sortperm</code>, which stands for &quot;sort permutation&quot;, although its name isn&#39;t quite intuitive. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> In the library <code>Numpy</code> of Python, <code>sortperm</code> corresponds to <code>sortarg</code>.  </span></span> </p>
-<p>By design, the function indicates the index of <code>x</code>&#39;s elements given by <code>sort&#40;x&#41;</code>, so that <code>x&#91;sortperm&#40;x&#41;&#93; &#61;&#61; sort&#40;x&#41;</code>. Furthermore, the indices are sorted according to an ascending order of the elements. </p>
+<p>While <code>sort</code> returns the values of the vectors, we could also be interested in the  <em>indices</em> of the sorted elements. This is implemented by the function <code>sortperm</code>, which stands for &quot;sort permutation&quot; &#40;although its name isn&#39;t quite revealing about its purpose&#41;.</p>
+<p>By design, the function indicates the index of <code>x</code>&#39;s elements given by <code>sort&#40;x&#41;</code>. In other words, <code>x&#91;sortperm&#40;x&#41;&#93; &#61;&#61; sort&#40;x&#41;</code> is true. Furthermore, the indices are sorted according to an ascending order of the elements. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2195,7 +2195,7 @@ sort_index &#61; sortperm&#40;x&#41;</code></pre> </div></div>
  3</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>One of the primary applications of <code>sortperm</code> is when we need to sort a variable based on the values of another variable. For example, suppose we want to arrange the days of the month according to the failures of a machine on each day. In particular, let&#39;s consider a simplified scenario where we focus on the first three days of the month, which we represent through strings. The following code snippet implements the task, where the days are ordered according to the number of failures.</p>
+<p>One of the primary applications of <code>sortperm</code> is when we need to sort a variable based on the values of another variable. For example, suppose we want to assess the failures of a machine on each day. In particular, let&#39;s consider a simplified scenario where we focus on the first three days of the month, which we represent through strings. The following code snippet orders these days according to the number of failures.</p>
  <div class=" code_box"> <details  open><summary> Days Sorted By Lowest Number of Failures  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">days     &#61; &#91;&quot;one&quot;, &quot;two&quot;, &quot;three&quot;&#93;
 failures &#61; &#91;8, 2, 4&#93;
 
@@ -2208,7 +2208,7 @@ days_by_failures &#61; days&#91;index&#93;                     # days sorted by 
  "two"
  "three"
  "one"</code></pre> </div></div> </div>   </details></div>
-<p>Just like <code>sort</code>, we can retrieve the indices according to a descending order by using the keyword argument <code>rev &#61; true</code>. </p>
+<p>Just like <code>sort</code>, we can also retrieve the indices according to a descending order through the keyword argument <code>rev &#61; true</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2428,7 +2428,7 @@ sorted_x &#61; to_sort_x&#40;x&#41;</code></pre> </div> </div> <div class="outpu
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Rankings</h2></p>
-<p>Rather than sorting a vector, you may want to determine the rank position of each element. The <code>StatsBase</code> package offers various methods to achieve this. Specifically, it provides the functions <code>competerank</code> and <code>ordinalrank</code>. The key difference between them lies in how they handle identical elements: <code>competerank</code> assigns the same rank to identical elements, while <code>ordinalrank</code> assigns different ranks to these elements. Both functions return a rank where 1 corresponds to the lowest value. If you want to invert the ranking so that 1 corresponds to the highest value, you can use the <code>rev &#61; true</code> keyword argument.</p>
+<p>Rather than sorting a vector, you could want to determine the rank position of each element. The <code>StatsBase</code> package offers various tools for this purpose. Specifically, it provides the functions <code>competerank</code> and <code>ordinalrank</code>. The key difference between them lies in how they handle identical elements: <code>competerank</code> assigns the same rank to identical elements, while <code>ordinalrank</code> assigns different ranks to these elements. Both functions return a rank where 1 corresponds to the lowest value. If you want to invert the ranking so that 1 corresponds to the highest value, you can use the <code>rev &#61; true</code> keyword argument.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2479,7 +2479,7 @@ y &#61; ordinalrank&#40;x, rev&#61;true&#41;</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Do not confuse <code>ordinalrank</code> and <code>sortperm</code></strong>  </span>  </div>  <div class=content>     The function <code>ordinalrank</code> indicates the position of each value in the  <em> sorted</em> vector, while <code>sortperm</code> indicates the position of each value in the  <em> unsorted</em> vector.  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Do not confuse <code>ordinalrank</code> and <code>sortperm</code></strong>  </span>  </div>  <div class=content>     The function <code>ordinalrank</code> indicates the position of each value in the  <em>sorted</em> vector, while <code>sortperm</code> indicates the position of each value in the  <em>unsorted</em> vector.  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> ordinalrank </button>
@@ -2554,7 +2554,7 @@ z &#61; max&#40;x,y&#41;</code></pre> </div> </div> <div class="output_in_modal"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\6d_application01" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 25, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

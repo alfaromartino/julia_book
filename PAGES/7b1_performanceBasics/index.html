@@ -2008,7 +2008,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>In the previous section, we described Julia&#39;s process when a function is executed. We emphasized in particular that a function call triggers type inference, where Julia attempts to identify the type of each variable involved. This is a key aspect that sets functions apart from operations in the global scope, as it enables potential method specialization and optimization. However, identifying each variable&#39;s type is only a necessary condition for specialization—the compiler must also identify  <em> concrete types</em> for each variable. </p>
+<p>In the previous section, we described Julia&#39;s process when a function is executed. We emphasized in particular that a function call triggers type inference, where Julia attempts to identify the type of each variable involved. This is a key aspect that sets functions apart from operations in the global scope, as it enables potential method specialization and optimization. However, identifying each variable&#39;s type is only a necessary condition for specialization—the compiler must also identify  <em>concrete types</em> for each variable. </p>
 <p>In this section, we&#39;ll explore techniques for verifying whether a function meets the necessary criteria for type stability. The discussion will start by stating a more formal definition of type stability. </p>
 <p>      </div>
     </div>
@@ -2024,7 +2024,7 @@ color: white;
 <pre><code class="language-julia">foo&#40;x&#41; &#61; x * 2</code></pre>
 <p></div> </div>  </details></div>
 <p>In a function like <code>foo&#40;x&#41;</code>, the argument <code>x</code> isn&#39;t restricted to any type, as the function definition is equivalent to <code>foo&#40;x::Any&#41; &#61; x * 2</code>. Eventually, when executing <code>foo&#40;a&#41;</code> with some specific argument <code>a</code>, multiple dispatch selects an appropriate method to compute <code>x * 2</code>. The process requires identifying the types of each input, which are <code>a</code> and <code>2</code>.</p>
-<p>The ability to generate fast code is heavily dependent on the notion of <span style="color: rgb(62, 121, 180);"><strong>type stability</strong></span>: given a function&#39;s argument types, the compiler must be able to infer the  <em> concrete types</em> of each variable involved. In this way, the compiler can specialize operations. Instead, if only abstract types are identified, the compiler must account for multiple possible implementations, resulting in slower code execution. </p>
+<p>The ability to generate fast code is heavily dependent on the notion of <span style="color: rgb(62, 121, 180);"><strong>type stability</strong></span>: given a function&#39;s argument types, the compiler must be able to infer the  <em>concrete types</em> of each variable involved. In this way, the compiler can specialize operations. Instead, if only abstract types are identified, the compiler must account for multiple possible implementations, resulting in slower code execution. </p>
 <p>In the example, <code>foo&#40;a &#61; 1&#41;</code> is type stable. This is because Julia can infer that <code>x</code> is <code>Int64</code>, and so it can specialize the method for <code>x * 2</code> to variables of <code>Int64</code> type.</p>
 <p>      </div>
     </div>
@@ -2088,7 +2088,7 @@ end</code></pre>
 </li>
 </ol></div>
 <p>A key takeaway from the example is that <strong>the same function can be type stable or unstable depending on its inputs</strong>. Specifically, <code>foo</code> is type stable when <code>x</code> has type <code>Int64</code>, but type unstable when <code>x</code> is <code>Float64</code>. </p>
-<p>To understand why, let&#39;s consider the case where <code>x &#61; 1</code>. In this scenario, the compiler infer the following information. As for  <em> i)</em>, <code>y</code> can be equal to either <code>0</code> or <code>x</code>. Since both <code>0</code> and <code>1</code> are of type <code>Int64</code>, the compiler identifies a unique type for <code>y</code>, which is <code>Int64</code>. Regarding  <em> ii)</em>, <code>y * i</code> also yields an <code>Int64</code>, as both <code>i</code> and <code>y</code> have type <code>Int64</code>. This establishes that <code>&#91;y * i for i in 1:100&#93;</code> is of type <code>Vector&#123;Int64&#125;</code>. Consequently, <code>foo&#40;1&#41;</code> is type stable, enabling Julia to invoke a specialized method for integers in each iteration.</p>
+<p>To understand why, let&#39;s consider the case where <code>x &#61; 1</code>. In this scenario, the compiler infer the following information. As for  <em>i)</em>, <code>y</code> can be equal to either <code>0</code> or <code>x</code>. Since both <code>0</code> and <code>1</code> are of type <code>Int64</code>, the compiler identifies a unique type for <code>y</code>, which is <code>Int64</code>. Regarding  <em>ii)</em>, <code>y * i</code> also yields an <code>Int64</code>, as both <code>i</code> and <code>y</code> have type <code>Int64</code>. This establishes that <code>&#91;y * i for i in 1:100&#93;</code> is of type <code>Vector&#123;Int64&#125;</code>. Consequently, <code>foo&#40;1&#41;</code> is type stable, enabling Julia to invoke a specialized method for integers in each iteration.</p>
 <p>Conversely, if <code>x &#61; 1.0</code>, <code>y</code> could be either <code>0</code> or <code>1.0</code>, and so <code>y</code> be an <code>Int64</code> or <code>Float64</code>. As a result, the compiler is unable to infer a unique type for <code>y</code>, which is now identified with type <code>Union&#123;Float64, Int64&#125;</code>. The consequence of this is that the compiler won&#39;t specialize operations involving <code>y</code>, forcing it to contemplate methods for both <code>Int64</code> and <code>Float64</code>. In particular, this affects the operation <code>y * i</code> during each iteration. Overall, <code>foo&#40;1.0&#41;</code> is type unstable, which has a detrimental impact on performance. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Note that type instability would also occur if we replace <code>0</code> by <code>0.</code> for <code>y</code>. The only difference is that the issue would then arise when <code>x</code> is an integer.  </span></span> </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
@@ -2146,7 +2146,7 @@ end</code></pre>
     </div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The yellow warning issued in the first tab is due to the single computation <code>y * 2</code>, whose impact on performance is minimal. As for the second tab, the type instability is due to the operation <code>y * i</code>, which is performed  <em> multiple times</em> without knowledge of <code>y</code>&#39;s type. This makes <code>@code_warntype</code> provide a red warning, given its severe impact on performance. </p>
+<p>The yellow warning issued in the first tab is due to the single computation <code>y * 2</code>, whose impact on performance is minimal. As for the second tab, the type instability is due to the operation <code>y * i</code>, which is performed  <em>multiple times</em> without knowledge of <code>y</code>&#39;s type. This makes <code>@code_warntype</code> provide a red warning, given its severe impact on performance. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>For-Loops and Yellow Warnings</strong>  </span>  </div>  <div class=content>     When running a for-loop, a yellow warning will always appear even when the function is type stable. The warning can be safely ignored, as it merely reflects how iterates work: they return a tuple during each iteration or <code>nothing</code> if no element remains to be computed, where <code>nothing</code> has type <code>Nothing</code>. </p>
 <p> <div class=" code_box"> <details  open><summary> Type Instability with For-Loops  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
@@ -2170,7 +2170,7 @@ end</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Concrete Types and Supertypes</h2></p>
-<p><strong>Having a self-contained function is only a necessary condition for type stability</strong>. In other words, avoiding global variables doesn&#39;t guarantee the property. Instead, we also need to ensure that the compiler is able to recognize  <em> concrete types</em> for each variable in the function.</p>
+<p><strong>Having a self-contained function is only a necessary condition for type stability</strong>. In other words, avoiding global variables doesn&#39;t guarantee the property. Instead, we also need to ensure that the compiler is able to recognize  <em>concrete types</em> for each variable in the function.</p>
 <p>For instance, if a vector has elements with dissimilar concrete types, a function using it as an argument will be type unstable. A typical example of this is when vectors have elements of type <code>Number</code>, which is defined as the union of all numeric types &#40;e.g., <code>Int64</code>, <code>Float64</code>, <code>Float32</code>&#41;. </p>
 <p>Below, we provide various examples where Julia can&#39;t identify a concrete type.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2232,7 +2232,7 @@ x .&#61; 1                      # 1 is converted to 1.0 due to x&#39;s type
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\7b2_fixes_stability" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 24, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 25, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
