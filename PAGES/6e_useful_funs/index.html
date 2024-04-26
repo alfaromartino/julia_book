@@ -2065,7 +2065,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Sorting Vectors</h2></p>
-<p>The function <code>sort</code> orders elements in ascending order, with the possibility of sorting in descending order through the keyword <code>rev &#61; true</code>. Moreover, <code>sort</code> returns a new sorted copy of the original array, leaving the original unmodified. If you prefer to modify the original array instead, you can use the in-place version <code>sort&#33;&#40;x&#41;</code>.</p>
+<p>The function <code>sort</code> arranges elements in ascending order, with the possibility of a descending order through the keyword argument <code>rev &#61; true</code>. Additionally, <code>sort</code> returns a new sorted copy of the original array, leaving the original unaffected. If you instead prefer to modify the original array <code>x</code>, you can use the in-place version <code>sort&#33;&#40;x&#41;</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2158,8 +2158,7 @@ y      &#61; sort&#40;x, by &#61; foo&#41;      # same as sort&#40;x, by &#61; x
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Indices of Sorted Elements</h2></p>
-<p>While <code>sort</code> returns the values of the vectors, we could also be interested in the  <em>indices</em> of the sorted elements. This is implemented by the function <code>sortperm</code>, which stands for &quot;sort permutation&quot; &#40;although its name isn&#39;t quite revealing about its purpose&#41;.</p>
-<p>By design, the function indicates the index of <code>x</code>&#39;s elements given by <code>sort&#40;x&#41;</code>. In other words, <code>x&#91;sortperm&#40;x&#41;&#93; &#61;&#61; sort&#40;x&#41;</code> is true. Furthermore, the indices are sorted according to an ascending order of the elements. </p>
+<p>While <code>sort</code> returns the ordered  <em>values</em> of the vectors, you may also be interested in the  <em>indices</em> of the sorted elements. This is where <code>sortperm</code> comes into play, which returns the indices of <code>x</code>&#39;s elements that <code>sort&#40;x&#41;</code> would produce. In other words, <code>x&#91;sortperm&#40;x&#41;&#93; &#61;&#61; sort&#40;x&#41;</code> is true, also implying that the sorting is in ascending order. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The name <code>sortperm</code> originates from &quot;sorting permutation&quot;. Although it might seem somewhat opaque, it&#39;s reasonable considering that it returns the permutation of indices that would sort the original vector.  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2195,11 +2194,11 @@ sort_index &#61; sortperm&#40;x&#41;</code></pre> </div></div>
  3</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>One of the primary applications of <code>sortperm</code> is when we need to sort a variable based on the values of another variable. For example, suppose we want to assess the failures of a machine on each day. In particular, let&#39;s consider a simplified scenario where we focus on the first three days of the month, which we represent through strings. The following code snippet orders these days according to the number of failures.</p>
+<p>One primary use case of <code>sortperm</code> is to sort a variable based on the values of another variable. For example, suppose we want to assess the daily failures of a machine. Focusing on the first three days of the month, the following code snippet ranks these days by their corresponding failure counts.</p>
  <div class=" code_box"> <details  open><summary> Days Sorted By Lowest Number of Failures  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">days     &#61; &#91;&quot;one&quot;, &quot;two&quot;, &quot;three&quot;&#93;
 failures &#61; &#91;8, 2, 4&#93;
 
-index            &#61; sortperm&#40;earnings&#41;
+index            &#61; sortperm&#40;failures&#41;
 days_by_failures &#61; days&#91;index&#93;                     # days sorted by lowest failures</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>index</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  2
  3
@@ -2208,7 +2207,7 @@ days_by_failures &#61; days&#91;index&#93;                     # days sorted by 
  "two"
  "three"
  "one"</code></pre> </div></div> </div>   </details></div>
-<p>Just like <code>sort</code>, we can also retrieve the indices according to a descending order through the keyword argument <code>rev &#61; true</code>. </p>
+<p>Just like <code>sort</code>, we can also retrieve the indices in descending order through the keyword argument <code>rev &#61; true</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2345,8 +2344,7 @@ unique&#33;&#40;x&#41;          # mutates &#39;x&#39;</code></pre> </div></div>
  4</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Related to it, the package <code>StatsBase</code> provides <code>countmap</code>.  This counts the number of occurrences of each element in a vector. Formally, it returns a dictionary, where the keys identify each unique element and the values return the counts of each element. Note that, by design, the keys in the dictionary are unsorted. In case you want to have sorted keys, you need to apply <code>sort</code>, in which case an object with type <code>OrderedDict</code> is created. </p>
-<p>The <code>StatsBase</code> package offers a related function <code>countmap</code>, which enumerates the occurrences of each element in a vector. Specifically, it returns a dictionary, where each unique element is a key and its corresponding value represents the count of that element. As the keys in this dictionary are unsorted by design, you need to apply the <code>sort</code> function to create an object of type <code>OrderedDict</code> object with sorted keys.</p>
+<p>The <code>StatsBase</code> package also offers a related function <code>countmap</code>. This enumerates the occurrences of each element in a vector. Formally, it returns a dictionary, where each unique element is a key and its corresponding value represents the count of that element. As the keys in this dictionary are unsorted by design, you must apply the <code>sort</code> function if you prefer sorted keys. The application of <code>sort</code> will automatically transform an ordinary dictionary into an object with type <code>OrderedDict</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2394,32 +2392,7 @@ occurrences &#61; collect&#40;values&#40;y&#41;&#41;</code></pre> </div></div>
  2</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p> <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content> <code>countmap</code> can be used in combination with <code>sort</code>. For instance, the following snippet sorts a vector based on the frequency of its elements. </p>
-<p> <div class=" code_box"> <details  open><summary> Application of countmap  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">using StatsBase
-
-function to_sort_x&#40;x&#41;
-    dict_count &#61; countmap&#40;x&#41;
-    sorted_x   &#61; sort&#40;x, by &#61; &#40;x -&gt; dict_count&#91;x&#93;&#41;&#41;
-    return sorted_x
-end
-
-x        &#61; &#91;0, 4, 4, 4, 5, 5&#93;
-sorted_x &#61; to_sort_x&#40;x&#41;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">6-element Vector{Int64}:
- 0
- 4
- 4
- 4
- 5
- 5</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sorted_x</code> <br/> <pre><code class="plaintext code-output">6-element Vector{Int64}:
- 0
- 5
- 5
- 4
- 4
- 4</code></pre> </div></div> </div>   </details></div>  </div>  </div>       </div>
+<p>      </div>
     </div>
   </div>
 </section>
@@ -2428,7 +2401,7 @@ sorted_x &#61; to_sort_x&#40;x&#41;</code></pre> </div> </div> <div class="outpu
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Rankings</h2></p>
-<p>Rather than sorting a vector, you could want to determine the rank position of each element. The <code>StatsBase</code> package offers various tools for this purpose. Specifically, it provides the functions <code>competerank</code> and <code>ordinalrank</code>. The key difference between them lies in how they handle identical elements: <code>competerank</code> assigns the same rank to identical elements, while <code>ordinalrank</code> assigns different ranks to these elements. Both functions return a rank where 1 corresponds to the lowest value. If you want to invert the ranking so that 1 corresponds to the highest value, you can use the <code>rev &#61; true</code> keyword argument.</p>
+<p>Rather than sorting a vector, you could need to determine the rank position of each element. The <code>StatsBase</code> package offers various tools for this purpose. Specifically, it provides the functions <code>competerank</code> and <code>ordinalrank</code>. The key difference between them lies in how they handle identical elements: <code>competerank</code> assigns the same rank to identical elements, while <code>ordinalrank</code> assigns different ranks to these elements. Both functions return a rank where 1 corresponds to the lowest value. If you want to invert the ranking so that 1 corresponds to the highest value, you can use the <code>rev &#61; true</code> keyword argument.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2554,7 +2527,7 @@ z &#61; max&#40;x,y&#41;</code></pre> </div> </div> <div class="output_in_modal"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\6d_application01" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 25, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 26, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

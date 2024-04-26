@@ -1,1 +1,1 @@
-print_asis(days_by_earnings) #hide
+print_asis(days_by_failures) #hide

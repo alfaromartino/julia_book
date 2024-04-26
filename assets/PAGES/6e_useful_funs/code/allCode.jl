@@ -136,19 +136,19 @@ print_asis(value) #hide
 print_asis(index) #hide
  
 days     = [1, 2, 3]
-earnings = [8, 2, 4]
+failures = [8, 2, 4]
 
-index            = sortperm(earnings, rev=true)
-days_by_earnings = days[index]                     # days sorted by highest earnings
+index            = sortperm(failures, rev=true)
+days_by_failures = days[index]                     # days sorted by highest earnings
  
 print_asis(index) #hide
  
-print_asis(days_by_earnings) #hide
+print_asis(days_by_failures) #hide
  
 days     = ["one", "two", "three"]
 failures = [8, 2, 4]
 
-index            = sortperm(earnings)
+index            = sortperm(failures)
 days_by_failures = days[index]                     # days sorted by lowest failures
  
 print_asis(index) #hide
