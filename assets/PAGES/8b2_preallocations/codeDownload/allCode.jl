@@ -1,7 +1,7 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# We use `foo(ref($x))` for more accurate benchmarks of the function `foo(x)`
+# We use `foo(ref($x))` for more accurate benchmarks of any function `foo(x)`
 using BenchmarkTools
 ref(x) = (Ref(x))[]
 
@@ -13,7 +13,7 @@ ref(x) = (Ref(x))[]
 ############################################################################
  
 # necessary packages for this file
-using BenchmarkTools
+# using Random
  
 x           = collect(1:100)
 repetitions = 100_000                       # repetitions in a for-loop
@@ -26,6 +26,7 @@ end
 
 @btime foo(ref($x), ref($repetitions))
  
+
 x           = collect(1:100)
 repetitions = 100_000                       # repetitions in a for-loop
 
@@ -37,6 +38,7 @@ end
 
 @btime foo(ref($x), ref($repetitions))
  
+
 x           = collect(1:100)
 repetitions = 100_000                       # repetitions in a for-loop
 
@@ -48,6 +50,7 @@ end
 
 @btime foo(ref($x), ref($repetitions))
  
+
 x           = collect(1:100)
 repetitions = 100_000                       # repetitions in a for-loop
 
@@ -59,6 +62,7 @@ end
 
 @btime foo(ref($x), ref($repetitions))
  
+
 x           = collect(1:100)
 repetitions = 100_000                       # repetitions in a for-loop
 
@@ -70,6 +74,7 @@ end
 
 @btime foo(ref($x), ref($repetitions))
  
+
 x = [1,2,3]
 
 function foo(x)
@@ -79,6 +84,7 @@ end
 
 @btime foo(ref($x))
  
+
 x = [1,2,3]
 
 function foo(x; a = similar(x), b = similar(x), c = similar(x))
@@ -88,6 +94,7 @@ end
 
 @btime foo(ref($x))
  
+
 x = [1,2,3]
 
 function foo(x)
@@ -97,6 +104,7 @@ end
 
 @btime foo(ref($x))
  
+
 x = [1,2,3]
 
 function foo(x)
@@ -113,6 +121,7 @@ foo(x) = sum(2 .* x)                  # 2 .* x implicitly creates a temporary ve
 
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -128,6 +137,7 @@ end
 
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -137,6 +147,7 @@ calling_foo_in_a_loop(x) = [sum(foo(x)) for _ in 1:100]
 
 @btime calling_foo_in_a_loop(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -152,6 +163,7 @@ calling_foo_in_a_loop(output,x) = [sum(foo(x)) for _ in 1:100]
 
 @btime calling_foo_in_a_loop(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x      = rand(100)
 output = similar(x)
@@ -166,6 +178,7 @@ end
 
 @btime foo!(ref($output), ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x      = rand(100)
 output = similar(x)
@@ -182,6 +195,7 @@ calling_foo_in_a_loop(output,x) = [sum(foo!(output,x)) for _ in 1:100]
 
 @btime calling_foo_in_a_loop(ref($output),ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x      = rand(100)
 output = similar(x)
@@ -190,6 +204,7 @@ foo!(output,x) = (output .= 2 .* x)
 
 @btime foo!(ref($output), ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x      = rand(100)
 output = similar(x)
@@ -198,6 +213,7 @@ foo!(output,x) = (@. output = 2 * x)
 
 @btime foo!(ref($output), ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x      = rand(100)
 output = similar(x)
@@ -208,6 +224,7 @@ calling_foo_in_a_loop(output,x) = [sum(foo!(output,x)) for _ in 1:100]
 
 @btime calling_foo_in_a_loop(ref($output),ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -215,6 +232,7 @@ foo(x) = [sum(x .> x[i]) for i in eachindex(x)]
 
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -225,6 +243,7 @@ end
 
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -239,6 +258,7 @@ end
 
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -255,6 +275,7 @@ end
 
 @btime foo!(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -269,6 +290,7 @@ end
 
 @btime foo!(ref($x));
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -283,6 +305,7 @@ end
 
 @btime foo!(ref($x));
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -303,6 +326,7 @@ end
 
 @btime foo!(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -319,6 +343,7 @@ end
 
 @btime foo!(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -338,6 +363,7 @@ calling_foo_in_a_loop(x) = [foo!(x) for _ in 1:1_000]
 
 @btime calling_foo_in_a_loop(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x      = rand(100)
 output = similar(x)

@@ -12,7 +12,7 @@ Pkg.instantiate() #to install the packages
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# We use `foo(ref($x))` for more accurate benchmarks of the function `foo(x)`
+# We use `foo(ref($x))` for more accurate benchmarks of any function `foo(x)`
 using BenchmarkTools
 ref(x) = (Ref(x))[]
 
@@ -32,12 +32,16 @@ using LazyArrays
  
 x = [a for a in 1:10]
  
+
 x = (a for a in 1:10)
  
+
 x = 1:10
  
+
 x = collect(1:10)
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -49,6 +53,7 @@ end
     
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -60,6 +65,7 @@ end
     
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -67,6 +73,7 @@ foo(x) = sum(a * 2 for a in x)              # 0 allocations
     
 @btime foo(ref($x))
  
+
 ############################################################################
 #
 #                           ITERATORS
@@ -88,6 +95,7 @@ end
     
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = collect(1:100)
 
@@ -99,6 +107,7 @@ end
     
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = collect(1:100)
 
@@ -110,6 +119,7 @@ end
     
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = collect(1:100)
 
@@ -121,6 +131,7 @@ end
     
 @btime foo(ref($x))
  
+
 ####################################################
 #	MAP
 ####################################################
@@ -136,6 +147,7 @@ end
     
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -147,6 +159,7 @@ end
     
 @btime foo(ref($x))
  
+
 ############################################################################
 #
 #                           LAZY BROADCASTING

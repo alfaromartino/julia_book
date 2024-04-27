@@ -12,7 +12,7 @@ Pkg.instantiate() #to install the packages
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# We use `foo(ref($x))` for more accurate benchmarks of the function `foo(x)`
+# We use `foo(ref($x))` for more accurate benchmarks of any function `foo(x)`
 using BenchmarkTools
 ref(x) = (Ref(x))[]
 
@@ -31,6 +31,7 @@ x = rand(100)
 
 foo(x) = sum(x)
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -44,6 +45,7 @@ function foo(x)
     return output
 end
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -57,6 +59,7 @@ function foo(x)
     return output
 end
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -72,6 +75,7 @@ function foo2(x)
     return output
 end
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -87,6 +91,7 @@ function foo2(x)
     return output
 end
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -102,6 +107,7 @@ function foo2(x)
     return output
 end
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -117,6 +123,7 @@ function foo2(x)
     return output
 end
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -136,6 +143,7 @@ end
  
 @btime foo2(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -155,6 +163,7 @@ end
  
 @btime foo2(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -174,6 +183,7 @@ end
  
 @btime foo2(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -193,6 +203,7 @@ end
  
 @btime foo2(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -201,6 +212,7 @@ calling_foo_in_a_loop(x) = [foo(x) for _ in 1:100]
 
 @btime calling_foo_in_a_loop(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -217,6 +229,7 @@ calling_foo_in_a_loop(x) = [foo(x) for _ in 1:100]
 
 @btime calling_foo_in_a_loop(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -233,6 +246,11 @@ calling_foo_in_a_loop(x) = [foo(x) for _ in 1:100]
 
 @btime calling_foo_in_a_loop(ref($x))
  
+
+
+
+
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -240,6 +258,7 @@ foo(x) = sum(a -> 2 * a, x)
 
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -247,6 +266,7 @@ foo(x) = prod(a -> 2 * a, x)
 
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -254,6 +274,7 @@ foo(x) = maximum(a -> 2 * a, x)
 
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -261,6 +282,7 @@ foo(x) = minimum(a -> 2 * a, x)
 
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -268,6 +290,7 @@ foo(x) = all(a -> a > 0.5, x)
 
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
@@ -275,6 +298,7 @@ foo(x) = any(a -> a > 0.5, x)
 
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100); y = rand(100)
 
@@ -282,6 +306,7 @@ foo(x,y) = sum(a -> a[1] * a[2], zip(x,y))
 
 @btime foo(ref($x), ref($y))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100); y = rand(100)
 
@@ -289,6 +314,7 @@ foo(x,y) = prod(a -> a[1] * a[2], zip(x,y))
 
 @btime foo(ref($x), ref($y))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100); y = rand(100)
 
@@ -296,6 +322,7 @@ foo(x,y) = maximum(a -> a[1] * a[2], zip(x,y))
 
 @btime foo(ref($x), ref($y))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100); y = rand(100)
 

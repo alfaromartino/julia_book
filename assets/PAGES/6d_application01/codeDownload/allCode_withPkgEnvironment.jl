@@ -12,7 +12,7 @@ Pkg.instantiate() #to install the packages
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# We use `foo(ref($x))` for more accurate benchmarks of the function `foo(x)`
+# We use `foo(ref($x))` for more accurate benchmarks of any function `foo(x)`
 using BenchmarkTools
 ref(x) = (Ref(x))[]
 
@@ -28,7 +28,7 @@ ref(x) = (Ref(x))[]
  
 ############################################################################
 #
-#       1) MOCK DATASET
+#       MOCK DATASET
 #
 ############################################################################
  
@@ -54,7 +54,7 @@ pay_per_video = views_per_video .* pay_per_views
 
 ############################################################################
 #
-# 2) BOOLEAN INDICES
+# BOOLEAN INDICES
 # (to characterize viral videos defined by >100k views)
 #    
 ############################################################################
@@ -87,7 +87,7 @@ rounded_proportion = round(Int, proportion_viral_lucrative)
 
 ############################################################################
 #
-# 3) FUNCTIONS TO REPRESENT TASKS
+# FUNCTIONS TO REPRESENT TASKS
 # 
 ############################################################################
  
@@ -128,7 +128,7 @@ specific_days    = stats_subset(views_per_video, pay_per_views, is_day)
 
 ############################################################################
 #
-# 4) SUBSETTING DATA
+# SUBSETTING DATA
 #    
 ############################################################################
  
@@ -192,19 +192,22 @@ temp  = temp .* 1.2             # it creates a new variable 'temp', it does not 
 
 ############################################################################
 #
-# 5) BROADCASTING OVER A LIST OF FUNCTIONS (OPTIONAL)
+# BROADCASTING OVER A LIST OF FUNCTIONS (OPTIONAL)
 #    
 ############################################################################
  
-list_functions = [sum, median, mean, maximum, minimum]
-
-stats_views    = [fun(views_per_video) for fun in list_functions]
+describe(views_per_video)
+print(describe(views_per_video))
  
-list_functions = [sum, median, mean, maximum, minimum]
+list_functions   = [sum, median, mean, maximum, minimum]
 
-stats_views    = [fun.([views_per_video, pay_per_views]) for fun in list_functions]
+stats_views      = [fun(views_per_video) for fun in list_functions]
  
-stats_views = NamedTuple((Symbol(fun), fun(views_per_video)) for fun in list_functions)
+list_functions   = [sum, median, mean, maximum, minimum]
+
+stats_views      = [fun.([views_per_video, pay_per_views]) for fun in list_functions]
+ 
+stats_views      = NamedTuple((Symbol(fun), fun(views_per_video)) for fun in list_functions)
  
 vector_of_tuples = [(Symbol(fun), fun(views_per_video)) for fun in list_functions]
 stats_views      = NamedTuple(vector_of_tuples)

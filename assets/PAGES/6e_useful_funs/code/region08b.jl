@@ -7,4 +7,5 @@ floor(x, digits=2)               # 456.17
 
 floor(Int, x)                    # 456
 
+floor(x, sigdigits=1)            # 400.0
 floor(x, sigdigits=2)            # 450.0

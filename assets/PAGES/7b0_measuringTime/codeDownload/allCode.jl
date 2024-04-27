@@ -1,7 +1,7 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# We use `foo(ref($x))` for more accurate benchmarks of the function `foo(x)`
+# We use `foo(ref($x))` for more accurate benchmarks of any function `foo(x)`
 using BenchmarkTools
 ref(x) = (Ref(x))[]
 

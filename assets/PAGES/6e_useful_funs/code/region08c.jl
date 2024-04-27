@@ -7,4 +7,5 @@ ceil(x, digits=2)                # 456.18
 
 ceil(Int, x)                     # 457   
 
+ceil(x, sigdigits=1)             # 500.0
 ceil(x, sigdigits=2)             # 460.0

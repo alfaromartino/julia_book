@@ -1362,11 +1362,11 @@ section a:hover{
                         </tr>
                         <tr>
                             <td class="tg-8jgo">Open All Codes and Outputs in a Post</td>
-                            <td class="tg-ofj5"><kbd>Ctrl + 🠙</kbd></td>
+                            <td class="tg-ofj5"><kbd>Alt + 🠙</kbd></td>
                         </tr>
                         <tr>
                             <td class="tg-8jgo">Close All Codes and Outputs in a Post</td>
-                            <td class="tg-ofj5"><kbd>Ctrl + 🠛</kbd></td>
+                            <td class="tg-ofj5"><kbd>Alt + 🠛</kbd></td>
                         </tr>                                          
                     </tbody>
                 </table>
@@ -2398,7 +2398,70 @@ occurrences &#61; collect&#40;values&#40;y&#41;&#41;</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="rankings" class="scrollspy">
+<section id="rounding_numbers" class="scrollspy">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Rounding Numbers</h2></p>
+<p>Julia provides standard functions to approximate numerical values to a specific precision. They comprise the <code>round</code>, <code>floor</code>, and <code>ceil</code> functions. </p>
+<ul>
+<li><p><code>round</code>: it approximates a number to the nearest integer. </p>
+</li>
+<li><p><code>floor</code>: it approximates a number down to the nearest integer.</p>
+</li>
+<li><p><code>ceil</code>: it approximates a number up to the nearest integer.</p>
+</li>
+</ul>
+<p>Below, we show that these functions have multiple methods. They allow the user to specify the output&#39;s type &#40;e.g., <code>Int64</code> or <code>Float64</code>&#41;, the number of decimals to be included through the keyword argument <code>digits</code>, and the <a href="https://en.wikipedia.org/wiki/Significant_figures#Rules_to_identify_significant_figures_in_a_number">significant digits</a>.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Round </button>
+    <button class="tablink" data-id="">  Floor </button>
+    <button class="tablink" data-id="">  Ceil </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; 456.175
+
+round&#40;x&#41;                         # 456.0   
+
+round&#40;x, digits&#61;1&#41;               # 456.2
+round&#40;x, digits&#61;2&#41;               # 456.18
+
+round&#40;Int, x&#41;                    # 456
+
+round&#40;x, sigdigits&#61;1&#41;            # 500.0
+round&#40;x, sigdigits&#61;2&#41;            # 460.0</code></pre> </div></div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; 456.175
+
+floor&#40;x&#41;                         # 456.0
+
+floor&#40;x, digits&#61;1&#41;               # 456.1
+floor&#40;x, digits&#61;2&#41;               # 456.17
+
+floor&#40;Int, x&#41;                    # 456
+
+floor&#40;x, sigdigits&#61;1&#41;            # 400.0
+floor&#40;x, sigdigits&#61;2&#41;            # 450.0</code></pre> </div></div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; 456.175
+
+ceil&#40;x&#41;                          # 457.0
+
+ceil&#40;x, digits&#61;1&#41;                # 456.2
+ceil&#40;x, digits&#61;2&#41;                # 456.18   
+
+ceil&#40;Int, x&#41;                     # 457   
+
+ceil&#40;x, sigdigits&#61;1&#41;             # 500.0
+ceil&#40;x, sigdigits&#61;2&#41;             # 460.0</code></pre> </div></div> 
+ </div></div>
+<p>  </p></details></div>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="rankings" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2483,7 +2546,7 @@ y &#61; sortperm&#40;x&#41;</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="extrema_maximum_and_minimum" class="scrollspy section-bg-color">
+<section id="extrema_maximum_and_minimum" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2529,7 +2592,7 @@ z &#61; max&#40;x,y&#41;</code></pre> </div> </div> <div class="output_in_modal"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\6d_application01" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 26, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 27, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2862,10 +2925,10 @@ window.addEventListener('resize', setHeight);
   }
 </script>
 
-<!-- to close all the elements in a class "details" using "Ctrl" + "Up Arrow" -->
+<!-- to close all the elements in a class "details" using "Alt" + "Up Arrow" -->
 <script>
 document.addEventListener("keydown", function(event) {
-  if (event.code === "ArrowUp" && event.ctrlKey) {    
+  if (event.code === "ArrowUp" && event.altKey) {    
     var details = document.getElementsByTagName("details");
     for (var i = 0; i < details.length; i++) {
         details[i].open = false;
@@ -2876,10 +2939,10 @@ document.addEventListener("keydown", function(event) {
 
 
 
-<!-- to open all the elements in a class "details" using "Ctrl" + "Down Arrow" -->
+<!-- to open all the elements in a class "details" using "Alt" + "Down Arrow" -->
 <script>
     document.addEventListener("keydown", function(event) {
-  if (event.code === "ArrowDown" && event.ctrlKey) {
+  if (event.code === "ArrowDown" && event.altKey) {
     var details = document.getElementsByTagName("details");
     for (var i = 0; i < details.length; i++) {
         details[i].open = true;
@@ -3032,6 +3095,10 @@ for multiple pics in a row
       
       <li class="nav-item">
         <a class="nav-link" href="#unique_vectors" data-offset="-40">Unique Vectors</a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" href="#rounding_numbers" data-offset="-40">Rounding Numbers</a>
       </li>
       
       <li class="nav-item">

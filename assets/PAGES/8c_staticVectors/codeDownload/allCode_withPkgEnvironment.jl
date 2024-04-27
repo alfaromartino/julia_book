@@ -12,7 +12,7 @@ Pkg.instantiate() #to install the packages
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# We use `foo(ref($x))` for more accurate benchmarks of the function `foo(x)`
+# We use `foo(ref($x))` for more accurate benchmarks of any function `foo(x)`
 using BenchmarkTools
 ref(x) = (Ref(x))[]
 
@@ -34,6 +34,7 @@ sx = SVector{length(x), eltype(x)}(x)
 sx = SA[x...]
 sx = @SVector [a for a in x]
  
+
 # all 'sx' define the same static vector '[3,4,5]'
 
 
@@ -42,42 +43,50 @@ sx = SVector{3, Int64}(3,4,5)
 sx = SA[3,4,5]
 sx = @SVector [i for i in 3:5]
  
+
 x = collect(3:10) ; sx = SVector(x...)
 
 # both define static vectors
 slice1 = sx[:]
 slice2 = sx[SA[1,2]]        # or slice2 = sx[SVector(1,2)]
  
+
 x = collect(3:10) ; sx = SVector(x...)
 
 # both define and ordinary vector
 slice2 = sx[1:2]
 slice2 = sx[[1,2]]
  
+
 x = collect(3:10) ; sx = SVector(x...)
 
 slice1 = sx[1]
 slice2 = sx[:]
  
+
 x = collect(3:10) ; sx = SVector(x...)
 
 slice1 = sx[1]
 slice2 = sx[:]
  
+
 x  = [1,2,3]
 sx = SVector(x...)
 
 #sx[1] = 0          # ERROR: setindex!(::SVector{3, Int64}, value, ::Int) is not defined.
  
+
 x  = [1,2,3]
 mx = MVector(x...)
 
 mx[1] = 0
  
+
 sx = SVector(1,2,3)
 
 mx = similar(sx)        # it defines an MVector with undef elements
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(10)
 
@@ -90,6 +99,7 @@ end
 
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(10)
 
@@ -102,6 +112,7 @@ end
 
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(10);   tup = Tuple(x)
 
@@ -114,6 +125,7 @@ end
 
 @btime foo(ref($tup))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(10);   sx = SA[x...]
 
@@ -126,6 +138,7 @@ end
 
 @btime foo(ref($sx))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(10);   mx = MVector(x...)
 
@@ -138,6 +151,7 @@ end
 
 @btime foo(ref($mx))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(10)
 
@@ -145,6 +159,7 @@ foo(x) = sum(2 .* x)
 
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(10);   sx = SVector(x...)
 
@@ -152,6 +167,7 @@ foo(x) = sum(2 .* x)
 
 @btime foo(ref($sx))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x  = rand(10)
 
@@ -159,6 +175,7 @@ foo(x) = sum(a -> 10 + 2a +  3a^2, x)
 
 @btime foo(ref($x))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x  = rand(10);  sx = SVector(x...);
 
@@ -166,6 +183,7 @@ foo(x) = sum(a -> 10 + 2a +  3a^2, x)
 
 @btime foo(ref($sx))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x  = rand(10)
 sx = SVector(x...);  mx = MVector(x...)
@@ -178,6 +196,7 @@ foo(x) = sum(a -> 10 + 2a +  3a^2, x)
  
 @btime foo(ref($mx))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x  = rand(10)
 sx = SVector(x...);  mx = MVector(x...)
@@ -190,6 +209,7 @@ foo(x) = 10 + 2x +  3x^2
  
 @btime foo.(ref($mx))
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50)
 
@@ -204,6 +224,7 @@ end
  
 @btime foo(ref($x))
  
+
 using Random, StaticArrays; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50)
 
@@ -218,6 +239,7 @@ end
  
 @btime foo(ref($x));
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50);   sx = SVector(x...)
 
@@ -232,6 +254,7 @@ end
  
 @btime foo(ref($sx));
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50);   sx = SVector(x...)
 
@@ -246,6 +269,7 @@ end
  
 @btime foo(ref($sx));
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50);   sx = SVector(x...)
 
@@ -260,6 +284,7 @@ end
  
 @btime foo(ref($sx));
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50)
 
@@ -277,6 +302,7 @@ end
 
 @code_warntype foo(x)                     # type unstable
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50);   sx = SVector(x...)
 
@@ -294,6 +320,7 @@ end
 
 @code_warntype foo(sx)                    # type stable
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50)
 
@@ -311,18 +338,21 @@ end
 
 @code_warntype foo(x, Val(length(x)))     # type stable
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 y = rand(100)
 
 @btime sum($x .* $y)
  
+
 using Random; Random.seed!(123)       #setting the seed for reproducibility
 x = tuple(rand(100)...)
 y = tuple(rand(100)...)
 
 @btime sum($x .* $y)
  
+
 using BenchmarkTools
 x2 = SVector(rand(100)...)
 y2 = SVector(rand(100)...)

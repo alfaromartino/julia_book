@@ -1,7 +1,7 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# We use `foo(ref($x))` for more accurate benchmarks of the function `foo(x)`
+# We use `foo(ref($x))` for more accurate benchmarks of any function `foo(x)`
 using BenchmarkTools
 ref(x) = (Ref(x))[]
 
@@ -31,16 +31,16 @@ output = round(temp2)
  
 a = -2
 
-output = let a = a         # the 'a' on the left refers to the local variable
-   temp1 = abs(a)
+output = let b = a         # 'b' is a local variable having the value of 'a' 
+   temp1 = abs(b)
    temp2 = exp(temp1)
    round(temp2)
 end
  
 a = -2
 
-output = let b = a         # 'b' is a local variable having the value of 'a' 
-   temp1 = abs(b)
+output = let a = a         # the 'a' on the left still refers to a local variable
+   temp1 = abs(a)
    temp2 = exp(temp1)
    round(temp2)
 end
