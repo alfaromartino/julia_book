@@ -1,5 +1,5 @@
 MethodInstance for foo(::Vector{Int64})
-  from foo(x; y) @ Main C:\Users\marti\Google Drive\WEBSITES\julia_book2\_assets\PAGES\7c_gotchas\code\region5d.jl:3
+  from foo(x) @ Main C:\Users\marti\MEGA\WEBSITES\julia_book2\_assets\PAGES\7c_gotchas\code\region5d.jl:3
 Arguments
   #self#::Core.Const(foo)
   x::Vector{Int64}
@@ -7,7 +7,7 @@ Locals
   tuple_x::TUPLE{VARARG{INT64}}
 Body::ANY
 1 ─      (tuple_x = Main.Tuple(x))
-│   %2 = Base.broadcasted(Main.:+, 2, tuple_x)::BASE.BROADCAST.BROADCASTED{BASE.BROADCAST.STYLE{TUPLE}, NOTHING, TYPEOF(+)}
+│   %2 = Base.broadcasted(Main.:+, 2, tuple_x)::BASE.BROADCAST.BROADCASTED{BASE.BROADCAST.STYLE{TUPLE}, NOTHING, TYPEOF(+), <:TUPLE{INT64, TUPLE{VARARG{INT64}}}}
 │   %3 = Base.materialize(%2)::ANY
 └──      return %3
 

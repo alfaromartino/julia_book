@@ -1,0 +1,1 @@
+@code_warntype foo(x)

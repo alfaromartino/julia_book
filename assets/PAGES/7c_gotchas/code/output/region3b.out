@@ -1,14 +1,14 @@
-MethodInstance for foo(::Float64)
-  from foo(x; y) @ Main C:\Users\marti\Google Drive\WEBSITES\julia_book2\_assets\PAGES\7c_gotchas\code\region3b.jl:1
+MethodInstance for foo(::Int64)
+  from foo(x) @ Main C:\Users\marti\MEGA\WEBSITES\julia_book2\_assets\PAGES\7c_gotchas\code\region3b.jl:1
 Arguments
   #self#::Core.Const(foo)
-  x::Float64
+  x::Int64
 Locals
-  #101::var"#101#102"{Float64}
-  y::Float64
-  @_5::Float64
-Body::Vector{Float64}
-1 ─       Core.NewvarNode(:(#101))
+  #36::var"#36#37"{Int64}
+  y::Int64
+  @_5::Int64
+Body::Vector{Int64}
+1 ─       Core.NewvarNode(:(#36))
 │         Core.NewvarNode(:(y))
 │   %3  = (x < 0)::Bool
 └──       goto #3 if not %3
@@ -16,13 +16,41 @@ Body::Vector{Float64}
 └──       goto #4
 3 ─       (@_5 = x)
 4 ┄       (y = @_5)
-│   %9  = Main.:(var"#101#102")::Core.Const(var"#101#102")
-│   %10 = Core.typeof(y)::Core.Const(Float64)
-│   %11 = Core.apply_type(%9, %10)::Core.Const(var"#101#102"{Float64})
-│         (#101 = %new(%11, y))
-│   %13 = #101::var"#101#102"{Float64}
+│   %9  = Main.:(var"#36#37")::Core.Const(var"#36#37")
+│   %10 = Core.typeof(y)::Core.Const(Int64)
+│   %11 = Core.apply_type(%9, %10)::Core.Const(var"#36#37"{Int64})
+│         (#36 = %new(%11, y))
+│   %13 = #36::var"#36#37"{Int64}
 │   %14 = (1:100)::Core.Const(1:100)
-│   %15 = Base.Generator(%13, %14)::Core.PartialStruct(Base.Generator{UnitRange{Int64}, var"#101#102"{Float64}}, Any[var"#101#102"{Float64}, Core.Const(1:100)])
+│   %15 = Base.Generator(%13, %14)::Core.PartialStruct(Base.Generator{UnitRange{Int64}, var"#36#37"{Int64}}, Any[var"#36#37"{Int64}, Core.Const(1:100)])
+│   %16 = Base.collect(%15)::Vector{Int64}
+└──       return %16
+
+MethodInstance for foo(::Float64)
+  from foo(x) @ Main C:\Users\marti\MEGA\WEBSITES\julia_book2\_assets\PAGES\7c_gotchas\code\region3b.jl:1
+Arguments
+  #self#::Core.Const(foo)
+  x::Float64
+Locals
+  #36::var"#36#37"{Float64}
+  y::Float64
+  @_5::Float64
+Body::Vector{Float64}
+1 ─       Core.NewvarNode(:(#36))
+│         Core.NewvarNode(:(y))
+│   %3  = (x < 0)::Bool
+└──       goto #3 if not %3
+2 ─       (@_5 = Main.zero(x))
+└──       goto #4
+3 ─       (@_5 = x)
+4 ┄       (y = @_5)
+│   %9  = Main.:(var"#36#37")::Core.Const(var"#36#37")
+│   %10 = Core.typeof(y)::Core.Const(Float64)
+│   %11 = Core.apply_type(%9, %10)::Core.Const(var"#36#37"{Float64})
+│         (#36 = %new(%11, y))
+│   %13 = #36::var"#36#37"{Float64}
+│   %14 = (1:100)::Core.Const(1:100)
+│   %15 = Base.Generator(%13, %14)::Core.PartialStruct(Base.Generator{UnitRange{Int64}, var"#36#37"{Float64}}, Any[var"#36#37"{Float64}, Core.Const(1:100)])
 │   %16 = Base.collect(%15)::Vector{Float64}
 └──       return %16
 

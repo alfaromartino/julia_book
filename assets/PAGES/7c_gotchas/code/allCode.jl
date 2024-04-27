@@ -1,10 +1,11 @@
-# to execute the benchmarks
-using BenchmarkTools
-ref(x) = (Ref(x))[]
-
-# Functions to print result with a specific format (only relevant for the website)
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
+include(joinpath("C:/", "JULIA_UTILS", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+ 
+############################################################################
+#
+#           GOTCHA 1 : INTEGERS AND FLOATS
+#
+############################################################################
  
 function foo(x)
     y = (x < 0) ?  0  :  x
@@ -12,8 +13,12 @@ function foo(x)
     return [y * i for i in 1:100]
 end
 
-#@code_warntype foo(1)      # type stable # hide
+@code_warntype foo(1)      # type stable
 @code_warntype foo(1.)     # type unstable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 function foo(x)
     y = (x < 0) ?  zero(x)  :  x
@@ -21,8 +26,17 @@ function foo(x)
     return [y * i for i in 1:100]
 end
 
-#@code_warntype foo(1)      # type stable # hide
+@code_warntype foo(1)      # type stable
 @code_warntype foo(1.)     # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+############################################################################
+#
+#           GOTCHA 2 : COLLECTIONS OF COLLECTIONS
+#
+############################################################################
  
 vec1 = ["a", "b", "c"] ; vec2 = [1, 2, 3]
 data = [vec1, vec2] 
@@ -34,7 +48,35 @@ function foo(data)
 end
 
 @code_warntype foo(data)            # type unstable
-#@btime foo(ref($data)) # hide
+#@btime foo(ref($data)) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+vec1 = ["a", "b", "c"] ; vec2 = [1, 2, 3]
+data = [vec1, vec2] 
+
+foo(data) = operation!(data[2])
+
+function operation!(x)
+    for i in eachindex(x)
+        x[i] = 2 * i
+    end
+end
+
+@code_warntype foo(data)            # barrier-function solution
+#@btime foo(ref($data)) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+############################################################################
+#
+#           GOTCHA 3 : BARRIER FUNCTIONS
+#
+############################################################################
  
 vec1 = ["a", "b", "c"] ; vec2 = [1, 2, 3]
 data = [vec1, vec2] 
@@ -47,23 +89,14 @@ end
 
 foo(data) = operation!(data[2])
 
-@code_warntype foo(data)            # type stable
-#@btime foo(ref($data)) # hide
- 
-vec1 = ["a", "b", "c"] ; vec2 = [1, 2, 3]
-data = [vec1, vec2] 
-
-function operation!(x)
-    for i in eachindex(x)
-        x[i] = 2 * i
-    end
-end
-
-foo(data) = operation!(data[2])
-
-@code_warntype foo(data)            # type stable
+@code_warntype foo(data)            # barrier-function solution
  
 #@btime foo(ref($data))
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 vec1 = ["a", "b", "c"] ; vec2 = [1, 2, 3]
 data = [vec1, vec2] 
@@ -80,6 +113,11 @@ end
  
 #@btime foo(ref($data))
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 vec1 = ["a", "b", "c"] ; vec2 = [1, 2, 3]
 data = [vec1, vec2] 
 
@@ -95,6 +133,15 @@ end
  
 #@btime foo(ref($data))
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+############################################################################
+#
+#           GOTCHA 4: INFERENCE IS BY TYPE, NOT VALUE
+#
+############################################################################
+ 
 function foo(condition)
     y = condition ?  2.5  :  1
     
@@ -103,6 +150,11 @@ end
 
 @code_warntype foo(true)         # type unstable
 @code_warntype foo(false)        # type unstable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 function foo(::Val{condition}) where condition
     y = condition ?  2.5  :  1
@@ -113,7 +165,13 @@ end
 @code_warntype foo(Val(true))    # type stable
 @code_warntype foo(Val(false))   # type stable
  
-x = [1,2,3]
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x       = [1,2,3]
+
 
 function foo(x)                         # 'Vector{Int64}' has no info on the number of elements
     tuple_x = Tuple(x)          
@@ -122,9 +180,15 @@ function foo(x)                         # 'Vector{Int64}' has no info on the num
 end
 
 @code_warntype foo(x)                   # type unstable
-# @btime foo(ref($x))           # hide
+# @btime foo(ref($x))           #hide
  
-x = [1,2,3]
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x       = [1,2,3]
+
 
 function foo(x, N)                      # The value of 'N' isn't considered, only its type
     tuple_x = NTuple{N, eltype(x)}(x)   
@@ -134,15 +198,27 @@ end
 
 @code_warntype foo(x, length(x))        # type unstable
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x       = [1,2,3]
 tuple_x = Tuple(x)
 
 function foo(x)
+
+
     2 .+ x
 end
 
 @code_warntype foo(tuple_x)             # type stable
-# @btime foo(ref($tuple_x))     # hide
+# @btime foo(ref($tuple_x))     #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 x = [1,2,3]
 
@@ -153,7 +229,12 @@ function foo(x, ::Val{N}) where N
 end
 
 @code_warntype foo(x, Val(length(x)))   # type stable
-# @btime foo(ref($tuple_x)) # hide
+# @btime foo(ref($tuple_x)) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 x = [1,2,3]
 
@@ -164,26 +245,55 @@ function foo(x)
 end
 
 @code_warntype foo(x)                   # type unstable
-# @btime foo(ref($x))           # hide
+# @btime foo(ref($x))           #hide
  
-foo(x) = x
-
-x = 1
-@code_warntype foo(x)           #type stable
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+############################################################################
+#
+#           GOTCHA 5: GLOBAL VARIABLES AS DEFAULT VALUES OF KEYWORD ARGUMENTS
+#
+############################################################################
  
 foo(; x) = x
 
 β = 1
 @code_warntype foo(x=β)         #type stable
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 foo(; x = β) = x
 
 β = 1
 @code_warntype foo()            #type unstable
  
-foo(; x = α) = x                # or 'x = 1' instead of 'x = α'
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+foo(; x = 1) = x
+
+
+@code_warntype foo()            #type stable
+ 
+foo(; x = α) = x
 
 const α = 1
+@code_warntype foo()            #type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+foo(; x = ϵ) = x                # or 'x = 1' instead of 'x = ϵ'
+
+ϵ::Int64 = 1
 @code_warntype foo()            #type stable
  
 foo(; x = γ()) = x
@@ -191,20 +301,108 @@ foo(; x = γ()) = x
 γ() = 1
 @code_warntype foo()            #type stable
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 foo(; x::Int64 = β) = x
 
 β = 1
 @code_warntype foo()            #type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 foo(; x = β::Int64) = x
 
 β = 1
 @code_warntype foo()            #type stable
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = 2
 foo(x; y = 2*x) = x * y
 
 @code_warntype foo(x)            #type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+############################################################################
+#
+#           GOTCHA 6: CLOSURES CAN EASILY INTRODUCE TYPE INSTABILITIES
+#
+############################################################################
+ 
+############################################################################
+# When the issue arises
+############################################################################
+ 
+###################
+# first example
+####################
+ 
+function foo()
+    x            = 1
+    bar()        = x
+    
+    return bar()
+end
+
+@code_warntype foo()      # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+function foo()
+    bar(x)       = x
+    x            = 1    
+    
+    return bar(x)
+end
+
+@code_warntype foo()      # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+function foo()
+    bar()        = x
+    x            = 1
+    
+    return bar()
+end
+
+@code_warntype foo()      # type unstable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+function foo()
+    bar()::Int64 = x::Int64
+    x::Int64     = 1       
+
+    return bar()
+end
+
+@code_warntype foo()      # type unstable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 function foo()    
     x = 1
@@ -216,41 +414,12 @@ bar(x) = x
 
 @code_warntype foo()      # type stable
  
-function foo()
-    bar(x)       = x
-    x            = 1    
-    
-    return bar(x)
-end
-
-@code_warntype foo()      # type stable
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
-function foo()
-    x            = 1
-    bar()        = x
-    
-    return bar()
-end
-
-@code_warntype foo()      # type stable
- 
-function foo()
-    bar()        = x
-    x            = 1
-    
-    return bar()
-end
-
-@code_warntype foo()      # type unstable
- 
-function foo()
-    bar()::Int64 = x::Int64
-    x::Int64     = 1       
-
-    return bar()
-end
-
-@code_warntype foo()      # type unstable
+###################
+# second example
+####################
  
 function foo()
     x            = 1
@@ -261,6 +430,11 @@ end
 
 @code_warntype foo()            # type stable
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 function foo()
     x            = 1
     x            = 1            # or 'x = x', or 'x = 2'
@@ -270,6 +444,11 @@ function foo()
 end
 
 @code_warntype foo()            # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 function foo()
     x            = 1
@@ -281,6 +460,11 @@ end
 
 @code_warntype foo()            # type unstable
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 function foo()
     x::Int64     = 1
     x            = 1
@@ -290,6 +474,11 @@ function foo()
 end
 
 @code_warntype foo()            # type unstable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 function foo()
     x::Int64     = 1
@@ -301,6 +490,11 @@ end
 
 @code_warntype foo()            # type unstable
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 function foo()
     bar()::Int64 = x::Int64
     x::Int64     = 1
@@ -310,6 +504,11 @@ function foo()
 end
 
 @code_warntype foo()            # type unstable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 function foo()
     x            = 1
@@ -322,6 +521,13 @@ bar(x) = x
 
 @code_warntype foo()            # type stable
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+###################
+# third example
+####################
+ 
 function foo(x)
     closure1(x) = x
     closure2(x) = closure1(x)
@@ -330,6 +536,11 @@ function foo(x)
 end
 
 @code_warntype foo(1)            # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 function foo(x)
     closure2(x) = closure1(x)
@@ -340,6 +551,11 @@ end
 
 @code_warntype foo(1)            # type unstable
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 function foo(x)
     closure2(x, closure1) = closure1(x)
     closure1(x)           = x
@@ -348,6 +564,11 @@ function foo(x)
 end
 
 @code_warntype foo(1)            # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 function foo(x)
     closure2(x) = closure1(x)    
@@ -358,6 +579,138 @@ end
 closure1(x) = x
 
 @code_warntype foo(1)            # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+############################################################################
+# But No One Writes Code like That
+############################################################################
+ 
+################################
+# i) Transforming Variables through Conditionals
+###################################
+ 
+x = [1,2]; β = 1
+
+function foo(x, β)
+    (β < 0) && (β = -β)         # transform 'β' to use its absolute value
+
+    bar(x) = x * β
+
+    return bar(x)
+end
+
+@code_warntype foo(x, β)        # type unstable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x = [1,2]; β = 1
+
+function foo(x, β)
+    (β < 0) && (β = -β)         # transform 'β' to use its absolute value
+
+    bar(x,β) = x * β
+
+    return bar(x,β)
+end
+
+@code_warntype foo(x, β)        # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x = [1,2]; β = 1
+
+function foo(x, β)
+    δ = (β < 0) ? -β : β        # transform 'β' to use its absolute value    
+
+    bar(x) = x * δ
+
+    return bar(x)
+end
+
+@code_warntype foo(x, β)        # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x = [1,2]; β = 1
+
+function foo(x, β)
+    β = abs(β)                  # 'δ = abs(β)' is preferable (you should avoid redefining variables) 
+
+    bar(x) = x * δ
+
+    return bar(x)
+end
+
+@code_warntype foo(x, β)        # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+################################
+# ii) Anonymous Functions inside a Function
+###################################
+ 
+x = [1,2]; β = 1
+
+function foo(x, β)
+    (β < 0) && (β = -β)         # transform 'β' to use its absolute value
+    
+    filter(x -> x > β, x)       # keep elements greater than 'β'
+end
+
+@code_warntype foo(x, β)        # type unstable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x = [1,2]; β = 1
+
+function foo(x, β)
+    δ = (β < 0) ? -β : β        # define 'δ' as the absolute value of 'β'
+    
+    filter(x -> x > δ, x)       # keep elements greater than 'δ'
+end
+
+@code_warntype foo(x, β)        # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x = [1,2]; β = 1
+
+function foo(x, β)
+    β = abs(β)                  # 'δ = abs(β)' is preferable (you should avoid redefining variables) 
+    
+    filter(x -> x > β, x)       # keep elements greater than β
+end
+
+@code_warntype foo(x, β)        # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+################################
+# iii) Variable Updates
+###################################
  
 function foo(x)
     β = 0                      # or 'β::Int64 = 0'
@@ -372,6 +725,11 @@ end
 
 @code_warntype foo(1)          # type unstable
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 function foo(x)
     β = 0                      # or 'β::Int64 = 0'
     for i in 1:10
@@ -384,6 +742,11 @@ function foo(x)
 end
 
 @code_warntype foo(1)          # type unstable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 function foo(x)
     β = 0
@@ -398,6 +761,11 @@ end
 
 @code_warntype foo(1)          # type stable
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = [1,2]; β = 1
 
 function foo(x, β)
@@ -410,95 +778,14 @@ end
 
 @code_warntype foo(x, β)        # type unstable
  
-x = [1,2]; β = 1
-
-function foo(x, β)
-    (β < 0) && (β = -β)         # transform 'β' to use its absolute value
-
-    bar(x) = x * β
-
-    return bar(x)
-end
-
-@code_warntype foo(x, β)        # type unstable
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
-x = [1,2]; β = 1
-
-function foo(x, β)
-    (β < 0) && (β = -β)         # transform 'β' to use its absolute value
-
-    bar(x,β) = x * β
-
-    return bar(x,β)
-end
-
-@code_warntype foo(x, β)        # type stable
- 
-x = [1,2]; β = 1
-
-function foo(x, β)
-    δ = (β < 0) ? -β : β        # transform 'β' to use its absolute value    
-
-    bar(x) = x * δ
-
-    return bar(x)
-end
-
-@code_warntype foo(x, β)        # type stable
- 
-x = [1,2]; β = 1
-
-function foo(x, β)
-    β = abs(β)                  # 'δ = abs(β)' is preferable (you should avoid redefining variables) 
-
-    bar(x) = x * δ
-
-    return bar(x)
-end
-
-@code_warntype foo(x, β)        # type stable
- 
-x = [1,2]; β = 1
-
-function foo(x, β)
-    (β < 0) && (β = -β)         # transform 'β' to use its absolute value
-    
-    filter(x -> x > β, x)       # keep elements greater than 'β'
-end
-
-@code_warntype foo(x, β)        # type unstable
- 
-x = [1,2]; β = 1
-
-function foo(x, β)
-    (β < 0) && (β = -β)         # transform 'β' to use its absolute value
-
-    our_filter(x) = x[x .> β]   # keep elements greater than β
-
-    return our_filter(x)
-end
-
-@code_warntype foo(x, β)        # type unstable
- 
-x = [1,2]; β = 1
-
-function foo(x, β)
-    δ = (β < 0) ? -β : β        # define 'δ' as the absolute value of 'β'
-    
-    filter(x -> x > δ, x)       # keep elements greater than 'δ'
-end
-
-@code_warntype foo(x, β)        # type stable
- 
-x = [1,2]; β = 1
-
-function foo(x, β)
-    β = abs(β)                  # 'δ = abs(β)' is preferable (you should avoid redefining variables) 
-    
-    filter(x -> x > β, x)       # keep elements greater than β
-end
-
-@code_warntype foo(x, β)        # type stable
+################################
+# iv) The Order in Which you Define Functions Could Matter Inside a Function
+###################################
  
 function foo(β)
     x(β)                  =  2 * rescale_parameter(β)
@@ -509,6 +796,11 @@ end
 
 @code_warntype foo(1)      # type unstable
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 function foo(β)
     rescale_parameter(β)  =  β / 10
     x(β)                  =  2 * rescale_parameter(β)  
@@ -517,22 +809,4 @@ function foo(β)
 end
 
 @code_warntype foo(1)      # type stable
- 
-function foo(x)
-    bar() = x + β             # or bar(x) = x + β
-    β     = 0
-
-    return bar()
-end
-
-@code_warntype foo(1)         # type unstable
- 
-function foo(x)
-    β     = 0
-    bar() = x + β
-    
-    return bar()
-end
-
-@code_warntype foo(1)         # type stable
  

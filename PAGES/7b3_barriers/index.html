@@ -2008,10 +2008,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section discusses <span style="color: rgb(62, 121, 180);"><strong>barrier functions</strong></span> for addressing type instability. They&#39;re type-stable functions embedded in a type-unstable function, forcing the compiler to infer the types of their arguments at their call site. This resolves any ambiguous type, as the the barrier function is able to identify the data types involved.</p>
+<p>This section discusses a technique known as <span style="color: rgb(62, 121, 180);"><strong>barrier functions</strong></span> for addressing type instability. Barrier functions are type-stable functions embedded within a type-unstable function, compelling the compiler to infer the types of their arguments when the type-unstable function is called. By doing so, barrier functions resolve any ambiguous type by identifying the data types involved.</p>
 <p> <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Barrier Functions Should be a Second Option </span>  </div>  <div class=content>     Barrier functions should be reserved for situations where the type instability is either difficult to fix or inherent to the operations performed. The reason is that the original function would still be type unstable. Whenever possible, the preferred approach is still to write type-stable code from the start.  </div>  </div> </p>
+      <b>Warning!</b> - Barrier Functions Should be Considered As a Second Option </span>  </div>  <div class=content>     Barrier functions should be reserved for situations where the type instability is either difficult to fix or inherent to the operations performed. The reason is that the original function would still be type unstable. Considering this, you should strive for type-stable code from the outset whenever possible.  </div>  </div> </p>
 <p>      </div>
     </div>
   </div>
@@ -2021,21 +2021,18 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Applying Barrier Functions</h2></p>
-<p>To best explain barrier functions, let&#39;s revisit the example from <a href="/julia_book/PAGES/7b1_performanceBasics/#type_stability">Type Stability: A Definition</a>. This considers a function that redefines a variable <code>x</code> as <code>y</code>, and then computes an operation using <code>y</code>. </p>
- <div class=" code_box"> <details  open><summary> Type Instability  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">function foo&#40;x&#41;
+<p>To better illustrate the barrier-function technique, let&#39;s revisit the example from <a href="/julia_book/PAGES/7b1_performanceBasics/#type_stability">a previous section</a>. The example was considering a function that defines a variable <code>y</code> through a transformation of <code>x</code>, and subsequently computes an operation involving <code>y</code>. Below, we reproduce it.</p>
+ <div class=" code_box"> <details  open><summary> Type Instability  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;x&#41;
     y &#61; &#40;x &lt; 0&#41; ?  0  :  x
     
     return &#91;y * i for i in 1:100&#93;
 end
 
 @code_warntype foo&#40;1&#41;       # type stable
-@code_warntype foo&#40;1.&#41;      # type unstable</code></pre>
-<p></div> </div>  </details></div>
-<p>The issue arises because <code>0</code> is an integer, whereas <code>x</code> could be either an integer or a float. In case <code>x</code> is <code>Int64</code>, then <code>y</code> will also be an integer, explaining why <code>foo&#40;1&#41;</code> is type stable. Conversely, if <code>x</code> is <code>Float64</code>, the compiler is unable to determine whether <code>y</code> will be an integer or a float, making <code>foo&#40;1.&#41;</code> be type unstable.</p>
-<p>To solve this problem, we can use <span style="color: rgb(62, 121, 180);"><strong>a barrier function</strong></span>, which embeds a type-stable function into <code>foo</code> to identify the ambiguous type of <code>y</code>. In the example below, the barrier function is referred to as <code>operation</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The example is simply for illustrative purposes. In this case, a better fix is to change <code>0</code> by <code>zero&#40;x&#41;</code>, where <code>zero&#40;x&#41;</code> provides the specific zero element for the type of <code>x</code>.  </span></span></p>
- <div class=" code_box"> <details  open><summary> Barrier Function  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">operation&#40;y&#41; &#61; &#91;y * i for i in 1:100&#93;
+@code_warntype foo&#40;1.&#41;      # type unstable</code></pre> </div> </div>  </details></div>
+<p>The type instability arises because <code>0</code> is an integer, whereas <code>x</code> could be either an <code>Int64</code> or a <code>Float64</code>. In case <code>x</code> is <code>Int64</code>, <code>y</code> will also be an integer and make <code>foo&#40;1&#41;</code> type stable. Conversely, if <code>x</code> is <code>Float64</code>, the compiler is unable to determine whether <code>y</code> will be an <code>Int64</code> or a <code>Float64</code>, making <code>foo&#40;1.&#41;</code> type unstable.</p>
+<p>To fix the type instability, we can use <span style="color: rgb(62, 121, 180);"><strong>a barrier function</strong></span>, which embeds a type-stable function into <code>foo</code> to identify the ambiguous type of <code>y</code>. In the example below, the barrier function is referred to as <code>operation</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The example is simply for illustrative purposes. In this case, a better fix is to change <code>0</code> by <code>zero&#40;x&#41;</code>, where <code>zero&#40;x&#41;</code> provides the specific zero element for the type of <code>x</code>.  </span></span></p>
+ <div class=" code_box"> <details  open><summary> Barrier Function  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">operation&#40;y&#41; &#61; &#91;y * i for i in 1:100&#93;
 
 function foo&#40;x&#41;
     y &#61; &#40;x &lt; 0&#41; ?  0  :  x
@@ -2043,19 +2040,17 @@ function foo&#40;x&#41;
     return operation&#40;y&#41;
 end
 
-@code_warntype operation&#40;1&#41;    # type stable
-@code_warntype operation&#40;1.&#41;   # type stable
+@code_warntype operation&#40;1&#41;    # barrier function - type stable
+@code_warntype operation&#40;1.&#41;   # barrier function - type stable
 
 @code_warntype foo&#40;1&#41;          # type stable
-@code_warntype foo&#40;1.&#41;         # type stable &#40;only yellow warning&#41;</code></pre>
-<p></div> </div>  </details></div>
-<p>In this version, <code>foo&#40;1.&#41;</code> still provides a yellow warning because the variable <code>y</code> could be an <code>Int64</code> or <code>Float64</code>. However, this fact is irrelevant for the subsequent computations, as <code>operation&#40;y&#41;</code> will identify the type of <code>y</code> before executing the for-loop. Thus, <code>&#91;y * i for i in 1:100&#93;</code> will be executed using a method specialized for the type of <code>y</code>. </p>
+@code_warntype foo&#40;1.&#41;         # barrier-function solution</code></pre> </div> </div>  </details></div>
+<p>In this version, the variable <code>y</code> in <code>foo&#40;1.&#41;</code> could still be an <code>Int64</code> or <code>Float64</code>. However, this is irrelevant for the subsequent computations, as <code>operation&#40;y&#41;</code> will identify the type of <code>y</code> before executing the for-loop. Thus, <code>&#91;y * i for i in 1:100&#93;</code> will be executed using a method specialized for the type of <code>y</code>. </p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Barrier Functions should resolve the type instability before the operation is executed. Otherwise, we&#39;re back to the original issue, where the compiler has to check <code>y</code>&#39;s type at each iteration and select a method accordingly, leading to the original performance issues.</p>
-<p>For example, <code>foo&#40;1.&#41;</code> in the code below isn&#39;t using a barrier function properly. The reason is that <code>y</code> could be <code>Float64</code> or <code>Int64</code>, and <code>operation&#40;y,i&#41;</code> only identifies the type inside the for-loop. This implies that the compiler must check <code>y</code>&#39;s at each iteration of the for-loop.</p>
-<p> <div class=" code_box"> <details  open><summary> Wrong Use  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">operation&#40;y,i&#41; &#61; y * i 
+      <b>Warning!</b> </span>  </div>  <div class=content>     Barrier Functions should resolve the type instability  <em>before</em> the type unstable operation is executed. Otherwise, we&#39;re back to the original issue, where the compiler has to check <code>y</code>&#39;s type at each iteration and select a method accordingly.</p>
+<p>For example, <code>foo&#40;1.&#41;</code> in the code below is not applying the barrier-function technique properly. The reason is that <code>y</code> could be <code>Float64</code> or <code>Int64</code>, and <code>operation&#40;y,i&#41;</code> only identifies the type inside the for-loop. This implies that the compiler must check <code>y</code>&#39;s at each iteration of the for-loop.</p>
+<p> <div class=" code_box"> <details  open><summary> Wrong Use  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">operation&#40;y,i&#41; &#61; y * i 
 
 function foo&#40;x&#41;
     y &#61; &#40;x &lt; 0&#41; ?  0  :  x
@@ -2064,8 +2059,114 @@ function foo&#40;x&#41;
 end
 
 @code_warntype foo&#40;1&#41;          # type stable
-@code_warntype foo&#40;1.&#41;         # type unstable</code></pre>
-<p></div> </div>  </details></div>  </div>  </div>
+@code_warntype foo&#40;1.&#41;         # type unstable</code></pre> </div> </div>  </details></div>  </div>  </div>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="remarks_on_code_warntype" class="scrollspy section-bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Remarks on @code_warntype</h2></p>
+<p>The use of barrier functions makes it more difficult to interpret the <code>@code_warntype</code> output. The reason is that we could even get a red warning issued, despite that the barrier function has resolved the type instability. Furthermore, it&#39;s possible that the barrier function doesn&#39;t eliminate the type instability, but rather mitigate it.</p>
+<p>To illustrate each, let&#39;s start presenting a scenario where the barrier function does indeed address the type instability.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Type Unstable </button>
+    <button class="tablink" data-id=""> Barrier Function </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x            &#61; &#91;&quot;a&quot;, 1&#93;                     # variable with type &#39;Any&#39;
+
+
+
+function foo&#40;x&#41;
+    y &#61; x&#91;2&#93;
+    
+    return &#91;y * i for i in 1:100&#93;
+end</code></pre> </div></div> 
+<div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"><div class="julia_repl_NoFormat" style="padding-bottom:0.25em; padding-top:0.25em"><span style="padding-left:1em;"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@code_warntype foo&#40;x&#41;</code></span></div></div>  <div class="img_output">
+    <p> <span style="padding-left:1em;"> 
+          <img style="width:53%; height:auto; max-width:100%;" src="/julia_book/assets/PAGES/7b3_barriers/pics/01.png"/>
+          </span>
+    </p>
+    </div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x            &#61; &#91;&quot;a&quot;, 1&#93;                     # variable with type &#39;Any&#39;
+
+operation&#40;y&#41; &#61; &#91;y * i for i in 1:100&#93;
+
+function foo&#40;x&#41;
+    y &#61; x&#91;2&#93;
+    
+    return operation&#40;y&#41;
+end</code></pre> </div></div> 
+<div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"><div class="julia_repl_NoFormat" style="padding-bottom:0.25em; padding-top:0.25em"><span style="padding-left:1em;"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@code_warntype foo&#40;x&#41;</code></span></div></div>  <div class="img_output">
+    <p> <span style="padding-left:1em;"> 
+          <img style="width:22.8%; height:auto; max-width:100%;" src="/julia_book/assets/PAGES/7b3_barriers/pics/02.png"/>
+          </span>
+    </p>
+    </div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>The second example demonstrates that the barrier function doesn&#39;t necessarily eliminate entirely the type instability, although it may alleviate it. In the scenario considered, there are two type-unstable operations and the barrier function handles only one of them. In particular, it addresses the type instability that has a more pronounced impact, as it involves a for-loop operation.  </p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Type Unstable </button>
+    <button class="tablink" data-id=""> Barrier Function </button>
+    <button class="tablink" data-id=""> Type Stable </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x            &#61; &#91;&quot;a&quot;, 1&#93;                     # variable with type &#39;Any&#39;
+
+
+
+function foo&#40;x&#41;
+    y &#61; 2 * x&#91;2&#93;
+    
+    return &#91;y * i for i in 1:100&#93;
+end</code></pre> </div></div> 
+<div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"><div class="julia_repl_NoFormat" style="padding-bottom:0.25em; padding-top:0.25em"><span style="padding-left:1em;"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@code_warntype foo&#40;x&#41;</code></span></div></div>  <div class="img_output">
+    <p> <span style="padding-left:1em;"> 
+          <img style="width:53%; height:auto; max-width:100%;" src="/julia_book/assets/PAGES/7b3_barriers/pics/03.png"/>
+          </span>
+    </p>
+    </div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x            &#61; &#91;&quot;a&quot;, 1&#93;                     # variable with type &#39;Any&#39;
+
+operation&#40;y&#41; &#61; &#91;y * i for i in 1:100&#93;
+
+function foo&#40;x&#41;
+    y &#61; 2 * x&#91;2&#93;
+    
+    return operation&#40;y&#41;
+end</code></pre> </div></div> 
+<div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"><div class="julia_repl_NoFormat" style="padding-bottom:0.25em; padding-top:0.25em"><span style="padding-left:1em;"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@code_warntype foo&#40;x&#41;</code></span></div></div>  <div class="img_output">
+    <p> <span style="padding-left:1em;"> 
+          <img style="width:22.8%; height:auto; max-width:100%;" src="/julia_book/assets/PAGES/7b3_barriers/pics/04.png"/>
+          </span>
+    </p>
+    </div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x            &#61; &#91;&quot;a&quot;, 1&#93;                     # variable with type &#39;Any&#39;
+
+operation&#40;y&#41; &#61; &#91;y * i for i in 1:100&#93;
+
+function foo&#40;z&#41;
+    y &#61; 2 * z
+    
+    return operation&#40;y&#41;
+end</code></pre> </div></div> 
+<div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"><div class="julia_repl_NoFormat" style="padding-bottom:0.25em; padding-top:0.25em"><span style="padding-left:1em;"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@code_warntype foo&#40;x&#41;</code></span></div></div>  <div class="img_output">
+    <p> <span style="padding-left:1em;"> 
+          <img style="width:25%; height:auto; max-width:100%;" src="/julia_book/assets/PAGES/7b3_barriers/pics/05.png"/>
+          </span>
+    </p>
+    </div> </div> 
+ </div></div>
+<p>  </p></details></div>
 <p>      </div>
     </div>
   </div>
@@ -2573,6 +2674,10 @@ for multiple pics in a row
       
       <li class="nav-item">
         <a class="nav-link" href="#applying_barrier_functions" data-offset="-40">Applying Barrier Functions</a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" href="#remarks_on_code_warntype" data-offset="-40">Remarks on @code_warntype</a>
       </li>
       
     </ul>

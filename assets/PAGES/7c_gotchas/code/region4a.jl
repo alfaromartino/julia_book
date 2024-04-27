@@ -8,4 +8,4 @@ function foo(data)
 end
 
 @code_warntype foo(data)            # type unstable
-#@btime foo(ref($data)) # hide
+#@btime foo(ref($data)) #hide

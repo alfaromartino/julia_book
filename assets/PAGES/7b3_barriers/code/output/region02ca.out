@@ -1,0 +1,21 @@
+MethodInstance for foo(::Vector{Any})
+  from foo(x) @ Main C:\Users\marti\MEGA\WEBSITES\julia_book2\_assets\PAGES\7b3_barriers\code\region02c.jl:5
+Arguments
+  #self#::Core.Const(foo)
+  x::Vector{Any}
+Locals
+  #54::VAR"#54#55"
+  y::ANY
+Body::VECTOR
+1 ─ %1  = Base.getindex(x, 2)::ANY
+│         (y = 2 * %1)
+│   %3  = Main.:(var"#54#55")::Core.Const(var"#54#55")
+│   %4  = Core.typeof(y)::DATATYPE
+│   %5  = Core.apply_type(%3, %4)::TYPE{VAR"#54#55"{_A}} WHERE _A
+│         (#54 = %new(%5, y))
+│   %7  = #54::VAR"#54#55"
+│   %8  = (1:100)::Core.Const(1:100)
+│   %9  = Base.Generator(%7, %8)::BASE.GENERATOR{UNITRANGE{INT64}, F} WHERE F<:VAR"#54#55"
+│   %10 = Base.collect(%9)::VECTOR
+└──       return %10
+

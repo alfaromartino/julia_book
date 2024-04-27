@@ -9,4 +9,4 @@ end
 
 foo(data) = operation!(data[2])
 
-@code_warntype foo(data)            # type stable
+@code_warntype foo(data)            # barrier-function solution

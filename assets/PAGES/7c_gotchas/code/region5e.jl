@@ -1,4 +1,5 @@
-x = [1,2,3]
+x       = [1,2,3]
+
 
 function foo(x, N)                      # The value of 'N' isn't considered, only its type
     tuple_x = NTuple{N, eltype(x)}(x)   

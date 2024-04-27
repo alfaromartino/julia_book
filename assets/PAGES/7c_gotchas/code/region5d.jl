@@ -7,4 +7,4 @@ function foo(x)
 end
 
 @code_warntype foo(x)                   # type unstable
-# @btime foo(ref($x))           # hide
+# @btime foo(ref($x))           #hide
