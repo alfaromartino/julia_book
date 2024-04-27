@@ -1,1 +1,1 @@
-print_asis(dict[:a]) #hide
+print_asis(some_dict[:a]) #hide

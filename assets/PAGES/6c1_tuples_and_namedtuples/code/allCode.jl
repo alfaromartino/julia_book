@@ -1,63 +1,107 @@
-using BenchmarkTools
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
+include(joinpath(homedir(), "JULIA_UTILS", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+ 
+# necessary packages for this file
+# using Statistics, Distributions, Random, Pipe
+ 
+############################################################################
+#
+#       KEY-VALUES
+#
+############################################################################
  
 x = [4, 5, 6]
  
 print_asis(collect(keys(x))) #hide
  
-print_asis(values(x)) #hide
+print_asis(collect(values(x))) #hide
  
 x = (4, 5, 6)
  
 print_asis(collect(keys(x))) #hide
  
-print_asis(values(x)) #hide
+print_asis(collect(values(x))) #hide
  
-x = (a=4, b=5, c=6)
+############################################################################
+#
+#       TYPE PAIRS
+#
+############################################################################
  
-print_asis(collect(keys(x))) #hide
- 
-print_asis(values(x)) #hide
- 
-dict = Dict("a" => 10, "b" => 20)
-print_asis(dict) #hide
- 
-print_asis(dict["a"]) #hide
- 
-dict = Dict("a" => 10, "b" => 20)
+some_pair = ("a" => 1)      # or simply 'some_pair = "a" => 1'
 
-keys_from_dict = collect(keys(dict))
+some_pair = Pair("a", 1)    # equivalent
+ 
+print_asis(some_pair) #hide
+ 
+print_asis(some_pair[1]) #hide
+ 
+print_asis(some_pair.first) #hide
+ 
+print_asis(some_pair[2]) #hide
+ 
+print_asis(some_pair.second) #hide
+ 
+############################################################################
+#
+#       TYPE SYMBOL
+#
+############################################################################
+ 
+some_symbol = :x
+
+some_symbol = Symbol("x")                       # equivalent
+print_asis(some_symbol) #hide
+ 
+vector_symbols = [:x, :y]
+
+vector_symbols = [Symbol("x"), Symbol("y")]     # equivalent
+print_asis(vector_symbols) #hide
+ 
+############################################################################
+#
+#       DICTIONARIES
+#
+############################################################################
+ 
+some_dict = Dict("a" => 10, "b" => 20)
+print_asis(some_dict) #hide
+ 
+print_asis(some_dict["a"]) #hide
+ 
+some_dict = Dict("a" => 10, "b" => 20)
+
+keys_from_dict = collect(keys(some_dict))
 print_asis(keys_from_dict) #hide
  
-dict = Dict(:a => 10, :b => 20)
-print_asis(dict) #hide
+some_dict = Dict(:a => 10, :b => 20)
+print_asis(some_dict) #hide
  
-print_asis(dict[:a]) #hide
+print_asis(some_dict[:a]) #hide
  
-dict = Dict(:a => 10, :b => 20)
+some_dict = Dict(:a => 10, :b => 20)
 
-keys_from_dict = collect(keys(dict))
+keys_from_dict = collect(keys(some_dict))
 print_asis(keys_from_dict) #hide
  
-dict = Dict(1 => 10, 2 => 20)
-print_asis(dict) #hide
+some_dict = Dict(3 => 10, 4 => 20)
+print_asis(some_dict) #hide
  
-print_asis(dict[1]) #hide
+print_asis(some_dict[3]) #hide
  
-dict = Dict(1 => 10, 2 => 20)
+some_dict = Dict(3 => 10, 4 => 20)
 
-keys_from_dict = collect(keys(dict))
+keys_from_dict = collect(keys(some_dict))
 print_asis(keys_from_dict) #hide
  
-dict = Dict((1,1) => 10, (1,2) => 20)
-print_asis(dict) #hide
+some_dict = Dict((1,1) => 10, (1,2) => 20)
+print_asis(some_dict) #hide
  
-print_asis(dict[(1,1)]) #hide
+print_asis(some_dict[(1,1)]) #hide
  
-dict = Dict((1,1) => 10, (1,2) => 20)
+some_dict = Dict((1,1) => 10, (1,2) => 20)
 
-keys_from_dict = collect(keys(dict))
+keys_from_dict = collect(keys(some_dict))
 print_asis(keys_from_dict) #hide
  
 vector = [10, 20] # or tupl = (10,20)
@@ -99,6 +143,12 @@ vector_keys_values = [(keys_for_dict[i], values_for_dict[i]) for i in eachindex(
 dict = Dict(vector_keys_values)
  
 print_asis(dict) #hide
+ 
+x = (a=4, b=5, c=6)
+ 
+print_asis(collect(keys(x))) #hide
+ 
+print_asis(values(x)) #hide
  
 a = 10
 b = 20

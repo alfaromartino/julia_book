@@ -2050,17 +2050,17 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy section-bg-color">
+<section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>When working with data in Julia, you&#39;ll often need to manipulate and analyze vectors. This section covers some essential functions for performing vector operations, such as sorting, finding unique elements, counting occurrences, and ranking. </p>
+<p>When working with data in Julia, you&#39;ll often need to manipulate and analyze vectors. This section covers some essential functions for performing vector operations. In particular, we go over sorting, finding unique elements, counting occurrences, and ranking. The primary goal is to ultimately apply these functions in the next section, where we consider a practical example. </p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="sorting_vectors" class="scrollspy">
+<section id="sorting_vectors" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2101,7 +2101,7 @@ sort&#33;&#40;x&#41;</code></pre> </div></div>
  5</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p><code>sort</code> also enables ordering based on transformations. By applying a custom function <code>foo</code> to <code>x</code>, you can sort <code>x</code>&#39;s elements according to the resulting transformed values. This functionality is achieved using the keyword argument <code>by &#61; foo</code>.</p>
+<p><code>sort&#40;x&#41;</code> also allows for ordering based on custom transformations of <code>x</code>. By specifying a function <code>foo</code> using the <code>by</code> keyword argument, the sorting order is determined by the resulting values obtained by applying <code>foo</code> to <code>x</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2153,12 +2153,12 @@ y      &#61; sort&#40;x, by &#61; foo&#41;      # same as sort&#40;x, by &#61; x
     </div>
   </div>
 </section>
-<section id="indices_of_sorted_elements" class="scrollspy section-bg-color">
+<section id="indices_of_sorted_elements" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Indices of Sorted Elements</h2></p>
-<p>While <code>sort</code> returns the ordered  <em>values</em> of the vectors, you may also be interested in the  <em>indices</em> of the sorted elements. This is where <code>sortperm</code> comes into play, which returns the indices of <code>x</code>&#39;s elements that <code>sort&#40;x&#41;</code> would produce. In other words, <code>x&#91;sortperm&#40;x&#41;&#93; &#61;&#61; sort&#40;x&#41;</code> is true, also implying that the sorting is in ascending order. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The name <code>sortperm</code> originates from &quot;sorting permutation&quot;. Although it might seem somewhat opaque, it&#39;s reasonable considering that it returns the permutation of indices that would sort the original vector.  </span></span></p>
+<p>While <code>sort</code> returns the ordered  <em>values</em> of the vectors, you may also be interested in the  <em>indices</em> of the sorted elements. This is where <code>sortperm</code> comes into play, which returns the indices of <code>x</code>&#39;s elements that <code>sort&#40;x&#41;</code> would produce. In other words, <code>x&#91;sortperm&#40;x&#41;&#93; &#61;&#61; sort&#40;x&#41;</code> is true, also implying that the sorting is in ascending order. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The name <code>sortperm</code> originates from &quot;sorting permutation&quot;. Although it might seem somewhat opaque, the name is reasonable as it returns the permutation of indices that would sort the original vector.  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2166,7 +2166,7 @@ y      &#61; sort&#40;x, by &#61; foo&#41;      # same as sort&#40;x, by &#61; x
     <button class="tablink" data-id="">  Example 2</button>
     <button class="tablink" data-id="">  Example 3 </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;1, 2, 3, 9&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;1, 2, 3, 4&#93;
 
 sort_index &#61; sortperm&#40;x&#41;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sort_index</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
@@ -2175,7 +2175,7 @@ sort_index &#61; sortperm&#40;x&#41;</code></pre> </div></div>
  3
  4</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;1, 3, 5, 9&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;3, 4, 5, 6&#93;
 
 sort_index &#61; sortperm&#40;x&#41;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sort_index</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
@@ -2194,20 +2194,8 @@ sort_index &#61; sortperm&#40;x&#41;</code></pre> </div></div>
  3</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>One primary use case of <code>sortperm</code> is to sort a variable based on the values of another variable. For example, suppose we want to assess the daily failures of a machine. Focusing on the first three days of the month, the following code snippet ranks these days by their corresponding failure counts.</p>
- <div class=" code_box"> <details  open><summary> Days Sorted By Lowest Number of Failures  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">days     &#61; &#91;&quot;one&quot;, &quot;two&quot;, &quot;three&quot;&#93;
-failures &#61; &#91;8, 2, 4&#93;
-
-index            &#61; sortperm&#40;failures&#41;
-days_by_failures &#61; days&#91;index&#93;                     # days sorted by lowest failures</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>index</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
- 2
- 3
- 1</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>days_by_earnings</code> <br/> <pre><code class="plaintext code-output">3-element Vector{String}:
- "two"
- "three"
- "one"</code></pre> </div></div> </div>   </details></div>
-<p>Just like <code>sort</code>, we can also retrieve the indices in descending order through the keyword argument <code>rev &#61; true</code>. </p>
+<p>The first two examples have elements that are already in ascending order. As <code>sortperm</code> provides the order of indices that would sort <code>x</code>&#39;s elements, the output is <code>&#91;1,2,3,4&#93;</code>. Likewise, the last example is based on <code>x &#61; &#91;1, 3, 4, 2&#93;</code>, making its elements unordered. The resulting vector <code>&#91;1, 4, 2, 3&#93;</code> indicates that the smallest element in <code>x</code> &#40;the number one&#41; is at index 1, the second smallest &#40;the number two&#41; is at index 4, the third smallest &#40;the number three&#41; is at index 2, and finally the number four is at index 3.</p>
+<p>Just like <code>sort</code>, <code>sortperm</code> also enables retrieving the indices in descending order, through the keyword argument <code>rev &#61; true</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2243,7 +2231,7 @@ sort_index &#61; sortperm&#40;x, rev&#61;true&#41;</code></pre> </div></div>
  4</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Moreover, we can obtain the indices of the sorted elements based on transformed values, by using the keyword argument <code>by</code>.</p>
+<p>Additionally, <code>sortperm</code> provides the indices of sorted elements based on transformed values, by using the keyword argument <code>by</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2306,11 +2294,25 @@ index  &#61; sortperm&#40;x, by &#61; foo&#41;</code></pre> </div></div>
  2</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
+ <h4> An Example </h4>
+<p>One primary use case of <code>sortperm</code> is to order a variable based on the values of another variable. For example, suppose we want to assess the daily failures of a machine. Focusing on the first three days of the month, the following code snippet ranks these days by their corresponding failure counts.</p>
+ <div class=" code_box"> <details  open><summary> Days Sorted By Lowest Number of Failures  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">days     &#61; &#91;&quot;one&quot;, &quot;two&quot;, &quot;three&quot;&#93;
+failures &#61; &#91;8, 2, 4&#93;
+
+index            &#61; sortperm&#40;failures&#41;
+days_by_failures &#61; days&#91;index&#93;                     # days sorted by lowest failures</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>index</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 2
+ 3
+ 1</code></pre> </div></p>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>days_by_earnings</code> <br/> <pre><code class="plaintext code-output">3-element Vector{String}:
+ "two"
+ "three"
+ "one"</code></pre> </div></div> </div>   </details></div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="unique_vectors" class="scrollspy">
+<section id="unique_vectors" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2396,19 +2398,19 @@ occurrences &#61; collect&#40;values&#40;y&#41;&#41;</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="rankings" class="scrollspy section-bg-color">
+<section id="rankings" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Rankings</h2></p>
-<p>Rather than sorting a vector, you could need to determine the rank position of each element. The <code>StatsBase</code> package offers various tools for this purpose. Specifically, it provides the functions <code>competerank</code> and <code>ordinalrank</code>. The key difference between them lies in how they handle identical elements: <code>competerank</code> assigns the same rank to identical elements, while <code>ordinalrank</code> assigns different ranks to these elements. Both functions return a rank where 1 corresponds to the lowest value. If you want to invert the ranking so that 1 corresponds to the highest value, you can use the <code>rev &#61; true</code> keyword argument.</p>
+<p>Rather than sorting a vector, you could be interested in finding the rank position of each element. The <code>StatsBase</code> package offers two tools for this purpose: the functions <code>competerank</code> and <code>ordinalrank</code>. The main difference between them lies in how they handle identical elements: <code>competerank</code> assigns the same rank to identical elements, while <code>ordinalrank</code> assigns different ranks to these elements. Both functions return a rank where 1 corresponds to the lowest value. If you want to invert the ranking so that 1 corresponds to the highest value, you can use the <code>rev &#61; true</code> keyword argument.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Rank (With Repetition) </button>
-    <button class="tablink" data-id="">  Rank (With Repetition) </button>
-    <button class="tablink" data-id="">  Rank (All Repetition) </button>
-    <button class="tablink" data-id="">  Rank (All Repetition) </button>
+    <button class="tablink first_tab active" data-id=""> Rank (Equal Ranks for Ties) </button>
+    <button class="tablink" data-id="">  Rank (Equal Ranks for Ties) </button>
+    <button class="tablink" data-id="">  Rank (Unique Positions) </button>
+    <button class="tablink" data-id="">  Rank (Unique Positions) </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using StatsBase
 x &#61; &#91;6, 6, 0, 5&#93;
@@ -2481,7 +2483,7 @@ y &#61; sortperm&#40;x&#41;</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="extrema_maximum_and_minimum" class="scrollspy">
+<section id="extrema_maximum_and_minimum" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">

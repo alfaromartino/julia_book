@@ -2055,8 +2055,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Thus far, the collections presented were focusing on vectors and tuples. The coverage of tuples in particular was brief, as we introduce them primarily to return multiple outputs in functions.</p>
-<p>The current section expands on the use of collections, proving a more comprehensive analysis of how they can be constructed. With this goal, we provide general properties of collections, methods to manipulate them, and ways to transform one collection into another. The section also introduces two new types of collections: <strong>named tuples</strong> and <strong>dictionaries</strong>.</p>
+<p>Our previous discussions on collections have centered around vectors and tuples. Furthermore, the coverage on tuples in particular was relatively brief.</p>
+<p>The current section expands on the use of collections, proving a more comprehensive analysis of how they can be constructed. Specifically, we provide general properties of collections, methods for manipulating them, and approaches to transforming one collection into another. The section also introduces two new types of collections: <strong>named tuples</strong> and <strong>dictionaries</strong>.</p>
 <p>      </div>
     </div>
   </div>
@@ -2066,9 +2066,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Keys and Values</h2></p>
-<p>Any collection comprises <span style="color: rgb(62, 121, 180);"><strong>keys</strong></span> that act as identifiers of a collection&#39;s elements, where each key in turn has a <span style="color: rgb(62, 121, 180);"><strong>value</strong></span> associated with it. For instance, the vector <code>x &#61; &#91;2,4,6&#93;</code> has the indices <code>1,2,3</code> as its keys, and their corresponding values are <code>2,4,6</code>.</p>
-<p>Throughout the website, we&#39;ll frequently refer to keys and indices interchangeably. However, <strong>keys</strong> are a more general concept—they encompass all the possible identifiers of a collection&#39;s elements. Thus, they comprise other possibilities in addition to indices, which are numerical identifiers. For instance, keys can be defined through strings, and in particular through a special type called <code>Symbol</code>. </p>
-<p>Given the different possibilities for defining the indices and values of a collection, Julia offers the functions <code>keys</code> and <code>values</code> to identify them. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The function <code>keys</code> is equivalent to <code>eachindex</code>, with the only difference that <code>eachindex</code> is optimized for iterating purposes.  </span></span> Note that <code>keys</code> returns an iterator &#40;i.e., an object with a form similar to ranges&#41;, thereby requiring the function <code>collect</code> to define them as a vector. </p>
+<p>Most of the collections in Julia are characterized by some <span style="color: rgb(62, 121, 180);"><strong>keys</strong></span>, which serve as unique identifiers of their elements, and a corresponding <span style="color: rgb(62, 121, 180);"><strong>value</strong></span> associated with it. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Not all collections represent maps of keys to values. For example, the type <code>Set</code>, which we haven&#39;t covered, doesn&#39;t have keys. As its name indicates, it represents a group of unique unordered elements.  </span></span>  For instance, the vector <code>x &#61; &#91;2, 4, 6&#93;</code> has the indices <code>1, 2, 3</code> as its keys and <code>2, 4, 6</code> as their respective values. </p>
+<p>Note that <strong>keys are more general than indices</strong>—they encompass all the possible identifiers of a collection&#39;s elements &#40;e.g., strings, numbers, or other objects&#41;, while indices exclusively use integers as identifiers. Given this generality, Julia provides the function <code>keys</code> and <code>values</code>. </p>
+<p>The following code snippets illustrate the use of these functions. The examples are based on vectors and tuples, whose keys are exclusively represented by indices. Importantly, neither <code>keys</code> nor <code>values</code> necessarily return a vector by default, requiring the function <code>collect</code> for their conversion.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2079,7 +2079,7 @@ color: white;
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>collect&#40;keys&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  1
  2
- 3</code></pre> </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>values&#40;x&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 3</code></pre> </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>collect&#40;values&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  4
  5
  6</code></pre> </div></div> </div> 
@@ -2088,53 +2088,74 @@ color: white;
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>collect&#40;keys&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  1
  2
- 3</code></pre> </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>values&#40;x&#41;</code> <br/> <pre><code class="plaintext code-output">(4, 5, 6)</code></pre> </div></div> </div> 
+ 3</code></pre> </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>collect&#40;values&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 4
+ 5
+ 6</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>      </div>
-    </div>
-  </div>
-</section>
-<section id="the_type_symbol" class="scrollspy">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg- mx-auto">
-        <h2>The Type Symbol</h2></p>
-<p>Keys of a collection can be represented through different data types, depending on the object considered. In the case of vectors and tuples, the keys are represented through numbers exclusively. In this context, we refer the keys are defined through the indices. However, some collections use a type known as <code>Symbol</code>, which constitutes an efficient representation of string keys that additionally allows creating variables programmatically.</p>
-<p>The symbol <code>x</code> is denoted by the syntax <code>:x</code>. Moreover, symbols can be constructed through strings by the function <code>Symbol&#40;&lt;some string&gt;&#41;</code>.</p>
+ <h4> The Type &#39;Pair&#39; </h4>
+<p>Collections of key-value pairs in Julia are represented by the type <code>Pair</code>. This is parametrized by the types of its key and value and denoted by <code>Pair&#123;&lt;key type&gt;, &lt;value type&gt;&#125;</code>. Moreover, <strong>a pair of key-value</strong> is denoted in Julia by using the operator <code>&#61;&gt;</code>, defining an object represented as <code>&lt;key&gt; &#61;&gt; &lt;value&gt;</code>. This means that, for instance, <code>&quot;a&quot; &#61;&gt; 1</code> is a <code>Pair</code> object with the string <code>a</code> being its key and <code>1</code> its corresponding value. </p>
+<p>We can build a pair <code>x</code> by using the operator <code>&#61;&gt;</code>, but also using the function <code>Pair&#40;&lt;key&gt;, &lt;value&gt;&#41;</code>. Additionally, we can access its key by using <code>x&#91;1&#93;</code> or <code>x.first</code>, and its value by <code>x&#91;2&#93;</code> or <code>x.second</code>.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Key of a Pair </button>
+    <button class="tablink" data-id=""> Value of a Pair </button>    
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_pair &#61; &#40;&quot;a&quot; &#61;&gt; 1&#41;      # or simply &#39;some_pair &#61; &quot;a&quot; &#61;&gt; 1&#39;
+
+some_pair &#61; Pair&#40;&quot;a&quot;, 1&#41;    # equivalent</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>some_pair</code> <br/> <pre><code class="plaintext code-output">"a" => 1</code></pre> </div></p>
+<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>some_pair&#91;1&#93;</code> <br/> <pre><code class="plaintext code-output">"a"</code></pre> </div>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>some_pair.first</code> <br/> <pre><code class="plaintext code-output">"a"</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_pair &#61; &#40;&quot;a&quot; &#61;&gt; 1&#41;      # or simply &#39;some_pair &#61; &quot;a&quot; &#61;&gt; 1&#39;
+
+some_pair &#61; Pair&#40;&quot;a&quot;, 1&#41;    # equivalent</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>some_pair</code> <br/> <pre><code class="plaintext code-output">"a" => 1</code></pre> </div></p>
+<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>some_pair&#91;2&#93;</code> <br/> <pre><code class="plaintext code-output">1</code></pre> </div>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>some_pair.second</code> <br/> <pre><code class="plaintext code-output">1</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>While we won&#39;t directly work with objects of type <code>Pair</code>, they form the basis for constructing dictionaries and named tuples. </p>
+ <h4> The Type &#39;Symbol&#39; </h4>
+<p>As we indicated, the data type used to represent keys can vary depending on the collection. One important type for this purpose is <code>Symbol</code>, which provides an efficient way to represent string-based keys. A symbol with name <code>x</code> is denoted <code>:x</code>, and can be constructed from strings using the function <code>Symbol&#40;&lt;some string&gt;&#41;</code>. This type has the additional benefit of allowing for a programmatic creation of variables. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For example, this becomes useful for creating new columns in the package <code>DataFrames</code>, which provides a table representation of data.  </span></span> </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> A Vector of Symbols </button>
-    <button class="tablink" data-id=""> Equivalent with Function Symbol </button>
+    <button class="tablink" data-id=""> A Vector of Symbols Created With 'Symbol' </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">sym &#61; &#91;:x, :y&#93;</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sym&#91;1&#93;</code><br/><div class="akin_to_pre">:x</div> </div></div> </div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_symbol &#61; :x
+
+some_symbol &#61; Symbol&#40;&quot;x&quot;&#41;                       # equivalent</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>some_symbol</code> <br/> <pre><code class="plaintext code-output">:x</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">sym &#61; &#91;Symbol&#40;&quot;x&quot;&#41;, Symbol&#40;&quot;y&quot;&#41;&#93;</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sym&#91;1&#93;</code><br/><div class="akin_to_pre">:x</div> </div></div> </div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">vector_symbols &#61; &#91;:x, :y&#93;
+
+vector_symbols &#61; &#91;Symbol&#40;&quot;x&quot;&#41;, Symbol&#40;&quot;y&quot;&#41;&#93;     # equivalent</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>vector_symbols</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Symbol}:
+ :x
+ :y</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="named_tuples" class="scrollspy section-bg-color">
+<section id="named_tuples" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Named Tuples</h2></p>
-<p>Named tuples share several similarities with regular tuples, including their <strong>immutability</strong>. However, they access their elements differently: <strong>regular tuples use numerical indices</strong>, while <strong>named tuples employ symbols</strong>. </p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content> <strong>Tuples and named tuples are only suitable for small collections</strong>. Using them for large collections can lead to slow operations or even stack overflows, exceeding the computer&#39;s processing capacity. For such situations, arrays remain preferable. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Tuples are allocated in a part of the RAM known as the stack, which has a limited capacity. Instead, vectors are allocated in another part of the RAM, known as the heap, capable of handling much larger collections.  </span></span></p>
-<p>Defining  <em>small</em> in this context remains challenging, and unfortunately there are no definitive answers in this regard. We can only claim that collections with less than 10 elements are undoubtedly small, while those exceeding hundreds of elements clearly violate the definition.  </div>  </div>
-<p>Additionaly, named tuples differ syntactically from tuples in various ways. First, they always need to be enclosed in parentheses <code>&#40;&#41;</code>—omitting them is not possible, as is the case with regular tuples. Also, a named tuple&#39;s elements can be specified by either <code>&#61;</code> or <code>&#61;&gt;</code>. For instance, you can define the element with key <code>a</code> by <code>a &#61; 10</code> or <code>:a &#61;&gt; 10</code>. The notation <code>&#61;&gt;</code> in Julia is used for <strong>pairs of key-values</strong>, and it formally defines an object with type <code>Pairs</code>. </p>
-<p>Second, defining a named tuple with a single element requires adding a comma <code>,</code> after the element &#40;as occurs with tuples&#41;. However, it  also accepts adding a semicolon <code>;</code> before the element. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The semicolon notation <code>;</code> may seem strange, but it follows naturally from how keyword arguments are incorporated into functions.  </span></span> </p>
+      <b>Warning!</b> </span>  </div>  <div class=content> <strong>Tuples and named tuples are only suitable for small collections</strong>. Using them for large collections can lead to slow operations, or even stack overflows that exceed the computer&#39;s processing capacity. For such situations, arrays remain the preferred choice. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Tuples are allocated in the part of the RAM known as the stack, which has a limited capacity. Instead, vectors are allocated in another part of the RAM, known as the heap, capable of handling much larger collections.  </span></span></p>
+<p>Defining what constitutes  <em>small</em> is challenging and unfortunately there are no definitive answers. We can only indicate that collections with fewer than 10 elements are undoubtedly small, while those exceeding hundreds of elements clearly violate the definition.  </div>  </div>
+<p>Named tuples share several similarities with regular tuples, including their <strong>immutability</strong>. However, they also differ in various ways. For one, <strong>the keys of named tuples are objects of type</strong> <code>Symbol</code>, in contrast to the numerical indices employed by regular tuples. Named tuples also differ syntactically, in that they must always be enclosed in parentheses <code>&#40;&#41;</code>—omitting them is not possible, unlike with regular tuples. </p>
+<p>Each element of a named tuple is specified by either <code>&lt;key&gt; &#61; &lt;value&gt;</code> &#40;e.g., <code>a &#61; 10</code>&#41; or <code>&lt;key&gt; &#61;&gt; &lt;value&gt;</code> &#40;e.g., <code>:a &#61;&gt; 10</code>&#41;. </p>
+<p>Second, defining a named tuple with a single element requires adding a comma <code>,</code> after the element &#40;as occurs with tuples&#41;. However, it  also accepts adding a semicolon <code>;</code> before the element. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The semicolon notation <code>;</code> may seem strange, but it follows from the syntax for keyword arguments in functions.  </span></span> </p>
 <p>Finally, the method for accessing their elements is twofold: accessing the element <code>a</code> of a named tuple <code>nt</code> can be done through either <code>nt&#91;:a&#93;</code> or <code>nt.a</code> </p>
 <p>The following code snippet illustrates all this. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2206,7 +2227,7 @@ tup &#61; &#40;x, &#41;</code></pre>
     </div>
   </div>
 </section>
-<section id="dictionaries" class="scrollspy">
+<section id="dictionaries" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2229,22 +2250,22 @@ tup &#61; &#40;x, &#41;</code></pre>
     <button class="tablink" data-id=""> Symbol </button>
     <button class="tablink" data-id=""> Tuple </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">dict &#61; Dict&#40;1 &#61;&gt; 10, 2 &#61;&gt; 20&#41;</code></pre> </div></div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_dict &#61; Dict&#40;3 &#61;&gt; 10, 4 &#61;&gt; 20&#41;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Int64, Int64} with 2 entries:
-  2 => 20
-  1 => 10</code></pre> </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict&#91;1&#93;</code> <br/> <pre><code class="plaintext code-output">10</code></pre> </div></div> </div> 
+  4 => 20
+  3 => 10</code></pre> </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict&#91;1&#93;</code> <br/> <pre><code class="plaintext code-output">10</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">dict &#61; Dict&#40;&quot;a&quot; &#61;&gt; 10, &quot;b&quot; &#61;&gt; 20&#41;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{String, Int64} with 2 entries:
   "b" => 20
   "a" => 10</code></pre> </div> <br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict&#91;&quot;a&quot;&#93;</code> <br/> <pre><code class="plaintext code-output">10</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">dict &#61; Dict&#40;:a &#61;&gt; 10, :b &#61;&gt; 20&#41;</code></pre> </div></div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_dict &#61; Dict&#40;:a &#61;&gt; 10, :b &#61;&gt; 20&#41;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Symbol, Int64} with 2 entries:
   :a => 10
   :b => 20</code></pre> </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict&#91;:a&#93;</code> <br/> <pre><code class="plaintext code-output">10</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">dict &#61; Dict&#40;&#40;1,1&#41; &#61;&gt; 10, &#40;1,2&#41; &#61;&gt; 20&#41;</code></pre> </div></div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_dict &#61; Dict&#40;&#40;1,1&#41; &#61;&gt; 10, &#40;1,2&#41; &#61;&gt; 20&#41;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Tuple{Int64, Int64}, Int64} with 2 entries:
   (1, 2) => 20
   (1, 1) => 10</code></pre> </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict&#91;&#40;1,1&#41;&#93;</code> <br/> <pre><code class="plaintext code-output">10</code></pre> </div></div> </div> 
@@ -2259,30 +2280,30 @@ tup &#61; &#40;x, &#41;</code></pre>
     <button class="tablink" data-id=""> Symbol </button>
     <button class="tablink" data-id=""> Tuple </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">dict &#61; Dict&#40;1 &#61;&gt; 10, 2 &#61;&gt; 20&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_dict &#61; Dict&#40;3 &#61;&gt; 10, 4 &#61;&gt; 20&#41;
 
-keys_from_dict &#61; collect&#40;keys&#40;dict&#41;&#41;</code></pre> </div></div> 
+keys_from_dict &#61; collect&#40;keys&#40;some_dict&#41;&#41;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>keys_from_dict</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Int64}:
- 2
- 1</code></pre> </div></div> </div> 
+ 4
+ 3</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">dict &#61; Dict&#40;&quot;a&quot; &#61;&gt; 10, &quot;b&quot; &#61;&gt; 20&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_dict &#61; Dict&#40;&quot;a&quot; &#61;&gt; 10, &quot;b&quot; &#61;&gt; 20&#41;
 
-keys_from_dict &#61; collect&#40;keys&#40;dict&#41;&#41;</code></pre> </div></div> 
+keys_from_dict &#61; collect&#40;keys&#40;some_dict&#41;&#41;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>keys_from_dict</code> <br/> <pre><code class="plaintext code-output">2-element Vector{String}:
  "b"
  "a"</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">dict &#61; Dict&#40;:a &#61;&gt; 10, :b &#61;&gt; 20&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_dict &#61; Dict&#40;:a &#61;&gt; 10, :b &#61;&gt; 20&#41;
 
-keys_from_dict &#61; collect&#40;keys&#40;dict&#41;&#41;</code></pre> </div></div> 
+keys_from_dict &#61; collect&#40;keys&#40;some_dict&#41;&#41;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>keys_from_dict</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Symbol}:
  :a
  :b</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">dict &#61; Dict&#40;&#40;1,1&#41; &#61;&gt; 10, &#40;1,2&#41; &#61;&gt; 20&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_dict &#61; Dict&#40;&#40;1,1&#41; &#61;&gt; 10, &#40;1,2&#41; &#61;&gt; 20&#41;
 
-keys_from_dict &#61; collect&#40;keys&#40;dict&#41;&#41;</code></pre> </div></div> 
+keys_from_dict &#61; collect&#40;keys&#40;some_dict&#41;&#41;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>keys_from_dict</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Tuple{Int64, Int64}}:
  (1, 2)
  (1, 1)</code></pre> </div></div> </div> 
@@ -2292,7 +2313,7 @@ keys_from_dict &#61; collect&#40;keys&#40;dict&#41;&#41;</code></pre> </div></di
     </div>
   </div>
 </section>
-<section id="creating_named_tuples_and_dictionaries" class="scrollspy section-bg-color">
+<section id="creating_named_tuples_and_dictionaries" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2410,7 +2431,7 @@ nt &#61; NamedTuple&#40;vector_keys_values&#41;</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="destructuring_optional" class="scrollspy">
+<section id="destructuring_optional" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -3147,10 +3168,6 @@ for multiple pics in a row
       
       <li class="nav-item">
         <a class="nav-link" href="#keys_and_values" data-offset="-40">Keys and Values</a>
-      </li>
-      
-      <li class="nav-item">
-        <a class="nav-link" href="#the_type_symbol" data-offset="-40">The Type Symbol</a>
       </li>
       
       <li class="nav-item">

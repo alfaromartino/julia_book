@@ -1,2 +1,2 @@
-dict = Dict(1 => 10, 2 => 20)
-print_asis(dict) #hide
+some_dict = Dict(3 => 10, 4 => 20)
+print_asis(some_dict) #hide

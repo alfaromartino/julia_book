@@ -64,12 +64,12 @@ print_asis(y) #hide
 #
 ############################################################################
  
-x          = [1, 2, 3, 9]
+x          = [1, 2, 3, 4]
 
 sort_index = sortperm(x)
 print_asis(sort_index) #hide
  
-x          = [1, 3, 5, 9]
+x          = [3, 4, 5, 6]
 
 sort_index = sortperm(x)
 print_asis(sort_index) #hide
