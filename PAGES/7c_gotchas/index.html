@@ -2104,8 +2104,8 @@ end
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 3: Barrier Functions</h2></p>
-<p>While barrier functions can mitigate type instabilities, it&#39;s essential to remember that the parent function remains type unstable. This implies that if we fail to resolve the type instability before executing a for-loop or any operation consisting of several operations, the performance cost of that instability will be incurred multiple times.</p>
-<p>To illustrate this point, let&#39;s revisit the last example involving vectors of vectors. Below, we present two incorrect approaches to using a barrier function under such scenario, followed by a demonstration of its proper application.</p>
+<p>While barrier functions can mitigate type instabilities, it&#39;s essential to remember that <strong>the parent function remains type unstable</strong>. This implies that if we fail to resolve the type instability before executing a repeated operation, the performance cost of that instability will be incurred multiple times.</p>
+<p>To illustrate this point, let&#39;s revisit the last example involving a vector of vectors. Below, we present two incorrect approaches to using a barrier function under such scenario, followed by a demonstration of its proper application.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2162,7 +2162,7 @@ foo&#40;data&#41; &#61; operation&#33;&#40;data&#91;2&#93;&#41;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 4: Inference is by Type, Not By Value</h2></p>
-<p>Type inference in a function is exclusively based on the types of its arguments. This entails that values do not participate in the identification of types. To explain its implications, let&#39;s consider the following concrete example.</p>
+<p>Type inference in a function is exclusively based on the types of its arguments. This entails in particular that values do not participate in the identification of types. To explain its implications, let&#39;s consider the following concrete example.</p>
  <div class=" code_box"> <details  open><summary> Type Inference Is Not By Value  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;condition&#41;
     y &#61; condition ?  2.5  :  1
     
@@ -2175,7 +2175,8 @@ end
 <p>The issue in this example is reminiscent of the first &quot;gotcha&quot; we explored. Indeed, it can be resolved using similar techniques, or alternatively employing a barrier function. However, analyzing the type instability from the type-inference process reveals far-reaching consequences, extending beyond this specific example. In particular, it has deep implications for the use of <strong>tuples</strong>.</p>
 <p>Identifying a type requires having information on all the parameters that characterizes it. The type <code>Tuple</code> in particular is defined by both the type of  <em>each</em> variable and  <em>the number of elements</em>. For example, <code>x &#61; &#40;1, 2.4&#41;</code> has type <code>Tuple&#123;Int64, Float64&#125;</code>, meaning that <code>x</code> is an object with 2 elements with types <code>Int64</code> and <code>Float64</code> respectively. This type is different from the one of <code>x &#61; &#40;1, 2.4, 3&#41;</code>, which has 3 elements with types <code>Int64</code>, <code>Float64</code>, and <code>Int64</code> respectively. In comparison, the type <code>Vector</code> only identifies the same type for each element, and doesn&#39;t require information on the number of elements . For instance, both <code>x &#61; &#91;1, 2.4&#93;</code> and <code>x &#61; &#91;1, 2.4, 3&#93;</code> have the same type, given by <code>Vector&#123;Float64&#125;</code>.</p>
 <p>One consequence of this is that when we create tuples using vectors as their source, we lack sufficient information to identify a tuple&#39;s type. In particular, a tuple created from an object <code>Vector&#123;Float64&#125;</code> successfully identifies the type of each element &#40;<code>Float64</code>&#41;, but the number of elements remains unknown. Consequently, <strong>if we create a tuple inside a function based on a vector, the function will be type unstable</strong>. </p>
-<p>This can be observed in the following examples. The second tab shows that the issue won&#39;t be solved by merely passing the number of elements as an argument. Instead, the easiest solution is to create the tuple outside the function, and then pass it as an argument. This allows the compiler to gather all the information from the <code>Tuple</code> type.</p>
+<p>This can be observed in the following examples. The second tab shows that the issue won&#39;t be solved by merely passing the number of elements as an argument. The reason is that this wouldn&#39;t identify the value of the argument, only its type. This information isn&#39;t relevant to know for dispatch, as the compiler will only infer that the number of elements is an integer, not the number itself. </p>
+<p>The easiest fix is to define the tuple outside the function and then pass it as an argument. This allows the compiler to gather all the information from the <code>Tuple</code> type.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2218,8 +2219,9 @@ end
  </div></div>
 <p>  </p></details></div>
 <p> <h4> Dispatch by Value </h4><a id="dispatch_by_value" class="anchor"></a></p>
-<p>An alternative solution is to employ a workaround that allows Julia to dispatch by value. This is achieved by the type <code>Val</code>, which makes it possible to pass information regarding values to the compiler. Specifically, for any function <code>foo</code> and value <code>a</code>, you need to include <code>::Val&#123;a&#125;</code> as an argument and then use <code>Val&#40;a&#41;</code> when calling <code>foo</code>. </p>
-<p>The following example applies this approach to the function <code>foo</code> from the first example, whose type instability was arising because <code>condition</code> wasn&#39;t known by the compiler.</p>
+<p>An alternative solution is to employ a workaround that allows Julia to dispatch by value. This is achieved by the type <code>Val</code>, which makes it possible to pass information regarding values to the compiler. Specifically, for any function <code>foo</code> and value <code>a</code> that you seek the compiler to know, you need to include <code>::Val&#123;a&#125;</code> as an argument and then use <code>Val&#40;a&#41;</code> when calling <code>foo</code>.</p>
+<p>The following example applies this approach by revisiting the cases studied above. For the implementation, you could find it useful to revisit the notation <code>where</code> for types introduced <a href="/julia_book/PAGES/7b01_preliminaries_stability/#remarks_on_types">here</a>.</p>
+<p>In the first example, the type instability of <code>foo</code> was because the value of <code>condition</code> wasn&#39;t known by the compiler. Adding <code>Val</code>, along with the keyword <code>where</code>, allows passing the value of <code>condition</code> to the compiler. Note that <code>where</code> is necessary, as otherwise it won&#39;t identify the specific value of <code>condition</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2245,7 +2247,7 @@ end
 @code_warntype foo&#40;Val&#40;false&#41;&#41;   # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The same approach can be used for the case of tuples.</p>
+<p>Below, we apply the <code>Val</code> approach to the example with tuples.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2282,7 +2284,7 @@ end
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 5: Global Variables as Default Values of Keyword Arguments</h2></p>
-<p>It&#39;s possible to use a variable to set a default value when defining a keyword argument in a function. Nonetheless, this variable will be considered a global variable, turning the function type unstable. </p>
+<p>It&#39;s possible to set variables as default values when defining keyword arguments in functions. Nonetheless, these variables will be considered global, turning the function type unstable. </p>
 <p>As a best practice, it&#39;s recommended to avoid using variables as default values whenever possible. Instead, opt for concrete values. In cases where using a variable as a default value is inevitable, there are several strategies you could deploy. </p>
 <p>The first set of solutions affect the global scope. It includes to type-annotate the global variable or to define it as a <code>const</code>. Additionally, you could define a function storing the default value, taking advantage that types are identified when a function is called. If instead you want to use a local approach, you could type-annotate the keyword argument or the default value. All These strategies are demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2402,10 +2404,10 @@ task&#40;&#41;</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The approach with closures can introduce type instability when we use closures and additionally either redefine variables/arguments &#40;e.g., when we update a variable in an output&#41;, change the order in which we define functions, or use anonymous functions.</p>
-<p>We delve into these cases below. Throughout the examples, we refer to the containing function as the  <em>outer function</em>, and the closure function as the  <em>inner function</em>. </p>
+<p>The approach with closures can introduce type instability when closures are used in addition to either redefine variables/arguments &#40;e.g., when we update a variable in an output&#41;, change the order in which we define functions, or use anonymous functions.</p>
+<p>We explore these cases below. Throughout the examples, we refer to the containing function as the  <em>outer function</em>, and the closure function as the  <em>inner function</em>. </p>
  <h4> When the Issue Arises </h4>
-<p>Before introducing examples arising in real applications, let&#39;s consider 3 abstract examples that starkly illustrate the issue. All have in common that <strong>the closure is accessing variables or functions from its outer function scope, without passing them as arguments</strong>. Depending on how we perform this operation, type stability might arise. </p>
+<p>Before introducing examples from real applications, let&#39;s consider three abstract examples that starkly illustrate the issue. All have in common that <strong>the closure is accessing variables or functions from its outer function scope, without passing them as arguments</strong>. Depending on how we perform this operation, type instability might arise. </p>
 <p>We&#39;ll also show that you could solve these issues by specifying the arguments of the inner function,  <em>including the functions used</em>. While passing all variables as arguments is natural in Julia, additionally including the used functions as arguments is not. This is why we recommend instead defining the outer and inner functions as two separate functions, as in &quot;No Closure&quot; above.</p>
 <p>The first example reveals that the location of the inner function could matter.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>

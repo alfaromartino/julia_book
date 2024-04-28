@@ -1,1 +1,1 @@
-print_compact(nr_videos)
+print_compact(nr_videos) #hide

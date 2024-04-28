@@ -1,4 +1,4 @@
-using Statistics, Distributions
+using StatsBase, Distributions
 using Random; Random.seed!(1234)
 
 function audience(nr_videos; median_target)
