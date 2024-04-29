@@ -2279,14 +2279,14 @@ end
     </div>
   </div>
 </section>
-<section id="gotcha_5_global_variables_as_default_values_of_keyword_arguments" class="scrollspy section-bg-color">
+<section id="gotcha_5_variables_as_default_values_for_keyword_arguments" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Gotcha 5: Global Variables as Default Values of Keyword Arguments</h2></p>
-<p>It&#39;s possible to set variables as default values when defining keyword arguments in functions. Nonetheless, these variables will be considered global, turning the function type unstable. </p>
-<p>As a best practice, it&#39;s recommended to avoid using variables as default values whenever possible. Instead, opt for concrete values. In cases where using a variable as a default value is inevitable, there are several strategies you could deploy. </p>
-<p>The first set of solutions affect the global scope. It includes to type-annotate the global variable or to define it as a <code>const</code>. Additionally, you could define a function storing the default value, taking advantage that types are identified when a function is called. If instead you want to use a local approach, you could type-annotate the keyword argument or the default value. All These strategies are demonstrated below.</p>
+        <h2>Gotcha 5: Variables as Default Values for Keyword Arguments</h2></p>
+<p>In functions, it&#39;s possible to set variables as default values when defining keyword arguments. Nonetheless, these variables will be considered global, turning the function type unstable. </p>
+<p>As a best practice, it&#39;s recommended to avoid using variables as default values whenever possible. Instead, opt for concrete values. In cases where using a variable as a default value is necessary, there are several strategies you could deploy.</p>
+<p>The first set of solutions affect the variable to be used as a default value in its global scope. They include to type-annotate the global variable or define it as a <code>const</code>. Additionally, you could define a function storing the default value, taking advantage the identification of types when a function is called. The second set of solutions is based on a local approach. They require type-annotating either the keyword argument or the default value. All these strategies are demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2347,12 +2347,12 @@ const β &#61; 1
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Positional Arguments as Keyword Arguments</strong>  </span>  </div>  <div class=content>     It&#39;s possible to reuse positional arguments as default values for keyword arguments, without compromising type instability. </p>
-<p>For example, the following function uses the positional argument <code>x</code> to define the default value for the keyword argument <code>y</code>. Given the remark, the function is type stable.</p>
-<p> <div class=" code_box"> <details  open><summary> Type Stable  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; 2
-foo&#40;x; y &#61; 2*x&#41; &#61; x * y
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Positional Arguments as Keyword Arguments</strong>  </span>  </div>  <div class=content>     It&#39;s possible to reuse positional arguments as default values for keyword arguments without compromising type instability. </p>
+<p>Based on this, we can propose the following solution to the code above, where <code>β</code> is introduced as a positional argument.</p>
+<p> <div class=" code_box"> <details  open><summary> Type Stable  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">foo&#40;β; x &#61; β&#41; &#61; x
 
-@code_warntype foo&#40;x&#41;            #type stable</code></pre> </div> </div>  </details></div>  </div>  </div>
+β &#61; 1
+@code_warntype foo&#40;β&#41;            #type stable</code></pre> </div> </div>  </details></div>  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2362,8 +2362,9 @@ foo&#40;x; y &#61; 2*x&#41; &#61; x * y
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 6: Closures can Easily Introduce Type Instabilities</h2></p>
-<p>While the concept of <span style="color: rgb(62, 121, 180);"><strong>closures</strong></span> is more general, we&#39;ll refer in particular to the <strong>definition of functions inside functions</strong>. This can occur either when we define a function explicitly within a function, but also when we have anonymous function defined as a function argument. Writing closures in Julia can easily introduce type instability and, although there have been some improvements in this area, the issue has been around for several years. </p>
-<p>To illustrate the issue, let&#39;s consider a scenario where writing a task using closures is sound. This consists in first preparing information &#40;like defining parameters or initializing variables&#41;, and then computing an output. Closures make it possible to keep both processes within the same function, making the code tidy and self-contained. The following example implements this scenario with and without a closure. </p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Closures</strong></span> are created when <strong>a function is nested inside another function</strong>, granting the inner function access to the outer function&#39;s scope. They can arise explicitly when defining functions within a function, but also implicitly when using anonymous functions as function arguments in a function definition. </p>
+<p>Unfortunately, closures can easily introduce type instabilities in Julia. And, although there have been some improvements in this area, the issues have been around for several years. This is why it&#39;s crucial to be aware of its subtle consequences.</p>
+<p>In particular, an approach with closures emerge naturally when the goal is to prepare some data &#40;e.g., defining parameters or initializing variables&#41;, and then compute an output based on these data. In this scenario, closures make it possible to keep code self-contained by implementing both steps within the same function. Below, we implement a scenario like this with and without a closure. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2372,12 +2373,12 @@ foo&#40;x; y &#61; 2*x&#41; &#61; x * y
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">function task&#40;&#41;
-    # &lt;define some parameters and initialize variables&gt;
+    # define parameters and initialize variables
     β &#61; 1
     x &#61; Vector&#123;Float64&#125;&#40;undef, 10&#41;
        
     function output&#40;&#41; 
-        # &lt;do some computations&gt;        
+        # &lt;do some computations&gt;
     end
 
     return output&#40;&#41;
@@ -2388,11 +2389,10 @@ task&#40;&#41;</code></pre>
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">function task&#40;&#41;
-    # &lt;define some parameters and initialize variables&gt;
+    # define parameters and initialize variables
     β &#61; 1
-    x &#61; Vector&#123;Float64&#125;&#40;undef, 10&#41;
-       
-    # &lt;compute the output&gt;
+    x &#61; Vector&#123;Float64&#125;&#40;undef, 10&#41;    
+    
     return output&#40;x, β&#41;
 end
 
@@ -2404,8 +2404,8 @@ task&#40;&#41;</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The approach with closures can introduce type instability when closures are used in addition to either redefine variables/arguments &#40;e.g., when we update a variable in an output&#41;, change the order in which we define functions, or use anonymous functions.</p>
-<p>We explore these cases below. Throughout the examples, we refer to the containing function as the  <em>outer function</em>, and the closure function as the  <em>inner function</em>. </p>
+<p>The approach with closures can introduce type instability if we additionally redefine variables/arguments &#40;e.g., when we update a variable in an output&#41;, change the order in which we define functions, or use anonymous functions.</p>
+<p>We explore these three cases below. Throughout the examples, we refer to the containing function as the  <em>outer function</em>, and the closure as the  <em>inner function</em>. </p>
  <h4> When the Issue Arises </h4>
 <p>Before introducing examples from real applications, let&#39;s consider three abstract examples that starkly illustrate the issue. All have in common that <strong>the closure is accessing variables or functions from its outer function scope, without passing them as arguments</strong>. Depending on how we perform this operation, type instability might arise. </p>
 <p>We&#39;ll also show that you could solve these issues by specifying the arguments of the inner function,  <em>including the functions used</em>. While passing all variables as arguments is natural in Julia, additionally including the used functions as arguments is not. This is why we recommend instead defining the outer and inner functions as two separate functions, as in &quot;No Closure&quot; above.</p>
@@ -3292,7 +3292,7 @@ for multiple pics in a row
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#gotcha_5_global_variables_as_default_values_of_keyword_arguments" data-offset="-40">Gotcha 5: Global Variables as Default Values of Keyword Arguments</a>
+        <a class="nav-link" href="#gotcha_5_variables_as_default_values_for_keyword_arguments" data-offset="-40">Gotcha 5: Variables as Default Values for Keyword Arguments</a>
       </li>
       
       <li class="nav-item">

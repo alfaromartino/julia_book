@@ -334,6 +334,11 @@ foo(x; y = 2*x) = x * y
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
+foo(β; x = β) = x
+
+β = 1
+@code_warntype foo(β)            #type stable
+ 
 ############################################################################
 #
 #           GOTCHA 6: CLOSURES CAN EASILY INTRODUCE TYPE INSTABILITIES
