@@ -111,10 +111,10 @@ a = -2
 output = a |> abs |> (x -> 2 * x) |> round
 
 #equivalent, but more readable
-output = a              |>
-         abs            |>
-         x -> 2 * x     |>
-         round
+output =       a            |>
+               abs          |>
+               x -> 2 * x   |>
+               round
  
 using Pipe
 a = -2
@@ -122,9 +122,9 @@ a = -2
 output = @pipe a |> abs |> 2 * _ |> round
 
 #equivalent, but more readable
-output = @pipe a         |>
-               abs       |>
-               2 * _     |>
+output = @pipe a            |>
+               abs          |>
+               2 * _        |>
                round
  
 ####################################################
