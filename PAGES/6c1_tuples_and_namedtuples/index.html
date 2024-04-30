@@ -1640,7 +1640,7 @@ color: white;
   
 
 
-    <h1><i>6a.</i> Named Tuples and Dictionaries</h1>    
+    <h1><i>6b.</i> Named Tuples and Dictionaries</h1>    
     <div class="lead"> </div>
     
     
@@ -1663,6 +1663,8 @@ color: white;
 
     
     
+  
+
   
 
   
@@ -1832,13 +1834,15 @@ color: white;
             <li>6. <u>Working with Vectors and Other Collections</u>
               <ul>
                 
-                <li><a href="/julia_book/PAGES\6c1_tuples_and_namedtuples/"><i>a</i>. Named Tuples and Dictionaries</a></li><br>
+                <li><a href="/julia_book/PAGES\overview_6/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6f_pipes/"><i>b</i>. Let Blocks and Pipes</a></li><br>
+                <li><a href="/julia_book/PAGES\6c1_tuples_and_namedtuples/"><i>b</i>. Named Tuples and Dictionaries</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>c</i>. Useful Functions for Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\6f_pipes/"><i>c</i>. Let Blocks and Pipes</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6d_application01/"><i>d</i>. Illustration - Johnny, the YouTuber</a></li><br>
+                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6d_application01/"><i>e</i>. Illustration - Johnny, the YouTuber</a></li><br>
                 
               </ul>
             </li>            
@@ -2055,8 +2059,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Our previous discussions on collections have centered around vectors and tuples. Furthermore, the coverage on tuples in particular was relatively brief.</p>
-<p>The current section expands on the use of collections, proving a more comprehensive analysis of how they can be constructed. Specifically, we provide general properties of collections, methods for manipulating them, and approaches to transforming one collection into another. The section also introduces two new types of collections: <strong>named tuples</strong> and <strong>dictionaries</strong>.</p>
+<p>Our previous discussions on collections have centered around vectors and tuples. Furthermore, the coverage of the latter was particularly brief.</p>
+<p>The current section expands on the use of collections, offering a more comprehensive analysis. Specifically, we provide properties of each collection, methods for manipulating them, and approaches to transforming one collection into another. The section also introduces two new types of collections: <strong>named tuples</strong> and <strong>dictionaries</strong>.</p>
 <p>      </div>
     </div>
   </div>
@@ -2066,8 +2070,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Keys and Values</h2></p>
-<p>Most of the collections in Julia are characterized by some <span style="color: rgb(62, 121, 180);"><strong>keys</strong></span>, which serve as unique identifiers of their elements, and a corresponding <span style="color: rgb(62, 121, 180);"><strong>value</strong></span> associated with it. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Not all collections represent maps of keys to values. For example, the type <code>Set</code>, which we haven&#39;t covered, doesn&#39;t have keys. As its name indicates, it represents a group of unique unordered elements.  </span></span>  For instance, the vector <code>x &#61; &#91;2, 4, 6&#93;</code> has the indices <code>1, 2, 3</code> as its keys and <code>2, 4, 6</code> as their respective values. </p>
-<p>Note that <strong>keys are more general than indices</strong>—they encompass all the possible identifiers of a collection&#39;s elements &#40;e.g., strings, numbers, or other objects&#41;, while indices exclusively use integers as identifiers. Given this generality, Julia provides the function <code>keys</code> and <code>values</code>. </p>
+<p>Most collections in Julia are characterized by some <span style="color: rgb(62, 121, 180);"><strong>keys</strong></span>, which serve as unique identifiers of their elements, and a corresponding <span style="color: rgb(62, 121, 180);"><strong>value</strong></span> associated with it. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Not all collections represent maps of keys to values. For example, the type <code>Set</code>, which we haven&#39;t covered, doesn&#39;t have keys. As its name indicates, it represents a group of unique unordered elements.  </span></span>  For instance, the vector <code>x &#61; &#91;2, 4, 6&#93;</code> has the indices <code>1, 2, 3</code> as its keys and <code>2, 4, 6</code> as their respective values. </p>
+<p>The concept of <strong>keys is more general than indices</strong>—they encompass all the possible identifiers of a collection&#39;s elements &#40;e.g., strings, numbers, or other objects&#41;, while indices exclusively rely on integers as identifiers. To know the keys and values of a collection, Julia provides the functions <code>keys</code> and <code>values</code>.</p>
 <p>The following code snippets illustrate the use of these functions. The examples are based on vectors and tuples, whose keys are exclusively represented by indices. Importantly, neither <code>keys</code> nor <code>values</code> necessarily return a vector by default, requiring the function <code>collect</code> for their conversion.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2151,7 +2155,7 @@ vector_symbols &#61; &#91;Symbol&#40;&quot;x&quot;&#41;, Symbol&#40;&quot;y&quot
         <h2>Named Tuples</h2></p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content> <strong>Tuples and named tuples are only suitable for small collections</strong>. Using them for large collections can lead to slow operations, or even stack overflows that exceed the computer&#39;s processing capacity. For such situations, arrays remain the preferred choice. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Tuples are allocated in the part of the RAM known as the stack, which has a limited capacity. Instead, vectors are allocated in another part of the RAM known as the heap, capable of handling much larger collections.  </span></span></p>
+      <b>Warning!</b> </span>  </div>  <div class=content> <strong>Tuples and named tuples should only be employed for small collections</strong>. Using them for large collections can lead to slow operations, or even stack overflows that exceed the computer&#39;s processing capacity. For such situations, arrays remain the preferred choice. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Tuples are commonly allocated on the stack of the RAM known, which has a limited capacity. Instead, vectors are allocated in the heap of the RAM known, which is capable of handling much larger collections.  </span></span></p>
 <p>Defining what constitutes  <em>small</em> is challenging and unfortunately there are no definitive answers. We can only indicate that collections with fewer than 10 elements are undoubtedly small, while those exceeding hundreds of elements clearly violate the definition.  </div>  </div>
 <p>Named tuples share several similarities with regular tuples, including their <strong>immutability</strong>. However, they also differ in various ways. For one, <strong>the keys of named tuples are objects of type</strong> <code>Symbol</code>, in contrast to the numerical indices employed by regular tuples. Named tuples also differ syntactically, in that they must always be enclosed in parentheses <code>&#40;&#41;</code>—omitting them is not possible, unlike with regular tuples. </p>
 <p>Each element of a named tuple is specified by <code>&lt;key&gt; &#61; &lt;value&gt;</code> as in <code>a &#61; 10</code>, or a pair <code>&lt;key with Symbol type&gt; &#61;&gt; &lt;value&gt;</code> as in <code>:a &#61;&gt; 10</code>.</p>
@@ -2669,7 +2673,7 @@ end</code></pre>
 <footer class="py-1">    
     <!-- <p class="m-0"> -->
     <div class="container">
-       <span class="left-text"><a href="/julia_book/PAGES\6c_inplace" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png"
+       <span class="left-text"><a href="/julia_book/PAGES\overview_6" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\6f_pipes" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
@@ -3157,7 +3161,7 @@ for multiple pics in a row
 <nav class="navbar navbar-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
-    <a class="navbar-brand"><i>6a.</i> Named Tuples and Dictionaries</a>
+    <a class="navbar-brand"><i>6b.</i> Named Tuples and Dictionaries</a>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">

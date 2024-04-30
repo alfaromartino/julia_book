@@ -1725,6 +1725,8 @@ color: white;
 
   
 
+  
+
 
 
 
@@ -2003,7 +2005,7 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy section-bg-color">
+<section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2015,22 +2017,21 @@ color: white;
     </div>
   </div>
 </section>
-<section id="heap_vs_stack" class="scrollspy">
+<section id="heap_vs_stack" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Heap vs Stack</h2></p>
-<p>When we write code in Julia, objects and variables are allocated in the RAM &#40;Random Access Memory&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> There&#39;s another part of the memory know as cache, which we won&#39;t cover. The <span style="color: rgb(62, 121, 180);"><strong>cache</strong></span> is a small fast memory that sits between the CPU and the RAM. It&#39;s typically much faster than the RAM, but its size is significantly smaller. It&#39;s primarily used to store the most frequently used data and programming instructions.  </span></span></p>
-<p>This information is stored either on the stack or the heap. These aren&#39;t actually physical regions of memory but rather data structures, providing approaches to managing memory allocation and deallocation. The importance of this distinction lies in that storage on the heap can significantly degrade performance.</p>
+<p>When we write code in Julia, objects and variables are allocated in the RAM &#40;Random Access Memory&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> There&#39;s another memory region that we won&#39;t cover known as the <span style="color: rgb(62, 121, 180);"><strong>cache</strong></span>. This is a small fast memory that sits between the CPU and the RAM. It&#39;s much faster than the RAM, although its size is significantly smaller. It&#39;s primarily used to store programming instructions and the most frequently used data.  </span></span> In particular, the information is stored on the stack or the heap. These aren&#39;t actually physical regions of memory but rather data structures, providing approaches to managing memory allocation and deallocation. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Remark</b> </span>  </div>  <div class=content>     Throughout this website, <strong>we'll refer to memory allocations as heap allocations exclusively</strong>. This is a common approach adopted in programming, including Julia, as allocation on the heap are the ones slowing down computations.  </div>  </div>
  <h4> Stack Allocations </h4>
-<p><span style="color: rgb(62, 121, 180);"><strong>Stack allocations</strong></span> are known for their speed, thanks to their simple memory management operations. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The stack is a Last-In-First-Out &#40;LIFO&#41; data structure, meaning that they&#39;re allocated and deallocated in a sequential order. This makes the handle of the memory relatively easy in comparison, without the need of the so-called garbage collector for handling the process.  </span></span>  They typically store basic data types such as integers, floats, characters, or small fixed-size data structures like tuples. These are objects of a fixed size, in contrast to dynamic objects that can grow or shrink in size.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Stack allocations</strong></span> are known for their speed, thanks to their simple memory management operations. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Stack follows a data structure known as Last-In-First-Out &#40;LIFO&#41;, meaning that objects are allocated and deallocated in a sequential order. This makes the management of the memory relatively easy in comparison, without the need for handling the process of the so-called garbage collector.  </span></span>  They typically store basic data types such as integers, floats, characters, as well as small fixed-size collections like tuples. These are objects of a fixed size, in contrast to dynamic objects that can grow or shrink in size.</p>
 <p>The main limitation of the stack is its limited capacity, making it suitable only for objects containing a few elements. Indeed, attempting to allocate more memory than the stack can accommodate will result in a &quot;stack overflow&quot; error, causing a program to crash.</p>
  <h4> Heap Allocations </h4>
 <p>The <span style="color: rgb(62, 121, 180);"><strong>heap</strong></span> is designed to store data structures that exceed the stack&#39;s capacity or exhibit variable size. Typical variables stored on the heap are arrays and strings.</p>
-<p>Though the heap provides greater flexibility than the stack, it comes at the cost of reduced speed due to its more complex memory management. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Julia uses what&#39;s known as a garbage collector to manage memory for heap-allocated objects. It&#39;s a form of automatic memory management, by which a program can automatically identify and free up memory that is no longer in use or needed. Garbage collection entails a computational cost, as it needs to periodically scan through all objects to determine which ones are no longer in use.  </span></span>  That&#39;s why it&#39;s best practice to minimize heap allocations when possible, especially in code sections critical for performance.</p>
+<p>Though the heap provides greater flexibility than the stack, it comes at the cost of reduced speed due to its more complex memory management. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Julia uses what&#39;s known as a garbage collector to manage memory for heap-allocated objects. It&#39;s a form of automatic memory management, by which a program can automatically identify and free up memory no longer in use or needed. Garbage collection incurs computational costs, as it needs to periodically scan through all objects to determine which ones are no longer in use.  </span></span>  That&#39;s why it&#39;s a best practice to minimize heap allocations when possible, especially in code sections that are critical for performance.</p>
 <p>      </div>
     </div>
   </div>
