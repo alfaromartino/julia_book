@@ -1,5 +1,5 @@
-x = [-1,2,3]
+a = -2
 
-temp1  = abs.(x)
-temp2  = temp1 ./ sum(temp1)
-output = round.(temp2)
+temp1  = abs(a)
+temp2  = 2 * temp1
+output = round(temp2)

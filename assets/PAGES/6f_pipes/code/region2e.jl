@@ -1,3 +1,3 @@
 a = -2
 
-output = a |> abs |> exp |> round
+output = a |> abs |> log |> round

@@ -1,7 +1,7 @@
 a = -2
 
-output = let a = a         # the 'a' on the left refers to the local variable
+output = let a = a         # the 'a' on the left still refers to a local variable
    temp1 = abs(a)
-   temp2 = exp(temp1)
+   temp2 = log(temp1)
    round(temp2)
 end

@@ -1,3 +1,4 @@
-x = [-1,2,3]
+a = -2
 
-output = round.(abs.(x) ./ sum(abs.(x)))
+output = round(2 * abs(a))
+print_asis(output) #hide

@@ -1,8 +1,10 @@
-x = [-1,2,3] ; using Pipe
+#
+a = -2
 
-output = @pipe abs.(x) |> (_ ./ sum(_)) |> (round.(_))
+output = a |> abs |> (x -> 2 * x) |> round
 
 #equivalent, but more readable
-output = @pipe abs.(x)            |>
-               _ ./ sum(_)        |>
-               round.(_)
+output = a              |>
+         abs            |>
+         x -> 2 * x     |>
+         round

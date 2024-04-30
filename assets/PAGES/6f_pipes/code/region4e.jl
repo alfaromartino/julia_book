@@ -1,7 +1,10 @@
-x = collect(-5:5)
+using Pipe
+a = -2
 
-output = let x = x
-   temp1  = abs.(x)
-   temp2  = temp1 ./ sum(temp1)
-   round.(temp2, digits=3)
-end
+output = @pipe a |> abs |> 2 * _ |> round
+
+#equivalent, but more readable
+output = @pipe a         |>
+               abs       |>
+               2 * _     |>
+               round

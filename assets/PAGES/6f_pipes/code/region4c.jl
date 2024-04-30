@@ -1,8 +1,9 @@
-x = [-1,2,3]
+a = -2
 
-output = abs.(x) |> (y -> y ./ sum(y)) |> (y -> round.(y))
+output = a |> abs |> (x -> 2 * x) |> round
 
 #equivalent, but more readable
-output = abs.(x)                  |>
-         y -> y ./ sum(y)         |>
-         y -> round.(y)
+output = a              |>
+         abs            |>
+         x -> 2 * x     |>
+         round
