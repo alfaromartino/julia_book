@@ -2008,7 +2008,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>As a programmer, you&#39;ll need to work with data. This data needs to be stored in the computer&#39;s memory to be accessed and manipulated. The process of reserving a portion of the memory to store data is called <span style="color: rgb(62, 121, 180);"><strong>memory allocation</strong></span>, and it can have a significant impact on performance. </p>
+<p>As a programmer, you&#39;ll need to work with data. In turn, the data need to be stored in the computer&#39;s memory to be accessed and manipulated. The process of reserving a portion of the memory to store data is called <span style="color: rgb(62, 121, 180);"><strong>memory allocation</strong></span>, and can have a significant impact on performance. </p>
 <p>From a practical standpoint, <strong>a disproportionate memory allocation constitutes a red flag</strong>: when two approaches for an identical operation exhibit big differences in memory allocation, they&#39;ll likely differ in execution speed. The reason is that allocating and deallocating memory slow down computations, as it requires additional instructions to be executed by the CPU. </p>
 <p>Despite this, the relationship between memory allocation and performance is complex. In fact, <strong>reducing memory allocation is neither necessary nor sufficient for speed up computations</strong>—we&#39;ll see instances where a function allocating more memory turns out to be faster. Basically, creating a new object stores the information in a contiguous block of memory, allowing the CPU to access information more efficiently. </p>
 <p>      </div>
@@ -2020,8 +2020,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Heap vs Stack</h2></p>
-<p>When we write code in Julia, objects and variables are allocated in the RAM &#40;Random Access Memory&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> There&#39;s another part of the memory know as cache, which we won&#39;t cover. The <span style="color: rgb(62, 121, 180);"><strong>cache</strong></span> is a small fast memory that sits between the CPU and the RAM. It&#39;s typically much faster than the RAM, but its size is significantly smaller. It&#39;s primarily used to store only the most frequently used data and programming instructions.  </span></span></p>
-<p>This information is stored either on the stack or the heap, which aren&#39;t physical regions of memory but rather approaches to managing memory allocation and deallocation. Our goal will be avoiding storage on the heap, as they&#39;re the ones that can significantly impact performance.</p>
+<p>When we write code in Julia, objects and variables are allocated in the RAM &#40;Random Access Memory&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> There&#39;s another part of the memory know as cache, which we won&#39;t cover. The <span style="color: rgb(62, 121, 180);"><strong>cache</strong></span> is a small fast memory that sits between the CPU and the RAM. It&#39;s typically much faster than the RAM, but its size is significantly smaller. It&#39;s primarily used to store the most frequently used data and programming instructions.  </span></span></p>
+<p>This information is stored either on the stack or the heap. These aren&#39;t actually physical regions of memory but rather data structures, providing approaches to managing memory allocation and deallocation. The importance of this distinction lies in that storage on the heap can significantly degrade performance.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Remark</b> </span>  </div>  <div class=content>     Throughout this website, <strong>we'll refer to memory allocations as heap allocations exclusively</strong>. This is a common approach adopted in programming, including Julia, as allocation on the heap are the ones slowing down computations.  </div>  </div>
@@ -2043,7 +2043,7 @@ color: white;
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\8a_allocations" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 28, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 29, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

@@ -2019,13 +2019,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Defining Type Stability</h2></p>
-<p>Consider the following function:</p>
- <div class=" code_box"> <details  open><summary> Example  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;x&#41; &#61; x * 2</code></pre>
-<p></div> </div>  </details></div>
-<p>In a function like <code>foo&#40;x&#41;</code>, the argument <code>x</code> isn&#39;t restricted to any type, as the function definition is equivalent to <code>foo&#40;x::Any&#41; &#61; x * 2</code>. Eventually, when executing <code>foo&#40;a&#41;</code> with some specific argument <code>a</code>, multiple dispatch selects an appropriate method to compute <code>x * 2</code>. The process requires identifying the types of each input, which are <code>a</code> and <code>2</code>.</p>
-<p>The ability to generate fast code is heavily dependent on the notion of <span style="color: rgb(62, 121, 180);"><strong>type stability</strong></span>: given a function&#39;s argument types, the compiler must be able to infer the  <em>concrete types</em> of each variable involved. In this way, the compiler can specialize operations. Instead, if only abstract types are identified, the compiler must account for multiple possible implementations, resulting in slower code execution. </p>
-<p>In the example, <code>foo&#40;a &#61; 1&#41;</code> is type stable. This is because Julia can infer that <code>x</code> is <code>Int64</code>, and so it can specialize the method for <code>x * 2</code> to variables of <code>Int64</code> type.</p>
+<p>Consider the function <code>foo&#40;x&#41; &#61; x * 2</code>. The definition is equivalent to <code>foo&#40;x::Any&#41; &#61; x * 2</code>, and so the argument <code>x</code> isn&#39;t restricted to any type. This implies that, when we eventually execute <code>foo&#40;a&#41;</code> with some specific argument <code>a</code>, multiple dispatch selects an appropriate method to compute <code>a * 2</code>. The process requires identifying the type <code>a</code>, given the information that <code>2</code> has type <code>Int64</code>.</p>
+<p>The ability to generate fast code is heavily dependent on the notion of <span style="color: rgb(62, 121, 180);"><strong>type stability</strong></span>: given a function&#39;s argument types, the compiler must be able to infer the  <em>concrete types</em> of each variable involved. When this is possible, the compiler can specialize operations. Instead, if only abstract types are identified, the compiler must account for multiple possible implementations, resulting in slower code execution. </p>
+<p>In the example, <code>foo&#40;a &#61; 1&#41;</code> is type stable because Julia can infer that <code>x</code> is <code>Int64</code>. This allows the compiler to specialize the method for <code>x * 2</code> to variables of <code>Int64</code> type.</p>
 <p>      </div>
     </div>
   </div>
@@ -2035,7 +2031,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Checking for Type Stability</h2></p>
-<p>Julia provides the built-in macro <code>@code_warntype</code> to verify whether a function is type stable. This macro takes a function call as its input, and displays in the REPL what the compiler knows about each variable&#39;s type. To illustrate its usage, consider a function that defines <code>y</code> as a transformation of <code>x</code>, and then uses <code>y</code> to execute some operation.</p>
+<p>Julia provides the built-in macro <code>@code_warntype</code> to verify whether a function is type stable. This macro takes a function call as its input, with the REPL displaying what the compiler knows about each variable&#39;s type. To illustrate its usage, consider a function that defines <code>y</code> as a transformation of <code>x</code>, and then uses <code>y</code> to execute some operation.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2232,7 +2228,7 @@ x .&#61; 1                      # 1 is converted to 1.0 due to x&#39;s type
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + 🠘</kbd>)</a></span>
        <span class="right-text"><a href="/julia_book/PAGES\7b2_fixes_stability" class="nextPage">Next Section (<kbd>Ctrl + 🠚</kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 28, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified April 29, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
