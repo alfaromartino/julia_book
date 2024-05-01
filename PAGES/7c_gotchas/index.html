@@ -2004,7 +2004,7 @@ color: white;
 <div class="franklin-content">
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     This section&#39;s scripts are available <a href="https://github.com/alfaromartino/julia_book/tree/main//assets/PAGES/7c_gotchas/codeDownload"><strong>here</strong></a>, under the name <code>allCode.jl</code>. They&#39;ve been tested under Julia 1.10.0.<br/><br/> For more accurate benchmarks, each variable <code>x</code> in <code>@btime</code> is wrapped in <code>ref&#40;x&#41; &#61; &#40;Ref&#40;x&#41;&#41;&#91;&#93;</code> and interpolated through <code>&#36;</code>.  </div>  </div>
+      <b>Remark</b> </span>  </div>  <div class=content>     This section&#39;s scripts are available <a href="https://github.com/alfaromartino/julia_book/tree/main//assets/PAGES/7c_gotchas/codeDownload"><strong>here</strong></a>, under the name <code>allCode.jl</code>. They&#39;ve been tested under Julia 1.10.0.  </div>  </div>
 <section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
@@ -2218,9 +2218,9 @@ end
  </div></div>
 <p>  </p></details></div>
 <p> <h4> Dispatch by Value </h4><a id="dispatch_by_value" class="anchor"></a></p>
-<p>An alternative solution is to employ a workaround that allows Julia to dispatch by value. This is achieved by the type <code>Val</code>, which makes it possible to pass information regarding values to the compiler. Specifically, for any function <code>foo</code> and value <code>a</code> that you seek the compiler to know, you need to include <code>::Val&#123;a&#125;</code> as an argument and then use <code>Val&#40;a&#41;</code> when calling <code>foo</code>.</p>
-<p>The following example applies this approach by revisiting the cases studied above. For the implementation, you could find it useful to revisit the notation <code>where</code> for types introduced <a href="/julia_book/PAGES/7b01_preliminaries_stability/#remarks_on_types">here</a>.</p>
-<p>In the first example, the type instability of <code>foo</code> was because the value of <code>condition</code> wasn&#39;t known by the compiler. Adding <code>Val</code>, along with the keyword <code>where</code>, allows passing the value of <code>condition</code> to the compiler. Note that <code>where</code> is necessary, as otherwise it won&#39;t identify the specific value of <code>condition</code>.</p>
+<p>An alternative solution relies on a workaround that allows Julia to dispatch by value. This is achieved by the type <code>Val</code>, which makes it possible to pass information regarding values to the compiler. Specifically, for any function <code>foo</code> and value <code>a</code> that you seek the compiler to know, you need to include <code>::Val&#123;a&#125;</code> as an argument and then use <code>Val&#40;a&#41;</code> when calling <code>foo</code>.</p>
+<p>The following example applies this approach by revisiting the cases studied above. For the implementation, you could find it useful to revisit the keyword <code>where</code> for types introduced <a href="/julia_book/PAGES/7b01_preliminaries_stability/#remarks_on_types">here</a>.</p>
+<p>In the first example, the type instability of <code>foo</code> emerged because the value of <code>condition</code> wasn&#39;t known by the compiler. Adding <code>Val</code>, along with the keyword <code>where</code>, allows passing the value of <code>condition</code> to the compiler. Note that <code>where</code> is necessary, as otherwise it won&#39;t identify the specific value of <code>condition</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2361,9 +2361,10 @@ const β &#61; 1
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 6: Closures can Easily Introduce Type Instabilities</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Closures</strong></span> are created when <strong>a function is nested inside another function</strong>, granting the inner function access to the outer function&#39;s scope. They can arise explicitly when defining functions within a function, but also implicitly when using anonymous functions as function arguments in a function definition. </p>
-<p>Unfortunately, closures can easily introduce type instabilities in Julia. And, although there have been some improvements in this area, the issues have been around for several years. This is why it&#39;s crucial to be aware of its subtle consequences.</p>
-<p>In particular, an approach with closures emerge naturally when the goal is to prepare some data &#40;e.g., defining parameters or initializing variables&#41;, and then compute an output based on these data. In this scenario, closures make it possible to keep code self-contained by implementing both steps within the same function. Below, we implement a scenario like this with and without a closure. </p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Closures</strong></span> are created when <strong>a function is nested inside another function</strong>, granting the inner function access to the outer function&#39;s scope. They show up explicitly when defining functions within a function, but also implicitly when using anonymous functions as function arguments in a function definition. </p>
+<p>The biggest downside of closures is that they can easily introduce type instabilities. And, although there have been some improvements in this area, the issues have been around for several years. This is why it&#39;s crucial to be aware of its subtle consequences and how to address them. </p>
+ <h4> Closures Are Common in Coding </h4>
+<p>Writing code with closures emerge naturally in various contexts. The approach allows us to write self-contained code, keeping all steps of a task within a single function. One common scenario where closures are natural is when we need to prepare data &#40;e.g., defining parameters or initializing variables&#41;, and then compute an output based on that data. Below, we implement a scenario like this with and without a closure. We do it generically, so that you can easily identify the pattern. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2371,13 +2372,11 @@ const β &#61; 1
     <button class="tablink" data-id=""> No Closure </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">function task&#40;&#41;
-    # define parameters and initialize variables
-    β &#61; 1
-    x &#61; Vector&#123;Float64&#125;&#40;undef, 10&#41;
+<pre><code class="language-julia">function task&#40;&#41;    
+        # &lt;here, you define parameters and initialize variables&gt;
        
     function output&#40;&#41; 
-        # &lt;do some computations&gt;
+        # &lt;here, you do some computations with the variables and parameters&gt;
     end
 
     return output&#40;&#41;
@@ -2388,26 +2387,31 @@ task&#40;&#41;</code></pre>
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">function task&#40;&#41;
-    # define parameters and initialize variables
-    β &#61; 1
-    x &#61; Vector&#123;Float64&#125;&#40;undef, 10&#41;    
+        # &lt;here, you define parameters and initialize variables&gt;
     
-    return output&#40;x, β&#41;
+    return output&#40;&lt;variables&gt;, &lt;parameters&gt;&#41;
 end
 
-function output&#40;x,β&#41; 
-    # &lt;do some computations&gt;        
+function output&#40;&lt;variables&gt;, &lt;parameters&gt;&#41;
+        # &lt;here, you do some computations with the variables and parameters&gt;
 end
 
 task&#40;&#41;</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The approach with closures can introduce type instability if we additionally redefine variables/arguments &#40;e.g., when we update a variable in an output&#41;, change the order in which we define functions, or use anonymous functions.</p>
-<p>We explore these three cases below. Throughout the examples, we refer to the containing function as the  <em>outer function</em>, and the closure as the  <em>inner function</em>. </p>
+<p>While the approach with closures seems natural, it can introduce type instability if we: </p>
+<ul>
+<li><p>redefine variables/arguments &#40;e.g., when we update a variable in an output&#41;, </p>
+</li>
+<li><p>affect the order in which we define functions, or </p>
+</li>
+<li><p>use anonymous functions.</p>
+</li>
+</ul>
+<p>We explore these cases below, where we refer to the containing function as the  <em>outer function</em> and the closure as the  <em>inner function</em>. </p>
  <h4> When the Issue Arises </h4>
-<p>Before introducing examples from real applications, let&#39;s consider three abstract examples. They that starkly illustrate when closures are problematic for type stability. All these examples share that <strong>the closure is accessing variables or functions from the outer function's scope, without passing them as arguments</strong>.</p>
-<p>We could solve the issues by specifying all the arguments of the inner function,  <em>including the functions used</em>. While passing all variables as arguments is natural in Julia, additionally including the used functions as arguments is not. This is why we recommend instead defining the outer and inner functions as two separate functions, as in &quot;No Closure&quot; above.</p>
+<p>Before considering specific scenarios, let&#39;s start examining three examples. They encompass all the possible situations where closures could make type instability emerge.</p>
 <p>The first example reveals that the location of the inner function could matter.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2465,7 +2469,7 @@ bar&#40;x&#41; &#61; x
 @code_warntype foo&#40;&#41;      # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The second example shows that type instability arises if you use closures and simultaneously redefine variables or arguments. This is even true when you redefine a variable <code>x</code> by the same element, or even if we write a line as trivial as <code>x &#61; x</code>. The last tabs also reveal that type annotating the variable redefined or the closure doesn&#39;t even solve the problem. </p>
+<p>The second example shows that type instability arises if you use closures and simultaneously redefine variables or arguments. This holds even when you redefine a variable <code>x</code> by the same object, including a trivial expression as <code>x &#61; x</code>. The example also reveals that type annotating either the variable redefined or the closure doesn&#39;t solve the problem. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2548,7 +2552,7 @@ bar&#40;x&#41; &#61; x
 @code_warntype foo&#40;&#41;            # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Finally, the order in which you define closures could matter for type stability. The third tab shows in particular that you could avoid it if you pass any subsequent closure as an argument. This is an approach at odds with how Julia works in general, explaining why we recommend the &quot;No Closure&quot; approach.</p>
+<p>Finally, the last example highlights that the order in which you define closures could matter for type stability. The third tab in particular shows that you could avoid the issue if you pass any subsequent closure as an argument. However, this approach is at odds with how Julia works in general, as we don&#39;t usually include functions as arguments of functions. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2595,8 +2599,9 @@ closure1&#40;x&#41; &#61; x
 @code_warntype foo&#40;1&#41;            # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
+<p>Overall, the examples reveal a common pattern: <strong>the closure accesses variables or functions from the outer function's scope, without passing them as arguments</strong>. If we still want to employ closures, one generic solution is to specify all the arguments of the inner function,  <em>including the functions used</em>. </p>
+<p>In the following, we&#39;ll examine specific implementations of these patterns. They reveal that the issue can occur more frequently than we might expect. For each scenario, we&#39;ll also provide alternative case-dependent solutions, allowing you to employ a closure approach. Nonetheless, if you want to stay on the safe, the general guideline is to avoid closures if it&#39;s possible. </p>
  <h4> &quot;But No One Writes Code like That&quot; </h4>
-<p>Next, we provide common applications of closures giving rise to type instability. </p>
 <p> <h5><span style="color: rgb(62, 121, 180);"><strong> <em>i)</em> Transforming Variables through Conditionals</strong></span>  </h5></p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2655,9 +2660,9 @@ end
 @code_warntype foo&#40;x, β&#41;        # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Notice that the compiler doesn&#39;t dispatch by value, and thus it doesn&#39;t matter whether the condition holds or not. That&#39;s why the type instability would still hold if we wrote <code>&#40;1 &lt; 0&#41;</code> instead of <code>β &lt; 0</code>. Moreover, the value used to redefine <code>β</code> is unimportant, with the same issue arising even if you write <code>β &#61; β</code>. Both aspects are shown below. </p>
+<p>Recall that the compiler doesn&#39;t dispatch by value, and so whether the condition holds is irrelevant. For instance, the type instability would still hold if we wrote <code>1 &lt; 0</code> instead of <code>β &lt; 0</code>. Moreover, the value used to redefine <code>β</code> is unimportant for the issue to arise, with the same conclusion holding if you write <code>β &#61; β</code>. </p>
 <p> <h5><span style="color: rgb(62, 121, 180);"><strong> <em>ii)</em> Anonymous Functions inside a Function</strong></span>  </h5></p>
-<p>The use of an anonymous function inside a function is an example of closure. This is why type instability also arise if we replace the inner function <code>bar</code> in the example above for an anonymous function. To demonstrate this, we apply <code>filter</code> with an anonymous function that selects the values in <code>x</code> greater than <code>β</code>.</p>
+<p>Using an anonymous function inside a function is a common type of closure. Considering this, type instability also arises in the example above if we replace the inner function <code>bar</code> for an anonymous function. To demonstrate this, we apply <code>filter</code> with an anonymous function that selects the values in <code>x</code> greater than <code>β</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2742,7 +2747,8 @@ end
 
 @code_warntype foo&#40;x, β&#41;        # type unstable</code></pre> </div> </div>  </details></div>
 <p> <h5><span style="color: rgb(62, 121, 180);"><strong> <em>iv)</em> The Order in Which you Define Functions Could Matter Inside a Function</strong></span>  </h5></p>
-<p>To demonstrate this claim, suppose you want to define a variable <code>x</code> that depends on a parameter <code>β</code>. However, there&#39;s a catch: <code>β</code> is measured in one unit &#40;e.g., meters&#41;, while <code>x</code> requires <code>β</code> to be in a different unit of measurement &#40;e.g., centimeters&#41;. This implies that we must rescale <code>β</code> to the appropriate unit, before defining <code>x</code>.</p>
+<p>To illustrate this claim, suppose you want to define a variable <code>x</code> that depends on a parameter <code>β</code>. However, there&#39;s a catch: <code>β</code> is measured in one unit &#40;e.g., meters&#41;, while <code>x</code> requires <code>β</code> to be in a different unit of measurement &#40;e.g., centimeters&#41;. This implies that we must rescale <code>β</code> to the appropriate unit, before defining <code>x</code>.</p>
+<p>Depending on how we implement the operation, a type instability could emerge. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2768,7 +2774,6 @@ end
 @code_warntype foo&#40;1&#41;      # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The same occurs with variables. Actually, this occurs because variables and functions act as <code>const</code> values. Thus, the compiler doesn&#39;t know if the value of <code>x</code> will change.</p>
 <p>      </div>
     </div>
   </div>
