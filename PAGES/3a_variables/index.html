@@ -2057,7 +2057,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section introduces the concepts of <strong>variables</strong> and their <strong>types</strong>. We&#39;ll also cover <strong>operators</strong>, with a focus on their syntax. To ensure a smooth learning experience, I&#39;ve minimized the reliance on objects we haven&#39;t covered yet. The only one introduced is vectors, which are expressed enclosing elements in brackets &#40;e.g., <code>&#91;1,2,3&#93;</code>&#41;. </p>
+<p>This section introduces the concepts of <strong>variables</strong> and their <strong>types</strong>. Furthermore, we&#39;ll cover <strong>operators</strong>, with a focus on their syntax. To ensure a smooth learning experience, I&#39;ve minimized the reliance on objects we haven&#39;t covered yet. The only one introduced is vectors, which are expressed by enclosing elements in brackets &#40;e.g., <code>&#91;1,2,3&#93;</code>&#41;. </p>
 <p>      </div>
     </div>
   </div>
@@ -2067,8 +2067,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Creating Variables</h2></p>
-<p>Variables are created through the so-called <span style="color: rgb(62, 121, 180);"><strong>assignment operator</strong></span> <code>&#61;</code>. For instance, <code>x &#61; 3</code> binds <code>x</code> to an object holding the value 3. </p>
-<p>A variable&#39;s name can be defined using Unicode characters, allowing for a wide range of possibilities. This includes Greek letters, Chinese characters, symbols, and even emoticons. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> There are plenty of websites offering lists of Unicode characters&#40;e.g. <a href="https://www.vertex42.com/ExcelTips/unicode-symbols.html">this website</a>&#41;. They allow you to insert a specific Unicode character by copying and pasting it. You can alternatively use Tab completion, given the commands provided on this <a href="https://docs.julialang.org/en/v1/manual/unicode-input/">list</a>.  </span></span>  Variable names also accept underscores <code>_</code>, which are helpful to separate names with multiple words &#40;e.g., <code>intermediate_result</code>&#41;. Finally, names are case-sensitive, so that <code>bar</code> and <code>Bar</code> are two distinct variables. </p>
+<p>Variables are created through the so-called <span style="color: rgb(62, 121, 180);"><strong>assignment operator</strong></span>, denoted by the symbol <code>&#61;</code>. For instance, the statement <code>x &#61; 3</code> associates <code>x</code> with an object holding the value 3. </p>
+<p>Variable names can be defined using Unicode characters, opening up a wide range of possibilities. This includes Greek letters, Chinese characters, symbols, and even emoticons. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> There are many online resources available offering lists of Unicode characters &#40;e.g. <a href="https://www.vertex42.com/ExcelTips/unicode-symbols.html">this website</a>&#41;. You can directly insert a Unicode character by copying and pasting it from these resources. Alternatively, you can use Tab completion with the commands listed in <a href="https://docs.julialang.org/en/v1/manual/unicode-input/">the Julia documenation</a>.  </span></span>  While not all symbols are permitted, variable names do accept underscores <code>_</code>, which are helpful for separating words &#40;e.g., <code>intermediate_result</code>&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For instance, names with symbols like <code>x^</code>, <code>&#37;x</code> aren&#39;t accepted. Moreover, we can&#39;t start a variable with a number, turning a name like <code>1x</code> invalid.  </span></span> Importantly, names are case-sensitive, so that <code>bar</code> and <code>Bar</code> are two distinct variables. </p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">a &#61; 2
 A &#61; 2               # variable &#96;A&#96; is different from &#96;a&#96;
@@ -2084,42 +2084,19 @@ x₁ &#61; 2
 
 🐒 &#61; 2             # emoticons allowed</code></pre>
 <p></div> </div>  </details></div>
- <!-- Trigger/Open The Modal -->
-<div style="text-indent:0;"> <button class="modalButton">
-  &nbsp<i class="fa fa-exclamation-circle" style='font-size:16px;padding-right:0.0em'></i><strong>(OPTIONAL)</strong> -  Names not Allowed</button> </div>
-
-<!-- The Modal -->
-<div class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-    <div class="modal-header">
-      <span class="modalClose">&times;</span>
-      <h2>  Names not Allowed </h2>
-    </div>
-    <div class="modal-body"><p> Variables can&#39;t start with a number or include most of the symbols &#40;with the exception of <code>_</code>&#41;.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Unlike other programming languages, <strong>Julia doesn't let you delete variables</strong>. Once a variable is created, it remains in memory until the program terminates. If a variable is taking up too much memory, you can free up space by assigning a lighter object to it.  </div>  </div>
-<p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">1x  &#61; 2 #this throws an error
-x^  &#61; 2 #this throws an error
-&#37;x  &#61; 2 #this throws an error
-
-_x1 &#61; 2 #this is allowed</code></pre>
-<p></div> </div>  </details></div>  </p>
-    </div>    
-  </div>
-
-</div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     Unlike other programming languages, <strong>Julia doesn't let you delete variables</strong>. Once a variable is created, it remains in memory until the program terminates. If a variable is taking up too much memory, you can free up space by assigning a lighter object.  </div>  </div>
+ <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Notation for Variable Names</strong>  </span>  </div>  <div class=content>     Julia&#39;s developers suggest denoting variable names in <strong>snake_case</strong>. This means that variables use <code>lowercase_with_underscores</code>.  </div>  </div>
  <h4> Updating Variables </h4>
-<p>We can assign a value to a variable by using the variable itself. The process is usually referred to as <strong>updating a variable</strong>.</p>
+<p>It&#39;s possible to assign a value to a variable by using the variable itself. This process is referred to as <strong>updating a variable</strong>.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x  &#61; 2
 
 x  &#61; x &#43; 3    # &#39;x&#39; now equals 5</code></pre>
 <p></div> </div>  </details></div>
-<p>Julia offers a concise syntax for updates relying on common operators. This requires adding the operator before the assignment operator <code>&#61;</code>. </p>
+<p>For common operations &#40;e.g., addition&#41;, Julia offers a concise syntax for updating values. This requires prefixing the operator to the assignment operator <code>&#61;</code>. </p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x  &#61; 2
 
@@ -2141,13 +2118,13 @@ x -&#61; 3        # equivalent</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>What are Variables?</h2></p>
-<p>Formally, <span style="color: rgb(62, 121, 180);"><strong>variables</strong></span> are <strong>labels</strong> for objects, acting as mere identifiers. In turn, <span style="color: rgb(62, 121, 180);"><strong>objects</strong></span> are storage locations that hold <span style="color: rgb(62, 121, 180);"><strong>values</strong></span>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Storage locations are  <em>abstract</em>, meaning that they don&#39;t necessarily refer to a physical memory address in the RAM. Indeed, the actual memory location of the object may change over time, not even residing in the RAM. Internally, programming languages handle object storage depending on various factors &#40;e.g., available memory, performance&#41;, and we don&#39;t need to know details about it for high-level languages like Julia.  </span></span>  Each value has a <span style="color: rgb(62, 121, 180);"><strong>type</strong></span> associated, which identifies the nature of the object.</p>
-<p>For example, <code>x &#61; &quot;Hello&quot;</code> defines the label <code>x</code> for a memory location holding the value <code>Hello</code>. In turn, the value <code>Hello</code> has type <code>String</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> To avoid verbosity, throughout the website we&#39;ll say that &quot;a variable has a specific type&quot;. Strictly speaking, this is inaccurate —it&#39;s actually a variable&#39;s value that has a specific type, not the variable itself. This distinction is unimportant at this point, but will become relevant when discussing more advanced topics such as type stability.  </span></span> </p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Variables</strong></span> are <strong>labels</strong> for objects, thus merely acting as identifiers. In turn, <span style="color: rgb(62, 121, 180);"><strong>objects</strong></span> are storage locations that hold <span style="color: rgb(62, 121, 180);"><strong>values</strong></span>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Storage locations are  <em>abstract</em>, meaning that they don&#39;t necessarily map to a physical memory address in the RAM. Indeed, the actual memory location of the object may change dynamically over time. Internally, programming languages handle object storage in a complex manner, depending on various factors &#40;e.g., available memory, performance&#41;. Fortunately, for using high-level languages like Julia, we can avoid getting tangled up in these underlying intricacies.  </span></span>  Each value has a <span style="color: rgb(62, 121, 180);"><strong>type</strong></span> associated, whic identifies the nature of the object.</p>
+<p>For example, the assignment <code>x &#61; &quot;Hello&quot;</code> defines the label <code>x</code> for a memory location holding the value <code>Hello</code>. Likewise, the value <code>Hello</code> has type <code>String</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Despite its technical inaccuracy, we&#39;ll often say that &quot;a variable has a specific type&quot; for brevity&#39;s sake. Note, though, that it&#39;s a variable&#39;s value that has a specific type, rather than the variable itself.  </span></span> </p>
 <p> <div class="multiple_pics">
   <h2 style="color:rgb(63, 99,136)">Variables</h2>
     <img src="/julia_book/assets/PAGES/3a_variables/tikz/variable01.svg" style="width:500px; height:auto; margin-top:1em;">  
 </div> <br/></p>
-<p>A minimum but clear notion of types is paramount in Julia, and so we discuss them in more detail next.</p>
+<p>Understanding the basics of types is necessary for working with Julia, and we do it next.</p>
 <p>      </div>
     </div>
   </div>
@@ -2157,22 +2134,23 @@ x -&#61; 3        # equivalent</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Types</h2></p>
-<p>We&#39;ve indicated that each object has a value, where the nature of this value is described through a type. Moreover, the object referenced by a variable can hold either a <span style="color: rgb(62, 121, 180);"><strong>single element</strong></span> or a <span style="color: rgb(62, 121, 180);"><strong>collection of elements</strong></span>, affecting how we define types. Below, we provide a list of single-element objects and collections, each of which is possibly associated with one or more types.</p>
-<p> <div class="multiple_pics">
-  <h2 style="color:rgb(63, 99,136)">Objects</h2>
-    <img src="/julia_book/assets/PAGES/3a_variables/tikz/list_variables01.svg" style="width:600px; height:auto; margin-top:1em;">  
-</div> <br/></p>
-<p>For single-element variables, the default numeric types are <code>Int64</code> for integers, <code>Float64</code> for decimal numbers, and <code>Bool</code> for binary values. Likewise, the type <code>Char</code> represents characters. It serves as the building block for the type <code>String</code>, which represent text as a collection of characters.</p>
-<p>When it comes to collections, types describe both the nature of the object and the types of its elements. For example, <code>&#91;2,4,6&#93;</code> has type <code>Vector&#123;Int64&#125;</code>, meaning that the object is a <code>Vector</code> and its elements have type <code>Int64</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Given a variable <code>x</code>, you can identify its type by executing <code>typeof&#40;x&#41;</code> and its element&#39;s type by <code>eltype&#40;x&#41;</code>. For instance, if <code>x &#61; &#91;2,4,6&#93;</code>, executing <code>typeof&#40;x&#41;</code> returns <code>Vector&#123;Int64&#125;</code> while <code>eltype&#40;x&#41;</code> returns <code>Int64</code>  </span></span> The arguments enclosed within <code>&#123;&#125;</code> are actually the type&#39;s parameters, and their content can vary when other types are considered.</p>
+<p>Objects can be broadly classified into two primary categories: those holding a <strong>single element</strong> and those holding a <strong>collection of elements</strong>. We respectively refer to them as <span style="color: rgb(62, 121, 180);"><strong>scalars</strong></span> and <span style="color: rgb(62, 121, 180);"><strong>collections</strong></span>. The following lists outline the main types in each category.</p>
+ <div class="multiple_pics">
+  <!-- <h2 style="color:rgb(63, 99,136)">Objects</h2> -->
+    <img src="/julia_book/assets/PAGES/3a_variables/tikz/list_variables01.svg" style="width:650px; height:auto; margin-top:1em; margin-bottom:1em;">  
+</div>
+<p>To characterize the value of an object, we need to define its type. The general syntax for types is <code>&lt;name of type&gt;&#123;&lt;type parameters&gt;&#125;</code>, where we omit the type parameters when they have none.</p>
+<p>Single-element objects, for instance, have the default numeric types <code>Int64</code> for integers, <code>Float64</code> for decimal numbers, and <code>Bool</code> for binary values &#40;<code>true</code> and <code>false</code> that are internally represented by <code>1</code> and <code>0</code>&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The suffix 64 represents the number&#39;s precision. It determines the maximum number of significant digits or decimals that can be accurately represented.  </span></span> Likewise, the type <code>Char</code> represents individual characters, serving as the building block for the type <code>String</code>. This enables the representation of text as a collection of characters.</p>
+<p>While none of these types have parameters, collections typically include them. For example, <code>&#91;2,4,6&#93;</code> has type <code>Vector&#123;Int64&#125;</code>, meaning that the object is a <code>Vector</code> comprising elements of type <code>Int64</code>.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Restricting a Variable's Type</strong>  </span>  </div>  <div class=content>     A variable&#39;s type can be restricted through type annotations, implemented through the operator <code>::</code>. For example, declaring <code>x::String</code> restricts <code>x</code> to store strings, with any attempt to assign a value of a different type resulting in an error.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Type Annotations</strong>  </span>  </div>  <div class=content>     A variable&#39;s type can be explicitly restricted using <strong>type annotations</strong>, which are implemented using the <code>::</code> operator. For example, declaring <code>x::String</code> ensures that <code>x</code> can only store string values. Any attempt to assign a value with a different type will result in an error.  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Notation</strong>  </span>  </div>  <div class=content>     Julia&#39;s developers have adopted the convention of <strong>denoting types using capitalized words</strong>, such as <code>Float64</code> or <code>String</code>. However, this is merely a convention and not a requirement for defining types.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Notationf for Types</strong>  </span>  </div>  <div class=content>     Julia&#39;s developers suggest denoting types in <strong>CamelCase</strong>. This requires capitalizing every first letter, as in <code>MyType</code>.  </div>  </div>
  <h4> Type Hierarchy: Concrete Types and Abstract Types </h4>
-<p>Types in Julia follow a hierarchical structure, allowing for the definition of <strong>supersets and subsets of types</strong>. In programming terminology, supersets are commonly referred to as <strong>supertypes</strong>, while subsets are known as <strong>subtypes</strong>. For example, the type <code>Any</code> is a superset that encompasses all possible subtypes in Julia &#40;e.g., <code>String</code>, <code>Int64</code>, <code>Vector&#123;Float64&#125;</code>&#41;.</p>
-<p>Supertypes and subtypes also give rise to the notions of abstract and concrete types. An <span style="color: rgb(62, 121, 180);"><strong>abstract type</strong></span> is a collection of types that serve as a parent to other types, hence defining a hierarchy of more specific types. For instance, the type <code>Any</code> presented above is an abstract type, as it comprises several subtypes. On the other hand, a <span style="color: rgb(62, 121, 180);"><strong>concrete type</strong></span> lacks subtypes, thus representing an irreducible unit. It covers in particular primitive types, which are the ones identified by computers to ultimately perform calculations. Examples of primitive types are <code>Int64</code> and <code>Float64</code>.</p>
-<p>Abstract types provide great flexibility for writing code. For example, they allow you to define a variable simply as a number, without specifying whether it&#39;s an integer, float, or its numerical precision. This is implemented by letting a variable have the abstract type <code>Number</code>, which is the type containing all the possible numeric types &#40;e.g., <code>Float64</code>, <code>Int64</code>, <code>Float32</code>&#41;.</p>
-<p>Users can also build their own supertypes by defining unions of types. This is achieved through the syntax <code>Union&#123;&lt;type1&gt;, &lt;type2&gt;&#125;</code>, where the arguments are the types to be considered. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> While the syntax provided includes two arguments and thus two types, users can add as many types as needed.  </span></span> Unions of types arise naturally in data analysis, particularly when dealing with empty entries, which are represented by the type <code>Missing</code>. For instance, if we load a column containing both integers and empty entries, it&#39;ll be stored with the type <code>Vector&#123;Union&#123;Missing,Int64&#125;&#125;</code>.</p>
+<p>Types in Julia are organized in a hierarchical structure, enabling the definition of <strong>supersets and subsets of types</strong>. In programming parlance, supersets are often referred to as <strong>supertypes</strong>, while subsets are known as <strong>subtypes</strong>. </p>
+<p>This hierarchy gives rise in particular to the notions of abstract and concrete types. An <span style="color: rgb(62, 121, 180);"><strong>abstract type</strong></span> is a collection of types that serve as a parent to other types. The type <code>Any</code> in Julia is a prime example of an abstract type, as it comprises all possible subtypes—by definition, every type in Julia is a subtype of <code>Any</code>. In contrast, a <span style="color: rgb(62, 121, 180);"><strong>concrete type</strong></span> represents an irreducible unit lacking subtypes. It covers in particular <strong>primitive types</strong>, which are the fundamental types used by computers to perform calculations. Examples of primitive types are <code>Int64</code> and <code>Float64</code>.</p>
+<p>Abstract types provide great flexibility for writing code. For example, Julia includes the abstract type <code>Number</code>, which encompasses all possible numeric types &#40;e.g., <code>Float64</code>, <code>Int64</code>, <code>Float32</code>&#41;. This allows you to declare a variable as a generic <code>Number</code>, without the need to specify whether it&#39;s an integer, float, or its numerical precision.</p>
+<p>By defining unions of types, users can also build their own supertypes. This is achieved through the syntax <code>Union&#123;&lt;type1&gt;, &lt;type2&gt;, ...&#125;</code>, where <code>...</code> indicates that an arbitrary number of types are accepted as arguments. Unions of types arise naturally in data analysis. Particularly, when dealing with empty entries, which are represented by the type <code>Missing</code>. For instance, if we load a column that contains both integers and empty entries, the resulting data will be stored with a type <code>Vector&#123;Union&#123;Missing,Int64&#125;&#125;</code>.</p>
 <p>      </div>
     </div>
   </div>
@@ -2182,19 +2160,18 @@ x -&#61; 3        # equivalent</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Operators</h2></p>
-<p>Operators are symbols that perform operations on objects. For example, <code>x &#43; y</code> has <code>&#43;</code> as its operator, returning the addition of <code>x</code> and <code>y</code>. Operators can be understood as syntactic sugar for functions, where each of them have an equivalent function representation in Julia. </p>
-<p>The symbols <code>x</code> and <code>y</code> in <code>x &#43; y</code> are known as its <span style="color: rgb(62, 121, 180);"><strong>operands</strong></span>, and represent the operator&#39;s inputs to perform its calculation.  <em>Operators follow specific syntax rules</em> when classified by their number of operands, Identifying operators and their syntax will prove useful for several topics of the website. Next, we define and illustrate the syntax through several examples. Just focus on how operators are written, even if you don&#39;t fully understand what they do. </p>
+<p>In programming, <span style="color: rgb(62, 121, 180);"><strong>operators</strong></span> are symbols that represent operations performed on objects. They can be thought of as syntactic sugar for functions. In fact, almost all operators in Julia can also be employed as a function.</p>
+<p>For instance, the symbol <code>&#43;</code> in <code>x &#43; y</code> is an operator that performs the addition of <code>x</code> and <code>y</code>. Moreover, the symbols <code>x</code> and <code>y</code> are referred to as its <span style="color: rgb(62, 121, 180);"><strong>operands</strong></span>, which represent the operator&#39;s inputs to perform its calculation.  <em>Based on the number of operands, operators follow specific syntax rules</em>. Identifying this syntax will prove useful for several topics covered on the website. Next, we define and illustrate the syntax through several examples. At this point, you should simply focus on how operators are written, even if you don&#39;t fully understand what they do. </p>
 <div class="itemNoSpace"><ul>
-<li><p><span style="color: rgb(62, 121, 180);"><strong>Unary operators</strong></span>: They use  <em>one operand</em>, with the operator written to the left of the operand.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Operators to the left of the operator are known as <strong>prefix operators</strong>. Conversely, operators written to the right of the operand are known as <strong>postfix operators</strong>, and Julia has a few of them &#40;e.g., <code>&#39;</code> to transpose a vector or matrix <code>x</code> is written by <code>x&#39;</code>&#41;. We won&#39;t use postfix operators on this website.  </span></span> </p>
-<p>The syntax is <code>&lt;operator&gt;x</code>, such as <code>√x</code> or <code>-x</code>.</p>
+<li><p><span style="color: rgb(62, 121, 180);"><strong>Unary operators</strong></span>: They take  <em>one operand</em>, with the operator written to the left of it.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Operators to the left of the operand are known as <strong>prefix operators</strong>. Conversely, operators written to the right of the operand are known as <strong>postfix operators</strong>. Julia has a few of them &#40;e.g., <code>&#39;</code> to transpose a vector or matrix <code>x</code>, which is written as <code>x&#39;</code>&#41;. We won&#39;t use postfix operators on this website.  </span></span>        Formally, their syntax is <code>&lt;operator&gt;x</code>, such as <code>√x</code> or <code>-x</code>.</p>
 </li>
 </ul>
 <ul>
-<li><p><span style="color: rgb(62, 121, 180);"><strong>Binary operators</strong></span>: They use  <em>two operands</em>, and the operator is written between the operands. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Operators with this syntax are called <strong>infix operators</strong>.  </span></span>   The syntax is <code>x &lt;operator&gt; y</code>, such as <code>x &#43; y</code> or <code>x^y</code> for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mi>y</mi></msup></mrow><annotation encoding="application/x-tex">x^y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.664392em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span></span></span></span></span></span></span>.</p>
+<li><p><span style="color: rgb(62, 121, 180);"><strong>Binary operators</strong></span>: They take  <em>two operands</em>, and the operator is written between them. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Operators with this syntax are called <strong>infix operators</strong>.  </span></span>   Formally, their syntax is <code>x &lt;operator&gt; y</code>, such as <code>x &#43; y</code> or <code>x^y</code> for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mi>y</mi></msup></mrow><annotation encoding="application/x-tex">x^y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.664392em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span></span></span></span></span></span></span>.</p>
 </li>
 </ul>
 <ul>
-<li><p><span style="color: rgb(62, 121, 180);"><strong>Ternary operators</strong></span>: They use  <em>three operands</em>, and their syntax is <code>x &lt;operator1&gt; y &lt;operator2&gt; z</code>. Ternary operators are uncommon, explaining why the specific operator <code>x ? y : z</code> is directly referred to as  <em>the</em> ternary operator. This executes a conditional evaluation, with <code>y</code> returned if <code>x</code> is true and <code>z</code> returned otherwise.</p>
+<li><p><span style="color: rgb(62, 121, 180);"><strong>Ternary operators</strong></span>: They take  <em>three operands</em>. Formally, their syntax is <code>x &lt;operator1&gt; y &lt;operator2&gt; z</code>. Ternary operators are rare, which is why the specific operator <code>x ? y : z</code> is directly referred to as  <em>the</em> ternary operator. We&#39;ll see that this operator performs a conditional evaluation, returning <code>y</code> if <code>x</code> is true and <code>z</code> returned otherwise.</p>
 </li>
 </ul></div>
 <p>      </div>
@@ -2211,7 +2188,7 @@ x -&#61; 3        # equivalent</code></pre>
        <span class="right-text"><a href="/julia_book/PAGES\3b_univariables" class="nextPage">Next Section (<kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_right.png" style="width:15px; height:auto;opacity:0.9;padding-bottom:2px;">
     </kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified May 1, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified May 2, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2695,7 +2672,7 @@ for multiple pics in a row
   <nav class="nav">
     <button class="nav-toggle" aria-label="Toggle navigation">
       <!-- <span class="nav-toggle-icon"></span> -->
-        <img src="/julia_book/assets/icons/dropdown.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:5px;margin-left:0px;">
+        <img src="/julia_book/assets/icons/dropdown.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:2px;margin-left:0px;">
       <span class="nav-title"><i>2b.</i> Variables, Types, and Operators</span>
     </button>
     <div class="nav-menu">
@@ -2791,7 +2768,7 @@ document.addEventListener('keydown', (e) => {
   width: 20px;
   height: 20px;
   background-image: url('/assets/icons/sheets02.png');
-  background-size: 20px 20px;
+  background-size: 28px 20px;
 } */
 
 .nav-menu {
@@ -2819,7 +2796,7 @@ document.addEventListener('keydown', (e) => {
 .nav-menu a {
   color: #fff;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   padding: 10px 20px;
   display: block;
