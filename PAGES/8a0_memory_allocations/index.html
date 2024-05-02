@@ -28,7 +28,7 @@ href="https://fonts.googleapis.com/css?family=Open+Sans"></link>
    <link rel="stylesheet" href="/julia_book/libs/highlight/styles/vs_myversion.css">
    
 
-  <link rel="stylesheet" href="/julia_book/css/bootstrap.min.css">    
+  <link rel="stylesheet" href="/julia_book/css/bootstrap.min.css">
   <style>
 .section-bg-color {
   background-color: rgba(63, 99, 136, 0.07);
@@ -1628,7 +1628,7 @@ color: white;
 </style>  
 
 
-
+ 
 <!-- CONTENT PAGES -->
     
     <header class="text-white text-center">
@@ -1986,7 +1986,8 @@ color: white;
     
     
   </style>
-  
+
+
 
 
 
@@ -2007,9 +2008,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>As a programmer, you&#39;ll need to work with data. In turn, the data need to be stored in the computer&#39;s memory to be accessed and manipulated. The process of reserving a portion of the memory to store data is called <span style="color: rgb(62, 121, 180);"><strong>memory allocation</strong></span>, and can have a significant impact on performance. </p>
-<p>From a practical standpoint, <strong>a disproportionate memory allocation constitutes a red flag</strong>: when two approaches for an identical operation exhibit big differences in memory allocation, they&#39;ll likely differ in execution speed. The reason is that allocating and deallocating memory slow down computations, as it requires additional instructions to be executed by the CPU. </p>
-<p>Despite this, the relationship between memory allocation and performance is complex. In fact, <strong>reducing memory allocation is neither necessary nor sufficient for speeding up computations</strong>—we&#39;ll see instances where a function allocating more memory turns out to be faster. Basically, creating a new object stores the information in a contiguous block of memory, allowing the CPU to access information more efficiently. </p>
+<p>As a programmer, you&#39;ll need to work with data. In turn, the data need to be stored in the computer&#39;s RAM to be accessed and manipulated. The process of reserving a portion of the memory to store data can have a significant impact on performance, depending on the approach to handling it. We&#39;ll see in particular that <strong>memory allocations on the heap</strong> are costly. Following common parlance in programming, we&#39;ll simply refer to them as <span style="color: rgb(62, 121, 180);"><strong>memory allocations</strong></span>. </p>
+<p>From a practical standpoint, <strong>a disproportionate memory allocation constitutes a red flag</strong>: when two approaches for an identical operation exhibit big differences in memory allocation, they&#39;ll likely differ in execution speed. The reason is that managing memory slows down computations, as it requires additional instructions to be executed by the CPU. </p>
+<p>Despite this, the relationship between memory allocation and performance is complex. In fact, <strong>reducing memory allocation is neither necessary nor sufficient for speeding up computations</strong>—we&#39;ll see some &#40;rare&#41; instances where allocating more memory turns out to be faster. Basically, this occurs because creating a new object ensures that the data are stored in a contiguous block of memory, allowing the CPU to access information more efficiently. </p>
 <p>      </div>
     </div>
   </div>
@@ -2019,16 +2020,16 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Heap vs Stack</h2></p>
-<p>When we write code in Julia, objects and variables are allocated in the RAM &#40;Random Access Memory&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> There&#39;s another memory region that we won&#39;t cover known as the <span style="color: rgb(62, 121, 180);"><strong>cache</strong></span>. This is a small fast memory that sits between the CPU and the RAM. It&#39;s much faster than the RAM, although its size is significantly smaller. It&#39;s primarily used to store programming instructions and the most frequently used data.  </span></span> In particular, the information is stored on the stack or the heap. These aren&#39;t actually physical regions of memory but rather data structures, providing approaches to managing memory allocation and deallocation. </p>
+<p>When writing code in Julia, objects created by the user are allocated in the RAM &#40;Random Access Memory&#41;, which can be stored either on the stack or the heap. These are data structures, rather than physical regions of memory, that provide approaches to managing memory allocations and deallocations. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     Throughout this website, <strong>we'll refer to memory allocations as heap allocations exclusively</strong>. This is a common approach adopted in programming, including Julia, as allocation on the heap are the ones slowing down computations.  </div>  </div>
+      <b>Remark</b> </span>  </div>  <div class=content>     Throughout this website, <strong>we'll refer to memory allocations as heap allocations exclusively</strong>. This is a common approach adopted in programming, including Julia, as allocations on the heap are the ones slowing down computations.  </div>  </div>
  <h4> Stack Allocations </h4>
-<p><span style="color: rgb(62, 121, 180);"><strong>Stack allocations</strong></span> are known for their speed, thanks to their simple memory management operations. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Stack follows a data structure known as Last-In-First-Out &#40;LIFO&#41;, meaning that objects are allocated and deallocated in a sequential order. This makes the management of the memory relatively easy in comparison, without the need for handling the process of the so-called garbage collector.  </span></span>  They typically store basic data types such as integers, floats, characters, as well as small fixed-size collections like tuples. These are objects of a fixed size, in contrast to dynamic objects that can grow or shrink in size.</p>
-<p>The main limitation of the stack is its limited capacity, making it suitable only for objects containing a few elements. Indeed, attempting to allocate more memory than the stack can accommodate will result in a &quot;stack overflow&quot; error, causing a program to crash.</p>
+<p>The stack is known for its speed, thanks to its simple memory management operations. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Stack follows a data structure known as Last-In-First-Out &#40;LIFO&#41;, meaning that objects are allocated and deallocated in a sequential order. This makes the management of the memory relatively easy in comparison.  </span></span>  They typically store basic data types such as integers, floats, characters, as well as small fixed-size collections like tuples. All these objects have in common a fixed length, thus precluding those that may grow or shrink in size.</p>
+<p>The main limitation of the stack is its limited capacity, making it suitable only for objects containing a few elements. Indeed, attempting to allocate more memory than the stack can accommodate will result in a &quot;stack overflow&quot; error, causing a program to crash. And, even if the stack can fit the object, its performance will degrade significantly if it contains more than a handful of elements. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> There&#39;s no hard and fast rule about how many elements are &quot;too many&quot; to reap the benefits of stack allocation. The optimal threshold depends on various factors, and the only way to determine it for a specific case is through benchmarking. As a very rough guideline, objects with more than 100 elements will almost certainly degrade performance, while those with fewer than 15 elements are almost certain to yield a benefit.  </span></span> </p>
  <h4> Heap Allocations </h4>
-<p>The <span style="color: rgb(62, 121, 180);"><strong>heap</strong></span> is designed to store data structures that exceed the stack&#39;s capacity or exhibit variable size. Typical variables stored on the heap are arrays and strings.</p>
-<p>Though the heap provides greater flexibility than the stack, it comes at the cost of reduced speed due to its more complex memory management. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Julia uses what&#39;s known as a garbage collector to manage memory for heap-allocated objects. It&#39;s a form of automatic memory management, by which a program can automatically identify and free up memory no longer in use or needed. Garbage collection incurs computational costs, as it needs to periodically scan through all objects to determine which ones are no longer in use.  </span></span>  That&#39;s why it&#39;s a best practice to minimize heap allocations when possible, especially in code sections that are critical for performance.</p>
+<p>The heap is specifically designed to accommodate larger data structures, allowing objects to grow as large as the available RAM permits. Additionally, it&#39;s capable of handling more complex objects, including those with dynamic or variable sizes. Typical variables stored on the heap are arrays &#40;vectors and matrices&#41; and strings.</p>
+<p>Though the heap provides greater flexibility than the stack, it comes at the cost of slower performance due to its more complex memory management. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Julia uses what&#39;s known as a garbage collector to manage memory for heap-allocated objects. It&#39;s a form of memory management, allowing Julia to automatically identify and free up memory no longer in use or needed. Garbage collection incurs an additional cost, as it needs to periodically scan through all objects to determine which ones are no longer in use.  </span></span>  As a result, it&#39;s considered a best practice to avoid heap allocations when possible. To determine this, it&#39;s crucial to understand when heap allocations aren&#39;t necessary. For instance, immutable objects with a small fixed number of elements are prime candidates to bypass the heap, which demands not storing them as vectors.</p>
 <p>      </div>
     </div>
   </div>
@@ -2043,7 +2044,7 @@ color: white;
        <span class="right-text"><a href="/julia_book/PAGES\8a_allocations" class="nextPage">Next Section (<kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_right.png" style="width:15px; height:auto;opacity:0.9;padding-bottom:2px;">
     </kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified April 30, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified May 1, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2139,7 +2140,8 @@ function goToNextPage() {
   
       <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
-<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+
 
   
   <script src="/julia_book/libs/simple-scrollspy.min.js"></script>
@@ -2516,159 +2518,155 @@ for multiple pics in a row
 
 
 
- <!-- FOR NAVIGATION-->
+<!-- FOR NAVIGATION-->
        
-    
+  
 <!-- to make it visible as default change line 9 by
 <div class="collapse show navbar-collapse" id="collapsibleNavbar"> -->
 
 
-<!-- unline the ABOVE, this has OFFSET, SO THAT WE MOVE UP OR DOWN WHEN IT GOES TO THE LINK (in case the header covers the title of the subsection)-->
-<nav class="navbar navbar-dark">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-    <span class="navbar-toggler-icon"></span>
-    <a class="navbar-brand"><i>9a.</i> Preliminaries on Memories Allocations</a>
-  </button>
-  <div class="collapse navbar-collapse" id="collapsibleNavbar">
-    <ul class="navbar-nav">
-      
-      <li class="nav-item">
-        <a class="nav-link" href="#introduction" data-offset="-40">Introduction</a>
-      </li>
-      
-      <li class="nav-item">
-        <a class="nav-link" href="#heap_vs_stack" data-offset="-40">Heap vs Stack</a>
-      </li>
-      
-    </ul>
-  </div>
-</nav>
-
-<script>
-  $(function () {
-    // Add click event listener to nav links
-    $('.nav-link').on('click', function (event) {
-      event.preventDefault();
-      var target = $(this.getAttribute('href'));
-      var offset = parseInt($(this).data('offset'), 10) || 0;
-
-      if (target.length) {
-        // Set the scroll position without animation
-        $('html, body').scrollTop(target.offset().top + offset);
-      }
-    });
-
-    $(document).click(function (event) {
-      var clickover = $(event.target);
-      var _opened = $(".navbar-collapse").hasClass("navbar-collapse collapse show");
-      if (_opened === true && clickover.closest('.navbar').length === 0) {
-        $(".navbar-collapse").collapse('hide');
-      }
-    });
-  });
-</script>
-
-
-
-<!-- ===========================  
-    TO CLOSE IT
-=============================== -->
-
-
-<!-- PRESSING ANYWHERE TO CLOSE THE SECTION BAR -->
-<script>
-  $(function () {
-    $(document).click(function (event) {
-      var clickover = $(event.target);
-      var _opened = $(".navbar-collapse").hasClass("navbar-collapse collapse show");
-      if (_opened === true && clickover.closest('.navbar').length === 0) {
-        $(".navbar-collapse").collapse('hide');
-      }
-    });
-  });
-</script>
-
-
+  <nav class="nav">
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <!-- <span class="nav-toggle-icon"></span> -->
+        <img src="/julia_book/assets/icons/dropdown.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:5px;margin-left:0px;">
+      <span class="nav-title"><i>9a.</i> Preliminaries on Memories Allocations</span>
+    </button>
+    <div class="nav-menu">
+      <ul>
+        
+        <li>
+          <a href="#introduction" data-offset="-40">Introduction</a>
+        </li>
+        
+        <li>
+          <a href="#heap_vs_stack" data-offset="-40">Heap vs Stack</a>
+        </li>
+        
+      </ul>
+    </div>
+  </nav>
   
 
-<!-- PRESSING ESC TO CLOSE THE SECTION BAR and ctrl+x to open it -->
+
 <script>
-document.onkeydown = function(evt) {
-  if ((evt.keyCode == 27) || (evt.key === 'x' && evt.ctrlKey === true)){
-    $(".navbar-collapse").collapse('hide');
+const navToggle = document.querySelector('.nav-toggle');
+const navMenu = document.querySelector('.nav-menu');
+const navLinks = document.querySelectorAll('.nav-menu a');
+
+navToggle.addEventListener('click', () => {
+  navMenu.classList.toggle('show');
+});
+
+navLinks.forEach((link) => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    const offset = parseInt(link.dataset.offset, 10) || 0;
+    window.scrollTo({ top: target.offsetTop + offset, behavior: 'smooth' });
+  });
+});
+
+document.addEventListener('click', (e) => {
+  if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+    navMenu.classList.remove('show');
   }
-  if (evt.key === 'x' && evt.ctrlKey === true) {
-    $(".navbar-collapse").collapse('show');
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    navMenu.classList.remove('show');
   }
-};
+  if (e.key === 'x' && e.ctrlKey) {
+    navMenu.classList.toggle('show');
+  }
+});
+
 </script>
 
 
 <style>
-
-
-
-
-
-
   /* ================================================================= 
                       NAVIGATION BAR
 ================================================================= */ 
-.navbar{
+.nav {
+  position: fixed;
+  top: 0;
+  right: 0;
   z-index: 200;
-  position:fixed;
-  top:0;
-  right:0;
-  color: white;
-  border: none;
-  padding: 0px 0px;
-  display: block;
-  }
-
-.navbar-toggler {
-  position:relative;
   background-color: rgb(63,99,136);
-  border-radius: 0;
-  border:none;
-  height:48px;
-  font-size:18px;
+  padding: 0;
+  display: block;
 }
 
-.navbar-brand {  
-  font-size:18px;
-  padding-right:2px;  
+.nav-toggle {
+  background-color: rgb(63, 99, 136);
+  border: none;
+  padding: 8px;
+  padding-right: 24px;
+  font-size: 18px;
+  cursor: pointer;
 }
 
+/* .nav-toggle-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('/assets/icons/sheets02.png');
+  background-size: 20px 20px;
+} */
 
-.navbar-nav{
-  position:fixed;  
-  right:0;
-  padding-left:22px; 
-  padding-right:10px;   
-  padding-top:8px; 
-  /* background-color: rgb(63,99,136);   */
-  background-image: linear-gradient(to bottom, rgb(63,99,136) 30%,  black );
-  height:100%;    
-  width:300px;
-  font-size:1.2em;
+.nav-menu {
+  position: fixed;
+  right: 0;
+  top: 48px;
+  background-color: rgb(63,99,136);
+  padding: 10px;
+  width: 300px;
+  height: 100vh;
+  overflow-y: auto;
+  display: none;
 }
 
-.navbar-nav ul{
-  visibility: visible;  
+.nav-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-
-.nav-item a{  
-    color: white !important;    
-}
-.nav-item a:hover{
-  color: rgb(160, 159, 159) !important;
+.nav-menu li {
+  margin-bottom: 10px;
 }
 
-#collapsibleNavbar{
-  transition: none;
+.nav-menu a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  display: block;
 }
 
+.nav-menu a:hover {
+  color: #ccc;
+  background-color: #333;
+}
+
+.nav-title {
+  font-size: 18px;
+  margin-left: 10px;
+  color: #fff;
+}
+
+.nav-brand {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 10px 20px;
+  color: #fff;
+}
+
+.nav-menu.show {
+  display: block;
+}
 
 </style>
 
