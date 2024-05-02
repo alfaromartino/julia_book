@@ -2,7 +2,7 @@
 #       BASICS
 ###################
 # root folders
-include(joinpath("/JULIA_UTILS", "initial_folders.jl"))
+include(joinpath(homedir(), "JULIA_UTILS", "initial_folders.jl"))
 
 # it loads multiple auxiliar utils
 location_basics = joinpath(folderBook.julia_utils, "for_coding", "auxiliars")
@@ -29,7 +29,7 @@ package_folder = joinpath(@__DIR__, "environment_files")
 Pkg.generate(package_folder)
 Pkg.activate(package_folder)
 
-list_packages  = ["Distributions", "StatsBase", "Pipe", "LazyArrays", "StaticArrays", "LoopVectorization"]
+list_packages  = ["Distributions", "StatsBase", "Pipe", "LazyArrays", "StaticArrays", "LoopVectorization", "BenchmarkTools"]
 Pkg.add(list_packages)
 =#
 

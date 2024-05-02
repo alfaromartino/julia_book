@@ -6,7 +6,7 @@ path_prepath = "julia_book"
 assign_letter(x) = [Char((Int('a') .+ i - 1)) for i in eachindex(x)] 
 
 function add_section!(dftoc2, section, name)
-    section_name    = "PAGES\\" .* section .* ".md"
+    section_name    = joinpath.("PAGES", section .* ".md")                              # "PAGES\\" .* section .* ".md"
     section_title   = name
     section_letter  = assign_letter(section)
     section_number  = if nrow(dftoc2).==0

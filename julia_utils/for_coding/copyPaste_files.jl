@@ -2,7 +2,7 @@
 #       BASICS
 ###################
 # root folders
-include(joinpath("/JULIA_UTILS", "initial_folders.jl"))
+include(joinpath(homedir(), "JULIA_UTILS", "initial_folders.jl"))
 
 # it loads multiple auxiliar utils
 location_basics = joinpath(folderBook.julia_utils, "for_coding", "auxiliars")

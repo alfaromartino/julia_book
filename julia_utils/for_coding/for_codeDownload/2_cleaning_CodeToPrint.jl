@@ -2,7 +2,7 @@
 #       BASICS
 ###################
 # root folders
-include(joinpath("/JULIA_UTILS", "initial_folders.jl"))
+include(joinpath(homedir(), "JULIA_UTILS", "initial_folders.jl"))
 
 # it loads multiple auxiliar utils
 location_basics = joinpath(folderBook.julia_utils, "for_coding", "auxiliars")
@@ -20,31 +20,11 @@ pages_names = identify_folder_names(folderBook.index)
     3. add packages (manually)
 =#
 
+#= order of execution
+    1. copyToFolders_codeDownload.jl
+    2. cleaning_CodeToPrint.jl
+=#
 
-############################################################################
-#
-#    create 00_calculations_toprint.jl
-#
-############################################################################
-
-# this makes the file "00_calculations_toprint.jl" identical to
-# "01_calculations_used.jl"
-
-function replicate_code_source(page_name)
-    source_folder    = joinpath(folderBook.calculations, page_name)
-    name_file        = "01_calculations_used.jl"
-    source_file      = joinpath(source_folder, name_file)
-
-    if isfile(source_file)
-        dst_folder       = joinpath(folderBook.calculations, page_name)
-        name_file        = "00_calculations_toprint.jl"
-        destination_file = joinpath.(dst_folder, name_file)
-
-        cp(source_file, destination_file, force=true)
-    end
-end
-
-replicate_code_source.(pages_names)
 
 
 ############################################################################
@@ -87,7 +67,6 @@ function replace_text_in_00print!(page_name, pattern, replacing_text)
 end
 
 
-
 ####################################################
 #	get rid of #hide
 ####################################################
@@ -101,22 +80,25 @@ replace_text_in_00print!.(pages_names, pattern, replacing_text)
 
 
 ####################################################
-#	get rid of print_asis, print_compact, etc
+# get rid of print_compact regions 
+    # empty regions appear when `print_compact` is the only line
+    # the code selects everything, including `###code regionxxx ((( and ###)))`
 ####################################################
-pattern        = r"(?:^\n*)?\s+print_(compact|asis)\((.*?)\)\s*(?:\n*$)?"
+pattern = Regex("(#*\\s*###code\\s(?:\\w+)\\s\\(\\(\\(\\s*(?:print_compact\\(.*\\)|print_asis\\(.*\\))\\s*###\\)\\)\\)\\s*#*)")
 replacing_text = ""
 replace_text_in_00print!.(pages_names, pattern, replacing_text)
+
+
 
 #for a specific page
     #aux_replace_text!("6d_application01", pattern, "")
 
+
+
 ####################################################
-# get rid of empty regions 
-    # (they show up when print_compact, print_asis are the only line, after they were removed)
-    # I also skip when the name is skipline1, skipline01, etc
-    # skiplines are useful to leave empty spaces in the code
+#	get rid of print_asis, print_compact, etc
 ####################################################
-pattern        = r"\n.*###code\s*(?!skipline\d+)\s*\(\(\(\s*###\)\)\)"  
+pattern        = r"(?:^\n*)?\s+print_(compact|asis)\((.*?)\)\s*(?:\n*$)?"
 replacing_text = ""
 replace_text_in_00print!.(pages_names, pattern, replacing_text)
 
@@ -169,7 +151,7 @@ text_to_add = raw"""
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# We use `foo(ref($x))` for more accurate benchmarks of the function `foo(x)`
+# We use `foo(ref($x))` for more accurate benchmarks of any function `foo(x)`
 using BenchmarkTools
 ref(x) = (Ref(x))[]
 
@@ -210,6 +192,42 @@ code_for_download.(pages_names)
 
 #code_for_download("6d_application01")
 
+############################################################################
+#
+#               ADDING EMPTY LINES TO GET SPACE
+#
+############################################################################
+
+####################################################
+# `skipline` to skip when the name is skipline1, skipline01, etc
+    # skiplines are useful to leave empty spaces in the code
+    # note that calling it `skipline` in the code has no effect,
+    # only <space_to_be_deleted> has an effect
+    # but `skipline` is useful to identify them
+####################################################
+# pattern        = r"\n.*###code\s*(?!skipline\d+)\s*\(\(\(\s*###\)\)\)"  
+# replacing_text = "\n\n\n"
+# replace_text_in_00print!.(pages_names, pattern, replacing_text)
+
+
+# generic function that chooses the region skipline
+    # then it replaces it by empty space
+    # you get one line per <space_to_be_deleted>
+    # notice this deletes all the empty lines, 
+        # so you need to add at least two <space_to_be_deleted> to see a difference
+        # relative to not adding anything
+function replace_region_skipline!(page_name)
+        number_empty_lines = "\n"       # empty lines per <space_to_be_deleted>
+        filejl = joinpath(_dst_path(page_name), "allCode.jl") # path for allCode
+        if isfile(filejl)            
+            pattern            = r"(\n*.*#\s*<space_to_be_deleted>\s*\n*)"
+            replace_text!(splitdir(filejl)..., pattern, number_empty_lines)
+        end    
+end
+
+replace_region_skipline!.(pages_names)
+
+
 
 ############################################################################
 #
@@ -227,6 +245,7 @@ text_to_add = """
 # This code allows you to reproduce the code with the exact package versions used when writing this note.
 # It requires having all files (allCode_withPkgEnvironment.jl, Manifest.toml, and Project.toml) in the same folder.
 
+import Pkg
 Pkg.activate(@__DIR__)
 Pkg.instantiate() #to install the packages
 

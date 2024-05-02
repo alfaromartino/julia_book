@@ -21,12 +21,14 @@ end
 
 
 function create_assets_folders(folder_asset, page_folder)
-    asset_folder    = create_folder("$(folderBook.assets)\\$(page_folder)")
-    code_folder     = create_folder("$(asset_folder)\\code")
-    pics_folder     = create_folder("$(asset_folder)\\pics")
-    download_folder = create_folder("$(asset_folder)\\codeDownload")
+    asset_folder    = create_folder(joinpath(folder_asset, page_folder))
+    code_folder     = create_folder(joinpath(asset_folder, "code"))
+    pics_folder     = create_folder(joinpath(asset_folder, "pics"))
+    download_folder = create_folder(joinpath(asset_folder, "codeDownload"))
 end
 
 
 page_folders = identify_folder_names(folderBook.index)
 create_assets_folders.(folderBook.assets, page_folders)
+
+

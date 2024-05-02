@@ -2,7 +2,7 @@
 #       BASICS
 ###################
 # root folders
-include(joinpath("/JULIA_UTILS", "initial_folders.jl"))
+include(joinpath(homedir(), "JULIA_UTILS", "initial_folders.jl"))
 
 # it loads multiple auxiliar utils
 location_basics = joinpath(folderBook.julia_utils, "for_coding", "auxiliars")
@@ -17,10 +17,38 @@ pages_names = identify_folder_names(folderBook.index)
 
 ############################################################################
 #
-#                       CODE FOR CODEDOWNLOAD
+#    create 00_calculations_toprint.jl
 #
 ############################################################################
 
+# this makes the file "00_calculations_toprint.jl" identical to
+# "01_calculations_used.jl"
+    # it could be ommited if we're tweaking it manually
+
+
+function replicate_code_source(page_name)
+    source_folder    = joinpath(folderBook.calculations, page_name)
+    name_file        = "01_calculations_used.jl"
+    source_file      = joinpath(source_folder, name_file)
+
+    if isfile(source_file)
+        dst_folder       = joinpath(folderBook.calculations, page_name)
+        name_file        = "00_calculations_toprint.jl"
+        destination_file = joinpath.(dst_folder, name_file)
+
+        cp(source_file, destination_file, force=true)
+    end
+end
+
+replicate_code_source.(pages_names)
+
+
+
+############################################################################
+#
+#                       CODE FOR CODEDOWNLOAD
+#
+############################################################################
 
 # file with julia code
 function _src_file(page_folder)
