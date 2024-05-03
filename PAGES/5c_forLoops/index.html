@@ -2059,10 +2059,10 @@ color: white;
         <h2>Introduction</h2></p>
 <p>A key feature of programming is its ability to automate repetitive tasks. One way to implement this is through <span style="color: rgb(62, 121, 180);"><strong>for-loops</strong></span>, which run the same code block on each element of a list.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Always Wrap For-Loops in Functions</strong>  </span>  </div>  <div class=content>     At this stage of the website where we&#39;re still introducing fundamental concepts, subjects are presented as simple as possible. This is why for-loops in particular are written in the global scope to simplify the presentation. </p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Always Wrap For-Loops in Functions</strong>  </span>  </div>  <div class=content>     At this stage of the website where we&#39;re still introducing fundamental concepts, subjects are presented as simple as possible. This is why for-loops in particular are written in the global scope to simplify the presentation. </p>
 <p>However, <strong>you should always wrap for-loops in functions</strong>. Executing for-loops outside a function severely degrade performance and are subject to different rules regarding variable scoping. In fact, older versions of Julia weren&#39;t restricting for-loops in the global scope.  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>About High Performance</strong>  </span>  </div>  <div class=content>     In certain languages &#40;e.g., Matlab, Python, and R&#41;, for-loops can negatively impact performance. These languages recommend instead using vectorized code, which is a technique operating over the whole vector rather than its individual elements. Such a recommendation has no bearing on Julia, where <strong>for-loops are as fast as vectorized code</strong>. In fact, speeding up operations in Julia commonly rely on for-loops, making it crucial to achieve high-performance.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>About High Performance</strong>  </span>  </div>  <div class=content>     In certain languages &#40;e.g., Matlab, Python, and R&#41;, for-loops can negatively impact performance. These languages recommend instead using vectorized code, which is a technique operating over the whole vector rather than its individual elements. Such a recommendation has no bearing on Julia, where <strong>for-loops are as fast as vectorized code</strong>. In fact, speeding up operations in Julia commonly rely on for-loops, making it crucial to achieve high-performance.  </div>  </div>
 <p>To illustrate the syntax of for-loops, consider the function <code>println&#40;a&#41;</code>. This evaluates <code>a</code> and displays its output in the REPL. In case <code>a</code> has type <code>String</code>, <code>println&#40;a&#41;</code> simply displays the word stored in <code>a</code>. The syntax of for-loops requires the keyword <code>for</code> at the beginning and the keyword <code>end</code> at the end, as shown below. </p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">for x in &#91;&quot;hello&quot;,&quot;beautiful&quot;,&quot;world&quot;&#93;
@@ -2087,7 +2087,7 @@ end</code></pre>
 <br/>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     The keyword <code>in</code> can be replaced by <code>∈</code> or <code>&#61;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that <code>∈</code> can be written through Tab Completion using the command <code>\in</code>  </span></span> Consequently, the following are all equivalent.</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     The keyword <code>in</code> can be replaced by <code>∈</code> or <code>&#61;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that <code>∈</code> can be written through Tab Completion using the command <code>\in</code>  </span></span> Consequently, the following are all equivalent.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2162,7 +2162,7 @@ end</code></pre>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     Ranges define a sequence of numbers, and so can be used for for various purposes beyond iterating through a for-loop. </p>
+      <b> Remark</b> </span>  </div>  <div class=content>     Ranges define a sequence of numbers, and so can be used for for various purposes beyond iterating through a for-loop. </p>
 <p>For instance, we can create vectors containing a sequence by applying the function <code>collect</code> to a range.</p>
 <p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; collect&#40;4:6&#41;</code></pre>
@@ -2204,7 +2204,7 @@ end</code></pre>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     There are multiple approaches to iterating over all indices of a vector <code>x</code>. For instance, the function <code>LinearIndices&#40;x&#41;</code> returns a vector with all the indices of <code>x</code>. Another possibility is <code>firstindex&#40;x&#41;:lastindex&#40;x&#41;</code>, which specifies a range from the first to the last index of <code>x</code></p>
+      <b> Remark</b> </span>  </div>  <div class=content>     There are multiple approaches to iterating over all indices of a vector <code>x</code>. For instance, the function <code>LinearIndices&#40;x&#41;</code> returns a vector with all the indices of <code>x</code>. Another possibility is <code>firstindex&#40;x&#41;:lastindex&#40;x&#41;</code>, which specifies a range from the first to the last index of <code>x</code></p>
 <p>The multiplicity of methods is to cover &quot;unconventional&quot; indices arising from the package <code>OffsetArrays.jl</code>. This package makes Julia&#39;s arrays have 0 as the first index, as is common in other languages. Its application makes that <code>firstindex&#40;x&#41;</code> equals 0 rather than 1 , while <code>lastindex&#40;x&#41;</code> becomes <code>length&#40;x&#41; - 1</code>.</p>
 <p>Unless you create a package for third parties, you don&#39;t have to worry about which approach to use, as they can all be used interchangeably. This is shown in the  examples below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2389,7 +2389,7 @@ y      &#61; &#91;foo&#40;a&#41; for a in x&#93;          # or y &#61; &#91;foo&
  3</div> </div></div> </div>   </details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     Array comprehensions can also be used to create matrices. In terms of syntax, this requires using a comma and specifying the second dimension. </p>
+      <b> Remark</b> </span>  </div>  <div class=content>     Array comprehensions can also be used to create matrices. In terms of syntax, this requires using a comma and specifying the second dimension. </p>
 <p> <div class=" code_box"> <details  open><summary> Comprehension for Matrices  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">y &#61; &#91;i * j for i in 1:2, j in 1:2&#93;</code></pre>
 <p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2×2 Matrix{Int64}:

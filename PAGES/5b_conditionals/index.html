@@ -2120,7 +2120,7 @@ end</code></pre>
 <p>If-then statements using <code>||</code> emerge naturally when our goal is to invalidate certain operations. This is typically implemented by combining <code>||</code> with the function <code>error</code>. The function <code>error</code> interrupts the script&#39;s execution, displaying the message given by its argument to explain why. For instance, suppose you&#39;re defining a function <code>foo&#40;x&#41;</code> that only accepts a non-negative value for <code>x</code> &#40;e.g., the logarithmic function&#41;. Moreover, suppose you include <code>x &gt; 0 || error&#40;&quot;x must be positive&quot;&#41;</code> as the first line of the function definition. Then, running <code>foo&#40;x&#41;</code> will stop its execution if <code>x</code> is not positive, with the message &quot;x must be positive&quot;  displayed in the REPL.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     To keep the notation simple, we&#39;ll occasionally omit the parentheses when we use <code>&amp;&amp;</code> or <code>||</code>. Nonetheless, recall that parentheses are strongly recommended.  </div>  </div>
+      <b> Remark</b> </span>  </div>  <div class=content>     To keep the notation simple, we&#39;ll occasionally omit the parentheses when we use <code>&amp;&amp;</code> or <code>||</code>. Nonetheless, recall that parentheses are strongly recommended.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2188,10 +2188,10 @@ x_absolute_value &#61; ifelse.&#40;x .≥ 0, x, -x&#41;</code></pre>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     Notice that <code>ifelse</code> <strong>requires broadcasting both</strong> <code>ifelse</code> <strong>and the condition</strong>. The first example, for case, would throw an error if we only broadcasdt <code>ifelse</code> through <code>ifelse.&#40;x&gt;0, true, false&#41;</code>. This happens because <code>x &gt; 0</code> checks whether the  <em>entire vector</em> is positive, which is an undefined operation in Julia.  </div>  </div>
+      <b> Remark</b> </span>  </div>  <div class=content>     Notice that <code>ifelse</code> <strong>requires broadcasting both</strong> <code>ifelse</code> <strong>and the condition</strong>. The first example, for case, would throw an error if we only broadcasdt <code>ifelse</code> through <code>ifelse.&#40;x&gt;0, true, false&#41;</code>. This happens because <code>x &gt; 0</code> checks whether the  <em>entire vector</em> is positive, which is an undefined operation in Julia.  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     We could define our own version of <code>ifelse</code>. This requires wrapping <code>if</code>-<code>else</code> or the ternary operator into a function, and then broadcasting it. These types of examples lay bare the power of broadcasting for operating with vectors. In the following, we show this by rewriting the previous examples through these functions.</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     We could define our own version of <code>ifelse</code>. This requires wrapping <code>if</code>-<code>else</code> or the ternary operator into a function, and then broadcasting it. These types of examples lay bare the power of broadcasting for operating with vectors. In the following, we show this by rewriting the previous examples through these functions.</p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">

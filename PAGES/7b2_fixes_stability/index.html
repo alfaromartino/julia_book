@@ -2012,7 +2012,7 @@ color: white;
 <p><strong>Operations with global variables are a common source of type instability</strong>: since they can be redefined at any point, Julia treats them as having type <code>Any</code>. This type ambiguity explains why performing operations in the global scope is slow—the compiler has to consider multiple possible methods for each operation, precluding specialization.</p>
 <p>This section explores two approaches to make operations with global variables type-stable: type-annotating global variables and declaring global variables as constants. The latter approach is particularly convenient for parameters, understood as variables that remain unmodified throughout the script like <code>π &#61; 3.1415926535897</code>.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Local Variables</strong>  </span>  </div>  <div class=content> <strong>We'll exclusively refer to local variables as those existing in a function's scope</strong>, excluding those defined inside a for-loop. Note that a function&#39;s local variables encompass both function arguments and variables defined inside the function.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Local Variables</strong>  </span>  </div>  <div class=content> <strong>We'll exclusively refer to local variables as those existing in a function's scope</strong>, excluding those defined inside a for-loop. Note that a function&#39;s local variables encompass both function arguments and variables defined inside the function.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2144,7 +2144,7 @@ foo&#40;&#41;          # type stable</code></pre>
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Type-annotating a function argument doesn't improve performance</strong>  </span>  </div>  <div class=content>     Type-annotating function arguments is commonly done when packages are written. The goal is to ensure that the function only accepts arguments with a specific type. By doing so, the developer shields the user from getting an output despite passing variables with wrong types. </p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Type-annotating a function argument doesn't improve performance</strong>  </span>  </div>  <div class=content>     Type-annotating function arguments is commonly done when packages are written. The goal is to ensure that the function only accepts arguments with a specific type. By doing so, the developer shields the user from getting an output despite passing variables with wrong types. </p>
 <p>For instance, <code>*</code> applied to strings in Julia would concatenate words. Thus, if we want to define a function whose aim is to multiple numbers, a way to prevent its misuse by users is by restricting the operation to numeric types.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">

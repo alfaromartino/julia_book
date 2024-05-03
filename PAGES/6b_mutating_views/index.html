@@ -2064,7 +2064,7 @@ color: white;
       <b>Warning!</b> </span>  </div>  <div class=content>     Although called &quot;in-place assignments&quot;, <strong>the concept is not related to assignments, but rather mutations</strong>. The name simply reflects the use of the assignment operator <code>&#61;</code>, which can be applied to either assignments or mutations.  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     Before proceeding, it&#39;s essential to review the definitions of slices and views introduced <a href="/julia_book/PAGES/6a_indexing/#slices">in the previous section</a>. In particular, given a vector <code>x</code>, recall that a <strong>slice</strong> refers to a subset of <code>x</code>&#39;s elements, and is created through the expression <code>x&#91;&lt;indices&gt;&#93;</code>. Likewise, a <strong>view of a slice</strong> is a reference to the memory address of <code>x</code>. This differs from a <strong>copy of a slice</strong>, which creates a new object with its own memory address.  </div>  </div>
+      <b> Remark</b> </span>  </div>  <div class=content>     Before proceeding, it&#39;s essential to review the definitions of slices and views introduced <a href="/julia_book/PAGES/6a_indexing/#slices">in the previous section</a>. In particular, given a vector <code>x</code>, recall that a <strong>slice</strong> refers to a subset of <code>x</code>&#39;s elements, and is created through the expression <code>x&#91;&lt;indices&gt;&#93;</code>. Likewise, a <strong>view of a slice</strong> is a reference to the memory address of <code>x</code>. This differs from a <strong>copy of a slice</strong>, which creates a new object with its own memory address.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2148,7 +2148,7 @@ x&#91;3:end&#93;  &#61; &#91;30, 40&#93;</code></pre> </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     You should distinguish between mutating all the elements of a vector <code>x</code> and reassigning a new vector to <code>x</code>. Although both operations produce the same final output, they&#39;re handled differently internally. In particular, the former reuses the memory address associated with <code>x</code>, whereas the latter creates a new memory address for <code>x</code>.</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     You should distinguish between mutating all the elements of a vector <code>x</code> and reassigning a new vector to <code>x</code>. Although both operations produce the same final output, they&#39;re handled differently internally. In particular, the former reuses the memory address associated with <code>x</code>, whereas the latter creates a new memory address for <code>x</code>.</p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2215,7 +2215,7 @@ x&#91;x .&lt; 0&#93; .&#61; 0</code></pre> </div></div>
 <p>Another advantage of this approach is its capability for mutating slices defined through the <code>view</code> function. This provides a more concise notation and allows for splitting mutations into multiple manageable steps. </p>
 <p>Another application of <code>.&#61;</code> arises when we need to perform multiple transformations on a slice. In these cases, referencing the same slice multiple times can quickly become tedious. Alternatively, we can create a slice&#39;s view and then operate on it. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;"><strong>Be careful about wrong applications</strong>  </span>  </div>  <div class=content>  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Be careful about wrong applications</strong>  </span>  </div>  <div class=content>  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id="">Proper Use of a View</button>
@@ -2312,7 +2312,7 @@ end</code></pre> </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Remark</b> </span>  </div>  <div class=content>     Vectors initialized with a specific type can only be mutated by objects that share the same type. For instance, we would&#39;ve obtained an error above if the values replaced had a type different from <code>Int64</code>. </p>
+      <b> Remark</b> </span>  </div>  <div class=content>     Vectors initialized with a specific type can only be mutated by objects that share the same type. For instance, we would&#39;ve obtained an error above if the values replaced had a type different from <code>Int64</code>. </p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
