@@ -2142,8 +2142,8 @@ payrates &#61; rand&#40;2:6, nr_videos&#41;                         # per thousa
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Range Pay Per Visits </button>
-    <button class="tablink" data-id=""> Counts of Pay Per Visits </button>
+    <button class="tablink first_tab active" data-id=""> Range Payments Per Visits </button>
+    <button class="tablink" data-id=""> Counts of Payments Per Visits </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">range_payrates  &#61; unique&#40;payrates&#41; |&gt; sort</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>range_payrates</code> <br/> <pre><code class="plaintext code-output">5-element Vector{Int64}:
@@ -2168,7 +2168,7 @@ occurrences_payrates &#61; countmap&#40;payrates&#41; |&gt; sort</code></pre> </
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Top 3 Videos by Earnings </button>
-    <button class="tablink" data-id=""> Pay per Visits (Top 3 by Earnings) </button>
+    <button class="tablink" data-id=""> Payments per Visits (Top 3 by Earnings) </button>
     <button class="tablink" data-id=""> Visits per Videos (Top 3 by Earnings) </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">top_earnings    &#61; sort&#40;earnings, rev&#61;true&#41;&#91;1:3&#93;</code></pre> </div></div> 
@@ -2312,7 +2312,7 @@ viral            &#61; stats_subset&#40;visits, payrates, is_viral&#41;</code></
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>viral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 6, audience = 1243.63, revenue = 6133.19)</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">viral_threshold  &#61; 100
-is_notviral      &#61; .&#33;&#40;is_viral&#41;      # &#39;&#33;&#39; is negating a boolean value, which we then broadcast
+is_notviral      &#61; .&#33;&#40;is_viral&#41;      # &#39;&#33;&#39; is negating a boolean value and we broadcast it
 notviral         &#61; stats_subset&#40;visits, payrates, is_notviral&#41;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>notviral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 24, audience = 1169.13, revenue = 4971.02)</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
@@ -2387,7 +2387,7 @@ temp  &#61; temp .* 1.2     # it creates a new variable &#39;temp&#39;, it does 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Use of "Let Blocks" To Avoid Bugs</strong>  </span>  </div>  <div class=content>     The code for &quot;Target Virals&quot; and &quot;Target Non-Virals&quot; referred to each variable by an identical name. This increases the risk of accidentally referring to a variable from a different scenario. The likelihood of incurring thisissue can be alleviated by employing &quot;let blocks&quot;. By defining their own scope, they help maintain a clean namespace.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Use of "Let Blocks" To Avoid Bugs</strong>  </span>  </div>  <div class=content>     The code for &quot;Target Virals&quot; and &quot;Target Non-Virals&quot; referred to each variable by an identical name. This increases the risk of accidentally referring to a variable from a different scenario. The likelihood of incurring this issue can be alleviated by employing &quot;let blocks&quot;. By defining their own scope, they help maintain a clean namespace.</p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">

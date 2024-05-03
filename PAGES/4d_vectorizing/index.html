@@ -2064,16 +2064,16 @@ color: white;
       <b> Remark</b> </span>  </div>  <div class=content>     The terms <strong>broadcasting</strong> and <strong>vectorization</strong> will be used interchangeably on this website. Strictly speaking, vectorization is restricted to applications with arrays of the same size, while broadcasting is an extension allowing for scalars.  </div>  </div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Later on the website, we&#39;ll explore <strong>for-loops</strong> as an alternative approach to transforming arrays. Several languages strongly recommend vectorizing operations to improve speed, highly discouraging for-loops. <br/><br/><strong>Such advice does not apply to Julia</strong>. In fact, when it comes to optimizing code in Julia, for-loops are often the key to achieving faster performance. In this context, the main advantage of vectorization in Julia is to streamline code without sacrificing much speed.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     Later on the website, we&#39;ll explore <strong>for-loops</strong> as an alternative approach to transforming arrays. Several languages strongly recommend vectorizing operations to improve speed, highly discouraging for-loops. <br/><strong>Such advice does not apply to Julia</strong>. In fact, when it comes to optimizing code in Julia, for-loops are often the key to achieving faster performance. In this context, the main advantage of vectorization in Julia is to streamline code without sacrificing much speed.  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="map_function" class="scrollspy">
+<section id="the_map_function" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Map Function</h2></p>
+        <h2>The "Map" Function</h2></p>
 <p>To motivate broadcasting, let&#39;s begin by consider the most basic approach to computing operations element-wise. This is given by the function <code>map</code>. </p>
 <p>Given a single-argument function <code>foo</code> and a vector <code>x</code>, its syntax is <code>map&#40;foo, x&#41;</code> and provides as result <code>&#91;foo&#40;x&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;&#41;...&#93;</code>. The function <code>map</code> is commonly employed with a function <code>foo</code> that is anonymous, as shown below. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2243,11 +2243,11 @@ y &#61; &#91; 2,  4,  10&#93;</code></pre>
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     Broadcasting can be applied to functions with arguments of any type, not just numbers. For instance, consider the function <code>string</code>, which concatenates string arguments to form a sentence &#40;e.g., <code>string&#40;&quot;Hello &quot;,&quot;World&quot;&#41;</code> returns <code>&quot;Hello World&quot;</code>&#41;. </p>
 <p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">country       &#61;  &#91;&quot;Argentina&quot;, &quot;Canada&quot;&#93;
+<pre><code class="language-julia">country       &#61;  &#91;&quot;France&quot;, &quot;Canada&quot;&#93;
 is_in         &#61;  &#91;&quot; is in &quot;  , &quot; is in &quot;&#93;
-region        &#61;  &#91;&quot;South America&quot;, &quot;North America&quot;&#93;</code></pre>
+region        &#61;  &#91;&quot;Europe&quot;, &quot;North America&quot;&#93;</code></pre>
 <p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>string.&#40;country, is_in, region&#41;</code><br/><div class="akin_to_pre">2-element Vector{String}:
- "Argentina is in South America"
+ "France is in Europe"
  "Canada is in North America"</div> </div></div> </div>   </details></div>  </div>  </div></p>
 <p>      </div>
     </div>
@@ -2325,11 +2325,11 @@ y &#61; &#91;5, 5, 5&#93;</code></pre>
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     The following code snippet demonstrates how we can use this property to rewrite the <a href="#examp1">example</a> presented above.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">country       &#61;  &#91;&quot;Argentina&quot;, &quot;Canada&quot;&#93;
+<pre><code class="language-julia">country       &#61;  &#91;&quot;France&quot;, &quot;Canada&quot;&#93;
 is_in         &#61;  &quot; is in &quot;
-region        &#61;  &#91;&quot;South America&quot;, &quot;North America&quot;&#93;</code></pre>
+region        &#61;  &#91;&quot;Europe&quot;, &quot;North America&quot;&#93;</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>string.&#40;country, is_in, region&#41;</code><br/><div class="akin_to_pre">2-element Vector{String}:
- "Argentina is in South America"
+ "France is in Europe"
  "Canada is in North America"</div> </div></div> </div>   </details></div>
 <p>The operation executed repeatedly reused the single element <code>is_in</code> in each iteration.  </div>  </div>
 <p>      </div>
@@ -3148,7 +3148,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#map_function" data-offset="-40">Map Function</a>
+          <a href="#the_map_function" data-offset="-40">The "Map" Function</a>
         </li>
         
         <li>

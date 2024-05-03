@@ -164,7 +164,7 @@ viral            = stats_subset(visits, payrates, is_viral)
 print_compact(viral) #hide
  
 viral_threshold  = 100
-is_notviral      = .!(is_viral)      # '!' is negating a boolean value, which we then broadcast
+is_notviral      = .!(is_viral)      # '!' is negating a boolean value and we broadcast it
 notviral         = stats_subset(visits, payrates, is_notviral)
  
 print_compact(notviral) #hide
@@ -257,15 +257,26 @@ temp  = temp .* 1.2     # it creates a new variable 'temp', it does not modify '
 describe(visits)
 print(describe(visits)) #hide
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 list_functions = [sum, median, mean, maximum, minimum]
 
 stats_visits   = [fun(visits) for fun in list_functions]
 print_compact(stats_visits) #hide
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 list_functions = [sum, median, mean, maximum, minimum]
 
 stats_various  = [fun.([visits, payrates]) for fun in list_functions]
 print_compact(stats_various) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 stats_visits   = NamedTuple((Symbol(fun), fun(visits)) for fun in list_functions)
 print_compact(stats_visits) #hide
@@ -273,6 +284,10 @@ print_compact(stats_visits) #hide
 print_compact(stats_visits.mean) #hide
  
 print_compact(stats_visits[:median]) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 vector_of_tuples = [(Symbol(fun), fun(visits)) for fun in list_functions]
 stats_visits     = NamedTuple(vector_of_tuples)
