@@ -1,10 +1,10 @@
-#
-function stats_subset(views_per_video, pay_per_views, condition)
+using Pipe
+function stats_subset(visits, payrates, condition)
     nrvideos = sum(condition)
-    views    = sum(views_per_video[condition])
+    audience = sum(visits[condition])
     
-    pay      = (views_per_video .* pay_per_views) |> (x -> sum(x[condition]))
     
-
-    return (; nrvideos, views, pay)
+    revenue  = @pipe (visits .* payrates) |> x -> sum(x[condition])
+    
+    return (; nrvideos, audience, revenue)
 end

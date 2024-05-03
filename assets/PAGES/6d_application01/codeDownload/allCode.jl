@@ -13,7 +13,7 @@ ref(x) = (Ref(x))[]
 ############################################################################
  
 # necessary packages for this file
-# using Statistics, Distributions, Random, Pipe
+using StatsBase, Distributions, Random, Pipe
  
 ############################################################################
 #
@@ -21,48 +21,74 @@ ref(x) = (Ref(x))[]
 #
 ############################################################################
  
-using Statistics, Distributions
+using StatsBase, Distributions
 using Random; Random.seed!(1234)
 
 function audience(nr_videos; median_target)
     shape = log(4,5)
     scale = median_target / 2^(1/shape)
 
-    views_per_video = rand(Pareto(shape,scale),  nr_videos)
+    visits = rand(Pareto(shape,scale),  nr_videos)
 
-    return views_per_video
+    return visits
 end
 
 nr_videos = 30
 
-views_per_video = audience(nr_videos, median_target = 50)      # in thousands of views
-pay_per_views   = rand(2:6, nr_videos)                         # per thousands of views
+visits   = audience(nr_videos, median_target = 50)      # in thousands of visits
+payrates = rand(2:6, nr_videos)                         # per thousands of visits
  
-pay_per_video = views_per_video .* pay_per_views
+earnings = visits .* payrates
+ 
+############################################################################
+#
+# SOME STATISTICS
+#    
+############################################################################
+ 
+top_earnings    = sort(earnings, rev=true)[1:3]
+top_earnings |> print_compact
+ 
+indices         = sortperm(earnings, rev=true)[1:3]
+
+sorted_payrates = payrates[indices]
+ 
+indices         = sortperm(earnings, rev=true)[1:3]
+
+sorted_visits   = visits[indices]
  
 
+
+range_payrates  = unique(payrates) |> sort
+range_payrates |> print_compact
+ 
+
+using StatsBase
+occurrences_payrates = countmap(payrates) |> sort
+occurrences_payrates |> print_compact
+ 
 ############################################################################
 #
 # BOOLEAN INDICES
-# (to characterize viral videos defined by >100k views)
+# (to characterize viral videos defined by >100k visits)
 #    
 ############################################################################
  
 # characterization of viral videos
 viral_threshold = 100
-is_viral        = (views_per_video .≥ viral_threshold)
+is_viral        = (visits .≥ viral_threshold)
 
 # stats
-viral_nrvideos = sum(is_viral)
-viral_views    = sum(views_per_video[is_viral])
-viral_pay      = sum(pay_per_video[is_viral])
+viral_nrvideos  = sum(is_viral)
+viral_visits    = sum(visits[is_viral])
+viral_revenue   = sum(earnings[is_viral])
  
 # characterization
-viral_threshold = 100
-pay_above_avg   = 3
+viral_threshold    = 100
+payrates_above_avg = 3
 
-is_viral           = (views_per_video .≥ viral_threshold)
-is_viral_lucrative = (views_per_video .≥ viral_threshold) .&& (pay_per_views .> pay_above_avg)
+is_viral           = (visits .≥ viral_threshold)
+is_viral_lucrative = (visits .≥ viral_threshold) .&& (payrates .> payrates_above_avg)
 
 # stat
 proportion_viral_lucrative = sum(is_viral_lucrative) / sum(is_viral) * 100
@@ -81,38 +107,49 @@ rounded_proportion = round(Int, proportion_viral_lucrative)
 ############################################################################
  
 #
-function stats_subset(views_per_video, pay_per_views, condition)
+function stats_subset(visits, payrates, condition)
     nrvideos = sum(condition)
-    views    = sum(views_per_video[condition])
-
-    pay_per_video = views_per_video .* pay_per_views
-    pay           = sum(pay_per_video[condition])
+    audience = sum(visits[condition])
     
-    return (; nrvideos, views, pay)
+    earnings = visits .* payrates
+    revenue  = sum(earnings[condition])
+    
+    return (; nrvideos, audience, revenue)
 end
  
 using Pipe
-function stats_subset(views_per_video, pay_per_views, condition)
+function stats_subset(visits, payrates, condition)
     nrvideos = sum(condition)
-    views    = sum(views_per_video[condition])
+    audience = sum(visits[condition])
     
-    pay      = @pipe (views_per_video .* pay_per_views) |> sum(_[condition])
     
-
-    return (; nrvideos, views, pay)
+    revenue  = @pipe (visits .* payrates) |> x -> sum(x[condition])
+    
+    return (; nrvideos, audience, revenue)
+end
+ 
+using Pipe
+function stats_subset(visits, payrates, condition)
+    nrvideos = sum(condition)
+    audience = sum(visits[condition])
+    
+    
+    revenue  = @pipe (visits .* payrates) |> sum(_[condition])
+    
+    return (; nrvideos, audience, revenue)
 end
  
 viral_threshold  = 100
-is_viral         = (views_per_video .≥ viral_threshold)
-viral            = stats_subset(views_per_video, pay_per_views, is_viral)
+is_viral         = (visits .≥ viral_threshold)
+viral            = stats_subset(visits, payrates, is_viral)
  
 viral_threshold  = 100
 is_notviral      = .!(is_viral)      # '!' is negating a boolean value, which we then broadcast
-notviral         = stats_subset(views_per_video, pay_per_views, is_notviral)
+notviral         = stats_subset(visits, payrates, is_notviral)
  
 days_to_consider = (1, 10, 25)      # days when the videos were posted
-is_day           = in.(eachindex(views_per_video), Ref(days_to_consider))
-specific_days    = stats_subset(views_per_video, pay_per_views, is_day)
+is_day           = in.(eachindex(visits), Ref(days_to_consider))
+specific_days    = stats_subset(visits, payrates, is_day)
  
 
 ############################################################################
@@ -121,38 +158,38 @@ specific_days    = stats_subset(views_per_video, pay_per_views, is_day)
 #    
 ############################################################################
  
-# 'temp' modifies 'new_views'
-new_views       = copy(views_per_video)
-temp            = @view new_views[new_views .< viral_threshold]
+# 'temp' modifies 'new_visits'
+new_visits      = copy(visits)
+temp            = @view new_visits[new_visits .< viral_threshold]
 temp           .= 1.2 .* temp
 
-allvideos       = trues(length(new_views))
-targetNonViral  = stats_subset(new_views, pay_per_views, allvideos)
+allvideos       = trues(length(new_visits))
+targetNonViral  = stats_subset(new_visits, payrates, allvideos)
  
-# 'temp' modifies 'new_views'
-new_views       = copy(views_per_video)
-temp            = @view new_views[new_views .≥ viral_threshold]
+# 'temp' modifies 'new_visits'
+new_visits      = copy(visits)
+temp            = @view new_visits[new_visits .≥ viral_threshold]
 temp           .= 1.2 .* temp
 
-allvideos       = trues(length(new_views))
-targetViral     = stats_subset(new_views, pay_per_views, allvideos)
+allvideos       = trues(length(new_visits))
+targetViral     = stats_subset(new_visits, payrates, allvideos)
  
-targetNonViral = let views = views_per_video, pay = pay_per_video, threshold = viral_threshold
-    new_views = copy(views)
-    temp      = @view new_views[new_views .< threshold]
-    temp     .= 1.2 .* temp
+targetNonViral = let visits = visits, payrates = payrates, threshold = viral_threshold
+    new_visits = copy(visits)
+    temp       = @view new_visits[new_visits .< threshold]
+    temp      .= 1.2 .* temp
 
-    allvideos      = trues(length(new_views))
-    stats_subset(new_views, pay, allvideos)
+    allvideos  = trues(length(new_visits))
+    stats_subset(new_visits, payrates, allvideos)
 end
  
-targetViral    = let views = views_per_video, pay = pay_per_video, threshold = viral_threshold
-    new_views = copy(views)
-    temp      = @view new_views[new_views .≥ threshold]
-    temp     .= 1.2 .* temp
+targetViral    = let visits = visits, payrates = payrates, threshold = viral_threshold
+    new_visits = copy(visits)
+    temp       = @view new_visits[new_visits .≥ threshold]
+    temp      .= 1.2 .* temp
 
-    allvideos      = trues(length(new_views))
-    stats_subset(new_views, pay, allvideos)
+    allvideos  = trues(length(new_visits))
+    stats_subset(new_visits, payrates, allvideos)
 end
  
 ############
@@ -160,23 +197,23 @@ end
 # only the first one is right
 ############
  
-new_views = copy(views_per_video)
+new_visits = copy(visits)
 
 
-temp  = @view new_views[new_views .≥ viral_threshold]
+temp  = @view new_visits[new_visits .≥ viral_threshold]
 temp .= temp .* 1.2
  
-new_views = views_per_video      # it creates an alias, it's a view of the original object!!!
+new_visits = visits     # it creates an alias, it's a view of the original object!!!
 
-# 'temp' modifies 'views_per_video' -> you lose the original info
-temp  = @view new_views[new_views .≥ viral_threshold]
+# 'temp' modifies 'visits' -> you lose the original info
+temp  = @view new_visits[new_visits .≥ viral_threshold]
 temp .= temp .* 1.2
  
-new_views = copy(views_per_video)
+new_visits = copy(visits)
 
 # wrong -> not using `temp .= temp .* 1.2`
-temp  = @view new_views[new_views .≥ viral_threshold]
-temp  = temp .* 1.2             # it creates a new variable 'temp', it does not modify 'new_views'
+temp  = @view new_visits[new_visits .≥ viral_threshold]
+temp  = temp .* 1.2     # it creates a new variable 'temp', it does not modify 'new_visits'
  
 
 ############################################################################
@@ -185,19 +222,23 @@ temp  = temp .* 1.2             # it creates a new variable 'temp', it does not 
 #    
 ############################################################################
  
-describe(views_per_video)
-print(describe(views_per_video))
+describe(visits)
+print(describe(visits))
  
-list_functions   = [sum, median, mean, maximum, minimum]
 
-stats_views      = [fun(views_per_video) for fun in list_functions]
- 
-list_functions   = [sum, median, mean, maximum, minimum]
+list_functions = [sum, median, mean, maximum, minimum]
 
-stats_views      = [fun.([views_per_video, pay_per_views]) for fun in list_functions]
+stats_visits   = [fun(visits) for fun in list_functions]
  
-stats_views      = NamedTuple((Symbol(fun), fun(views_per_video)) for fun in list_functions)
+
+list_functions = [sum, median, mean, maximum, minimum]
+
+stats_various  = [fun.([visits, payrates]) for fun in list_functions]
  
-vector_of_tuples = [(Symbol(fun), fun(views_per_video)) for fun in list_functions]
-stats_views      = NamedTuple(vector_of_tuples)
+
+stats_visits   = NamedTuple((Symbol(fun), fun(visits)) for fun in list_functions)
+ 
+
+vector_of_tuples = [(Symbol(fun), fun(visits)) for fun in list_functions]
+stats_visits     = NamedTuple(vector_of_tuples)
  

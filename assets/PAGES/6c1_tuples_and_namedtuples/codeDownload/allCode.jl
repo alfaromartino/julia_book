@@ -34,13 +34,13 @@ x = (4, 5, 6)
 #
 ############################################################################
  
-some_symbol = :x)
+some_symbol = :x
  
 
-some_symbol = Symbol("x"))
+some_symbol = Symbol("x")
  
 
-some_symbol = Symbol(1))
+some_symbol = Symbol(1)
  
 
 vector_symbols = [:x, :y]

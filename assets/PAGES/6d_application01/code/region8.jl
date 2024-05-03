@@ -1,8 +1,8 @@
 # characterization of viral videos
 viral_threshold = 100
-is_viral        = (views_per_video .≥ viral_threshold)
+is_viral        = (visits .≥ viral_threshold)
 
 # stats
-viral_nrvideos = sum(is_viral)
-viral_views    = sum(views_per_video[is_viral])
-viral_pay      = sum(pay_per_video[is_viral])
+viral_nrvideos  = sum(is_viral)
+viral_visits    = sum(visits[is_viral])
+viral_revenue   = sum(earnings[is_viral])

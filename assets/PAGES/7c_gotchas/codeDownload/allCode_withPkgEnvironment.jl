@@ -35,7 +35,7 @@ function foo(x)
     return [y * i for i in 1:100]
 end
 
-#@code_warntype foo(1)      # type stable
+@code_warntype foo(1)      # type stable
 @code_warntype foo(1.)     # type unstable
  
 
@@ -46,7 +46,7 @@ function foo(x)
     return [y * i for i in 1:100]
 end
 
-#@code_warntype foo(1)      # type stable
+@code_warntype foo(1)      # type stable
 @code_warntype foo(1.)     # type stable
  
 
@@ -74,15 +74,15 @@ end
 vec1 = ["a", "b", "c"] ; vec2 = [1, 2, 3]
 data = [vec1, vec2] 
 
+foo(data) = operation!(data[2])
+
 function operation!(x)
     for i in eachindex(x)
         x[i] = 2 * i
     end
 end
 
-foo(data) = operation!(data[2])
-
-@code_warntype foo(data)            # type stable
+@code_warntype foo(data)            # barrier-function solution
 #@btime foo(ref($data))
  
 
@@ -103,7 +103,7 @@ end
 
 foo(data) = operation!(data[2])
 
-@code_warntype foo(data)            # type stable
+@code_warntype foo(data)            # barrier-function solution
  
 #@btime foo(ref($data))
  
@@ -174,7 +174,8 @@ end
 
 
 
-x = [1,2,3]
+x       = [1,2,3]
+
 
 function foo(x)                         # 'Vector{Int64}' has no info on the number of elements
     tuple_x = Tuple(x)          
@@ -188,7 +189,8 @@ end
 
 
 
-x = [1,2,3]
+x       = [1,2,3]
+
 
 function foo(x, N)                      # The value of 'N' isn't considered, only its type
     tuple_x = NTuple{N, eltype(x)}(x)   
@@ -205,6 +207,8 @@ x       = [1,2,3]
 tuple_x = Tuple(x)
 
 function foo(x)
+
+
     2 .+ x
 end
 
@@ -246,14 +250,6 @@ end
 #
 ############################################################################
  
-foo(x) = x
-
-x = 1
-@code_warntype foo(x)           #type stable
- 
-
-
-
 foo(; x) = x
 
 β = 1
@@ -270,7 +266,12 @@ foo(; x = β) = x
 
 
 
-foo(; x = α) = x                # or 'x = 1' instead of 'x = α'
+foo(; x = 1) = x
+
+
+@code_warntype foo()            #type stable
+ 
+foo(; x = α) = x
 
 const α = 1
 @code_warntype foo()            #type stable
@@ -278,6 +279,11 @@ const α = 1
 
 
 
+foo(; x = ϵ) = x                # or 'x = 1' instead of 'x = ϵ'
+
+ϵ::Int64 = 1
+@code_warntype foo()            #type stable
+ 
 foo(; x = γ()) = x
 
 γ() = 1
@@ -308,6 +314,11 @@ foo(x; y = 2*x) = x * y
 @code_warntype foo(x)            #type stable
  
 
+foo(β; x = β) = x
+
+β = 1
+@code_warntype foo(β)            #type stable
+ 
 ############################################################################
 #
 #           GOTCHA 6: CLOSURES CAN EASILY INTRODUCE TYPE INSTABILITIES

@@ -1,1 +1,1 @@
-print_compact(viral_pay) #hide
+print_compact(viral_payrates) #hide

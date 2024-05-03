@@ -1,1 +1,1 @@
-print_compact(views_per_video) #hide
+print_compact(visits) #hide

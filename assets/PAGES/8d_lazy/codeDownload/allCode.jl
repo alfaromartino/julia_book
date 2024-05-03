@@ -13,7 +13,7 @@ ref(x) = (Ref(x))[]
 ############################################################################
  
 # necessary packages for this file
-using LazyArrays
+using LazyArrays, Random
  
 ####################################################
 #	GENERATORS VS ARRAY COMPREHENSIONS

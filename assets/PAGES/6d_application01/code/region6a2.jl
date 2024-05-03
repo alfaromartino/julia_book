@@ -1,1 +1,1 @@
-print_compact(stats_views.mean) #hide
+print_compact(stats_visits.mean) #hide

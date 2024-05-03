@@ -1,1 +1,1 @@
-print_compact(viral_views) #hide
+print_compact(viral_visits) #hide

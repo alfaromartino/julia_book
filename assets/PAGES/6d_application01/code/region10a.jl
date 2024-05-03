@@ -1,8 +1,8 @@
-# 'temp' modifies 'new_views'
-new_views       = copy(views_per_video)
-temp            = @view new_views[new_views .< viral_threshold]
+# 'temp' modifies 'new_visits'
+new_visits      = copy(visits)
+temp            = @view new_visits[new_visits .< viral_threshold]
 temp           .= 1.2 .* temp
 
-allvideos       = trues(length(new_views))
-targetNonViral  = stats_subset(new_views, pay_per_views, allvideos)
+allvideos       = trues(length(new_visits))
+targetNonViral  = stats_subset(new_visits, payrates, allvideos)
 print_compact(targetNonViral) #hide

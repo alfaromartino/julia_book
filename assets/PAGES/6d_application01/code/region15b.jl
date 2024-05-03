@@ -1,2 +1,2 @@
-range_pay_per_views  = unique(pay_per_views) |> sort
-range_pay_per_views |> print_compact #hide
+range_payrates  = unique(payrates) |> sort
+range_payrates |> print_compact #hide

@@ -33,7 +33,7 @@ a = -2
 
 output = let b = a         # 'b' is a local variable having the value of 'a' 
    temp1 = abs(b)
-   temp2 = exp(temp1)
+   temp2 = log(temp1)
    round(temp2)
 end
  
@@ -41,13 +41,13 @@ a = -2
 
 output = let a = a         # the 'a' on the left still refers to a local variable
    temp1 = abs(a)
-   temp2 = exp(temp1)
+   temp2 = log(temp1)
    round(temp2)
 end
  
 a = -2
 
-output = a |> abs |> exp |> round
+output = a |> abs |> log |> round
  
 # just like functions, be careful as you can mutate the global variable   # hide 
 # just like functions too, you can't reassign a value through a let block # hide 
@@ -89,35 +89,47 @@ output = x .|> abs .|> log |> sum
 #	                     EXAMPLE 3
 ####################################################
  
-x = [-1,2,3]
+a = -2
 
-output = round.(abs.(x) ./ sum(abs.(x)))
+output = round(2 * abs(a))
  
-# hide
- 
-x = [-1,2,3]
+a = -2
 
-temp1  = abs.(x)
-temp2  = temp1 ./ sum(temp1)
-output = round.(temp2)
+temp1  = abs(a)
+temp2  = 2 * temp1
+output = round(temp2)
  
-x = [-1,2,3]
+a = -2
 
-output = abs.(x) |> (y -> y ./ sum(y)) |> (y -> round.(y))
+output = a |> abs |> (x -> 2 * x) |> round
 
 #equivalent, but more readable
-output = abs.(x)                  |>
-         y -> y ./ sum(y)         |>
-         y -> round.(y)
+output = a              |>
+         abs            |>
+         x -> 2 * x     |>
+         round
  
-x = [-1,2,3] ; using Pipe
+#
+a = -2
 
-output = @pipe abs.(x) |> (_ ./ sum(_)) |> (round.(_))
+output = a |> abs |> (x -> 2 * x) |> round
 
 #equivalent, but more readable
-output = @pipe abs.(x)            |>
-               _ ./ sum(_)        |>
-               round.(_)
+output =       a            |>
+               abs          |>
+               x -> 2 * x   |>
+               round
+ 
+using Pipe
+a = -2
+
+output = @pipe a |> abs |> 2 * _ |> round
+
+#equivalent, but more readable
+output = @pipe a            |>
+               abs          |>
+               2 * _        |>
+               round
  
 ####################################################
 #	                     EXAMPLE 4

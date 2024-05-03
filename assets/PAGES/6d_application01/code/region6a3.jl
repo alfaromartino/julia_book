@@ -1,1 +1,1 @@
-print_compact(stats_views[:median]) #hide
+print_compact(stats_visits[:median]) #hide

@@ -1,2 +1,2 @@
-stats_views      = NamedTuple((Symbol(fun), fun(views_per_video)) for fun in list_functions)
-print_compact(stats_views) #hide
+stats_visits   = NamedTuple((Symbol(fun), fun(visits)) for fun in list_functions)
+print_compact(stats_visits) #hide

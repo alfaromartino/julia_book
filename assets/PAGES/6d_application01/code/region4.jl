@@ -1,1 +1,1 @@
-print_compact(pay_per_views) #hide
+print_compact(payrates) #hide

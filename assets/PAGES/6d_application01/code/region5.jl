@@ -1,4 +1,4 @@
-list_functions   = [sum, median, mean, maximum, minimum]
+list_functions = [sum, median, mean, maximum, minimum]
 
-stats_views      = [fun(views_per_video) for fun in list_functions]
-print_compact(stats_views) #hide
+stats_visits   = [fun(visits) for fun in list_functions]
+print_compact(stats_visits) #hide

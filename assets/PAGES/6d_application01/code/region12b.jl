@@ -1,5 +1,5 @@
-new_views = copy(views_per_video)
+new_visits = copy(visits)
 
 # wrong -> not using `temp .= temp .* 1.2`
-temp  = @view new_views[new_views .≥ viral_threshold]
-temp  = temp .* 1.2             # it creates a new variable 'temp', it does not modify 'new_views'
+temp  = @view new_visits[new_visits .≥ viral_threshold]
+temp  = temp .* 1.2     # it creates a new variable 'temp', it does not modify 'new_visits'
