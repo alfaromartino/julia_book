@@ -1,10 +1,9 @@
-
 /*!
   Highlight.js v11.0.0 (git: fd3df920dc)
   (c) 2006-2021 Ivan Sagalaev and other contributors
   License: BSD-3-Clause
  */
-  var hljs = (function () {
+var hljs = (function () {
     'use strict';
 
     var deepFreezeEs6 = {exports: {}};
@@ -2546,9 +2545,7 @@
         'finally',
         'for',        
         'if',
-        'in',        
-        '∈',
-        '∉',
+        // 'in',        
         'import',        
         'isa',
         'let',        
@@ -2604,14 +2601,16 @@
         'RoundToZero',
         'RoundUp',
         'VERSION|0',
-        'devnull',        
+        'devnull',
+        'false',
         'im',        
         'pi',
         'stderr',
         'stdin',
         'stdout',        
         'missing',
-        'nothing',        
+        'nothing',
+        'true',
         'undef',
         'π',
         'ℯ',
@@ -2620,7 +2619,7 @@
         'local',
         'module',
         'true',
-        'false',       
+        'false',
       ];
 
       // # built_in generator (Julia 1.5.2)
@@ -2824,7 +2823,7 @@
         'Vector',
         'VersionNumber',
         'WeakKeyDict',
-        'WeakRef',        
+        'WeakRef',
       ];
 
       var KEYWORDS = {
@@ -2855,25 +2854,21 @@
 
       // Assignment and control-flow operators && and ||
       var KEYWORDLIKE_OPERATORS = {
-        className: 'operators',
-        variants: [
-          {begin: '&&|\\|\\|'},
-          {begin: /[:~?$%.=]/} // -+*/\\^=<>
-        ]
+        className: 'keyword',
+        begin: '&&|\\|\\|',
       };
 
       var BUILTIN_OPERATORS = {
         className: 'built_in',
         variants: [
           // Multi-character operators
-          {begin: '&&|\\|\\||::|<:|>:|[=!]?==|[<>!]=|//|=>|\\/\\/|<<|>>>|>>|->'},
+          {begin: '::|<:|>:|[=!]?==|[<>!]=|//|=>|\\/\\/|<<|>>>|>>|->'},
           // Unicode operators (https://github.com/JuliaLang/julia/blob/master/src/julia-parser.scm)
-          // USER: we can add this one if we want to hav operators with <>≤≥≠∈∉∋∌
-          {begin: /[¬←→↔↚↛↠↣↦↮⇎⇏⇒⇔⇴⇶⇷⇸⇹⇺⇻⇼⇽⇾⇿⟵⟶⟷⟷⟹⟺⟻⟼⟽⟾⟿⤀⤁⤂⤃⤄⤅⤆⤇⤌⤍⤎⤏⤐⤑⤔⤕⤖⤗⤘⤝⤞⤟⤠⥄⥅⥆⥇⥈⥊⥋⥎⥐⥒⥓⥖⥗⥚⥛⥞⥟⥢⥤⥦⥧⥨⥩⥪⥫⥬⥭⥰⧴⬱⬰⬲⬳⬴⬵⬶⬷⬸⬹⬺⬻⬼⬽⬾⬿⭀⭁⭂⭃⭄⭇⭈⭉⭊⭋⭌￩￫≡≢⊆⊈⊂⊄⊊∝∊∍∥∦∷∺∻∽∾≁≃≄≅≆≇≈≉≊≋≌≍≎≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≣≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊃⊅⊇⊉⊋⊏⊐⊑⊒⊜⊩⊬⊮⊰⊱⊲⊳⊴⊵⊶⊷⋍⋐⋑⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿⟈⟉⟒⦷⧀⧁⧡⧣⧤⧥⩦⩧⩪⩫⩬⩭⩮⩯⩰⩱⩲⩳⩴⩵⩶⩷⩸⩹⩺⩻⩼⩽⩾⩿⪀⪁⪂⪃⪄⪅⪆⪇⪈⪉⪊⪋⪌⪍⪎⪏⪐⪑⪒⪓⪔⪕⪖⪗⪘⪙⪚⪛⪜⪝⪞⪟⪠⪡⪢⪣⪤⪥⪦⪧⪨⪩⪪⪫⪬⪭⪮⪯⪰⪱⪲⪳⪴⪵⪶⪷⪸⪹⪺⪻⪼⪽⪾⪿⫀⫁⫂⫃⫄⫅⫆⫇⫈⫉⫊⫋⫌⫍⫎⫏⫐⫑⫒⫓⫔⫕⫖⫗⫘⫙⫷⫸⫹⫺⊢⊣⊕⊖⊞⊟∪∨⊔±∓∔∸≂≏⊎⊻⊽⋎⋓⧺⧻⨈⨢⨣⨤⨥⨦⨧⨨⨩⨪⨫⨬⨭⨮⨹⨺⩁⩂⩅⩊⩌⩏⩐⩒⩔⩖⩗⩛⩝⩡⩢⩣÷⋅∘×∩∧⊗⊘⊙⊚⊛⊠⊡⊓∗∙∤⅋≀⊼⋄⋆⋇⋉⋊⋋⋌⋏⋒⟑⦸⦼⦾⦿⧶⧷⨇⨰⨱⨲⨳⨴⨵⨶⨷⨸⨻⨼⨽⩀⩃⩄⩋⩍⩎⩑⩓⩕⩘⩚⩜⩞⩟⩠⫛⊍▷⨝⟕⟖⟗↑↓⇵⟰⟱⤈⤉⤊⤋⤒⤓⥉⥌⥍⥏⥑⥔⥕⥘⥙⥜⥝⥠⥡⥣⥥⥮⥯￪￬]/},
+          {begin: /[≤≥¬←→↔↚↛↠↣↦↮⇎⇏⇒⇔⇴⇶⇷⇸⇹⇺⇻⇼⇽⇾⇿⟵⟶⟷⟷⟹⟺⟻⟼⟽⟾⟿⤀⤁⤂⤃⤄⤅⤆⤇⤌⤍⤎⤏⤐⤑⤔⤕⤖⤗⤘⤝⤞⤟⤠⥄⥅⥆⥇⥈⥊⥋⥎⥐⥒⥓⥖⥗⥚⥛⥞⥟⥢⥤⥦⥧⥨⥩⥪⥫⥬⥭⥰⧴⬱⬰⬲⬳⬴⬵⬶⬷⬸⬹⬺⬻⬼⬽⬾⬿⭀⭁⭂⭃⭄⭇⭈⭉⭊⭋⭌￩￫≡≠≢∈∉∋∌⊆⊈⊂⊄⊊∝∊∍∥∦∷∺∻∽∾≁≃≄≅≆≇≈≉≊≋≌≍≎≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≣≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊃⊅⊇⊉⊋⊏⊐⊑⊒⊜⊩⊬⊮⊰⊱⊲⊳⊴⊵⊶⊷⋍⋐⋑⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿⟈⟉⟒⦷⧀⧁⧡⧣⧤⧥⩦⩧⩪⩫⩬⩭⩮⩯⩰⩱⩲⩳⩴⩵⩶⩷⩸⩹⩺⩻⩼⩽⩾⩿⪀⪁⪂⪃⪄⪅⪆⪇⪈⪉⪊⪋⪌⪍⪎⪏⪐⪑⪒⪓⪔⪕⪖⪗⪘⪙⪚⪛⪜⪝⪞⪟⪠⪡⪢⪣⪤⪥⪦⪧⪨⪩⪪⪫⪬⪭⪮⪯⪰⪱⪲⪳⪴⪵⪶⪷⪸⪹⪺⪻⪼⪽⪾⪿⫀⫁⫂⫃⫄⫅⫆⫇⫈⫉⫊⫋⫌⫍⫎⫏⫐⫑⫒⫓⫔⫕⫖⫗⫘⫙⫷⫸⫹⫺⊢⊣⊕⊖⊞⊟∪∨⊔±∓∔∸≂≏⊎⊻⊽⋎⋓⧺⧻⨈⨢⨣⨤⨥⨦⨧⨨⨩⨪⨫⨬⨭⨮⨹⨺⩁⩂⩅⩊⩌⩏⩐⩒⩔⩖⩗⩛⩝⩡⩢⩣÷⋅∘×∩∧⊗⊘⊙⊚⊛⊠⊡⊓∗∙∤⅋≀⊼⋄⋆⋇⋉⋊⋋⋌⋏⋒⟑⦸⦼⦾⦿⧶⧷⨇⨰⨱⨲⨳⨴⨵⨶⨷⨸⨻⨼⨽⩀⩃⩄⩋⩍⩎⩑⩓⩕⩘⩚⩜⩞⩟⩠⫛⊍▷⨝⟕⟖⟗↑↓⇵⟰⟱⤈⤉⤊⤋⤒⤓⥉⥌⥍⥏⥑⥔⥕⥘⥙⥜⥝⥠⥡⥣⥥⥮⥯￪￬]/},
           // ASCII operators
-          // {begin: /[-+*/\\^:<>~?$%.]/},
+          {begin: /[-+*/\\^:<>~?$%.]/},
           // | and & (unless they are really || and && in disguise)
-          // {begin: '&(?!&)|\\|(?!\\|)'},
+          {begin: '&(?!&)|\\|(?!\\|)'},
           // ! is an operator unless it is used in a variable
           {begin: '(?<!' + VARIABLE_NAME_RE + ')!'}
         ]
@@ -2900,7 +2895,7 @@
           BUILTIN_OPERATORS,
           KEYWORDLIKE_OPERATORS,
           'self',
-        ]        
+        ]
       };
 
       // Match where ... constructs
@@ -2929,16 +2924,15 @@
         ]
       };
 
-      
-      var INTERPOLATED_VARIABLE = {
-        className: 'variable',
-        begin: '\\$' + VARIABLE_NAME_RE
-      };
-
       var INTERPOLATION = {
         className: 'subst',
         begin: /\$\(/, end: /\)/,
         keywords: KEYWORDS
+      };
+
+      var INTERPOLATED_VARIABLE = {
+        className: 'variable',
+        begin: '\\$' + VARIABLE_NAME_RE
       };
 
       // Literal String, Regex and Cmd strings
@@ -2962,12 +2956,11 @@
       var SYMBOL = {
         className: 'symbol',
         begin: '(?<!(' + VARIABLE_NAME_RE + '|[\\d\\.]+|[:<>]+)\\s*)(:' + VARIABLE_NAME_RE + ')',
-        // operators mine        
       };
 
       var MACROCALL = {
         className: 'meta',
-        begin: '@' + VARIABLE_NAME_RE,                
+        begin: '@' + VARIABLE_NAME_RE
       };
 
       // Useful group of "atoms" used later
@@ -2992,15 +2985,15 @@
         className: '',
         // Match fun(... and fun.(...
         begin: '(\\b' + VARIABLE_NAME_RE + '({.*?}|\\.)?\\()',
-        end: '\\)', 
+        end: '\\)',
         returnBegin:true,
         keywords: KEYWORDS,
         contains: [
           // Cheating a bit -- not all functions are builtins, but who cares in julia!
           {begin:'\\b(ccall|new({.*?})?)(?=\\()', className: 'keyword'}, // Non-standard functions
-          {begin:'\\b' + VARIABLE_NAME_RE + '({.*?})?(?=\\.?\\()', className: 'symbol'},
+          {begin:'\\b' + VARIABLE_NAME_RE + '({.*?})?(?=\\.?\\()', className: 'built_in'},
           ...ATOMS,
-          'self',          
+          'self',
           TYPE_CONTEXT,
           BUILTIN_OPERATORS,
           KEYWORDLIKE_OPERATORS,
@@ -3019,7 +3012,7 @@
           FUNCTION_CALL,
           BUILTIN_OPERATORS,
           KEYWORDLIKE_OPERATORS,
-          {begin: '(?<!=\\s?)\\b' + VARIABLE_NAME_RE + '\\b', className: 'variable'},
+          {begin: '(?<!=\\s?)\\b' + VARIABLE_NAME_RE + '\\b', className: 'number'},
         ]
       };
 
@@ -3035,7 +3028,7 @@
               {begin: '\\.', className: 'built_in'}
             ]},
             // Function name
-            {begin: VARIABLE_NAME_RE + '({.*?})?(?=\\()', className: 'title'},
+            {begin: VARIABLE_NAME_RE + '({.*?})?(?=\\()', className: 'variable'},
             // Parameters
             FUNCTION_DEFINITION_PARAMETERS,
             // Possibly where-clauses
@@ -3048,7 +3041,7 @@
         begin: VARIABLE_NAME_RE + '\\(.*\\)(\\s+where.*?)?\\s*(?==(?!=))',
         returnBegin:true,
         contains: [
-            {begin: VARIABLE_NAME_RE + '(?=\\()', className: 'literal'},
+            {begin: VARIABLE_NAME_RE + '(?=\\()', className: 'title'},
             FUNCTION_DEFINITION_PARAMETERS,
             WHERE_CLAUSE
         ]

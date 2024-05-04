@@ -2077,18 +2077,18 @@ color: white;
     <button class="tablink first_tab active" data-id=""> 'undef' Values </button>
     <button class="tablink" data-id=""> 'similar' ('undef' too) </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x_length &#61; 3
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x_length = <span class="hljs-number">3</span>
 
-x &#61; Vector&#123;Int64&#125;&#40;undef, x_length&#41;  # &#96;x&#96; can hold &#96;Int64&#96; values, and is initialized with 3 undefined elements</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+x = <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Int64</span>}(<span class="hljs-literal">undef</span>, x_length)  <span class="hljs-comment"># `x` can hold `Int64` values, and is initialized with 3 undefined elements</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Int64}:
                  1
                  3
  31084746152965237</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">y &#61; &#91;3,4,5&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">y = [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
 
-x &#61; similar&#40;y&#41;                      # &#96;x&#96; has the same type as &#96;y&#96;, which is Vector&#123;Int64&#125;&#40;undef, 3&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+x = similar(y)                      <span class="hljs-comment"># `x` has the same type as `y`, which is Vector{Int64}(undef, 3)</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Int64}:
  8386102025957566828
  8319395836397910117
                    0</code></pre> </div></div> </div> 
@@ -2107,9 +2107,9 @@ x &#61; similar&#40;y&#41;                      # &#96;x&#96; has the same type 
 <p>In the following, we present several approaches to creating arrays with predefined values. </p>
  <h4> Vectors With Range </h4>
 <p>We can create a sequence of values by specifying a range. This method has been extensively covered on the website, and take the form of a vector through <code>collect&#40;&lt;range&gt;&#41;</code>.</p>
- <div class=" code_box"> <details  open><summary> A Vector Filled With a Sequence  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">some_range &#61; 2:5
+ <div class=" code_box"> <details  open><summary> A Vector Filled With a Sequence  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="julia hljs">some_range = <span class="hljs-number">2</span>:<span class="hljs-number">5</span>
 
-x          &#61; collect&#40;some_range&#41;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+x          = collect(some_range)</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
  2
  3
  4
@@ -2123,14 +2123,14 @@ x          &#61; collect&#40;some_range&#41;</code></pre> </div> </div> <div cla
     <button class="tablink" data-id=""> Range (Keyword Arguments) </button>
     <button class="tablink" data-id=""> Range (Keyword Arguments)</button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; range&#40;0, 1, 5&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">0.0:0.25:1.0</code></pre> </div></div> </div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = range(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">0.0:0.25:1.0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; range&#40;start&#61;0, stop&#61;1, length&#61;5&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">0.0:0.25:1.0</code></pre> </div></div> </div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = range(start=<span class="hljs-number">0</span>, stop=<span class="hljs-number">1</span>, length=<span class="hljs-number">5</span>)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">0.0:0.25:1.0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; range&#40;start&#61;0, length&#61;5, stop&#61;1&#41;    # any order for keyword arguments</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">0.0:0.25:1.0</code></pre> </div></div> </div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = range(start=<span class="hljs-number">0</span>, length=<span class="hljs-number">5</span>, stop=<span class="hljs-number">1</span>)    <span class="hljs-comment"># any order for keyword arguments</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">0.0:0.25:1.0</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <h4> Vectors With Specific Values </h4>
@@ -2143,34 +2143,34 @@ x          &#61; collect&#40;some_range&#41;</code></pre> </div> </div> <div cla
     <button class="tablink" data-id=""> Ones  </button>
     <button class="tablink" data-id=""> Ones with Type </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">length_vector &#61; 3
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">length_vector = <span class="hljs-number">3</span>
 
-x             &#61; zeros&#40;length_vector&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
+x             = zeros(length_vector)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Float64}:
  0.0
  0.0
  0.0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">length_vector &#61; 3
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">length_vector = <span class="hljs-number">3</span>
 
-x             &#61; zeros&#40;Int, length_vector&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+x             = zeros(<span class="hljs-built_in">Int</span>, length_vector)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Int64}:
  0
  0
  0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">length_vector &#61; 3
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">length_vector = <span class="hljs-number">3</span>
 
-x             &#61; ones&#40;length_vector&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
+x             = ones(length_vector)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Float64}:
  1.0
  1.0
  1.0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">length_vector &#61; 3
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">length_vector = <span class="hljs-number">3</span>
 
-x             &#61; ones&#40;Int, length_vector&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+x             = ones(<span class="hljs-built_in">Int</span>, length_vector)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Int64}:
  1
  1
  1</code></pre> </div></div> </div> 
@@ -2183,18 +2183,18 @@ x             &#61; ones&#40;Int, length_vector&#41;</code></pre> </div></div>
     <button class="tablink first_tab active" data-id=""> Trues </button>
     <button class="tablink" data-id=""> Falses </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">length_vector &#61; 3
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">length_vector = <span class="hljs-number">3</span>
 
-x             &#61; trues&#40;length_vector&#41;    # equivalent to &#96;ones&#40;Bool, length_vector&#41;&#96;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element BitVector:
+x             = trues(length_vector)    <span class="hljs-comment"># equivalent to `ones(Bool, length_vector)`</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element BitVector:
  1
  1
  1</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">length_vector &#61; 3
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">length_vector = <span class="hljs-number">3</span>
 
-x             &#61; falses&#40;length_vector&#41;   # equivalent to &#96;zeros&#40;Bool, length_vector&#41;&#96;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element BitVector:
+x             = falses(length_vector)   <span class="hljs-comment"># equivalent to `zeros(Bool, length_vector)`</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element BitVector:
  0
  0
  0</code></pre> </div></div> </div> 
@@ -2209,29 +2209,29 @@ x             &#61; falses&#40;length_vector&#41;   # equivalent to &#96;zeros&#
     <button class="tablink" data-id=""> Fill (vector) </button>
     <button class="tablink" data-id=""> Fill (vector - single element) </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">length_vector    &#61; 3
-filling_object   &#61; 1
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">length_vector    = <span class="hljs-number">3</span>
+filling_object   = <span class="hljs-number">1</span>
 
-x                &#61; fill&#40;filling_object, length_vector&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+x                = fill(filling_object, length_vector)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Int64}:
  1
  1
  1</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">length_vector    &#61; 3
-filling_object   &#61; &#91;1,2&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">length_vector    = <span class="hljs-number">3</span>
+filling_object   = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>]
 
-x                &#61; fill&#40;filling_object, length_vector&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Vector{Int64}}:
+x                = fill(filling_object, length_vector)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Vector{Int64}}:
  [1, 2]
  [1, 2]
  [1, 2]</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">length_vector    &#61; 3
-filling_object   &#61; &#91;1&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">length_vector    = <span class="hljs-number">3</span>
+filling_object   = [<span class="hljs-number">1</span>]
 
-x                &#61; fill&#40;filling_object, length_vector&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Vector{Int64}}:
+x                = fill(filling_object, length_vector)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Vector{Int64}}:
  [1]
  [1]
  [1]</code></pre> </div></div> </div> 
@@ -2246,24 +2246,24 @@ x                &#61; fill&#40;filling_object, length_vector&#41;</code></pre> 
     <button class="tablink first_tab active" data-id=""> vcat </button>    
     <button class="tablink" data-id=""> vcat and Splatting Operator </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;3,4,5&#93;
-y &#61; &#91;6,7,8&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+y = [<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>]
 
 
-z &#61; vcat&#40;x,y&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">6-element Vector{Int64}:
+z = vcat(x,y)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">6-element Vector{Int64}:
  3
  4
  ⋮
  7
  8</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;3,4,5&#93;
-y &#61; &#91;6,7,8&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+y = [<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>]
 
-A &#61; &#91;x, y&#93;
-z &#61; vcat&#40;A...&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">6-element Vector{Int64}:
+A = [x, y]
+z = vcat(A...)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">6-element Vector{Int64}:
  3
  4
  ⋮
@@ -2279,30 +2279,30 @@ z &#61; vcat&#40;A...&#41;</code></pre> </div></div>
     <button class="tablink" data-id=""> Repeat (vector - single element)  </button>
     <button class="tablink" data-id=""> Repeat (scalar - not allowed)  </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">nr_repetitions   &#61; 3
-vector_to_repeat &#61; &#91;1,2&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">nr_repetitions   = <span class="hljs-number">3</span>
+vector_to_repeat = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>]
 
-x                &#61; repeat&#40;vector_to_repeat, nr_repetitions&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">6-element Vector{Int64}:
+x                = repeat(vector_to_repeat, nr_repetitions)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">6-element Vector{Int64}:
  1
  2
  ⋮
  1
  2</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">nr_repetitions   &#61; 3
-vector_to_repeat &#61; &#91;1&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">nr_repetitions   = <span class="hljs-number">3</span>
+vector_to_repeat = [<span class="hljs-number">1</span>]
 
-x                &#61; repeat&#40;vector_to_repeat, nr_repetitions&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+x                = repeat(vector_to_repeat, nr_repetitions)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Int64}:
  1
  1
  1</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">nr_repetitions   &#61; 3
-vector_to_repeat &#61; 1
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">nr_repetitions   = <span class="hljs-number">3</span>
+vector_to_repeat = <span class="hljs-number">1</span>
 
-x                &#61; repeat&#40;vector_to_repeat, nr_repetitions&#41;</code></pre> </div></div> 
+x                = repeat(vector_to_repeat, nr_repetitions)</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching repeat&#40;::Int64, ::Int64&#41; </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2329,45 +2329,45 @@ x                &#61; repeat&#40;vector_to_repeat, nr_repetitions&#41;</code></
     <button class="tablink" data-id=""> Add One Element at Index </button>
     <button class="tablink" data-id=""> Add Multiple Elements </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x                 &#61; &#91;3,4,5&#93;
-element_to_insert &#61; 0
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x                 = [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+element_to_insert = <span class="hljs-number">0</span>
 
 
-push&#33;&#40;x, element_to_insert&#41;                 # add 0 at the end - faster</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+push!(x, element_to_insert)                 <span class="hljs-comment"># add 0 at the end - faster</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
  3
  4
  5
  0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x                 &#61; &#91;3,4,5&#93;
-element_to_insert &#61; 0
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x                 = [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+element_to_insert = <span class="hljs-number">0</span>
 
 
-pushfirst&#33;&#40;x, element_to_insert&#41;            # add 0 at the beginning - slower</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+pushfirst!(x, element_to_insert)            <span class="hljs-comment"># add 0 at the beginning - slower</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
  0
  3
  4
  5</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x                 &#61; &#91;3,4,5&#93;
-element_to_insert &#61; 0
-at_index          &#61; 2
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x                 = [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+element_to_insert = <span class="hljs-number">0</span>
+at_index          = <span class="hljs-number">2</span>
 
-insert&#33;&#40;x, at_index, element_to_insert&#41;     # add 0 at index 2</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+insert!(x, at_index, element_to_insert)     <span class="hljs-comment"># add 0 at index 2</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
  3
  0
  4
  5</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x                 &#61; &#91;3,4,5&#93;
-vector_to_insert  &#61; &#91;6,7&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x                 = [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+vector_to_insert  = [<span class="hljs-number">6</span>,<span class="hljs-number">7</span>]
 
 
-append&#33;&#40;x, vector_to_insert&#41;                # add 6 and 7 at the end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">5-element Vector{Int64}:
+append!(x, vector_to_insert)                <span class="hljs-comment"># add 6 and 7 at the end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">5-element Vector{Int64}:
  3
  4
  5
@@ -2385,35 +2385,35 @@ append&#33;&#40;x, vector_to_insert&#41;                # add 6 and 7 at the end
     <button class="tablink" data-id=""> Remove One Element at Index </button>
     <button class="tablink" data-id=""> Remove Multiple Elements </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x                  &#61; &#91;5,6,7&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x                  = [<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>]
 
 
-pop&#33;&#40;x&#41;                            # delete last element</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Int64}:
+pop!(x)                            <span class="hljs-comment"># delete last element</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">2-element Vector{Int64}:
  5
  6</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x                  &#61; &#91;5,6,7&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x                  = [<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>]
 
 
-popfirst&#33;&#40;x&#41;                       # delete first element</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Int64}:
+popfirst!(x)                       <span class="hljs-comment"># delete first element</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">2-element Vector{Int64}:
  6
  7</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x                  &#61; &#91;5,6,7&#93;
-index_of_removal   &#61; 2
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x                  = [<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>]
+index_of_removal   = <span class="hljs-number">2</span>
 
-deleteat&#33;&#40;x, index_of_removal&#41;      # delete element at index 2</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Int64}:
+deleteat!(x, index_of_removal)      <span class="hljs-comment"># delete element at index 2</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">2-element Vector{Int64}:
  5
  7</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x                  &#61; &#91;5,6,7&#93;
-indices_of_removal &#61; &#91;1,3&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x                  = [<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>]
+indices_of_removal = [<span class="hljs-number">1</span>,<span class="hljs-number">3</span>]
 
-deleteat&#33;&#40;x, indices_of_removal&#41;    # delete elements at indices 1 and 3</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">1-element Vector{Int64}:
+deleteat!(x, indices_of_removal)    <span class="hljs-comment"># delete elements at indices 1 and 3</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">1-element Vector{Int64}:
  6</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2424,18 +2424,18 @@ deleteat&#33;&#40;x, indices_of_removal&#41;    # delete elements at indices 1 a
     <button class="tablink first_tab active" data-id=""> Keep One Element </button>
     <button class="tablink" data-id=""> Keep Multiple Elements </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x               &#61; &#91;5,6,7&#93;
-index_to_keep   &#61; 2
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x               = [<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>]
+index_to_keep   = <span class="hljs-number">2</span>
 
-keepat&#33;&#40;x, index_to_keep&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">1-element Vector{Int64}:
+keepat!(x, index_to_keep)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">1-element Vector{Int64}:
  6</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x               &#61; &#91;5,6,7&#93;
-indices_to_keep &#61; &#91;2,3&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x               = [<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>]
+indices_to_keep = [<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
 
-keepat&#33;&#40;x, index_to_keep&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">1-element Vector{Int64}:
+keepat!(x, index_to_keep)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">1-element Vector{Int64}:
  6</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2449,34 +2449,34 @@ keepat&#33;&#40;x, index_to_keep&#41;</code></pre> </div></div>
     <button class="tablink" data-id=""> Replace Multiple Values (update) </button>
     <button class="tablink" data-id=""> Replace Multiple Values (copy) </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;3,3,5&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = [<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>]
 
-replace&#33;&#40;x, 3 &#61;&gt; 0&#41;              # in-place &#40;it updates x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+replace!(x, <span class="hljs-number">3</span> =&gt; <span class="hljs-number">0</span>)              <span class="hljs-comment"># in-place (it updates x)</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Int64}:
  0
  0
  5</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;3,3,5&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = [<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>]
 
-y &#61; replace&#40;x, 3 &#61;&gt; 0&#41;           # new copy</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+y = replace(x, <span class="hljs-number">3</span> =&gt; <span class="hljs-number">0</span>)           <span class="hljs-comment"># new copy</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Int64}:
  0
  0
  5</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;3,3,5&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = [<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>]
 
-replace&#33;&#40;x, 3 &#61;&gt; 0, 5 &#61;&gt; 1&#41;      # in-place &#40;it updates x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+replace!(x, <span class="hljs-number">3</span> =&gt; <span class="hljs-number">0</span>, <span class="hljs-number">5</span> =&gt; <span class="hljs-number">1</span>)      <span class="hljs-comment"># in-place (it updates x)</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Int64}:
  0
  0
  1</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;3,3,5&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = [<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>]
 
-y &#61; replace&#40;x, 3 &#61;&gt; 0, 5 &#61;&gt; 1&#41;   # new copy</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+y = replace(x, <span class="hljs-number">3</span> =&gt; <span class="hljs-number">0</span>, <span class="hljs-number">5</span> =&gt; <span class="hljs-number">1</span>)   <span class="hljs-comment"># new copy</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Int64}:
  0
  0
  1</code></pre> </div></div> </div> 
@@ -2590,9 +2590,10 @@ function goToNextPage() {
 
   
   
-      <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
+      <script src="/julia_book/libs/highlight/highlight.js"></script>
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
-<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+<!-- <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script> -->
+
 
 
   

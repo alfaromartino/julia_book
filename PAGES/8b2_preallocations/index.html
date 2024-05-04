@@ -2031,59 +2031,59 @@ color: white;
     <button class="tablink" data-id=""> Ones </button>
     <button class="tablink" data-id=""> Fill </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; collect&#40;1:100&#41;
-repetitions &#61; 100_000                       # repetitions in a for-loop
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x           = collect(<span class="hljs-number">1</span>:<span class="hljs-number">100</span>)
+repetitions = <span class="hljs-number">100_000</span>                       <span class="hljs-comment"># repetitions in a for-loop</span>
 
-function foo&#40;x, repetitions&#41;
-    for _ in 1:repetitions
-        Vector&#123;Int64&#125;&#40;undef, length&#40;x&#41;&#41;
-    end
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  16.506 ms (100000 allocations: 85.45 MiB)
+<span class="hljs-keyword">function</span> foo(x, repetitions)
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:repetitions
+        <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Int64</span>}(<span class="hljs-literal">undef</span>, length(x))
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  16.506 ms (100000 allocations: 85.45 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; collect&#40;1:100&#41;
-repetitions &#61; 100_000                       # repetitions in a for-loop
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x           = collect(<span class="hljs-number">1</span>:<span class="hljs-number">100</span>)
+repetitions = <span class="hljs-number">100_000</span>                       <span class="hljs-comment"># repetitions in a for-loop</span>
 
-function foo&#40;x, repetitions&#41;
-    for _ in 1:repetitions
-        similar&#40;x&#41;
-    end
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  16.623 ms (100000 allocations: 85.45 MiB)
+<span class="hljs-keyword">function</span> foo(x, repetitions)
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:repetitions
+        similar(x)
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  16.623 ms (100000 allocations: 85.45 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; collect&#40;1:100&#41;
-repetitions &#61; 100_000                       # repetitions in a for-loop
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x           = collect(<span class="hljs-number">1</span>:<span class="hljs-number">100</span>)
+repetitions = <span class="hljs-number">100_000</span>                       <span class="hljs-comment"># repetitions in a for-loop</span>
 
-function foo&#40;x, repetitions&#41;
-    for _ in 1:repetitions
-        zeros&#40;Int64, length&#40;x&#41;&#41;
-    end
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  23.267 ms (100000 allocations: 85.45 MiB)
+<span class="hljs-keyword">function</span> foo(x, repetitions)
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:repetitions
+        zeros(<span class="hljs-built_in">Int64</span>, length(x))
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  23.267 ms (100000 allocations: 85.45 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; collect&#40;1:100&#41;
-repetitions &#61; 100_000                       # repetitions in a for-loop
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x           = collect(<span class="hljs-number">1</span>:<span class="hljs-number">100</span>)
+repetitions = <span class="hljs-number">100_000</span>                       <span class="hljs-comment"># repetitions in a for-loop</span>
 
-function foo&#40;x, repetitions&#41;
-    for _ in 1:repetitions
-        ones&#40;Int64, length&#40;x&#41;&#41;
-    end
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  21.326 ms (100000 allocations: 85.45 MiB)
+<span class="hljs-keyword">function</span> foo(x, repetitions)
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:repetitions
+        ones(<span class="hljs-built_in">Int64</span>, length(x))
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  21.326 ms (100000 allocations: 85.45 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; collect&#40;1:100&#41;
-repetitions &#61; 100_000                       # repetitions in a for-loop
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x           = collect(<span class="hljs-number">1</span>:<span class="hljs-number">100</span>)
+repetitions = <span class="hljs-number">100_000</span>                       <span class="hljs-comment"># repetitions in a for-loop</span>
 
-function foo&#40;x, repetitions&#41;
-    for _ in 1:repetitions
-        fill&#40;2, length&#40;x&#41;&#41;                  # vector filled with integer 2
-    end
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  21.863 ms (100000 allocations: 85.45 MiB)
+<span class="hljs-keyword">function</span> foo(x, repetitions)
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:repetitions
+        fill(<span class="hljs-number">2</span>, length(x))                  <span class="hljs-comment"># vector filled with integer 2</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;repetitions&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  21.863 ms (100000 allocations: 85.45 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2100,17 +2100,17 @@ end</code></pre> </div></div>
     <button class="tablink" data-id=""> Approach 2 </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">function foo&#40;x&#41;
-   output &#61; similar&#40;x&#41; 
-   # &lt;some calculations using &#39;output&#39;&gt;
-end</code></pre>
+<pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo(x)
+   output = similar(x) 
+   <span class="hljs-comment"># &lt;some calculations using &#x27;output&#x27;&gt;</span>
+<span class="hljs-keyword">end</span></code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">function foo&#40;x; output &#61; similar&#40;x&#41;&#41;
+<pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo(x; output = similar(x))
 
-   # &lt;some calculations using &#39;output&#39;&gt;
-end</code></pre>
+   <span class="hljs-comment"># &lt;some calculations using &#x27;output&#x27;&gt;</span>
+<span class="hljs-keyword">end</span></code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
@@ -2121,22 +2121,22 @@ end</code></pre>
     <button class="tablink first_tab active" data-id=""> Approach 1 </button>
     <button class="tablink" data-id=""> Approach 2 </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;1,2,3&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
 
-function foo&#40;x&#41;
-    a,b,c &#61; &#91;similar&#40;x&#41; for _ in 1:3&#93;
-    # &lt;some calculations using a,b,c&gt;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  54.002 ns (4 allocations: 320 bytes)
+<span class="hljs-keyword">function</span> foo(x)
+    a,b,c = [similar(x) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">3</span>]
+    <span class="hljs-comment"># &lt;some calculations using a,b,c&gt;</span>
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  54.002 ns (4 allocations: 320 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;1,2,3&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
 
-function foo&#40;x&#41;
-    a,b,c &#61; &#40;similar&#40;x&#41; for _ in 1:3&#41;
-    # &lt;some calculations using a,b,c&gt;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  39.174 ns (3 allocations: 240 bytes)
+<span class="hljs-keyword">function</span> foo(x)
+    a,b,c = (similar(x) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">3</span>)
+    <span class="hljs-comment"># &lt;some calculations using a,b,c&gt;</span>
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  39.174 ns (3 allocations: 240 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>   </p>
@@ -2157,24 +2157,24 @@ end</code></pre> </div></div>
     <button class="tablink first_tab active" data-id=""> For-Loop (Equivalent)</button>
     <button class="tablink" data-id=""> Broadcasting </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-function foo&#40;x&#41;
-    output &#61; similar&#40;x&#41;               # you need to create this vector to store the results
+<span class="hljs-keyword">function</span> foo(x)
+    output = similar(x)               <span class="hljs-comment"># you need to create this vector to store the results</span>
 
-    for i in eachindex&#40;x&#41;
-        output&#91;i&#93; &#61; 2 * x&#91;i&#93;
-    end
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)
+        output[i] = <span class="hljs-number">2</span> * x[i]
+    <span class="hljs-keyword">end</span>
 
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  49.036 ns (1 allocation: 896 bytes)
+    <span class="hljs-keyword">return</span> output
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  49.036 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;                  # 2 .* x implicitly creates a temporary vector</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  42.583 ns (1 allocation: 896 bytes)
+foo(x) = sum(<span class="hljs-number">2</span> .* x)                  <span class="hljs-comment"># 2 .* x implicitly creates a temporary vector</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  42.583 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2186,26 +2186,26 @@ foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;                  # 2 .* x implicitly cr
     <button class="tablink first_tab active" data-id=""> Broadcast Called in a For-Loop</button>
     <button class="tablink" data-id=""> For-Loop Called in a For-Loop</button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-function foo&#40;x; output &#61; similar&#40;x&#41;&#41;
-    for i in eachindex&#40;x&#41;
-        output&#91;i&#93; &#61; 2 * x&#91;i&#93;
-    end
+<span class="hljs-keyword">function</span> foo(x; output = similar(x))
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)
+        output[i] = <span class="hljs-number">2</span> * x[i]
+    <span class="hljs-keyword">end</span>
 
-    return output
-end
+    <span class="hljs-keyword">return</span> output
+<span class="hljs-keyword">end</span>
 
-calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#40;x&#41;&#41; for _ in 1:100&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  5.620 μs (101 allocations: 88.38 KiB)
+calling_foo_in_a_loop(output,x) = [sum(foo(x)) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">100</span>]</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  5.620 μs (101 allocations: 88.38 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-foo&#40;x&#41; &#61; 2 .* x
+foo(x) = <span class="hljs-number">2</span> .* x
 
-calling_foo_in_a_loop&#40;x&#41; &#61; &#91;sum&#40;foo&#40;x&#41;&#41; for _ in 1:100&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  5.140 μs (101 allocations: 88.38 KiB)
+calling_foo_in_a_loop(x) = [sum(foo(x)) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">100</span>]</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  5.140 μs (101 allocations: 88.38 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2219,32 +2219,32 @@ calling_foo_in_a_loop&#40;x&#41; &#61; &#91;sum&#40;foo&#40;x&#41;&#41; for _ in
     <button class="tablink first_tab active" data-id=""> Pre-Allocation  </button>
     <button class="tablink" data-id=""> Pre-Allocation and Call in a For-Loop </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
-output &#61; similar&#40;x&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x      = rand(<span class="hljs-number">100</span>)
+output = similar(x)
 
-function foo&#33;&#40;output,x&#41;
-    for i in eachindex&#40;x&#41;
-        output&#91;i&#93; &#61; 2 * x&#91;i&#93;
-    end
+<span class="hljs-keyword">function</span> foo!(output,x)
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)
+        output[i] = <span class="hljs-number">2</span> * x[i]
+    <span class="hljs-keyword">end</span>
 
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;output&#41;, ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  6.100 ns (0 allocations: 0 bytes)
+    <span class="hljs-keyword">return</span> output
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;output&#41;, ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  6.100 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
-output &#61; similar&#40;x&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x      = rand(<span class="hljs-number">100</span>)
+output = similar(x)
 
-function foo&#33;&#40;output,x&#41;
-    for i in eachindex&#40;x&#41;
-        output&#91;i&#93; &#61; 2 * x&#91;i&#93;
-    end
+<span class="hljs-keyword">function</span> foo!(output,x)
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)
+        output[i] = <span class="hljs-number">2</span> * x[i]
+    <span class="hljs-keyword">end</span>
 
-    return output
-end
+    <span class="hljs-keyword">return</span> output
+<span class="hljs-keyword">end</span>
 
-calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x&#41;&#41; for _ in 1:100&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;output&#41;, ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.420 μs (1 allocation: 896 bytes)
+calling_foo_in_a_loop(output,x) = [sum(foo!(output,x)) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">100</span>]</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;output&#41;, ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  1.420 μs (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2257,27 +2257,27 @@ calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x
     <button class="tablink" data-id=""> Pre-Allocation (Equivalent) </button>    
     <button class="tablink" data-id=""> Pre-Allocation and Call in a For-Loop </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
-output &#61; similar&#40;x&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x      = rand(<span class="hljs-number">100</span>)
+output = similar(x)
 
-foo&#33;&#40;output,x&#41; &#61; &#40;output .&#61; 2 .* x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;output&#41;, ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  6.500 ns (0 allocations: 0 bytes)
+foo!(output,x) = (output .= <span class="hljs-number">2</span> .* x)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;output&#41;, ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  6.500 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
-output &#61; similar&#40;x&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x      = rand(<span class="hljs-number">100</span>)
+output = similar(x)
 
-foo&#33;&#40;output,x&#41; &#61; &#40;@. output &#61; 2 * x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;output&#41;, ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  6.100 ns (0 allocations: 0 bytes)
+foo!(output,x) = (@. output = <span class="hljs-number">2</span> * x)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;output&#41;, ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  6.100 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
-output &#61; similar&#40;x&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x      = rand(<span class="hljs-number">100</span>)
+output = similar(x)
 
-foo&#33;&#40;output,x&#41; &#61; &#40;@. output &#61; 2 * x&#41;
+foo!(output,x) = (@. output = <span class="hljs-number">2</span> * x)
 
-calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x&#41;&#41; for _ in 1:100&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;output&#41;,ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.500 μs (1 allocation: 896 bytes)
+calling_foo_in_a_loop(output,x) = [sum(foo!(output,x)) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">100</span>]</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;output&#41;,ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  1.500 μs (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2291,15 +2291,15 @@ calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x
     <button class="tablink" data-id=""> An Update </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia"># the following are equivalent and define a new variable
-   output  &#61; @. 2  * x
-   output  &#61;    2 .* x</code></pre>
+<pre><code class="julia hljs"><span class="hljs-comment"># the following are equivalent and define a new variable</span>
+   output  = @. <span class="hljs-number">2</span>  * x
+   output  =    <span class="hljs-number">2</span> .* x</code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia"># the following are equivalent and update &#39;output&#39;
-@. output  &#61; 2  * x
-   output .&#61; 2 .* x</code></pre>
+<pre><code class="julia hljs"><span class="hljs-comment"># the following are equivalent and update &#x27;output&#x27;</span>
+@. output  = <span class="hljs-number">2</span>  * x
+   output .= <span class="hljs-number">2</span> .* x</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
@@ -2323,32 +2323,32 @@ calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x
     <button class="tablink" data-id=""> Broadcasting Version 1</button>
     <button class="tablink" data-id=""> Broadcasting Version 2 </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-function foo&#40;x; output &#61; similar&#40;x&#41;&#41;
-    for i in eachindex&#40;x&#41;
-        temp      &#61; x .&gt; x&#91;i&#93;
-        output&#91;i&#93; &#61; sum&#40;temp&#41;
-    end
+<span class="hljs-keyword">function</span> foo(x; output = similar(x))
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)
+        temp      = x .&gt; x[i]
+        output[i] = sum(temp)
+    <span class="hljs-keyword">end</span>
 
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  10.000 μs (201 allocations: 11.81 KiB)
+    <span class="hljs-keyword">return</span> output
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  10.000 μs (201 allocations: 11.81 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-foo&#40;x&#41; &#61; &#91;sum&#40;x .&gt; x&#91;i&#93;&#41; for i in eachindex&#40;x&#41;&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  10.100 μs (201 allocations: 11.81 KiB)
+foo(x) = [sum(x .&gt; x[i]) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)]</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  10.100 μs (201 allocations: 11.81 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-function foo&#40;x&#41; 
-    temp   &#61; &#91;x .&gt; x&#91;i&#93; for i in eachindex&#40;x&#41;&#93;
-    output &#61; sum.&#40;temp&#41;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  10.000 μs (202 allocations: 12.69 KiB)
+<span class="hljs-keyword">function</span> foo(x) 
+    temp   = [x .&gt; x[i] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)]
+    output = sum.(temp)
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  10.000 μs (202 allocations: 12.69 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2363,45 +2363,45 @@ end</code></pre> </div></div>
     <button class="tablink" data-id=""> Via Broadcasting 1</button>    
     <button class="tablink" data-id=""> Via Broadcasting 2</button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40;x&#41;&#41;
-    for i in eachindex&#40;x&#41;        
-        for j in eachindex&#40;x&#41;
-            temp&#91;j&#93; &#61; x&#91;j&#93; &gt; x&#91;i&#93;
-        end
-        output&#91;i&#93; &#61; sum&#40;temp&#41;
-    end
+<span class="hljs-keyword">function</span> foo!(x; output = similar(x), temp = similar(x))
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)        
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> eachindex(x)
+            temp[j] = x[j] &gt; x[i]
+        <span class="hljs-keyword">end</span>
+        output[i] = sum(temp)
+    <span class="hljs-keyword">end</span>
 
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.960 μs (2 allocations: 1.75 KiB)
+    <span class="hljs-keyword">return</span> output
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  1.960 μs (2 allocations: 1.75 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40;x&#41;&#41;
-    for i in eachindex&#40;x&#41;
-        temp     .&#61; x .&gt; x&#91;i&#93;
-        output&#91;i&#93; &#61; sum&#40;temp&#41;
-    end
+<span class="hljs-keyword">function</span> foo!(x; output = similar(x), temp = similar(x))
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)
+        temp     .= x .&gt; x[i]
+        output[i] = sum(temp)
+    <span class="hljs-keyword">end</span>
 
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.850 μs (2 allocations: 1.75 KiB)
+    <span class="hljs-keyword">return</span> output
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  1.850 μs (2 allocations: 1.75 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40;x&#41;&#41;
-    for i in eachindex&#40;x&#41;
-        @. temp      &#61; x &gt; x&#91;i&#93;
-           output&#91;i&#93; &#61; sum&#40;temp&#41;
-    end
+<span class="hljs-keyword">function</span> foo!(x; output = similar(x), temp = similar(x))
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)
+        @. temp      = x &gt; x[i]
+           output[i] = sum(temp)
+    <span class="hljs-keyword">end</span>
 
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.820 μs (2 allocations: 1.75 KiB)
+    <span class="hljs-keyword">return</span> output
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  1.820 μs (2 allocations: 1.75 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>   </p>
@@ -2414,38 +2414,38 @@ end</code></pre> </div></div>
     <button class="tablink first_tab active" data-id=""> Function for temp (For-Loop)</button>    
     <button class="tablink" data-id=""> Function for temp (Broadcasting) </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-function update_temp&#33;&#40;x, temp, i&#41;
-    for j in eachindex&#40;x&#41;        
-       temp&#91;j&#93; &#61; x&#91;j&#93; &gt; x&#91;i&#93;
-    end    
-end
+<span class="hljs-keyword">function</span> update_temp!(x, temp, i)
+    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> eachindex(x)        
+       temp[j] = x[j] &gt; x[i]
+    <span class="hljs-keyword">end</span>    
+<span class="hljs-keyword">end</span>
 
-function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40;x&#41;&#41;
-    for i in eachindex&#40;x&#41;
-        update_temp&#33;&#40;x, temp, i&#41;
-        output&#91;i&#93; &#61; sum&#40;temp&#41;
-    end
+<span class="hljs-keyword">function</span> foo!(x; output = similar(x), temp = similar(x))
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)
+        update_temp!(x, temp, i)
+        output[i] = sum(temp)
+    <span class="hljs-keyword">end</span>
 
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.950 μs (2 allocations: 1.75 KiB)
+    <span class="hljs-keyword">return</span> output
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  1.950 μs (2 allocations: 1.75 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-update_temp&#33;&#40;x, temp, i&#41; &#61; &#40;@. temp &#61; x &gt; x&#91;i&#93;&#41;
+update_temp!(x, temp, i) = (@. temp = x &gt; x[i])
 
-function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40;x&#41;&#41;
-    for i in eachindex&#40;x&#41;
-           update_temp&#33;&#40;x, temp, i&#41;
-           output&#91;i&#93; &#61; sum&#40;temp&#41;
-    end
+<span class="hljs-keyword">function</span> foo!(x; output = similar(x), temp = similar(x))
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)
+           update_temp!(x, temp, i)
+           output[i] = sum(temp)
+    <span class="hljs-keyword">end</span>
 
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.890 μs (2 allocations: 1.75 KiB)
+    <span class="hljs-keyword">return</span> output
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  1.890 μs (2 allocations: 1.75 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2457,40 +2457,40 @@ end</code></pre> </div></div>
     <button class="tablink first_tab active" data-id=""> No Pre-Allocation for Nested Loop </button>
     <button class="tablink" data-id=""> Pre-Allocation for Nested Loop </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
 
 
-update_temp&#33;&#40;x, temp, i&#41; &#61; &#40;@. temp &#61; x &gt; x&#91;i&#93;&#41;
+update_temp!(x, temp, i) = (@. temp = x &gt; x[i])
 
-function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40;x&#41;&#41;
-    for i in eachindex&#40;x&#41;
-           update_temp&#33;&#40;x, temp, i&#41;
-           output&#91;i&#93; &#61; sum&#40;temp&#41;
-    end
-    return output
-end
+<span class="hljs-keyword">function</span> foo!(x; output = similar(x), temp = similar(x))
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)
+           update_temp!(x, temp, i)
+           output[i] = sum(temp)
+    <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">return</span> output
+<span class="hljs-keyword">end</span>
 
-calling_foo_in_a_loop&#40;x&#41; &#61; &#91;foo&#33;&#40;x&#41; for _ in 1:1_000&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.917 ms (2001 allocations: 1.72 MiB)
+calling_foo_in_a_loop(x) = [foo!(x) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">1_000</span>]</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  1.917 ms (2001 allocations: 1.72 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
-output &#61; similar&#40;x&#41;
-temp   &#61; similar&#40;x&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x      = rand(<span class="hljs-number">100</span>)
+output = similar(x)
+temp   = similar(x)
 
-update_temp&#33;&#40;x, temp, i&#41; &#61; &#40;@. temp &#61; x &gt; x&#91;i&#93;&#41;
+update_temp!(x, temp, i) = (@. temp = x &gt; x[i])
 
-function foo&#33;&#40;x, output, temp&#41;    
-    for i in eachindex&#40;x&#41;
-           update_temp&#33;&#40;x, temp, i&#41;
-           output&#91;i&#93; &#61; sum&#40;temp&#41;
-    end
-    return output
-end
+<span class="hljs-keyword">function</span> foo!(x, output, temp)    
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)
+           update_temp!(x, temp, i)
+           output[i] = sum(temp)
+    <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">return</span> output
+<span class="hljs-keyword">end</span>
 
-calling_foo_in_a_loop&#40;x, output, temp&#41; &#61; &#91;foo&#33;&#40;x, output, temp&#41; for _ in 1:1_000&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;output&#41;, ref&#40;&#36;temp&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.841 ms (1 allocation: 7.94 KiB)
+calling_foo_in_a_loop(x, output, temp) = [foo!(x, output, temp) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">1_000</span>]</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;output&#41;, ref&#40;&#36;temp&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  1.841 ms (1 allocation: 7.94 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2602,9 +2602,10 @@ function goToNextPage() {
 
   
   
-      <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
+      <script src="/julia_book/libs/highlight/highlight.js"></script>
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
-<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+<!-- <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script> -->
+
 
 
   

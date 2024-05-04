@@ -2031,16 +2031,16 @@ color: white;
     <button class="tablink" data-id=""> Operator <: </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x::Float64 &#61; 2
+<pre><code class="julia hljs">x::<span class="hljs-built_in">Float64</span> = <span class="hljs-number">2</span>
 
-y::Number  &#61; 2</code></pre>
+y::<span class="hljs-built_in">Number</span>  = <span class="hljs-number">2</span></code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> 2.0 </div> <br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> 2 </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x::T where T &lt;: Float64 &#61; 2
+<pre><code class="julia hljs">x::T <span class="hljs-keyword">where</span> T &lt;: <span class="hljs-built_in">Float64</span> = <span class="hljs-number">2</span>
 
-y::T where T &lt;: Number  &#61; 2</code></pre>
+y::T <span class="hljs-keyword">where</span> T &lt;: <span class="hljs-built_in">Number</span>  = <span class="hljs-number">2</span></code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> 2.0 </div> <br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> 2 </div></div> </div> 
  </div></div>
@@ -2058,14 +2058,14 @@ y::T where T &lt;: Number  &#61; 2</code></pre>
     <button class="tablink" data-id=""> Type 'Any' with Operator <: </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">a      &#61; 2
-b::Any &#61; 2</code></pre>
+<pre><code class="julia hljs">a      = <span class="hljs-number">2</span>
+b::<span class="hljs-built_in">Any</span> = <span class="hljs-number">2</span></code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">a                   &#61; 2
-b::T where T        &#61; 2
-c::T where T &lt;: Any &#61; 2</code></pre>
+<pre><code class="julia hljs">a                   = <span class="hljs-number">2</span>
+b::T <span class="hljs-keyword">where</span> T        = <span class="hljs-number">2</span>
+c::T <span class="hljs-keyword">where</span> T &lt;: <span class="hljs-built_in">Any</span> = <span class="hljs-number">2</span></code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
@@ -2084,8 +2084,8 @@ c::T where T &lt;: Any &#61; 2</code></pre>
  <h4> Type Inference </h4>
 <p>To focus on a concrete example, consider the following script.</p>
  <div class=" code_box"> <details  open><summary> Type Inference  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x      &#61; 3
-foo&#40;a&#41; &#61; a * 2</code></pre>
+<pre><code class="julia hljs">x      = <span class="hljs-number">3</span>
+foo(a) = a * <span class="hljs-number">2</span></code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;x&#41;</code><br/><div class="akin_to_pre">6</div> </div></div> </div>   </details></div>
 <p>When we operate in the global scope &#40;i.e. outside a function&#41;, Julia does not make any assumption on the variables&#39; types. Rather, it treats each variable as potentially embodying any value, and therefore any type. The rationale is that, even if <code>x</code> is already holding a value with a specific type, the user may reassign <code>x</code> at any part of the script. Overall, <strong>the type of a global variable is defined by the type declared explicitly or implicitly</strong>, but never by the type of the value held.</p>
 <p>In the example above, <code>x</code> is a global variable such that <code>x &#61; 3</code>. As this is a shorthand for <code>x::Any &#61; 3</code>, Julia considers <code>x</code> as having type <code>Any</code>. More broadly, if we work with a typed global variable such as <code>x::Int64 &#61; 3</code>, then Julia treats <code>x</code> as having type <code>Int64</code>. </p>
@@ -2102,19 +2102,19 @@ foo&#40;a&#41; &#61; a * 2</code></pre>
     <button class="tablink" data-id=""> Concrete Type </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;a&#41; &#61; a * 2</code></pre>
+<pre><code class="julia hljs">foo(a) = a * <span class="hljs-number">2</span></code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;3&#41;</code><br/><div class="akin_to_pre">2</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;2.5&#41;</code><br/><div class="akin_to_pre">5.0</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;&#91;1,2&#93;&#41;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  2
  4</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;a::Number&#41; &#61; a * 2</code></pre>
+<pre><code class="julia hljs">foo(a::<span class="hljs-built_in">Number</span>) = a * <span class="hljs-number">2</span></code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;3&#41;</code><br/><div class="akin_to_pre">2</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;2.5&#41;</code><br/><div class="akin_to_pre">5.0</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;&#91;1,2&#93;&#41;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching foo(::Vector{Int64})</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;a::Int64&#41; &#61; a * 2</code></pre>
+<pre><code class="julia hljs">foo(a::<span class="hljs-built_in">Int64</span>) = a * <span class="hljs-number">2</span></code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;3&#41;</code><br/><div class="akin_to_pre">2</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;2.5&#41;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching foo(::Float64)</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;&#91;1,2&#93;&#41;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching foo(::Vector{Int64})</div> </div></div> </div> 
  </div></div>
@@ -2131,26 +2131,26 @@ foo&#40;a&#41; &#61; a * 2</code></pre>
     <button class="tablink" data-id=""> Type-Annotated Global Variable </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">a         &#61; 2
-b         &#61; 1
+<pre><code class="julia hljs">a         = <span class="hljs-number">2</span>
+b         = <span class="hljs-number">1</span>
 
-foo&#40;a&#41; &#61; a * b</code></pre>
+foo(a) = a * b</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;a&#41;</code><br/><div class="akin_to_pre">2</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">a         &#61; 2
-b::Any    &#61; 1
+<pre><code class="julia hljs">a         = <span class="hljs-number">2</span>
+b::<span class="hljs-built_in">Any</span>    = <span class="hljs-number">1</span>
 
-foo&#40;a&#41; &#61; a * b</code></pre>
+foo(a) = a * b</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;a&#41;</code><br/><div class="akin_to_pre">2</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">a         &#61; 2
-b::Number &#61; 1
+<pre><code class="julia hljs">a         = <span class="hljs-number">2</span>
+b::<span class="hljs-built_in">Number</span> = <span class="hljs-number">1</span>
 
-foo&#40;a&#41; &#61; a * b</code></pre>
+foo(a) = a * b</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;a&#41;</code><br/><div class="akin_to_pre">2</div> </div></div> </div> 
  </div></div>
@@ -2160,14 +2160,14 @@ foo&#40;a&#41; &#61; a * b</code></pre>
 <p>Likewise, <span style="color: rgb(62, 121, 180);"><strong>multiple dispatch</strong></span> is the process by which Julia searches among all the available methods of a function, eventually choosing the one corresponding to its arguments&#39; types. </p>
 <p>As a demonstration, let&#39;s define a function <code>foo</code> and its methods. This can be done by setting specific operations for each function arguments&#39; types, with the aid of the operator <code>::</code>. </p>
  <div class=" code_box"> <details  open><summary> Methods  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;x::Int64&#41;  &#61; x
-foo&#40;x::String&#41; &#61; &quot;The Number &#36;x&quot;</code></pre>
+<pre><code class="julia hljs">foo(x::<span class="hljs-built_in">Int64</span>)  = x
+foo(x::<span class="hljs-built_in">String</span>) = <span class="hljs-string">&quot;The Number <span class="hljs-variable">$x</span>&quot;</span></code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;2&#41;</code><br/><div class="akin_to_pre">2</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;&quot;Two&quot;&#41;</code><br/><div class="akin_to_pre">The Number Two</div> </div></div> </div>   </details></div>
 <p>The example defines a function <code>foo</code> and two methods: one for an argument <code>Int64</code> and another for a <code>String</code> argument. When we call <code>foo&#40;2&#41;</code>, multiple dispatch selects in particular the method <code>foo&#40;x::Int64&#41;</code>, as <code>2</code> has type <code>Int64</code>.</p>
 <p>The example also reveals that the methods don&#39;t necessarily have to perform similar operations. This is clearly evident when <code>foo&#40;&quot;Two&quot;&#41;</code> is executed. In fact, the methods don&#39;t need to have the same number of arguments, as the following example shows.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;x&#41;    &#61; x
-foo&#40;x, y&#41; &#61; x &#43; y</code></pre>
+<pre><code class="julia hljs">foo(x)    = x
+foo(x, y) = x + y</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;2&#41;</code> <br/> 2 </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;2, 3&#41;</code> <br/> 5 </div></div> </div>   </details></div>
  <h4> Compilation </h4>
 <p>A function call starts by inferring the types of the function&#39;s variables. After this, Julia engages in multiple dispatch, which identifies a specialized method for the types of the arguments passed in. </p>
@@ -2284,9 +2284,10 @@ function goToNextPage() {
 
   
   
-      <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
+      <script src="/julia_book/libs/highlight/highlight.js"></script>
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
-<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+<!-- <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script> -->
+
 
 
   
