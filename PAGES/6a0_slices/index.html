@@ -1,57 +1,3127 @@
-<!-- ################################################# # HEAD - FOR ALL PAGES ################################################# --> <!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta name=author  content="Martin Alfaro"> <!-- HERE WE ADD ANY CSS ELEMENT WE WANT TO ADD (don't confuse head with header, head applies globally) --> <link rel=stylesheet  href="/julia_book/libs/katex/katex.min.css"> <link rel=stylesheet  type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css"> <link rel=stylesheet  href="https://fonts.googleapis.com/css?family=Open+Sans"> <link rel=stylesheet  href="/julia_book/libs/highlight/styles/vs_myversion.css"> <link rel=stylesheet  href="/julia_book/css/bootstrap.min.css"> <style> .section-bg-color { background-color: rgba(63, 99, 136, 0.07); } footer a { color: cornflowerblue; } header { margin-top: 0px !important; } header .jumbotron { background-image: linear-gradient(to right, black, rgb(0, 0, 0) 10%, rgb(63,99,136) 55%, rgb(63,99,136));; background-repeat: no-repeat; background-size: 100%; } </style> <link rel=stylesheet  href="/julia_book/css/custom.css"> <title>Julia Book - Martin Alfaro</title> <link rel=icon  type="image/png" href="/julia_book/assets/icons/favicon.ico"> <script async src="https://www.googletagmanager.com/gtag/js?id=G-K96JNP7PKB"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-K96JNP7PKB'); </script> <body id=page-top > <!-- ################################################# # FOR EACH SPECIFIC PAFE ################################################# --> <!-- <style> /* ================================================================= TOOLTIP - GENERAL APPROACH (NOT ONLY FOOTNOTES) ================================================================= */ .hovering_foot { position: relative; display: inline-block; margin-left:-3px; text-decoration: underline; text-decoration-style: double; text-decoration-color: rgb(85, 133, 182); } .hovering_foot .h_foot_text { visibility: hidden; width: 120px; background-color: black; color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; /* Position the hovering_foot */ position: absolute; z-index: 1; top: 100%; left: 50%; margin-left: -60px; } .hovering_foot:hover .h_foot_text { visibility: visible; } /* ================================================================= FOOTNOTES with TOOLTIP ================================================================= */ .supr { vertical-align: 80%; font-size: 75%; line-height: 1; } .footn { position: relative; display: inline-block; margin-left:-0.6em; margin-right:0; color: #2669DD; text-decoration: underline; } .footn .footn_text { font-size: 125%; visibility: hidden; width: max-content; max-width: 500px; text-align: justify; text-justify: inter-word; text-indent: 0%; line-height: 1.5; background-color:#282c34; color: #e0e4eb; border-radius: 6px; padding: 5px 12px 5px 12px; /* Position the hovering_foot */ position: absolute; z-index: 1; top: 100%; left: -125px; } .footn:hover .footn_text { visibility: visible; } .footn a{ color: #7b9fdd; } .footn a:hover{ color: #a1b6dbb2; } </style> --> <style> .footn { position: relative; display: inline-block; margin-left: -0.6em; margin-right: 0; color: #2669DD; text-decoration: underline; } .supr { vertical-align: 80%; font-size: 75%; line-height: 1; } .footn .footn_text { font-size: 125%; visibility: hidden; text-align: justify; text-justify: inter-word; text-indent: 0%; line-height: 1.5; background-color: #282c34; color: #e0e4eb; border-radius: 6px; padding: 5px 12px 5px 12px; /* Position the hovering_foot */ position: absolute; z-index: 1; bottom: 100%; right:0; } .footn .footn_text.left { left:0; width: max-content; max-width: 500px; } .footn .footn_text.right { right: 0; width: max-content; max-width: 500px; } .footn:hover .footn_text { visibility: visible; } .footn a{ color: #7b9fdd; } .footn a:hover{ color: #a1b6dbb2; } </style> <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script> <script> $(document).ready(function() { $('.footn.supr').hover( function() { var footnoteText = $(this).find('.footn_text'); var sentence = $(this).closest('p'); var sentenceWidth = sentence.width(); // var footnoteTextLeft = footnoteText.offset().left - sentence.offset().left; // var isRightAligned = footnoteTextLeft > sentenceWidth / 2; var footnoteTextLeft = footnoteText.offset().left - sentence.offset().left; var isRightAligned = footnoteTextLeft > sentenceWidth / 2; // Remove existing alignment classes footnoteText.removeClass('left right'); // Add the appropriate alignment class if (isRightAligned) { footnoteText.addClass('right'); } else { footnoteText.addClass('left'); } // Add the "hovering" class to the footnote text footnoteText.addClass('hovering'); }, function() { // Remove the "hovering" class from the footnote text $(this).find('.footn_text').removeClass('hovering'); $(this).find('.footn_text').removeClass('left right'); } ); }); </script> <style> @media (max-width: 768px) { .footn .footn_text.left { left:0; width: max-content; max-width: 200px; } .footn .footn_text.right { right: 0; width: max-content; max-width: 200px; }	} </style> <!-- <script> // Create a media query to match the condition (max-width: 768px) var mediaQuery = window.matchMedia('(max-width: 768px)'); // Define a callback function to execute when the media query matches var mediaQueryHandler = function (event) { if (event.matches) { // Code to be executed when the media query matches (screen width <= 768px) $(document).ready(function () { $('.footn.supr').hover( function () { var footnoteText = $(this).find('.footn_text'); var sentence = $(this).closest('p'); var sentenceWidth = sentence.width(); var footnoteTextLeft = footnoteText.offset().left - sentence.offset().left; var isRightAligned = footnoteTextLeft > sentenceWidth / 2; // Remove existing alignment classes footnoteText.removeClass('left right'); // Add the appropriate alignment class if (isRightAligned) { footnoteText.addClass('right'); } else { footnoteText.addClass('left'); } // Add the "hovering" class to the footnote text footnoteText.addClass('hovering'); }, function () { // Remove the "hovering" class from the footnote text $(this).find('.footn_text').removeClass('hovering'); } ); }); } }; // Add the event listener to the media query mediaQuery.addListener(mediaQueryHandler); // Call the handler once at the beginning to check the initial state mediaQueryHandler(mediaQuery); </script> --> <link href="https://fonts.cdnfonts.com/css/cascadia-mono" rel=stylesheet > <style> /* */ /* ================================================================= CODE FORMAT ================================================================= */ /* output_box_copied is LEGACY, we should delete in NEW FILES!!!!!! */ /* for overflowing code */ /* .col-lg-.mx-auto{ overflow: auto !important; } */ /* USEFUL TO CHANGE THE MARGINS OF THE CODE*/ pre { position: relative; /* necessary for "copy" button */ overflow: hidden; } /* FOR WARNING, REMARK, AND MODALS .warning pre, .remark pre, .modal-body pre { margin-bottom: 1.2em; } */ /* FOR INLINE CODE, WRITTEN WITHIN THE TEXT*/ code { background-color: rgb(209, 217, 224); /*rgb(199, 223, 236);*/ color : black; text-indent : 0%; padding-top : 0.1em; padding-bottom : 0.1em; padding-left : 0.3em; padding-right : 0.3em; vertical-align : 0.05em; border : 1px solid rgb(0, 16, 41); overflow: hidden; } .julia_repl_NoFormat code, .mixed_output_NoFormat code { background-color: rgb(82, 120, 104); /*rgb(199, 223, 236);*/ color : #DCDCDC; border : 1px solid rgb(82, 120, 104); } /* COPY BUTTON */ /* version blue, conceived by use of code only */ .copy-button { cursor : pointer; border : none; font-size : 12px; text-transform: lowercase; font-weight : 500; padding : 0px 10px 2px; /* background-color: #3f6b4b; */ background-color: rgb(63,99,136); position : absolute; top : 0px; right : 12px; /*Button shows in the right side of block*/ text-align : center; color : #ffffff; margin-top : 0; z-index : 1; } .copy-button:hover{ outline : none; background-color: rgb(84, 131, 179); } .copy-button:focus { outline : none; background-color: rgb(50, 78, 107); } /* ================================================================= BASIC FORMAT FOR OUTPUTS ================================================================= */ /* to not collapse with the copy button and `pre` */ .akin_to_pre { white-space: pre-wrap; font-family: "Consolas"; } /* NoFormat for julia repl - no margins or paddings, just colors, fonts, etc */ .julia_repl_NoFormat{ font-family : "Consolas"; font-size : 95%; color : #DCDCDC; border : none; background-color: rgb(1, 59,31); margin : 0; padding : 0; } .julia_repl_NoFormat .akin_to_pre{ line-height: 1.35; color : #DCDCDC; font-size : 100%; margin : 0; padding : 0; } /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc */ .franklin_output_NoFormat{ font-family : "Consolas"; font-size : 95%; margin : 0; padding : 0; background-color: rgb(1, 59,31); } .franklin_output_NoFormat pre { margin : 0; padding : 0; line-height : 1.35; background-color: rgb(1, 59,31); } .franklin_output_NoFormat pre code{ margin : 0 !important; padding : 0 !important; border : none; background-color: rgb(1, 59,31); } /* NoFormat for Mixed */ .mixed_output_NoFormat{ font-family : "Consolas"; font-size : 95%; color : #DCDCDC; border : none; background-color: rgb(1, 59,31); margin : 0; padding : 0; } .mixed_output_NoFormat pre{ line-height: 1.35; color : #DCDCDC; font-size : 100%; margin : 0; padding : 0; } .mixed_output_NoFormat pre code{ font-size : 90%; margin : 0 !important; padding : 0 !important; border : none; background-color: rgb(1, 59,31); } /* Inline for julia_repl and franklin_output - adding margins and paddings */ .mixed_output_inline{ color : #DCDCDC; font-family : "Consolas"; background-color: rgb(1, 59,31); padding-left : 1em; padding-top : 0.5em; padding-bottom: 1em; margin-top : 0; margin-bottom: 0; } /* ============================ OUTPUT BOX for Tabs hidden ============================ */ /* COLLAPSABLE OUTPUT BOX*/ .output_box{ margin : 0; padding: 0; } .output_box details > summary{ width : max-content; max-width: 90%; padding-left : 10px; padding-right : 10px; background-color: #3f6b4b; cursor : pointer; color : #ffffff; box-shadow : 3px 3px 4px black; text-indent : 0; } .output_box details[open] > summary { width : max-content; max-width: 90%; padding-left : 10px; padding-right : 10px; background-color: #3f6b4b; border : #282c34; border-width : 1px; border-style : solid; } .output_box{ padding-top : 0.5em; padding-bottom: 1em; margin-top : 0em; margin-bottom : 1em; } /* ================================================================= BASIC FORMAT FOR OUTPUTS ================================================================= */ .code_NoFormat{ line-height : 1.45; font-size : 95%; margin : 0; padding : 0; background-color: rgb(0, 16, 41); } .code_NoFormat pre{ margin : 0; padding : 0; background-color: rgb(0, 16, 41); } .code_NoFormat pre code{ font-family : "Cascadia Mono"; /* Fira Mono */ margin : 0 !important; padding : 0 !important; border : none; background-color: rgb(0, 16, 41); } .code_NoFormat p{ padding: 0; margin : 0; } .code_inline{ background-color: rgb(0, 16, 41); padding-left : 1em; padding-top : 0.5em; padding-bottom: 1em; margin-top : 0; margin-bottom: 0; } /* ============================ CODE BOX is for a TAB hidden ============================ */ .code_box{ margin : 0; padding: 0; } .code_box details > summary{ width : max-content; max-width : 90%; padding-left : 10px; padding-right : 10px; background-color: rgb(63,99,136); cursor : pointer; color : #ffffff; box-shadow : 3px 3px 4px black; text-indent : 0; } .code_box details[open] > summary { width : max-content; max-width: 90%; padding-left : 10px; padding-right : 10px; background-color: rgb(63,99,136); border : #282c34; border-width : 1px; border-style : solid; } .code_box{ padding-top : 0em; padding-bottom: 0em; margin-top : 0em; margin-bottom : 1em; } /* ============================ */ /* FOR MULTIPLE TABS MODALS */ /* ============================ */ .hide_tab{ padding-top : 0em; padding-bottom: 0em; margin-top : 0em; margin-bottom : 1em; } .hide_tab > details > summary { width: 30px; max-width: 90%; padding-left: 11px; padding-right: 0px; padding-bottom: 0px; background-color: rgb(63,99,136); cursor: pointer; color: #ffffff; text-indent:0; border:#282c34; border-width:1px; border-style:solid; } .hide_tab > details[open] > summary { position:absolute; width: 35px; max-width: 90%; height:1.94em; padding-bottom: 0px; padding-top: 3px; padding-left: 12px; padding-right: 5px; background-color: rgb(63,99,136); border:#282c34; border-width:1px; border-style:solid; border-bottom: none; } /* ============================ DEALING WITH TABS, FOR MODALS WITH ONLY OUTPUT OR ONLY CODE ============================*/ .tab_wrapper{ width : 100%; display: inline-block; } .tab_wrapper .tab_code_links{ background-color: rgb(0, 16, 41);} .tab_wrapper .tab_code_links .tablink{ background-color: rgb(63,99,136); color : white; float : left; border : 1px solid black; outline : none; cursor : pointer; padding : 2px 20px; width : max-content; height : auto; } .tab_wrapper .tab_code_links .tablink.first_tab{ padding-left: 54px;} .tab_wrapper .tab_code_links .tablink.active{ font-weight:500; background-color:rgba(82, 127, 173, 0.836); } .tab_wrapper .tab_code_links .tablink:hover{ background-color:rgba(82, 127, 173, 0.836); } .tab_wrapper .tabcontent{ background-color: rgb(0, 16, 41); display : none; width : 100%; float : left; margin : 0; padding : 0; } .tab_wrapper .tabcontent.active{ display: block;} /* wrappers in modals */ .code_in_modal{ background-color: rgb(0, 16, 41); padding-left : 1em; padding-top : 0.5em; padding-bottom: 1em; margin-top : 0; margin-bottom : 0; } .output_in_modal{ background-color: rgb(1, 59,31); } /* ============================ ADDING IMAGES AS OUTPUTS ============================*/ /* COLLAPSIBLE OUTPUT WITH IMGS */ .img_output{ text-indent:0; margin:0; padding:0; background-color: rgba(24,24,24,255); } .img_output_in_modal{ text-indent:0; margin:0; padding:0; background-color: rgba(24,24,24,255); } .img_output_old{ text-indent:0; margin:0; padding:0; background-color: rgba(30,30,30,255); } .img_output_in_modal_old{ text-indent:0; margin:0; padding:0; background-color: rgba(30,30,30,255); } .sign_output{ color:white; width: 100%; max-width: 100%; height:auto; padding-bottom: 0px; padding-top: 0px; padding-left: 12px; padding-right: 12px; background-color: #3f6b4b; border:#282c34; border-width:1px; border-style:solid; margin-bottom:0px; padding-top:0em; } .outputmodal_container{ padding:0; margin:0; } /* .img_output{ color:white; text-indent:0; margin-top:-15px; margin-bottom:0px; } .img_output details > summary { width: max-content; max-width: 90%; height:auto; padding-left: 10px; padding-right: 10px; color: white; background-color: #3f6b4b; border: none; margin: 0; box-shadow: 3px 3px 4px black; cursor: pointer; } .img_output details[open] > summary { width: max-content; max-width: 90%; padding-left: 10px; padding-right: 10px; background-color: #3f6b4b; border:#282c34; border-width: 1px; color:white; border-style:solid; } .img_output details > p { border-radius: 0 0 0px 0px; background-color: rgba(30,30,30,255); padding: 10px 6px 10px 6px; margin-bottom: 22px; margin-top: 0px; } */ /* ============================ */ /* COLLAPSE TABS - HIDE BUT FOR OUTPUTS */ /* ============================ */ /* FOR ADDING A SIGN WITH OUTPUT IN TABS */ /* .hide_output > details > summary { width: 30px; max-width: 90%; padding-left: 11px; padding-right: 0px; padding-bottom: 0px; background-color: #3f6b4b; cursor: pointer; color: #ffffff; text-indent:0; border:#282c34; border-width:1px; border-style:solid; } .hide_output > details[open] > summary { position:absolute; width: 35px; max-width: 90%; height:1.94em; padding-bottom: 0px; padding-top: 3px; padding-left: 12px; padding-right: 5px; background-color: #3f6b4b; border:#282c34; border-width:1px; border-style:solid; border-bottom: none; } .hide_output > details > p { border-radius: 0 0 0px 0px; padding: 0px 0px 0px 0px; margin-bottom: -1px; } .hide_output > details[open] { margin-bottom: -0.8em; } .hide_output > details { margin-bottom: -8px; } */ /* for output in modals when there are multiple outputs */ </style> <link rel=stylesheet  href="https://fonts.googleapis.com/css?family=Open+Sans|Crimson+Text"> <link rel=stylesheet  href="https://fonts.googleapis.com/css?family=Inter|Cormorant"> <style> /* THIS CONTROLS THE GLOBAL BEHAVIOR OF THE PAGE */ html { scroll-behavior: auto; } /* change font size */ .jumbotron, .bar_top, .navbar, .nav-item, footer, .left_bar { font-size: 16px; font-family: "Open Sans"; } .franklin-content{ font-size: 17px; font-family: "Open Sans"; } /* TITLE AND NAME */ h1{ padding-top:0.1em; font-size:210% !important; font-weight: bold; text-align:center; } .phd_format { color: white; /* padding: -0.5em 1.0em; */ text-decoration: none; font-size: 90%; text-align: center; margin-top:-0.2em; margin-bottom: -0.89em; } .name_format{ padding-top: 0.35em; /* padding-bottom: 0.3em; */ text-decoration: none; font-size: 160%; } .name_format a { color: white; } .name_format a:hover { color: rgb(212, 212, 212); color: rgb(214, 227, 240) } /* content */ .franklin-content{ /* background-color:rgb(235, 235, 235); */ background-color: rgb(217, 224, 231); } .franklin-content{ margin:0; width:100%; height:100%; justify-content:center; text-align: justify; text-justify: inter-word; line-height: 1.65; /* word-wrap: break-word; */ } /* all header */ .jumbotron{ margin-bottom:0px; padding-top: 42px; padding-bottom:2em; border-bottom: #000000 solid 1px; border-radius: 0;} .franklin-content, .jumbotron { padding-left: 180px;} footer{ background-image: linear-gradient(to right, rgba(35,55,75,255), rgba(0, 0, 0, 1) 50%, rgb(63,99,136)); background-color:rgb(63,99,136); width: calc(100%+10px); margin-left: -10px; padding-left: 10px; } /* @media screen and (min-width: 992px) { html { zoom: 100%; width:100%; } } */ /* .jumbotron.jumbotron-fluid.container-fluid.bg-primary{ background-image: url(/assets/WallpaperDog-17291225.jpg); background-size: cover; } */ /* FOR THE BODY - this changes its position*/ /* .franklin-content { position:absolute; margin-left: 0px; padding-top:0;} */ /* ALL .franklin-content,.jumbotron, .bar_top, .navbar, .nav-item { font-family: "Segoe UI"; FONT USED by DEFAULT BY FRANKLIN } */ /* HEADER + NAME .jumbotron, h1{ font-family: "Raleway"; font-weight: 550; } */ /* ALL HEADER - title of page */ /* .jumbotron { text-align:left; padding-left:20px; } */ /* HEADER only - title of page */ /* h1 { text-align:left; } */ /* FORMAT OF THE TEXT IN THE MAIN BODY */ /* section .container{ margin-left: auto; } */ h2 { text-transform: uppercase; font-size:160%; text-align:center; text-decoration: underline; padding-bottom: 0.5em; } h3{ text-align:left; text-transform: uppercase; text-decoration: underline;/*none; */ padding-bottom: 0.0em; padding-top: 0.5em; font-size: 120%; font-weight: 600; /* color:rgb(49, 77, 105); */ } h4{ text-align:left; /* color: rgb(73, 115, 157); */ text-decoration: underline;/*none; */ padding-bottom: 0.0em; padding-top: 0.5em; font-size: 120%; font-weight: 600; } h5,h6{ text-indent:0; line-height:0.1em; padding-top:0.99em; padding-bottom: 0.0em; } section { margin-left:0; /* font-family: "Open Sans"; */ padding-left: 1%; padding-right: 1%; padding-top: 1.5%; padding-bottom: 1.0%; text-align: justify; text-justify: inter-word; line-height: 1.65; /* text-indent: 2.5%; */ text-indent: 0; font-size: 100%; color: black; } /* section p { margin-bottom:24px;} */ section h1 { /* this is for the title defined as latex*/ text-indent:0; margin-left:0px; } section h2 { text-indent: 0%; /* space between title and text */ margin-bottom: 0em; /* space between title and text */ } .franklin-content ul { margin-left: 0em; margin-top: -0.6em; line-height: 1.15;} .franklin-content ul li p { margin-left: 0em; margin-bottom: 0.6em; line-height: 1.35; text-indent:0;} .franklin-content ol li { margin-left: 2em; line-height: 1.15;} ul ::marker { color: rgb(73, 115, 157); } ol ::marker { color: rgb(83, 129, 175); font-weight: bold; } a.anchor { display: block; position: relative; top: -150px; visibility: hidden; } section a { color: rgb(62, 121, 180); text-decoration: underline; font-weight: 500; } section a:hover{ color: rgba(62, 121, 180, 0.699); text-decoration: underline; } </style> <!-- <div class=left_bar  style="color:white;"> <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);"> <img src="/julia_book/assets/pics_html/julia_logo-dark.svg" style= "position:relative; width:90%; height:auto; padding-top:45px; padding-left:10px;"> </div> --> <div class=left_bar  style="color:white;"> <span> <img src="/julia_book/assets/pics_html/julia_logo-dark.svg" alt=pic  style="padding: 12px; padding-right:28px;padding-top:36px" width=180px  height=auto> </span> <!-- <div style="color: rgb(63,99,136); font-size: 20px; font-weight: bold; text-align: center; text-shadow: 1px 1px 0px #fff, -1px -1px 0px #fff, 1px -1px 0px #fff, -1px 1px 0px #fff, 0px 0px 5px #fff;"> CONTENT </div> --> <ul> <li> <a href="/julia_book/index.html"><img src="/julia_book/assets/icons/home.png" style="width:15%; height:auto;opacity:0.9;padding-bottom:5px;"> Home </a> <li> <a href="/julia_book/list_posts/"><img src="/julia_book/assets/icons/books03.png" style="width:15%; height:auto;opacity:0.9;padding-bottom:5px;"> Chapters </a> <li> <div style="text-indent:0;"> <button class=modalButton > <img src="/julia_book/assets/icons/keyboard01.png" style="width:20%; height:auto; opacity:0.9;margin-bottom:-18px; margin-left:-40px; padding-right:4px;"> Notation &<div style="margin-left:-1em; margin-top:-3em;">Hotkeys</div> </button> <div class=kbd_shortcuts > <div class=modal  id=kbdmodal_bar > <div class=modal-content  > <div class=modal-header > <h2> NOTATION</h2> </div> <div class=modal-body  style="height:auto;"> Generic expressions are represented by <b>&lt;something&gt;</b> (e.g., <code>&lt;function&gt;</code> or <code> &lt;operator&gt;</code>). This is just notation, and the symbols <code>&lt;</code> and <code>&gt;</code> should not be misconstrued as Julia's syntax. </div> <div class=modal-header > <h2> PAGE ZOOM</h2> </div> <div class=modal-body > If you want to adjust the size of the font, <b>zoom in or out on pages</b> by respectively using <kbd>Ctrl</kbd>+<kbd>+</kbd> and <kbd>Ctrl</kbd>+<kbd>-</kbd>. The layout will adjust automatically. <br> <span class=brmine ></span> </div> <div class=modal-header > <h2> KEYBOARD SHORTCUTS</h2> </div> <div class=modal-body > <style> .tg { border-collapse: collapse; border-spacing: 0; } .tg td { border-color: black; border-style: solid; border-width: 1px; overflow: hidden; padding: 10px 12px; word-break: normal; } .tg th { border-color: black; border-style: solid; border-width: 1px; font-weight: normal; overflow: hidden; padding: 10px 5px; word-break: normal; } .tg .tg-80zn { background-color: rgba(63, 99, 136, 0.2); border-color: #ffffff; font-weight: bold; text-align: center; vertical-align: top } .tg .tg-esg4 { background-color: #ebebeb; border-color: #ffffff; font-weight: bold; text-align: right; vertical-align: top } .tg .tg-8jgo { border-color: #ffffff; text-align: left; vertical-align: top } .tg .tg-ofj5 { border-color: #ffffff; text-align: center; vertical-align: top } </style> <table class=tg  style="margin-left: auto; margin-right: auto;"> <thead> <tr> <th class=tg-80zn >Action <th class=tg-80zn >Keyboard Shortcut <tr> <td class=tg-8jgo >Previous Section <td class=tg-ofj5 ><kbd>Ctrl + 🠘</kbd> <tr> <td class=tg-8jgo >Next Section <td class=tg-ofj5 ><kbd>Ctrl + 🠚</kbd> <tr> <td class=tg-8jgo >List of Sections <td class=tg-ofj5 ><kbd>Ctrl + z</kbd> <tr> <td class=tg-8jgo >List of Subsections <td class=tg-ofj5 ><kbd>Ctrl + x</kbd> <tr> <td class=tg-8jgo >Close Any Popped Up Window (like this one) <td class=tg-ofj5 ><kbd>Esc</kbd> <tr> <td class=tg-8jgo >Open All Codes and Outputs in a Post <td class=tg-ofj5 ><kbd>Alt + 🠙</kbd> <tr> <td class=tg-8jgo >Close All Codes and Outputs in a Post <td class=tg-ofj5 ><kbd>Alt + 🠛</kbd> </table> <span class=brmine ></span> </div> <div class=modal-header > <h2> TIME MEASUREMENT</h2> </div> <div class=modal-body > When benchmarking, the equivalence of time measures is as follows. <br> <br> <style> .tg { border-collapse: collapse; border-spacing: 0; } .tg td { border-color: black; border-style: solid; border-width: 1px; overflow: hidden; padding: 10px 5px; word-break: normal; } .tg th { border-color: black; border-style: solid; border-width: 1px; font-weight: normal; overflow: hidden; padding: 10px 5px; word-break: normal; } .tg .tg-80zn { background-color: #ebebeb; border-color: #ffffff; font-weight: bold; text-align: left; vertical-align: top } .tg .tg-esg4 { background-color: #ebebeb; border-color: #ffffff; font-weight: bold; text-align: right; vertical-align: top } .tg .tg-8jgo { border-color: #ffffff; text-align: left; vertical-align: top } .tg .tg-ofj5 { border-color: #ffffff; text-align: center; vertical-align: top } </style> <table class=tg  style="margin-left: auto; margin-right: auto;"> <thead> <tr> <th class=tg-80zn >Unit <th class=tg-80zn >Acronym <th class=tg-80zn >Measure in Seconds <tr> <td class=tg-8jgo >Seconds <td class=tg-ofj5 >s <td class=tg-ofj5 >1 <tr> <td class=tg-8jgo >Miliseconds <td class=tg-ofj5 >ms <td class=tg-ofj5 >10<sup>-3</sup> <tr> <td class=tg-8jgo >Microseconds <td class=tg-ofj5 >μs <td class=tg-ofj5 >10<sup>-6</sup> <tr> <td class=tg-8jgo >Nanoseconds <td class=tg-ofj5 >ns <td class=tg-ofj5 >10<sup>-9</sup> </table> </div> </div> <style> .left_bar .kbd_shortcuts { color: black; font-size: 16px; line-height: 1.55; list-style-type: none; position: relative; } .left_bar .kbd_shortcuts kbd { font-size: 14px;} /* bar topright modal (for content of the modal) */ .left_bar .kbd_shortcuts .modal-content { position: relative; width: 1200px; max-width: 90%; height: max-content; max-height: 90%; margin-top:55px; background-color: rgb(207, 218, 228); /* rgb(235, 235, 235); */ overflow:auto; } .left_bar .kbd_shortcuts .modal-body { margin-left: 8px; padding-bottom: 12px; text-align: justify; padding-top: 8px; padding-bottom: 2px; overflow: visible; height: 100%; } .left_bar .kbd_shortcuts .modal-header { padding: 0; color: white; width: 100%; } .left_bar .kbd_shortcuts .modal-header h2 { padding-top: 8px; font-size: 20px; font-weight: bold; width: 100%; text-align: center; color:white; background-color: rgb(63,99,136) }; .left_bar .kbd_shortcuts .modal-body p { padding: 0px 4px; text-align: justify; text-justify: inter-word; } /* modal button */ .left_bar .modalButton { border: none; box-shadow: none; width: auto; padding: 0; background-color: transparent; color: white; margin: 0; } .left_bar .brmine { display: block; margin-bottom: 0.5em; } </style> </div> <li> <a href="/julia_book/links/"><img src="/julia_book/assets/icons/links.png" style="width:15%; height:auto;opacity:0.9;padding-bottom:5px;"> Useful Links </a> </ul> <div class=personal_website > <a href="https://alfaromartino.github.io"><img src="/julia_book/assets/icons/personal.png" style="width:18%; height:auto;opacity:0.9;margin-bottom:-14px; padding-right:4px"> Personal <div style="margin-left:calc(30px + 6px); margin-top:-0.5em;"> Website</div> </a> </div> <!-- {{if add_github_star}} <a class=github-button  href="https://github.com/{{github_repo}}" data-icon=octicon-star  data-size=large  data-show-count=true  aria-label="Star {{title}} on GitHub">Star</a> {{end}} --> </div> <style> .left_bar { z-index: 200; background-image: linear-gradient(to left bottom, rgb(0, 0, 0), rgb(0, 0, 0) 10%, rgb(63, 99, 136) 80%, rgb(63, 99, 136)); position: fixed; font-family: "Inter"; height: 100%; top: 0; left: 0; font-size: 20px; width: 180px; } .left_bar ul{ list-style-type: none; float: left; font-size:85%; position: relative; padding-left: 0.8em; padding-top: 40px; line-height: 4.25em; } .left_bar li a, .left_bar .personal_website a{ color: white; } .left_bar a:hover, .left_bar .personal_website a:hover{ color: rgb(160, 159, 159); } .left_bar .personal_website{ position:absolute; bottom:0; padding-bottom: 1em; left:12px; font-size:18px; } </style> <header class="text-white text-center"> <div class="jumbotron jumbotron-fluid container-fluid bg-primary"> <h1><i>5e.</i> Slices and Views</h1> <div class=lead > </div> <div class=name_format > <a href="https://alfaromartino.github.io/" target=_blank  rel="noopener noreferrer">Martin Alfaro</a> </div> <div class=phd_format >PhD in Economics</div> <!-- {{if add_github_star}} <a class=github-button  href="https://github.com/{{github_repo}}" data-icon=octicon-star  data-size=large  data-show-count=true  aria-label="Star {{title}} on GitHub">Star</a> {{end}} --> </div> </header> <div class=bar_top > <ul> <li> <div style="text-indent:0;"> <button class=modalButton  style="background-color: transparent; color:white; display:block; margin-bottom: -2px;"> <img src="/julia_book/assets/icons/sheets01.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:5px;margin-left:0px;"> Sections</button> </div> <div class=modal  id=modal_bar > <div class=modal-content > <div class=modal-header > <h2 style="text-decoration: none"> <span style="text-decoration: underline">PART I</span>: INTRODUCTION TO JULIA</h2> </div> <div class=modal-body > <div class=row > <div class=column > <h3> INTRODUCTION </h3> <ul> <li>1. <u>Installation and Preliminaries</u> <ul> <li><a href="/julia_book/PAGES\1a_installation/"><i>a</i>. Installation and Resources</a><br> <li><a href="/julia_book/PAGES\2a_basics/"><i>b</i>. Running Julia</a><br> <li><a href="/julia_book/PAGES\1c_vscode/"><i>c</i>. VS Code (OPTIONAL)</a><br> <li><a href="/julia_book/PAGES\2b_tips/"><i>d</i>. A Minimal Set of Good Practices</a><br> </ul> <li>2. <u>Variables</u> <ul> <li><a href="/julia_book/PAGES\overview_1/"><i>a</i>. Overview and Goals</a><br> <li><a href="/julia_book/PAGES\3a_variables/"><i>b</i>. Variables, Types, and Operators</a><br> <li><a href="/julia_book/PAGES\3b_univariables/"><i>c</i>. Numbers</a><br> <li><a href="/julia_book/PAGES\3b2_strings/"><i>d</i>. Strings</a><br> <li><a href="/julia_book/PAGES\3c_arrays/"><i>e</i>. Arrays (Vectors and Matrices)</a><br> <li><a href="/julia_book/PAGES\3c2_tuples/"><i>f</i>. Tuples</a><br> </ul> </ul> </div> <div class=column > <h3> CORE CONCEPTS </h3> <ul> <li>3. <u>Functions</u> <ul> <li><a href="/julia_book/PAGES\overview_2/"><i>a</i>. Overview and Goals</a><br> <li><a href="/julia_book/PAGES\4a0_packages/"><i>b</i>. Function Execution and Packages</a><br> <li><a href="/julia_book/PAGES\4a1_define_func/"><i>c</i>. Defining Your Own Functions</a><br> <li><a href="/julia_book/PAGES\4b_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a><br> <li><a href="/julia_book/PAGES\4d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a><br> </ul> <li>4. <u>Control Flow</u> <ul> <li><a href="/julia_book/PAGES\overview_3/"><i>a</i>. Overview and Goals</a><br> <li><a href="/julia_book/PAGES\5a_logical/"><i>b</i>. Conditions</a><br> <li><a href="/julia_book/PAGES\5b_conditionals/"><i>c</i>. Conditional Statements</a><br> <li><a href="/julia_book/PAGES\5c_forLoops/"><i>d</i>. For-Loops</a><br> </ul> </ul> </div> <div class=column > <h3> USING JULIA </h3> <ul> <li>5. <u>Vectors: Indexing and Mutations</u> <ul> <li><a href="/julia_book/PAGES\overview_4/"><i>a</i>. Overview and Goals</a><br> <li><a href="/julia_book/PAGES\3e_immutables/"><i>b</i>. Mutable and Immutable Objects</a><br> <li><a href="/julia_book/PAGES\3d_mutation/"><i>c</i>. Assignments vs Mutations</a><br> <li><a href="/julia_book/PAGES\5bc_initializing/"><i>d</i>. Initializing and Creating Vectors</a><br> <li><a href="/julia_book/PAGES\6a0_slices/"><i>e</i>. Slices and Views</a><br> <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a><br> <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. In-Place Assignments</a><br> <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a><br> </ul> <li>6. <u>Working with Vectors and Other Collections</u> <ul> <li><a href="/julia_book/PAGES\overview_6/"><i>a</i>. Overview and Goals</a><br> <li><a href="/julia_book/PAGES\6c1_tuples_and_namedtuples/"><i>b</i>. Named Tuples and Dictionaries</a><br> <li><a href="/julia_book/PAGES\6f_pipes/"><i>c</i>. Let Blocks and Pipes</a><br> <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a><br> <li><a href="/julia_book/PAGES\6d_application01/"><i>e</i>. Illustration - Johnny, the YouTuber</a><br> </ul> </ul> </div> </div> </div> </div> </div> </ul> </div> <style> /* ================================================================= TOP BAR - TO NAVIGATE SECTIONS ================================================================= */ .bar_top{padding-left:180px;} .bar_top { background-image: linear-gradient(to right, black, rgb(0, 0, 0) 10%, rgb(63,99,136) 55%, rgb(63,99,136)); position : fixed; /* fixed to stay at the top */ width : 100%; height : 48px; top : 0; left : 0; padding : 8px 0px 10px 0px; font-size : 100%; z-index : 125; } .bar_top a:hover { color: rgb(160, 159, 159); } .bar_top > ul { list-style-type: none; float : left; position : relative; bottom : 0; padding-left : 1%; left : 180px; } .bar_top li a{ color: white; } .bar_top .modal{ background-color: transparent; /* left: 0; */ /* top: 0; */ margin-top : 48px; padding-left: 1%; margin-left : 0; width : 100%; height : 100%; overflow : auto; position : fixed; } /* bar topright modal (for content of the modal) */ .bar_top .modal-content { position : relative; width : 1200px; max-width : 90%; height : max-content; max-height: 90%; background-color : black; margin : auto; padding : 8px; margin-left : 180px; -webkit-animation-name : none; /* -webkit-animation-duration: 0.0s; */ animation-name : none; /* animation-duration : 0.0s; */ } .bar_top .modal-header { background-color: black; color : white; } .bar_top .modal-body{ color:rgb(100, 157, 214); } .bar_top .modal-body .row{display: flex;} .bar_top .modal-body .row .column{flex:1;} /* equal size of columns*/ .bar_top .modal-body .row h3{ padding-bottom:0.5em;} .bar_top .modal-body .row ul li ul { list-style-type: none; margin : 0; padding : 0; padding-top : 1em; padding-bottom : 0.4em; line-height : 1.5;} .bar_top .modal-body .row li { line-height : 0.38; list-style-type: none; float : center; text-indent : -20px; padding-left : 20px; position : relative; } .bar_top .modal-body .row .column { text-align: center; /* center align all contents in a column */ } .bar_top .modal-body .row .column h3 { text-align: center; /* center align the h3 tag in a column */ } .bar_top .modal-body .row .column ul { text-align : left ; /* left align the ul tag in a column */ margin-left : auto; /* center the ul tag */ margin-right : auto; /* center the ul tag */ list-style-position: inside; /* adjust the position of the list items */ } /* modal button */ .bar_top .modalButton { border : none; margin-bottom: 24px; box-shadow : none; /* box-shadow: 3px 3px 4px black; */ } /* The Close Button */ .bar_top .modalClose { font-size: 0px; } </style> <!-- {{ispage list_posts links}} {{insert /index_page/lists_header.html}} {{insert /index_page/lists_FORMAT.html}} {{end}} --> <div class=franklin-content > <section id=introduction  class="scrollspy section-bg-color"> <div class=container > <div class=row > <div class="col-lg- mx-auto"> <h2>Introduction</h2></p> <p>This section concludes with the preliminary concepts for studying mutations. In particular, it deals with the behavior of a vector&#39;s slice. </p> <p>A <span style="color: rgb(62, 121, 180);"><strong>slice</strong></span> is a subset of a vector&#39;s elements and is denoted as <code>x&#91;&lt;indices&gt;&#93;</code>. Importantly, <strong>slices act differently depending on where they're included</strong>. Formally, we need to distinguish between slices that act as:</p> <ul> <li><p><span style="color: rgb(62, 121, 180);"><strong>copies</strong></span> of the original vector: it creates a new object, allocated in a new memory address. </p> <li><p><span style="color: rgb(62, 121, 180);"><strong>views</strong></span> of the original vector: it references the original object, and so both the original object and the slice point to the same memory address.</p> </ul> <p>The distinction is essential when it comes to mutating an object through a slice, as the slice has to reference the original object—formally, mutations need to work with views. In contrast, slices acting as copies don&#39;t reference the original object, and thus their mutations don&#39;t affect it.</p> <p> </div> </div> </div> </section> <section id=slices_and_the_operator  class=scrollspy > <div class=container > <div class=row > <div class="col-lg- mx-auto"> <h2>Slices and the = Operator</h2></p> <p>Mutating a vector through a slice involves assigning new values through the operator <code>&#61;</code>. However, a slice behaves differently depending on its position in the assignment. <strong>A slice on the left-hand side of</strong> <code>&#61;</code> <strong>acts as a view</strong>, referencing the original elements and allowing mutation of the vector. In contrast, <strong>a slice on the right-hand side of</strong> <code>&#61;</code> <strong>creates a copy</strong>, making it point to a new object. This means that the objects have no relation, and thus modifying the slice doesn&#39;t affect the original vector.</p> <p>The following code snippet demonstrates this, where we refer to the left-hand side as <em>LHS</em> and the right-hand side as <em>RHS</em>.</p> <div class=" hide_tab"> <details open><summary > </summary> <p></p> <div class=tab_wrapper > <div class=tab_code_links > <button class="tablink first_tab active" data-id=""> A Slice on the LHS </button> <button class=tablink  data-id=""> A Slice on the RHS</button> </div><div data-id="" class="tabcontent active"> <div class=code_in_modal ><div class=code_NoFormat ></p> <pre><code class="julia hljs">x    = [<span class=hljs-number >4</span>,<span class=hljs-number >5</span>]
+
+<!-- 
+#################################################
+# HEAD - FOR ALL PAGES
+#################################################
+ -->
+
+<!doctype html>
+<html lang="en">
+<head>  
+    
+  <!-- META -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Martin Alfaro">
+  
+
+  <!-- FRANKLIN DEFINED - LATEX AND CODE HIGHLIGHTS -->
+   <!-- HERE WE ADD ANY CSS ELEMENT WE WANT TO ADD
+(don't confuse head with header, head applies globally) -->
+
+<link rel="stylesheet" href="/julia_book/libs/katex/katex.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css"></link>
+
+<link rel="stylesheet" 
+href="https://fonts.googleapis.com/css?family=Open+Sans"></link>
+<!-- Montserrat|Roboto|Lato|Raleway|Work+Sans|Raleway -->     
+   <link rel="stylesheet" href="/julia_book/libs/highlight/styles/vs_myversion.css">
+   
+
+  <link rel="stylesheet" href="/julia_book/css/bootstrap.min.css">
+  <style>
+.section-bg-color {
+  background-color: rgba(63, 99, 136, 0.07);
+}
+
+footer a {
+  color: cornflowerblue;
+}
 
 
-x[<span class=hljs-number >1</span>] = <span class=hljs-number >0</span>        <span class=hljs-comment ># &#x27;x[1]&#x27; is a view and mutates &#x27;x&#x27;</span></code></pre> <p></div></div> <div class=output_in_modal ><div class=sign_output >Output in REPL </div> <div class=mixed_output_inline ><div class=julia_repl_NoFormat > <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class=akin_to_pre >2-element Vector{Int64}: 0 5</div> </div></div> </div> </div><div data-id="" class=tabcontent > <div class=code_in_modal ><div class=code_NoFormat ></p> <pre><code class="julia hljs">x    = [<span class=hljs-number >4</span>,<span class=hljs-number >5</span>]
-y    = x[<span class=hljs-number >1</span>]     <span class=hljs-comment ># &#x27;y&#x27; is unrelated to &#x27;x&#x27; because &#x27;x[1]&#x27; is a copy</span>
 
-x[<span class=hljs-number >1</span>] = <span class=hljs-number >0</span>        <span class=hljs-comment ># it mutates &#x27;x&#x27; but does NOT modify &#x27;y&#x27;</span></code></pre> <p></div></div> <div class=output_in_modal ><div class=sign_output >Output in REPL </div> <div class=mixed_output_inline ><div class=julia_repl_NoFormat > <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class=akin_to_pre >4</div> </div></div> </div> </div></div> <p> </p></details></div> <div class=note> <div class=title> <span class=note_title  style="font-weight:500;"> <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Aliasing vs Copy</strong> </span> </div> <div class=content> The creation of copies for objects on the right-hand side of <code>&#61;</code> only applies to <strong>slices</strong>, such as in statements <code>y &#61; x&#91;&lt;indices&gt;&#93;</code>. Instead, having the whole object <code>x</code> on the right-hand side of <code>&#61;</code>, as in <code>y &#61; x</code>, transforms the operation into an aliasing assignment. This makes <code>y</code> and <code>x</code> reference the same object, so that modifications of <code>y</code> would also affect <code>x</code>.</p> <p> <div class=" hide_tab"> <details open><summary > </summary> <p></p> <div class=tab_wrapper > <div class=tab_code_links > <button class="tablink first_tab active" data-id=""> Whole Object on the RHS (Aliasing) </button> <button class=tablink  data-id=""> Slice of the Whole Object on the RHS (Copy) </button> </div><div data-id="" class="tabcontent active"> <div class=code_in_modal ><div class=code_NoFormat ></p> <pre><code class="julia hljs">x = [<span class=hljs-number >4</span>,<span class=hljs-number >5</span>]
-y = x           <span class=hljs-comment ># the whole object (a view)</span>
+  header {
+    margin-top: 0px !important;
+  }
 
-x[<span class=hljs-number >1</span>] = <span class=hljs-number >0</span>        <span class=hljs-comment ># it DOES modify &#x27;y&#x27;</span></code></pre> <p></div></div> <div class=output_in_modal ><div class=sign_output >Output in REPL </div> <div class=mixed_output_inline ><div class=julia_repl_NoFormat > <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class=akin_to_pre >2-element Vector{Int64}: 4 5</div> </div></div> </div> </div><div data-id="" class=tabcontent > <div class=code_in_modal ><div class=code_NoFormat ></p> <pre><code class="julia hljs">x = [<span class=hljs-number >4</span>,<span class=hljs-number >5</span>]
-y = x[:]        <span class=hljs-comment ># a slice of the whole object (a copy)</span>
 
-x[<span class=hljs-number >1</span>] = <span class=hljs-number >0</span>        <span class=hljs-comment ># it does NOT modify &#x27;y&#x27;</span></code></pre> <p></div></div> <div class=output_in_modal ><div class=sign_output >Output in REPL </div> <div class=mixed_output_inline ><div class=julia_repl_NoFormat > <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class=akin_to_pre >2-element Vector{Int64}: 0 5</div> </div></div> </div> </div></div> <p> </p></details></div> </div> </div> <p> </div> </div> </div> </section> <section id=the_function_view  class="scrollspy section-bg-color"> <div class=container > <div class=row > <div class="col-lg- mx-auto"> <h2>The Function "view"</h2></p> <p>We&#39;ve focused on the behavior of slices according to their position against <code>&#61;</code>. But, it&#39;s important to have a more general understanding of when slices act as copies or views. <span class="footn supr">&#91;note&#93; <span class=footn_text > We&#39;ll show later on this website that views commonly increase speed, by avoiding the computational overhead of allocating memory. </span></span> Broadly speaking, <strong>copies tend to be the default behavior of slices in Julia</strong>. Thus, for instance, a slice incorporated as a function argument or in an expression defines a copy. The following code snippet provides several examples of this behavior.</p> <div class=" code_box"> <details open><summary> Slices as Copies </summary> <div class=code_inline ><div class=code_NoFormat ></p> <pre><code class="julia hljs">x = [<span class=hljs-number >3</span>,<span class=hljs-number >4</span>,<span class=hljs-number >5</span>]
 
-<span class=hljs-comment >#the following slices are all copies</span>
-log.(x[<span class=hljs-number >1</span>:<span class=hljs-number >2</span>])
+header .jumbotron {
+  background-image: linear-gradient(to right, black, rgb(0, 0, 0) 10%, rgb(63,99,136) 55%, rgb(63,99,136));;
+  background-repeat: no-repeat;  
+  background-size: 100%;  
+}
+</style>
+  <link rel="stylesheet" href="/julia_book/css/custom.css">
 
-x[<span class=hljs-number >1</span>:<span class=hljs-number >2</span>] .+ <span class=hljs-number >2</span>
+    
+<!-- WINDOWS TAB -->
+  <title>Julia Book - Martin Alfaro</title>
+  <link rel="icon" type="image/png"  href="/julia_book/assets/icons/favicon.ico">
+    
 
-[sum(x[:]) * a <span class=hljs-keyword >for</span> a <span class=hljs-keyword >in</span> <span class=hljs-number >1</span>:<span class=hljs-number >3</span>]
+</head>
 
-(sum(x[<span class=hljs-number >1</span>:<span class=hljs-number >2</span>]) &gt; <span class=hljs-number >0</span>) &amp;&amp; <span class=hljs-literal >true</span></code></pre> <p></div> </div> </details></div> <p>When we want that a slice acts as a view, we have to state it explicitly. This is accomplished through the function <code>view</code>, which makes the slice a reference to the original object. Its syntax is <code>view&#40;x, &lt;indices&gt;&#41;</code>, where <code>&lt;indices&gt;</code> are the slice&#39;s subset of indices. To illustrate it, we revisit and compare the last code snippet.</p> <div class=" hide_tab"> <details open><summary > </summary> <p></p> <div class=tab_wrapper > <div class=tab_code_links > <button class="tablink first_tab active" data-id=""> Slices as Views </button> <button class=tablink  data-id=""> Slices as Copies </button> </div><div data-id="" class="tabcontent active"> <div class=code_in_modal ><div class=code_NoFormat ></p> <pre><code class="julia hljs">x = [<span class=hljs-number >3</span>,<span class=hljs-number >4</span>,<span class=hljs-number >5</span>]
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K96JNP7PKB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-<span class=hljs-comment >#we make explicit that we want views</span>
-log.(view(x,<span class=hljs-number >1</span>:<span class=hljs-number >2</span>))
+  gtag('config', 'G-K96JNP7PKB');
+</script>
+<!-- end of google tag -->
 
-view(x,<span class=hljs-number >1</span>:<span class=hljs-number >2</span>) .+ <span class=hljs-number >2</span>
 
-[sum(view(x,:)) * a <span class=hljs-keyword >for</span> a <span class=hljs-keyword >in</span> <span class=hljs-number >1</span>:<span class=hljs-number >3</span>]
 
-(sum(view(x,:)) &gt; <span class=hljs-number >0</span>) &amp;&amp; <span class=hljs-literal >true</span></code></pre> <p></div></div> </div><div data-id="" class=tabcontent > <div class=code_in_modal ><div class=code_NoFormat ></p> <pre><code class="julia hljs">x = [<span class=hljs-number >3</span>,<span class=hljs-number >4</span>,<span class=hljs-number >5</span>]
+<body id="page-top">
+  <!-- HERE WE ADD ALL THE HTML ELEMENTS (PAGES) WE WANT TO ADD TO THE SITE, FOR INSTANCE THE SIDEBAR -->
 
-<span class=hljs-comment >#the following slices are all copies</span>
-log.(x[<span class=hljs-number >1</span>:<span class=hljs-number >2</span>])
 
-x[<span class=hljs-number >1</span>:<span class=hljs-number >2</span>] .+ <span class=hljs-number >2</span>
 
-[sum(x[:]) * a <span class=hljs-keyword >for</span> a <span class=hljs-keyword >in</span> <span class=hljs-number >1</span>:<span class=hljs-number >3</span>]
+<!-- 
+#################################################
+# FOR EACH SPECIFIC PAFE
+#################################################
+ -->
 
-(sum(x[<span class=hljs-number >1</span>:<span class=hljs-number >2</span>]) &gt; <span class=hljs-number >0</span>) &amp;&amp; <span class=hljs-literal >true</span></code></pre> <p></div></div> </div></div> <p> </p></details></div> <p> </div> </div> </div> </section> <section id=macros_view_and_views  class=scrollspy > <div class=container > <div class=row > <div class="col-lg- mx-auto"> <h2>Macros @view and @views</h2></p> <p>The previous examples reveal that transforming slices into views is verbose and hinders readability. This is especially true when we have several slices in the same expression. To facilitate the use of views, Julia provides the macros <code>@view</code> and <code>@views</code>. </p> <p>The macro <code>@view</code> turns an expression like <code>@view x&#91;1:2&#93;</code> into <code>view&#40;x, 1:2&#41;</code>. It&#39;s primarily useful for expressions where there aren&#39;t so many slices, although its benefits are arguable given that it only saves a few characters. Furthermore, if we perform operations with slices, we need to apply <code>@view</code> with parentheses, as in <code>@view&#40;x&#91;1:2&#93;&#41; .&#43; @view&#40;x&#91;2:3&#93;&#41;</code>.</p> <p>On the contrary, the macro <code>@views</code> transforms each slice in an expression into a view. This is particularly convenient for expressions with multiple slices, as we only need to indicate once that every slice should be taken as a view. </p> <div class=" code_box"> <details open><summary> Code </summary> <div class=code_inline ><div class=code_NoFormat ></p> <pre><code class="julia hljs">x = [<span class=hljs-number >4</span>,<span class=hljs-number >5</span>,<span class=hljs-number >6</span>]
 
-<span class=hljs-comment ># the following are all equivalent</span>
-y = view(x, <span class=hljs-number >1</span>:<span class=hljs-number >2</span>) .+ view(x, <span class=hljs-number >2</span>:<span class=hljs-number >3</span>)
+<!-- <style>
+	/* ================================================================= 
+                      TOOLTIP - GENERAL APPROACH (NOT ONLY FOOTNOTES)
+================================================================= */ 
 
-y = <span class=hljs-meta >@view</span>(x[<span class=hljs-number >1</span>:<span class=hljs-number >2</span>]) .+ <span class=hljs-meta >@view</span>(x[<span class=hljs-number >2</span>:<span class=hljs-number >3</span>])
 
-<span class=hljs-meta >@views</span> y = x[<span class=hljs-number >1</span>:<span class=hljs-number >2</span>] .+ x[<span class=hljs-number >2</span>:<span class=hljs-number >3</span>]</code></pre> <p></div> </div> </details></div> <p>An important application of <code>@views</code> is for functions. Its inclusion at the beginning of a function definition turns every slice within the function into a view.</p> <div class=" hide_tab"> <details open><summary > </summary> <p></p> <div class=tab_wrapper > <div class=tab_code_links > <button class="tablink first_tab active" data-id=""> @views For A Function Definition </button> <button class=tablink  data-id=""> Equivalent With @view </button> </div><div data-id="" class="tabcontent active"> <div class=code_in_modal ><div class=code_NoFormat ></p> <pre><code class="julia hljs"><span class=hljs-meta >@views</span> <span class=hljs-keyword >function</span> foo(x)
-  y = x[<span class=hljs-number >1</span>:<span class=hljs-number >2</span>] .+ x[<span class=hljs-number >2</span>:<span class=hljs-number >3</span>]
+.hovering_foot {
+  position: relative;
+  display: inline-block;
+  margin-left:-3px;
+  text-decoration: underline;
+  text-decoration-style: double;
+  text-decoration-color: rgb(85, 133, 182);  
+}
+
+.hovering_foot .h_foot_text {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;  
+  
+  /* Position the hovering_foot */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.hovering_foot:hover .h_foot_text {
+  visibility: visible;
+}
+
+
+
+
+/* ================================================================= 
+                      FOOTNOTES with TOOLTIP
+================================================================= */ 
+
+
+.supr {
+  vertical-align: 80%;
+  font-size: 75%;
+  line-height: 1; 
+}
+.footn {
+  position: relative;
+  display: inline-block;
+  margin-left:-0.6em;
+  margin-right:0;
+  color: #2669DD;
+  text-decoration: underline;  
+  }
+
+.footn .footn_text {
+  font-size: 125%;
+  visibility: hidden;  
+  width: max-content; max-width: 500px;
+  text-align: justify;  
+  text-justify: inter-word;
+  text-indent: 0%;
+  line-height: 1.5;
+  background-color:#282c34;  
+  color: #e0e4eb;
+  border-radius: 6px;
+  padding: 5px 12px 5px 12px;  
+  
+  /* Position the hovering_foot */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: -125px;  
+}
+
+.footn:hover .footn_text {
+  visibility: visible;
+  
+}
+
+.footn a{
+  color: #7b9fdd;
+  }
+
+.footn a:hover{
+  color: #a1b6dbb2;
+}
+
+
+</style> -->
+
+
+
+<style>
+
+.footn {
+	  position: relative;
+	  display: inline-block;
+	  margin-left: -0.6em;
+	  margin-right: 0;
+	  color: #2669DD;
+	  text-decoration: underline;
+	}
+
+	.supr {
+	  vertical-align: 80%;
+	  font-size: 75%;
+	  line-height: 1; 
+	}
+	
+	
+	
+	.footn .footn_text {	
+	  font-size: 125%;
+	  visibility: hidden;  	  
+	  text-align: justify;  
+	  text-justify: inter-word;
+	  text-indent: 0%;
+	  line-height: 1.5;
+	  background-color: #282c34;
+	  color: #e0e4eb;
+	  border-radius: 6px;
+	  padding: 5px 12px 5px 12px;
+	
+	  /* Position the hovering_foot */
+	  position: absolute;
+	  z-index: 1;
+	  bottom: 100%;	  
+	  right:0;
+	}
+	
+	.footn .footn_text.left {
+		left:0;		
+		width: max-content;
+	  	max-width: 500px;
+	}
+
+	.footn .footn_text.right {	  
+		right: 0;	  
+		width: max-content;
+	  max-width: 500px;
+	}
+	
+	.footn:hover .footn_text {
+	  visibility: visible;   
+	}
+	
+	.footn a{
+	  color: #7b9fdd;
+	}
+	
+	.footn a:hover{
+	  color: #a1b6dbb2;
+	}
+		
+  </style>
+  
+  
+  <!-- Include the jQuery library and add the script to handle the hover effect -->
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+  
+  <script>
+$(document).ready(function() {
+  $('.footn.supr').hover(
+    function() {
+      var footnoteText = $(this).find('.footn_text');
+      var sentence = $(this).closest('p');
+	  var sentenceWidth = sentence.width();
+    //   var footnoteTextLeft = footnoteText.offset().left - sentence.offset().left;
+    //   var isRightAligned = footnoteTextLeft > sentenceWidth / 2;
+
+	  var footnoteTextLeft = footnoteText.offset().left - sentence.offset().left;
+      var isRightAligned = footnoteTextLeft > sentenceWidth / 2;
+
+     // Remove existing alignment classes
+     footnoteText.removeClass('left right');
+
+      // Add the appropriate alignment class
+      if (isRightAligned) {
+        footnoteText.addClass('right');
+      } else {
+        footnoteText.addClass('left');
+      }
+
+      // Add the "hovering" class to the footnote text
+      footnoteText.addClass('hovering');
+    },
+    function() {
+      // Remove the "hovering" class from the footnote text
+      $(this).find('.footn_text').removeClass('hovering');
+	  $(this).find('.footn_text').removeClass('left right');
+    }
+  );
+});
+
+  </script>
+
+
+
+<!-- FOR MOBILE PHONES -->
+<style>
+	@media (max-width: 768px) {
+		.footn .footn_text.left {
+		left:0;		
+		width: max-content;
+	  	max-width: 200px;
+	}
+
+	.footn .footn_text.right {	  
+		right: 0;	  
+		width: max-content;
+		max-width: 200px;
+	}	}
+</style>
+
+
+<!-- <script>
+	// Create a media query to match the condition (max-width: 768px)
+	var mediaQuery = window.matchMedia('(max-width: 768px)');
+
+	// Define a callback function to execute when the media query matches
+	var mediaQueryHandler = function (event) {
+		if (event.matches) {
+			// Code to be executed when the media query matches (screen width <= 768px)
+			$(document).ready(function () {
+				$('.footn.supr').hover(
+					function () {
+						var footnoteText = $(this).find('.footn_text');
+						var sentence = $(this).closest('p');
+						var sentenceWidth = sentence.width();
+						var footnoteTextLeft = footnoteText.offset().left - sentence.offset().left;
+						var isRightAligned = footnoteTextLeft > sentenceWidth / 2;
+
+						// Remove existing alignment classes
+						footnoteText.removeClass('left right');
+
+						// Add the appropriate alignment class
+						if (isRightAligned) {
+							footnoteText.addClass('right');
+						} else {
+							footnoteText.addClass('left');
+						}
+
+						// Add the "hovering" class to the footnote text
+						footnoteText.addClass('hovering');
+					},
+					function () {
+						// Remove the "hovering" class from the footnote text
+						$(this).find('.footn_text').removeClass('hovering');
+					}
+				);
+			});
+		}
+	};
+
+	// Add the event listener to the media query
+	mediaQuery.addListener(mediaQueryHandler);
+
+	// Call the handler once at the beginning to check the initial state
+	mediaQueryHandler(mediaQuery);
+
+</script> --> 
+<link href="https://fonts.cdnfonts.com/css/cascadia-mono" rel="stylesheet">
+
+<style>
+
+/*  */
+
+
+  /* ================================================================= 
+                                CODE FORMAT  
+  ================================================================= */ 
+  /* output_box_copied is LEGACY, we should delete in NEW FILES!!!!!! */
+
+ /* for overflowing code  */
+/* .col-lg-.mx-auto{        
+        overflow: auto !important;
+         }    */
+
+
+  /* USEFUL TO CHANGE THE MARGINS OF THE CODE*/
+  pre {
+    position: relative;  /* necessary for "copy" button */
+    overflow: hidden;
+  }
+
+    /* FOR WARNING, REMARK, AND MODALS 
+  .warning pre, .remark pre, .modal-body pre {
+    margin-bottom: 1.2em;
+  }    */
+       
+    /* FOR INLINE CODE, WRITTEN WITHIN THE TEXT*/
+  code {  
+    background-color: rgb(209, 217, 224);         /*rgb(199, 223, 236);*/
+    color           : black;
+    text-indent     : 0%;
+    padding-top     : 0.1em;
+    padding-bottom  : 0.1em;
+    padding-left    : 0.3em;
+    padding-right   : 0.3em;
+    vertical-align  : 0.05em;
+    border          : 1px solid rgb(0, 16, 41);
+    overflow: hidden;
+  }
+
+  .julia_repl_NoFormat code, .mixed_output_NoFormat code {  
+    background-color: rgb(82, 120, 104);         /*rgb(199, 223, 236);*/
+    color           : #DCDCDC;
+    border          : 1px solid rgb(82, 120, 104);    
+  }
+
+
+  
+  
+  
+  
+    
+  /* COPY BUTTON */
+  /* version blue, conceived by use of code only */
+   
+  .copy-button {
+    cursor        : pointer;
+    border        : none;
+    font-size     : 12px;
+    text-transform: lowercase;
+    font-weight   : 500;
+    padding       : 0px 10px 2px;
+      /* background-color:   #3f6b4b; */
+    background-color: rgb(63,99,136);
+    position        : absolute;
+    top             : 0px;
+    right           : 12px;            /*Button shows in the right side of block*/
+    text-align      : center;
+    color           : #ffffff;
+    margin-top      : 0;
+    z-index         : 1;
+  }
+  
+  .copy-button:hover{
+    outline         : none;
+    background-color: rgb(84, 131, 179);
+  }
+  .copy-button:focus {
+    outline         : none;
+    background-color: rgb(50, 78, 107);
+  }
+  
+  
+
+
+
+/* ================================================================= 
+                      BASIC FORMAT FOR OUTPUTS
+  ================================================================= */ 
+  /* to not collapse with the copy button and `pre` */
+.akin_to_pre {
+  white-space: pre-wrap;
+  font-family: "Consolas";
+}
+
+  /* NoFormat for julia repl - no margins or paddings, just colors, fonts, etc */
+.julia_repl_NoFormat{  
+    font-family     : "Consolas";
+    font-size       : 95%;
+    color           : #DCDCDC;
+    border          : none;
+    background-color: rgb(1, 59,31);
+    margin          : 0;
+    padding         : 0;
+}
+
+.julia_repl_NoFormat .akin_to_pre{  
+  line-height: 1.35;
+  color      : #DCDCDC;
+  font-size  : 100%;
+  margin     : 0;
+  padding    : 0;
+}
+
+
+/* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
+.franklin_output_NoFormat{
+    font-family     : "Consolas";    
+    font-size       : 95%;
+    margin          : 0;
+    padding         : 0;
+    background-color: rgb(1, 59,31);
+  }
+
+.franklin_output_NoFormat pre {  
+    margin          : 0;
+    padding         : 0;
+    line-height     : 1.35;
+    background-color: rgb(1, 59,31);
+}
+
+.franklin_output_NoFormat pre code{  
+    margin          : 0 !important;
+    padding         : 0 !important;
+    border          : none;
+    background-color: rgb(1, 59,31);
+}
+
+/* NoFormat for Mixed */
+
+.mixed_output_NoFormat{  
+    font-family     : "Consolas";
+    font-size       : 95%;
+    color           : #DCDCDC;
+    border          : none;
+    background-color: rgb(1, 59,31);
+    margin          : 0;
+    padding         : 0;
+}
+
+.mixed_output_NoFormat pre{
+  line-height: 1.35;
+  color      : #DCDCDC;
+  font-size  : 100%;
+  margin     : 0;
+  padding    : 0;
+}
+
+.mixed_output_NoFormat pre code{
+  font-size       : 90%;
+  margin          : 0 !important;
+  padding         : 0 !important;
+  border          : none;
+  background-color: rgb(1, 59,31);
+}
+
+
+
+/* Inline for julia_repl and franklin_output - adding margins and paddings  */
+.mixed_output_inline{
+    color           : #DCDCDC;
+    font-family     : "Consolas";    
+    background-color: rgb(1, 59,31);
+
+    padding-left  : 1em;
+    padding-top   : 0.5em;
+    padding-bottom: 1em;
+    
+    margin-top   : 0;
+    margin-bottom: 0;
+  }
+
+  
+
+  /* ============================ 
+        OUTPUT BOX for Tabs hidden
+  ============================ */ 
+          
+  
+  /* COLLAPSABLE OUTPUT BOX*/
+  .output_box{
+    margin : 0;
+    padding: 0;
+  }
+
+  .output_box details > summary{  
+    width           : max-content; max-width: 90%;
+    padding-left    : 10px;
+    padding-right   : 10px;
+    background-color: #3f6b4b;
+    cursor          : pointer;
+    color           : #ffffff;
+    box-shadow      : 3px 3px 4px black;
+    text-indent     : 0;
+  }
+  
+  .output_box details[open] > summary {
+    width           : max-content; max-width: 90%;
+    padding-left    : 10px;
+    padding-right   : 10px;
+    background-color: #3f6b4b;
+    border          : #282c34;
+    border-width    : 1px;
+    border-style    : solid;
+       
+  }
+  
+  .output_box{
+    padding-top   : 0.5em;
+    padding-bottom: 1em;
+    margin-top    : 0em;
+    margin-bottom : 1em;
+  } 
+  
+  
+
+    
+  
+ /* ================================================================= 
+                      BASIC FORMAT FOR OUTPUTS
+  ================================================================= */ 
+  
+
+.code_NoFormat{    
+    line-height     : 1.45;
+    font-size       : 95%;
+    margin          : 0;
+    padding         : 0;
+    background-color: rgb(0, 16, 41);
+  }
+
+.code_NoFormat pre{       
+    margin          : 0;
+    padding         : 0;
+    background-color: rgb(0, 16, 41);
+}
+
+.code_NoFormat pre code{          
+    font-family     : "Cascadia Mono";       /* Fira Mono */
+    margin          : 0 !important;
+    padding         : 0 !important;
+    border          : none;
+    background-color: rgb(0, 16, 41);
+}
+
+.code_NoFormat p{  
+    padding: 0;
+    margin : 0;
+  }
+
+.code_inline{  
+    background-color: rgb(0, 16, 41);
+
+    padding-left  : 1em;
+    padding-top   : 0.5em;
+    padding-bottom: 1em;
+    
+    margin-top   : 0;
+    margin-bottom: 0;
+  }
+
+
+  
+  
+  /* ============================ 
+          CODE BOX is for a TAB hidden 
+  ============================ */ 
+
+.code_box{
+  margin : 0;
+  padding: 0;
+}
+.code_box details > summary{  
+  width           : max-content;  max-width : 90%;
+  padding-left    : 10px;
+  padding-right   : 10px;
+  background-color: rgb(63,99,136);
+  cursor          : pointer;
+  color           : #ffffff;
+  box-shadow      : 3px 3px 4px black;
+  text-indent     : 0;
+}
+
+.code_box details[open] > summary {
+  width           : max-content; max-width: 90%;
+  padding-left    : 10px;
+  padding-right   : 10px;
+  background-color: rgb(63,99,136);    
+  border          : #282c34;
+  border-width    : 1px;
+  border-style    : solid;
+     
+}
+
+.code_box{
+  padding-top   : 0em;
+  padding-bottom: 0em;
+  margin-top    : 0em;
+  margin-bottom : 1em;
+} 
+ 
+
+
+
+ /* ============================ */
+/*          FOR MULTIPLE TABS MODALS     */
+/* ============================ */
+.hide_tab{
+  padding-top   : 0em;
+  padding-bottom: 0em;
+  margin-top    : 0em;
+  margin-bottom : 1em;
+}
+
+.hide_tab > details > summary {  
+  width: 30px; max-width: 90%;  
+  padding-left: 11px; 
+  padding-right: 0px;
+  padding-bottom: 0px;
+  background-color:  rgb(63,99,136);   
+  cursor: pointer;
+  color: #ffffff;
+  text-indent:0;  
+  border:#282c34; 
+  border-width:1px;  
+  border-style:solid;   
+}
+
+.hide_tab > details[open] > summary {
+  position:absolute;
+  width: 35px; max-width: 90%;      
+  height:1.94em;  
+  padding-bottom: 0px;
+  padding-top: 3px;   
+  padding-left: 12px;  
+  padding-right: 5px;   
+  background-color: rgb(63,99,136);
+  border:#282c34; 
+  border-width:1px;  
+  border-style:solid; 
+  border-bottom: none;  
+}
+
+
+  
+  /* ============================
+      DEALING WITH TABS, FOR MODALS WITH ONLY OUTPUT OR ONLY CODE
+  ============================*/
+
+.tab_wrapper{
+  width  : 100%;
+  display: inline-block;  
+  }
+
+
+.tab_wrapper .tab_code_links{
+  background-color: rgb(0, 16, 41);}
+
+
+.tab_wrapper .tab_code_links .tablink{  
+  background-color: rgb(63,99,136);
+  color           : white;
+  float           : left;
+  border          : 1px solid black;
+  outline         : none;
+  cursor          : pointer;
+  padding         : 2px 20px;  
+  width           : max-content;
+  height          : auto;
+}
+
+.tab_wrapper .tab_code_links .tablink.first_tab{ padding-left: 54px;}
+.tab_wrapper .tab_code_links .tablink.active{    font-weight:500; background-color:rgba(82, 127, 173, 0.836);   }
+.tab_wrapper .tab_code_links .tablink:hover{     background-color:rgba(82, 127, 173, 0.836); }
+
+  
+.tab_wrapper .tabcontent{    
+  background-color: rgb(0, 16, 41);
+  display         : none;
+  width           : 100%;
+  float           : left;
+  margin          : 0;
+  padding         : 0;
+}
+
+.tab_wrapper .tabcontent.active{  display: block;}
+
+
+
+
+/* wrappers in modals */
+
+.code_in_modal{  
+  background-color: rgb(0, 16, 41);
+  padding-left  : 1em;
+  padding-top   : 0.5em;
+  padding-bottom: 1em;
+  margin-top    : 0;
+  margin-bottom : 0;
+}
+
+
+  
+.output_in_modal{  
+    background-color: rgb(1, 59,31);    
+  }
+
+
+
+/* ============================
+      ADDING IMAGES AS OUTPUTS
+  ============================*/
+/* COLLAPSIBLE OUTPUT WITH IMGS */
+.img_output{
+  text-indent:0;
+  margin:0;
+  padding:0;  
+  background-color: rgba(24,24,24,255);  
+}  
+
+.img_output_in_modal{
+  text-indent:0;
+  margin:0;
+  padding:0;  
+  background-color: rgba(24,24,24,255);  
+}  
+
+
+.img_output_old{
+  text-indent:0;
+  margin:0;
+  padding:0;  
+  background-color: rgba(30,30,30,255);  
+}  
+
+.img_output_in_modal_old{
+  text-indent:0;
+  margin:0;
+  padding:0;  
+  background-color: rgba(30,30,30,255);  
+}  
+
+
+
+.sign_output{ 
+  color:white;  
+  width: 100%; max-width: 100%;
+  height:auto;  
+  padding-bottom: 0px;
+  padding-top: 0px;   
+  padding-left: 12px;  
+  padding-right: 12px;   
+  background-color:  #3f6b4b;
+  border:#282c34; 
+  border-width:1px;    
+  border-style:solid;  
+  margin-bottom:0px;
+  padding-top:0em;
+}
+
+.outputmodal_container{   
+    padding:0;
+  margin:0;  
+}
+
+  
+
+
+
+
+/* .img_output{
+color:white;
+text-indent:0;
+margin-top:-15px;
+margin-bottom:0px;
+}
+
+.img_output details > summary {  
+width: max-content; max-width: 90%;
+height:auto;
+padding-left: 10px;  
+padding-right: 10px;  
+color: white;
+background-color:  #3f6b4b;
+border: none;  
+margin: 0;
+box-shadow: 3px 3px 4px black;
+cursor: pointer;  
+}
+
+
+.img_output details[open] > summary {
+width: max-content; max-width: 90%;
+padding-left: 10px;  
+padding-right: 10px;  
+background-color:  #3f6b4b;  
+border:#282c34; 
+border-width: 1px; 
+color:white;
+border-style:solid;
+}
+
+
+.img_output details > p {
+border-radius: 0 0 0px 0px;
+background-color: rgba(30,30,30,255);
+padding: 10px 6px 10px 6px;
+margin-bottom: 22px;
+margin-top: 0px;
+} */
+
+
+  
+/* ============================ */
+/*          COLLAPSE TABS - HIDE BUT FOR OUTPUTS    */
+/* ============================ */
+
+/* FOR ADDING A SIGN WITH OUTPUT IN TABS */
+/* 
+.hide_output  > details > summary {
+  width: 30px; max-width: 90%;  
+  padding-left: 11px; 
+  padding-right: 0px;
+  padding-bottom: 0px;
+  background-color:  #3f6b4b;
+  cursor: pointer;  
+  color: #ffffff;
+  text-indent:0;  
+  border:#282c34;  
+  border-width:1px;  
+  border-style:solid;   
+}
+
+.hide_output  > details[open] > summary {  
+  position:absolute;
+  width: 35px; max-width: 90%;      
+  height:1.94em;  
+  padding-bottom: 0px;
+  padding-top: 3px;   
+  padding-left: 12px;  
+  padding-right: 5px;   
+  background-color:  #3f6b4b;
+  border:#282c34; 
+  border-width:1px;    
+  border-style:solid;  
+  border-bottom: none;  
+}
+
+.hide_output > details > p {
+  border-radius: 0 0 0px 0px;  
+  padding: 0px 0px 0px 0px;  
+  margin-bottom: -1px;
+}
+
+.hide_output  > details[open] {
+  margin-bottom: -0.8em;  
+}
+
+.hide_output > details {
+  margin-bottom: -8px;
+}
+ */
+
+
+
+/* for output in modals when there are multiple outputs */
+
+
+
+
+  </style>  
+<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Poppins|Crimson+Text|Cardo|Ubuntu"></link> -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Crimson+Text"></link>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter|Cormorant"></link>
+
+
+<style>
+
+/* THIS CONTROLS THE GLOBAL BEHAVIOR OF THE PAGE */
+html { scroll-behavior: auto; }
+
+
+/* change font size */
+.jumbotron, .bar_top, .navbar, .nav-item, footer, .left_bar {
+  font-size: 16px;  
+  font-family: "Open Sans";
+} 
+
+.franklin-content{
+  font-size: 17px;
+  font-family: "Open Sans";
+}
+
+
+
+/* TITLE AND NAME */
+h1{
+  padding-top:0.1em;
+  font-size:210% !important;
+  font-weight: bold;      
+  text-align:center;  
+}
+
+
+.phd_format {  
+  color: white;
+  /* padding: -0.5em 1.0em; */
+  text-decoration: none;
+  font-size: 90%;
+  text-align: center;    
+  margin-top:-0.2em;
+  margin-bottom: -0.89em;
+  }
+
+  
+
+  
+  .name_format{    
+  padding-top: 0.35em;
+  /* padding-bottom: 0.3em; */
+  text-decoration: none;
+  font-size: 160%;
+  }
+
+
+  .name_format a { color: white; }
+  .name_format a:hover {
+    color: rgb(212, 212, 212);
+    color: rgb(214, 227, 240)
+  }
+
+
+
+
+/* content */
+.franklin-content{
+  /* background-color:rgb(235, 235, 235);   */
+  background-color: rgb(217, 224, 231);
+}
+
+.franklin-content{  
+  margin:0;
+  width:100%;  
+  height:100%;    
+  justify-content:center;       
+  text-align: justify;
+  text-justify: inter-word;
+  line-height: 1.65;  
+  /* word-wrap: break-word; */
+}
+
+
+/* all header */
+.jumbotron{          
+  margin-bottom:0px;    
+  padding-top: 42px;
+  padding-bottom:2em;  
+  border-bottom: #000000 solid 1px;   
+  border-radius: 0;}
+  
+  
+  .franklin-content, .jumbotron {
+      padding-left: 180px;}
+
+
+
+
+  footer{        
+        background-image: linear-gradient(to right, rgba(35,55,75,255), rgba(0, 0, 0, 1) 50%,  rgb(63,99,136));
+        background-color:rgb(63,99,136);
+        width: calc(100%+10px);       
+        margin-left: -10px;
+        padding-left: 10px;
+    }
+
+/* @media screen and (min-width: 992px) {
+  html {  
+    zoom: 100%;
+    width:100%;
+  }
+} */
+
+
+/* .jumbotron.jumbotron-fluid.container-fluid.bg-primary{
+  background-image: url(/assets/WallpaperDog-17291225.jpg);
+  background-size: cover;  
+} */
+
+/* FOR THE BODY - this changes its position*/
+/* .franklin-content {   
+  position:absolute;
+  margin-left: 0px; 
+  padding-top:0;}  */
+
+
+/* ALL 
+.franklin-content,.jumbotron, .bar_top, .navbar, .nav-item {
+  font-family: "Segoe UI"; FONT USED by DEFAULT  BY FRANKLIN 
+} */
+
+/* HEADER + NAME
+  .jumbotron, h1{
+  font-family: "Raleway"; 
+  font-weight: 550;  
+} */
+
+/* ALL HEADER - title of page */
+/* .jumbotron {
+  text-align:left;
+  padding-left:20px;
+} */
+
+
+/* HEADER only - title of page */
+/* h1 {
+  text-align:left;
+} */
+
+/* FORMAT OF THE TEXT IN THE MAIN BODY */
+/* section .container{
+  margin-left: auto;  
+} */
+
+
+
+h2 {
+  text-transform: uppercase;
+  font-size:160%;
+  text-align:center;  
+  text-decoration: underline;  
+  padding-bottom: 0.5em;  
+}
+
+h3{
+  text-align:left;  
+  text-transform: uppercase;  
+  text-decoration: underline;/*none; */
+  padding-bottom: 0.0em;
+  padding-top: 0.5em;
+  font-size: 120%;
+  font-weight: 600;
+  /* color:rgb(49, 77, 105); */
+}
+
+
+h4{
+  text-align:left;  
+  /* color: rgb(73, 115, 157);  */   
+  text-decoration: underline;/*none; */
+  padding-bottom: 0.0em;
+  padding-top: 0.5em;
+  font-size: 120%;
+  font-weight: 600;
+}
+
+
+
+
+
+h5,h6{
+  text-indent:0;
+  line-height:0.1em;
+  padding-top:0.99em;
+  padding-bottom: 0.0em;  
+}
+
+section {
+  margin-left:0;  
+  /* font-family: "Open Sans"; */  
+  padding-left: 1%;
+  padding-right: 1%;
+  padding-top: 1.5%;
+  padding-bottom: 1.0%;
+  text-align: justify;
+  text-justify: inter-word;
+  line-height: 1.65;
+  /* text-indent: 2.5%; */
+  text-indent: 0;
+  font-size: 100%;
+  color: black;       
+}
+
+/* section p {  margin-bottom:24px;} */
+
+
+
+
+section h1 { /* this is for the title defined as latex*/
+  text-indent:0;
+  margin-left:0px;  
+}
+  
+section h2 {  
+  text-indent: 0%; /* space between title and text  */
+  margin-bottom: 0em; /* space between title and text  */  
+} 
+
+
+.franklin-content ul { 
+  margin-left: 0em;
+  margin-top: -0.6em;
+  line-height: 1.15;}
+
+.franklin-content ul li p { 
+  margin-left: 0em;
+  margin-bottom: 0.6em;
+  line-height: 1.35;
+  text-indent:0;}
+
+.franklin-content ol li { 
+    margin-left: 2em;
+    line-height: 1.15;}
+
+ul ::marker {  
+  color: rgb(73, 115, 157); 
+}
+
+ol ::marker {
+    color: rgb(83, 129, 175);
+    font-weight: bold;
+}
+
+a.anchor {
+    display: block;
+    position: relative;
+    top: -150px;    
+    visibility: hidden;    
+}
+
+section a {  
+  color: rgb(62, 121, 180);
+  text-decoration: underline;  
+  font-weight: 500;
+}
+
+section a:hover{
+  color: rgba(62, 121, 180, 0.699);
+  text-decoration: underline;  
+}
+
+</style>
+<!-- <div class="left_bar" style="color:white;">
+    <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
+        <img src="/julia_book/assets/pics_html/julia_logo-dark.svg"
+        style= "position:relative; width:90%; height:auto; padding-top:45px;  padding-left:10px;">     
+    </div> -->
+
+<div class="left_bar" style="color:white;">
+  <span>
+    <img src="/julia_book/assets/pics_html/julia_logo-dark.svg" alt="pic" style="padding: 12px; padding-right:28px;padding-top:36px"
+      width="180px" height=auto>
+  </span>
+
+
+
+  <!-- FOR TITLE BELOW THE PICTURE  -->
+  <!-- <div style="color: rgb(63,99,136);
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: 1px 1px 0px #fff, -1px -1px 0px #fff, 1px -1px 0px #fff, -1px 1px 0px #fff, 0px 0px 5px  #fff;">
+      CONTENT
+    </div> -->
+
+
+
+  <ul>
+    <li>
+      <a href="/julia_book/index.html"><img src="/julia_book/assets/icons/home.png"
+          style="width:15%; height:auto;opacity:0.9;padding-bottom:5px;">
+        Home
+      </a>
+    </li>
+
+    <li>
+      <a href="/julia_book/list_posts/"><img src="/julia_book/assets/icons/books03.png"
+          style="width:15%; height:auto;opacity:0.9;padding-bottom:5px;">
+        Chapters
+      </a>
+    </li>
+    <li>      
+      <div style="text-indent:0;">
+        <button class="modalButton">
+          <img src="/julia_book/assets/icons/keyboard01.png" style="width:20%; height:auto; opacity:0.9;margin-bottom:-18px; margin-left:-40px; padding-right:4px;">
+          Notation &<div style="margin-left:-1em; margin-top:-3em;">Hotkeys</div>
+        </button>                   
+      <div class="kbd_shortcuts">
+    <div class="modal" id="kbdmodal_bar">
+        <!-- Modal content -->
+        <div class="modal-content" >
+            <div class="modal-header">
+                <h2> NOTATION</h2>
+            </div>
+            <div class="modal-body" style="height:auto;">
+                Generic expressions are represented by <b>&lt;something&gt;</b> (e.g., <code>&lt;function&gt;</code> or <code> &lt;operator&gt;</code>). 
+                This is just notation, and the symbols <code>&lt;</code> and <code>&gt;</code> should not be misconstrued as Julia's syntax.
+            </div>
+            <div class="modal-header">
+                <h2> PAGE ZOOM</h2>
+            </div>
+                <div class="modal-body">
+                    If you want to adjust the size of the font, <b>zoom in or out on pages</b> by respectively using <kbd>Ctrl</kbd>+<kbd>+</kbd> and <kbd>Ctrl</kbd>+<kbd>-</kbd>. The layout will adjust automatically. <br>
+                <span class="brmine"></span>
+            </div>            
+            <div class="modal-header">
+                <h2> KEYBOARD SHORTCUTS</h2>
+            </div>
+            <div class="modal-body">
+                <style type="text/css">
+                    .tg {
+                        border-collapse: collapse;
+                        border-spacing: 0;
+                    }
+
+                    .tg td {
+                        border-color: black;
+                        border-style: solid;
+                        border-width: 1px;
+                        overflow: hidden;
+                        padding: 10px 12px;
+                        word-break: normal;
+                    }
+
+                    .tg th {
+                        border-color: black;
+                        border-style: solid;
+                        border-width: 1px;
+                        font-weight: normal;
+                        overflow: hidden;
+                        padding: 10px 5px;
+                        word-break: normal;
+                    }
+
+                    .tg .tg-80zn {
+                        background-color: rgba(63, 99, 136, 0.2);
+                        border-color: #ffffff;
+                        font-weight: bold;
+                        text-align: center;
+                        vertical-align: top
+                    }
+
+                    .tg .tg-esg4 {
+                        background-color: #ebebeb;
+                        border-color: #ffffff;
+                        font-weight: bold;
+                        text-align: right;
+                        vertical-align: top
+                    }
+
+                    .tg .tg-8jgo {
+                        border-color: #ffffff;
+                        text-align: left;
+                        vertical-align: top
+                    }
+
+                    .tg .tg-ofj5 {
+                        border-color: #ffffff;
+                        text-align: center;
+                        vertical-align: top
+                    }
+                </style>
+
+                <table class="tg" style="margin-left: auto;  margin-right: auto;">
+                    <thead>
+                        <tr>
+                            <th class="tg-80zn">Action</th>
+                            <th class="tg-80zn">Keyboard Shortcut</th>
+                        </tr>
+                    </thead>
+                    <tbody>                        
+                        <tr>
+                            <td class="tg-8jgo">Previous Section</td>
+                            <td class="tg-ofj5"><kbd>Ctrl + 🠘</kbd></td>
+                        </tr>
+                        <tr>
+                            <td class="tg-8jgo">Next Section</td>
+                            <td class="tg-ofj5"><kbd>Ctrl + 🠚</kbd></td>
+                        </tr>
+                        <tr>
+                            <td class="tg-8jgo">List of Sections</td>
+                            <td class="tg-ofj5"><kbd>Ctrl + z</kbd></td>
+                        </tr>
+                        <tr>
+                            <td class="tg-8jgo">List of Subsections</td>
+                            <td class="tg-ofj5"><kbd>Ctrl + x</kbd></td>
+                        </tr>
+                        <tr>
+                            <td class="tg-8jgo">Close Any Popped Up Window (like this one)</td>
+                            <td class="tg-ofj5"><kbd>Esc</kbd></td>
+                        </tr>
+                        <tr>
+                            <td class="tg-8jgo">Open All Codes and Outputs in a Post</td>
+                            <td class="tg-ofj5"><kbd>Alt + 🠙</kbd></td>
+                        </tr>
+                        <tr>
+                            <td class="tg-8jgo">Close All Codes and Outputs in a Post</td>
+                            <td class="tg-ofj5"><kbd>Alt + 🠛</kbd></td>
+                        </tr>                                          
+                    </tbody>
+                </table>
+                <span class="brmine"></span>
+            </div>
+
+            <div class="modal-header">
+                <h2> TIME MEASUREMENT</h2>
+            </div>
+            <div class="modal-body">
+                When benchmarking, the equivalence of time measures is as follows.
+                <br>
+                <br>
+            
+            
+                <style type="text/css">
+                    .tg {
+                        border-collapse: collapse;
+                        border-spacing: 0;
+                    }
+            
+                    .tg td {
+                        border-color: black;
+                        border-style: solid;
+                        border-width: 1px;
+                        overflow: hidden;
+                        padding: 10px 5px;
+                        word-break: normal;
+                    }
+            
+                    .tg th {
+                        border-color: black;
+                        border-style: solid;
+                        border-width: 1px;
+                        font-weight: normal;
+                        overflow: hidden;
+                        padding: 10px 5px;
+                        word-break: normal;
+                    }
+            
+                    .tg .tg-80zn {
+                        background-color: #ebebeb;
+                        border-color: #ffffff;
+                        font-weight: bold;
+                        text-align: left;
+                        vertical-align: top
+                    }
+            
+                    .tg .tg-esg4 {
+                        background-color: #ebebeb;
+                        border-color: #ffffff;
+                        font-weight: bold;
+                        text-align: right;
+                        vertical-align: top
+                    }
+            
+                    .tg .tg-8jgo {
+                        border-color: #ffffff;
+                        text-align: left;
+                        vertical-align: top
+                    }
+            
+                    .tg .tg-ofj5 {
+                        border-color: #ffffff;
+                        text-align: center;
+                        vertical-align: top
+                    }
+                </style>
+            
+                <table class="tg" style="margin-left: auto;  margin-right: auto;">
+                    <thead>
+                        <tr>
+                            <th class="tg-80zn">Unit </th>
+                            <th class="tg-80zn">Acronym</th>
+                            <th class="tg-80zn">Measure in Seconds</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="tg-8jgo">Seconds</td>
+                            <td class="tg-ofj5">s</td>
+                            <td class="tg-ofj5">1</td>
+                        </tr>
+                        <tr>
+                            <td class="tg-8jgo">Miliseconds</td>
+                            <td class="tg-ofj5">ms</td>
+                            <td class="tg-ofj5">10<sup>-3</sup></td>
+                        </tr>
+                        <tr>
+                            <td class="tg-8jgo">Microseconds</td>
+                            <td class="tg-ofj5">μs</td>
+                            <td class="tg-ofj5">10<sup>-6</sup></td>
+                        </tr>
+                        <tr>
+                            <td class="tg-8jgo">Nanoseconds</td>
+                            <td class="tg-ofj5">ns</td>
+                            <td class="tg-ofj5">10<sup>-9</sup></td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+            </div>
+            </div>
+
+
+
+    <style>
+        .left_bar .kbd_shortcuts {
+            color: black;
+            font-size: 16px;
+            line-height: 1.55;            
+            list-style-type: none;
+            position: relative;            
+        }
+
+        .left_bar .kbd_shortcuts kbd {
+            font-size: 14px;}
+
+
+        /* bar topright modal (for content of the modal) */
+        .left_bar .kbd_shortcuts .modal-content {
+            position: relative;
+            width: 1200px;
+            max-width: 90%;
+            height: max-content;
+            max-height: 90%;
+            margin-top:55px;            
+            background-color: rgb(207, 218, 228); /* rgb(235, 235, 235); */
+            overflow:auto;  
+        }
+
+        .left_bar .kbd_shortcuts .modal-body {
+            margin-left: 8px;
+            padding-bottom: 12px; 
+            text-align: justify;
+            
+            padding-top: 8px;
+            padding-bottom: 2px;
+            overflow: visible;
+            height: 100%;        
+            
+        }
+
+        .left_bar .kbd_shortcuts .modal-header {
+            padding: 0;            
+            color: white;
+            width: 100%;            
+        }
+
+        .left_bar .kbd_shortcuts .modal-header h2 {
+            padding-top: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+            color:white;
+            background-color: rgb(63,99,136)
+        };            
+        
+
+        
+
+        .left_bar .kbd_shortcuts .modal-body p {
+            padding: 0px 4px;
+            text-align: justify;
+            text-justify: inter-word;            
+        }
+
+
+        /* modal button */
+        .left_bar .modalButton {
+            border: none;
+            box-shadow: none;
+            width: auto;            
+            padding: 0;
+            background-color: transparent;
+            color: white;
+            margin: 0;            
+        }
+
+        .left_bar .brmine {
+            display: block;
+            margin-bottom: 0.5em;
+        }
+
+    </style>
+
+
+    </div> 
+    </li>
+    <li>
+      <a href="/julia_book/links/"><img src="/julia_book/assets/icons/links.png"
+          style="width:15%; height:auto;opacity:0.9;padding-bottom:5px;">
+        Useful Links
+      </a>
+    </li>    
+  </ul>
+
+  <div class="personal_website">
+    <a href="https://alfaromartino.github.io"><img src="/julia_book/assets/icons/personal.png"
+        style="width:18%; height:auto;opacity:0.9;margin-bottom:-14px; padding-right:4px">
+      Personal
+      <div style="margin-left:calc(30px + 6px); margin-top:-0.5em;"> Website</div>
+    </a>
+  </div>
+
+
+  
+
+  <!-- {{if add_github_star}}
+<a class="github-button" href="https://github.com/{{github_repo}}" data-icon="octicon-star" data-size="large" 
+data-show-count="true" aria-label="Star {{title}} on GitHub">Star</a>
+{{end}}       -->
+</div>
+
+
+
+
+
+<style>
+.left_bar {
+  z-index: 200;    
+  background-image: linear-gradient(to left bottom, rgb(0, 0, 0), rgb(0, 0, 0) 10%, rgb(63, 99, 136) 80%, rgb(63, 99, 136));
+    position: fixed;    
+    font-family: "Inter";
+    height: 100%;
+    top: 0;
+    left: 0;          
+    font-size: 20px;
+    width: 180px;
+}
+
+
+
+.left_bar ul{
+list-style-type: none;
+float: left;
+font-size:85%;
+position: relative;
+padding-left: 0.8em;
+padding-top: 40px;
+line-height: 4.25em;
+}
+
+
+.left_bar li a, .left_bar .personal_website a{
+color: white;
+}
+
+
+.left_bar a:hover, .left_bar .personal_website a:hover{
+  color: rgb(160, 159, 159);  
+}
+
+
+.left_bar .personal_website{
+  position:absolute;
+  bottom:0;
+  padding-bottom: 1em;
+  left:12px;
+  font-size:18px;
+}
+</style>  
+
+
+ 
+<!-- CONTENT PAGES -->
+    
+    <header class="text-white text-center">
+  
+    <div class="jumbotron jumbotron-fluid container-fluid bg-primary">
+  
+
+
+    <h1><i>5e.</i> Slices and Views</h1>    
+    <div class="lead"> </div>
+    
+    
+    <div class="name_format">
+      <a href="https://alfaromartino.github.io/" target="_blank" rel="noopener noreferrer">Martin Alfaro</a>
+      </div>
+      <div class="phd_format">PhD in Economics</div>
+    
+    
+    
+
+    
+
+    <!-- {{if add_github_star}}
+      <a class="github-button" href="https://github.com/{{github_repo}}" data-icon="octicon-star" data-size="large" 
+      data-show-count="true" aria-label="Star {{title}} on GitHub">Star</a>
+    {{end}} -->
+  </div>
+</header>
+
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<div class="bar_top">
+  <ul>
+     <li>
+      <div style="text-indent:0;">
+        <button class="modalButton" style="background-color: transparent; color:white; display:block;
+              margin-bottom: -2px;">
+          <img src="/julia_book/assets/icons/sheets01.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:5px;margin-left:0px;">
+            Sections</button>
+      </div>      
+      <!-- {{insert PAGES/content_keyboardShortcuts.html}} -->
+          <div class="modal" id="modal_bar">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 style="text-decoration: none"> <span style="text-decoration: underline">PART I</span>: INTRODUCTION TO JULIA</h2>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="column">
+          <h3> INTRODUCTION </h3>
+          <ul>
+            <li>1. <u>Installation and Preliminaries</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\1a_installation/"><i>a</i>. Installation and Resources</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\2a_basics/"><i>b</i>. Running Julia</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\1c_vscode/"><i>c</i>. VS Code (OPTIONAL)</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\2b_tips/"><i>d</i>. A Minimal Set of Good Practices</a></li><br>
+                
+              </ul>
+            </li>
+            <li>2. <u>Variables</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\overview_1/"><i>a</i>. Overview and Goals</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3a_variables/"><i>b</i>. Variables, Types, and Operators</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3b_univariables/"><i>c</i>. Numbers</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3b2_strings/"><i>d</i>. Strings</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3c_arrays/"><i>e</i>. Arrays (Vectors and Matrices)</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3c2_tuples/"><i>f</i>. Tuples</a></li><br>
+                
+              </ul>
+            </li>            
+          </ul>
+        </div>
+        <div class="column">
+          <h3> CORE CONCEPTS </h3>
+          <ul>
+            <li>3. <u>Functions</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\overview_2/"><i>a</i>. Overview and Goals</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\4a0_packages/"><i>b</i>. Function Execution and Packages</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\4a1_define_func/"><i>c</i>. Defining Your Own Functions</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\4b_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\4d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a></li><br>
+                
+              </ul>
+            </li>
+            <li>4. <u>Control Flow</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\overview_3/"><i>a</i>. Overview and Goals</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\5a_logical/"><i>b</i>. Conditions</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\5b_conditionals/"><i>c</i>. Conditional Statements</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\5c_forLoops/"><i>d</i>. For-Loops</a></li><br>
+                
+              </ul>
+            </li>            
+          </ul>
+        </div>
+        <div class="column">
+          <h3> USING JULIA </h3>
+          <ul>
+            <li>5. <u>Vectors: Indexing and Mutations</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\overview_4/"><i>a</i>. Overview and Goals</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3e_immutables/"><i>b</i>. Mutable and Immutable Objects</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3d_mutation/"><i>c</i>. Assignments vs Mutations</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\5bc_initializing/"><i>d</i>. Initializing and Creating Vectors</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6a0_slices/"><i>e</i>. Slices and Views</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. In-Place Assignments</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
+                
+              </ul>
+            </li>
+            <li>6. <u>Working with Vectors and Other Collections</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\overview_6/"><i>a</i>. Overview and Goals</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6c1_tuples_and_namedtuples/"><i>b</i>. Named Tuples and Dictionaries</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6f_pipes/"><i>c</i>. Let Blocks and Pipes</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6d_application01/"><i>e</i>. Illustration - Johnny, the YouTuber</a></li><br>
+                
+              </ul>
+            </li>            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </li>
+  </ul>
+</div>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+<style>
+  /* ================================================================= 
+                        TOP BAR - TO NAVIGATE SECTIONS
+  ================================================================= */ 
+  .bar_top{padding-left:180px;}  
+  
+  .bar_top {  
+    background-image: linear-gradient(to right, black, rgb(0, 0, 0) 10%, rgb(63,99,136) 55%, rgb(63,99,136));
+    position        : fixed;                         /* fixed to stay at the top */
+    width           : 100%;
+    height          : 48px;
+    top             : 0;
+    left            : 0;
+    padding         : 8px 0px 10px 0px;
+    font-size       : 100%;
+    z-index         : 125;
+  } 
+  
+  .bar_top a:hover {
+      color: rgb(160, 159, 159); 
+  }
+  
+  
+  .bar_top > ul {  
+    list-style-type: none;
+    float          : left;
+    position       : relative;
+    bottom         : 0;
+    padding-left   : 1%;    
+    left           : 180px;
+  }
+  
+    .bar_top li a{   
+    color: white;
+  }
+
+  
+  
+  .bar_top .modal{   
+  background-color: transparent;
+  /* left: 0; */
+  /* top: 0; */
+  margin-top  : 48px;
+  padding-left: 1%;
+  margin-left : 0;
+  width       : 100%;
+  height      : 100%;
+  overflow    : auto;
+  position    : fixed;
+  
+}  
+  
+  
+  
+  /* bar topright modal (for content of the modal) */
+  .bar_top .modal-content {  
+    position                  : relative;
+    width                     : 1200px; max-width      : 90%;
+    height                    : max-content; max-height: 90%;
+    background-color          : black;
+    margin                    : auto;
+    padding                   : 8px;
+    margin-left               : 180px;
+    -webkit-animation-name    : none;
+    /* -webkit-animation-duration: 0.0s; */
+    animation-name            : none;
+    /* animation-duration        : 0.0s; */
+  }
+
+
+  .bar_top .modal-header {  
+    background-color: black;
+    color           : white;
+  }
+  
+   .bar_top .modal-body{    
+    color:rgb(100, 157, 214);      
+  }
+
+  
+  .bar_top .modal-body .row{display: flex;}    
+  .bar_top .modal-body .row .column{flex:1;}  /* equal size of columns*/
+  
+  
+  .bar_top .modal-body .row h3{ 
+    padding-bottom:0.5em;}
+
+
+  .bar_top .modal-body .row ul li ul { 
+    list-style-type: none;
+    margin         : 0;
+    padding        : 0;
+    padding-top    : 1em;
+    padding-bottom : 0.4em;
+    line-height    : 1.5;}
+
+  .bar_top .modal-body .row li {
+    line-height    : 0.38;
+    list-style-type: none;
+    float          : center;
+    text-indent    : -20px;
+    padding-left   : 20px;
+    position       : relative;
+  }
+
+  
+
+.bar_top .modal-body .row .column {
+  text-align: center; /* center align all contents in a column */
+}
+
+.bar_top .modal-body .row .column h3 {
+  text-align: center; /* center align the h3 tag in a column */
+}
+
+.bar_top .modal-body .row .column ul {
+  text-align         : left ;   /* left align the ul tag in a column */
+  margin-left        : auto;    /* center the ul tag */
+  margin-right       : auto;    /* center the ul tag */
+  list-style-position: inside;  /* adjust the position of the list items */
+}
+    
+
+  /* modal button */
+  .bar_top .modalButton {      
+    border       : none;
+    margin-bottom: 24px;
+    box-shadow   : none;
+    /* box-shadow: 3px 3px 4px black;   */
+}
+
+/* The Close Button */
+.bar_top .modalClose {    
+  font-size: 0px;   
+}
+
+    
+    
+  </style>
+
+
+
+
+
+
+
+
+
+
+
+<!-- {{ispage list_posts links}}  
+  {{insert /index_page/lists_header.html}}  
+  {{insert /index_page/lists_FORMAT.html}}  
+{{end}} -->
+
+<div class="franklin-content">
+<section id="introduction" class="scrollspy section-bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Introduction</h2></p>
+<p>This section concludes with the preliminary concepts for studying mutations. In particular, it deals with the behavior of a vector&#39;s slice. </p>
+<p>A <span style="color: rgb(62, 121, 180);"><strong>slice</strong></span> is a subset of a vector&#39;s elements and is denoted as <code>x&#91;&lt;indices&gt;&#93;</code>. Importantly, <strong>slices act differently depending on where they're included</strong>. Formally, we need to distinguish between slices that act as:</p>
+<ul>
+<li><p><span style="color: rgb(62, 121, 180);"><strong>copies</strong></span> of the original vector: it creates a new object, allocated in a new memory address. </p>
+</li>
+<li><p><span style="color: rgb(62, 121, 180);"><strong>views</strong></span> of the original vector: it references the original object, and so both the original object and the slice point to the same memory address.</p>
+</li>
+</ul>
+<p>The distinction is essential when it comes to mutating an object through a slice, as the slice has to reference the original object—formally, mutations need to work with views. In contrast, slices acting as copies don&#39;t reference the original object, and thus their mutations don&#39;t affect it.</p>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="slices_and_the_operator" class="scrollspy">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Slices and the = Operator</h2></p>
+<p>Mutating a vector through a slice involves assigning new values through the operator <code>&#61;</code>. However, a slice behaves differently depending on its position in the assignment. <strong>A slice on the left-hand side of</strong> <code>&#61;</code> <strong>acts as a view</strong>, referencing the original elements and allowing mutation of the vector. In contrast, <strong>a slice on the right-hand side of</strong> <code>&#61;</code> <strong>creates a copy</strong>, making it point to a new object. This means that the objects have no relation, and thus modifying the slice doesn&#39;t affect the original vector.</p>
+<p>The following code snippet demonstrates this, where we refer to the left-hand side as  <em>LHS</em> and the right-hand side as  <em>RHS</em>.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> A Slice on the LHS </button>
+    <button class="tablink" data-id=""> A Slice on the RHS</button>    
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="julia hljs">x    = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+
+
+x[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>        <span class="hljs-comment"># &#x27;x[1]&#x27; is a view and mutates &#x27;x&#x27;</span></code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 0
+ 5</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="julia hljs">x    = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+y    = x[<span class="hljs-number">1</span>]     <span class="hljs-comment"># &#x27;y&#x27; is unrelated to &#x27;x&#x27; because &#x27;x[1]&#x27; is a copy</span>
+
+x[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>        <span class="hljs-comment"># it mutates &#x27;x&#x27; but does NOT modify &#x27;y&#x27;</span></code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">4</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+ <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Aliasing vs Copy</strong>  </span>  </div>  <div class=content>     The creation of copies for objects on the right-hand side of <code>&#61;</code> only applies to <strong>slices</strong>, such as in statements <code>y &#61; x&#91;&lt;indices&gt;&#93;</code>.  Instead, having the whole object <code>x</code> on the right-hand side of <code>&#61;</code>, as in <code>y &#61; x</code>, transforms the operation into an aliasing assignment. This makes <code>y</code> and <code>x</code> reference the same object, so that modifications of <code>y</code> would also affect <code>x</code>.</p>
+<p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Whole Object on the RHS (Aliasing) </button>
+    <button class="tablink" data-id=""> Slice of the Whole Object on the RHS (Copy) </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="julia hljs">x = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+y = x           <span class="hljs-comment"># the whole object (a view)</span>
+
+x[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>        <span class="hljs-comment"># it DOES modify &#x27;y&#x27;</span></code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 4
+ 5</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="julia hljs">x = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+y = x[:]        <span class="hljs-comment"># a slice of the whole object (a copy)</span>
+
+x[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>        <span class="hljs-comment"># it does NOT modify &#x27;y&#x27;</span></code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 0
+ 5</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>  </div>  </div>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="the_function_view" class="scrollspy section-bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>The Function "view"</h2></p>
+<p>We&#39;ve focused on the behavior of slices according to their position against <code>&#61;</code>. But, it&#39;s important to have a more general understanding of when slices act as copies or views. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> We&#39;ll show later on this website that views commonly increase speed, by avoiding the computational overhead of allocating memory.  </span></span> Broadly speaking, <strong>copies tend to be the default behavior of slices in Julia</strong>. Thus, for instance, a slice incorporated as a function argument or in an expression defines a copy. The following code snippet provides several examples of this behavior.</p>
+ <div class=" code_box"> <details  open><summary> Slices as Copies  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
+<pre><code class="julia hljs">x = [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+
+<span class="hljs-comment">#the following slices are all copies</span>
+log.(x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>])
+
+x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>] .+ <span class="hljs-number">2</span>
+
+[sum(x[:]) * a <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">3</span>]
+
+(sum(x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>]) &gt; <span class="hljs-number">0</span>) &amp;&amp; <span class="hljs-literal">true</span></code></pre>
+<p></div> </div>  </details></div>
+<p>When we want that a slice acts as a view, we have to state it explicitly. This is accomplished through the function <code>view</code>, which makes the slice a reference to the original object. Its syntax is <code>view&#40;x, &lt;indices&gt;&#41;</code>, where <code>&lt;indices&gt;</code> are the slice&#39;s subset of indices. To illustrate it, we revisit and compare the last code snippet.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Slices as Views </button>
+    <button class="tablink" data-id=""> Slices as Copies </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="julia hljs">x = [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+
+<span class="hljs-comment">#we make explicit that we want views</span>
+log.(view(x,<span class="hljs-number">1</span>:<span class="hljs-number">2</span>))
+
+view(x,<span class="hljs-number">1</span>:<span class="hljs-number">2</span>) .+ <span class="hljs-number">2</span>
+
+[sum(view(x,:)) * a <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">3</span>]
+
+(sum(view(x,:)) &gt; <span class="hljs-number">0</span>) &amp;&amp; <span class="hljs-literal">true</span></code></pre>
+<p></div></div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="julia hljs">x = [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+
+<span class="hljs-comment">#the following slices are all copies</span>
+log.(x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>])
+
+x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>] .+ <span class="hljs-number">2</span>
+
+[sum(x[:]) * a <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">3</span>]
+
+(sum(x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>]) &gt; <span class="hljs-number">0</span>) &amp;&amp; <span class="hljs-literal">true</span></code></pre>
+<p></div></div> 
+ </div></div>
+<p>  </p></details></div>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="macros_view_and_views" class="scrollspy">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Macros @view and @views</h2></p>
+<p>The previous examples reveal that transforming slices into views is verbose and hinders readability. This is especially true when we have several slices in the same expression. To facilitate the use of views, Julia provides the macros <code>@view</code> and <code>@views</code>. </p>
+<p>The macro <code>@view</code> turns an expression like <code>@view x&#91;1:2&#93;</code> into <code>view&#40;x, 1:2&#41;</code>. It&#39;s primarily useful for expressions where there aren&#39;t so many slices, although its benefits are arguable given that it only saves a few characters. Furthermore, if we perform operations with slices, we need to apply <code>@view</code> with parentheses, as in <code>@view&#40;x&#91;1:2&#93;&#41; .&#43; @view&#40;x&#91;2:3&#93;&#41;</code>.</p>
+<p>On the contrary, the macro <code>@views</code> transforms each slice in an expression into a view. This is particularly convenient for expressions with multiple slices, as we only need to indicate once that every slice should be taken as a view. </p>
+ <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
+<pre><code class="julia hljs">x = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]
+
+<span class="hljs-comment"># the following are all equivalent</span>
+y = view(x, <span class="hljs-number">1</span>:<span class="hljs-number">2</span>) .+ view(x, <span class="hljs-number">2</span>:<span class="hljs-number">3</span>)
+
+y = <span class="hljs-meta">@view</span>(x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>]) .+ <span class="hljs-meta">@view</span>(x[<span class="hljs-number">2</span>:<span class="hljs-number">3</span>])
+
+<span class="hljs-meta">@views</span> y = x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>] .+ x[<span class="hljs-number">2</span>:<span class="hljs-number">3</span>]</code></pre>
+<p></div> </div>  </details></div>
+<p>An important application of <code>@views</code> is for functions. Its inclusion at the beginning of a function definition turns every slice within the function into a view.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> @views For A Function Definition </button>
+    <button class="tablink" data-id=""> Equivalent With @view </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="julia hljs"><span class="hljs-meta">@views</span> <span class="hljs-keyword">function</span> foo(x)
+  y = x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>] .+ x[<span class="hljs-number">2</span>:<span class="hljs-number">3</span>]
   z = sum(x[:]) .+ sum(y)
 
-  <span class=hljs-keyword >return</span> z
-<span class=hljs-keyword >end</span></code></pre> <p></div></div> </div><div data-id="" class=tabcontent > <div class=code_in_modal ><div class=code_NoFormat ></p> <pre><code class="julia hljs"><span class=hljs-keyword >function</span> foo(x)
-  y = <span class=hljs-meta >@view</span>(x[<span class=hljs-number >1</span>:<span class=hljs-number >2</span>]) .+ <span class=hljs-meta >@view</span>(x[<span class=hljs-number >2</span>:<span class=hljs-number >3</span>])
-  z = sum(<span class=hljs-meta >@view</span> x[:]) .+ sum(y)
+  <span class="hljs-keyword">return</span> z
+<span class="hljs-keyword">end</span></code></pre>
+<p></div></div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo(x)
+  y = <span class="hljs-meta">@view</span>(x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>]) .+ <span class="hljs-meta">@view</span>(x[<span class="hljs-number">2</span>:<span class="hljs-number">3</span>])
+  z = sum(<span class="hljs-meta">@view</span> x[:]) .+ sum(y)
 
-  <span class=hljs-keyword >return</span> z
-<span class=hljs-keyword >end</span></code></pre> <p></div></div> </div></div> <p> </p></details></div> <p> </div> </div> </div> </section> <footer class=py-1 > <div class=container > <span class=left-text ><a href="/julia_book/PAGES\5bc_initializing" class=prevPage ><img src="/julia_book/assets/icons/prev-page.png" style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_left.png" style="width:15px; height:auto;opacity:0.9;padding-bottom:2px;"> </kbd>)</a></span> <span class=right-text ><a href="/julia_book/PAGES\6a1_indexing" class=nextPage >Next Section (<kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_right.png" style="width:15px; height:auto;opacity:0.9;padding-bottom:2px;"> </kbd>)<img src="/julia_book/assets/icons/next-page.png" style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a> </span> <span class=center-text > © Martin Alfaro <br>Last Modified May 4, 2024 </span> </div> </footer> <style> footer{font-family: "Inter";} footer .container { width: 100%; margin-top:0.6em; margin-bottom:0.5em; overflow: hidden; text-align:center; align-items: center; justify-content:center; color:white; } footer .center-text { /* float:center; */ text-align:center; } footer .left-text { float: left; /* text-align: left; */ } footer .right-text { float: right; /* text-align: right; */ } footer a { color: white; } footer a:hover { color: white; opacity:0.9; text-decoration: none; } /* style="position:relative; display:flex; justify-content:left; align-items: left; text-align:left; color:white; left:0; padding-left:6px;"> */ /* style="position:relative; display:flex; justify-content:right; align-items: right; text-align:right; color:white; right:0; padding-right:6px;"> */ </style> <script> // Get page URLs const prevPageURL = document.querySelector(".prevPage").href; const nextPageURL = document.querySelector(".nextPage").href; // Add click and keyboard event listeners document.querySelector(".prevPage").addEventListener("click", goToPrevPage); document.querySelector(".nextPage").addEventListener("click", goToNextPage); document.addEventListener("keyup", (e) => { if (e.key === "ArrowLeft" && e.ctrlKey) { goToPrevPage(); } else if (e.key === "ArrowRight" && e.ctrlKey) { goToNextPage(); } }); // Click handler functions function goToPrevPage() { window.location = prevPageURL; } function goToNextPage() { window.location = nextPageURL; } </script> </div> <script src="/julia_book/libs/highlight/highlight.js"></script> <script>hljs.highlightAll();hljs.configure({tabReplace: ' '});</script> <script src="/julia_book/libs/simple-scrollspy.min.js"></script> <script> window.onload = function () { scrollSpy('#navbarResponsive', { sectionClass: '.scrollspy', menuActiveTarget: '.nav-link', offset: 100 }) } </script> <!-- ################################################# # FOR ALL PAGES ################################################# --> <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin=anonymous ></script> <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin=anonymous ></script> <script async defer src="https://buttons.github.io/buttons.js"></script> <!-- FOR MODALS and TABS--> <script> const btns = document.getElementsByClassName('modalButton'); const modals = document.getElementsByClassName('modal'); [...btns].forEach((btn, ind) => { btn.onclick = () => { if (modals[ind].style.display === 'block') { modals[ind].style.display = 'none'; } else { modals[ind].style.display = 'block'; } }; }); // Close the modal when user clicks outside of it window.addEventListener('click', function(event) { const modals = document.getElementsByClassName('modal'); const modalContents = document.getElementsByClassName('modal-content'); const modalButtons = document.getElementsByClassName('modalButton'); for (let i = 0; i < modals.length; i++) { const modal = modals[i]; const modalContent = modalContents[i]; const modalButton = modalButtons[i]; if (modal.style.display === 'block' && !modalContent.contains(event.target) && !modalButton.contains(event.target)) { modal.style.display = 'none'; } } }); document.addEventListener('keydown', function (event) { if (event.ctrlKey && event.key === 'z') { // Select the button element const modal = document.getElementById('modal_bar'); if (modal && modal.style.display === 'block') { modal.style.display = 'none'; } else { modal.style.display = 'block'; } // Check if modal with id="modal_bar" is opened } }); </script> <script> let handleClick = e => { Array.from(e.target.parentElement.parentElement.querySelectorAll(".active"), e => e.classList.remove("active")); // remove `active` class from every elements which contains him. e.target.classList.add("active"); document.querySelector(`div.tabcontent[data-id*="${e.target.dataset.id}"]`).classList.add("active"); }; Array.from(document.getElementsByClassName("tablink"), btn => btn.addEventListener('click', handleClick, false)); </script> <script> let setHeight = () => { let tabWrappers = document.querySelectorAll('.tab_wrapper'); tabWrappers.forEach(wrapper => { let tabContents = wrapper.querySelectorAll('.tabcontent'); let maxCodeHeight = 0; let maxOutputHeight = 0; tabContents.forEach(tabContent => { // Temporarily show the tabContent to calculate its children's height let originalVisibility = tabContent.style.visibility; tabContent.style.visibility = 'visible'; let originalPosition = tabContent.style.position; let originalDisplay = tabContent.style.display; tabContent.style.position = 'relative'; tabContent.style.display = 'inline-block'; let codeInModal = tabContent.querySelector('.code_in_modal'); let outputInModal = tabContent.querySelector('.output_in_modal'); if (codeInModal) { codeInModal.style.height = 'auto'; let codeHeight = codeInModal.offsetHeight; if (codeHeight > maxCodeHeight) { maxCodeHeight = codeHeight; } } if (outputInModal) { outputInModal.style.height = 'auto'; let outputHeight = outputInModal.offsetHeight; if (outputHeight > maxOutputHeight) { maxOutputHeight = outputHeight; } } // Restore the original position and visibility tabContent.style.visibility = originalVisibility; tabContent.style.position = originalPosition; tabContent.style.display = originalDisplay; }); tabContents.forEach(tabContent => { let codeInModal = tabContent.querySelector('.code_in_modal'); let outputInModal = tabContent.querySelector('.output_in_modal'); if (codeInModal) { codeInModal.style.height = maxCodeHeight + 'px'; } if (outputInModal) { outputInModal.style.height = maxOutputHeight + 'px'; } }); }); }; window.addEventListener('load', setHeight); window.addEventListener('resize', setHeight); </script> <!-- <script> OLD FOR SETTING HEIGHT OF TABCONTENT ONLY let setHeight = () => { let tabWrappers = document.querySelectorAll('.tab_wrapper'); tabWrappers.forEach(wrapper => { let tabs = wrapper.querySelectorAll('.tabcontent'); let maxHeight = 0; tabs.forEach(tab => { // Temporarily show the tab to calculate its height let originalVisibility = tab.style.visibility; tab.style.visibility = 'visible'; let originalPosition = tab.style.position; let originalDisplay = tab.style.display; tab.style.position = 'relative'; tab.style.display = 'inline-block'; tab.style.height = '100%'; let height = tab.offsetHeight; if (height > maxHeight) { maxHeight = height; } // Restore the original position and visibility tab.style.visibility = originalVisibility; tab.style.position = originalPosition; tab.style.display = originalDisplay; }); tabs.forEach(tab => { tab.style.height = maxHeight + 'px'; }); }); }; window.addEventListener('load', setHeight); window.addEventListener('resize', setHeight); </script> --> <script> // Get all the tab wrappers on the page var tabWrappers = document.getElementsByClassName("tab_wrapper"); // Iterate over the tab wrappers for (var i = 0; i < tabWrappers.length; i++) { var tabWrapper = tabWrappers[i]; var buttons = tabWrapper.getElementsByClassName("tablink"); var tabContents = tabWrapper.getElementsByClassName("tabcontent"); // Set the data-id values for each button and tab content for (var j = 0; j < buttons.length; j++) { var button = buttons[j]; var tabContent = tabContents[j]; var dataId = "tab" + (i + 1) + "_" + (j + 1); // Create the data-id value // Set the data-id attribute for the button button.setAttribute("data-id", dataId); // Set the data-id attribute for the tab content tabContent.setAttribute("data-id", dataId); } } </script> <script> document.addEventListener("keydown", function(event) { if (event.code === "ArrowUp" && event.altKey) { var details = document.getElementsByTagName("details"); for (var i = 0; i < details.length; i++) { details[i].open = false; } } }); </script> <script> document.addEventListener("keydown", function(event) { if (event.code === "ArrowDown" && event.altKey) { var details = document.getElementsByTagName("details"); for (var i = 0; i < details.length; i++) { details[i].open = true; } } }); // // USER- TO USE ESCAPE TO CLOSE IT window.onkeydown = function(event) { if (event.key == 'Escape') { for(let modal of modals) { modal.style.display = 'none'; } } } </script> <style> /* for collapsible pics */ .pic_drop_green{ padding-top: 1em; padding-bottom: 1em ; } .pic_drop_green details > summary { color:white; display:inline-block; width: auto; cursor: pointer; padding: 0px 6px; margin: 0; border-width: 1px; border-style:solid; box-shadow: 3px 3px 4px black; /* list-style: none; */ background-color: #3f6b4b; } .pic_drop_green details[open] > summary { width: auto; padding: 0px 6px; border: #a8a8a8; border-width: 1px; border-style:solid; color:white; background-color: #3f6b4b; } .pic_drop_green details > p { display:block; width:auto; padding: 0; margin: 0; } /* =================== for multiple pics in a row ==================== */ .multiple_pics{text-align: center;} .multiple_pics h2{text-decoration:none; padding-bottom:0;} .multiple_pics .row { display: flex; } .multiple_pics .column2 { flex: 50%;} .multiple_pics .column3 { flex: 33.33%;} /* \html{ <div class=multiple_pics > <div class=row > <div class=column2 > <h2>CORRECT Interpretation</h2> <img src="/julia_book/assets/tikz/3d_mutation/interpret01a.svg" style="width:400px ; height:auto; padding-right:0em;"> </div> <div class=column2 > <h2>INCORRECT Interpretation</h2> <img src="/julia_book/assets/tikz/3d_mutation/interpret01b.svg" style="width:435px ; height:auto"> </div> </div> </div> } */ </style> <!-- ################################################# # FOR EACH SPECIFIC PAGE ################################################# --> <!-- FOR NAVIGATION--> <!-- to make it visible as default change line 9 by <div class="collapse show navbar-collapse" id=collapsibleNavbar > --> <nav class=nav > <button class=nav-toggle  aria-label="Toggle navigation"> <img src="/julia_book/assets/icons/dropdown.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:2px;margin-left:0px;"> <span class=nav-title ><i>5e.</i> Slices and Views</span> </button> <div class=nav-menu > <ul> <li> <a href="#introduction" data-offset=-40 >Introduction</a> <li> <a href="#slices_and_the_operator" data-offset=-40 >Slices and the = Operator</a> <li> <a href="#the_function_view" data-offset=-40 >The Function "view"</a> <li> <a href="#macros_view_and_views" data-offset=-40 >Macros @view and @views</a> </ul> </div> </nav> <script> const navToggle = document.querySelector('.nav-toggle'); const navMenu = document.querySelector('.nav-menu'); const navLinks = document.querySelectorAll('.nav-menu a'); navToggle.addEventListener('click', () => { navMenu.classList.toggle('show'); }); navLinks.forEach((link) => { link.addEventListener('click', (e) => { e.preventDefault(); const target = document.querySelector(link.getAttribute('href')); const offset = parseInt(link.dataset.offset, 10) || 0; window.scrollTo({ top: target.offsetTop + offset, behavior: 'smooth' }); }); }); document.addEventListener('click', (e) => { if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) { navMenu.classList.remove('show'); } }); document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { navMenu.classList.remove('show'); } if (e.key === 'x' && e.ctrlKey) { navMenu.classList.toggle('show'); } }); </script> <style> /* ================================================================= NAVIGATION BAR ================================================================= */ .nav { position: fixed; top: 0; right: 0; z-index: 200; background-color: rgb(63,99,136); padding: 0; display: block; } .nav-toggle { background-color: rgb(63, 99, 136); border: none; padding: 8px; padding-right: 24px; font-size: 18px; cursor: pointer; } /* .nav-toggle-icon { display: inline-block; width: 20px; height: 20px; background-image: url('/assets/icons/sheets02.png'); background-size: 28px 20px; } */ .nav-menu { position: fixed; right: 0; top: 48px; background-color: rgb(63,99,136); padding: 10px; width: 300px; height: 100vh; overflow-y: auto; display: none; } .nav-menu ul { list-style: none; margin: 0; padding: 0; } .nav-menu li { margin-bottom: 10px; } .nav-menu a { color: #fff; text-decoration: none; font-size: 18px; font-weight: bold; padding: 10px 20px; display: block; } .nav-menu a:hover { color: #ccc; background-color: #333; } .nav-title { font-size: 18px; margin-left: 10px; color: #fff; } .nav-brand { font-size: 24px; font-weight: bold; margin: 10px 20px; color: #fff; } .nav-menu.show { display: block; } </style> <style> @media (max-width: 850px){ .jumbotron, .left_bar{ font-size:90% !important;} .franklin-content{ font-size:100% !important;} .franklin-content{padding-left: 1%; padding-right:1%;} .index_container, .index_container section{font-size: 100%;} .index_container{ padding-left:1%; padding-right:1%; } .index_container ul li {padding-right: 5%; padding-left: 0} .index_container ul {padding-right: 0; padding-left: 5%;} .home_container section {font-size: 100%; line-height:1.55em;} .home_container ul li {padding-right: 1%; padding-left: 0;} .home_container ul {padding-right: 0; padding-left: 0%;} .home_container .row li {padding-left:0; padding-bottom:1.55em; margin-left:0;} .home_container .bullets_nomarker ul li p {line-height:1.55 !important;} h1 {font-size: 180%; padding-top:0.5em ;padding-bottom:0em; } h2, .lead {font-size: 110%; } .lead {padding-top:0em;padding-bottom: 1em;} .bar_top, nav, .copy-button, .left_bar .personal_website, .py-1 .container .center-text{ visibility:hidden; width:0 !important; height:0 !important} /* for fixing overflowing code */ .col-lg-.mx-auto{ /* white-space: pre-wrap; */ overflow: auto !important; } .jumbotron { padding-left: 60px !important; padding-right: 1% !important; padding-top: 0; margin-top:0;} .left_bar{ position : absolute; top : -52px ; left : 0 ; height : auto; background-image: none; } /* .left_bar ul {padding-left:0 !important; margin-left:0} */ .left_bar ul, .left_bar ul li {margin-bottom:-0.5em !important; text-indent:0; padding-top:0.0em !important; padding-bottom:0.0em !important; height:auto;} .left_bar ul li a {width:60px !important;} .left_bar img{width:0% !important; height:0% !important; visibility: hidden;} .modal {padding: 2px !important;} .bullets ol, .itemNoSpace ol{padding: 4px; } .bullets ul li, .itemNoSpace ul li{padding-right: 5%; padding-left:0;margin-left:0;} .bullets ul li p, .itemNoSpace ul li p {line-height:1.65;} } @media (max-height: 600px) { .jumbotron, .left_bar{ font-size:90% !important;} .franklin-content{font-size:100% !important} .index_container, .index_container section{font-size: 100%;} .index_container ul li {padding-right: 5%; padding-left: 0} .index_container ul {padding-right: 0; padding-left: 5%;} .index_container{ padding-left:1%; padding-right:1%; } h1 {font-size: 180%; padding-top:0.5em ;padding-bottom:0em; } h2, .lead {font-size: 110%; } .lead {padding-top:0em;padding-bottom: 1em;} .bar_top, nav, .copy-button, .left_bar .personal_website, .py-1 .container .center-text{ visibility:hidden; width:0 !important; height:0 !important} /* for fixing overflowing code */ .col-lg-.mx-auto{ /* white-space: pre-wrap; */ overflow: auto !important; } .jumbotron { padding-left: 60px !important; padding-right: 1% !important; padding-top: 0; margin-top:0;} .franklin-content{ padding-left: 0 !important;} .left_bar{ position : absolute; top : -52px ; left : 0 ; height : auto; background-image: none;} /* .left_bar ul {padding-left:0 !important; margin-left:0} */ .left_bar ul, .left_bar ul li {text-indent:0; padding-top:0em ; padding-bottom:0em !important; height:2.5em; font-size:100%;} .left_bar ul li a {width:60px !important;} .left_bar img{ width:0% !important; height:0% !important; visibility: hidden;} .modal {padding: 2px !important;} .bullets ol, .itemNoSpace ol{padding: 6px; } .bullets ul li, .itemNoSpace ul li{padding-right: 5%; padding-left:0;margin-left:0;} .bullets ul li p, .itemNoSpace ul li p {line-height:1.55;} .index_container ul li {padding-right: 5%; padding-left: 0} .index_container ul {padding-right: 0; padding-left: 5%;} } @media (max-width: 850px), (max-height: 600px) { h2, .lead {font-size: 140%;padding-top:1em; } h1 {font-size: 200%} } @media (max-height: 600px){ .left_bar ul, .left_bar ul li {text-indent:0; padding-top:0.0em ; padding-bottom:0em !important; height:3.2em; font-size:105%;} } @media (max-width: 850px){ .left_bar ul, .left_bar ul li {text-indent:0; padding-top:0.5em ; padding-bottom:0em !important; height:3.5em; font-size:102%; padding-left:0.15em;} } </style> <script src="/julia_book/libs/clipboard.min.js"></script> <script> (function(){ // Get the elements. // - the 'pre' element. // - the 'div' with the 'paste-content' id. var pre = document.getElementsByTagName('pre'); // Add a copy button in the 'pre' element. // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render). for (var i = 0; i < pre.length; i++) { var tag_name = pre[i].children[0].className var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs'); if ( isLanguage ) { var button = document.createElement('button'); button.className = 'copy-button'; button.textContent = 'Copy'; pre[i].appendChild(button); } }; // Run Clipboard var copyCode = new Clipboard('.copy-button', { target: function(trigger) { return trigger.previousElementSibling; } }); // On success: // - Change the "Copy" text to "Copied". // - Swap it to "Copy" in 2s. // - Lead user to the "contenteditable" area with Velocity scroll. copyCode.on('success', function(event) { event.clearSelection(); event.trigger.textContent = 'copied!'; window.setTimeout(function() { event.trigger.textContent = 'copy'; }, 2000); }); // On error (Safari): // - Change the "Press Ctrl+C to copy" // - Swap it to "Copy" in 2s. copyCode.on('error', function(event) { event.trigger.textContent = 'Press "Ctrl + C" to copy'; window.setTimeout(function() { event.trigger.textContent = 'Copy'; }, 5000); }); })(); </script>
+  <span class="hljs-keyword">return</span> z
+<span class="hljs-keyword">end</span></code></pre>
+<p></div></div> 
+ </div></div>
+<p>  </p></details></div>
+<p>      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="py-1">    
+    <!-- <p class="m-0"> -->
+    <div class="container">
+       <span class="left-text"><a href="/julia_book/PAGES\5bc_initializing" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png"
+        style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_left.png" style="width:15px; height:auto;opacity:0.9;padding-bottom:2px;">
+          </kbd>)</a></span>
+       <span class="right-text"><a href="/julia_book/PAGES\6a1_indexing" class="nextPage">Next Section (<kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_right.png" style="width:15px; height:auto;opacity:0.9;padding-bottom:2px;">
+    </kbd>)<img src="/julia_book/assets/icons/next-page.png"
+        style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
+    <span class="center-text">  © Martin Alfaro <br>Last Modified May 4, 2024 </span>  
+  </div>
+<!-- </p>  -->
+</footer>
+
+
+
+
+
+<style>
+
+
+footer{font-family: "Inter";}
+
+footer .container {  
+  width: 100%;
+  margin-top:0.6em;
+  margin-bottom:0.5em;
+  overflow: hidden;
+  text-align:center;
+  align-items: center;
+  justify-content:center;
+  color:white;  
+}
+
+footer .center-text {  
+  /* float:center;   */
+  text-align:center;
+  
+}
+
+footer .left-text {
+  float: left;
+  /* text-align: left; */
+}
+
+footer .right-text {
+  float: right;
+  /* text-align: right; */
+}
+
+footer a {
+  color: white;
+}
+
+footer a:hover {
+  color: white;
+  opacity:0.9;  
+  text-decoration: none;
+}
+/* style="position:relative; display:flex; justify-content:left; align-items: left; text-align:left; color:white; left:0; padding-left:6px;"> */
+/* style="position:relative; display:flex; justify-content:right; align-items: right; text-align:right;  color:white; right:0; padding-right:6px;">  */
+</style>
+
+<script>
+  // Get page URLs
+const prevPageURL = document.querySelector(".prevPage").href;
+const nextPageURL = document.querySelector(".nextPage").href;
+
+// Add click and keyboard event listeners
+document.querySelector(".prevPage").addEventListener("click", goToPrevPage);
+document.querySelector(".nextPage").addEventListener("click", goToNextPage);
+document.addEventListener("keyup", (e) => {
+  if (e.key === "ArrowLeft" && e.ctrlKey) {
+    goToPrevPage();
+  } else if (e.key === "ArrowRight" && e.ctrlKey) {
+    goToNextPage();
+  }
+});
+
+// Click handler functions 
+function goToPrevPage() {
+  window.location = prevPageURL; 
+}
+function goToNextPage() {
+  window.location = nextPageURL; 
+}
+
+
+</script>
+
+
+
+
+</div><!-- CONTENT ENDS HERE -->
+
+<!-- ADDED BY FRANKLIN -->
+  
+      
+
+
+
+  
+  
+      <script src="/julia_book/libs/highlight/highlight.js"></script>
+<!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
+<script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+<!--  -->
+
+
+  
+  <script src="/julia_book/libs/simple-scrollspy.min.js"></script>
+  <script>
+  window.onload = function () {
+    scrollSpy('#navbarResponsive', {
+      sectionClass: '.scrollspy',
+      menuActiveTarget: '.nav-link',
+      offset: 100
+    })
+  }
+  </script>
+  </body>
+</html>
+
+
+
+<!-- 
+#################################################
+# FOR ALL PAGES
+################################################# 
+-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script> 
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+
+
+
+<!-- FOR ICONS -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+
+<!-- FOR MODALS and TABS-->
+
+<script>
+  
+  const btns   = document.getElementsByClassName('modalButton');
+  const modals = document.getElementsByClassName('modal');
+
+  [...btns].forEach((btn, ind) => {
+ btn.onclick = () => {
+    if (modals[ind].style.display === 'block') {
+      modals[ind].style.display = 'none';
+    } else {
+      modals[ind].style.display = 'block';
+    }
+ };
+});
+
+
+  // Close the modal when user clicks outside of it
+window.addEventListener('click', function(event) {
+const modals        = document.getElementsByClassName('modal');
+const modalContents = document.getElementsByClassName('modal-content');
+const modalButtons  = document.getElementsByClassName('modalButton');
+for (let i = 0; i < modals.length; i++) {
+  const modal        = modals[i];
+  const modalContent = modalContents[i];
+  const modalButton  = modalButtons[i];
+  if (modal.style.display === 'block' && !modalContent.contains(event.target) && !modalButton.contains(event.target)) {
+    modal.style.display = 'none';
+  }
+}
+});
+
+  
+document.addEventListener('keydown', function (event) {
+  if (event.ctrlKey && event.key === 'z') {
+    // Select the button element      
+    const modal = document.getElementById('modal_bar');
+    if (modal && modal.style.display === 'block') {
+      modal.style.display = 'none';
+    }
+    else { modal.style.display = 'block'; }
+
+    // Check if modal with id="modal_bar" is opened
+  }
+});
+
+
+
+</script> 
+
+<!-- NECESSARY TO MAKE IT WORK -->
+<script> 
+let handleClick = e => {
+  Array.from(e.target.parentElement.parentElement.querySelectorAll(".active"), e => e.classList.remove("active")); // remove `active` class from every elements which contains him.
+  e.target.classList.add("active");
+  document.querySelector(`div.tabcontent[data-id*="${e.target.dataset.id}"]`).classList.add("active");
+ 
+};
+
+Array.from(document.getElementsByClassName("tablink"), btn => btn.addEventListener('click', handleClick, false));
+</script>
+
+
+
+
+
+<!-- FOR SETTING SAME HEIGHT of CODE and OUTPUT WITHIN A TABCONTENT -->
+<script>
+  let setHeight = () => {
+  let tabWrappers = document.querySelectorAll('.tab_wrapper');
+  tabWrappers.forEach(wrapper => {
+    let tabContents = wrapper.querySelectorAll('.tabcontent');
+    let maxCodeHeight = 0;
+    let maxOutputHeight = 0;
+
+    tabContents.forEach(tabContent => {
+      // Temporarily show the tabContent to calculate its children's height
+      let originalVisibility = tabContent.style.visibility;
+      tabContent.style.visibility = 'visible';
+
+      let originalPosition = tabContent.style.position;
+      let originalDisplay = tabContent.style.display;
+      tabContent.style.position = 'relative';
+      tabContent.style.display = 'inline-block';
+
+      let codeInModal = tabContent.querySelector('.code_in_modal');
+      let outputInModal = tabContent.querySelector('.output_in_modal');
+
+      if (codeInModal) {
+        codeInModal.style.height = 'auto';
+        let codeHeight = codeInModal.offsetHeight;
+        if (codeHeight > maxCodeHeight) {
+          maxCodeHeight = codeHeight;
+        }
+      }
+
+      if (outputInModal) {
+        outputInModal.style.height = 'auto';
+        let outputHeight = outputInModal.offsetHeight;
+        if (outputHeight > maxOutputHeight) {
+          maxOutputHeight = outputHeight;
+        }
+      }
+
+      // Restore the original position and visibility
+      tabContent.style.visibility = originalVisibility;
+      tabContent.style.position = originalPosition;
+      tabContent.style.display = originalDisplay;
+    });
+
+    tabContents.forEach(tabContent => {
+      let codeInModal = tabContent.querySelector('.code_in_modal');
+      let outputInModal = tabContent.querySelector('.output_in_modal');
+
+      if (codeInModal) {
+        codeInModal.style.height = maxCodeHeight + 'px';
+      }
+
+      if (outputInModal) {
+        outputInModal.style.height = maxOutputHeight + 'px';
+      }
+    });
+  });
+};
+
+window.addEventListener('load', setHeight);
+window.addEventListener('resize', setHeight);
+</script>
+
+
+
+
+
+
+
+
+<!-- <script> 
+   OLD FOR SETTING HEIGHT OF TABCONTENT ONLY
+    let setHeight = () => {
+      let tabWrappers = document.querySelectorAll('.tab_wrapper');
+      tabWrappers.forEach(wrapper => {
+        let tabs = wrapper.querySelectorAll('.tabcontent');
+        let maxHeight = 0;
+        tabs.forEach(tab => {
+          // Temporarily show the tab to calculate its height
+          let originalVisibility = tab.style.visibility;
+          tab.style.visibility = 'visible';
+
+          let originalPosition = tab.style.position;
+          let originalDisplay = tab.style.display;
+          tab.style.position = 'relative';
+          tab.style.display = 'inline-block';
+
+          tab.style.height = '100%';
+          let height = tab.offsetHeight;
+          if (height > maxHeight) {
+            maxHeight = height;
+          }
+
+          // Restore the original position and visibility
+          tab.style.visibility = originalVisibility;
+          tab.style.position = originalPosition;
+          tab.style.display = originalDisplay;
+        });
+        tabs.forEach(tab => {
+          tab.style.height = maxHeight + 'px';
+        });
+      });
+    };
+
+  window.addEventListener('load', setHeight);
+  window.addEventListener('resize', setHeight);
+</script> -->
+
+
+<script>
+  // Get all the tab wrappers on the page
+  var tabWrappers = document.getElementsByClassName("tab_wrapper");
+
+  // Iterate over the tab wrappers
+  for (var i = 0; i < tabWrappers.length; i++) {
+    var tabWrapper = tabWrappers[i];
+    var buttons = tabWrapper.getElementsByClassName("tablink");
+    var tabContents = tabWrapper.getElementsByClassName("tabcontent");
+
+    // Set the data-id values for each button and tab content
+    for (var j = 0; j < buttons.length; j++) {
+      var button = buttons[j];
+      var tabContent = tabContents[j];
+      var dataId = "tab" + (i + 1) + "_" + (j + 1); // Create the data-id value
+
+      // Set the data-id attribute for the button
+      button.setAttribute("data-id", dataId);
+
+      // Set the data-id attribute for the tab content
+      tabContent.setAttribute("data-id", dataId);
+    }
+  }
+</script>
+
+<!-- to close all the elements in a class "details" using "Alt" + "Up Arrow" -->
+<script>
+document.addEventListener("keydown", function(event) {
+  if (event.code === "ArrowUp" && event.altKey) {    
+    var details = document.getElementsByTagName("details");
+    for (var i = 0; i < details.length; i++) {
+        details[i].open = false;
+    }
+  }
+});
+</script>
+
+
+
+<!-- to open all the elements in a class "details" using "Alt" + "Down Arrow" -->
+<script>
+    document.addEventListener("keydown", function(event) {
+  if (event.code === "ArrowDown" && event.altKey) {
+    var details = document.getElementsByTagName("details");
+    for (var i = 0; i < details.length; i++) {
+        details[i].open = true;
+    }
+  }
+});
+
+
+
+// // USER- TO USE ESCAPE TO CLOSE IT
+window.onkeydown = function(event) {
+        if (event.key == 'Escape') {
+            for(let modal of modals) {
+                modal.style.display = 'none';
+            }
+        }
+    }
+</script>
+  
+
+
+
+
+
+<!-- FOR PICS -->
+<style>
+
+/* for collapsible pics  */
+.pic_drop_green{    
+  padding-top: 1em;
+  padding-bottom: 1em ;
+  }
+
+.pic_drop_green details > summary {  
+  color:white;
+  display:inline-block;
+  width: auto;
+  cursor: pointer;
+  
+  padding: 0px 6px;
+  margin: 0;
+  
+  border-width: 1px; 
+  border-style:solid;
+  box-shadow: 3px 3px 4px black;
+
+  /* list-style: none;   */  
+  background-color: #3f6b4b;
+}
+
+
+.pic_drop_green details[open] > summary {
+  width: auto;
+  padding: 0px 6px;
+  
+  border: #a8a8a8;  
+  border-width: 1px;   
+  border-style:solid;
+
+  color:white;
+  background-color: #3f6b4b;
+  
+  
+}
+
+.pic_drop_green details > p {
+  display:block;
+  width:auto;    
+  padding: 0;
+  margin: 0;  
+}
+
+
+
+
+
+/* ===================
+for multiple pics in a row 
+==================== */
+
+.multiple_pics{text-align: center;}
+
+.multiple_pics h2{text-decoration:none; padding-bottom:0;}
+
+.multiple_pics .row {
+  display: flex;
+}
+
+.multiple_pics .column2 {  flex: 50%;}
+
+.multiple_pics .column3 {  flex: 33.33%;}
+  
+/* 
+\html{
+<div class="multiple_pics">
+<div class="row">
+  <div class="column2">
+  <h2>CORRECT Interpretation</h2>
+    <img src="/julia_book/assets/tikz/3d_mutation/interpret01a.svg" style="width:400px ; height:auto; padding-right:0em;">
+  </div>
+  <div class="column2">
+  <h2>INCORRECT Interpretation</h2>
+    <img src="/julia_book/assets/tikz/3d_mutation/interpret01b.svg" style="width:435px ; height:auto">
+  </div>  
+</div>
+</div>
+}
+ */
+
+</style>
+
+
+
+<!-- 
+#################################################
+# FOR EACH SPECIFIC PAGE
+#################################################
+ -->
+
+
+
+
+<!-- FOR NAVIGATION-->
+       
+  
+<!-- to make it visible as default change line 9 by
+<div class="collapse show navbar-collapse" id="collapsibleNavbar"> -->
+
+
+  <nav class="nav">
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <!-- <span class="nav-toggle-icon"></span> -->
+        <img src="/julia_book/assets/icons/dropdown.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:2px;margin-left:0px;">
+      <span class="nav-title"><i>5e.</i> Slices and Views</span>
+    </button>
+    <div class="nav-menu">
+      <ul>
+        
+        <li>
+          <a href="#introduction" data-offset="-40">Introduction</a>
+        </li>
+        
+        <li>
+          <a href="#slices_and_the_operator" data-offset="-40">Slices and the = Operator</a>
+        </li>
+        
+        <li>
+          <a href="#the_function_view" data-offset="-40">The Function "view"</a>
+        </li>
+        
+        <li>
+          <a href="#macros_view_and_views" data-offset="-40">Macros @view and @views</a>
+        </li>
+        
+      </ul>
+    </div>
+  </nav>
+  
+
+
+<script>
+const navToggle = document.querySelector('.nav-toggle');
+const navMenu = document.querySelector('.nav-menu');
+const navLinks = document.querySelectorAll('.nav-menu a');
+
+navToggle.addEventListener('click', () => {
+  navMenu.classList.toggle('show');
+});
+
+navLinks.forEach((link) => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    const offset = parseInt(link.dataset.offset, 10) || 0;
+    window.scrollTo({ top: target.offsetTop + offset, behavior: 'smooth' });
+  });
+});
+
+document.addEventListener('click', (e) => {
+  if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+    navMenu.classList.remove('show');
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    navMenu.classList.remove('show');
+  }
+  if (e.key === 'x' && e.ctrlKey) {
+    navMenu.classList.toggle('show');
+  }
+});
+
+</script>
+
+
+<style>
+  /* ================================================================= 
+                      NAVIGATION BAR
+================================================================= */ 
+.nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 200;
+  background-color: rgb(63,99,136);
+  padding: 0;
+  display: block;
+}
+
+.nav-toggle {
+  background-color: rgb(63, 99, 136);
+  border: none;
+  padding: 8px;
+  padding-right: 24px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* .nav-toggle-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('/assets/icons/sheets02.png');
+  background-size: 28px 20px;
+} */
+
+.nav-menu {
+  position: fixed;
+  right: 0;
+  top: 48px;
+  background-color: rgb(63,99,136);
+  padding: 10px;
+  width: 300px;
+  height: 100vh;
+  overflow-y: auto;
+  display: none;
+}
+
+.nav-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-menu li {
+  margin-bottom: 10px;
+}
+
+.nav-menu a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 20px;
+  display: block;
+}
+
+.nav-menu a:hover {
+  color: #ccc;
+  background-color: #333;
+}
+
+.nav-title {
+  font-size: 18px;
+  margin-left: 10px;
+  color: #fff;
+}
+
+.nav-brand {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 10px 20px;
+  color: #fff;
+}
+
+.nav-menu.show {
+  display: block;
+}
+
+</style>
+
+    
+
+
+<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Poppins|Crimson+Text|Cardo|Ubuntu"></link> -->
+
+<style>
+
+
+@media (max-width: 850px){
+     .jumbotron, .left_bar{
+        font-size:90% !important;}
+
+        .franklin-content{
+        font-size:100% !important;}
+
+        .franklin-content{padding-left: 1%; padding-right:1%;}
+
+      .index_container,  .index_container section{font-size: 100%;}
+      
+      .index_container{
+        padding-left:1%;
+        padding-right:1%;              
+      }
+
+      .index_container ul li {padding-right: 5%; padding-left: 0}
+      .index_container ul {padding-right: 0; padding-left: 5%;}
+
+      
+      .home_container section {font-size: 100%; line-height:1.55em;}
+      .home_container ul li {padding-right: 1%; padding-left: 0;}
+      .home_container ul {padding-right: 0; padding-left: 0%;}
+      .home_container .row li {padding-left:0; padding-bottom:1.55em; margin-left:0;}
+      .home_container .bullets_nomarker ul li p {line-height:1.55 !important;}
+
+      h1 {font-size: 180%; padding-top:0.5em ;padding-bottom:0em; }
+      h2, .lead {font-size: 110%; }
+      .lead {padding-top:0em;padding-bottom: 1em;}
+
+     .bar_top, nav, .copy-button, .left_bar .personal_website, .py-1 .container .center-text{
+      visibility:hidden; width:0 !important; height:0 !important}  
+
+      /* for fixing overflowing code */
+      .col-lg-.mx-auto{     
+        /* white-space: pre-wrap;  */
+        overflow: auto !important;
+         }   
+          
+    
+      .jumbotron {      
+        padding-left: 60px !important;
+        padding-right: 1% !important;
+        padding-top: 0; margin-top:0;}
+
+
+        
+      
+      
+     
+     .left_bar{
+      position        : absolute;
+      top             : -52px ;
+      left            : 0 ;
+      height          : auto;
+      background-image: none;
+
+    }
+
+         
+     
+
+      /* .left_bar ul {padding-left:0 !important; margin-left:0}   */
+      .left_bar ul, .left_bar ul li {margin-bottom:-0.5em !important; text-indent:0; padding-top:0.0em !important; padding-bottom:0.0em !important; height:auto;}
+      
+      .left_bar ul li a {width:60px !important;}  
+
+      .left_bar img{width:0% !important; height:0% !important; visibility: hidden;}  
+          
+      
+      
+
+      .modal {padding: 2px !important;}
+
+      .bullets ol, .itemNoSpace ol{padding: 4px; }
+      .bullets ul li, .itemNoSpace ul li{padding-right: 5%; padding-left:0;margin-left:0;}
+      .bullets ul li p, .itemNoSpace ul li p {line-height:1.65;}      
+      
+}
+
+
+
+@media (max-height: 600px) {
+     .jumbotron, .left_bar{
+        font-size:90% !important;}
+
+        .franklin-content{font-size:100% !important}
+
+      .index_container,  .index_container section{font-size: 100%;}
+      .index_container ul li {padding-right: 5%; padding-left: 0}
+      .index_container ul {padding-right: 0; padding-left: 5%;}      
+
+      .index_container{
+        padding-left:1%;
+        padding-right:1%;              
+      }
+
+      h1 {font-size: 180%; padding-top:0.5em ;padding-bottom:0em; }
+      h2, .lead {font-size: 110%; }
+      .lead {padding-top:0em;padding-bottom: 1em;}
+
+     .bar_top, nav, .copy-button, .left_bar .personal_website, .py-1 .container .center-text{
+      visibility:hidden; width:0 !important; height:0 !important}  
+
+      /* for fixing overflowing code */
+      .col-lg-.mx-auto{     
+        /* white-space: pre-wrap;  */
+        overflow: auto !important;
+         }   
+          
+    
+      .jumbotron {      
+        padding-left: 60px !important;
+        padding-right: 1% !important;
+        padding-top: 0; margin-top:0;}
+
+
+        
+      
+        .franklin-content{
+         padding-left: 0 !important;}
+     
+      .left_bar{
+      position        : absolute;
+      top             : -52px ;
+      left            : 0 ;
+      height          : auto;
+      background-image: none;}
+     
+     
+
+      /* .left_bar ul {padding-left:0 !important; margin-left:0}   */
+      .left_bar ul, .left_bar ul li {text-indent:0; padding-top:0em ; padding-bottom:0em !important; height:2.5em; font-size:100%;}
+      
+      .left_bar ul li a {width:60px !important;}  
+
+      .left_bar img{
+      width:0% !important; height:0% !important; visibility: hidden;}  
+
+      .modal {padding: 2px !important;}
+      
+      .bullets ol, .itemNoSpace ol{padding: 6px; }
+      .bullets ul li, .itemNoSpace ul li{padding-right: 5%; padding-left:0;margin-left:0;}
+      .bullets ul li p, .itemNoSpace ul li p {line-height:1.55;}
+      
+      .index_container ul li {padding-right: 5%; padding-left: 0}
+      .index_container ul {padding-right: 0; padding-left: 5%;}
+}
+
+
+    @media (max-width: 850px), (max-height: 600px) {
+      h2, .lead {font-size: 140%;padding-top:1em; }
+      h1 {font-size: 200%}
+      
+    }
+
+    @media (max-height: 600px){
+          .left_bar ul, .left_bar ul li {text-indent:0; padding-top:0.0em ; padding-bottom:0em !important; height:3.2em; font-size:105%;}
+        }
+
+    @media (max-width: 850px){
+      .left_bar ul, .left_bar ul li {text-indent:0; padding-top:0.5em ; padding-bottom:0em !important; height:3.5em; font-size:102%; padding-left:0.15em;}
+    }  
+
+
+</style>
+
+  
+<!-- COPY BUTTON -->
+<script src="/julia_book/libs/clipboard.min.js"></script> 
+<!-- http://tutsplus.github.io/clipboard/ -->
+
+<script>
+    (function(){
+    
+        // Get the elements.
+        // - the 'pre' element.
+        // - the 'div' with the 'paste-content' id.
+    
+        var pre = document.getElementsByTagName('pre');
+    
+        // Add a copy button in the 'pre' element.
+        // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+    
+        for (var i = 0; i < pre.length; i++) {
+            var tag_name = pre[i].children[0].className
+                    var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+            if ( isLanguage ) {
+                var button           = document.createElement('button');
+                        button.className = 'copy-button';
+                        button.textContent = 'Copy';
+    
+                        pre[i].appendChild(button);
+            }
+        };
+    
+        // Run Clipboard
+    
+        var copyCode = new Clipboard('.copy-button', {
+            target: function(trigger) {
+                return trigger.previousElementSibling;
+        }
+        });
+    
+        // On success:
+        // - Change the "Copy" text to "Copied".
+        // - Swap it to "Copy" in 2s.
+        // - Lead user to the "contenteditable" area with Velocity scroll.
+    
+        copyCode.on('success', function(event) {
+            event.clearSelection();
+            event.trigger.textContent = 'copied!';
+            window.setTimeout(function() {
+                event.trigger.textContent = 'copy';
+            }, 2000);
+    
+        });
+    
+        // On error (Safari):
+        // - Change the  "Press Ctrl+C to copy"
+        // - Swap it to "Copy" in 2s.
+    
+        copyCode.on('error', function(event) {
+            event.trigger.textContent = 'Press "Ctrl + C" to copy';
+            window.setTimeout(function() {
+                event.trigger.textContent = 'Copy';
+            }, 5000);
+        });
+    
+    })();
+    </script>
+
+
