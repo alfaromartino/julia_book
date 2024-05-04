@@ -2022,44 +2022,44 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Applying Barrier Functions</h2></p>
 <p>To better illustrate the barrier-function technique, let&#39;s revisit an example from <a href="/julia_book/PAGES/7b1_performanceBasics/#type_stability">a previous section</a>. This was considering a function that defines a variable <code>y</code> through a transformation of <code>x</code>, and subsequently computes an operation involving <code>y</code>. Below, we reproduce it.</p>
- <div class=" code_box"> <details  open><summary> Type Instability  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo(x)
-    y = (x &lt; <span class="hljs-number">0</span>) ?  <span class="hljs-number">0</span>  :  x
+ <div class=" code_box"> <details  open><summary> Type Instability  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;x&#41;
+    y &#61; &#40;x &lt; 0&#41; ?  0  :  x
     
-    <span class="hljs-keyword">return</span> [y * i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">100</span>]
-<span class="hljs-keyword">end</span>
+    return &#91;y * i for i in 1:100&#93;
+end
 
-<span class="hljs-meta">@code_warntype</span> foo(<span class="hljs-number">1</span>)       <span class="hljs-comment"># type stable</span>
-<span class="hljs-meta">@code_warntype</span> foo(<span class="hljs-number">1.</span>)      <span class="hljs-comment"># type unstable</span></code></pre> </div> </div>  </details></div>
+@code_warntype foo&#40;1&#41;       # type stable
+@code_warntype foo&#40;1.&#41;      # type unstable</code></pre> </div> </div>  </details></div>
 <p>The type instability arises because <code>0</code> is an integer, whereas <code>x</code> could be either an <code>Int64</code> or a <code>Float64</code>. In case <code>x</code> is <code>Int64</code>, <code>y</code> will also be an integer and make <code>foo&#40;1&#41;</code> type stable. Conversely, if <code>x</code> is <code>Float64</code>, the compiler is unable to determine whether <code>y</code> will be an <code>Int64</code> or a <code>Float64</code>, making <code>foo&#40;1.&#41;</code> type unstable.</p>
 <p>To fix the type instability, we can use <span style="color: rgb(62, 121, 180);"><strong>a barrier function</strong></span>, which embeds a type-stable function into <code>foo</code> to identify the ambiguous type of <code>y</code>. In the example below, the barrier function is referred to as <code>operation</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The example is simply for illustrative purposes. In this case, a better fix is to change <code>0</code> by <code>zero&#40;x&#41;</code>, where <code>zero&#40;x&#41;</code> provides the specific zero element for the type of <code>x</code>.  </span></span></p>
- <div class=" code_box"> <details  open><summary> Barrier Function  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="julia hljs">operation(y) = [y * i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">100</span>]
+ <div class=" code_box"> <details  open><summary> Barrier Function  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">operation&#40;y&#41; &#61; &#91;y * i for i in 1:100&#93;
 
-<span class="hljs-keyword">function</span> foo(x)
-    y = (x &lt; <span class="hljs-number">0</span>) ?  <span class="hljs-number">0</span>  :  x
+function foo&#40;x&#41;
+    y &#61; &#40;x &lt; 0&#41; ?  0  :  x
     
-    <span class="hljs-keyword">return</span> operation(y)
-<span class="hljs-keyword">end</span>
+    return operation&#40;y&#41;
+end
 
-<span class="hljs-meta">@code_warntype</span> operation(<span class="hljs-number">1</span>)    <span class="hljs-comment"># barrier function - type stable</span>
-<span class="hljs-meta">@code_warntype</span> operation(<span class="hljs-number">1.</span>)   <span class="hljs-comment"># barrier function - type stable</span>
+@code_warntype operation&#40;1&#41;    # barrier function - type stable
+@code_warntype operation&#40;1.&#41;   # barrier function - type stable
 
-<span class="hljs-meta">@code_warntype</span> foo(<span class="hljs-number">1</span>)          <span class="hljs-comment"># type stable</span>
-<span class="hljs-meta">@code_warntype</span> foo(<span class="hljs-number">1.</span>)         <span class="hljs-comment"># barrier-function solution</span></code></pre> </div> </div>  </details></div>
+@code_warntype foo&#40;1&#41;          # type stable
+@code_warntype foo&#40;1.&#41;         # barrier-function solution</code></pre> </div> </div>  </details></div>
 <p>In this version, the variable <code>y</code> in <code>foo&#40;1.&#41;</code> could still be an <code>Int64</code> or <code>Float64</code>. However, this is irrelevant for the subsequent computations, as <code>operation&#40;y&#41;</code> will identify the type of <code>y</code> before executing the for-loop. Thus, <code>&#91;y * i for i in 1:100&#93;</code> will be executed using a method specialized for the type of <code>y</code>. </p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content>     Barrier Functions should resolve the type instability  <em>before</em> the type unstable operation is executed. Otherwise, we&#39;re back to the original issue, where the compiler has to check <code>y</code>&#39;s type at each iteration and select a method accordingly.</p>
 <p>For example, <code>foo&#40;1.&#41;</code> in the code below is not applying the barrier-function technique properly. The reason is that <code>y</code> could be <code>Float64</code> or <code>Int64</code>, and <code>operation&#40;y,i&#41;</code> only identifies the type inside the for-loop. This implies that the compiler must check <code>y</code>&#39;s at each iteration of the for-loop.</p>
-<p> <div class=" code_box"> <details  open><summary> Wrong Use  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="julia hljs">operation(y,i) = y * i 
+<p> <div class=" code_box"> <details  open><summary> Wrong Use  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">operation&#40;y,i&#41; &#61; y * i 
 
-<span class="hljs-keyword">function</span> foo(x)
-    y = (x &lt; <span class="hljs-number">0</span>) ?  <span class="hljs-number">0</span>  :  x
+function foo&#40;x&#41;
+    y &#61; &#40;x &lt; 0&#41; ?  0  :  x
     
-    <span class="hljs-keyword">return</span> [operation(y,i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">100</span>]
-<span class="hljs-keyword">end</span>
+    return &#91;operation&#40;y,i&#41; for i in 1:100&#93;
+end
 
-<span class="hljs-meta">@code_warntype</span> foo(<span class="hljs-number">1</span>)          <span class="hljs-comment"># type stable</span>
-<span class="hljs-meta">@code_warntype</span> foo(<span class="hljs-number">1.</span>)         <span class="hljs-comment"># type unstable</span></code></pre> </div> </div>  </details></div>  </div>  </div>
+@code_warntype foo&#40;1&#41;          # type stable
+@code_warntype foo&#40;1.&#41;         # type unstable</code></pre> </div> </div>  </details></div>  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2077,15 +2077,15 @@ color: white;
     <button class="tablink first_tab active" data-id=""> Type Unstable </button>
     <button class="tablink" data-id=""> Barrier Function </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x            = [<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-number">1</span>]                     <span class="hljs-comment"># variable with type &#x27;Any&#x27;</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x            &#61; &#91;&quot;a&quot;, 1&#93;                     # variable with type &#39;Any&#39;
 
 
 
-<span class="hljs-keyword">function</span> foo(x)
-    y = x[<span class="hljs-number">2</span>]
+function foo&#40;x&#41;
+    y &#61; x&#91;2&#93;
     
-    <span class="hljs-keyword">return</span> [y * i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">100</span>]
-<span class="hljs-keyword">end</span></code></pre> </div></div> 
+    return &#91;y * i for i in 1:100&#93;
+end</code></pre> </div></div> 
 <div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"><div class="julia_repl_NoFormat" style="padding-bottom:0.25em; padding-top:0.25em"><span style="padding-left:1em;"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@code_warntype foo&#40;x&#41;</code></span></div></div>  <div class="img_output">
     <p> <span style="padding-left:1em;"> 
           <img style="width:53%; height:auto; max-width:100%;" src="/julia_book/assets/PAGES/7b3_barriers/pics/01.png"/>
@@ -2093,15 +2093,15 @@ color: white;
     </p>
     </div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x            = [<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-number">1</span>]                     <span class="hljs-comment"># variable with type &#x27;Any&#x27;</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x            &#61; &#91;&quot;a&quot;, 1&#93;                     # variable with type &#39;Any&#39;
 
-operation(y) = [y * i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">100</span>]
+operation&#40;y&#41; &#61; &#91;y * i for i in 1:100&#93;
 
-<span class="hljs-keyword">function</span> foo(x)
-    y = x[<span class="hljs-number">2</span>]
+function foo&#40;x&#41;
+    y &#61; x&#91;2&#93;
     
-    <span class="hljs-keyword">return</span> operation(y)
-<span class="hljs-keyword">end</span></code></pre> </div></div> 
+    return operation&#40;y&#41;
+end</code></pre> </div></div> 
 <div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"><div class="julia_repl_NoFormat" style="padding-bottom:0.25em; padding-top:0.25em"><span style="padding-left:1em;"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@code_warntype foo&#40;x&#41;</code></span></div></div>  <div class="img_output">
     <p> <span style="padding-left:1em;"> 
           <img style="width:22.8%; height:auto; max-width:100%;" src="/julia_book/assets/PAGES/7b3_barriers/pics/02.png"/>
@@ -2118,15 +2118,15 @@ operation(y) = [y * i <span class="hljs-keyword">for</span> i <span class="hljs-
     <button class="tablink" data-id=""> Barrier Function </button>
     <button class="tablink" data-id=""> Type Stable </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x            = [<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-number">1</span>]                     <span class="hljs-comment"># variable with type &#x27;Any&#x27;</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x            &#61; &#91;&quot;a&quot;, 1&#93;                     # variable with type &#39;Any&#39;
 
 
 
-<span class="hljs-keyword">function</span> foo(x)
-    y = <span class="hljs-number">2</span> * x[<span class="hljs-number">2</span>]
+function foo&#40;x&#41;
+    y &#61; 2 * x&#91;2&#93;
     
-    <span class="hljs-keyword">return</span> [y * i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">100</span>]
-<span class="hljs-keyword">end</span></code></pre> </div></div> 
+    return &#91;y * i for i in 1:100&#93;
+end</code></pre> </div></div> 
 <div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"><div class="julia_repl_NoFormat" style="padding-bottom:0.25em; padding-top:0.25em"><span style="padding-left:1em;"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@code_warntype foo&#40;x&#41;</code></span></div></div>  <div class="img_output">
     <p> <span style="padding-left:1em;"> 
           <img style="width:53%; height:auto; max-width:100%;" src="/julia_book/assets/PAGES/7b3_barriers/pics/03.png"/>
@@ -2134,15 +2134,15 @@ operation(y) = [y * i <span class="hljs-keyword">for</span> i <span class="hljs-
     </p>
     </div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x            = [<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-number">1</span>]                     <span class="hljs-comment"># variable with type &#x27;Any&#x27;</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x            &#61; &#91;&quot;a&quot;, 1&#93;                     # variable with type &#39;Any&#39;
 
-operation(y) = [y * i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">100</span>]
+operation&#40;y&#41; &#61; &#91;y * i for i in 1:100&#93;
 
-<span class="hljs-keyword">function</span> foo(x)
-    y = <span class="hljs-number">2</span> * x[<span class="hljs-number">2</span>]
+function foo&#40;x&#41;
+    y &#61; 2 * x&#91;2&#93;
     
-    <span class="hljs-keyword">return</span> operation(y)
-<span class="hljs-keyword">end</span></code></pre> </div></div> 
+    return operation&#40;y&#41;
+end</code></pre> </div></div> 
 <div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"><div class="julia_repl_NoFormat" style="padding-bottom:0.25em; padding-top:0.25em"><span style="padding-left:1em;"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@code_warntype foo&#40;x&#41;</code></span></div></div>  <div class="img_output">
     <p> <span style="padding-left:1em;"> 
           <img style="width:22.8%; height:auto; max-width:100%;" src="/julia_book/assets/PAGES/7b3_barriers/pics/04.png"/>
@@ -2150,15 +2150,15 @@ operation(y) = [y * i <span class="hljs-keyword">for</span> i <span class="hljs-
     </p>
     </div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x            = [<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-number">1</span>]                     <span class="hljs-comment"># variable with type &#x27;Any&#x27;</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x            &#61; &#91;&quot;a&quot;, 1&#93;                     # variable with type &#39;Any&#39;
 
-operation(y) = [y * i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">100</span>]
+operation&#40;y&#41; &#61; &#91;y * i for i in 1:100&#93;
 
-<span class="hljs-keyword">function</span> foo(z)
-    y = <span class="hljs-number">2</span> * z
+function foo&#40;z&#41;
+    y &#61; 2 * z
     
-    <span class="hljs-keyword">return</span> operation(y)
-<span class="hljs-keyword">end</span></code></pre> </div></div> 
+    return operation&#40;y&#41;
+end</code></pre> </div></div> 
 <div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"><div class="julia_repl_NoFormat" style="padding-bottom:0.25em; padding-top:0.25em"><span style="padding-left:1em;"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@code_warntype foo&#40;x&#41;</code></span></div></div>  <div class="img_output">
     <p> <span style="padding-left:1em;"> 
           <img style="width:25%; height:auto; max-width:100%;" src="/julia_book/assets/PAGES/7b3_barriers/pics/05.png"/>
@@ -2269,16 +2269,16 @@ function goToNextPage() {
 
 <!-- ADDED BY FRANKLIN -->
   
-      
-
-
+      <script src="/julia_book/libs/katex/katex.min.js"></script>
+<script src="/julia_book/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
 
   
   
       <script src="/julia_book/libs/highlight/highlight.js"></script>
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-<!--  -->
+<!-- <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script> -->
 
 
   

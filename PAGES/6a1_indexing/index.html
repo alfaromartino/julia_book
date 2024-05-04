@@ -2071,8 +2071,8 @@ color: white;
 <p><span style="color: rgb(62, 121, 180);"><strong>Logical indexing</strong></span> enables the user to select elements by identifying <strong>indices through a Boolean vector</strong>. </p>
 <p>Formally, consider a vector <code>x</code> and a Boolean vector <code>y</code> of the same size. Then, <code>x&#91;y&#93;</code> returns a new vector containing the elements from <code>x</code> where <code>y</code> is true, and discards elements where <code>y</code> is false. The following example illustrates this.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
-y = [<span class="hljs-literal">true</span>, <span class="hljs-literal">false</span>, <span class="hljs-literal">true</span>]</code></pre>
+<pre><code class="language-julia">x &#61; &#91;1,2,3&#93;
+y &#61; &#91;true, false, true&#93;</code></pre>
 <p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;y&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  1
  3</div> </div></div> </div>   </details></div>
@@ -2094,9 +2094,9 @@ y = [<span class="hljs-literal">true</span>, <span class="hljs-literal">false</s
     <button class="tablink" data-id=""> Indexing through a Broadcast Function</button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">100</span>, <span class="hljs-number">200</span>]
+<pre><code class="language-julia">x &#61; &#91;1, 2, 3, 100, 200&#93;
 
-y = x[x .&lt; <span class="hljs-number">10</span>]</code></pre>
+y &#61; x&#91;x .&lt; 10&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  1
@@ -2104,10 +2104,10 @@ y = x[x .&lt; <span class="hljs-number">10</span>]</code></pre>
  3</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">100</span>, <span class="hljs-number">200</span>]
+<pre><code class="language-julia">x &#61; &#91;1, 2, 3, 100, 200&#93;
 
-criterion(a) = (a &lt; <span class="hljs-number">10</span>)             <span class="hljs-comment">#function to eventually broadcast</span>
-y            = x[criterion.(x)]</code></pre>
+criterion&#40;a&#41; &#61; &#40;a &lt; 10&#41;             #function to eventually broadcast
+y            &#61; x&#91;criterion.&#40;x&#41;&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  1
@@ -2125,7 +2125,7 @@ y            = x[criterion.(x)]</code></pre>
     <button class="tablink" data-id=""> Only Selecting Extrema</button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]</code></pre>
+<pre><code class="language-julia">x &#61; &#91;1, 2, 3, 4, 5&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;&#40;x .≠ minimum&#40;x&#41;&#41; .&amp;&amp; &#40;x .≠ maximum&#40;x&#41;&#41;&#93;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  2
@@ -2133,7 +2133,7 @@ y            = x[criterion.(x)]</code></pre>
  4</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]</code></pre>
+<pre><code class="language-julia">x &#61; &#91;1, 2, 3, 4, 5&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;&#40;x .&#61;&#61; minimum&#40;x&#41;&#41; .|| &#40;x .&#61;&#61; maximum&#40;x&#41;&#41;&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  1
@@ -2170,12 +2170,12 @@ y            = x[criterion.(x)]</code></pre>
     <button class="tablink" data-id=""> Operator "in" and "∈"</button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x           = [-<span class="hljs-number">100</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">100</span>]
-set_numbers = [minimum(x), maximum(x)]
+<pre><code class="language-julia">x           &#61; &#91;-100, 2, 4, 100&#93;
+set_numbers &#61; &#91;minimum&#40;x&#41;, maximum&#40;x&#41;&#93;
 
-<span class="hljs-comment">#identical vectors for logical indexing</span>
-bool_indices = <span class="hljs-keyword">in</span>.(x, <span class="hljs-built_in">Ref</span>(set_numbers))          <span class="hljs-comment">#`Ref(set_numbers)` can be replaced by `(set_numbers,)`</span>
-bool_indices = (∈).(x,<span class="hljs-built_in">Ref</span>(set_numbers))</code></pre>
+#identical vectors for logical indexing
+bool_indices &#61; in.&#40;x, Ref&#40;set_numbers&#41;&#41;          #&#96;Ref&#40;set_numbers&#41;&#96; can be replaced by &#96;&#40;set_numbers,&#41;&#96;
+bool_indices &#61; &#40;∈&#41;.&#40;x,Ref&#40;set_numbers&#41;&#41;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
  1
@@ -2186,11 +2186,11 @@ bool_indices = (∈).(x,<span class="hljs-built_in">Ref</span>(set_numbers))</co
   100</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x           = [-<span class="hljs-number">100</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">100</span>]
-set_numbers = [minimum(x), maximum(x)]
+<pre><code class="language-julia">x           &#61; &#91;-100, 2, 4, 100&#93;
+set_numbers &#61; &#91;minimum&#40;x&#41;, maximum&#40;x&#41;&#93;
 
-<span class="hljs-comment">#vector for logical indexing</span>
-bool_indices = x .∈ <span class="hljs-built_in">Ref</span>(set_numbers)            <span class="hljs-comment">#not possible to broadcast `in` as far as I know</span></code></pre>
+#vector for logical indexing
+bool_indices &#61; x .∈ Ref&#40;set_numbers&#41;            #not possible to broadcast &#96;in&#96; as far as I know</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
  1
@@ -2205,11 +2205,11 @@ bool_indices = x .∈ <span class="hljs-built_in">Ref</span>(set_numbers)       
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     The function <code>in</code> has a &quot;curried&quot; version, allowing the user to broadcast <code>in</code> without relying on the expression <code>Ref&#40;set_numbers&#41;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> See <a href="/julia_book/4d_vectorizing/#currying_optional">here</a> for currying techniques  </span></span>. Specifically, it makes it possible broadcast <code>in</code> through <code>in&#40;set_numbers&#41;.&#40;x&#41;</code>, as the example below shows.</p>
 <p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x           = [<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">100</span>]
-set_numbers = [minimum(x), maximum(x)]
+<pre><code class="language-julia">x           &#61; &#91;2, 4, 100&#93;
+set_numbers &#61; &#91;minimum&#40;x&#41;, maximum&#40;x&#41;&#93;
 
-<span class="hljs-comment">#vector for logical indexing</span>
-bool_indices = x[<span class="hljs-keyword">in</span>(set_numbers).(x)]       <span class="hljs-comment">#curried version, no need to use `Ref(set_numbers)`</span></code></pre>
+#vector for logical indexing
+bool_indices &#61; x&#91;in&#40;set_numbers&#41;.&#40;x&#41;&#93;       #curried version, no need to use &#96;Ref&#40;set_numbers&#41;&#96;</code></pre>
 <p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
  1
  0
@@ -2228,12 +2228,12 @@ bool_indices = x[<span class="hljs-keyword">in</span>(set_numbers).(x)]       <s
     <button class="tablink" data-id=""> Operators !in and ∉    </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x           = [-<span class="hljs-number">100</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">100</span>]
-set_numbers = [minimum(x), maximum(x)]
+<pre><code class="language-julia">x           &#61; &#91;-100, 2, 4, 100&#93;
+set_numbers &#61; &#91;minimum&#40;x&#41;, maximum&#40;x&#41;&#93;
 
-<span class="hljs-comment">#identical vectors for logical indexing</span>
-bool_indices = (!<span class="hljs-keyword">in</span>).(x, <span class="hljs-built_in">Ref</span>(set_numbers))
-bool_indices = (∉).(x, <span class="hljs-built_in">Ref</span>(set_numbers))          <span class="hljs-comment">#or `(!∈).(x, Ref(set_numbers))`</span></code></pre>
+#identical vectors for logical indexing
+bool_indices &#61; &#40;&#33;in&#41;.&#40;x, Ref&#40;set_numbers&#41;&#41;
+bool_indices &#61; &#40;∉&#41;.&#40;x, Ref&#40;set_numbers&#41;&#41;          #or &#96;&#40;&#33;∈&#41;.&#40;x, Ref&#40;set_numbers&#41;&#41;&#96;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
  0
@@ -2244,11 +2244,11 @@ bool_indices = (∉).(x, <span class="hljs-built_in">Ref</span>(set_numbers))   
  4</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x           = [-<span class="hljs-number">100</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">100</span>]
-set_numbers = [minimum(x), maximum(x)]
+<pre><code class="language-julia">x           &#61; &#91;-100, 2, 4, 100&#93;
+set_numbers &#61; &#91;minimum&#40;x&#41;, maximum&#40;x&#41;&#93;
 
-<span class="hljs-comment">#vector for logical indexing</span>
-bool_indices = x .∉ <span class="hljs-built_in">Ref</span>(set_numbers)</code></pre>
+#vector for logical indexing
+bool_indices &#61; x .∉ Ref&#40;set_numbers&#41;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
  0
@@ -2277,10 +2277,10 @@ bool_indices = x .∉ <span class="hljs-built_in">Ref</span>(set_numbers)</code>
     <button class="tablink" data-id=""> Through a Boolean Vector </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = [<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>]
+<pre><code class="language-julia">x &#61; &#91;5,6,7,8,9&#93;
 
-y = findall(a -&gt; a &gt; <span class="hljs-number">7</span>, x)
-z = x[findall(a -&gt; a &gt; <span class="hljs-number">7</span>, x)]</code></pre>
+y &#61; findall&#40;a -&gt; a &gt; 7, x&#41;
+z &#61; x&#91;findall&#40;a -&gt; a &gt; 7, x&#41;&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  4
@@ -2289,10 +2289,10 @@ z = x[findall(a -&gt; a &gt; <span class="hljs-number">7</span>, x)]</code></pre
  9</div> </div><br/></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = [<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>]
+<pre><code class="language-julia">x &#61; &#91;5,6,7,8,9&#93;
 
-y = findall(x .&gt; <span class="hljs-number">7</span>)
-z = x[findall(x .&gt; <span class="hljs-number">7</span>)]</code></pre>
+y &#61; findall&#40;x .&gt; 7&#41;
+z &#61; x&#91;findall&#40;x .&gt; 7&#41;&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  4
@@ -2303,9 +2303,9 @@ z = x[findall(x .&gt; <span class="hljs-number">7</span>)]</code></pre>
 <p>  </p></details></div>
 <p>The second function is <code>filter</code>, which returns the  <em>elements</em> of a vector <code>x</code> that meet a condition. Despite what the name suggests, <code>filter</code> keeps elements rather than discarding them. It works similarly to <code>findall</code>, with the difference that it directly returns the elements, rather than the indices. Moreover, it requires passing both a function and a vector to implement it.</p>
  <div class=" code_box"> <details  open><summary> Function filter  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = [<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>]
+<pre><code class="language-julia">x &#61; &#91;5,6,7,8,9&#93;
 
-y = filter(a -&gt; a &gt; <span class="hljs-number">7</span>, x)</code></pre>
+y &#61; filter&#40;a -&gt; a &gt; 7, x&#41;</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  8
  9</div> </div></div> </div>   </details></div>
@@ -2411,16 +2411,16 @@ function goToNextPage() {
 
 <!-- ADDED BY FRANKLIN -->
   
-      
-
-
+      <script src="/julia_book/libs/katex/katex.min.js"></script>
+<script src="/julia_book/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
 
   
   
       <script src="/julia_book/libs/highlight/highlight.js"></script>
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-<!--  -->
+<!-- <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script> -->
 
 
   

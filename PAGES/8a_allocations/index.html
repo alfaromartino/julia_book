@@ -2038,44 +2038,44 @@ color: white;
     <button class="tablink" data-id=""> Named Tuples </button>
     <button class="tablink" data-id=""> Ranges </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo()
-    x = <span class="hljs-number">1</span>; y = <span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;&#41;
+    x &#61; 1; y &#61; 2
     
-    x + y
-<span class="hljs-keyword">end</span>
+    x &#43; y
+end
 
-<span class="hljs-meta">@btime</span> foo()</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  0.800 ns (0 allocations: 0 bytes)
+@btime foo&#40;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  0.800 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo()
-    tup = (<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;&#41;
+    tup &#61; &#40;1,2,3&#41;
 
-    tup[<span class="hljs-number">1</span>] + tup[<span class="hljs-number">2</span>] * tup[<span class="hljs-number">3</span>]
-<span class="hljs-keyword">end</span>
+    tup&#91;1&#93; &#43; tup&#91;2&#93; * tup&#91;3&#93;
+end
 
-<span class="hljs-meta">@btime</span> foo()</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  0.800 ns (0 allocations: 0 bytes)
+@btime foo&#40;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  0.800 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo()
-    nt = (a=<span class="hljs-number">1</span>, b=<span class="hljs-number">2</span>, c=<span class="hljs-number">3</span>)
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;&#41;
+    nt &#61; &#40;a&#61;1, b&#61;2, c&#61;3&#41;
 
-    nt.a + nt.b * nt.c
-<span class="hljs-keyword">end</span>
+    nt.a &#43; nt.b * nt.c
+end
 
-<span class="hljs-meta">@btime</span> foo()</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  0.700 ns (0 allocations: 0 bytes)
+@btime foo&#40;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  0.700 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo()
-    rang = <span class="hljs-number">1</span>:<span class="hljs-number">3</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;&#41;
+    rang &#61; 1:3
 
-    rang[<span class="hljs-number">1</span>] + rang[<span class="hljs-number">2</span>] * rang[<span class="hljs-number">3</span>]
-<span class="hljs-keyword">end</span>
+    rang&#91;1&#93; &#43; rang&#91;2&#93; * rang&#91;3&#93;
+end
 
-<span class="hljs-meta">@btime</span> foo()</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  0.800 ns (0 allocations: 0 bytes)
+@btime foo&#40;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  0.800 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2089,10 +2089,10 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Arrays and Slices Do Allocate Memory</h2></p>
 <p>Array creation allocates memory, even if the result is not stored. For instance, executing the following function allocates memory.</p>
- <div class=" code_box"> <details  open><summary> Vector Creation  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="julia hljs">foo()  = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
+ <div class=" code_box"> <details  open><summary> Vector Creation  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">foo&#40;&#41;  &#61; &#91;1,2,3&#93;
 
 
-<span class="hljs-meta">@btime</span> foo()</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  12.913 ns (1 allocation: 80 bytes)
+@btime foo&#40;&#41;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  12.913 ns (1 allocation: 80 bytes)
 </code></pre> </div></div> </div>   </details></div>
 <p>Another common operation that allocates memory is slicing, as it creates a copy of an array by default. The only case where no memory allocation occurs is when we access a single element of an array.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2102,28 +2102,28 @@ color: white;
     <button class="tablink" data-id=""> Slice with Vector as Index </button>
     <button class="tablink" data-id=""> Slice with a Single Element</button>        
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x      = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
 
-foo(x) = x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>]                 <span class="hljs-comment"># ONE allocation, since ranges don&#x27;t allocate (but &#x27;x[1:2]&#x27; itself does)</span>
+foo&#40;x&#41; &#61; x&#91;1:2&#93;                 # ONE allocation, since ranges don&#39;t allocate &#40;but &#39;x&#91;1:2&#93;&#39; itself does&#41;
 
-<span class="hljs-meta">@btime</span> foo(ref($x))</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  16.934 ns (1 allocation: 80 bytes)
+@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  16.934 ns (1 allocation: 80 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x      = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
 
-foo(x) = x[[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>]]               <span class="hljs-comment"># TWO allocations (one for &#x27;[1,2]&#x27; and another for &#x27;x[[1,2]]&#x27; itself)</span>
+foo&#40;x&#41; &#61; x&#91;&#91;1,2&#93;&#93;               # TWO allocations &#40;one for &#39;&#91;1,2&#93;&#39; and another for &#39;x&#91;&#91;1,2&#93;&#93;&#39; itself&#41;
 
-<span class="hljs-meta">@btime</span> foo(ref($x))</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  31.187 ns (2 allocations: 160 bytes)
+@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  31.187 ns (2 allocations: 160 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x      = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
 
-foo(x) = x[<span class="hljs-number">1</span>] * x[<span class="hljs-number">2</span>] + x[<span class="hljs-number">3</span>]
+foo&#40;x&#41; &#61; x&#91;1&#93; * x&#91;2&#93; &#43; x&#91;3&#93;
 
-<span class="hljs-meta">@btime</span> foo(ref($x))</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  1.600 ns (0 allocations: 0 bytes)
+@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.600 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2135,25 +2135,25 @@ foo(x) = x[<span class="hljs-number">1</span>] * x[<span class="hljs-number">2</
     <button class="tablink" data-id=""> Broadcasting 1</button>
     <button class="tablink" data-id=""> Broadcasting 2</button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">foo()  = [a <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">3</span>]
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">foo&#40;&#41;  &#61; &#91;a for a in 1:3&#93;
 
 
-<span class="hljs-meta">@btime</span> foo()</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  13.313 ns (1 allocation: 80 bytes)
+@btime foo&#40;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  13.313 ns (1 allocation: 80 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x      = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
-foo(x) = x .* x
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
+foo&#40;x&#41; &#61; x .* x
 
-<span class="hljs-meta">@btime</span> foo(ref($x))</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  17.134 ns (1 allocation: 80 bytes)
+@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  17.134 ns (1 allocation: 80 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x      = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
-foo(x) = sum(x .* x)                <span class="hljs-comment"># 1 allocation from temporary vector &#x27;x .* x&#x27; </span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
+foo&#40;x&#41; &#61; sum&#40;x .* x&#41;                # 1 allocation from temporary vector &#39;x .* x&#39; 
 
-<span class="hljs-meta">@btime</span> foo(ref($x))</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  21.866 ns (1 allocation: 80 bytes)
+@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  21.866 ns (1 allocation: 80 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2259,16 +2259,16 @@ function goToNextPage() {
 
 <!-- ADDED BY FRANKLIN -->
   
-      
-
-
+      <script src="/julia_book/libs/katex/katex.min.js"></script>
+<script src="/julia_book/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
 
   
   
       <script src="/julia_book/libs/highlight/highlight.js"></script>
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-<!--  -->
+<!-- <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script> -->
 
 
   
