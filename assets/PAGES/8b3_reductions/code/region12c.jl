@@ -4,7 +4,7 @@ x = rand(100)
 function foo(x)
     output = 0.
     for i in eachindex(x)
-        output += 2 * x[i]
+        output += 3 * x[i]
     end
 
     return output

@@ -2008,25 +2008,25 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Reductions are a powerful technique for handling <strong>operations that take collections as inputs and return a single value</strong>. A prime example is <code>sum&#40;x&#41;</code>, which calculates the sum of all elements in a vector.</p>
-<p>The method is especially useful when transforming a vector&#39;s elements before computing summary statistics &#40;e.g., sum, maximum, mean, variance&#41;. For instance, consider <code>sum&#40;2 .* x&#41;</code>, where the temporary vector <code>2 .* x</code> must be computed before the sum. In this case, reductions make it possible to decrease memory allocations by circumventing the materialization of <code>2 .* x</code>. </p>
+<p>Reductions are a powerful technique for handling <strong>operations that take collections as inputs and return a single element</strong>. A prime example is <code>sum&#40;x&#41;</code>, which calculates the sum of all elements in a vector.</p>
+<p>The method is especially useful when transforming a vector&#39;s elements before computing summary statistics &#40;e.g., sum, maximum, mean, variance&#41;. For instance, consider <code>sum&#40;3 .* x&#41;</code>, where the temporary vector <code>3 .* x</code> must be computed before the sum. In this case, reductions make it possible to decrease memory allocations by circumventing the materialization of <code>3 .* x</code>. </p>
 <p>Reductions work by iteratively applying the operation to pairs of elements, progressively combining the results to produce a single output. For example, when computing the sum of all elements in a vector, a reduction adds the first two elements, then adds the third element to the resulting output, and continues this process until all elements have been summed. In the particular case that the vector to be summed must be firstly transformed, this computation method saves memory allocation. The reason is that reductions rely on scalar operations, and so eliminate the need for the creation and storage of temporary vectors. </p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="defining_reductions" class="scrollspy">
+<section id="intuition_about_reductions" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Defining Reductions</h2></p>
-<p>Formally, a <span style="color: rgb(62, 121, 180);"><strong>reduction</strong></span> refers to the process of using a <a href="/julia_book/PAGES/3a_variables/#operators">binary operation</a> to reduce a collection to a single value. A typical example is calculating the sum of all elements in a vector. Its implementation entails updating the accumulated sum in each iteration, through the binary operator <code>&#43;</code>.</p>
+        <h2>Intuition about Reductions</h2></p>
+<p>Formally, a <span style="color: rgb(62, 121, 180);"><strong>reduction</strong></span> denotes an operation that applies a <a href="/julia_book/PAGES/3a_variables/#operators">binary operator</a> to pairs of elements in a collection, ultimately yielding a single element. A classic example is calculating the addition of all elements in a vector. Its implementation entails using the binary operator <code>&#43;</code> to iteratively update the accumulated sum. Below, we show how reductions can be defined through a for-loop.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Baseline  </button>
+    <button class="tablink first_tab active" data-id=""> Baseline </button>
     <button class="tablink" data-id=""> Reduction </button>    
-    <button class="tablink" data-id=""> Reduction (Updating Operator) </button>
+    <button class="tablink" data-id=""> Reduction (Equivalent But With Updating Operator) </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
@@ -2060,7 +2060,9 @@ end</code></pre> </div></div>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;x&#41;</code> <br/> <pre><code class="plaintext code-output">48.447</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>A reduction operation can be applied if the operation satisfies <strong>two mathematical requirements</strong>:</p>
+ <h4> A More Formal Analysis </h4>
+<p>Reductions <strong>rely on either a binary operator or a two-argument function</strong> for its implementation. For instance, <code>sum</code> requires the use of the binary operator <code>&#43;</code>, as we saw in the example above. Additionally, <code>maximum</code> leverages the function <code>max</code>, which returns the maximum among its arguments.</p>
+<p>Formally, a reduction operation can be applied if the binary operation satisfies <strong>two mathematical requirements</strong>:</p>
 <ul>
 <li><p><strong>Associativity</strong>: the way in which operations are grouped does not change the result. For example, addition is associative because <code>&#40;a &#43; b&#41; &#43; c &#61; a &#43; &#40;b &#43; c&#41;</code>.</p>
 </li>
@@ -2096,8 +2098,20 @@ end</code></pre> </div></div>
 </tbody>
 </table>
  <br/></p>
-<p>Reductions <strong>rely on either a binary operator or a two-argument function</strong> for its implementation. For instance, <code>sum</code> requires the use of the binary operator <code>&#43;</code>, as we saw in the example above. Additionally, <code>maximum</code> leverages the function <code>max</code>, which returns the maximum among its arguments.</p>
-<p>Given these differences, we indicate below how to implement several common reductions. The function <code>foo1</code> indicates the desired outcome, while <code>foo2</code> provides the same outcome via a reduction.</p>
+<p>The identity element constitutes the initial value that we provide to start the iteration. Below, we illustrate how the operations have to be implemented for <code>sum</code> and <code>max</code>.</p>
+<p> <div class="multiple_pics" style="padding-top:1em;padding-bottom:1em">
+<div class="row">
+  <div class="column2">
+  <h2 style="color:rgb(63, 99,136); text-transform:none;"><span style="text-decoration:underline;">REDUCTION 1</span>:<span style="text-transform: none;"> sum of &#91;1,2,3,4,5&#93;  </span></h2>
+    <img src="/julia_book/assets/PAGES/8b3_reductions/tikz/reduce_altsum02.svg" style="width:490px; height:auto; padding-top:1em;">
+  </div>    
+  <div class="column2">
+  <h2 style="color:rgb(63, 99,136); text-transform:none;"><span style="text-decoration:underline;">REDUCTION 2</span>:<span style="text-transform: none;"> maximum of &#91;1,2,5,4,8&#93;  </span></h2>
+    <img src="/julia_book/assets/PAGES/8b3_reductions/tikz/reduce_altmax02.svg" style="width:580px; height:auto; padding-right:0em; padding-top:1em;">
+  </div>  
+</div>
+</div></p>
+<p>Considering these differences in the identity elements, below we indicate how to implement the reductions for each operation. The function <code>foo1</code> indicates the desired outcome, while <code>foo2</code> provides the same outcome via a reduction.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2172,7 +2186,7 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Avoiding Memory Allocations through Reductions</h2></p>
-<p>To illustrate the application through a concrete example, consider the operation <code>sum&#40;2 .* x&#41;</code> for a vector <code>x</code>. This operation transforms <code>x</code> via <code>2 .* x</code> and then sums the transformed elements. By default, broadcasting materializes the resulting vector, therefore allocating memory for <code>2 .* x</code>. However, we&#39;re not interested in this result itself—<code>2 .* x</code> is a temporary vector that will be eventually &quot;reduced&quot; to a scalar. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> In the section <a href="/julia_book/PAGES/8d_lazy/">Lazy Operations</a>, we&#39;ll explore a way to avoid the creation of temporary vectors when we broadcast. An alternative arises when the reduction can be split into iterative applications of binary operations.  </span></span>  Taking this into account, we should implement an approach that bypasses this unnecessary allocation. Reductions do so by defining a scalar <code>output</code>, which we iteratively update by summing the transformed values of <code>x</code>. </p>
+<p>To illustrate the application through a concrete example, consider the operation <code>sum&#40;3 .* x&#41;</code> for a vector <code>x</code>. This operation transforms <code>x</code> via <code>3 .* x</code> and then sums the transformed elements. By default, broadcasting materializes the resulting vector, therefore allocating memory for <code>3 .* x</code>. However, we&#39;re not interested in this result itself—<code>3 .* x</code> is a temporary vector that will be eventually &quot;reduced&quot; to a scalar. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> In the section <a href="/julia_book/PAGES/8d_lazy/">Lazy Operations</a>, we&#39;ll explore a way to avoid the creation of temporary vectors when we broadcast. An alternative arises when the reduction can be split into iterative applications of binary operations.  </span></span>  Taking this into account, we should implement an approach that bypasses this unnecessary allocation. Reductions do so by defining a scalar <code>output</code>, which we iteratively update by summing the transformed values of <code>x</code>. </p>
 <p>Below, we demonstrate the technique implementation for common reductions. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2184,74 +2198,74 @@ end</code></pre> </div></div>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
-foo1&#40;x&#41; &#61; sum&#40;2 .* x&#41;
+foo1&#40;x&#41; &#61; sum&#40;3 .* x&#41;
 
 function foo2&#40;x&#41;
     output &#61; 0.
 
     for i in eachindex&#40;x&#41;
-        output &#43;&#61; 2 * x&#91;i&#93;
+        output &#43;&#61; 3 * x&#91;i&#93;
     end
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo1&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  45.122 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo1&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  48.528 ns (1 allocation: 896 bytes)
 </code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo2&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  23.771 ns (0 allocations: 0 bytes)
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo2&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  24.900 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
-foo1&#40;x&#41; &#61; prod&#40;2 .* x&#41;
+foo1&#40;x&#41; &#61; prod&#40;3 .* x&#41;
 
 function foo2&#40;x&#41;
     output &#61; 1.
 
     for i in eachindex&#40;x&#41;
-        output *&#61; 2 * x&#91;i&#93;
+        output *&#61; 3 * x&#91;i&#93;
     end
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo1&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  44.828 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo1&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  47.658 ns (1 allocation: 896 bytes)
 </code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo2&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  52.786 ns (0 allocations: 0 bytes)
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo2&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  43.592 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
-foo1&#40;x&#41; &#61; maximum&#40;2 .* x&#41;
+foo1&#40;x&#41; &#61; maximum&#40;3 .* x&#41;
 
 function foo2&#40;x&#41;
     output &#61; -Inf
 
     for i in eachindex&#40;x&#41;
-        output &#61; max&#40;output, 2 * x&#91;i&#93;&#41;
+        output &#61; max&#40;output, 3 * x&#91;i&#93;&#41;
     end
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo1&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  196.370 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo1&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  196.296 ns (1 allocation: 896 bytes)
 </code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo2&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  168.643 ns (0 allocations: 0 bytes)
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo2&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  171.915 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
-foo1&#40;x&#41; &#61; minimum&#40;2 .* x&#41;
+foo1&#40;x&#41; &#61; minimum&#40;3 .* x&#41;
 
 function foo2&#40;x&#41;
     output &#61; Inf
     
     for i in eachindex&#40;x&#41;
-        output &#61; min&#40;output, 2 * x&#91;i&#93;&#41;
+        output &#61; min&#40;output, 3 * x&#91;i&#93;&#41;
     end
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo1&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  196.104 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo1&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  194.364 ns (1 allocation: 896 bytes)
 </code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo2&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  167.550 ns (0 allocations: 0 bytes)
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo2&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  165.600 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2265,41 +2279,41 @@ end</code></pre> </div></div>
       <div class="col-lg- mx-auto">
         <h2>Reductions via Built-in Functions</h2></p>
 <p>The previous examples show that reductions require the explicit writing of a for-loop. Unfortunately, this can prove unwieldy to write and read. In light of this, Julia streamlines the process by adding methods to <code>sum</code>, <code>prod</code>, <code>maximum</code>, and <code>minimum</code> to implement reductions for you.</p>
-<p>The syntax is <code>foo&#40;&lt;transforming function&gt;, x&#41;</code>, where <code>foo</code> is one of the functions mentioned and <code>x</code> is the vector to be transformed. For instance, the following examples consider a transformation <code>2 .* x</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Julia provides the <code>reduce</code> and <code>reducemap</code> functions for implementing additional types of reductions. <code>reducemap</code> is the most general between both, as it allows for transformations of the vector by applying the function <code>map</code> that we studied <a href="/julia_book/PAGES/4d_vectorizing/#map_function">here</a>. However, the built-in implementations for specific functions for <code>sum</code>, <code>prod</code>, <code>maximum</code>, and <code>minimum</code> are more efficient, as they&#39;re customized to those particular functions.  </span></span></p>
+<p>The syntax is <code>foo&#40;&lt;transforming function&gt;, x&#41;</code>, where <code>foo</code> is one of the functions mentioned and <code>x</code> is the vector to be transformed. For instance, the following examples consider a transformation <code>3 .* x</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Julia provides the <code>reduce</code> and <code>reducemap</code> functions for implementing additional types of reductions. <code>reducemap</code> is the most general between both, as it allows for transformations of the vector by applying the function <code>map</code> that we studied <a href="/julia_book/PAGES/4d_vectorizing/#map_function">here</a>. However, the built-in implementations for specific functions for <code>sum</code>, <code>prod</code>, <code>maximum</code>, and <code>minimum</code> are more efficient, as they&#39;re customized to those particular functions.  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Sum </button>
     <button class="tablink" data-id=""> Product </button>
     <button class="tablink" data-id=""> Maximum </button>
-    <button class="tablink" data-id=""> Minimum </button>    
+    <button class="tablink" data-id=""> Minimum </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
-foo&#40;x&#41; &#61; sum&#40;a -&gt; 2 * a, x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  6.900 ns (0 allocations: 0 bytes)
+foo&#40;x&#41; &#61; sum&#40;a -&gt; 3 * a, x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  7.000 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
-foo&#40;x&#41; &#61; prod&#40;a -&gt; 2 * a, x&#41;</code></pre> </div></div> 
+foo&#40;x&#41; &#61; prod&#40;a -&gt; 3 * a, x&#41;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  7.207 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
-foo&#40;x&#41; &#61; maximum&#40;a -&gt; 2 * a, x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  172.951 ns (0 allocations: 0 bytes)
+foo&#40;x&#41; &#61; maximum&#40;a -&gt; 3 * a, x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  174.550 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
-foo&#40;x&#41; &#61; minimum&#40;a -&gt; 2 * a, x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  171.841 ns (0 allocations: 0 bytes)
+foo&#40;x&#41; &#61; minimum&#40;a -&gt; 3 * a, x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  169.035 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Reductions can also be performed when the transforming function requires multiple arguments. To do this, you should enclose the multiple variables using <code>zip</code>, and referring to each variable through indexes. We illustrate this below, with a transforming function given by <code>x .* y</code>. </p>
+<p>Reductions can also be performed when the transforming function requires multiple arguments. To do this, you should enclose the multiple variables using <code>zip</code>, and referring to each variable through indexes. We illustrate this below, where the transforming function is <code>x .* y</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2311,28 +2325,98 @@ foo&#40;x&#41; &#61; minimum&#40;a -&gt; 2 * a, x&#41;</code></pre> </div></div>
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;; y &#61; rand&#40;100&#41;
 
 foo&#40;x,y&#41; &#61; sum&#40;a -&gt; a&#91;1&#93; * a&#91;2&#93;, zip&#40;x,y&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;y&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  29.477 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;y&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  29.276 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;; y &#61; rand&#40;100&#41;
 
 foo&#40;x,y&#41; &#61; prod&#40;a -&gt; a&#91;1&#93; * a&#91;2&#93;, zip&#40;x,y&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;y&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  48.279 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;y&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  48.227 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;; y &#61; rand&#40;100&#41;
 
 foo&#40;x,y&#41; &#61; maximum&#40;a -&gt; a&#91;1&#93; * a&#91;2&#93;, zip&#40;x,y&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;y&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  172.752 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;y&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  171.721 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;; y &#61; rand&#40;100&#41;
 
 foo&#40;x,y&#41; &#61; minimum&#40;a -&gt; a&#91;1&#93; * a&#91;2&#93;, zip&#40;x,y&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;y&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  167.020 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;, ref&#40;&#36;y&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  166.937 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="the_reduce_and_mapreduce_functions" class="scrollspy section-bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>The "reduce" and "mapreduce" Functions</h2></p>
+ <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Warning!</b> </span>  </div>  <div class=content>     For the operations <code>sum</code>, <code>prod</code>, <code>max</code>, <code>min</code>, you should still use the implementations provided above. They&#39;ve been optimized according to each specific operation.  </div>  </div>
+<p>Julia provides the function <code>reduce</code> to implement custom reductions. Its syntax is <code>reduce&#40;&lt;operator&gt;, x&#41;</code>, where <code>&lt;operator&gt;</code> represents the reduction operation. The following example demonstrates its usage.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Sum </button>
+    <button class="tablink" data-id=""> Product </button>
+    <button class="tablink" data-id=""> Maximum </button>
+    <button class="tablink" data-id=""> Minimum </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+
+foo&#40;x&#41; &#61; reduce&#40;&#43;, x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  6.600 ns (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+
+foo&#40;x&#41; &#61; reduce&#40;*, x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  6.700 ns (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+
+foo&#40;x&#41; &#61; reduce&#40;max, x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  167.733 ns (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+
+foo&#40;x&#41; &#61; reduce&#40;min, x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  167.978 ns (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>Julia additionally provides the <code>mapreduce</code> function, which combines <code>map</code> and <code>reduce</code>. Recall that <code>map&#40;&lt;function&gt;, x&#41;</code> covered <a href="/julia_book/PAGES/4d_vectorizing/#the_map_function">here</a> applies <code>&lt;function&gt;</code> element-wise to each element of the collection <code>x</code>. </p>
+<p>The function <code>mapreduce</code> first applies a transformation to each element of a collection through <code>map</code>, and then applies a reduction to it. The syntax is <code>mapreduce&#40;&lt;transformation&gt;, &lt;operator&gt;, x&#41;</code>, where <code>&lt;operator&gt;</code> represents the reduction. </p>
+<p>Note that <code>mapreduce&#40;identity, &lt;operator&gt;, x&#41;</code> is equivalent to <code>reduce&#40;&lt;operator&gt;, x&#41;</code>, where the function <code>identity&#40;x&#41;</code> simply returns <code>x</code>. Furthermore, <code>mapreduce&#40;&lt;transformation&gt;, &lt;operator&gt;, x&#41;</code> produces the same result as <code>reduce&#40;&lt;operator&gt;, map&#40;&lt;transformation&gt;, x&#41;&#41;</code>. However, the former is more efficient because it avoids the allocation of the transformed intermediate vector. This is demonstrated below, where we consider a transformation <code>3 .* x</code> that then is reduced through <code>sum</code>. In other words, the output is equivalent to <code>sum&#40;3 .* x&#41;</code>.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> mapreduce </button>
+    <button class="tablink" data-id=""> reduce </button>    
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+
+foo&#40;x&#41; &#61; mapreduce&#40;a -&gt; 3 * a, &#43;, x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  6.700 ns (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+
+foo&#40;x&#41; &#61; reduce&#40;&#43;, map&#40;a -&gt; 3 * a, x&#41;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  54.684 ns (1 allocation: 896 bytes)
+</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+ <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Significance of <code>mapreduce</code> For Our Purposes</strong>  </span>  </div>  <div class=content>     The <code>mapreduce</code> will be particularly relevant when packages provide their own version of it, thus offering an alternative approach to performing the operation. For instance, the package <code>Folds</code> provides a parallelized version of <code>mapreduce</code>, allowing you to compute reductions like <code>sum</code> using all available CPU cores. Parallelizing code is paramount for performance.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2347,7 +2431,7 @@ foo&#40;x,y&#41; &#61; minimum&#40;a -&gt; a&#91;1&#93; * a&#91;2&#93;, zip&#40;
        <span class="right-text"><a href="/julia_book/PAGES\8c_staticVectors" class="nextPage">Next Section (<kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_right.png" style="width:15px; height:auto;opacity:0.9;padding-bottom:2px;">
     </kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified May 3, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified May 4, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
@@ -2842,7 +2926,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#defining_reductions" data-offset="-40">Defining Reductions</a>
+          <a href="#intuition_about_reductions" data-offset="-40">Intuition about Reductions</a>
         </li>
         
         <li>
@@ -2851,6 +2935,10 @@ for multiple pics in a row
         
         <li>
           <a href="#reductions_via_built-in_functions" data-offset="-40">Reductions via Built-in Functions</a>
+        </li>
+        
+        <li>
+          <a href="#the_reduce_and_mapreduce_functions" data-offset="-40">The "reduce" and "mapreduce" Functions</a>
         </li>
         
       </ul>
