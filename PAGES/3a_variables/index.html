@@ -2070,19 +2070,19 @@ color: white;
 <p>Variables are created through the so-called <span style="color: rgb(62, 121, 180);"><strong>assignment operator</strong></span>, denoted by the symbol <code>&#61;</code>. For instance, the statement <code>x &#61; 3</code> associates <code>x</code> with an object holding the value 3. </p>
 <p>Variable names can be defined using Unicode characters, opening up a wide range of possibilities. This includes Greek letters, Chinese characters, symbols, and even emoticons. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> There are many online resources available offering lists of Unicode characters &#40;e.g. <a href="https://www.vertex42.com/ExcelTips/unicode-symbols.html">this website</a>&#41;. You can directly insert a Unicode character by copying and pasting it from these resources. Alternatively, you can use Tab completion with the commands listed in <a href="https://docs.julialang.org/en/v1/manual/unicode-input/">the Julia documenation</a>.  </span></span>  While not all symbols are permitted, variable names do accept underscores <code>_</code>, which are helpful for separating words &#40;e.g., <code>intermediate_result</code>&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For instance, names with symbols that are employed in mathematical notation like <code>x^</code> or <code>&#37;x</code> aren&#39;t accepted. Moreover, names accept numbers unless they&#39;re at the beginning, turning a name like <code>1x</code> invalid.  </span></span> Importantly, names are case-sensitive, so that <code>bar</code> and <code>Bar</code> are two distinct variables. </p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">a &#61; 2
-A &#61; 2               # variable &#96;A&#96; is different from &#96;a&#96;
+<pre><code class="julia hljs">a = <span class="hljs-number">2</span>
+A = <span class="hljs-number">2</span>               <span class="hljs-comment"># variable `A` is different from `a`</span>
 
-new_value &#61; 2       # underscores allowed
+new_value = <span class="hljs-number">2</span>       <span class="hljs-comment"># underscores allowed</span>
 
-β &#61; 2               # Greek letters allowed
+β = <span class="hljs-number">2</span>               <span class="hljs-comment"># Greek letters allowed</span>
 
-中國 &#61; 2            # Chinese characters allowed   
+中國 = <span class="hljs-number">2</span>            <span class="hljs-comment"># Chinese characters allowed   </span>
 
-x̄  &#61; 2              # decorations allowed
-x₁ &#61; 2               
+x̄  = <span class="hljs-number">2</span>              <span class="hljs-comment"># decorations allowed</span>
+x₁ = <span class="hljs-number">2</span>               
 
-🐒 &#61; 2             # emoticons allowed</code></pre>
+🐒 = <span class="hljs-number">2</span>             <span class="hljs-comment"># emoticons allowed</span></code></pre>
 <p></div> </div>  </details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
@@ -2092,22 +2092,22 @@ x₁ &#61; 2
  <h4> Updating Variables </h4>
 <p>It&#39;s possible to assign a value to a variable by using the variable itself. This process is referred to as <strong>updating a variable</strong>.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x  &#61; 2
+<pre><code class="julia hljs">x  = <span class="hljs-number">2</span>
 
-x  &#61; x &#43; 3    # &#39;x&#39; now equals 5</code></pre>
+x  = x + <span class="hljs-number">3</span>    <span class="hljs-comment"># &#x27;x&#x27; now equals 5</span></code></pre>
 <p></div> </div>  </details></div>
 <p>For common operations &#40;e.g., addition&#41;, Julia offers a concise syntax for updating values. This requires prefixing the operator to the assignment operator <code>&#61;</code>. </p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x  &#61; 2
+<pre><code class="julia hljs">x  = <span class="hljs-number">2</span>
 
-x  &#61; x &#43; 3
-x &#43;&#61; 3        # equivalent
+x  = x + <span class="hljs-number">3</span>
+x += <span class="hljs-number">3</span>        <span class="hljs-comment"># equivalent</span>
 
-x  &#61; x * 3
-x *&#61; 3        # equivalent
+x  = x * <span class="hljs-number">3</span>
+x *= <span class="hljs-number">3</span>        <span class="hljs-comment"># equivalent</span>
 
-x  &#61; x - 3
-x -&#61; 3        # equivalent</code></pre>
+x  = x - <span class="hljs-number">3</span>
+x -= <span class="hljs-number">3</span>        <span class="hljs-comment"># equivalent</span></code></pre>
 <p></div> </div>  </details></div>
 <p>      </div>
     </div>
@@ -2175,7 +2175,7 @@ x -&#61; 3        # equivalent</code></pre>
 </li>
 </ul>
 <ul>
-<li><p><span style="color: rgb(62, 121, 180);"><strong>Binary operators</strong></span>: They take  <em>two operands</em>, and the operator is written between them. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Operators with this syntax are called <strong>infix operators</strong>.  </span></span>   Formally, their syntax is <code>x &lt;operator&gt; y</code>, such as <code>x &#43; y</code> or <code>x^y</code> for \(x^y\).</p>
+<li><p><span style="color: rgb(62, 121, 180);"><strong>Binary operators</strong></span>: They take  <em>two operands</em>, and the operator is written between them. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Operators with this syntax are called <strong>infix operators</strong>.  </span></span>   Formally, their syntax is <code>x &lt;operator&gt; y</code>, such as <code>x &#43; y</code> or <code>x^y</code> for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mi>y</mi></msup></mrow><annotation encoding="application/x-tex">x^y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.664392em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span></span></span></span></span></span></span>.</p>
 </li>
 </ul>
 <ul>
@@ -2284,16 +2284,16 @@ function goToNextPage() {
 
 <!-- ADDED BY FRANKLIN -->
   
-      <script src="/julia_book/libs/katex/katex.min.js"></script>
-<script src="/julia_book/libs/katex/auto-render.min.js"></script>
-<script>renderMathInElement(document.body)</script>
+      
+
+
 
   
   
-      <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
+      
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-<!-- <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script> -->
+<!--  -->
 
 
   

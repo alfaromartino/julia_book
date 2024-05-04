@@ -2085,61 +2085,61 @@ color: white;
     <button class="tablink" data-id=""> Logical Indexing on LHS </button>
     <button class="tablink" data-id=""> Own Vector on RHS </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x         &#61; &#91;1, 2, 3, 4&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x         = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]
 
-x&#91;3&#93;      &#61; 30
-x&#91;4&#93;      &#61; 40</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+x[<span class="hljs-number">3</span>]      = <span class="hljs-number">30</span>
+x[<span class="hljs-number">4</span>]      = <span class="hljs-number">40</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
   1
   2
  30
  40</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x         &#61; &#91;1, 2, 3, 4&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x         = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]
 
 
-x&#91;3:end&#93;  &#61; &#91;30, 40&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+x[<span class="hljs-number">3</span>:<span class="hljs-keyword">end</span>]  = [<span class="hljs-number">30</span>, <span class="hljs-number">40</span>]</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
   1
   2
  30
  40</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x         &#61; &#91;1, 2, 3, 4&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x         = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]
 
 
-x&#91;3:end&#93;  &#61; &#91;x&#91;i&#93; * 10 for i in 3:length&#40;x&#41;&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+x[<span class="hljs-number">3</span>:<span class="hljs-keyword">end</span>]  = [x[i] * <span class="hljs-number">10</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">3</span>:length(x)]</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
   1
   2
  30
  40</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x         &#61; &#91;1, 2, 3, 4&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x         = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]
 
 
-x&#91;x .≥ 3&#93; &#61; &#91;x&#91;i&#93; * 10 for i in 3:length&#40;x&#41;&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+x[x .≥ <span class="hljs-number">3</span>] = [x[i] * <span class="hljs-number">10</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">3</span>:length(x)]</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
   1
   2
  30
  40</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x         &#61; &#91;1, 2, 3, 4&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x         = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]
 
 
-x&#91;x .≥ 3&#93; &#61; x&#91;x .≥ 3&#93; .* 10</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+x[x .≥ <span class="hljs-number">3</span>] = x[x .≥ <span class="hljs-number">3</span>] .* <span class="hljs-number">10</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
   1
   2
  30
  40</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x         &#61; &#91;1, 2, 3, 4&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x         = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]
 
 
-x&#91;3:end&#93;  &#61; &#91;30, 40&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+x[<span class="hljs-number">3</span>:<span class="hljs-keyword">end</span>]  = [<span class="hljs-number">30</span>, <span class="hljs-number">40</span>]</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
   1
   2
  30
@@ -2155,19 +2155,19 @@ x&#91;3:end&#93;  &#61; &#91;30, 40&#93;</code></pre> </div></div>
     <button class="tablink first_tab active" data-id=""> New Object (Assignment) </button>
     <button class="tablink" data-id=""> Mutating Object Held </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x    &#61; &#91;1, 2, 3, 4&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x    = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]
 
-x    &#61; x .* 10</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+x    = x .* <span class="hljs-number">10</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
  10
  20
  30
  40</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x    &#61; &#91;1, 2, 3, 4&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x    = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]
 
-x&#91;:&#93; &#61; x .* 10</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+x[:] = x .* <span class="hljs-number">10</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
  10
  20
  30
@@ -2193,19 +2193,19 @@ x&#91;:&#93; &#61; x .* 10</code></pre> </div></div>
     <button class="tablink first_tab active" data-id=""> Vector for Replacement </button>
     <button class="tablink" data-id=""> Scalar for Replacement </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;-1, -2, 3, 4&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x          = [-<span class="hljs-number">1</span>, -<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]
 
-x&#91;x .&lt; 0&#93; .&#61; zeros&#40;length&#40;x&#91;x .&lt; 0&#93;&#41;&#41;       # same as &#39;x&#91;x .&lt; 0&#93;  &#61; zeros&#40;length&#40;x&#91;x .&lt; 0&#93;&#41;&#41;&#39;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+x[x .&lt; <span class="hljs-number">0</span>] .= zeros(length(x[x .&lt; <span class="hljs-number">0</span>]))       <span class="hljs-comment"># same as &#x27;x[x .&lt; 0]  = zeros(length(x[x .&lt; 0]))&#x27;</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
  0
  0
  3
  4</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;-1, -2, 3, 4&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x          = [-<span class="hljs-number">1</span>, -<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]
 
-x&#91;x .&lt; 0&#93; .&#61; 0</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+x[x .&lt; <span class="hljs-number">0</span>] .= <span class="hljs-number">0</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
  0
  0
  3
@@ -2221,27 +2221,27 @@ x&#91;x .&lt; 0&#93; .&#61; 0</code></pre> </div></div>
     <button class="tablink first_tab active" data-id="">Proper Use of a View</button>
     <button class="tablink" data-id=""> Wrong Use (Creating a Copy)</button>  
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; &#91;-1, -2, 1, 2&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x  = [-<span class="hljs-number">1</span>, -<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>]
 
-y  &#61; view&#40;x, x .&lt; 0&#41;
-y .&#61; 0</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">2-element view(::Vector{Int64}, [1, 2]) with eltype Int64:
+y  = view(x, x .&lt; <span class="hljs-number">0</span>)
+y .= <span class="hljs-number">0</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext hljs">2-element view(::Vector{Int64}, [1, 2]) with eltype Int64:
  0
  0</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
  0
  0
  1
  2</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; &#91;-1, -2, 1, 2&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x  = [-<span class="hljs-number">1</span>, -<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>]
 
-y  &#61; x&#91;x .&lt; 0&#93;              # &#96;y&#96; is a new object
-y .&#61; 0                      # this does NOT modify &#96;x&#96;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Int64}:
+y  = x[x .&lt; <span class="hljs-number">0</span>]              <span class="hljs-comment"># `y` is a new object</span>
+y .= <span class="hljs-number">0</span>                      <span class="hljs-comment"># this does NOT modify `x`</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code> <br/> <pre><code class="plaintext hljs">2-element Vector{Int64}:
  0
  0</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
  -1
  -2
   1
@@ -2255,21 +2255,21 @@ y .&#61; 0                      # this does NOT modify &#96;x&#96;</code></pre> 
     <button class="tablink first_tab active" data-id="">Proper Use of a View</button>
     <button class="tablink" data-id=""> Wrong Use (Creating a Copy)</button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; &#91;1, 2, 3, 4&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x  = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]
 
-y  &#61; view&#40;x, x .≥ 3&#41;
-y .&#61; x&#91;x .≥ 3&#93; .* 10</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+y  = view(x, x .≥ <span class="hljs-number">3</span>)
+y .= x[x .≥ <span class="hljs-number">3</span>] .* <span class="hljs-number">10</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
   1
   2
  30
  40</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; &#91;1, 2, 3, 4&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x  = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]
 
-y  &#61; view&#40;x, x .≥ 3&#41;
-y  &#61; x&#91;x .≥ 3&#93; .* 10    # this creates a new variable &#39;y&#39;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
+y  = view(x, x .≥ <span class="hljs-number">3</span>)
+y  = x[x .≥ <span class="hljs-number">3</span>] .* <span class="hljs-number">10</span>    <span class="hljs-comment"># this creates a new variable &#x27;y&#x27;</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">4-element Vector{Int64}:
  1
  2
  3
@@ -2293,20 +2293,20 @@ y  &#61; x&#91;x .≥ 3&#93; .* 10    # this creates a new variable &#39;y&#39;<
     <button class="tablink first_tab active" data-id=""> Initialize Vector </button>
     <button class="tablink" data-id=""> Initialize Vector with 'similar'</button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; Vector&#123;Int64&#125;&#40;undef, 3&#41;  # &#96;x&#96; is initialized with 3 undefined elements
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Int64</span>}(<span class="hljs-literal">undef</span>, <span class="hljs-number">3</span>)  <span class="hljs-comment"># `x` is initialized with 3 undefined elements</span>
 
 
-for i in eachindex&#40;x&#41;
-    x&#91;i&#93; &#61; i
-end</code></pre> </div></div> 
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)
+    x[i] = i
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/>  </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">y &#61; &#91;3, 4, 5&#93;
-x &#61; similar&#40;y&#41;            # &#96;x&#96; mimicks the type of &#96;y&#96;, which is Vector&#123;Int64&#125;&#40;undef, 3&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">y = [<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]
+x = similar(y)            <span class="hljs-comment"># `x` mimicks the type of `y`, which is Vector{Int64}(undef, 3)</span>
 
-for i in eachindex&#40;x&#41;
-    x&#91;i&#93; &#61; i
-end</code></pre> </div></div> 
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)
+    x[i] = i
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/>  </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2320,22 +2320,22 @@ end</code></pre> </div></div>
     <button class="tablink" data-id=""> Initialize Vector with 'similar'</button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; Vector&#123;Int64&#125;&#40;undef, 3&#41;  # &#96;x&#96; is initialized with 3 undefined Int64 elements
+<pre><code class="julia hljs">x = <span class="hljs-built_in">Vector</span>{<span class="hljs-built_in">Int64</span>}(<span class="hljs-literal">undef</span>, <span class="hljs-number">3</span>)  <span class="hljs-comment"># `x` is initialized with 3 undefined Int64 elements</span>
 
 
-for i in eachindex&#40;x&#41;
-    x&#91;i&#93; &#61; i * 2.5                
-end</code></pre>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)
+    x[i] = i * <span class="hljs-number">2.5</span>                
+<span class="hljs-keyword">end</span></code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: InexactError: Int64(2.5)</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">y &#61; &#91;3, 4, 5&#93;
-x &#61; similar&#40;y&#41;            # &#96;x&#96; has the same type as &#96;y&#96;, which is Vector&#123;Int64&#125;&#40;undef, 3&#41;
+<pre><code class="julia hljs">y = [<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]
+x = similar(y)            <span class="hljs-comment"># `x` has the same type as `y`, which is Vector{Int64}(undef, 3)</span>
 
-for i in eachindex&#40;x&#41;
-    x&#91;i&#93; &#61; i * 2.5
-end</code></pre>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> eachindex(x)
+    x[i] = i * <span class="hljs-number">2.5</span>
+<span class="hljs-keyword">end</span></code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: InexactError: Int64(2.5)</div> </div></div> </div> 
  </div></div>
@@ -2442,16 +2442,16 @@ function goToNextPage() {
 
 <!-- ADDED BY FRANKLIN -->
   
-      <script src="/julia_book/libs/katex/katex.min.js"></script>
-<script src="/julia_book/libs/katex/auto-render.min.js"></script>
-<script>renderMathInElement(document.body)</script>
+      
+
+
 
   
   
-      <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
+      
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-<!-- <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script> -->
+<!--  -->
 
 
   

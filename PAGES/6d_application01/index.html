@@ -2093,37 +2093,37 @@ this is invisible this is invisible this is invisible this is invisible this is 
 </li>
 </ul></div>
 <p>The scenario is modeled by some mock data. The details of how data are generated are unimportant, but added below for the sake of completeness.</p>
- <div class=" code_box"> <details  closed><summary> Mock Data Creation  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">using StatsBase, Distributions
-using Random; Random.seed&#33;&#40;1234&#41;
+ <div class=" code_box"> <details  closed><summary> Mock Data Creation  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-keyword">using</span> StatsBase, Distributions
+<span class="hljs-keyword">using</span> Random; Random.seed!(<span class="hljs-number">1234</span>)
 
-function audience&#40;nr_videos; median_target&#41;
-    shape &#61; log&#40;4,5&#41;
-    scale &#61; median_target / 2^&#40;1/shape&#41;
+<span class="hljs-keyword">function</span> audience(nr_videos; median_target)
+    shape = log(<span class="hljs-number">4</span>,<span class="hljs-number">5</span>)
+    scale = median_target / <span class="hljs-number">2</span>^(<span class="hljs-number">1</span>/shape)
 
-    visits &#61; rand&#40;Pareto&#40;shape,scale&#41;,  nr_videos&#41;
+    visits = rand(Pareto(shape,scale),  nr_videos)
 
-    return visits
-end
+    <span class="hljs-keyword">return</span> visits
+<span class="hljs-keyword">end</span>
 
-nr_videos &#61; 30
+nr_videos = <span class="hljs-number">30</span>
 
-visits   &#61; audience&#40;nr_videos, median_target &#61; 50&#41;      # in thousands of visits
-payrates &#61; rand&#40;2:6, nr_videos&#41;                         # per thousands of visits</code></pre> </div> </div>  </details></div>
+visits   = audience(nr_videos, median_target = <span class="hljs-number">50</span>)      <span class="hljs-comment"># in thousands of visits</span>
+payrates = rand(<span class="hljs-number">2</span>:<span class="hljs-number">6</span>, nr_videos)                         <span class="hljs-comment"># per thousands of visits</span></code></pre> </div> </div>  </details></div>
 <p>What matters is that the mock data creates the following two variables.</p>
-<p><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>visits</code> # in thousands <br/> <pre><code class="plaintext code-output">30-element Vector{Float64}:
+<p><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>visits</code> # in thousands <br/> <pre><code class="plaintext hljs">30-element Vector{Float64}:
  44.4608
  57.2323
   ⋮
  86.4182
  36.5051</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>payrates</code> # per thousand visits <br/> <pre><code class="plaintext code-output">30-element Vector{Int64}:
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>payrates</code> # per thousand visits <br/> <pre><code class="plaintext hljs">30-element Vector{Int64}:
  2
  6
  ⋮
  3
  4</code></pre> </div></div> </div> <br/></p>
 <p>These two variables enable us to calculate the total payment per video.</p>
- <div class=" code_box"> <details  open><summary> Additional Variable  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">earnings &#61; visits .* payrates</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>earnings</code> <br/> <pre><code class="plaintext code-output">30-element Vector{Float64}:
+ <div class=" code_box"> <details  open><summary> Additional Variable  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="julia hljs">earnings = visits .* payrates</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>earnings</code> <br/> <pre><code class="plaintext hljs">30-element Vector{Float64}:
   88.9215
  343.394
    ⋮
@@ -2145,22 +2145,22 @@ payrates &#61; rand&#40;2:6, nr_videos&#41;                         # per thousa
     <button class="tablink first_tab active" data-id=""> Range Payments Per Visits </button>
     <button class="tablink" data-id=""> Counts of Payments Per Visits </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">range_payrates  &#61; unique&#40;payrates&#41; |&gt; sort</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>range_payrates</code> <br/> <pre><code class="plaintext code-output">5-element Vector{Int64}:
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">range_payrates  = unique(payrates) |&gt; sort</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>range_payrates</code> <br/> <pre><code class="plaintext hljs">5-element Vector{Int64}:
  2
  3
  4
  5
  6</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using StatsBase
-occurrences_payrates &#61; countmap&#40;payrates&#41; |&gt; sort</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>occurrences_payrates</code> <br/> <pre><code class="plaintext code-output">OrderedDict{Int64, Int64} with 5 entries:
-  2 => 4
-  3 => 5
-  4 => 8
-  5 => 5
-  6 => 8</code></pre> </div></div> </div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-keyword">using</span> StatsBase
+occurrences_payrates = countmap(payrates) |&gt; sort</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>occurrences_payrates</code> <br/> <pre><code class="plaintext hljs">OrderedDict{Int64, Int64} with 5 entries:
+  2 =&gt; 4
+  3 =&gt; 5
+  4 =&gt; 8
+  5 =&gt; 5
+  6 =&gt; 8</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>We can also provide some information about Johnny&#39;s most profitable videos. By applying the <code>sort</code> function and isolating the top 3 videos, we can obtain information on the highest earnings videos. Moreover, we can apply the <code>sortperm</code> function to identify the indices of these videos, allowing us to extract the payment per view and total Visits associated with each of them.</p>
@@ -2171,24 +2171,24 @@ occurrences_payrates &#61; countmap&#40;payrates&#41; |&gt; sort</code></pre> </
     <button class="tablink" data-id=""> Payments per Visits (Top 3 by Earnings) </button>
     <button class="tablink" data-id=""> Visits per Videos (Top 3 by Earnings) </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">top_earnings    &#61; sort&#40;earnings, rev&#61;true&#41;&#91;1:3&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>top_earnings</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">top_earnings    = sort(earnings, rev=<span class="hljs-literal">true</span>)[<span class="hljs-number">1</span>:<span class="hljs-number">3</span>]</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>top_earnings</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Float64}:
  2708.57
  1083.07
   723.493</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">indices         &#61; sortperm&#40;earnings, rev&#61;true&#41;&#91;1:3&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">indices         = sortperm(earnings, rev=<span class="hljs-literal">true</span>)[<span class="hljs-number">1</span>:<span class="hljs-number">3</span>]
 
-sorted_payrates &#61; payrates&#91;indices&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sorted_payrates</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+sorted_payrates = payrates[indices]</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sorted_payrates</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Int64}:
  6
  5
  5</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">indices         &#61; sortperm&#40;earnings, rev&#61;true&#41;&#91;1:3&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">indices         = sortperm(earnings, rev=<span class="hljs-literal">true</span>)[<span class="hljs-number">1</span>:<span class="hljs-number">3</span>]
 
-sorted_visits   &#61; visits&#91;indices&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sorted_visits</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
+sorted_visits   = visits[indices]</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sorted_visits</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Float64}:
  451.428
  216.615
  144.699</code></pre> </div></div> </div> 
@@ -2205,26 +2205,26 @@ sorted_visits   &#61; visits&#91;indices&#93;</code></pre> </div></div>
         <h2>Boolean Variables</h2></p>
 <p>In the following, we demonstrate the use of Boolean indexing to extract and characterize subsets of data. Our focus will be on characterizing Johnny&#39;s viral videos, defined as those that have surpassed a threshold of 100k visits. We&#39;ll determine in particular the number of visits and revenue generated by these videos.</p>
 <p>To identify the viral videos, we create a <code>Bool</code> vector, where <code>true</code> indicates a viral video and <code>false</code> is returned otherwise. This vector allows us to selectively extract data points from other variables by using them as indices. For instance, we use it below to compute the total visits and earnings derived from them.</p>
- <div class=" code_box"> <details  open><summary> Viral Videos  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia"># characterization of viral videos
-viral_threshold &#61; 100
-is_viral        &#61; &#40;visits .≥ viral_threshold&#41;
+ <div class=" code_box"> <details  open><summary> Viral Videos  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-comment"># characterization of viral videos</span>
+viral_threshold = <span class="hljs-number">100</span>
+is_viral        = (visits .≥ viral_threshold)
 
-# stats
-viral_nrvideos  &#61; sum&#40;is_viral&#41;
-viral_visits    &#61; sum&#40;visits&#91;is_viral&#93;&#41;
-viral_revenue   &#61; sum&#40;earnings&#91;is_viral&#93;&#41;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>viral_nrvideos</code> <br/> <pre><code class="plaintext code-output">6</code></pre> </div></p>
-<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>viral_visits</code> <br/> <pre><code class="plaintext code-output">1243.63</code></pre> </div>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>viral_revenue</code> <br/> <pre><code class="plaintext code-output">6133.19</code></pre> </div></div> </div>   </details></div>
+<span class="hljs-comment"># stats</span>
+viral_nrvideos  = sum(is_viral)
+viral_visits    = sum(visits[is_viral])
+viral_revenue   = sum(earnings[is_viral])</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>viral_nrvideos</code> <br/> <pre><code class="plaintext hljs">6</code></pre> </div></p>
+<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>viral_visits</code> <br/> <pre><code class="plaintext hljs">1243.63</code></pre> </div>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>viral_revenue</code> <br/> <pre><code class="plaintext hljs">6133.19</code></pre> </div></div> </div>   </details></div>
 <p>Boolean indexing also makes it possible to subset data satisfying multiple conditions. For instance, we can use this technique to calculate the proportion of viral videos for which YouTube paid more than &#36;3 per thousand visits. </p>
- <div class=" code_box"> <details  open><summary> More Complex Condition  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia"># characterization
-viral_threshold    &#61; 100
-payrates_above_avg &#61; 3
+ <div class=" code_box"> <details  open><summary> More Complex Condition  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-comment"># characterization</span>
+viral_threshold    = <span class="hljs-number">100</span>
+payrates_above_avg = <span class="hljs-number">3</span>
 
-is_viral           &#61; &#40;visits .≥ viral_threshold&#41;
-is_viral_lucrative &#61; &#40;visits .≥ viral_threshold&#41; .&amp;&amp; &#40;payrates .&gt; payrates_above_avg&#41;
+is_viral           = (visits .≥ viral_threshold)
+is_viral_lucrative = (visits .≥ viral_threshold) .&amp;&amp; (payrates .&gt; payrates_above_avg)
 
-# stat
-proportion_viral_lucrative &#61; sum&#40;is_viral_lucrative&#41; / sum&#40;is_viral&#41; * 100</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>proportion_viral_lucrative</code> <br/> <pre><code class="plaintext code-output">83.3333</code></pre> </div></div> </div>   </details></div>
+<span class="hljs-comment"># stat</span>
+proportion_viral_lucrative = sum(is_viral_lucrative) / sum(is_viral) * <span class="hljs-number">100</span></code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>proportion_viral_lucrative</code> <br/> <pre><code class="plaintext hljs">83.3333</code></pre> </div></div> </div>   </details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Rounding Outputs</strong>  </span>  </div>  <div class=content>     You can express results with rounded numbers via the function <code>round</code>. By default, this returns the nearest integer expressed as a <code>Float64</code> number. </p>
 <p>The function also offers additional specifications. For instance, you can control the number of decimal places in the approximation using the <code>digits</code> keyword argument. Furthermore, it&#39;s possible to represent the number as an <code>Int64</code> using the argument <code>Int</code>.</p>
@@ -2235,14 +2235,14 @@ proportion_viral_lucrative &#61; sum&#40;is_viral_lucrative&#41; / sum&#40;is_vi
     <button class="tablink" data-id=""> Round - Two Decimals </button>
     <button class="tablink" data-id=""> Round - Integer </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">rounded_proportion &#61; round&#40;proportion_viral_lucrative&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>rounded_proportion</code> <br/> <pre><code class="plaintext code-output">83.0</code></pre> </div></div> </div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">rounded_proportion = round(proportion_viral_lucrative)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>rounded_proportion</code> <br/> <pre><code class="plaintext hljs">83.0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">rounded_proportion &#61; round&#40;proportion_viral_lucrative, digits&#61;1&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>rounded_proportion</code> <br/> <pre><code class="plaintext code-output">83.3</code></pre> </div></div> </div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">rounded_proportion = round(proportion_viral_lucrative, digits=<span class="hljs-number">1</span>)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>rounded_proportion</code> <br/> <pre><code class="plaintext hljs">83.3</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">rounded_proportion &#61; round&#40;Int, proportion_viral_lucrative&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>rounded_proportion</code> <br/> <pre><code class="plaintext code-output">83</code></pre> </div></div> </div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">rounded_proportion = round(<span class="hljs-built_in">Int</span>, proportion_viral_lucrative)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>rounded_proportion</code> <br/> <pre><code class="plaintext hljs">83</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
 <p>      </div>
@@ -2264,38 +2264,38 @@ proportion_viral_lucrative &#61; sum&#40;is_viral_lucrative&#41; / sum&#40;is_vi
     <button class="tablink" data-id=""> Adding Pipe (Base) </button>
     <button class="tablink" data-id=""> Adding Pipe (Package Pipe) </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">#
-function stats_subset&#40;visits, payrates, condition&#41;
-    nrvideos &#61; sum&#40;condition&#41;
-    audience &#61; sum&#40;visits&#91;condition&#93;&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-comment">#</span>
+<span class="hljs-keyword">function</span> stats_subset(visits, payrates, condition)
+    nrvideos = sum(condition)
+    audience = sum(visits[condition])
     
-    earnings &#61; visits .* payrates
-    revenue  &#61; sum&#40;earnings&#91;condition&#93;&#41;
+    earnings = visits .* payrates
+    revenue  = sum(earnings[condition])
     
-    return &#40;; nrvideos, audience, revenue&#41;
-end</code></pre> </div></div> 
+    <span class="hljs-keyword">return</span> (; nrvideos, audience, revenue)
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using Pipe
-function stats_subset&#40;visits, payrates, condition&#41;
-    nrvideos &#61; sum&#40;condition&#41;
-    audience &#61; sum&#40;visits&#91;condition&#93;&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-keyword">using</span> <span class="hljs-built_in">Pipe</span>
+<span class="hljs-keyword">function</span> stats_subset(visits, payrates, condition)
+    nrvideos = sum(condition)
+    audience = sum(visits[condition])
     
     
-    revenue  &#61; @pipe &#40;visits .* payrates&#41; |&gt; x -&gt; sum&#40;x&#91;condition&#93;&#41;
+    revenue  = <span class="hljs-meta">@pipe</span> (visits .* payrates) |&gt; x -&gt; sum(x[condition])
     
-    return &#40;; nrvideos, audience, revenue&#41;
-end</code></pre> </div></div> 
+    <span class="hljs-keyword">return</span> (; nrvideos, audience, revenue)
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using Pipe
-function stats_subset&#40;visits, payrates, condition&#41;
-    nrvideos &#61; sum&#40;condition&#41;
-    audience &#61; sum&#40;visits&#91;condition&#93;&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-keyword">using</span> <span class="hljs-built_in">Pipe</span>
+<span class="hljs-keyword">function</span> stats_subset(visits, payrates, condition)
+    nrvideos = sum(condition)
+    audience = sum(visits[condition])
     
     
-    revenue  &#61; @pipe &#40;visits .* payrates&#41; |&gt; sum&#40;_&#91;condition&#93;&#41;
+    revenue  = <span class="hljs-meta">@pipe</span> (visits .* payrates) |&gt; sum(_[condition])
     
-    return &#40;; nrvideos, audience, revenue&#41;
-end</code></pre> </div></div> 
+    <span class="hljs-keyword">return</span> (; nrvideos, audience, revenue)
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
 <p>Below, we illustrate how the function enables effortlessly characterizing various subsets of data.</p>
@@ -2306,20 +2306,20 @@ end</code></pre> </div></div>
     <button class="tablink" data-id=""> Non-Viral Videos </button>
     <button class="tablink" data-id=""> Specific Days </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">viral_threshold  &#61; 100
-is_viral         &#61; &#40;visits .≥ viral_threshold&#41;
-viral            &#61; stats_subset&#40;visits, payrates, is_viral&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>viral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 6, audience = 1243.63, revenue = 6133.19)</code></pre> </div></div> </div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">viral_threshold  = <span class="hljs-number">100</span>
+is_viral         = (visits .≥ viral_threshold)
+viral            = stats_subset(visits, payrates, is_viral)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>viral</code> <br/> <pre><code class="plaintext hljs">(nrvideos = 6, audience = 1243.63, revenue = 6133.19)</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">viral_threshold  &#61; 100
-is_notviral      &#61; .&#33;&#40;is_viral&#41;      # &#39;&#33;&#39; is negating a boolean value and we broadcast it
-notviral         &#61; stats_subset&#40;visits, payrates, is_notviral&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>notviral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 24, audience = 1169.13, revenue = 4971.02)</code></pre> </div></div> </div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">viral_threshold  = <span class="hljs-number">100</span>
+is_notviral      = .!(is_viral)      <span class="hljs-comment"># &#x27;!&#x27; is negating a boolean value and we broadcast it</span>
+notviral         = stats_subset(visits, payrates, is_notviral)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>notviral</code> <br/> <pre><code class="plaintext hljs">(nrvideos = 24, audience = 1169.13, revenue = 4971.02)</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">days_to_consider &#61; &#40;1, 10, 25&#41;      # days when the videos were posted
-is_day           &#61; in.&#40;eachindex&#40;visits&#41;, Ref&#40;days_to_consider&#41;&#41;
-specific_days    &#61; stats_subset&#40;visits, payrates, is_day&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>specific_days</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 3, audience = 118.547, revenue = 414.113)</code></pre> </div></div> </div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">days_to_consider = (<span class="hljs-number">1</span>, <span class="hljs-number">10</span>, <span class="hljs-number">25</span>)      <span class="hljs-comment"># days when the videos were posted</span>
+is_day           = <span class="hljs-keyword">in</span>.(eachindex(visits), <span class="hljs-built_in">Ref</span>(days_to_consider))
+specific_days    = stats_subset(visits, payrates, is_day)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>specific_days</code> <br/> <pre><code class="plaintext hljs">(nrvideos = 3, audience = 118.547, revenue = 414.113)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -2339,23 +2339,23 @@ specific_days    &#61; stats_subset&#40;visits, payrates, is_day&#41;</code></pr
     <button class="tablink first_tab active" data-id=""> Target Viral </button>
     <button class="tablink" data-id=""> Target Non-Viral </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia"># &#39;temp&#39; modifies &#39;new_visits&#39;
-new_visits      &#61; copy&#40;visits&#41;
-temp            &#61; @view new_visits&#91;new_visits .≥ viral_threshold&#93;
-temp           .&#61; 1.2 .* temp
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-comment"># &#x27;temp&#x27; modifies &#x27;new_visits&#x27;</span>
+new_visits      = copy(visits)
+temp            = <span class="hljs-meta">@view</span> new_visits[new_visits .≥ viral_threshold]
+temp           .= <span class="hljs-number">1.2</span> .* temp
 
-allvideos       &#61; trues&#40;length&#40;new_visits&#41;&#41;
-targetViral     &#61; stats_subset&#40;new_visits, payrates, allvideos&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>targetViral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 30, audience = 2661.48, revenue = 12330.8)</code></pre> </div></div> </div> 
+allvideos       = trues(length(new_visits))
+targetViral     = stats_subset(new_visits, payrates, allvideos)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>targetViral</code> <br/> <pre><code class="plaintext hljs">(nrvideos = 30, audience = 2661.48, revenue = 12330.8)</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia"># &#39;temp&#39; modifies &#39;new_visits&#39;
-new_visits      &#61; copy&#40;visits&#41;
-temp            &#61; @view new_visits&#91;new_visits .&lt; viral_threshold&#93;
-temp           .&#61; 1.2 .* temp
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-comment"># &#x27;temp&#x27; modifies &#x27;new_visits&#x27;</span>
+new_visits      = copy(visits)
+temp            = <span class="hljs-meta">@view</span> new_visits[new_visits .&lt; viral_threshold]
+temp           .= <span class="hljs-number">1.2</span> .* temp
 
-allvideos       &#61; trues&#40;length&#40;new_visits&#41;&#41;
-targetNonViral  &#61; stats_subset&#40;new_visits, payrates, allvideos&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>targetNonViral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 30, audience = 2646.58, revenue = 12098.4)</code></pre> </div></div> </div> 
+allvideos       = trues(length(new_visits))
+targetNonViral  = stats_subset(new_visits, payrates, allvideos)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>targetNonViral</code> <br/> <pre><code class="plaintext hljs">(nrvideos = 30, audience = 2646.58, revenue = 12098.4)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
@@ -2367,23 +2367,23 @@ targetNonViral  &#61; stats_subset&#40;new_visits, payrates, allvideos&#41;</cod
     <button class="tablink" data-id=""> Wrong Use 1</button>
     <button class="tablink" data-id=""> Wrong Use 2</button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">new_visits &#61; copy&#40;visits&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">new_visits = copy(visits)
 
 
-temp  &#61; @view new_visits&#91;new_visits .≥ viral_threshold&#93;
-temp .&#61; temp .* 1.2</code></pre> </div></div> 
+temp  = <span class="hljs-meta">@view</span> new_visits[new_visits .≥ viral_threshold]
+temp .= temp .* <span class="hljs-number">1.2</span></code></pre> </div></div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">new_visits &#61; visits     # it creates an alias, it&#39;s a view of the original object&#33;&#33;&#33;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">new_visits = visits     <span class="hljs-comment"># it creates an alias, it&#x27;s a view of the original object!!!</span>
 
-# &#39;temp&#39; modifies &#39;visits&#39; -&gt; you lose the original info
-temp  &#61; @view new_visits&#91;new_visits .≥ viral_threshold&#93;
-temp .&#61; temp .* 1.2</code></pre> </div></div> 
+<span class="hljs-comment"># &#x27;temp&#x27; modifies &#x27;visits&#x27; -&gt; you lose the original info</span>
+temp  = <span class="hljs-meta">@view</span> new_visits[new_visits .≥ viral_threshold]
+temp .= temp .* <span class="hljs-number">1.2</span></code></pre> </div></div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">new_visits &#61; copy&#40;visits&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">new_visits = copy(visits)
 
-# wrong -&gt; not using &#96;temp .&#61; temp .* 1.2&#96;
-temp  &#61; @view new_visits&#91;new_visits .≥ viral_threshold&#93;
-temp  &#61; temp .* 1.2     # it creates a new variable &#39;temp&#39;, it does not modify &#39;new_visits&#39;</code></pre> </div></div> 
+<span class="hljs-comment"># wrong -&gt; not using `temp .= temp .* 1.2`</span>
+temp  = <span class="hljs-meta">@view</span> new_visits[new_visits .≥ viral_threshold]
+temp  = temp .* <span class="hljs-number">1.2</span>     <span class="hljs-comment"># it creates a new variable &#x27;temp&#x27;, it does not modify &#x27;new_visits&#x27;</span></code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
@@ -2394,25 +2394,25 @@ temp  &#61; temp .* 1.2     # it creates a new variable &#39;temp&#39;, it does 
     <button class="tablink first_tab active" data-id=""> Target Viral </button>
     <button class="tablink" data-id=""> Target Non-Viral </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">targetViral    &#61; let visits &#61; visits, payrates &#61; payrates, threshold &#61; viral_threshold
-    new_visits &#61; copy&#40;visits&#41;
-    temp       &#61; @view new_visits&#91;new_visits .≥ threshold&#93;
-    temp      .&#61; 1.2 .* temp
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">targetViral    = <span class="hljs-keyword">let</span> visits = visits, payrates = payrates, threshold = viral_threshold
+    new_visits = copy(visits)
+    temp       = <span class="hljs-meta">@view</span> new_visits[new_visits .≥ threshold]
+    temp      .= <span class="hljs-number">1.2</span> .* temp
 
-    allvideos  &#61; trues&#40;length&#40;new_visits&#41;&#41;
-    stats_subset&#40;new_visits, payrates, allvideos&#41;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>targetViral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 30, audience = 2661.48, revenue = 12330.8)</code></pre> </div></div> </div> 
+    allvideos  = trues(length(new_visits))
+    stats_subset(new_visits, payrates, allvideos)
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>targetViral</code> <br/> <pre><code class="plaintext hljs">(nrvideos = 30, audience = 2661.48, revenue = 12330.8)</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">targetNonViral &#61; let visits &#61; visits, payrates &#61; payrates, threshold &#61; viral_threshold
-    new_visits &#61; copy&#40;visits&#41;
-    temp       &#61; @view new_visits&#91;new_visits .&lt; threshold&#93;
-    temp      .&#61; 1.2 .* temp
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">targetNonViral = <span class="hljs-keyword">let</span> visits = visits, payrates = payrates, threshold = viral_threshold
+    new_visits = copy(visits)
+    temp       = <span class="hljs-meta">@view</span> new_visits[new_visits .&lt; threshold]
+    temp      .= <span class="hljs-number">1.2</span> .* temp
 
-    allvideos  &#61; trues&#40;length&#40;new_visits&#41;&#41;
-    stats_subset&#40;new_visits, payrates, allvideos&#41;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>targetNonViral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 30, audience = 2646.58, revenue = 12098.4)</code></pre> </div></div> </div> 
+    allvideos  = trues(length(new_visits))
+    stats_subset(new_visits, payrates, allvideos)
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>targetNonViral</code> <br/> <pre><code class="plaintext hljs">(nrvideos = 30, audience = 2646.58, revenue = 12098.4)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
 <p>      </div>
@@ -2425,18 +2425,18 @@ end</code></pre> </div></div>
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Over a List of Functions (<strong><i>OPTIONAL</i></strong>)</h2></p>
 <p>At the beginning of the analysis, we could&#39;ve derived descriptive statistics to gain insights about Johnny&#39;s videos. This can be accomplished by using the <code>describe</code> function from the <code>StatsBase</code> package. Despite this, the presentation aims to highlight that functions are first-class objects in Julia. This property entails that a function behaves just like any other variable, allowing the user to define a list of functions and then apply them element-wise to a variable.</p>
- <div class=" code_box"> <details  open><summary> Descriptive Statistics  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">list_functions &#61; &#91;sum, median, mean, maximum, minimum&#93;
+ <div class=" code_box"> <details  open><summary> Descriptive Statistics  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="julia hljs">list_functions = [sum, median, mean, maximum, minimum]
 
-stats_visits   &#61; &#91;fun&#40;visits&#41; for fun in list_functions&#93;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>stats_visits</code> <br/> <pre><code class="plaintext code-output">5-element Vector{Float64}:
+stats_visits   = [fun(visits) <span class="hljs-keyword">for</span> fun <span class="hljs-keyword">in</span> list_functions]</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>stats_visits</code> <br/> <pre><code class="plaintext hljs">5-element Vector{Float64}:
  2661.48
    52.7884
    88.716
   541.714
    27.7205</code></pre> </div></div> </div>   </details></div>
 <p>By broadcasting the operation, we can also compute stats for multiple variables concurrently. For instance, below we characterize <code>visits</code> and <code>earnings</code> simultaneously. </p>
- <div class=" code_box"> <details  open><summary> Descriptive Statistics  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">list_functions &#61; &#91;sum, median, mean, maximum, minimum&#93;
+ <div class=" code_box"> <details  open><summary> Descriptive Statistics  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="julia hljs">list_functions = [sum, median, mean, maximum, minimum]
 
-stats_various  &#61; &#91;fun.&#40;&#91;visits, payrates&#93;&#41; for fun in list_functions&#93;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>stats_various</code> <br/> <pre><code class="plaintext code-output">5-element Vector{Vector{Float64}}:
+stats_various  = [fun.([visits, payrates]) <span class="hljs-keyword">for</span> fun <span class="hljs-keyword">in</span> list_functions]</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>stats_various</code> <br/> <pre><code class="plaintext hljs">5-element Vector{Vector{Float64}}:
  [2661.48, 128.0]
  [52.7884, 4.0]
  [88.716, 4.26667]
@@ -2444,10 +2444,10 @@ stats_various  &#61; &#91;fun.&#40;&#91;visits, payrates&#93;&#41; for fun in li
  [27.7205, 2.0]</code></pre> </div></div> </div>   </details></div>
 <p>One major limitation of the current method is its inability to capture each statistic&#39;s name. To overcome this, we can employ a named tuple, which we&#39;ll call <code>stats_visits</code>. The approach enables us to access stats through their respective names, such as <code>stats_visits.mean</code> or <code>stats_visits&#91;:mean&#93;</code> for the average value. </p>
 <p>The implementation is based on the type <code>Symbol</code>. This converts strings into identifiers, which are necessary to programmatically access a named tuple&#39;s keys.</p>
- <div class=" code_box"> <details  open><summary> Descriptive Statistics  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">vector_of_tuples &#61; &#91;&#40;Symbol&#40;fun&#41;, fun&#40;visits&#41;&#41; for fun in list_functions&#93;
-stats_visits     &#61; NamedTuple&#40;vector_of_tuples&#41;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>stats_visits</code> <br/> <pre><code class="plaintext code-output">(sum = 2661.48, median = 52.7884, mean = 88.716, maximum = 541.714, minimum = 27.7205)</code></pre> </div></p>
-<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>stats_visits.mean</code> <br/> <pre><code class="plaintext code-output">88.716</code></pre> </div>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>stats_visits&#91;:median&#93;</code> <br/> <pre><code class="plaintext code-output">52.7884</code></pre> </div></div> </div>   </details></div>
+ <div class=" code_box"> <details  open><summary> Descriptive Statistics  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="julia hljs">vector_of_tuples = [(<span class="hljs-built_in">Symbol</span>(fun), fun(visits)) <span class="hljs-keyword">for</span> fun <span class="hljs-keyword">in</span> list_functions]
+stats_visits     = <span class="hljs-built_in">NamedTuple</span>(vector_of_tuples)</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>stats_visits</code> <br/> <pre><code class="plaintext hljs">(sum = 2661.48, median = 52.7884, mean = 88.716, maximum = 541.714, minimum = 27.7205)</code></pre> </div></p>
+<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>stats_visits.mean</code> <br/> <pre><code class="plaintext hljs">88.716</code></pre> </div>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>stats_visits&#91;:median&#93;</code> <br/> <pre><code class="plaintext hljs">52.7884</code></pre> </div></div> </div>   </details></div>
 <p>      </div>
     </div>
   </div>
@@ -2550,16 +2550,16 @@ function goToNextPage() {
 
 <!-- ADDED BY FRANKLIN -->
   
-      <script src="/julia_book/libs/katex/katex.min.js"></script>
-<script src="/julia_book/libs/katex/auto-render.min.js"></script>
-<script>renderMathInElement(document.body)</script>
+      
+
+
 
   
   
-      <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
+      
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-<!-- <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script> -->
+<!--  -->
 
 
   

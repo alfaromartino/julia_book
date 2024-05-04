@@ -2076,13 +2076,13 @@ color: white;
     <button class="tablink" data-id="">Compact Form</button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">function foo&#40;x,y&#41;
-    x &#43; y
-end</code></pre>
+<pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo(x,y)
+    x + y
+<span class="hljs-keyword">end</span></code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;x,y&#41; &#61; x &#43; y</code></pre>
+<pre><code class="julia hljs">foo(x,y) = x + y</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
@@ -2098,42 +2098,42 @@ end</code></pre>
     <button class="tablink" data-id=""> An Expression as Output </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">function foo&#40;x,y&#41;
-    term1 &#61; x &#43; y
-    term2 &#61; x * y 
+<pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo(x,y)
+    term1 = x + y
+    term2 = x * y 
 
-    return term2
-end</code></pre>
+    <span class="hljs-keyword">return</span> term2
+<span class="hljs-keyword">end</span></code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;10,2&#41;</code><br/><div class="akin_to_pre">20</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">function foo&#40;x,y&#41;   
-    term1 &#61; x &#43; y
-    term2 &#61; x * y           # output returned
-end</code></pre>
+<pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo(x,y)   
+    term1 = x + y
+    term2 = x * y           <span class="hljs-comment"># output returned</span>
+<span class="hljs-keyword">end</span></code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;10,2&#41;</code><br/><div class="akin_to_pre">20</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">function foo&#40;x,y&#41;
-    term1 &#61; x &#43; y
-    term2 &#61; x * y 
+<pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo(x,y)
+    term1 = x + y
+    term2 = x * y 
 
-    return term1, term2     # a tuple, using the notation that omits the parentheses
-end</code></pre>
+    <span class="hljs-keyword">return</span> term1, term2     <span class="hljs-comment"># a tuple, using the notation that omits the parentheses</span>
+<span class="hljs-keyword">end</span></code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;10,2&#41;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  12
  20</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">function foo&#40;x,y&#41;
-    term1 &#61; x &#43; y
-    term2 &#61; x * y
+<pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo(x,y)
+    term1 = x + y
+    term2 = x * y
     
-    return term1 &#43; term2
-end</code></pre>
+    <span class="hljs-keyword">return</span> term1 + term2
+<span class="hljs-keyword">end</span></code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;10,2&#41;</code><br/><div class="akin_to_pre">32</div> </div></div> </div> 
  </div></div>
@@ -2142,21 +2142,21 @@ end</code></pre>
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     Names of functions adhere to the same rules as variable names, thus permitting the use of Unicode characters. For instance, it&#39;s completely valid to define a function <code>∑&#40;x,y&#41;</code>. Indeed, most of the symbols used as operators are also available as functions. For instance, as for <a href="/julia_book/PAGES/3b_univariables/#arithmetic_operators">arithmetic operators</a>:</p>
 <p> <div class=" code_box"> <details  open><summary> Arithmetic Operators as Functions  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">&#43;&#40;2,3&#41;      # same as 2&#43;3
--&#40;2,3&#41;      # same as 2-3
-*&#40;2,3&#41;      # same as 2*3
-/&#40;2,3&#41;      # same as 2/3
-^&#40;2,3&#41;      # same as 2^3</code></pre>
+<pre><code class="julia hljs">+(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)      <span class="hljs-comment"># same as 2+3</span>
+-(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)      <span class="hljs-comment"># same as 2-3</span>
+*(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)      <span class="hljs-comment"># same as 2*3</span>
+/(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)      <span class="hljs-comment"># same as 2/3</span>
+^(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)      <span class="hljs-comment"># same as 2^3</span></code></pre>
 <p></div> </div>  </details></div>  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     It&#39;s possible to define functions without arguments. For instance, </p>
 <p> <div class=" code_box"> <details  open><summary> Functions without Arguments  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">function foo&#40;&#41;
-    a &#61; 1
-    b &#61; 1
-    return a &#43; b
-end</code></pre>
+<pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo()
+    a = <span class="hljs-number">1</span>
+    b = <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> a + b
+<span class="hljs-keyword">end</span></code></pre>
 <p></div> </div>  </details></div> Another example is <code>Pkg.update&#40;&#41;</code>, which was introduced when we studied packages.  </div>  </div>
 <p>      </div>
     </div>
@@ -2180,17 +2180,17 @@ end</code></pre>
     <button class="tablink" data-id=""> Positional and Keyword Arguments Combined </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;x, y&#41; &#61; x &#43; y</code></pre>
+<pre><code class="julia hljs">foo(x, y) = x + y</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;1,2&#41;</code><br/><div class="akin_to_pre">2</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;; x, y&#41; &#61; x &#43; y</code></pre>
+<pre><code class="julia hljs">foo(; x, y) = x + y</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;x&#61;1,y&#61;1&#41;</code><br/><div class="akin_to_pre">2</div> </div> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;; x&#61;1, y&#61;1&#41;</code>    # alternative notation<br/><div class="akin_to_pre">2</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;x; y&#41; &#61; x &#43; y</code></pre>
+<pre><code class="julia hljs">foo(x; y) = x + y</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;1 ; y&#61;1&#41;</code><br/><div class="akin_to_pre">2</div> </div> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;1 , y&#61;1&#41;</code> # alternative notation<br/><div class="akin_to_pre">2</div> </div></div> </div> 
  </div></div>
@@ -2204,12 +2204,12 @@ end</code></pre>
     <button class="tablink" data-id=""> Omitting Inputs  </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;x; y&#61;1&#41; &#61; x &#43; y</code></pre>
+<pre><code class="julia hljs">foo(x; y=<span class="hljs-number">1</span>) = x + y</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;1&#41;</code>                 # equivalent to foo&#40;1,y&#61;1&#41;<br/><div class="akin_to_pre">2</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;; x&#61;1, y&#61;1&#41; &#61; x &#43; y</code></pre>
+<pre><code class="julia hljs">foo(; x=<span class="hljs-number">1</span>, y=<span class="hljs-number">1</span>) = x + y</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;&#41;</code>                  # equivalent to foo&#40;x&#61;1,y&#61;1&#41;<br/><div class="akin_to_pre">2</div> </div></p>
 <p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;x&#61;2&#41;</code>                 # equivalent to foo&#40;x&#61;2,y&#61;1&#41;<br/><div class="akin_to_pre">3</div> </div></div> </div> 
@@ -2218,7 +2218,7 @@ end</code></pre>
  <h4> Using Arguments as Inputs of Other Arguments </h4>
 <p>When a function is called, its arguments are evaluated sequentially from left to right. This allows a previous argument to be used when defining arguments appearing later. For instance, given <code>foo&#40;;x,y&#41;</code>, the default value of <code>y</code> could depend on <code>x</code>. </p>
  <div class=" code_box"> <details  open><summary> Preceding Arguments to Define Default Values  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;; x, y &#61; x&#43;1&#41; &#61; x &#43; y</code></pre>
+<pre><code class="julia hljs">foo(; x, y = x+<span class="hljs-number">1</span>) = x + y</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;x&#61;2&#41;</code>     #function run with implicit value &#39;y&#61;3&#39;<br/><div class="akin_to_pre">5</div> </div></div> </div>   </details></div>
  <h4> Splatting </h4>
 <p>Given a function <code>foo&#40;x,y&#41;</code>, we can define the arguments <code>x</code> and <code>y</code> by using the elements of a tuple or a vector <code>z</code>. This is implemented through the splat operator, <code>...</code>, which extracts the individual elements of a collection and uses them as separate values.  </p>
@@ -2229,16 +2229,16 @@ end</code></pre>
     <button class="tablink" data-id=""> Splatting a Vector </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;x,y&#41; &#61; x &#43; y
+<pre><code class="julia hljs">foo(x,y) = x + y
 
-z &#61; &#40;2,3&#41;</code></pre>
+z = (<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;z...&#41;</code><br/><div class="akin_to_pre">5</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;x,y&#41; &#61; x &#43; y
+<pre><code class="julia hljs">foo(x,y) = x + y
 
-z &#61; &#91;2,3&#93;</code></pre>
+z = [<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;z...&#41;</code><br/><div class="akin_to_pre">5</div> </div></div> </div> 
  </div></div>
@@ -2253,7 +2253,18 @@ z &#61; &#91;2,3&#93;</code></pre>
       <div class="col-lg- mx-auto">
         <h2>Anonymous Functions</h2></p>
 <p> <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Anonymous functions are usually referred to as  <em>lambda functions</em> in other languages.  </span></span> They represent a third way to define functions, which we didn&#39;t include before because they&#39;re commonly used with a different purpose: as inputs to a function.</p>
-<p>As the name suggests, anonymous functions aren&#39;t referenced by a name. Their syntax is <code>x -&gt; &lt;body of the function&gt;</code>, where <code>x</code> is the function&#39;s argument and <code>&lt;body of the function&gt;</code> is an expression. Likewise, anonymous functions that depend on two or more arguments are expressed by <code>&#40;x,y&#41; -&gt; &lt;body of the function&gt;</code>. The notation resembles the mathematical arrow notation, where a function is defined by its operation, e.g., \(x\mapsto1+\sqrt{x}\). </p>
+<p>As the name suggests, anonymous functions aren&#39;t referenced by a name. Their syntax is <code>x -&gt; &lt;body of the function&gt;</code>, where <code>x</code> is the function&#39;s argument and <code>&lt;body of the function&gt;</code> is an expression. Likewise, anonymous functions that depend on two or more arguments are expressed by <code>&#40;x,y&#41; -&gt; &lt;body of the function&gt;</code>. The notation resembles the mathematical arrow notation, where a function is defined by its operation, e.g., <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>↦</mo><mn>1</mn><mo>+</mo><msqrt><mi>x</mi></msqrt></mrow><annotation encoding="application/x-tex">x\mapsto1+\sqrt{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.522em;vertical-align:-0.011em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">↦</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.04em;vertical-align:-0.23972em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8002800000000001em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathdefault">x</span></span></span><span style="top:-2.76028em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.23972em;"><span></span></span></span></span></span></span></span></span>. </p>
 <p>To demonstrate their application, we&#39;ll refer to a built-in function called <code>map</code>. This takes a function as its first argument, which is then applied element-wise to an array passed as a second argument. Formally, <code>map&#40;&lt;function&gt;, &lt;array&gt;&#41;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> <code>map</code> can be applied to functions with more than one argument. In that case, the syntax would be <code>map&#40;&lt;function&gt;,&lt;array1&gt;,&lt;array2&gt;&#41;</code>.      For instance, <code>map&#40;&#43;,&#91;1,2,3&#93;,&#91;1,2,3&#93;&#41;</code> provides the sum of each pair of numbers, so that the result is <code>&#91;2,4,6&#93;</code>. Nevertheless, just take <code>map</code> as an example for anonymous functions.  </span></span>  For example, we can apply the function <code>add_two&#40;x&#41; &#61; x &#43; 2</code> to each element of <code>y &#61; &#91;1,2,3&#93;</code> by <code>map&#40;add_two, y&#41;</code>, thus returning <code>&#91;3,4,5&#93;</code>. </p>
 <p>The execution of <code>map&#40;add_two, y&#41;</code> requires previously defining <code>add_two</code>. This is not only verbose, but also inconvenient if <code>add_two</code> won&#39;t be used again—it&#39;d pollute our workspace by creating a temporary function. In this context, an anonymous function eliminates the need to create the temporary function <code>add_two</code>, as shown below. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2263,9 +2274,9 @@ z &#61; &#91;2,3&#93;</code></pre>
     <button class="tablink" data-id=""> Through an Anonymous Function</button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">add_two&#40;x&#41; &#61; x &#43; 2
+<pre><code class="julia hljs">add_two(x) = x + <span class="hljs-number">2</span>
 
-result &#61; map&#40;add_two, &#91;1, 2, 3&#93;&#41;</code></pre>
+result = map(add_two, [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>result</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  3
@@ -2273,7 +2284,7 @@ result &#61; map&#40;add_two, &#91;1, 2, 3&#93;&#41;</code></pre>
  5</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">result &#61; map&#40;x -&gt; x &#43; 2, &#91;1, 2, 3&#93;&#41;</code></pre>
+<pre><code class="julia hljs">result = map(x -&gt; x + <span class="hljs-number">2</span>, [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>result</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  3
@@ -2296,7 +2307,7 @@ result &#61; map&#40;add_two, &#91;1, 2, 3&#93;&#41;</code></pre>
 <p>Macros are similar to functions in that they both perform operations on an input. The main difference is that macros take a statement as their argument, while functions take variables. This means that a macro take the whole expression <code>x &#61; some_function&#40;y&#41;</code> as its argument, possibly modifying <code>x</code>, <code>&#61;</code>, and/or <code>some_function&#40;y&#41;</code>. Furthermore, macros can return a statement as its output, unlike functions.  </p>
 <p>All these features make macros particularly useful for transforming code, such as when you want to change the algorithm of an operation. To implement a macro, you need to add <code>@</code> before the macro&#39;s name. For instance, <code>@time</code> is a built-in macro that measures the runtime of some code. </p>
  <div class=" code_box"> <details  open><summary> @time macro  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">@time x &#61; 4 &#43; 5</code></pre>
+<pre><code class="julia hljs"><span class="hljs-meta">@time</span> x = <span class="hljs-number">4</span> + <span class="hljs-number">5</span></code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat">0.000002 seconds </div></div> </div>   </details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
@@ -2319,15 +2330,15 @@ result &#61; map&#40;add_two, &#91;1, 2, 3&#93;&#41;</code></pre>
     <button class="tablink" data-id=""> Compact Form </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">&quot;This function is written in a standard way. It takes a number and adds two to it.&quot;
-function add_two&#40;x&#41;
-   x &#43; 2
-end</code></pre>
+<pre><code class="julia hljs"><span class="hljs-string">&quot;This function is written in a standard way. It takes a number and adds two to it.&quot;</span>
+<span class="hljs-keyword">function</span> add_two(x)
+   x + <span class="hljs-number">2</span>
+<span class="hljs-keyword">end</span></code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">&quot;This function is written in a compact form. It takes a number and adds three to it.&quot;
-add_three&#40;x&#41; &#61; x &#43; 3</code></pre>
+<pre><code class="julia hljs"><span class="hljs-string">&quot;This function is written in a compact form. It takes a number and adds three to it.&quot;</span>
+add_three(x) = x + <span class="hljs-number">3</span></code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
@@ -2434,16 +2445,16 @@ function goToNextPage() {
 
 <!-- ADDED BY FRANKLIN -->
   
-      <script src="/julia_book/libs/katex/katex.min.js"></script>
-<script src="/julia_book/libs/katex/auto-render.min.js"></script>
-<script>renderMathInElement(document.body)</script>
+      
+
+
 
   
   
-      <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
+      
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-<!-- <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script> -->
+<!--  -->
 
 
   

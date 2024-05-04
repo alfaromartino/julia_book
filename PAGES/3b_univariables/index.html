@@ -2080,28 +2080,28 @@ color: white;
       <b> Remark</b> </span>  </div>  <div class=content>     You can simply use <code>Int</code> as a shorthand for <code>Int64</code>. In fact, <code>Int</code> is a more versatile type, as it adapts to the architecture of your computer and determines whether the default integer type should be <code>Int64</code> or <code>Int32</code>. On most modern machines, <code>Int</code> defaults to <code>Int64</code>  </div>  </div>
 <p>It&#39;s worth emphasizing that <code>Int64</code> and <code>Float64</code> are two different data types.  Thus, while <code>1</code> is a value with type <code>Int64</code>, the same number must be expressed as <code>1.0</code> to get a <code>Float64</code> type.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; 1       # &#96;Int64&#96;
+<pre><code class="julia hljs">x = <span class="hljs-number">1</span>       <span class="hljs-comment"># `Int64`</span>
 
-y &#61; 1.0     # &#96;Float64&#96;
-z &#61; 1.      # alternative notation for &#96;1.0&#96;</code></pre>
+y = <span class="hljs-number">1.0</span>     <span class="hljs-comment"># `Float64`</span>
+z = <span class="hljs-number">1.</span>      <span class="hljs-comment"># alternative notation for `1.0`</span></code></pre>
 <p></div> </div>  </details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     To enhance code readability, you can break up long numbers by inserting underscores <code>_</code>. The addition of <code>_</code> has no impact on the code executed.</p>
 <p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; 1000000               
-y &#61; 1_000_000             # equivalent to &#96;x&#96; and more readable
+<pre><code class="julia hljs">x = <span class="hljs-number">1000000</span>               
+y = <span class="hljs-number">1_000_000</span>             <span class="hljs-comment"># equivalent to `x` and more readable</span>
 
-x &#61; 1000000.24            
-y &#61; 1_000_000.24          # &#39;_&#39; can be used with decimal numbers</code></pre>
+x = <span class="hljs-number">1000000.24</span>            
+y = <span class="hljs-number">1_000_000.24</span>          <span class="hljs-comment"># &#x27;_&#x27; can be used with decimal numbers</span></code></pre>
 <p></div> </div>  </details></div>  </div>  </div>
 <p>The type <code>Float64</code> includes not only decimal numbers, but also two special values: <code>Inf</code> for infinity, and <code>NaN</code> for indeterminate expressions such as 0/0 &#40;<code>NaN</code> stands for &quot;not a number&quot;&#41;. Considering this, all the following variables have type <code>Float64</code>.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; 2.5
+<pre><code class="julia hljs">x = <span class="hljs-number">2.5</span>
 
-y &#61; 10/0
+y = <span class="hljs-number">10</span>/<span class="hljs-number">0</span>
 
-z &#61; 0/0</code></pre>
+z = <span class="hljs-number">0</span>/<span class="hljs-number">0</span></code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">2.5</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">Inf</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">NaN</div> </div></div> </div>   </details></div>
 <p>      </div>
     </div>
@@ -2115,11 +2115,11 @@ z &#61; 0/0</code></pre>
 <p>A particular numeric type is <code>Bool</code>, which enables the representation of <span style="color: rgb(62, 121, 180);"><strong>Boolean variables</strong></span>. These variables can only assume the values <code>true</code> and <code>false</code>. Internally, they&#39;re implemented as integers, with <code>true</code> and <code>false</code> respectively equivalent to <code>1</code> and <code>0</code>. As a result, <code>1</code> and <code>0</code> can be used interchangeably with <code>true</code> and <code>false</code>.</p>
 <p>Boolean expressions typically arise when we evaluate conditions. For instance, we might ask whether one number is greater than another, or whether a string matches a specific pattern. These conditional evaluations yield Boolean values, which can then be used to condition the flow of our program. Some examples of Boolean values are presented below.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; 2
-y &#61; 1
+<pre><code class="julia hljs">x = <span class="hljs-number">2</span>
+y = <span class="hljs-number">1</span>
 
-z &#61; &#40;x &gt; y&#41;       # is &#96;x&#96; greater than &#96;y&#96; ?
-z &#61; x &gt; y         # alternative notation &#40;potentially confusing, note it does not imply &#39;z &#61; x&#39;&#41;</code></pre>
+z = (x &gt; y)       <span class="hljs-comment"># is `x` greater than `y` ?</span>
+z = x &gt; y         <span class="hljs-comment"># alternative notation (potentially confusing, note it does not imply &#x27;z = x&#x27;)</span></code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">true</div> </div></div> </div>   </details></div>
 <p>      </div>
     </div>
@@ -2170,7 +2170,7 @@ z &#61; x &gt; y         # alternative notation &#40;potentially confusing, note
   </tr>
   <tr>
     <td class="tg-8jgo"><code>x^y</code></td>    
-    <td class="tg-ofj5"> power  &#40;\(x^y\)&#41;</td>
+    <td class="tg-ofj5"> power  &#40;<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mi>y</mi></msup></mrow><annotation encoding="application/x-tex">x^y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.664392em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span></span></span></span></span></span></span>&#41;</td>
   </tr> 
 </tbody>
 </table>
@@ -2278,16 +2278,16 @@ function goToNextPage() {
 
 <!-- ADDED BY FRANKLIN -->
   
-      <script src="/julia_book/libs/katex/katex.min.js"></script>
-<script src="/julia_book/libs/katex/auto-render.min.js"></script>
-<script>renderMathInElement(document.body)</script>
+      
+
+
 
   
   
-      <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
+      
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-<!-- <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script> -->
+<!--  -->
 
 
   

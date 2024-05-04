@@ -2028,16 +2028,16 @@ color: white;
     <button class="tablink first_tab active" data-id=""> Array Comprehension </button>
     <button class="tablink" data-id=""> Generator </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;a for a in 1:10&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">10-element Vector{Int64}:
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = [a <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">10</span>]</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">10-element Vector{Int64}:
   1
   2
   ⋮
   9
  10</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#40;a for a in 1:10&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">Base.Generator{UnitRange{Int64}, typeof(identity)}(identity, 1:10)</code></pre> </div></div> </div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = (a <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">10</span>)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">Base.Generator{UnitRange{Int64}, typeof(identity)}(identity, 1:10)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>To illustrate the performance benefits of generators, let&#39;s consider a scenario where we create a vector and then sum its elements. The example showcases how generators are capable of reducing memory allocations, by bypassing the storage of intermediate outputs. Specifically, the generator directly feeds its output to <code>sum</code>, allowing Julia to take a holistic approach to the computation. This enables the compiler to perform the sum through a reduction, avoiding the need for any temporary storage. Overall, Julia operates on scalars, which don&#39;t allocate. </p>
@@ -2048,30 +2048,30 @@ color: white;
     <button class="tablink" data-id=""> Generator </button>
     <button class="tablink" data-id=""> Generator (Equivalent) </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-function foo&#40;x&#41;
-    y &#61; &#91;a * 2 for a in x&#93;                  # 1 allocation &#40;same as y &#61; x .* 2&#41;
+<span class="hljs-keyword">function</span> foo(x)
+    y = [a * <span class="hljs-number">2</span> <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> x]                  <span class="hljs-comment"># 1 allocation (same as y = x .* 2)</span>
     
-    sum&#40;y&#41;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  48.122 ns (1 allocation: 896 bytes)
+    sum(y)
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  48.122 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-function foo&#40;x&#41;
-    y &#61; &#40;a * 2 for a in x&#41;                  # 0 allocations
+<span class="hljs-keyword">function</span> foo(x)
+    y = (a * <span class="hljs-number">2</span> <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> x)                  <span class="hljs-comment"># 0 allocations</span>
     
-    sum&#40;y&#41;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  23.470 ns (0 allocations: 0 bytes)
+    sum(y)
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  23.470 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  23.547 ns (0 allocations: 0 bytes)
+foo(x) = sum(a * <span class="hljs-number">2</span> <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> x)              <span class="hljs-comment"># 0 allocations</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  23.547 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2092,11 +2092,11 @@ foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations<
     <button class="tablink first_tab active" data-id=""> Range </button>
     <button class="tablink" data-id=""> Range + collect</button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; 1:10</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">1:10</code></pre> </div></div> </div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = <span class="hljs-number">1</span>:<span class="hljs-number">10</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">1:10</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; collect&#40;1:10&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">10-element Vector{Int64}:
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = collect(<span class="hljs-number">1</span>:<span class="hljs-number">10</span>)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">10-element Vector{Int64}:
   1
   2
   ⋮
@@ -2114,44 +2114,44 @@ foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations<
     <button class="tablink" data-id=""> Map </button>
     <button class="tablink" data-id=""> Map (Iterators) </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; collect&#40;1:100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = collect(<span class="hljs-number">1</span>:<span class="hljs-number">100</span>)
 
-function foo&#40;x&#41;
-    y &#61; filter&#40;a -&gt; a &gt; 50, x&#41;              # 1 allocation 
+<span class="hljs-keyword">function</span> foo(x)
+    y = filter(a -&gt; a &gt; <span class="hljs-number">50</span>, x)              <span class="hljs-comment"># 1 allocation </span>
 
-    sum&#40;y&#41;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  50.916 ns (1 allocation: 896 bytes)
+    sum(y)
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  50.916 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; collect&#40;1:100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = collect(<span class="hljs-number">1</span>:<span class="hljs-number">100</span>)
 
-function foo&#40;x&#41;
-    y &#61; Iterators.filter&#40;a -&gt; a &gt; 50, x&#41;    # 0 allocations 
+<span class="hljs-keyword">function</span> foo(x)
+    y = Iterators.filter(a -&gt; a &gt; <span class="hljs-number">50</span>, x)    <span class="hljs-comment"># 0 allocations </span>
 
-    sum&#40;y&#41;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  48.374 ns (0 allocations: 0 bytes)
+    sum(y)
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  48.374 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-function foo&#40;x&#41; 
-    y &#61; map&#40;a -&gt; a * 2, x&#41;                  # 1 allocation
+<span class="hljs-keyword">function</span> foo(x) 
+    y = map(a -&gt; a * <span class="hljs-number">2</span>, x)                  <span class="hljs-comment"># 1 allocation</span>
 
-    sum&#40;y&#41;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  47.919 ns (1 allocation: 896 bytes)
+    sum(y)
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  47.919 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>)
 
-function foo&#40;x&#41;
-    y &#61; Iterators.map&#40;a -&gt; a * 2, x&#41;        # 0 allocations
+<span class="hljs-keyword">function</span> foo(x)
+    y = Iterators.map(a -&gt; a * <span class="hljs-number">2</span>, x)        <span class="hljs-comment"># 0 allocations</span>
 
-    sum&#40;y&#41;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  24.072 ns (0 allocations: 0 bytes)
+    sum(y)
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code> <br/> <pre><code class="plaintext hljs">  24.072 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2172,18 +2172,18 @@ end</code></pre> </div></div>
     <button class="tablink first_tab active" data-id=""> Broadcast </button>
     <button class="tablink" data-id=""> Broadcast (@~) </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia"># eager implementation
-x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-comment"># eager implementation</span>
+x = rand(<span class="hljs-number">100</span>) ; y = rand(<span class="hljs-number">100</span>)
 
-foo&#40;x,y&#41; &#61; sum&#40;2 .* x&#41; &#43; sum&#40;2 .* y&#41; / sum&#40;x .* y&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  137.175 ns (3 allocations: 2.62 KiB)
+foo(x,y) = sum(<span class="hljs-number">2</span> .* x) + sum(<span class="hljs-number">2</span> .* y) / sum(x .* y)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext hljs">  137.175 ns (3 allocations: 2.62 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using LazyArrays
-x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-keyword">using</span> LazyArrays
+x = rand(<span class="hljs-number">100</span>) ; y = rand(<span class="hljs-number">100</span>)
 
-foo&#40;x,y&#41; &#61; sum&#40;@~ 2 .* x&#41; &#43; sum&#40;@~ 2 .* y&#41; / sum&#40;@~ x .* y&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  25.803 ns (0 allocations: 0 bytes)
+foo(x,y) = sum(@~ <span class="hljs-number">2</span> .* x) + sum(@~ <span class="hljs-number">2</span> .* y) / sum(@~ x .* y)</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext hljs">  25.803 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2195,40 +2195,40 @@ foo&#40;x,y&#41; &#61; sum&#40;@~ 2 .* x&#41; &#43; sum&#40;@~ 2 .* y&#41; / sum
     <button class="tablink" data-id=""> Map (Iterators) </button>
     <button class="tablink" data-id=""> Lazy Broadcast @~ </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>) ; y = rand(<span class="hljs-number">100</span>)
 
-function foo&#40;x,y&#41; 
-    lx        &#61; @. 4 * x^3 &#43; 3 * x^2 &#43; 2 * x &#43; 1
-    ly        &#61; @. 2 * y^3 &#43; 3 * y^2 &#43; 4 * y &#43; 1
+<span class="hljs-keyword">function</span> foo(x,y) 
+    lx        = @. <span class="hljs-number">4</span> * x^<span class="hljs-number">3</span> + <span class="hljs-number">3</span> * x^<span class="hljs-number">2</span> + <span class="hljs-number">2</span> * x + <span class="hljs-number">1</span>
+    ly        = @. <span class="hljs-number">2</span> * y^<span class="hljs-number">3</span> + <span class="hljs-number">3</span> * y^<span class="hljs-number">2</span> + <span class="hljs-number">4</span> * y + <span class="hljs-number">1</span>
     
     
-    sum&#40;lx ./ ly&#41;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  186.739 ns (11 allocations: 2.69 KiB)
+    sum(lx ./ ly)
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext hljs">  186.739 ns (11 allocations: 2.69 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>) ; y = rand(<span class="hljs-number">100</span>)
 
-function foo&#40;x,y&#41; 
-    lx&#40;a&#41;     &#61; 4 * a^3 &#43; 3 * a^2 &#43; 2 * a &#43; 1
-    ly&#40;b&#41;     &#61; 2 * b^3 &#43; 3 * b^2 &#43; 4 * b &#43; 1
-    temp&#40;a,b&#41; &#61; lx&#40;a&#41; / ly&#40;b&#41;
+<span class="hljs-keyword">function</span> foo(x,y) 
+    lx(a)     = <span class="hljs-number">4</span> * a^<span class="hljs-number">3</span> + <span class="hljs-number">3</span> * a^<span class="hljs-number">2</span> + <span class="hljs-number">2</span> * a + <span class="hljs-number">1</span>
+    ly(b)     = <span class="hljs-number">2</span> * b^<span class="hljs-number">3</span> + <span class="hljs-number">3</span> * b^<span class="hljs-number">2</span> + <span class="hljs-number">4</span> * b + <span class="hljs-number">1</span>
+    temp(a,b) = lx(a) / ly(b)
     
-    sum&#40;Iterators.map&#40;temp, x,y&#41;&#41;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  122.829 ns (0 allocations: 0 bytes)
+    sum(Iterators.map(temp, x,y))
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext hljs">  122.829 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = rand(<span class="hljs-number">100</span>) ; y = rand(<span class="hljs-number">100</span>)
 
-function foo&#40;x,y&#41; 
-    lx&#40;a&#41;     &#61; 4 * a^3 &#43; 3 * a^2 &#43; 2 * a &#43; 1
-    ly&#40;b&#41;     &#61; 2 * b^3 &#43; 3 * b^2 &#43; 4 * b &#43; 1
-    temp&#40;a,b&#41; &#61; lx&#40;a&#41; / ly&#40;b&#41;
+<span class="hljs-keyword">function</span> foo(x,y) 
+    lx(a)     = <span class="hljs-number">4</span> * a^<span class="hljs-number">3</span> + <span class="hljs-number">3</span> * a^<span class="hljs-number">2</span> + <span class="hljs-number">2</span> * a + <span class="hljs-number">1</span>
+    ly(b)     = <span class="hljs-number">2</span> * b^<span class="hljs-number">3</span> + <span class="hljs-number">3</span> * b^<span class="hljs-number">2</span> + <span class="hljs-number">4</span> * b + <span class="hljs-number">1</span>
+    temp(a,b) = lx(a) / ly(b)
     
-    sum&#40;@~ temp.&#40;x,y&#41;&#41;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  44.040 ns (0 allocations: 0 bytes)
+    sum(@~ temp.(x,y))
+<span class="hljs-keyword">end</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext hljs">  44.040 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2334,16 +2334,16 @@ function goToNextPage() {
 
 <!-- ADDED BY FRANKLIN -->
   
-      <script src="/julia_book/libs/katex/katex.min.js"></script>
-<script src="/julia_book/libs/katex/auto-render.min.js"></script>
-<script>renderMathInElement(document.body)</script>
+      
+
+
 
   
   
-      <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
+      
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-<!-- <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script> -->
+<!--  -->
 
 
   

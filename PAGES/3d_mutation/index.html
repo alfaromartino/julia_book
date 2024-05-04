@@ -2131,9 +2131,9 @@ color: white;
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     You can mutate all the elements of <code>x</code> by referring to <code>x&#91;:&#93;</code>, without this entailing a new assignment. In other words, modifying the values of <code>x&#91;:&#93;</code>  does not change the object that <code>x</code> points to.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;4,5&#93;
+<pre><code class="julia hljs">x = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
 
-x&#91;:&#93; &#61;  &#91;0,0&#93;</code></pre>
+x[:] =  [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  0
  0</div> </div></div> </div>   </details></div>
@@ -2175,20 +2175,20 @@ x&#91;:&#93; &#61;  &#91;0,0&#93;</code></pre>
 </div>
 </div>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; 2   #&#39;x&#39; points to an object with value 2
-y &#61; x   #&#39;y&#39; points to the same object as &#39;x&#39; &#40;do not interpret it as &#39;y&#39; pointing to &#39;x&#39;&#41; 
+<pre><code class="julia hljs">x = <span class="hljs-number">2</span>   <span class="hljs-comment">#&#x27;x&#x27; points to an object with value 2</span>
+y = x   <span class="hljs-comment">#&#x27;y&#x27; points to the same object as &#x27;x&#x27; (do not interpret it as &#x27;y&#x27; pointing to &#x27;x&#x27;) </span>
 
-x &#61; 4   #&#39;x&#39; now points to another object &#40;but &#39;y&#39; still points to the object holding 2&#41;</code></pre>
+x = <span class="hljs-number">4</span>   <span class="hljs-comment">#&#x27;x&#x27; now points to another object (but &#x27;y&#x27; still points to the object holding 2)</span></code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">4</div> </div> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2</div> </div></div> </div>   </details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     Notice that <strong>two variables could comprise identical elements, and yet refer to different objects</strong>. </p>
 <p>This can be formally seen by resorting to the operators <code>&#61;&#61;</code> and <code>&#61;&#61;&#61;</code>, which assess two types of equality. As for <code>x &#61;&#61; y</code>, it evaluates whether <code>x</code> and <code>y</code> have equal values, regardless of whether they&#39;re the same object. Instead, <code>x &#61;&#61;&#61; y</code> indicates whether both <code>x</code> and <code>y</code> are pointing to the same object, interpreted as a specific memory address. By use of these operators, the following example shows that having identical elements does not imply equivalence of objects.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;4,5&#93;
+<pre><code class="julia hljs">x = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
 
-y &#61; &#91;4,5&#93;
-z &#61; x</code></pre>
+y = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+z = x</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x &#61;&#61; y</code><br/><div class="akin_to_pre">true                    #`x` and `y` have identical elements</div> </div> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x &#61;&#61;&#61; y</code><br/><div class="akin_to_pre">false                   #`x` and `y` DO NOT point to the same object</div> </div></p>
 <p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x &#61;&#61; z</code><br/><div class="akin_to_pre">true                    #`x` and `z` have identical elements</div> </div> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x &#61;&#61;&#61; z</code><br/><div class="akin_to_pre">true                    #`x` and `z` DO point to the same object</div> </div></div> </div>   </details></div>
 <p> <div class="multiple_pics">
@@ -2201,10 +2201,10 @@ z &#61; x</code></pre>
     <img src="/julia_book/assets/PAGES/3d_mutation/tikz/interpret06.svg" style="width:750px ; height:auto; margin-top:-1em;">  
 </div>
  <div class=" code_box"> <details  open><summary> y as an Alias  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;4,5&#93;
-y &#61; x
+<pre><code class="julia hljs">x = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+y = x
 
-x&#91;1&#93; &#61;  0</code></pre>
+x[<span class="hljs-number">1</span>] =  <span class="hljs-number">0</span></code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  0
  5</div> </div><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
@@ -2212,10 +2212,10 @@ x&#91;1&#93; &#61;  0</code></pre>
  5</div> </div></div> </div>   </details></div>
 <p>If you want <code>x</code> and <code>y</code> to be considered as separate objects, you should use the function <code>copy</code> instead. This function creates a new object that contains the same elements as the original object.</p>
  <div class=" code_box"> <details  open><summary> y as a Copy  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;4,5&#93;
-y &#61; copy&#40;x&#41;
+<pre><code class="julia hljs">x = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+y = copy(x)
 
-x&#91;1&#93; &#61;  0</code></pre>
+x[<span class="hljs-number">1</span>] =  <span class="hljs-number">0</span></code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  0
  5</div> </div><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
@@ -2323,16 +2323,16 @@ function goToNextPage() {
 
 <!-- ADDED BY FRANKLIN -->
   
-      <script src="/julia_book/libs/katex/katex.min.js"></script>
-<script src="/julia_book/libs/katex/auto-render.min.js"></script>
-<script>renderMathInElement(document.body)</script>
+      
+
+
 
   
   
-      <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
+      
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-<!-- <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script> -->
+<!--  -->
 
 
   

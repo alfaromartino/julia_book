@@ -2038,17 +2038,17 @@ color: white;
   <tr>
       <td class="tg-8jgo">Miliseconds</td>
     <td class="tg-ofj5"><code>ms</code></td>
-    <td class="tg-ofj5">\(10^{-3}\)</td>    
+    <td class="tg-ofj5"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>3</mn></mrow></msup></mrow><annotation encoding="application/x-tex">10^{-3}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span></span></td>    
   </tr>
   <tr>
     <td class="tg-8jgo">Microseconds</td>
     <td class="tg-ofj5"><code>μs</code></td>    
-    <td class="tg-ofj5">\(10^{-6}\)</td>
+    <td class="tg-ofj5"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>6</mn></mrow></msup></mrow><annotation encoding="application/x-tex">10^{-6}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span></span></td>
   </tr>
   <tr>
     <td class="tg-8jgo">Nanoseconds</td>
     <td class="tg-ofj5"><code>ns</code></td>
-    <td class="tg-ofj5">\(10^{-9}\)</td>
+    <td class="tg-ofj5"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>9</mn></mrow></msup></mrow><annotation encoding="application/x-tex">10^{-9}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span></span></td>
   </tr>  
 </tbody>
 </table>
@@ -2089,25 +2089,25 @@ color: white;
     <button class="tablink" data-id=""> @btime </button>
     <button class="tablink" data-id=""> @benchmark </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; 1:100
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = <span class="hljs-number">1</span>:<span class="hljs-number">100</span>
 
-@time sum&#40;x&#41;         # first run -&gt; it incorporates compilation time 
-@time sum&#40;x&#41;         # time without compilation time -&gt; more relevant</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  0.002859 seconds (2.28 k allocations: 143.220 KiB, 99.20% compilation time)
+<span class="hljs-meta">@time</span> sum(x)         <span class="hljs-comment"># first run -&gt; it incorporates compilation time </span>
+<span class="hljs-meta">@time</span> sum(x)         <span class="hljs-comment"># time without compilation time -&gt; more relevant</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  0.002859 seconds (2.28 k allocations: 143.220 KiB, 99.20% compilation time)
   0.000003 seconds (1 allocation: 16 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using BenchmarkTools
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-keyword">using</span> BenchmarkTools
 
-x &#61; 1:100
-@btime sum&#40;ref&#40;&#36;x&#41;&#41;        # only average time</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.500 ns (0 allocations: 0 bytes)
+x = <span class="hljs-number">1</span>:<span class="hljs-number">100</span>
+<span class="hljs-meta">@btime</span> sum(ref($x))        <span class="hljs-comment"># only average time</span></code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  1.500 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using BenchmarkTools
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-keyword">using</span> BenchmarkTools
 
-x &#61; 1:100
-@benchmark sum&#40;ref&#40;&#36;x&#41;&#41;    # more statistics than &#96;@btime&#96;</code></pre> </div></div> 
+x = <span class="hljs-number">1</span>:<span class="hljs-number">100</span>
+<span class="hljs-meta">@benchmark</span> sum(ref($x))    <span class="hljs-comment"># more statistics than `@btime`</span></code></pre> </div></div> 
 <div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"></div> <div class="img_output">
     <p> <img style="width:45%; height:auto; max-width:100%;" src="/julia_book/assets/PAGES/7b0_measuringTime/pics/pic01.png"/>
     </p>
@@ -2132,18 +2132,18 @@ x &#61; 1:100
     <button class="tablink first_tab active" data-id=""> No Global Variables </button>
     <button class="tablink" data-id=""> A Global Variable </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; collect&#40;1:10&#41;
-foo&#40;x&#41; &#61; x .* 2
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x      = collect(<span class="hljs-number">1</span>:<span class="hljs-number">10</span>)
+foo(x) = x .* <span class="hljs-number">2</span>
 
-@btime foo&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  18.737 ns (1 allocation: 144 bytes)
+<span class="hljs-meta">@btime</span> foo(ref($x))</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  18.737 ns (1 allocation: 144 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; collect&#40;1:10&#41;
-foo&#40;&#41;  &#61; x .* 2
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x      = collect(<span class="hljs-number">1</span>:<span class="hljs-number">10</span>)
+foo()  = x .* <span class="hljs-number">2</span>
 
-@btime foo&#40;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  225.714 ns (3 allocations: 208 bytes)
+<span class="hljs-meta">@btime</span> foo()</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  225.714 ns (3 allocations: 208 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2155,30 +2155,30 @@ foo&#40;&#41;  &#61; x .* 2
     <button class="tablink first_tab active" data-id=""> No Global Variables </button>
     <button class="tablink" data-id=""> A Global Variable </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; collect&#40;1:10&#41;
-foo&#40;x&#41; &#61; x .* 2
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x      = collect(<span class="hljs-number">1</span>:<span class="hljs-number">10</span>)
+foo(x) = x .* <span class="hljs-number">2</span>
 
-function replicate&#40;x&#41;
-   for _ in 1:100_000
-      foo&#40;x&#41;
-   end
-end
+<span class="hljs-keyword">function</span> replicate(x)
+   <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">100_000</span>
+      foo(x)
+   <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
 
-@btime replicate&#40;ref&#40;&#36;x&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.940 ms (100000 allocations: 13.73 MiB)
+<span class="hljs-meta">@btime</span> replicate(ref($x))</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  1.940 ms (100000 allocations: 13.73 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; collect&#40;1:10&#41;
-foo&#40;&#41;  &#61; x .* 2
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x      = collect(<span class="hljs-number">1</span>:<span class="hljs-number">10</span>)
+foo()  = x .* <span class="hljs-number">2</span>
 
-function replicate&#40;&#41;
-   for _ in 1:100_000
-      foo&#40;&#41;
-   end
-end
+<span class="hljs-keyword">function</span> replicate()
+   <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">100_000</span>
+      foo()
+   <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
 
-@btime replicate&#40;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  31.975 ms (300000 allocations: 19.84 MiB)
+<span class="hljs-meta">@btime</span> replicate()</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext hljs">  31.975 ms (300000 allocations: 19.84 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2285,16 +2285,16 @@ function goToNextPage() {
 
 <!-- ADDED BY FRANKLIN -->
   
-      <script src="/julia_book/libs/katex/katex.min.js"></script>
-<script src="/julia_book/libs/katex/auto-render.min.js"></script>
-<script>renderMathInElement(document.body)</script>
+      
+
+
 
   
   
-      <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
+      
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-<!-- <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script> -->
+<!--  -->
 
 
   
