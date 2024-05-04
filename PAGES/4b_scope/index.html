@@ -2085,13 +2085,13 @@ color: white;
     <button class="tablink" data-id=""> Global Variable </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = <span class="hljs-string">&quot;hello&quot;</span>
+<pre><code class="language-julia">x &#61; &quot;hello&quot;
 
-<span class="hljs-keyword">function</span> foo(x)                <span class="hljs-comment"># &#x27;x&#x27; is local, unrelated to &#x27;x = 1&#x27; above</span>
-    y = x + <span class="hljs-number">2</span>                  <span class="hljs-comment"># &#x27;y&#x27; is local, &#x27;x&#x27; refers to the local variable </span>
+function foo&#40;x&#41;                # &#39;x&#39; is local, unrelated to &#39;x &#61; 1&#39; above
+    y &#61; x &#43; 2                  # &#39;y&#39; is local, &#39;x&#39; refers to the local variable 
     
-    <span class="hljs-keyword">return</span> x,y
-<span class="hljs-keyword">end</span></code></pre>
+    return x,y
+end</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;1&#41;</code><br/><div class="akin_to_pre">1                          # local x
 3                          # local y</div> </div></p>
@@ -2099,13 +2099,13 @@ color: white;
 <p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: y not defined</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">z = <span class="hljs-number">2</span>
+<pre><code class="language-julia">z &#61; 2
 
-<span class="hljs-keyword">function</span> foo(x)                 
-    y = x + z                   <span class="hljs-comment"># &#x27;x&#x27; refers to the local, &#x27;z&#x27; refers to the global</span>
+function foo&#40;x&#41;                 
+    y &#61; x &#43; z                   # &#39;x&#39; refers to the local, &#39;z&#39; refers to the global
 
-    <span class="hljs-keyword">return</span> x,y,z
-<span class="hljs-keyword">end</span></code></pre>
+    return x,y,z
+end</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;1&#41;</code><br/><div class="akin_to_pre">1                          # local x
 3                          # local y
@@ -2123,7 +2123,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>The Role of Functions</h2></p>
-<p><strong>A function</strong> should be understood <strong>as a self-cointained mini-program to represent a specific task</strong>. Under this interpretation, local variables simply serve as labels for articulating the mechanics of the task. Consequently, it&#39;s logical that variables defined within a function aren&#39;t stored for use outside of it.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Local variables play a similar role to integration variables in maths. Formally, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">t</span></span></span></span> in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∫</mo><mi>f</mi><mrow><mo fence="true">(</mo><mi>t</mi><mo fence="true">)</mo></mrow><mtext> </mtext><mi mathvariant="normal">d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\int f\left(t\right)\,\mathrm{d}t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.11112em;vertical-align:-0.30612em;"></span><span class="mop op-symbol small-op" style="margin-right:0.19445em;position:relative;top:-0.0005599999999999772em;">∫</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord mathdefault">t</span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathrm">d</span></span><span class="mord mathdefault">t</span></span></span></span> for some function <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span></span></span></span> is just a symbol indicating over which variable we&#39;re integrating. This is why the integral can be equivalently expressed through <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>, as <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∫</mo><mi>f</mi><mrow><mo fence="true">(</mo><mi>x</mi><mo fence="true">)</mo></mrow><mtext> </mtext><mi mathvariant="normal">d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">\int f\left(x\right)\,\mathrm{d}x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.11112em;vertical-align:-0.30612em;"></span><span class="mop op-symbol small-op" style="margin-right:0.19445em;position:relative;top:-0.0005599999999999772em;">∫</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord mathdefault">x</span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathrm">d</span></span><span class="mord mathdefault">x</span></span></span></span>, or any other label for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">t</span></span></span></span>.  </span></span> </p>
+<p><strong>A function</strong> should be understood <strong>as a self-cointained mini-program to represent a specific task</strong>. Under this interpretation, local variables simply serve as labels for articulating the mechanics of the task. Consequently, it&#39;s logical that variables defined within a function aren&#39;t stored for use outside of it.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Local variables play a similar role to integration variables in maths. Formally, \(t\) in \(\int f\left(t\right)\,\mathrm{d}t\) for some function \(f\) is just a symbol indicating over which variable we&#39;re integrating. This is why the integral can be equivalently expressed through \(x\), as \(\int f\left(x\right)\,\mathrm{d}x\), or any other label for \(t\).  </span></span> </p>
 <p>To explain what this means, consider the existence of a variable <code>x</code>, and another variable <code>y</code> computed by transforming <code>x</code> through the function <code>f</code>. Formally, <code>y &#61; f&#40;x&#41;</code>, where we directly assume that the transformation doubles <code>x</code>, so that <code>y &#61; 2 * x</code>. The following are two approaches to computing <code>y</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2133,24 +2133,24 @@ color: white;
     <button class="tablink" data-id=""> Approach 2 - Equivalent </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = <span class="hljs-number">3</span>
+<pre><code class="language-julia">x &#61; 3
 
-double() = <span class="hljs-number">2</span> * x
-y        = double()</code></pre>
+double&#40;&#41; &#61; 2 * x
+y        &#61; double&#40;&#41;</code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = <span class="hljs-number">3</span>
+<pre><code class="language-julia">x &#61; 3
 
-double(x) = <span class="hljs-number">2</span> * x
-y         = double(x)</code></pre>
+double&#40;x&#41; &#61; 2 * x
+y         &#61; double&#40;x&#41;</code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = <span class="hljs-number">3</span>
+<pre><code class="language-julia">x &#61; 3
 
-double(🐒) = <span class="hljs-number">2</span> * 🐒
-y          = double(x)</code></pre>
+double&#40;🐒&#41; &#61; 2 * 🐒
+y          &#61; double&#40;x&#41;</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
@@ -2179,21 +2179,21 @@ y          = double(x)</code></pre>
     <button class="tablink" data-id=""> Preferred </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo(x)
-   x      = <span class="hljs-number">2</span> + x           <span class="hljs-comment">#redefines the argument</span>
+<pre><code class="language-julia">function foo&#40;x&#41;
+   x      &#61; 2 &#43; x           #redefines the argument
    
-   y      = <span class="hljs-number">2</span> * x
-   y      = x + y           <span class="hljs-comment">#redefines a local variable</span>
-<span class="hljs-keyword">end</span></code></pre>
+   y      &#61; 2 * x
+   y      &#61; x &#43; y           #redefines a local variable
+end</code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo(x)
-   z      = <span class="hljs-number">2</span> + x           <span class="hljs-comment">#new variable</span>
+<pre><code class="language-julia">function foo&#40;x&#41;
+   z      &#61; 2 &#43; x           #new variable
    
-   y      = <span class="hljs-number">2</span> * x
-   output = z + y           <span class="hljs-comment">#new variable</span>
-<span class="hljs-keyword">end</span></code></pre>
+   y      &#61; 2 * x
+   output &#61; z &#43; y           #new variable
+end</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
@@ -2212,14 +2212,14 @@ y          = double(x)</code></pre>
     </div>
     <div class="modal-body"><p>  Inside a function, Julia will throw an error if you make a computation using a global variable <code>x</code> and then redefine <code>x</code>. For example:</p>
 <p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = <span class="hljs-number">2</span>
+<pre><code class="language-julia">x &#61; 2
 
-<span class="hljs-keyword">function</span> foo()
-    y = x + <span class="hljs-number">2</span>
-    x = x + <span class="hljs-number">4</span>
+function foo&#40;&#41;
+    y &#61; x &#43; 2
+    x &#61; x &#43; 4
 
-    <span class="hljs-keyword">return</span> x
-<span class="hljs-keyword">end</span></code></pre>
+    return x
+end</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;&#41;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: x not defined</div> </div></div> </div>   </details></div> <br/> The error arises because Julia reads the entire function before its execution: the function&#39;s second line assigns a value to <code>x</code>, causing Julia to consider <code>x</code> a local variable. The consequence is that, when the function is run, <code>x</code> in <code>y &#61; x &#43; 2</code> is interpreted as a local variable that hasn&#39;t been defined yet.</p>
 <p> </p>
     </div>    
@@ -2254,14 +2254,14 @@ y          = double(x)</code></pre>
     <button class="tablink" data-id=""> Approach 2 </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">expenditure(price, quantity, tax_rate) = price * quantity * (<span class="hljs-number">1</span> + tax_rate)</code></pre>
+<pre><code class="language-julia">expenditure&#40;price, quantity, tax_rate&#41; &#61; price * quantity * &#40;1 &#43; tax_rate&#41;</code></pre>
 <p></div> </div>
  </div><div data-id="" class="tabcontent">
 <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">value_before_taxes(price, quantity)       = price * quantity
-valueAdded_tax(price, quantity, tax_rate) = price * quantity * tax_rate     <span class="hljs-comment">#it&#x27;ll define the variable &#x27;tax_paid&#x27;</span>
+<pre><code class="language-julia">value_before_taxes&#40;price, quantity&#41;       &#61; price * quantity
+valueAdded_tax&#40;price, quantity, tax_rate&#41; &#61; price * quantity * tax_rate     #it&#39;ll define the variable &#39;tax_paid&#39;
 
-expenditure(price, quantity, tax_paid) = value_before_taxes(price, quantity) + tax_paid</code></pre>
+expenditure&#40;price, quantity, tax_paid&#41; &#61; value_before_taxes&#40;price, quantity&#41; &#43; tax_paid</code></pre>
 <p></div> </div>
  </div></div>
 <p>  </p></details></div>  </div></p>
@@ -2273,39 +2273,39 @@ expenditure(price, quantity, tax_paid) = value_before_taxes(price, quantity) + t
     <button class="tablink" data-id=""> Approach 2 </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs"><span class="hljs-comment">#functions to compute expenditure</span>
-expenditure(price, quantity, tax_rate) = price * quantity * (<span class="hljs-number">1</span> + tax_rate)
+<pre><code class="language-julia">#functions to compute expenditure
+expenditure&#40;price, quantity, tax_rate&#41; &#61; price * quantity * &#40;1 &#43; tax_rate&#41;
 
 
 
 
-<span class="hljs-comment">#information </span>
-price    = <span class="hljs-number">1000</span>
-quantity = <span class="hljs-number">2</span>
-tax_rate = <span class="hljs-number">5</span> / <span class="hljs-number">100</span>
+#information 
+price    &#61; 1000
+quantity &#61; 2
+tax_rate &#61; 5 / 100
 
-<span class="hljs-comment">#computation</span>
-expenditure_iPhones = expenditure(price, quantity, tax_rate)</code></pre>
+#computation
+expenditure_iPhones &#61; expenditure&#40;price, quantity, tax_rate&#41;</code></pre>
 <p></div> </div>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>expenditure_iPhones</code><br/><div class="akin_to_pre">2100.0</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs"><span class="hljs-comment">#functions to compute expenditure</span>
-value_before_taxes(price, quantity)       = price * quantity
-valueAdded_tax(price, quantity, tax_rate) = price * quantity * tax_rate
+<pre><code class="language-julia">#functions to compute expenditure
+value_before_taxes&#40;price, quantity&#41;       &#61; price * quantity
+valueAdded_tax&#40;price, quantity, tax_rate&#41; &#61; price * quantity * tax_rate
 
-expenditure(gross_value, tax_paid) = gross_value + tax_paid
+expenditure&#40;gross_value, tax_paid&#41; &#61; gross_value &#43; tax_paid
 
-<span class="hljs-comment">#information </span>
-price    = <span class="hljs-number">1000</span>
-quantity = <span class="hljs-number">2</span>
-tax_rate = <span class="hljs-number">5</span> / <span class="hljs-number">100</span>
+#information 
+price    &#61; 1000
+quantity &#61; 2
+tax_rate &#61; 5 / 100
 
-<span class="hljs-comment">#computation</span>
-gross_value         = value_before_taxes(price, quantity)
-tax_paid            = valueAdded_tax(price, quantity, tax_rate)
+#computation
+gross_value         &#61; value_before_taxes&#40;price, quantity&#41;
+tax_paid            &#61; valueAdded_tax&#40;price, quantity, tax_rate&#41;
 
-expenditure_iPhones = expenditure(gross_value, tax_paid)</code></pre>
+expenditure_iPhones &#61; expenditure&#40;gross_value, tax_paid&#41;</code></pre>
 <p></div> </div>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>expenditure_iPhones</code><br/><div class="akin_to_pre">2100.0</div> </div></div> </div> 
  </div></div>
@@ -2420,16 +2420,16 @@ function goToNextPage() {
 
 <!-- ADDED BY FRANKLIN -->
   
-      
-
-
+      <script src="/julia_book/libs/katex/katex.min.js"></script>
+<script src="/julia_book/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
 
   
   
-      
+      <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-<!--  -->
+<!-- <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script> -->
 
 
   

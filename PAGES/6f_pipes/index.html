@@ -2068,7 +2068,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Let Blocks</h2></p>
-<p>Let blocks are particularly helpful when we need to perform a series of operations, but only care about the ultimate result. To illustrate this, suppose we want to compute the rounded logarithm of the absolute value of <code>a</code>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow><mrow><mo fence="true">(</mo><mi>ln</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><mrow><mo fence="true">∣</mo><mi>a</mi><mo fence="true">∣</mo></mrow><mo fence="true">)</mo></mrow><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathrm{round}\left(\ln\left(\left|a\right|\right)\right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">r</span><span class="mord mathrm">o</span><span class="mord mathrm">u</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mop">ln</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="minner"><span class="mopen delimcenter" style="top:0em;">∣</span><span class="mord mathdefault">a</span><span class="mclose delimcenter" style="top:0em;">∣</span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span>. </p>
+<p>Let blocks are particularly helpful when we need to perform a series of operations, but only care about the ultimate result. To illustrate this, suppose we want to compute the rounded logarithm of the absolute value of <code>a</code>, \(\mathrm{round}\left(\ln\left(\left|a\right|\right)\right)\). </p>
 <p>In Julia, this operation can be implemented through the expression <code>round&#40;log&#40;abs&#40;a&#41;&#41;&#41;</code>, where <code>round&#40;x&#41;</code> returns the closest integer to <code>x</code>. The operation requires three sequential steps:  <em>i)</em> computing the absolute value of <code>a</code>,  <em>ii)</em> computing the logarithm of the result, and  <em>iii)</em> rounding the resulting output.</p>
 <p>The readability of this operation could be enhanced by introducing intermediate variables for each operation. However, this approach would clutter our namespace with temporary variables and obscure the nested nature of the operations. A more elegant solution is to utilize a <strong>let-block</strong>, which allows us to encapsulate these intermediate steps in a concise and expressive manner. Similar to a function, a let-block takes arguments and returns the value of its last expression. Moreover, it&#39;s delimited by the <code>let</code> and <code>end</code> keywords, with its arguments specified after <code>let</code>. </p>
 <p>The following code examples compare the approaches to implementing the operation, including a let block. The final output is stored in the variable <code>output</code>.</p>
@@ -2080,35 +2080,35 @@ color: white;
     <button class="tablink" data-id=""> With Let Block </button>    
     <button class="tablink" data-id=""> With Let Block (Equivalent)</button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">a = -<span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
-output = round(log(abs(a)))</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext hljs">1.0</code></pre> </div></div> </div> 
+output &#61; round&#40;log&#40;abs&#40;a&#41;&#41;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">a = -<span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
-temp1  = abs(a)
-temp2  = log(temp1)
-output = round(temp2)</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext hljs">1.0</code></pre> </div></div> </div> 
+temp1  &#61; abs&#40;a&#41;
+temp2  &#61; log&#40;temp1&#41;
+output &#61; round&#40;temp2&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">a = -<span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
-output = <span class="hljs-keyword">let</span> b = a         <span class="hljs-comment"># &#x27;b&#x27; is a local variable having the value of &#x27;a&#x27; </span>
-   temp1 = abs(b)
-   temp2 = log(temp1)
-   round(temp2)
-<span class="hljs-keyword">end</span></code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext hljs">1.0</code></pre> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>temp1</code> #local to let-block &#40;same as <code>temp2</code>&#41;<br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `temp1` not defined</div> </div></div> </div> 
+output &#61; let b &#61; a         # &#39;b&#39; is a local variable having the value of &#39;a&#39; 
+   temp1 &#61; abs&#40;b&#41;
+   temp2 &#61; log&#40;temp1&#41;
+   round&#40;temp2&#41;
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>temp1</code> #local to let-block &#40;same as <code>temp2</code>&#41;<br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `temp1` not defined</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">a = -<span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
-output = <span class="hljs-keyword">let</span> a = a         <span class="hljs-comment"># the &#x27;a&#x27; on the left still refers to a local variable</span>
-   temp1 = abs(a)
-   temp2 = log(temp1)
-   round(temp2)
-<span class="hljs-keyword">end</span></code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext hljs">1.0</code></pre> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>temp1</code> #local to let-block &#40;same as <code>temp2</code>&#41;<br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `temp1` not defined</div> </div></div> </div> 
+output &#61; let a &#61; a         # the &#39;a&#39; on the left still refers to a local variable
+   temp1 &#61; abs&#40;a&#41;
+   temp2 &#61; log&#40;temp1&#41;
+   round&#40;temp2&#41;
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>temp1</code> #local to let-block &#40;same as <code>temp2</code>&#41;<br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `temp1` not defined</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
@@ -2119,22 +2119,22 @@ output = <span class="hljs-keyword">let</span> a = a         <span class="hljs-c
     <button class="tablink first_tab active" data-id=""> Variable Mutation (possible)</button>
     <button class="tablink" data-id=""> Variable Reassignment (not possible)</button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = [<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>]
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;2,2,2&#93;
 
-output = <span class="hljs-keyword">let</span> x = x
-   x[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>
-<span class="hljs-keyword">end</span></code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Int64}:
+output &#61; let x &#61; x
+   x&#91;1&#93; &#61; 0
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  0
  2
  2</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = [<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>]
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;2,2,2&#93;
 
-output = <span class="hljs-keyword">let</span> x = x
-   x = <span class="hljs-number">0</span>
-<span class="hljs-keyword">end</span></code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext hljs">3-element Vector{Int64}:
+output &#61; let x &#61; x
+   x &#61; 0
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  2
  2
  2</code></pre> </div></div> </div> 
@@ -2158,15 +2158,15 @@ output = <span class="hljs-keyword">let</span> x = x
     <button class="tablink first_tab active" data-id=""> Operation </button>    
     <button class="tablink" data-id=""> With Pipes </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">a = -<span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
-output = round(log(abs(a)))</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext hljs">1.0</code></pre> </div></div> </div> 
+output &#61; round&#40;log&#40;abs&#40;a&#41;&#41;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">a = -<span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
-output = a |&gt; abs |&gt; log |&gt; round</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext hljs">1.0</code></pre> </div></div> </div> 
+output &#61; a |&gt; abs |&gt; log |&gt; round</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <h4> Broadcasting Pipes </h4>
@@ -2179,22 +2179,22 @@ output = a |&gt; abs |&gt; log |&gt; round</code></pre> </div></div>
     <button class="tablink" data-id=""> In Multiple Lines </button>
     <button class="tablink" data-id=""> Broadcasting Pipes </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = [-<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;-1,2,3&#93;
 
-output = sum(log.(abs.(x)))</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext hljs">1.791759469228055</code></pre> </div></div> </div> 
+output &#61; sum&#40;log.&#40;abs.&#40;x&#41;&#41;&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.791759469228055</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = [-<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;-1,2,3&#93;
 
-temp1  = abs.(x)
-temp2  = log.(temp1)
-output = sum(temp2)</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext hljs">1.791759469228055</code></pre> </div></div> </div> 
+temp1  &#61; abs.&#40;x&#41;
+temp2  &#61; log.&#40;temp1&#41;
+output &#61; sum&#40;temp2&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.791759469228055</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">x = [-<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;-1,2,3&#93;
 
-output = x .|&gt; abs .|&gt; log |&gt; sum</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext hljs">1.791759469228055</code></pre> </div></div> </div> 
+output &#61; x .|&gt; abs .|&gt; log |&gt; sum</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.791759469228055</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <h4> Pipes with More Complex Operations </h4>
@@ -2207,24 +2207,24 @@ output = x .|&gt; abs .|&gt; log |&gt; sum</code></pre> </div></div>
     <button class="tablink" data-id=""> In Multiple Lines </button>
     <button class="tablink" data-id=""> With Pipes </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">a = -<span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
-output = round(<span class="hljs-number">2</span> * abs(a))</code></pre> </div></div> 
+output &#61; round&#40;2 * abs&#40;a&#41;&#41;</code></pre> </div></div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">a = -<span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
-temp1  = abs(a)
-temp2  = <span class="hljs-number">2</span> * temp1
-output = round(temp2)</code></pre> </div></div> 
+temp1  &#61; abs&#40;a&#41;
+temp2  &#61; 2 * temp1
+output &#61; round&#40;temp2&#41;</code></pre> </div></div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">a = -<span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
-output = a |&gt; abs |&gt; (x -&gt; <span class="hljs-number">2</span> * x) |&gt; round
+output &#61; a |&gt; abs |&gt; &#40;x -&gt; 2 * x&#41; |&gt; round
 
-<span class="hljs-comment">#equivalent, but more readable</span>
-output = a              |&gt;
+#equivalent, but more readable
+output &#61; a              |&gt;
          abs            |&gt;
-         x -&gt; <span class="hljs-number">2</span> * x     |&gt;
+         x -&gt; 2 * x     |&gt;
          round</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
@@ -2237,26 +2237,26 @@ output = a              |&gt;
     <button class="tablink first_tab active" data-id=""> With Built-In Pipes </button>    
     <button class="tablink" data-id=""> With Package Pipe </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-comment">#</span>
-a = -<span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">#
+a &#61; -2
 
-output = a |&gt; abs |&gt; (x -&gt; <span class="hljs-number">2</span> * x) |&gt; round
+output &#61; a |&gt; abs |&gt; &#40;x -&gt; 2 * x&#41; |&gt; round
 
-<span class="hljs-comment">#equivalent, but more readable</span>
-output =       a            |&gt;
+#equivalent, but more readable
+output &#61;       a            |&gt;
                abs          |&gt;
-               x -&gt; <span class="hljs-number">2</span> * x   |&gt;
+               x -&gt; 2 * x   |&gt;
                round</code></pre> </div></div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs"><span class="hljs-keyword">using</span> <span class="hljs-built_in">Pipe</span>
-a = -<span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using Pipe
+a &#61; -2
 
-output = <span class="hljs-meta">@pipe</span> a |&gt; abs |&gt; <span class="hljs-number">2</span> * _ |&gt; round
+output &#61; @pipe a |&gt; abs |&gt; 2 * _ |&gt; round
 
-<span class="hljs-comment">#equivalent, but more readable</span>
-output = <span class="hljs-meta">@pipe</span> a            |&gt;
+#equivalent, but more readable
+output &#61; @pipe a            |&gt;
                abs          |&gt;
-               <span class="hljs-number">2</span> * _        |&gt;
+               2 * _        |&gt;
                round</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
@@ -2279,35 +2279,35 @@ output = <span class="hljs-meta">@pipe</span> a            |&gt;
     <button class="tablink" data-id=""> Package Pipe </button>
     <button class="tablink" data-id=""> Let Block </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">variable_with_a_long_name = <span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
 
-output = variable_with_a_long_name - log(variable_with_a_long_name) / abs(variable_with_a_long_name)</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext hljs">1.6534264097200273</code></pre> </div></div> </div> 
+output &#61; variable_with_a_long_name - log&#40;variable_with_a_long_name&#41; / abs&#40;variable_with_a_long_name&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">variable_with_a_long_name = <span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
 
-temp   = variable_with_a_long_name
-output = temp - log(temp) / abs(temp)</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext hljs">1.6534264097200273</code></pre> </div></div> </div> 
+temp   &#61; variable_with_a_long_name
+output &#61; temp - log&#40;temp&#41; / abs&#40;temp&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">variable_with_a_long_name = <span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
 
-output = variable_with_a_long_name       |&gt;
-         a -&gt; a - log(a) / abs(a)</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext hljs">1.6534264097200273</code></pre> </div></div> </div> 
+output &#61; variable_with_a_long_name       |&gt;
+         a -&gt; a - log&#40;a&#41; / abs&#40;a&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">variable_with_a_long_name = <span class="hljs-number">2</span> ; <span class="hljs-keyword">using</span> <span class="hljs-built_in">Pipe</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2 ; using Pipe
 
-output = <span class="hljs-meta">@pipe</span> variable_with_a_long_name |&gt;
-               _ - log(_) / abs(_)</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext hljs">1.6534264097200273</code></pre> </div></div> </div> 
+output &#61; @pipe variable_with_a_long_name |&gt;
+               _ - log&#40;_&#41; / abs&#40;_&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="julia hljs">variable_with_a_long_name = <span class="hljs-number">2</span>
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
 
-output = <span class="hljs-keyword">let</span> x = variable_with_a_long_name
-    x - log(x) / abs(x)
-<span class="hljs-keyword">end</span></code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext hljs">1.6534264097200273</code></pre> </div></div> </div> 
+output &#61; let x &#61; variable_with_a_long_name
+    x - log&#40;x&#41; / abs&#40;x&#41;
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -2412,16 +2412,16 @@ function goToNextPage() {
 
 <!-- ADDED BY FRANKLIN -->
   
-      
-
-
+      <script src="/julia_book/libs/katex/katex.min.js"></script>
+<script src="/julia_book/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
 
   
   
-      
+      <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-<!--  -->
+<!-- <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script> -->
 
 
   

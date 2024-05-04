@@ -2070,20 +2070,20 @@ color: white;
 <p><code>Char</code> is the type for representing characters, which forms the basis for the type <code>String</code>. The type <code>String</code> is formally an ordered collection of characters, allowing us to to represent text. </p>
 <p><code>Char</code> supports Unicode characters, thus including numbers, letters, and symbols. A character <code>x</code> is defined by using the syntax <code>&#39;x&#39;</code>.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs"><span class="hljs-comment"># x equals the character &#x27;a&#x27;</span>
-x = <span class="hljs-string">&#x27;a&#x27;</span>
+<pre><code class="language-julia"># x equals the character &#39;a&#39;
+x &#61; &#39;a&#39;
 
-<span class="hljs-comment"># &#x27;Char&#x27; allows for Unicode characters</span>
-x = <span class="hljs-string">&#x27;β&#x27;</span>
-y = &#x27;🐒&#x27;</code></pre>
+# &#39;Char&#39; allows for Unicode characters
+x &#61; &#39;β&#39;
+y &#61; &#39;🐒&#39;</code></pre>
 <p></div> </div>  </details></div>
 <p>Notice that characters must be enclosed in single quotes <code>&#39; &#39;</code>. Otherwise, Julia will interpret the characters as variables rather than literal characters. This holds even for symbols like 🐒.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs"><span class="hljs-comment"># any character is allowed for defining a variable</span>
-🐒 = <span class="hljs-number">2</span>          <span class="hljs-comment"># 🐒 represents a variable, just like if we had defined x = 2</span>
+<pre><code class="language-julia"># any character is allowed for defining a variable
+🐒 &#61; 2          # 🐒 represents a variable, just like if we had defined x &#61; 2
 
-y  = 🐒         <span class="hljs-comment"># y equals 2</span>
-z  = &#x27;🐒&#x27;       <span class="hljs-comment"># z equals the character 🐒</span></code></pre>
+y  &#61; 🐒         # y equals 2
+z  &#61; &#39;🐒&#39;       # z equals the character 🐒</code></pre>
 <p></div> </div>  </details></div>
 <p>      </div>
     </div>
@@ -2096,9 +2096,9 @@ z  = &#x27;🐒&#x27;       <span class="hljs-comment"># z equals the character 
         <h2>Strings</h2> </p>
 <p>On this website, we&#39;ll rarely use the type <code>Char</code> directly. Instead, we&#39;ll work mostly with the type <code>String</code>, which are expressed within double quotes <code>&quot; &quot;</code>. For strings spanning multiple  lines, triple quotes <code>&quot;&quot;&quot; &quot;&quot;&quot;</code> are more convenient, as they handle spaces and new lines better. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For more on the differences between single and triple quotes, see <a href="https://docs.julialang.org/en/v1/manual/strings/#Triple-Quoted-String-Literals">here</a>  </span></span></p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = <span class="hljs-string">&quot;Hello, beautiful world&quot;</span>
+<pre><code class="language-julia">x &#61; &quot;Hello, beautiful world&quot;
 
-x = <span class="hljs-string">&quot;&quot;&quot;Hello, beautiful world&quot;&quot;&quot;</span></code></pre>
+x &#61; &quot;&quot;&quot;Hello, beautiful world&quot;&quot;&quot;</code></pre>
 <p></div> </div>  </details></div>
 <p>      </div>
     </div>
@@ -2118,18 +2118,18 @@ x = <span class="hljs-string">&quot;&quot;&quot;Hello, beautiful world&quot;&quo
     <button class="tablink" data-id=""> Interpolating Expression </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">number_students = <span class="hljs-number">10</span>
+<pre><code class="language-julia">number_students &#61; 10
 
 
-x = <span class="hljs-string">&quot;There are <span class="hljs-subst">$(number_students)</span> students in the course&quot;</span></code></pre>
+x &#61; &quot;There are &#36;&#40;number_students&#41; students in the course&quot;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">"There are 10 students in the course"</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">number_matches  = <span class="hljs-number">50</span>
-goals_per_match = <span class="hljs-number">2</span>
+<pre><code class="language-julia">number_matches  &#61; 50
+goals_per_match &#61; 2
 
-x = <span class="hljs-string">&quot;Last year, Messi scored <span class="hljs-subst">$(number_matches * goals_per_match)</span> goals&quot;</span></code></pre>
+x &#61; &quot;Last year, Messi scored &#36;&#40;number_matches * goals_per_match&#41; goals&quot;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">"Last year, Messi scored 100 goals"</div> </div></div> </div> 
  </div></div>
@@ -2236,16 +2236,16 @@ function goToNextPage() {
 
 <!-- ADDED BY FRANKLIN -->
   
-      
-
-
+      <script src="/julia_book/libs/katex/katex.min.js"></script>
+<script src="/julia_book/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
 
   
   
-      
+      <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-<!--  -->
+<!-- <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script> -->
 
 
   

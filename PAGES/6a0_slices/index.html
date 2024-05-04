@@ -2084,20 +2084,20 @@ color: white;
     <button class="tablink" data-id=""> A Slice on the RHS</button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x    = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+<pre><code class="language-julia">x    &#61; &#91;4,5&#93;
 
 
-x[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>        <span class="hljs-comment"># &#x27;x[1]&#x27; is a view and mutates &#x27;x&#x27;</span></code></pre>
+x&#91;1&#93; &#61; 0        # &#39;x&#91;1&#93;&#39; is a view and mutates &#39;x&#39;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  0
  5</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x    = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
-y    = x[<span class="hljs-number">1</span>]     <span class="hljs-comment"># &#x27;y&#x27; is unrelated to &#x27;x&#x27; because &#x27;x[1]&#x27; is a copy</span>
+<pre><code class="language-julia">x    &#61; &#91;4,5&#93;
+y    &#61; x&#91;1&#93;     # &#39;y&#39; is unrelated to &#39;x&#39; because &#39;x&#91;1&#93;&#39; is a copy
 
-x[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>        <span class="hljs-comment"># it mutates &#x27;x&#x27; but does NOT modify &#x27;y&#x27;</span></code></pre>
+x&#91;1&#93; &#61; 0        # it mutates &#39;x&#39; but does NOT modify &#39;y&#39;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">4</div> </div></div> </div> 
  </div></div>
@@ -2111,20 +2111,20 @@ x[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>      
     <button class="tablink" data-id=""> Slice of the Whole Object on the RHS (Copy) </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
-y = x           <span class="hljs-comment"># the whole object (a view)</span>
+<pre><code class="language-julia">x &#61; &#91;4,5&#93;
+y &#61; x           # the whole object &#40;a view&#41;
 
-x[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>        <span class="hljs-comment"># it DOES modify &#x27;y&#x27;</span></code></pre>
+x&#91;1&#93; &#61; 0        # it DOES modify &#39;y&#39;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  4
  5</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
-y = x[:]        <span class="hljs-comment"># a slice of the whole object (a copy)</span>
+<pre><code class="language-julia">x &#61; &#91;4,5&#93;
+y &#61; x&#91;:&#93;        # a slice of the whole object &#40;a copy&#41;
 
-x[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>        <span class="hljs-comment"># it does NOT modify &#x27;y&#x27;</span></code></pre>
+x&#91;1&#93; &#61; 0        # it does NOT modify &#39;y&#39;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  0
@@ -2142,16 +2142,16 @@ x[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>      
         <h2>The Function "view"</h2></p>
 <p>We&#39;ve focused on the behavior of slices according to their position against <code>&#61;</code>. But, it&#39;s important to have a more general understanding of when slices act as copies or views. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> We&#39;ll show later on this website that views commonly increase speed, by avoiding the computational overhead of allocating memory.  </span></span> Broadly speaking, <strong>copies tend to be the default behavior of slices in Julia</strong>. Thus, for instance, a slice incorporated as a function argument or in an expression defines a copy. The following code snippet provides several examples of this behavior.</p>
  <div class=" code_box"> <details  open><summary> Slices as Copies  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+<pre><code class="language-julia">x &#61; &#91;3,4,5&#93;
 
-<span class="hljs-comment">#the following slices are all copies</span>
-log.(x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>])
+#the following slices are all copies
+log.&#40;x&#91;1:2&#93;&#41;
 
-x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>] .+ <span class="hljs-number">2</span>
+x&#91;1:2&#93; .&#43; 2
 
-[sum(x[:]) * a <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">3</span>]
+&#91;sum&#40;x&#91;:&#93;&#41; * a for a in 1:3&#93;
 
-(sum(x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>]) &gt; <span class="hljs-number">0</span>) &amp;&amp; <span class="hljs-literal">true</span></code></pre>
+&#40;sum&#40;x&#91;1:2&#93;&#41; &gt; 0&#41; &amp;&amp; true</code></pre>
 <p></div> </div>  </details></div>
 <p>When we want that a slice acts as a view, we have to state it explicitly. This is accomplished through the function <code>view</code>, which makes the slice a reference to the original object. Its syntax is <code>view&#40;x, &lt;indices&gt;&#41;</code>, where <code>&lt;indices&gt;</code> are the slice&#39;s subset of indices. To illustrate it, we revisit and compare the last code snippet.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2161,29 +2161,29 @@ x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>] .+ <spa
     <button class="tablink" data-id=""> Slices as Copies </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+<pre><code class="language-julia">x &#61; &#91;3,4,5&#93;
 
-<span class="hljs-comment">#we make explicit that we want views</span>
-log.(view(x,<span class="hljs-number">1</span>:<span class="hljs-number">2</span>))
+#we make explicit that we want views
+log.&#40;view&#40;x,1:2&#41;&#41;
 
-view(x,<span class="hljs-number">1</span>:<span class="hljs-number">2</span>) .+ <span class="hljs-number">2</span>
+view&#40;x,1:2&#41; .&#43; 2
 
-[sum(view(x,:)) * a <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">3</span>]
+&#91;sum&#40;view&#40;x,:&#41;&#41; * a for a in 1:3&#93;
 
-(sum(view(x,:)) &gt; <span class="hljs-number">0</span>) &amp;&amp; <span class="hljs-literal">true</span></code></pre>
+&#40;sum&#40;view&#40;x,:&#41;&#41; &gt; 0&#41; &amp;&amp; true</code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+<pre><code class="language-julia">x &#61; &#91;3,4,5&#93;
 
-<span class="hljs-comment">#the following slices are all copies</span>
-log.(x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>])
+#the following slices are all copies
+log.&#40;x&#91;1:2&#93;&#41;
 
-x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>] .+ <span class="hljs-number">2</span>
+x&#91;1:2&#93; .&#43; 2
 
-[sum(x[:]) * a <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-number">1</span>:<span class="hljs-number">3</span>]
+&#91;sum&#40;x&#91;:&#93;&#41; * a for a in 1:3&#93;
 
-(sum(x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>]) &gt; <span class="hljs-number">0</span>) &amp;&amp; <span class="hljs-literal">true</span></code></pre>
+&#40;sum&#40;x&#91;1:2&#93;&#41; &gt; 0&#41; &amp;&amp; true</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
@@ -2200,14 +2200,14 @@ x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>] .+ <spa
 <p>The macro <code>@view</code> turns an expression like <code>@view x&#91;1:2&#93;</code> into <code>view&#40;x, 1:2&#41;</code>. It&#39;s primarily useful for expressions where there aren&#39;t so many slices, although its benefits are arguable given that it only saves a few characters. Furthermore, if we perform operations with slices, we need to apply <code>@view</code> with parentheses, as in <code>@view&#40;x&#91;1:2&#93;&#41; .&#43; @view&#40;x&#91;2:3&#93;&#41;</code>.</p>
 <p>On the contrary, the macro <code>@views</code> transforms each slice in an expression into a view. This is particularly convenient for expressions with multiple slices, as we only need to indicate once that every slice should be taken as a view. </p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs">x = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]
+<pre><code class="language-julia">x &#61; &#91;4,5,6&#93;
 
-<span class="hljs-comment"># the following are all equivalent</span>
-y = view(x, <span class="hljs-number">1</span>:<span class="hljs-number">2</span>) .+ view(x, <span class="hljs-number">2</span>:<span class="hljs-number">3</span>)
+# the following are all equivalent
+y &#61; view&#40;x, 1:2&#41; .&#43; view&#40;x, 2:3&#41;
 
-y = <span class="hljs-meta">@view</span>(x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>]) .+ <span class="hljs-meta">@view</span>(x[<span class="hljs-number">2</span>:<span class="hljs-number">3</span>])
+y &#61; @view&#40;x&#91;1:2&#93;&#41; .&#43; @view&#40;x&#91;2:3&#93;&#41;
 
-<span class="hljs-meta">@views</span> y = x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>] .+ x[<span class="hljs-number">2</span>:<span class="hljs-number">3</span>]</code></pre>
+@views y &#61; x&#91;1:2&#93; .&#43; x&#91;2:3&#93;</code></pre>
 <p></div> </div>  </details></div>
 <p>An important application of <code>@views</code> is for functions. Its inclusion at the beginning of a function definition turns every slice within the function into a view.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2217,21 +2217,21 @@ y = <span class="hljs-meta">@view</span>(x[<span class="hljs-number">1</span>:<s
     <button class="tablink" data-id=""> Equivalent With @view </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs"><span class="hljs-meta">@views</span> <span class="hljs-keyword">function</span> foo(x)
-  y = x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>] .+ x[<span class="hljs-number">2</span>:<span class="hljs-number">3</span>]
-  z = sum(x[:]) .+ sum(y)
+<pre><code class="language-julia">@views function foo&#40;x&#41;
+  y &#61; x&#91;1:2&#93; .&#43; x&#91;2:3&#93;
+  z &#61; sum&#40;x&#91;:&#93;&#41; .&#43; sum&#40;y&#41;
 
-  <span class="hljs-keyword">return</span> z
-<span class="hljs-keyword">end</span></code></pre>
+  return z
+end</code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="julia hljs"><span class="hljs-keyword">function</span> foo(x)
-  y = <span class="hljs-meta">@view</span>(x[<span class="hljs-number">1</span>:<span class="hljs-number">2</span>]) .+ <span class="hljs-meta">@view</span>(x[<span class="hljs-number">2</span>:<span class="hljs-number">3</span>])
-  z = sum(<span class="hljs-meta">@view</span> x[:]) .+ sum(y)
+<pre><code class="language-julia">function foo&#40;x&#41;
+  y &#61; @view&#40;x&#91;1:2&#93;&#41; .&#43; @view&#40;x&#91;2:3&#93;&#41;
+  z &#61; sum&#40;@view x&#91;:&#93;&#41; .&#43; sum&#40;y&#41;
 
-  <span class="hljs-keyword">return</span> z
-<span class="hljs-keyword">end</span></code></pre>
+  return z
+end</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
@@ -2337,16 +2337,16 @@ function goToNextPage() {
 
 <!-- ADDED BY FRANKLIN -->
   
-      
-
-
+      <script src="/julia_book/libs/katex/katex.min.js"></script>
+<script src="/julia_book/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
 
   
   
-      
+      <script src="/julia_book/libs/highlight/highlight.pack.js"></script>
 <!-- <script src="/julia_book/libs/highlight/julia.highlight.js"></script> -->
 <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
-<!--  -->
+<!-- <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script> -->
 
 
   
