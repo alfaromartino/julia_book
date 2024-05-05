@@ -20,10 +20,12 @@
 (don't confuse head with header, head applies globally) -->
 
 <link rel="stylesheet" href="/julia_book/libs/katex/katex.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css"></link>
 
-<link rel="stylesheet" 
-href="https://fonts.googleapis.com/css?family=Open+Sans"></link>
+<!-- FOR LATEX -->
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css"></link> -->
+
+<!-- <link rel="stylesheet" 
+href="https://fonts.googleapis.com/css?family=Open+Sans"></link> -->
 <!-- Montserrat|Roboto|Lato|Raleway|Work+Sans|Raleway -->     
    <link rel="stylesheet" href="/julia_book/libs/highlight/styles/vs_myversion.css">
    
@@ -87,15 +89,21 @@ header .jumbotron {
  -->
 
 
-
-
-
-<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Poppins|Crimson+Text|Cardo|Ubuntu"></link> -->
+ <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Poppins|Crimson+Text|Cardo|Ubuntu"></link> -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans"></link>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter"></link>
 
 
 <style>
+
+/* @font-face {
+  font-family: 'OpenS';
+  src: 
+       url('/libs/fonts/OpenSans-Regular.ttf'),
+       url('/libs/fonts/OpenSans-VariableFont_wdth,wght.ttf'),       
+       url('/libs/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf'); 
+       font-variation-settings: 'wght' 100 1000, 'wdth' 25 100;  
+} */
 
 /* THIS CONTROLS THE GLOBAL BEHAVIOR OF THE PAGE */
 html { scroll-behavior: auto; }
@@ -116,21 +124,21 @@ html { scroll-behavior: auto; }
 
 /* TITLE AND NAME */
 h1{
-  padding-top:0.1em;
-  font-size:210% !important;
-  font-weight: bold;      
-  text-align:center;  
+  padding-top: 0.1em;
+  font-size  : 210% !important;
+  font-weight: bold;
+  text-align : center;
 }
 
 
 .phd_format {  
   color: white;
-  /* padding: -0.5em 1.0em; */
+    /* padding: -0.5em 1.0em; */
   text-decoration: none;
-  font-size: 90%;
-  text-align: center;    
-  margin-top:-0.2em;
-  margin-bottom: -0.89em;
+  font-size      : 90%;
+  text-align     : center;
+  margin-top     : -0.2em;
+  margin-bottom  : -0.89em;
   }
 
   
@@ -360,7 +368,7 @@ section a:hover{
 }
 
 </style>
-<!-- <div class="left_bar" style="color:white;">
+ <!-- <div class="left_bar" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
         <img src="/julia_book/assets/pics_html/julia_logo-dark.svg"
         style= "position:relative; width:90%; height:auto; padding-top:45px;  padding-left:10px;">     
@@ -740,7 +748,7 @@ data-show-count="true" aria-label="Star {{title}} on GitHub">Star</a>
   z-index: 200;    
   background-image: linear-gradient(to left bottom, rgb(0, 0, 0), rgb(0, 0, 0) 10%, rgb(63, 99, 136) 80%, rgb(63, 99, 136));
     position: fixed;    
-    font-family: "Inter";
+    font-family: "Inter","Open Sans";
     height: 100%;
     top: 0;
     left: 0;          
@@ -783,6 +791,411 @@ color: white;
 
  
 <!-- CONTENT PAGES -->
+
+    <header class="text-white text-center">
+  
+    <div class="jumbotron jumbotron-fluid container-fluid bg-primary">
+  
+
+
+    <h1><i>3c.</i> Defining Your Own Functions</h1>    
+    <div class="lead"> </div>
+    
+    
+    <div class="name_format">
+      <a href="https://alfaromartino.github.io/" target="_blank" rel="noopener noreferrer">Martin Alfaro</a>
+      </div>
+      <div class="phd_format">PhD in Economics</div>
+    
+    
+    
+
+    
+
+    <!-- {{if add_github_star}}
+      <a class="github-button" href="https://github.com/{{github_repo}}" data-icon="octicon-star" data-size="large" 
+      data-show-count="true" aria-label="Star {{title}} on GitHub">Star</a>
+    {{end}} -->
+  </div>
+</header>
+
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<div class="bar_top">
+  <ul>
+     <li>
+      <div style="text-indent:0;">
+        <button class="modalButton" style="background-color: transparent; color:white; display:block;
+              margin-bottom: -2px;">
+          <img src="/julia_book/assets/icons/sheets01.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:5px;margin-left:0px;">
+            Sections</button>
+      </div>      
+      <!-- {{insert PAGES/content_keyboardShortcuts.html}} -->
+          <div class="modal" id="modal_bar">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 style="text-decoration: none"> <span style="text-decoration: underline">PART I</span>: INTRODUCTION TO JULIA</h2>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="column">
+          <h3> INTRODUCTION </h3>
+          <ul>
+            <li>1. <u>Installation and Preliminaries</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\1a_installation/"><i>a</i>. Installation and Resources</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\2a_basics/"><i>b</i>. Running Julia</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\1c_vscode/"><i>c</i>. VS Code (OPTIONAL)</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\2b_tips/"><i>d</i>. A Minimal Set of Good Practices</a></li><br>
+                
+              </ul>
+            </li>
+            <li>2. <u>Variables</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\overview_1/"><i>a</i>. Overview and Goals</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3a_variables/"><i>b</i>. Variables, Types, and Operators</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3b_univariables/"><i>c</i>. Numbers</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3b2_strings/"><i>d</i>. Strings</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3c_arrays/"><i>e</i>. Arrays (Vectors and Matrices)</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3c2_tuples/"><i>f</i>. Tuples</a></li><br>
+                
+              </ul>
+            </li>            
+          </ul>
+        </div>
+        <div class="column">
+          <h3> CORE CONCEPTS </h3>
+          <ul>
+            <li>3. <u>Functions</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\overview_2/"><i>a</i>. Overview and Goals</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\4a0_packages/"><i>b</i>. Function Execution and Packages</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\4a1_define_func/"><i>c</i>. Defining Your Own Functions</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\4b_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\4d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a></li><br>
+                
+              </ul>
+            </li>
+            <li>4. <u>Control Flow</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\overview_3/"><i>a</i>. Overview and Goals</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\5a_logical/"><i>b</i>. Conditions</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\5b_conditionals/"><i>c</i>. Conditional Statements</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\5c_forLoops/"><i>d</i>. For-Loops</a></li><br>
+                
+              </ul>
+            </li>            
+          </ul>
+        </div>
+        <div class="column">
+          <h3> USING JULIA </h3>
+          <ul>
+            <li>5. <u>Vectors: Indexing and Mutations</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\overview_4/"><i>a</i>. Overview and Goals</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3e_immutables/"><i>b</i>. Mutable and Immutable Objects</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3d_mutation/"><i>c</i>. Assignments vs Mutations</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\5bc_initializing/"><i>d</i>. Initializing and Creating Vectors</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6a0_slices/"><i>e</i>. Slices and Views</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. In-Place Assignments</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
+                
+              </ul>
+            </li>
+            <li>6. <u>Working with Vectors and Other Collections</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\overview_6/"><i>a</i>. Overview and Goals</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6c1_tuples_and_namedtuples/"><i>b</i>. Named Tuples and Dictionaries</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6f_pipes/"><i>c</i>. Let Blocks and Pipes</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6d_application01/"><i>e</i>. Illustration - Johnny, the YouTuber</a></li><br>
+                
+              </ul>
+            </li>            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </li>
+  </ul>
+</div>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+<style>
+  /* ================================================================= 
+                        TOP BAR - TO NAVIGATE SECTIONS
+  ================================================================= */ 
+  .bar_top{padding-left:180px;}  
+  
+  .bar_top {  
+    background-image: linear-gradient(to right, black, rgb(0, 0, 0) 10%, rgb(63,99,136) 55%, rgb(63,99,136));
+    position        : fixed;                         /* fixed to stay at the top */
+    width           : 100%;
+    height          : 48px;
+    top             : 0;
+    left            : 0;
+    padding         : 8px 0px 10px 0px;
+    font-size       : 100%;
+    z-index         : 125;
+  } 
+  
+  .bar_top a:hover {
+      color: rgb(160, 159, 159); 
+  }
+  
+  
+  .bar_top > ul {  
+    list-style-type: none;
+    float          : left;
+    position       : relative;
+    bottom         : 0;
+    padding-left   : 1%;    
+    left           : 180px;
+  }
+  
+    .bar_top li a{   
+    color: white;
+  }
+
+  
+  
+  .bar_top .modal{   
+  background-color: transparent;
+  /* left: 0; */
+  /* top: 0; */
+  margin-top  : 48px;
+  padding-left: 1%;
+  margin-left : 0;
+  width       : 100%;
+  height      : 100%;
+  overflow    : auto;
+  position    : fixed;
+  
+}  
+  
+  
+  
+  /* bar topright modal (for content of the modal) */
+  .bar_top .modal-content {  
+    position                  : relative;
+    width                     : 1200px; max-width      : 90%;
+    height                    : max-content; max-height: 90%;
+    background-color          : black;
+    margin                    : auto;
+    padding                   : 8px;
+    margin-left               : 180px;
+    -webkit-animation-name    : none;
+    /* -webkit-animation-duration: 0.0s; */
+    animation-name            : none;
+    /* animation-duration        : 0.0s; */
+  }
+
+
+  .bar_top .modal-header {  
+    background-color: black;
+    color           : white;
+  }
+  
+   .bar_top .modal-body{    
+    color:rgb(100, 157, 214);      
+  }
+
+  
+  .bar_top .modal-body .row{display: flex;}    
+  .bar_top .modal-body .row .column{flex:1;}  /* equal size of columns*/
+  
+  
+  .bar_top .modal-body .row h3{ 
+    padding-bottom:0.5em;}
+
+
+  .bar_top .modal-body .row ul li ul { 
+    list-style-type: none;
+    margin         : 0;
+    padding        : 0;
+    padding-top    : 1em;
+    padding-bottom : 0.4em;
+    line-height    : 1.5;}
+
+  .bar_top .modal-body .row li {
+    line-height    : 0.38;
+    list-style-type: none;
+    float          : center;
+    text-indent    : -20px;
+    padding-left   : 20px;
+    position       : relative;
+  }
+
+  
+
+.bar_top .modal-body .row .column {
+  text-align: center; /* center align all contents in a column */
+}
+
+.bar_top .modal-body .row .column h3 {
+  text-align: center; /* center align the h3 tag in a column */
+}
+
+.bar_top .modal-body .row .column ul {
+  text-align         : left ;   /* left align the ul tag in a column */
+  margin-left        : auto;    /* center the ul tag */
+  margin-right       : auto;    /* center the ul tag */
+  list-style-position: inside;  /* adjust the position of the list items */
+}
+    
+
+  /* modal button */
+  .bar_top .modalButton {      
+    border       : none;
+    margin-bottom: 24px;
+    box-shadow   : none;
+    /* box-shadow: 3px 3px 4px black;   */
+}
+
+/* The Close Button */
+.bar_top .modalClose {    
+  font-size: 0px;   
+}
+
+    
+    
+  </style>
 
     <link href="https://fonts.cdnfonts.com/css/cascadia-mono" rel="stylesheet">
 
@@ -1633,411 +2046,7 @@ $(document).ready(function() {
 	// Call the handler once at the beginning to check the initial state
 	mediaQueryHandler(mediaQuery);
 
-</script> --> 
-    <header class="text-white text-center">
-  
-    <div class="jumbotron jumbotron-fluid container-fluid bg-primary">
-  
-
-
-    <h1><i>3c.</i> Defining Your Own Functions</h1>    
-    <div class="lead"> </div>
-    
-    
-    <div class="name_format">
-      <a href="https://alfaromartino.github.io/" target="_blank" rel="noopener noreferrer">Martin Alfaro</a>
-      </div>
-      <div class="phd_format">PhD in Economics</div>
-    
-    
-    
-
-    
-
-    <!-- {{if add_github_star}}
-      <a class="github-button" href="https://github.com/{{github_repo}}" data-icon="octicon-star" data-size="large" 
-      data-show-count="true" aria-label="Star {{title}} on GitHub">Star</a>
-    {{end}} -->
-  </div>
-</header>
-
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-<div class="bar_top">
-  <ul>
-     <li>
-      <div style="text-indent:0;">
-        <button class="modalButton" style="background-color: transparent; color:white; display:block;
-              margin-bottom: -2px;">
-          <img src="/julia_book/assets/icons/sheets01.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:5px;margin-left:0px;">
-            Sections</button>
-      </div>      
-      <!-- {{insert PAGES/content_keyboardShortcuts.html}} -->
-          <div class="modal" id="modal_bar">
-  <!-- Modal content -->
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2 style="text-decoration: none"> <span style="text-decoration: underline">PART I</span>: INTRODUCTION TO JULIA</h2>
-    </div>
-    <div class="modal-body">
-      <div class="row">
-        <div class="column">
-          <h3> INTRODUCTION </h3>
-          <ul>
-            <li>1. <u>Installation and Preliminaries</u>
-              <ul>
-                
-                <li><a href="/julia_book/PAGES\1a_installation/"><i>a</i>. Installation and Resources</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\2a_basics/"><i>b</i>. Running Julia</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\1c_vscode/"><i>c</i>. VS Code (OPTIONAL)</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\2b_tips/"><i>d</i>. A Minimal Set of Good Practices</a></li><br>
-                
-              </ul>
-            </li>
-            <li>2. <u>Variables</u>
-              <ul>
-                
-                <li><a href="/julia_book/PAGES\overview_1/"><i>a</i>. Overview and Goals</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\3a_variables/"><i>b</i>. Variables, Types, and Operators</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\3b_univariables/"><i>c</i>. Numbers</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\3b2_strings/"><i>d</i>. Strings</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\3c_arrays/"><i>e</i>. Arrays (Vectors and Matrices)</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\3c2_tuples/"><i>f</i>. Tuples</a></li><br>
-                
-              </ul>
-            </li>            
-          </ul>
-        </div>
-        <div class="column">
-          <h3> CORE CONCEPTS </h3>
-          <ul>
-            <li>3. <u>Functions</u>
-              <ul>
-                
-                <li><a href="/julia_book/PAGES\overview_2/"><i>a</i>. Overview and Goals</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\4a0_packages/"><i>b</i>. Function Execution and Packages</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\4a1_define_func/"><i>c</i>. Defining Your Own Functions</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\4b_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\4d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a></li><br>
-                
-              </ul>
-            </li>
-            <li>4. <u>Control Flow</u>
-              <ul>
-                
-                <li><a href="/julia_book/PAGES\overview_3/"><i>a</i>. Overview and Goals</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\5a_logical/"><i>b</i>. Conditions</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\5b_conditionals/"><i>c</i>. Conditional Statements</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\5c_forLoops/"><i>d</i>. For-Loops</a></li><br>
-                
-              </ul>
-            </li>            
-          </ul>
-        </div>
-        <div class="column">
-          <h3> USING JULIA </h3>
-          <ul>
-            <li>5. <u>Vectors: Indexing and Mutations</u>
-              <ul>
-                
-                <li><a href="/julia_book/PAGES\overview_4/"><i>a</i>. Overview and Goals</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\3e_immutables/"><i>b</i>. Mutable and Immutable Objects</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\3d_mutation/"><i>c</i>. Assignments vs Mutations</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\5bc_initializing/"><i>d</i>. Initializing and Creating Vectors</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6a0_slices/"><i>e</i>. Slices and Views</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. In-Place Assignments</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
-                
-              </ul>
-            </li>
-            <li>6. <u>Working with Vectors and Other Collections</u>
-              <ul>
-                
-                <li><a href="/julia_book/PAGES\overview_6/"><i>a</i>. Overview and Goals</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6c1_tuples_and_namedtuples/"><i>b</i>. Named Tuples and Dictionaries</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6f_pipes/"><i>c</i>. Let Blocks and Pipes</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6d_application01/"><i>e</i>. Illustration - Johnny, the YouTuber</a></li><br>
-                
-              </ul>
-            </li>            
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-    </li>
-  </ul>
-</div>
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
-<style>
-  /* ================================================================= 
-                        TOP BAR - TO NAVIGATE SECTIONS
-  ================================================================= */ 
-  .bar_top{padding-left:180px;}  
-  
-  .bar_top {  
-    background-image: linear-gradient(to right, black, rgb(0, 0, 0) 10%, rgb(63,99,136) 55%, rgb(63,99,136));
-    position        : fixed;                         /* fixed to stay at the top */
-    width           : 100%;
-    height          : 48px;
-    top             : 0;
-    left            : 0;
-    padding         : 8px 0px 10px 0px;
-    font-size       : 100%;
-    z-index         : 125;
-  } 
-  
-  .bar_top a:hover {
-      color: rgb(160, 159, 159); 
-  }
-  
-  
-  .bar_top > ul {  
-    list-style-type: none;
-    float          : left;
-    position       : relative;
-    bottom         : 0;
-    padding-left   : 1%;    
-    left           : 180px;
-  }
-  
-    .bar_top li a{   
-    color: white;
-  }
-
-  
-  
-  .bar_top .modal{   
-  background-color: transparent;
-  /* left: 0; */
-  /* top: 0; */
-  margin-top  : 48px;
-  padding-left: 1%;
-  margin-left : 0;
-  width       : 100%;
-  height      : 100%;
-  overflow    : auto;
-  position    : fixed;
-  
-}  
-  
-  
-  
-  /* bar topright modal (for content of the modal) */
-  .bar_top .modal-content {  
-    position                  : relative;
-    width                     : 1200px; max-width      : 90%;
-    height                    : max-content; max-height: 90%;
-    background-color          : black;
-    margin                    : auto;
-    padding                   : 8px;
-    margin-left               : 180px;
-    -webkit-animation-name    : none;
-    /* -webkit-animation-duration: 0.0s; */
-    animation-name            : none;
-    /* animation-duration        : 0.0s; */
-  }
-
-
-  .bar_top .modal-header {  
-    background-color: black;
-    color           : white;
-  }
-  
-   .bar_top .modal-body{    
-    color:rgb(100, 157, 214);      
-  }
-
-  
-  .bar_top .modal-body .row{display: flex;}    
-  .bar_top .modal-body .row .column{flex:1;}  /* equal size of columns*/
-  
-  
-  .bar_top .modal-body .row h3{ 
-    padding-bottom:0.5em;}
-
-
-  .bar_top .modal-body .row ul li ul { 
-    list-style-type: none;
-    margin         : 0;
-    padding        : 0;
-    padding-top    : 1em;
-    padding-bottom : 0.4em;
-    line-height    : 1.5;}
-
-  .bar_top .modal-body .row li {
-    line-height    : 0.38;
-    list-style-type: none;
-    float          : center;
-    text-indent    : -20px;
-    padding-left   : 20px;
-    position       : relative;
-  }
-
-  
-
-.bar_top .modal-body .row .column {
-  text-align: center; /* center align all contents in a column */
-}
-
-.bar_top .modal-body .row .column h3 {
-  text-align: center; /* center align the h3 tag in a column */
-}
-
-.bar_top .modal-body .row .column ul {
-  text-align         : left ;   /* left align the ul tag in a column */
-  margin-left        : auto;    /* center the ul tag */
-  margin-right       : auto;    /* center the ul tag */
-  list-style-position: inside;  /* adjust the position of the list items */
-}
-    
-
-  /* modal button */
-  .bar_top .modalButton {      
-    border       : none;
-    margin-bottom: 24px;
-    box-shadow   : none;
-    /* box-shadow: 3px 3px 4px black;   */
-}
-
-/* The Close Button */
-.bar_top .modalClose {    
-  font-size: 0px;   
-}
-
-    
-    
-  </style>
+</script> -->    
 
 
 
@@ -2066,8 +2075,7 @@ $(document).ready(function() {
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>User-Defined Functions</h2></p>
-<p>You can define your own functions when you write a script. These functions can eventually be called without using any prefix. Thus, if you define a function <code>foo</code>, you can run it using <code>foo&#40;x&#41;</code>.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Strictly speaking, the way to call a function depends on the <strong>module</strong> in which the function is defined, and whether this module has been &quot;imported&quot; or &quot;used&quot;. We won&#39;t cover modules on this website, but you should explore them if you work on a relatively large project. Users can create multiple modules within their own scripts, each operating as independent workspaces that don&#39;t share variables. When initiating a new session in Julia, you&#39;re actually working within a module called <code>Main</code>. When you call functions belonging to the same module, you don&#39;t need to add prefix indicating the module.  </span></span></p>
-<p>There are two ways to define functions. We&#39;ll refer to them as the <strong>standard form</strong> and the <strong>compact form</strong>. The standard form is the most general and is how functions are commonly defined in programming languages. Conversely, the compact form is typically used for single-line functions, and is akin to how functions are defined in mathematics. To illustrate each form, we consider a function <code>foo</code> that performs the sum of two variables <code>x</code> and <code>y</code>. </p>
+<p>When writing a script, you&#39;ll need to define your own functions. These functions can eventually be called without invoking any prefix. For example, if you define a function <code>foo</code>, you can run it using <code>foo&#40;x&#41;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The method to call a function actually depends on the <strong>module</strong> in which it&#39;s defined, and whether this module has been &quot;imported&quot; or &quot;used&quot;. We won&#39;t cover modules on this website, but they&#39;re essential for large projects. Within a script, users can create multiple modules, each operating as an independent workspace with its own variables. Indeed, when initiating a new session in Julia, you&#39;re actually working within a module called <code>Main</code>.  </span></span> There are two ways to define functions. We&#39;ll refer to them as the <strong>standard form</strong> and the <strong>compact form</strong>. The standard form is the most general and allows you to write both short and long functions. Conversely, the compact form is employed for single-line functions and is reminiscent of mathematical definitions. To illustrate each form, we consider a function <code>foo</code> that sums two variables <code>x</code> and <code>y</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2085,9 +2093,8 @@ end</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The compact form is ideal for concise functions, as they can be written in a single line. On the other hand, the standard form can expand over multiple lines if needed. </p>
-<p>The compact form provides the output indicated in the single line. As for the standard form, it returns the last line as its output when the output is not explicitly indicated. You can alternatively specify the output to return through the keyword <code>return</code>. Regardless of whether you use <code>return</code>, functions can return multiple outputs. This requires defining the result a collection, where tuples are the most common choice. </p>
-<p>All these approaches to specifying an output are illustrated below.</p>
+<p>The output of the compact form is given by operation described. The standard form, for its part, returns the last line as its output. You can alternatively specify the output to return through the keyword <code>return</code>. You can also return multiple outputs by defining a collection as the function&#39;s result. For this purpose, tuples are the most common choice. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> This is in fact because tuples perform better than vectors when the number of elements is small.  </span></span> </p>
+<p>These approaches to specifying an output are illustrated below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2139,7 +2146,7 @@ end</code></pre>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     Names of functions adhere to the same rules as variable names, thus permitting the use of Unicode characters. For instance, it&#39;s completely valid to define a function <code>∑&#40;x,y&#41;</code>. Indeed, most of the symbols used as operators are also available as functions. For instance, as for <a href="/julia_book/PAGES/3b_univariables/#arithmetic_operators">arithmetic operators</a>:</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     Similar to variable names, function names allow for Unicode characters. For instance, it&#39;s completely valid to define a function <code>∑&#40;x,y&#41;</code>. Indeed, most of the symbols used as operators are also available as functions, as illustrated by the following <a href="/julia_book/PAGES/3b_univariables/#arithmetic_operators">arithmetic operators</a>:</p>
 <p> <div class=" code_box"> <details  open><summary> Arithmetic Operators as Functions  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">&#43;&#40;2,3&#41;      # same as 2&#43;3
 -&#40;2,3&#41;      # same as 2-3
@@ -2149,14 +2156,14 @@ end</code></pre>
 <p></div> </div>  </details></div>  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     It&#39;s possible to define functions without arguments. For instance, </p>
+      <b> Remark</b> </span>  </div>  <div class=content>     It&#39;s possible to define functions without arguments, as we show below.</p>
 <p> <div class=" code_box"> <details  open><summary> Functions without Arguments  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">function foo&#40;&#41;
     a &#61; 1
     b &#61; 1
     return a &#43; b
 end</code></pre>
-<p></div> </div>  </details></div> Another example is <code>Pkg.update&#40;&#41;</code>, which was introduced when we studied packages.  </div>  </div>
+<p></div> </div>  </details></div> An example of functions without arguments is <code>Pkg.update&#40;&#41;</code>, which was introduced when we studied packages.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2166,11 +2173,10 @@ end</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Positional and Keyword Arguments</h2></p>
-<p>Up to this point, we&#39;ve been calling a function <code>foo&#40;x,y&#41;</code> using the syntax <code>foo&#40;2,4&#41;</code>. The distinctive feature of this syntax is that the first argument is assigned to <code>x</code> and the second argument to <code>y</code>. Therefore, the arguments follow an order. Functions called in this manner are expressed through what&#39;s known as <strong>positional arguments</strong>.</p>
-<p>One downside of functions with positional arguments is that they&#39;re prone to silent errors: if we mistakenly swap the positions of a pair, the function may still provide an output. The issue becomes more severe as the number of arguments in the function grows, in which case the likelihood of introducing a bug increases.</p>
-<p>Next, we present a way to circumvent this issue, based on the so-called <strong>keyword arguments</strong>. They allow the function to be called by explicitly indicating its arguments, such as in <code>foo&#40;x&#61;2,y&#61;4&#41;</code>. The order of arguments in this case is unimportant, making both <code>foo&#40;x&#61;2,y&#61;4&#41;</code> and <code>foo&#40;y&#61;4,x&#61;2&#41;</code> provide the same result.</p>
-<p>The following examples illustrate how to define and run functions with positional and keyword arguments. The approaches can be combined, thus allowing for a mix of positional and keyword arguments. </p>
-<p>Note below that positional arguments necessarily require using a semicolon for its definition. Nonetheless, when we run the function, the semicolon can be substituted with a comma.</p>
+<p>Up to this point, we&#39;ve been calling a function <code>foo&#40;x,y&#41;</code> using <code>foo&#40;2,4&#41;</code>. The distinctive feature of this syntax is that the arguments follow an order, so that the first argument is assigned to <code>x</code> and the second argument to <code>y</code>. Functions called in this manner are known as <strong>positional arguments</strong>.</p>
+<p>One downside of functions with positional arguments is that they&#39;re prone to silent errors: if we mistakenly swap the positions of arguments, the function may still provide an output. The issue becomes more severe as the number of arguments in the function grows, in which case the likelihood of introducing bugs increases.</p>
+<p>A way to circumvent this issue is based on the so-called <strong>keyword arguments</strong>. They allow the function to be called by explicitly indicating its arguments, such as in <code>foo&#40;x&#61;2,y&#61;4&#41;</code>. The order of arguments in this case is unimportant, making both <code>foo&#40;x&#61;2,y&#61;4&#41;</code> and <code>foo&#40;y&#61;4,x&#61;2&#41;</code> feasible and providing the same result.</p>
+<p>The following examples illustrate how to define and run functions with positional and keyword arguments. The approaches can be combined, thus enabling a mix of both. Note that positional arguments necessarily require a semicolon for its definition, although the function calls allow for substituting the semicolon by a comma.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2186,7 +2192,7 @@ end</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo&#40;; x, y&#41; &#61; x &#43; y</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;x&#61;1,y&#61;1&#41;</code><br/><div class="akin_to_pre">2</div> </div> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;; x&#61;1, y&#61;1&#41;</code>    # alternative notation<br/><div class="akin_to_pre">2</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;x&#61;1,y&#61;1&#41;</code><br/><div class="akin_to_pre">2</div> </div> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;; x&#61;1, y&#61;1&#41;</code>    # alternative notation &#40;only for calling &#39;foo&#39;&#41;<br/><div class="akin_to_pre">2</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo&#40;x; y&#41; &#61; x &#43; y</code></pre>
@@ -2251,10 +2257,11 @@ z &#61; &#91;2,3&#93;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Anonymous Functions</h2></p>
-<p> <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Anonymous functions are usually referred to as  <em>lambda functions</em> in other languages.  </span></span> They represent a third way to define functions, which we didn&#39;t include before because they&#39;re commonly used with a different purpose: as inputs to a function.</p>
-<p>As the name suggests, anonymous functions aren&#39;t referenced by a name. Their syntax is <code>x -&gt; &lt;body of the function&gt;</code>, where <code>x</code> is the function&#39;s argument and <code>&lt;body of the function&gt;</code> is an expression. Likewise, anonymous functions that depend on two or more arguments are expressed by <code>&#40;x,y&#41; -&gt; &lt;body of the function&gt;</code>. The notation resembles the mathematical arrow notation, where a function is defined by its operation, e.g., \(x\mapsto1+\sqrt{x}\). </p>
-<p>To demonstrate their application, we&#39;ll refer to a built-in function called <code>map</code>. This takes a function as its first argument, which is then applied element-wise to an array passed as a second argument. Formally, <code>map&#40;&lt;function&gt;, &lt;array&gt;&#41;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> <code>map</code> can be applied to functions with more than one argument. In that case, the syntax would be <code>map&#40;&lt;function&gt;,&lt;array1&gt;,&lt;array2&gt;&#41;</code>.      For instance, <code>map&#40;&#43;,&#91;1,2,3&#93;,&#91;1,2,3&#93;&#41;</code> provides the sum of each pair of numbers, so that the result is <code>&#91;2,4,6&#93;</code>. Nevertheless, just take <code>map</code> as an example for anonymous functions.  </span></span>  For example, we can apply the function <code>add_two&#40;x&#41; &#61; x &#43; 2</code> to each element of <code>y &#61; &#91;1,2,3&#93;</code> by <code>map&#40;add_two, y&#41;</code>, thus returning <code>&#91;3,4,5&#93;</code>. </p>
-<p>The execution of <code>map&#40;add_two, y&#41;</code> requires previously defining <code>add_two</code>. This is not only verbose, but also inconvenient if <code>add_two</code> won&#39;t be used again—it&#39;d pollute our workspace by creating a temporary function. In this context, an anonymous function eliminates the need to create the temporary function <code>add_two</code>, as shown below. </p>
+<p>Anonymous functions represent a third way to define functions. Unlike the previous definitions of functions, they&#39;re commonly used with a different purpose: as inputs to a function. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Anonymous functions are also known as  <em>lambda functions</em> in other languages.  </span></span> </p>
+<p>As the name suggests, anonymous functions aren&#39;t referenced by a name. Their syntax is <code>x -&gt; &lt;body of the function&gt;</code>, where <code>x</code> is the function&#39;s argument and <code>&lt;body of the function&gt;</code> is an expression. Likewise, anonymous functions that depend on two or more arguments are expressed by <code>&#40;x,y&#41; -&gt; &lt;body of the function&gt;</code>. The notation resembles the mathematical arrow notation to define a function&#39;s operation &#40;e.g. \(x\mapsto \sqrt{x}\)&#41;.</p>
+<p>To demonstrate their application, we&#39;ll refer to the built-in function <code>map</code>. We&#39;ll revisit this function later, but for now just take <code>map</code> as an example for anonymous functions.</p>
+<p>The function <code>map</code> passes a function as its first argument, which is then applied element-wise to an array passed as a second argument. Formally, <code>map&#40;&lt;function&gt;, &lt;array&gt;&#41;</code>. For example, we can apply the function <code>add_two&#40;a&#41; &#61; a &#43; 2</code> to each element of <code>x &#61; &#91;1,2,3&#93;</code> by <code>map&#40;add_two, x&#41;</code>, thus returning <code>&#91;3,4,5&#93;</code>. </p>
+<p>The execution of <code>map&#40;add_two, x&#41;</code> requires previously defining <code>add_two</code>. This is not only verbose, but also inconvenient if <code>add_two</code> won&#39;t be used again—it&#39;d pollute our workspace by creating a temporary function. In this context, an anonymous function eliminates the need to create the temporary function <code>add_two</code>, as shown below. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2262,9 +2269,10 @@ z &#61; &#91;2,3&#93;</code></pre>
     <button class="tablink" data-id=""> Through an Anonymous Function</button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">add_two&#40;x&#41; &#61; x &#43; 2
+<pre><code class="language-julia">x          &#61; &#91;1, 2, 3&#93;
+add_two&#40;a&#41; &#61; a &#43; 2
 
-result &#61; map&#40;add_two, &#91;1, 2, 3&#93;&#41;</code></pre>
+result     &#61; map&#40;add_two, x&#41;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>result</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  3
@@ -2272,12 +2280,144 @@ result &#61; map&#40;add_two, &#91;1, 2, 3&#93;&#41;</code></pre>
  5</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">result &#61; map&#40;x -&gt; x &#43; 2, &#91;1, 2, 3&#93;&#41;</code></pre>
+<pre><code class="language-julia">x          &#61; &#91;1, 2, 3&#93;
+
+
+result     &#61; map&#40;a -&gt; a &#43; 2, x&#41;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>result</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  3
  4
  5</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>The function <code>map</code> can also be used to illustrate how they can be employed when the anonymous function requires multiple arguments. The syntax of this case is <code>map&#40;&lt;function&gt;,&lt;array1&gt;,&lt;array2&gt;&#41;</code>. For instance, <code>map&#40;&#43;, &#91;1,2&#93;, &#91;2,4&#93;&#41;</code> provides the sum of each pair of numbers, so that the result is <code>&#91;3,6&#93;</code>. Before we illustrate how we can implement with anonymous functions.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> With Compact Function </button>
+    <button class="tablink" data-id=""> With Anonymous Function </button>    
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x        &#61; &#91;1,2,3&#93;
+y        &#61; &#91;4,5,6&#93;
+
+add&#40;a,b&#41; &#61; a &#43; b
+result   &#61; map&#40;add_two, x, y&#41;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>result</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 3
+ 4
+ 5</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x        &#61; &#91;1,2,3&#93;
+y        &#61; &#91;4,5,6&#93;
+
+
+result   &#61; map&#40;&#40;a,b&#41; -&gt; a &#43; b, x, y&#41;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>result</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 5
+ 7
+ 9</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+ <h4> The &quot;Do-Block&quot; Syntax &#40;<strong><i>OPTIONAL</i></strong>&#41; </h4>
+<p>Anonymous functions as arguments of a function can help us keep code tidy. However, they aren&#39;t particularly convenient for complex functions spanning over several lines. In these cases, we can use what&#39;s known as a <span style="color: rgb(62, 121, 180);"><strong>do-block syntax</strong></span>, which allows us to introduce an anonymous function into the first argument. </p>
+<p>For instance, suppose a function such that <code>foo&#40;&lt;inner function&gt;, &lt;vector&gt;&#41;</code>. Then, we can define an anonymous function for <code>inner function</code> as follows: </p>
+ <div class=" code_box"> <details  open><summary> Do-Block Syntax  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">foo&#40;&lt;vector&gt;&#41; do &lt;arguments of inner function&gt;
+    # body of inner function
+    end</code></pre>
+<p></div> </div>  </details></div>
+<p>To illustrate it in a specific situation, let&#39;s rewrite the example based on <code>map</code>.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> With Compact Function </button>
+    <button class="tablink" data-id=""> With Anonymous Function </button>
+    <button class="tablink" data-id=""> With Do-Block Syntax </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x          &#61; &#91;1, 2, 3&#93;
+add_two&#40;a&#41; &#61; a &#43; 2
+
+result     &#61; map&#40;add_two, x&#41;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>result</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 3
+ 4
+ 5</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x          &#61; &#91;1, 2, 3&#93;
+
+
+result     &#61; map&#40;a -&gt; a &#43; 2, x&#41;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>result</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 3
+ 4
+ 5</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x          &#61; &#91;1, 2, 3&#93;
+
+result     &#61; map&#40;x&#41; do a
+                a &#43; 2
+                end</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>result</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 3
+ 4
+ 5</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>The syntax also allows for functions with multiple arguments, as shown below. </p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> With Compact Function </button>
+    <button class="tablink" data-id=""> With Anonymous Function </button>
+    <button class="tablink" data-id=""> With Do-Block Syntax </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91;1,2,3&#93;
+y &#61; &#91;4,5,6&#93;
+
+add&#40;a,b&#41; &#61; a &#43; b
+result   &#61; map&#40;add_two, x, y&#41;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>result</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 5
+ 7
+ 9</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x        &#61; &#91;1,2,3&#93;
+y        &#61; &#91;4,5,6&#93;
+
+
+result   &#61; map&#40;&#40;a,b&#41; -&gt; a &#43; b, x, y&#41;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>result</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 5
+ 7
+ 9</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x        &#61; &#91;1,2,3&#93;
+y        &#61; &#91;4,5,6&#93;
+
+result   &#61; map&#40;x,y&#41; do a,b      # not &#40;a,b&#41;
+                a &#43; b
+                end</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>result</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 5
+ 7
+ 9</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -2299,7 +2439,7 @@ result &#61; map&#40;add_two, &#91;1, 2, 3&#93;&#41;</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat">0.000002 seconds </div></div> </div>   </details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Using macros requires extreme caution, as they could act as black boxes and hence lead to unexpected behaviors. In fact, macros tend to be a common source of bugs. If you apply a macro, make sure you understand which part of the expression is modified and how.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     Using macros requires extreme caution, as sometimes they could act as black boxes and hence lead to unexpected behaviors. In fact, macros tend to be a common source of bugs. If you apply a macro, make sure you understand which part of the expression is modified and how.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2319,14 +2459,14 @@ result &#61; map&#40;add_two, &#91;1, 2, 3&#93;&#41;</code></pre>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">&quot;This function is written in a standard way. It takes a number and adds two to it.&quot;
-function add_two&#40;x&#41;
-   x &#43; 2
+function add_two&#40;a&#41;
+   a &#43; 2
 end</code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">&quot;This function is written in a compact form. It takes a number and adds three to it.&quot;
-add_three&#40;x&#41; &#61; x &#43; 3</code></pre>
+add_three&#40;a&#41; &#61; a &#43; 3</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
@@ -2345,7 +2485,7 @@ add_three&#40;x&#41; &#61; x &#43; 3</code></pre>
        <span class="right-text"><a href="/julia_book/PAGES\4b_scope" class="nextPage">Next Section (<kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_right.png" style="width:15px; height:auto;opacity:0.9;padding-bottom:2px;">
     </kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified May 4, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified May 5, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>

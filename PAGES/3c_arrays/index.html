@@ -20,10 +20,12 @@
 (don't confuse head with header, head applies globally) -->
 
 <link rel="stylesheet" href="/julia_book/libs/katex/katex.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css"></link>
 
-<link rel="stylesheet" 
-href="https://fonts.googleapis.com/css?family=Open+Sans"></link>
+<!-- FOR LATEX -->
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css"></link> -->
+
+<!-- <link rel="stylesheet" 
+href="https://fonts.googleapis.com/css?family=Open+Sans"></link> -->
 <!-- Montserrat|Roboto|Lato|Raleway|Work+Sans|Raleway -->     
    <link rel="stylesheet" href="/julia_book/libs/highlight/styles/vs_myversion.css">
    
@@ -87,15 +89,21 @@ header .jumbotron {
  -->
 
 
-
-
-
-<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Poppins|Crimson+Text|Cardo|Ubuntu"></link> -->
+ <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Poppins|Crimson+Text|Cardo|Ubuntu"></link> -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans"></link>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter"></link>
 
 
 <style>
+
+/* @font-face {
+  font-family: 'OpenS';
+  src: 
+       url('/libs/fonts/OpenSans-Regular.ttf'),
+       url('/libs/fonts/OpenSans-VariableFont_wdth,wght.ttf'),       
+       url('/libs/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf'); 
+       font-variation-settings: 'wght' 100 1000, 'wdth' 25 100;  
+} */
 
 /* THIS CONTROLS THE GLOBAL BEHAVIOR OF THE PAGE */
 html { scroll-behavior: auto; }
@@ -116,21 +124,21 @@ html { scroll-behavior: auto; }
 
 /* TITLE AND NAME */
 h1{
-  padding-top:0.1em;
-  font-size:210% !important;
-  font-weight: bold;      
-  text-align:center;  
+  padding-top: 0.1em;
+  font-size  : 210% !important;
+  font-weight: bold;
+  text-align : center;
 }
 
 
 .phd_format {  
   color: white;
-  /* padding: -0.5em 1.0em; */
+    /* padding: -0.5em 1.0em; */
   text-decoration: none;
-  font-size: 90%;
-  text-align: center;    
-  margin-top:-0.2em;
-  margin-bottom: -0.89em;
+  font-size      : 90%;
+  text-align     : center;
+  margin-top     : -0.2em;
+  margin-bottom  : -0.89em;
   }
 
   
@@ -360,7 +368,7 @@ section a:hover{
 }
 
 </style>
-<!-- <div class="left_bar" style="color:white;">
+ <!-- <div class="left_bar" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
         <img src="/julia_book/assets/pics_html/julia_logo-dark.svg"
         style= "position:relative; width:90%; height:auto; padding-top:45px;  padding-left:10px;">     
@@ -740,7 +748,7 @@ data-show-count="true" aria-label="Star {{title}} on GitHub">Star</a>
   z-index: 200;    
   background-image: linear-gradient(to left bottom, rgb(0, 0, 0), rgb(0, 0, 0) 10%, rgb(63, 99, 136) 80%, rgb(63, 99, 136));
     position: fixed;    
-    font-family: "Inter";
+    font-family: "Inter","Open Sans";
     height: 100%;
     top: 0;
     left: 0;          
@@ -783,6 +791,411 @@ color: white;
 
  
 <!-- CONTENT PAGES -->
+
+    <header class="text-white text-center">
+  
+    <div class="jumbotron jumbotron-fluid container-fluid bg-primary">
+  
+
+
+    <h1><i>2e.</i> Arrays (Vectors and Matrices)</h1>    
+    <div class="lead"> </div>
+    
+    
+    <div class="name_format">
+      <a href="https://alfaromartino.github.io/" target="_blank" rel="noopener noreferrer">Martin Alfaro</a>
+      </div>
+      <div class="phd_format">PhD in Economics</div>
+    
+    
+    
+
+    
+
+    <!-- {{if add_github_star}}
+      <a class="github-button" href="https://github.com/{{github_repo}}" data-icon="octicon-star" data-size="large" 
+      data-show-count="true" aria-label="Star {{title}} on GitHub">Star</a>
+    {{end}} -->
+  </div>
+</header>
+
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<div class="bar_top">
+  <ul>
+     <li>
+      <div style="text-indent:0;">
+        <button class="modalButton" style="background-color: transparent; color:white; display:block;
+              margin-bottom: -2px;">
+          <img src="/julia_book/assets/icons/sheets01.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:5px;margin-left:0px;">
+            Sections</button>
+      </div>      
+      <!-- {{insert PAGES/content_keyboardShortcuts.html}} -->
+          <div class="modal" id="modal_bar">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 style="text-decoration: none"> <span style="text-decoration: underline">PART I</span>: INTRODUCTION TO JULIA</h2>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="column">
+          <h3> INTRODUCTION </h3>
+          <ul>
+            <li>1. <u>Installation and Preliminaries</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\1a_installation/"><i>a</i>. Installation and Resources</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\2a_basics/"><i>b</i>. Running Julia</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\1c_vscode/"><i>c</i>. VS Code (OPTIONAL)</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\2b_tips/"><i>d</i>. A Minimal Set of Good Practices</a></li><br>
+                
+              </ul>
+            </li>
+            <li>2. <u>Variables</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\overview_1/"><i>a</i>. Overview and Goals</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3a_variables/"><i>b</i>. Variables, Types, and Operators</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3b_univariables/"><i>c</i>. Numbers</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3b2_strings/"><i>d</i>. Strings</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3c_arrays/"><i>e</i>. Arrays (Vectors and Matrices)</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3c2_tuples/"><i>f</i>. Tuples</a></li><br>
+                
+              </ul>
+            </li>            
+          </ul>
+        </div>
+        <div class="column">
+          <h3> CORE CONCEPTS </h3>
+          <ul>
+            <li>3. <u>Functions</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\overview_2/"><i>a</i>. Overview and Goals</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\4a0_packages/"><i>b</i>. Function Execution and Packages</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\4a1_define_func/"><i>c</i>. Defining Your Own Functions</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\4b_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\4d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a></li><br>
+                
+              </ul>
+            </li>
+            <li>4. <u>Control Flow</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\overview_3/"><i>a</i>. Overview and Goals</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\5a_logical/"><i>b</i>. Conditions</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\5b_conditionals/"><i>c</i>. Conditional Statements</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\5c_forLoops/"><i>d</i>. For-Loops</a></li><br>
+                
+              </ul>
+            </li>            
+          </ul>
+        </div>
+        <div class="column">
+          <h3> USING JULIA </h3>
+          <ul>
+            <li>5. <u>Vectors: Indexing and Mutations</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\overview_4/"><i>a</i>. Overview and Goals</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3e_immutables/"><i>b</i>. Mutable and Immutable Objects</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\3d_mutation/"><i>c</i>. Assignments vs Mutations</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\5bc_initializing/"><i>d</i>. Initializing and Creating Vectors</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6a0_slices/"><i>e</i>. Slices and Views</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. In-Place Assignments</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
+                
+              </ul>
+            </li>
+            <li>6. <u>Working with Vectors and Other Collections</u>
+              <ul>
+                
+                <li><a href="/julia_book/PAGES\overview_6/"><i>a</i>. Overview and Goals</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6c1_tuples_and_namedtuples/"><i>b</i>. Named Tuples and Dictionaries</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6f_pipes/"><i>c</i>. Let Blocks and Pipes</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\6d_application01/"><i>e</i>. Illustration - Johnny, the YouTuber</a></li><br>
+                
+              </ul>
+            </li>            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </li>
+  </ul>
+</div>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+<style>
+  /* ================================================================= 
+                        TOP BAR - TO NAVIGATE SECTIONS
+  ================================================================= */ 
+  .bar_top{padding-left:180px;}  
+  
+  .bar_top {  
+    background-image: linear-gradient(to right, black, rgb(0, 0, 0) 10%, rgb(63,99,136) 55%, rgb(63,99,136));
+    position        : fixed;                         /* fixed to stay at the top */
+    width           : 100%;
+    height          : 48px;
+    top             : 0;
+    left            : 0;
+    padding         : 8px 0px 10px 0px;
+    font-size       : 100%;
+    z-index         : 125;
+  } 
+  
+  .bar_top a:hover {
+      color: rgb(160, 159, 159); 
+  }
+  
+  
+  .bar_top > ul {  
+    list-style-type: none;
+    float          : left;
+    position       : relative;
+    bottom         : 0;
+    padding-left   : 1%;    
+    left           : 180px;
+  }
+  
+    .bar_top li a{   
+    color: white;
+  }
+
+  
+  
+  .bar_top .modal{   
+  background-color: transparent;
+  /* left: 0; */
+  /* top: 0; */
+  margin-top  : 48px;
+  padding-left: 1%;
+  margin-left : 0;
+  width       : 100%;
+  height      : 100%;
+  overflow    : auto;
+  position    : fixed;
+  
+}  
+  
+  
+  
+  /* bar topright modal (for content of the modal) */
+  .bar_top .modal-content {  
+    position                  : relative;
+    width                     : 1200px; max-width      : 90%;
+    height                    : max-content; max-height: 90%;
+    background-color          : black;
+    margin                    : auto;
+    padding                   : 8px;
+    margin-left               : 180px;
+    -webkit-animation-name    : none;
+    /* -webkit-animation-duration: 0.0s; */
+    animation-name            : none;
+    /* animation-duration        : 0.0s; */
+  }
+
+
+  .bar_top .modal-header {  
+    background-color: black;
+    color           : white;
+  }
+  
+   .bar_top .modal-body{    
+    color:rgb(100, 157, 214);      
+  }
+
+  
+  .bar_top .modal-body .row{display: flex;}    
+  .bar_top .modal-body .row .column{flex:1;}  /* equal size of columns*/
+  
+  
+  .bar_top .modal-body .row h3{ 
+    padding-bottom:0.5em;}
+
+
+  .bar_top .modal-body .row ul li ul { 
+    list-style-type: none;
+    margin         : 0;
+    padding        : 0;
+    padding-top    : 1em;
+    padding-bottom : 0.4em;
+    line-height    : 1.5;}
+
+  .bar_top .modal-body .row li {
+    line-height    : 0.38;
+    list-style-type: none;
+    float          : center;
+    text-indent    : -20px;
+    padding-left   : 20px;
+    position       : relative;
+  }
+
+  
+
+.bar_top .modal-body .row .column {
+  text-align: center; /* center align all contents in a column */
+}
+
+.bar_top .modal-body .row .column h3 {
+  text-align: center; /* center align the h3 tag in a column */
+}
+
+.bar_top .modal-body .row .column ul {
+  text-align         : left ;   /* left align the ul tag in a column */
+  margin-left        : auto;    /* center the ul tag */
+  margin-right       : auto;    /* center the ul tag */
+  list-style-position: inside;  /* adjust the position of the list items */
+}
+    
+
+  /* modal button */
+  .bar_top .modalButton {      
+    border       : none;
+    margin-bottom: 24px;
+    box-shadow   : none;
+    /* box-shadow: 3px 3px 4px black;   */
+}
+
+/* The Close Button */
+.bar_top .modalClose {    
+  font-size: 0px;   
+}
+
+    
+    
+  </style>
 
     <link href="https://fonts.cdnfonts.com/css/cascadia-mono" rel="stylesheet">
 
@@ -1633,411 +2046,7 @@ $(document).ready(function() {
 	// Call the handler once at the beginning to check the initial state
 	mediaQueryHandler(mediaQuery);
 
-</script> --> 
-    <header class="text-white text-center">
-  
-    <div class="jumbotron jumbotron-fluid container-fluid bg-primary">
-  
-
-
-    <h1><i>2e.</i> Arrays (Vectors and Matrices)</h1>    
-    <div class="lead"> </div>
-    
-    
-    <div class="name_format">
-      <a href="https://alfaromartino.github.io/" target="_blank" rel="noopener noreferrer">Martin Alfaro</a>
-      </div>
-      <div class="phd_format">PhD in Economics</div>
-    
-    
-    
-
-    
-
-    <!-- {{if add_github_star}}
-      <a class="github-button" href="https://github.com/{{github_repo}}" data-icon="octicon-star" data-size="large" 
-      data-show-count="true" aria-label="Star {{title}} on GitHub">Star</a>
-    {{end}} -->
-  </div>
-</header>
-
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-<div class="bar_top">
-  <ul>
-     <li>
-      <div style="text-indent:0;">
-        <button class="modalButton" style="background-color: transparent; color:white; display:block;
-              margin-bottom: -2px;">
-          <img src="/julia_book/assets/icons/sheets01.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:5px;margin-left:0px;">
-            Sections</button>
-      </div>      
-      <!-- {{insert PAGES/content_keyboardShortcuts.html}} -->
-          <div class="modal" id="modal_bar">
-  <!-- Modal content -->
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2 style="text-decoration: none"> <span style="text-decoration: underline">PART I</span>: INTRODUCTION TO JULIA</h2>
-    </div>
-    <div class="modal-body">
-      <div class="row">
-        <div class="column">
-          <h3> INTRODUCTION </h3>
-          <ul>
-            <li>1. <u>Installation and Preliminaries</u>
-              <ul>
-                
-                <li><a href="/julia_book/PAGES\1a_installation/"><i>a</i>. Installation and Resources</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\2a_basics/"><i>b</i>. Running Julia</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\1c_vscode/"><i>c</i>. VS Code (OPTIONAL)</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\2b_tips/"><i>d</i>. A Minimal Set of Good Practices</a></li><br>
-                
-              </ul>
-            </li>
-            <li>2. <u>Variables</u>
-              <ul>
-                
-                <li><a href="/julia_book/PAGES\overview_1/"><i>a</i>. Overview and Goals</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\3a_variables/"><i>b</i>. Variables, Types, and Operators</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\3b_univariables/"><i>c</i>. Numbers</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\3b2_strings/"><i>d</i>. Strings</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\3c_arrays/"><i>e</i>. Arrays (Vectors and Matrices)</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\3c2_tuples/"><i>f</i>. Tuples</a></li><br>
-                
-              </ul>
-            </li>            
-          </ul>
-        </div>
-        <div class="column">
-          <h3> CORE CONCEPTS </h3>
-          <ul>
-            <li>3. <u>Functions</u>
-              <ul>
-                
-                <li><a href="/julia_book/PAGES\overview_2/"><i>a</i>. Overview and Goals</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\4a0_packages/"><i>b</i>. Function Execution and Packages</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\4a1_define_func/"><i>c</i>. Defining Your Own Functions</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\4b_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\4d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a></li><br>
-                
-              </ul>
-            </li>
-            <li>4. <u>Control Flow</u>
-              <ul>
-                
-                <li><a href="/julia_book/PAGES\overview_3/"><i>a</i>. Overview and Goals</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\5a_logical/"><i>b</i>. Conditions</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\5b_conditionals/"><i>c</i>. Conditional Statements</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\5c_forLoops/"><i>d</i>. For-Loops</a></li><br>
-                
-              </ul>
-            </li>            
-          </ul>
-        </div>
-        <div class="column">
-          <h3> USING JULIA </h3>
-          <ul>
-            <li>5. <u>Vectors: Indexing and Mutations</u>
-              <ul>
-                
-                <li><a href="/julia_book/PAGES\overview_4/"><i>a</i>. Overview and Goals</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\3e_immutables/"><i>b</i>. Mutable and Immutable Objects</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\3d_mutation/"><i>c</i>. Assignments vs Mutations</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\5bc_initializing/"><i>d</i>. Initializing and Creating Vectors</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6a0_slices/"><i>e</i>. Slices and Views</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6a1_indexing/"><i>f</i>. Array Indexing</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6b_mutating_views/"><i>g</i>. In-Place Assignments</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6c_inplace/"><i>h</i>. In-Place Functions</a></li><br>
-                
-              </ul>
-            </li>
-            <li>6. <u>Working with Vectors and Other Collections</u>
-              <ul>
-                
-                <li><a href="/julia_book/PAGES\overview_6/"><i>a</i>. Overview and Goals</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6c1_tuples_and_namedtuples/"><i>b</i>. Named Tuples and Dictionaries</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6f_pipes/"><i>c</i>. Let Blocks and Pipes</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
-                
-                <li><a href="/julia_book/PAGES\6d_application01/"><i>e</i>. Illustration - Johnny, the YouTuber</a></li><br>
-                
-              </ul>
-            </li>            
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-    </li>
-  </ul>
-</div>
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
-<style>
-  /* ================================================================= 
-                        TOP BAR - TO NAVIGATE SECTIONS
-  ================================================================= */ 
-  .bar_top{padding-left:180px;}  
-  
-  .bar_top {  
-    background-image: linear-gradient(to right, black, rgb(0, 0, 0) 10%, rgb(63,99,136) 55%, rgb(63,99,136));
-    position        : fixed;                         /* fixed to stay at the top */
-    width           : 100%;
-    height          : 48px;
-    top             : 0;
-    left            : 0;
-    padding         : 8px 0px 10px 0px;
-    font-size       : 100%;
-    z-index         : 125;
-  } 
-  
-  .bar_top a:hover {
-      color: rgb(160, 159, 159); 
-  }
-  
-  
-  .bar_top > ul {  
-    list-style-type: none;
-    float          : left;
-    position       : relative;
-    bottom         : 0;
-    padding-left   : 1%;    
-    left           : 180px;
-  }
-  
-    .bar_top li a{   
-    color: white;
-  }
-
-  
-  
-  .bar_top .modal{   
-  background-color: transparent;
-  /* left: 0; */
-  /* top: 0; */
-  margin-top  : 48px;
-  padding-left: 1%;
-  margin-left : 0;
-  width       : 100%;
-  height      : 100%;
-  overflow    : auto;
-  position    : fixed;
-  
-}  
-  
-  
-  
-  /* bar topright modal (for content of the modal) */
-  .bar_top .modal-content {  
-    position                  : relative;
-    width                     : 1200px; max-width      : 90%;
-    height                    : max-content; max-height: 90%;
-    background-color          : black;
-    margin                    : auto;
-    padding                   : 8px;
-    margin-left               : 180px;
-    -webkit-animation-name    : none;
-    /* -webkit-animation-duration: 0.0s; */
-    animation-name            : none;
-    /* animation-duration        : 0.0s; */
-  }
-
-
-  .bar_top .modal-header {  
-    background-color: black;
-    color           : white;
-  }
-  
-   .bar_top .modal-body{    
-    color:rgb(100, 157, 214);      
-  }
-
-  
-  .bar_top .modal-body .row{display: flex;}    
-  .bar_top .modal-body .row .column{flex:1;}  /* equal size of columns*/
-  
-  
-  .bar_top .modal-body .row h3{ 
-    padding-bottom:0.5em;}
-
-
-  .bar_top .modal-body .row ul li ul { 
-    list-style-type: none;
-    margin         : 0;
-    padding        : 0;
-    padding-top    : 1em;
-    padding-bottom : 0.4em;
-    line-height    : 1.5;}
-
-  .bar_top .modal-body .row li {
-    line-height    : 0.38;
-    list-style-type: none;
-    float          : center;
-    text-indent    : -20px;
-    padding-left   : 20px;
-    position       : relative;
-  }
-
-  
-
-.bar_top .modal-body .row .column {
-  text-align: center; /* center align all contents in a column */
-}
-
-.bar_top .modal-body .row .column h3 {
-  text-align: center; /* center align the h3 tag in a column */
-}
-
-.bar_top .modal-body .row .column ul {
-  text-align         : left ;   /* left align the ul tag in a column */
-  margin-left        : auto;    /* center the ul tag */
-  margin-right       : auto;    /* center the ul tag */
-  list-style-position: inside;  /* adjust the position of the list items */
-}
-    
-
-  /* modal button */
-  .bar_top .modalButton {      
-    border       : none;
-    margin-bottom: 24px;
-    box-shadow   : none;
-    /* box-shadow: 3px 3px 4px black;   */
-}
-
-/* The Close Button */
-.bar_top .modalClose {    
-  font-size: 0px;   
-}
-
-    
-    
-  </style>
+</script> -->    
 
 
 
@@ -2187,7 +2196,7 @@ Y &#61; &#91;4 5 6&#93;     # row-vector</code></pre>
        <span class="right-text"><a href="/julia_book/PAGES\3c2_tuples" class="nextPage">Next Section (<kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_right.png" style="width:15px; height:auto;opacity:0.9;padding-bottom:2px;">
     </kbd>)<img src="/julia_book/assets/icons/next-page.png"
         style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified May 4, 2024 </span>  
+    <span class="center-text">  © Martin Alfaro <br>Last Modified May 5, 2024 </span>  
   </div>
 <!-- </p>  -->
 </footer>
