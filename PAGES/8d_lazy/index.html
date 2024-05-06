@@ -115,7 +115,7 @@ header .jumbotron {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Open+Sans:wght@300..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
  
 
  
@@ -136,7 +136,7 @@ html { scroll-behavior: auto; }
 } 
 
 .franklin-content{
-  font-size: 17px;
+  font-size: 18px;
   font-family: "Open Sans";
 }
 
@@ -211,7 +211,7 @@ h1{
   
   
   .franklin-content, .jumbotron {
-      padding-left: 180px;}
+      padding-left: 160px;}
 
 
 
@@ -398,8 +398,8 @@ section a:hover{
 
 <div class="left_bar" style="color:white;">
   <span>
-    <img src="/julia_book/assets/pics_html/julia_logo-dark.svg" alt="pic" style="padding: 12px; padding-right:28px;padding-top:36px"
-      width="180px" height=auto>
+    <img src="/julia_book/assets/pics_html/julia_logo-dark.svg" alt="pic" style="padding: 12px; padding-right:28px;padding-top:44px"
+      width="160px" height=auto>
   </span>
 
 
@@ -416,14 +416,14 @@ section a:hover{
 
 
   <ul>
-    <li>
+    <li style="text-transform: uppercase">
       <a href="/julia_book/index.html"><img src="/julia_book/assets/icons/home.png"
           style="width:15%; height:auto;opacity:0.9;padding-bottom:5px;">
         Home
       </a>
     </li>
 
-    <li>
+    <li style="text-transform: uppercase">
       <a href="/julia_book/list_posts/"><img src="/julia_book/assets/icons/books03.png"
           style="width:15%; height:auto;opacity:0.9;padding-bottom:5px;">
         Chapters
@@ -431,9 +431,9 @@ section a:hover{
     </li>
     <li>      
       <div style="text-indent:0;">
-        <button class="modalButton">
-          <img src="/julia_book/assets/icons/keyboard01.png" style="width:20%; height:auto; opacity:0.9;margin-bottom:-18px; margin-left:-40px; padding-right:4px;">
-          Notation &<div style="margin-left:-1em; margin-top:-3em;">Hotkeys</div>
+        <button class="modalButton" style="text-transform: uppercase">
+          <img src="/julia_book/assets/icons/keyboard01.png" style="width:20%; height:auto; opacity:0.9;margin-bottom:-26px; margin-left:-30px; padding-right:4px;">
+          <span style="margin-left:-0.2em;">Notation &<div style="margin-left:-1.2em; margin-top:-3em;">Hotkeys</div></span>
         </button>                   
       <div class="kbd_shortcuts">
     <div class="modal" id="kbdmodal_bar">
@@ -736,10 +736,10 @@ section a:hover{
 
     </div> 
     </li>
-    <li>
+    <li style="text-transform: uppercase">
       <a href="/julia_book/links/"><img src="/julia_book/assets/icons/links.png"
           style="width:15%; height:auto;opacity:0.9;padding-bottom:5px;">
-        Useful Links
+        Links
       </a>
     </li>    
   </ul>
@@ -748,7 +748,8 @@ section a:hover{
     <a href="https://alfaromartino.github.io"><img src="/julia_book/assets/icons/personal.png"
         style="width:18%; height:auto;opacity:0.9;margin-bottom:-14px; padding-right:4px">
       Personal
-      <div style="margin-left:calc(30px + 6px); margin-top:-0.5em;"> Website</div>
+      <!-- <div style="margin-left:calc(30px + 6px); margin-top:-0.5em;"> Website</div> -->
+      <div style="margin-left:calc(30px + 2px); margin-top:-0.5em;"> Website</div>
     </a>
   </div>
 
@@ -764,34 +765,37 @@ data-show-count="true" aria-label="Star {{title}} on GitHub">Star</a>
 
 
 
-
 <style>
 
-
+@media (max-width: 850px), (max-height: 600px){
+  .left_bar{display:none}
+}
 
 .left_bar {
-  z-index: 200;    
+  z-index         : 200;
   background-image: linear-gradient(to left bottom, rgb(0, 0, 0), rgb(0, 0, 0) 10%, rgb(63, 99, 136) 80%, rgb(63, 99, 136));
-    position: fixed;    
-    font-family: "Inter","Open Sans";
-    height: 100%;
-    top: 0;
-    left: 0;          
-    font-size: 20px;
-    width: 180px;
+  position        : fixed;
+  font-family     : "Inter", "Open Sans" ;
+  height          : 100%;
+  top             : 0;
+  left            : 0;
+  font-size       : 20px;
+  width           : 160px;
 }
 
 
 
 .left_bar ul{
-list-style-type: none;
-float: left;
-font-size:85%;
-position: relative;
-padding-left: 0.8em;
-padding-top: 40px;
-line-height: 4.25em;
+  list-style-type: none;
+  float          : left;
+  font-size      : 80%;
+  position       : relative;
+  padding-left   : 0.8em;
+  padding-top    : 40px;
+  line-height    : 4.25em;  
 }
+
+
 
 
 .left_bar li a, .left_bar .personal_website a{
@@ -805,11 +809,13 @@ color: white;
 
 
 .left_bar .personal_website{
-  position:absolute;
-  bottom:0;
+  position      : absolute;
+  bottom        : 0;
   padding-bottom: 1em;
-  left:12px;
-  font-size:18px;
+  left          : 12px;
+  font-size     : 20px;
+  font-family   : "Cormorant SC";
+  font-weight   : bold;
 }
 
 
@@ -877,7 +883,7 @@ color: white;
        
     /* FOR INLINE CODE, WRITTEN WITHIN THE TEXT*/
   code {  
-    background-color: rgb(209, 217, 224);         /*rgb(199, 223, 236);*/
+    background-color: rgb(209, 217, 224);              /*rgb(199, 223, 236);*/
     color           : black;
     text-indent     : 0%;
     padding-top     : 0.1em;
@@ -886,13 +892,14 @@ color: white;
     padding-right   : 0.3em;
     vertical-align  : 0.05em;
     border          : 1px solid rgb(0, 16, 41);
-    overflow: hidden;
+    overflow        : hidden;
   }
 
   .julia_repl_NoFormat code, .mixed_output_NoFormat code {  
-    background-color: rgb(82, 120, 104);         /*rgb(199, 223, 236);*/
+    background-color: rgb(82, 120, 104);            /*rgb(199, 223, 236);*/
     color           : #DCDCDC;
-    border          : 1px solid rgb(82, 120, 104);    
+    border          : 1px solid rgb(82, 120, 104);
+    font-size       : 90%;
   }
 
 
@@ -947,7 +954,7 @@ color: white;
   /* NoFormat for julia repl - no margins or paddings, just colors, fonts, etc */
 .julia_repl_NoFormat{  
     font-family     : "Consolas";
-    font-size       : 95%;
+    font-size       : 90%;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -958,7 +965,7 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 90%;
   margin     : 0;
   padding    : 0;
 }
@@ -967,7 +974,7 @@ color: white;
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
     font-family     : "Consolas";    
-    font-size       : 95%;
+    font-size       : 90%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -991,7 +998,7 @@ color: white;
 
 .mixed_output_NoFormat{  
     font-family     : "Consolas";
-    font-size       : 95%;
+    font-size       : 90%;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -1078,7 +1085,7 @@ color: white;
     
   
  /* ================================================================= 
-                      BASIC FORMAT FOR OUTPUTS
+                      BASIC FORMAT FOR CODE
   ================================================================= */ 
   
 
@@ -1174,32 +1181,32 @@ color: white;
 }
 
 .hide_tab > details > summary {  
-  width: 30px; max-width: 90%;  
-  padding-left: 11px; 
-  padding-right: 0px;
-  padding-bottom: 0px;
-  background-color:  rgb(63,99,136);   
-  cursor: pointer;
-  color: #ffffff;
-  text-indent:0;  
-  border:#282c34; 
-  border-width:1px;  
-  border-style:solid;   
+  width           : 30px; max-width: 90%;
+  padding-left    : 11px;
+  padding-right   : 0px;
+  padding-bottom  : 0px;
+  background-color: rgb(63,99,136);
+  cursor          : pointer;
+  color           : #ffffff;
+  text-indent     : 0;
+  border          : #282c34;
+  border-width    : 1px;
+  border-style    : solid;
 }
 
 .hide_tab > details[open] > summary {
-  position:absolute;
-  width: 35px; max-width: 90%;      
-  height:1.94em;  
-  padding-bottom: 0px;
-  padding-top: 3px;   
-  padding-left: 12px;  
-  padding-right: 5px;   
+  position        : absolute;
+  width           : 35px; max-width: 90%;
+  height          : 1.94em;
+  padding-bottom  : 0px;
+  padding-top     : 3px;
+  padding-left    : 12px;
+  padding-right   : 5px;
   background-color: rgb(63,99,136);
-  border:#282c34; 
-  border-width:1px;  
-  border-style:solid; 
-  border-bottom: none;  
+  border          : #282c34;
+  border-width    : 1px;
+  border-style    : solid;
+  border-bottom   : none;
 }
 
 
@@ -1253,11 +1260,11 @@ color: white;
 
 .code_in_modal{  
   background-color: rgb(0, 16, 41);
-  padding-left  : 1em;
-  padding-top   : 0.5em;
-  padding-bottom: 1em;
-  margin-top    : 0;
-  margin-bottom : 0;
+  padding-left    : 1em;
+  padding-top     : 0.5em;
+  padding-bottom  : 1em;
+  margin-top      : 0;
+  margin-bottom   : 0;
 }
 
 
@@ -1295,33 +1302,33 @@ color: white;
 }  
 
 .img_output_in_modal_old{
-  text-indent:0;
-  margin:0;
-  padding:0;  
-  background-color: rgba(30,30,30,255);  
+  text-indent     : 0;
+  margin          : 0;
+  padding         : 0;
+  background-color: rgba(30,30,30,255);
 }  
 
 
 
 .sign_output{ 
-  color:white;  
-  width: 100%; max-width: 100%;
-  height:auto;  
-  padding-bottom: 0px;
-  padding-top: 0px;   
-  padding-left: 12px;  
-  padding-right: 12px;   
-  background-color:  #3f6b4b;
-  border:#282c34; 
-  border-width:1px;    
-  border-style:solid;  
-  margin-bottom:0px;
-  padding-top:0em;
+  color           : white;
+  width           : 100%; max-width: 100%;
+  height          : auto;
+  padding-bottom  : 0px;
+  padding-top     : 0px;
+  padding-left    : 12px;
+  padding-right   : 12px;
+  background-color: #3f6b4b;
+  border          : #282c34;
+  border-width    : 1px;
+  border-style    : solid;
+  margin-bottom   : 0px;
+  padding-top     : 0em;
 }
 
 .outputmodal_container{   
-    padding:0;
-  margin:0;  
+  padding: 0;
+  margin : 0;
 }
 
   
@@ -1622,18 +1629,19 @@ margin-top: 0px;
   /* ================================================================= 
                         TOP BAR - TO NAVIGATE SECTIONS
   ================================================================= */ 
-  .bar_top{padding-left:180px;}  
+  .bar_top{padding-left:160px;}  
   
   .bar_top {  
     background-image: linear-gradient(to right, black, rgb(0, 0, 0) 10%, rgb(63,99,136) 55%, rgb(63,99,136));
-    position        : fixed;                         /* fixed to stay at the top */
+    position        : fixed;                                                                                   /* fixed to stay at the top */
     width           : 100%;
     height          : 48px;
     top             : 0;
     left            : 0;
     padding         : 8px 0px 10px 0px;
-    font-size       : 100%;
+    font-size       : 110%;
     z-index         : 125;
+    font-family     : "Inter";
   } 
   
   .bar_top a:hover {
@@ -1647,7 +1655,7 @@ margin-top: 0px;
     position       : relative;
     bottom         : 0;
     padding-left   : 1%;    
-    left           : 180px;
+    left           : 160px;
   }
   
     .bar_top li a{   
@@ -1680,7 +1688,7 @@ margin-top: 0px;
     background-color          : black;
     margin                    : auto;
     padding                   : 8px;
-    margin-left               : 180px;
+    margin-left               : 160px;
     -webkit-animation-name    : none;
     /* -webkit-animation-duration: 0.0s; */
     animation-name            : none;
@@ -1705,21 +1713,27 @@ margin-top: 0px;
   .bar_top .modal-body .row h3{ 
     padding-bottom:0.5em;}
 
+    .bar_top .modal-body .row ul li{line-height: 1;}
 
   .bar_top .modal-body .row ul li ul { 
     list-style-type: none;
     margin         : 0;
     padding        : 0;
-    padding-top    : 1em;
+    padding-top    : 0.5em;
     padding-bottom : 0.4em;
-    line-height    : 1.5;}
+    line-height    : 1;
+  }
 
+  .bar_top .modal-body .row ul li ul li {     
+    line-height    : 1;
+  }
+  
   .bar_top .modal-body .row li {
-    line-height    : 0.38;
+    line-height    : 1;
     list-style-type: none;
     float          : center;
     text-indent    : -20px;
-    padding-left   : 20px;
+    padding-left   : 22px;
     position       : relative;
   }
 
@@ -1738,6 +1752,7 @@ margin-top: 0px;
   margin-left        : auto;    /* center the ul tag */
   margin-right       : auto;    /* center the ul tag */
   list-style-position: inside;  /* adjust the position of the list items */
+  line-height        : 0.55em;
 }
     
 
@@ -2031,20 +2046,21 @@ $(document).ready(function() {
 
 
 
-
 <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Poppins|Crimson+Text|Cardo|Ubuntu"></link> -->
 
 <style>
 
 
+
+
 @media (max-width: 850px){
-     .jumbotron, .left_bar{
+     .jumbotron{
         font-size:90% !important;}
 
-        .franklin-content{
+       .franklin-content{
         font-size:100% !important;}
 
-        .franklin-content{padding-left: 1%; padding-right:1%;}
+       .franklin-content{padding-left: 1%; padding-right:1%;}
 
       .index_container,  .index_container section{font-size: 100%;}
       
@@ -2063,13 +2079,7 @@ $(document).ready(function() {
       .home_container .row li {padding-left:0; padding-bottom:1.55em; margin-left:0;}
       .home_container .bullets_nomarker ul li p {line-height:1.55 !important;}
 
-      h1 {font-size: 180%; padding-top:0.5em ;padding-bottom:0em; }
-      h2, .lead {font-size: 110%; }
-      .lead {padding-top:0em;padding-bottom: 1em;}
-
-     .bar_top, nav, .copy-button, .left_bar .personal_website, .py-1 .container .center-text{
-      visibility:hidden; width:0 !important; height:0 !important}  
-
+      
       /* for fixing overflowing code */
       .col-lg-.mx-auto{     
         /* white-space: pre-wrap;  */
@@ -2082,32 +2092,9 @@ $(document).ready(function() {
         padding-right: 1% !important;
         padding-top: 0; margin-top:0;}
 
-
-        
-      
       
      
-     .left_bar{
-      position        : absolute;
-      top             : -52px ;
-      left            : 0 ;
-      height          : auto;
-      background-image: none;
-
-    }
-
-         
-     
-
-      /* .left_bar ul {padding-left:0 !important; margin-left:0}   */
-      .left_bar ul, .left_bar ul li {margin-bottom:-0.5em !important; text-indent:0; padding-top:0.0em !important; padding-bottom:0.0em !important; height:auto;}
-      
-      .left_bar ul li a {width:60px !important;}  
-
-      .left_bar img{width:0% !important; height:0% !important; visibility: hidden;}  
-          
-      
-      
+           
 
       .modal {padding: 2px !important;}
 
@@ -2120,7 +2107,7 @@ $(document).ready(function() {
 
 
 @media (max-height: 600px) {
-     .jumbotron, .left_bar{
+     .jumbotron{
         font-size:90% !important;}
 
         .franklin-content{font-size:100% !important}
@@ -2134,12 +2121,7 @@ $(document).ready(function() {
         padding-right:1%;              
       }
 
-      h1 {font-size: 180%; padding-top:0.5em ;padding-bottom:0em; }
-      h2, .lead {font-size: 110%; }
-      .lead {padding-top:0em;padding-bottom: 1em;}
 
-     .bar_top, nav, .copy-button, .left_bar .personal_website, .py-1 .container .center-text{
-      visibility:hidden; width:0 !important; height:0 !important}  
 
       /* for fixing overflowing code */
       .col-lg-.mx-auto{     
@@ -2153,29 +2135,13 @@ $(document).ready(function() {
         padding-right: 1% !important;
         padding-top: 0; margin-top:0;}
 
-
-        
+    
       
-        .franklin-content{
-         padding-left: 0 !important;}
-     
-      .left_bar{
-      position        : absolute;
-      top             : -52px ;
-      left            : 0 ;
-      height          : auto;
-      background-image: none;}
-     
+      .franklin-content{
+       padding-left: 0 !important;}
      
 
-      /* .left_bar ul {padding-left:0 !important; margin-left:0}   */
-      .left_bar ul, .left_bar ul li {text-indent:0; padding-top:0em ; padding-bottom:0em !important; height:2.5em; font-size:100%;}
       
-      .left_bar ul li a {width:60px !important;}  
-
-      .left_bar img{
-      width:0% !important; height:0% !important; visibility: hidden;}  
-
       .modal {padding: 2px !important;}
       
       .bullets ol, .itemNoSpace ol{padding: 6px; }
@@ -2187,22 +2153,172 @@ $(document).ready(function() {
 }
 
 
-    @media (max-width: 850px), (max-height: 600px) {
-      h2, .lead {font-size: 140%;padding-top:1em; }
-      h1 {font-size: 200%}
-      
-    }
 
-    @media (max-height: 600px){
-          .left_bar ul, .left_bar ul li {text-indent:0; padding-top:0.0em ; padding-bottom:0em !important; height:3.2em; font-size:105%;}
-        }
 
-    @media (max-width: 850px){
-      .left_bar ul, .left_bar ul li {text-indent:0; padding-top:0.5em ; padding-bottom:0em !important; height:3.5em; font-size:102%; padding-left:0.15em;}
-    }  
 
 
 </style>
+<!-- <div class="left_bar_mobile" style="color:white;">
+    <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
+        <img src="/julia_book/assets/pics_html/julia_logo-dark.svg"
+        style= "position:relative; width:90%; height:auto; padding-top:45px;  padding-left:10px;">     
+    </div> -->
+    
+<div class="left_bar_mobile" style="color:white;">
+
+  <!-- <span>
+    <img src="/julia_book/assets/pics_html/julia_logo-dark.svg" alt="pic" style="padding: 12px; padding-right:28px;padding-top:36px"
+      width="{{contentPages_topleft_space_mobile}}" height=auto>
+  </span> -->
+
+  <!-- FOR TITLE BELOW THE PICTURE  -->
+  <!-- <div style="color: rgb(63,99,136);
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: 1px 1px 0px #fff, -1px -1px 0px #fff, 1px -1px 0px #fff, -1px 1px 0px #fff, 0px 0px 5px  #fff;">
+      CONTENT
+    </div> -->
+
+  <ul>
+    <li>
+      <a href="/julia_book/index.html"><img src="/julia_book/assets/icons/home.png"
+          style="width:15%; height:auto;opacity:0.9;padding-bottom:5px;">
+        HOME
+      </a>
+    </li>
+
+    <li>
+      <a href="/julia_book/list_posts/"><img src="/julia_book/assets/icons/books03.png"
+          style="width:15%; height:auto;opacity:0.9;padding-bottom:5px;">
+        CHAPTERS
+      </a>
+    </li>    
+  </ul>
+
+  
+
+
+  
+
+  <!-- {{if add_github_star}}
+<a class="github-button" href="https://github.com/{{github_repo}}" data-icon="octicon-star" data-size="large" 
+data-show-count="true" aria-label="Star {{title}} on GitHub">Star</a>
+{{end}}       -->
+</div>
+
+
+
+
+
+<style>
+
+@media (min-width: 850px), (min-height: 600px){
+  .left_bar_mobile{display:none}
+}
+
+@media (max-width: 850px), (max-height: 600px){
+  .left_bar_mobile{display:block}
+  .lead {display:none}
+  .bar_top, nav, .copy-button, .py-1 .container .center-text{
+      display:none !important;}
+      .jumbotron {
+        /* padding-left: 60px !important;         */
+        padding-left:80px;
+        padding-right: 0.1% !important;
+        padding-top: 0; margin-top:0;}
+}
+
+
+
+.left_bar_mobile img{display:none;}
+
+.left_bar_mobile {
+  z-index         : 200;
+  background-image: none;
+  position        : absolute;
+  font-family     : "Inter";
+  height          : auto;
+  top             : 0;
+  left            : 0;
+  font-size       : 85%
+  width           : 60px;
+}
+
+      
+
+.left_bar_mobile ul{
+list-style-type: none;
+float          : left;
+font-size      : 100%;
+position       : relative;
+padding-left   : 0.4em;
+padding-top    : 0.5em;
+line-height    : 4.25em;
+height         : auto;
+top            : 0;
+width          : 60px;
+}
+
+/* .left_bar_mobile ul {padding-left:0 !important; margin-left:0}   */
+      /* .left_bar_mobile ul, .left_bar_mobile ul li {margin-bottom:-0.5em !important; text-indent:0; padding-top:0.0em !important; padding-bottom:0.0em !important; height:auto;} */
+      
+
+.left_bar_mobile li a{
+color: white;
+}
+
+
+.left_bar_mobile a:hover{
+  color: rgb(160, 159, 159);  
+}
+
+
+
+
+
+
+@media (max-width: 850px) {
+          
+      /* .left_bar_mobile ul {padding-left:0 !important; margin-left:0}   */
+      /* .left_bar_mobile ul, .left_bar_mobile ul li {margin-bottom:-0.5em !important; text-indent:0; padding-top:0.0em !important; padding-bottom:0.0em !important; height:auto;} */
+      /* .left_bar_mobile ul li a {width:60px !important;}   */
+      /* .left_bar_mobile img{width:0% !important; height:0% !important; visibility: hidden;}   */
+      
+          
+}
+
+
+@media (max-height: 600px) {
+    
+        /* .left_bar_mobile ul {padding-left:0 !important; margin-left:0}   */
+    /* .left_bar_mobile ul, .left_bar_mobile ul li {text-indent:0; padding-top:0em ; padding-bottom:0em !important; height:2.5em; font-size:100%;} */
+            /* .left_bar_mobile ul li a {width:60px !important;}   */
+      /* .left_bar_mobile img{display:none;}   */
+}
+
+@media (max-width: 850px), (max-height: 600px) {
+      h2 {font-size: 140%;padding-top:1em; }      
+      h1 {font-size: 180%;padding-top:0.5em ;padding-bottom:0em;}      
+        }
+
+              
+
+      
+    }
+
+@media (max-height: 600px){
+          /* .left_bar_mobile ul, .left_bar_mobile ul li {text-indent:0; padding-top:0.0em ; padding-bottom:0em !important; height:3.2em; font-size:105%;} */
+        }
+
+@media (max-width: 850px){
+      /* .left_bar_mobile ul, .left_bar_mobile ul li {text-indent:0; padding-top:0.5em ; padding-bottom:0em !important; height:3.5em; font-size:102%; padding-left:0.15em;} */
+    }  
+  
+
+</style>
+
+
 
 <!-- {{ispage list_posts links}}  
   {{insert /index_page/lists_header.html}}  
@@ -2444,18 +2560,26 @@ end</code></pre> </div></div>
   </div>
 </section>
 
-<footer class="py-1">    
-    <!-- <p class="m-0"> -->
-    <div class="container">
-       <span class="left-text"><a href="/julia_book/PAGES\8c_staticVectors" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png"
-        style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"> Previous Section (<kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_left.png" style="width:15px; height:auto;opacity:0.9;padding-bottom:2px;">
-          </kbd>)</a></span>
-       <span class="right-text"><a href="/julia_book/" class="nextPage">Next Section (<kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_right.png" style="width:15px; height:auto;opacity:0.9;padding-bottom:2px;">
-    </kbd>)<img src="/julia_book/assets/icons/next-page.png"
-        style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;"></a>    </span>              
-    <span class="center-text">  © Martin Alfaro <br>Last Modified May 5, 2024 </span>  
-  </div>
-<!-- </p>  -->
+<footer class="py-1"> 
+  <div class="container"> 
+      <span class="left-text">
+          <a href="/julia_book/PAGES\8c_staticVectors" class="prevPage">
+              <img src="/julia_book/assets/icons/prev-page.png" style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;">
+              Previous Section 
+              <span class="ctrl-text">( <kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_left.png" style="width:15px; height:auto;opacity:0.9;padding-bottom:2px;"> </kbd> )</span>
+          </a>
+      </span> 
+      <span class="right-text">
+          <a href="/julia_book/" class="nextPage">
+              Next Section 
+              <span class="ctrl-text">( <kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_right.png" style="width:15px; height:auto;opacity:0.9;padding-bottom:2px;"> </kbd> )</span>
+              <img src="/julia_book/assets/icons/next-page.png" style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;">
+          </a>
+      </span> 
+      <span class="center-text"> 
+          © Martin Alfaro <br>Last Modified May 6, 2024 
+      </span> 
+  </div> 
 </footer>
 
 
@@ -2463,6 +2587,12 @@ end</code></pre> </div></div>
 
 
 <style>
+
+@media (max-width: 850px), (max-height: 600px) {
+    .ctrl-text {
+        display: none;
+    }
+}
 
 
 footer{font-family: "Inter";}
@@ -2928,6 +3058,7 @@ for multiple pics in a row
 
 
 
+
 <!-- FOR NAVIGATION-->
        
   
@@ -3007,13 +3138,14 @@ document.addEventListener('keydown', (e) => {
                       NAVIGATION BAR
 ================================================================= */ 
 .nav {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 200;
+  position        : fixed;
+  top             : 0;
+  right           : 0;
+  z-index         : 200;
   background-color: rgb(63,99,136);
-  padding: 0;
-  display: block;
+  padding         : 0;
+  display         : block;
+  font-family     : inter;
 }
 
 .nav-toggle {
