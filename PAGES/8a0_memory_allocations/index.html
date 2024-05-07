@@ -899,7 +899,7 @@ color: white;
     background-color: rgb(82, 120, 104);            /*rgb(199, 223, 236);*/
     color           : #DCDCDC;
     border          : 1px solid rgb(82, 120, 104);
-    font-size       : 90%;
+    font-size       : 95%;
   }
 
 
@@ -974,7 +974,7 @@ color: white;
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
     font-family     : "Consolas";    
-    font-size       : 90%;
+    font-size       : 100%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -998,7 +998,7 @@ color: white;
 
 .mixed_output_NoFormat{  
     font-family     : "Consolas";
-    font-size       : 90%;
+    font-size       : 95%;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -1015,7 +1015,7 @@ color: white;
 }
 
 .mixed_output_NoFormat pre code{
-  font-size       : 90%;
+  font-size       : 95%;
   margin          : 0 !important;
   padding         : 0 !important;
   border          : none;
@@ -1587,13 +1587,13 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES\8a_allocations/"><i>b</i>. Objects Allocating Memory</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8b1_views/"><i>c</i>. Views</a></li><br>
+                <li><a href="/julia_book/PAGES\8b1_views/"><i>c</i>. Slice Views to Reduce Allocations</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\8b2_preallocations/"><i>d</i>. Pre-Allocations</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\8b3_reductions/"><i>e</i>. Reductions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8c_staticVectors/"><i>f</i>. Small Vectors: Static Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\8c_staticVectors/"><i>f</i>. Static Vectors for Small Vectors</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\8d_lazy/"><i>g</i>. Lazy Operations</a></li><br>
                 
@@ -2331,9 +2331,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>As a programmer, you&#39;ll need to work with data. In turn, the data need to be stored in the computer&#39;s RAM to be accessed and manipulated. The process of reserving a portion of the memory to store data can have a significant impact on performance, depending on the approach to handling it. We&#39;ll see in particular that <strong>memory allocations on the heap</strong> are costly. Following common parlance in programming, we&#39;ll simply refer to them as <span style="color: rgb(62, 121, 180);"><strong>memory allocations</strong></span>. </p>
-<p>From a practical standpoint, <strong>a disproportionate memory allocation constitutes a red flag</strong>: when two approaches for an identical operation exhibit big differences in memory allocation, they&#39;ll likely differ in execution speed. The reason is that managing memory slows down computations, as it requires additional instructions to be executed by the CPU. </p>
-<p>Despite this, the relationship between memory allocation and performance is complex. In fact, <strong>reducing memory allocation is neither necessary nor sufficient for speeding up computations</strong>—we&#39;ll see some &#40;rare&#41; instances where allocating more memory turns out to be faster. Basically, this occurs because creating a new object ensures that the data are stored in a contiguous block of memory, allowing the CPU to access information more efficiently. </p>
+<p>As a programmer, you&#39;ll need to work with data. In turn, the data need to be stored in the computer&#39;s RAM to be accessed and manipulated. The process of reserving a portion of the memory to store data can have a significant impact on performance, depending on the approach chosen. We&#39;ll see in particular that <strong>memory allocations on the so-called heap</strong> are costly. Following common parlance in programming, we&#39;ll simply refer to them as <span style="color: rgb(62, 121, 180);"><strong>memory allocations</strong></span>. </p>
+<p>From a practical standpoint, <strong>a disproportionate memory allocation is a red flag</strong>: when two approaches for an identical operation exhibit big differences in memory allocation, they&#39;ll likely differ in execution speed. The reason is that managing memory slows down computations, as it requires additional instructions to be executed by the CPU. </p>
+<p>Despite this, the relationship between memory allocation and performance is complex. In fact, <strong>reducing memory allocation is neither necessary nor sufficient for speeding up computations</strong>—we&#39;ll see some &#40;rare&#41; instances where allocating more memory turns out to be faster. Basically, this is possible because creating a new object ensures the data are stored in a contiguous block of memory, allowing the CPU to access information more efficiently. </p>
 <p>      </div>
     </div>
   </div>
@@ -2343,7 +2343,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Heap vs Stack</h2></p>
-<p>When writing code in Julia, objects created by the user are allocated in the RAM &#40;Random Access Memory&#41;, which can be stored either on the stack or the heap. These are data structures, rather than physical regions of memory, that provide approaches to managing memory allocations and deallocations. </p>
+<p>When coding, all user-created objects are allocated in the RAM &#40;Random Access Memory&#41;. In particular, these objects can be stored either on the stack or the heap. These terms don&#39;t refer to physical regions of memory. Rather, they represent data structures, providing distinct strategies for managing memory allocations and deallocations.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     Throughout this website, <strong>we'll refer to memory allocations as heap allocations exclusively</strong>. This is a common approach adopted in programming, including Julia, as allocations on the heap are the ones slowing down computations.  </div>  </div>

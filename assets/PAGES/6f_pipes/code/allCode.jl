@@ -128,6 +128,70 @@ output = @pipe a            |>
                round
  
 ####################################################
+#	                     FUNCTION COMPOSITION
+####################################################
+ 
+a        = -1
+
+
+
+# all `output` are equivalent
+output   = log(abs(a))
+output   = a |> abs |> log
+output   = (log ∘ abs)(a)
+output   = ∘(log, abs)(a)
+print_asis(output) # hide
+ 
+a        = 2
+outer(a) = a + 2
+inner(a) = a / 2
+
+# all `output` are equivalent
+output   = (a / 2) + 2
+output   = outer(inner(a))
+output   = a |> inner |> outer
+output   = (outer ∘ inner)(a)
+output   = ∘(outer, inner)(a)
+print_asis(output) # hide
+ 
+x        = [1, 2, 3]
+
+
+
+# all `output` are equivalent
+output   = log.(abs.(x))
+output   = x .|> abs .|> log
+output   = (log ∘ abs).(x)
+output   = ∘(log, abs).(x)
+print_asis(output) # hide
+ 
+x        = [1, 2, 3]
+outer(a) = a + 2
+inner(a) = a / 2
+
+# all `output` are equivalent
+output   = (x ./ 2) .+ 2
+output   = outer.(inner.(x))
+output   = x .|> inner .|> outer
+output   = (outer ∘ inner).(x)
+output   = ∘(outer, inner).(x)
+print_asis(output) # hide
+ 
+a            = -1
+
+inners       = abs
+outers       = [log, sqrt]
+compositions = outers .∘ inners
+
+# all `output` are equivalent
+output       = [log(abs(a)), sqrt(abs(a))]
+output       = [foo(a) for foo in compositions]
+ 
+print_asis(compositions) # hide
+ 
+print_asis(output) # hide
+ 
+####################################################
 #	                     EXAMPLE 4
 ####################################################
  

@@ -899,7 +899,7 @@ color: white;
     background-color: rgb(82, 120, 104);            /*rgb(199, 223, 236);*/
     color           : #DCDCDC;
     border          : 1px solid rgb(82, 120, 104);
-    font-size       : 90%;
+    font-size       : 95%;
   }
 
 
@@ -974,7 +974,7 @@ color: white;
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
     font-family     : "Consolas";    
-    font-size       : 90%;
+    font-size       : 100%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -998,7 +998,7 @@ color: white;
 
 .mixed_output_NoFormat{  
     font-family     : "Consolas";
-    font-size       : 90%;
+    font-size       : 95%;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -1015,7 +1015,7 @@ color: white;
 }
 
 .mixed_output_NoFormat pre code{
-  font-size       : 90%;
+  font-size       : 95%;
   margin          : 0 !important;
   padding         : 0 !important;
   border          : none;
@@ -1585,13 +1585,13 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES\8a_allocations/"><i>b</i>. Objects Allocating Memory</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8b1_views/"><i>c</i>. Views</a></li><br>
+                <li><a href="/julia_book/PAGES\8b1_views/"><i>c</i>. Slice Views to Reduce Allocations</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\8b2_preallocations/"><i>d</i>. Pre-Allocations</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\8b3_reductions/"><i>e</i>. Reductions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8c_staticVectors/"><i>f</i>. Small Vectors: Static Vectors</a></li><br>
+                <li><a href="/julia_book/PAGES\8c_staticVectors/"><i>f</i>. Static Vectors for Small Vectors</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\8d_lazy/"><i>g</i>. Lazy Operations</a></li><br>
                 
@@ -2373,7 +2373,7 @@ end
 <p>  </p></details></div>
 <p>As for the first tab, given that <code>0</code> has type <code>Int64</code>, no type instability arises if <code>x</code> is <code>Int64</code> too. On the contrary, if <code>x</code> is <code>Float64</code>, the compiler must contemplate the possibility that <code>y</code> could be an <code>Int64</code> or a <code>Float64</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> A similar problem would occur if we replaced <code>0</code> by <code>0.</code> and <code>x</code> is an integer.  </span></span></p>
 <p>Julia can handle combinations of <code>Int64</code> and <code>Float64</code> quite effectively. Therefore, the latter type instability wouldn&#39;t be a significant issue if the operation involving <code>y</code> calls <code>y</code> only once. Indeed, <code>@code_warntype</code> would only issue a yellow warning that therefore could be safely ignored. However, in our example, <code>foo</code> performs an operation that repeatedly uses <code>y</code>, incurring the cost of type instability multiple times. As a result, <code>@code_warntype</code> issues a red warning, indicating a more serious performance issue.</p>
-<p>The second tab proposes a <strong>solution</strong> based on a function that returns the zero element corresponding to the type of <code>x</code>. This approach isn&#39;t limited to zero, and can actually be applied to any value. This is achieved by using either <code>convert&#40;typeof&#40;x&#41;, &lt;value&gt;&#41;</code> or <code>oftype&#40;x, &lt;value&gt;&#41;</code> to convert <code>&lt;value&gt;</code> to the same type as <code>x</code>.</p>
+<p>The second tab proposes a <strong>solution</strong> based on a function that returns the zero element corresponding to the type of <code>x</code>. This approach isn&#39;t limited to zero, and can actually be applied to any value. This would be achieved by using either <code>convert&#40;typeof&#40;x&#41;, &lt;value&gt;&#41;</code> or <code>oftype&#40;x, &lt;value&gt;&#41;</code> to convert <code>&lt;value&gt;</code> to the same type as <code>x</code>.</p>
 <p>      </div>
     </div>
   </div>

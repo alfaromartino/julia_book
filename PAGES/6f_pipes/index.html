@@ -830,7 +830,7 @@ color: white;
   
 
 
-    <h1><i>6c.</i> Let Blocks and Pipes</h1>    
+    <h1><i>6c.</i> Chaining Operations</h1>    
     <div class="lead"> </div>
     
     
@@ -899,7 +899,7 @@ color: white;
     background-color: rgb(82, 120, 104);            /*rgb(199, 223, 236);*/
     color           : #DCDCDC;
     border          : 1px solid rgb(82, 120, 104);
-    font-size       : 90%;
+    font-size       : 95%;
   }
 
 
@@ -974,7 +974,7 @@ color: white;
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
     font-family     : "Consolas";    
-    font-size       : 90%;
+    font-size       : 100%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -998,7 +998,7 @@ color: white;
 
 .mixed_output_NoFormat{  
     font-family     : "Consolas";
-    font-size       : 90%;
+    font-size       : 95%;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -1015,7 +1015,7 @@ color: white;
 }
 
 .mixed_output_NoFormat pre code{
-  font-size       : 90%;
+  font-size       : 95%;
   margin          : 0 !important;
   padding         : 0 !important;
   border          : none;
@@ -1615,7 +1615,7 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES\6c1_tuples_and_namedtuples/"><i>b</i>. Named Tuples and Dictionaries</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\6f_pipes/"><i>c</i>. Let Blocks and Pipes</a></li><br>
+                <li><a href="/julia_book/PAGES\6f_pipes/"><i>c</i>. Chaining Operations</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\6e_useful_funs/"><i>d</i>. Useful Functions for Vectors</a></li><br>
                 
@@ -2492,6 +2492,48 @@ output &#61; a |&gt; abs |&gt; log |&gt; round</code></pre> </div></div>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
+ <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Let Blocks and Pipes For Long Names</strong>  </span>  </div>  <div class=content>     Let blocks and pipes can also be employed for temporarily rename variables. This is potentially useful when a variable has intentionally a lengthy name to convey its meaning clearly. The feature allows users to strike a balance between using meaningful variable names, while also maintaining code readability.</p>
+<p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> In One Line </button>
+    <button class="tablink" data-id=""> In Multiple Lines </button>
+    <button class="tablink" data-id=""> Built-In Pipes </button>
+    <button class="tablink" data-id=""> Package Pipe </button>
+    <button class="tablink" data-id=""> Let Block </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
+
+output &#61; variable_with_a_long_name - log&#40;variable_with_a_long_name&#41; / abs&#40;variable_with_a_long_name&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
+
+temp   &#61; variable_with_a_long_name
+output &#61; temp - log&#40;temp&#41; / abs&#40;temp&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
+
+output &#61; variable_with_a_long_name       |&gt;
+         a -&gt; a - log&#40;a&#41; / abs&#40;a&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2 ; using Pipe
+
+output &#61; @pipe variable_with_a_long_name |&gt;
+               _ - log&#40;_&#41; / abs&#40;_&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
+
+output &#61; let x &#61; variable_with_a_long_name
+    x - log&#40;x&#41; / abs&#40;x&#41;
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>  </div>  </div>
  <h4> Broadcasting Pipes </h4>
 <p>Pipes can be broadcasted just like any other operator by adding <code>.</code> before it. Thus, <code>.|&gt;</code> applies the subsequent operation element-wise to the preceding output. </p>
 <p>For instance, suppose an operation that transforms each element of a vector <code>x</code>, by taking the logarithm of their absolute numbers. After this, the goal is to calculate the sum of all elements in the resulting transformed vector.</p>
@@ -2587,52 +2629,96 @@ output &#61; @pipe a            |&gt;
     </div>
   </div>
 </section>
-<section id="let_blocks_and_pipes_for_long_names_optional" class="scrollspy">
+<section id="function_composition_optional" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Let Blocks and Pipes For Long Names (<strong><i>OPTIONAL</i></strong>)</h2></p>
-<p>Let blocks and pipes can also be employed for temporarily rename variables. This is potentially useful when a variable has intentionally a lengthy name to convey its meaning clearly. The feature allows users to strike a balance between using meaningful variable names, while also maintaining code readability.</p>
+        <h2>Function Composition (<strong><i>OPTIONAL</i></strong>)</h2></p>
+<p>Emulating mathematical notation, you can also compose two functions <code>f</code> and <code>g</code> through the operator <code>∘</code>. The symbol can be inserted by Tab Completion through <code>\circ</code>. As in Mathematics, <code>&#40;f ∘ g&#41;&#40;x&#41;</code> is equivalent to <code>f&#40;g&#40;x&#41;&#41;</code>. </p>
+<p>The operator <code>∘</code> is also available as a function, thus allowing for the notation <code>∘&#40;f,g&#41;&#40;x&#41;</code>. Note that function composition can be used as an alternative to piping, as <code>&#40;f ∘ g&#41;&#40;x&#41;</code> is equal to <code>x |&gt; f |&gt; g</code>. </p>
+<p>The following examples show applications with built-in and user-defined functions. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> In One Line </button>
-    <button class="tablink" data-id=""> In Multiple Lines </button>
-    <button class="tablink" data-id=""> Built-In Pipes </button>
-    <button class="tablink" data-id=""> Package Pipe </button>
-    <button class="tablink" data-id=""> Let Block </button>
+    <button class="tablink first_tab active" data-id=""> Example with Built-In Functions </button>
+    <button class="tablink" data-id=""> Example with User-Defined Functions </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a        &#61; -1
 
-output &#61; variable_with_a_long_name - log&#40;variable_with_a_long_name&#41; / abs&#40;variable_with_a_long_name&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
+
+
+# all &#96;output&#96; are equivalent
+output   &#61; log&#40;abs&#40;a&#41;&#41;
+output   &#61; a |&gt; abs |&gt; log
+output   &#61; &#40;log ∘ abs&#41;&#40;a&#41;
+output   &#61; ∘&#40;log, abs&#41;&#40;a&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">0.0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a        &#61; 2
+outer&#40;a&#41; &#61; a &#43; 2
+inner&#40;a&#41; &#61; a / 2
 
-temp   &#61; variable_with_a_long_name
-output &#61; temp - log&#40;temp&#41; / abs&#40;temp&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
-
-output &#61; variable_with_a_long_name       |&gt;
-         a -&gt; a - log&#40;a&#41; / abs&#40;a&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2 ; using Pipe
-
-output &#61; @pipe variable_with_a_long_name |&gt;
-               _ - log&#40;_&#41; / abs&#40;_&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
-
-output &#61; let x &#61; variable_with_a_long_name
-    x - log&#40;x&#41; / abs&#40;x&#41;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
+# all &#96;output&#96; are equivalent
+output   &#61; &#40;a / 2&#41; &#43; 2
+output   &#61; outer&#40;inner&#40;a&#41;&#41;
+output   &#61; a |&gt; inner |&gt; outer
+output   &#61; &#40;outer ∘ inner&#41;&#40;a&#41;
+output   &#61; ∘&#40;outer, inner&#41;&#40;a&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">3.0</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
+<p>Function composition can also be employed jointly with broadcasting. The notation for this purpose is easier to understand by thinking of the composition as a new function \(h:=f\circ g\), such that \(h\left(x\right):=\left(f\circ g\right)\left(x\right)\) and therefore \(h\left(x\right):=\left(f\circ g\right)\left(x\right)=f\left[g\left(x\right)\right]\). Considering this, broadcasting <code>h</code> would require <code>h.&#40;x&#41;</code>, which is equivalent to <code>&#40;f ∘ g&#41;.&#40;x&#41;</code> or <code>∘&#40;f,g&#41;.&#40;x&#41;</code>.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Example with Built-In Functions </button>
+    <button class="tablink" data-id=""> Example with User-Defined Functions </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x        &#61; &#91;1, 2, 3&#93;
+
+
+
+# all &#96;output&#96; are equivalent
+output   &#61; log.&#40;abs.&#40;x&#41;&#41;
+output   &#61; x .|&gt; abs .|&gt; log
+output   &#61; &#40;log ∘ abs&#41;.&#40;x&#41;
+output   &#61; ∘&#40;log, abs&#41;.&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
+ 0.0
+ 0.6931471805599453
+ 1.0986122886681098</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x        &#61; &#91;1, 2, 3&#93;
+outer&#40;a&#41; &#61; a &#43; 2
+inner&#40;a&#41; &#61; a / 2
+
+# all &#96;output&#96; are equivalent
+output   &#61; &#40;x ./ 2&#41; .&#43; 2
+output   &#61; outer.&#40;inner.&#40;x&#41;&#41;
+output   &#61; x .|&gt; inner .|&gt; outer
+output   &#61; &#40;outer ∘ inner&#41;.&#40;x&#41;
+output   &#61; ∘&#40;outer, inner&#41;.&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
+ 2.5
+ 3.0
+ 3.5</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>Lastly, we can also broadcast the composition operator <code>∘</code> itself. This technique allows us to seamless apply multiple functions to an object. For instance, the following example ensures that each function takes the absolute value of its argument previous to apply the function of interest. </p>
+ <div class=" code_box"> <details  open><summary> Broadcasting ∘  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">a            &#61; -1
+
+inners       &#61; abs
+outers       &#61; &#91;log, sqrt&#93;
+compositions &#61; outers .∘ inners
+
+# all &#96;output&#96; are equivalent
+output       &#61; &#91;log&#40;abs&#40;a&#41;&#41;, sqrt&#40;abs&#40;a&#41;&#41;&#93;
+output       &#61; &#91;foo&#40;a&#41; for foo in compositions&#93;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>compositions</code> <br/> <pre><code class="plaintext code-output">2-element Vector{ComposedFunction{O, typeof(abs)} where O}:
+ log ∘ abs
+ sqrt ∘ abs</code></pre> </div></p>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Float64}:
+ 0.0
+ 1.0</code></pre> </div></div> </div>   </details></div>
 <p>      </div>
     </div>
   </div>
@@ -3148,7 +3234,7 @@ for multiple pics in a row
     <button class="nav-toggle" aria-label="Toggle navigation">
       <!-- <span class="nav-toggle-icon"></span> -->
         <img src="/julia_book/assets/icons/dropdown.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:2px;margin-left:0px;">
-      <span class="nav-title"><i>6c.</i> Let Blocks and Pipes</span>
+      <span class="nav-title"><i>6c.</i> Chaining Operations</span>
     </button>
     <div class="nav-menu">
       <ul>
@@ -3166,7 +3252,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#let_blocks_and_pipes_for_long_names_optional" data-offset="-40">Let Blocks and Pipes For Long Names (<strong><i>OPTIONAL</i></strong>)</a>
+          <a href="#function_composition_optional" data-offset="-40">Function Composition (<strong><i>OPTIONAL</i></strong>)</a>
         </li>
         
       </ul>
