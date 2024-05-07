@@ -84,7 +84,7 @@ header .jumbotron {
 
 <!-- 
 #################################################
-# FOR EACH SPECIFIC PAFE
+# FOR EACH SPECIFIC PAGE
 #################################################
  -->
  
@@ -115,13 +115,14 @@ header .jumbotron {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">    
  
 
  
 
 
  
+<!-- format -->
  
 <style>
 
@@ -186,8 +187,10 @@ h1{
 /* content */
 .franklin-content{
   /* background-color:rgb(235, 235, 235);   */
-  background-color: rgb(217, 224, 231);
+  background-color: rgb(217, 224, 231);  
 }
+
+
 
 .franklin-content{  
   margin:0;
@@ -389,7 +392,8 @@ section a:hover{
   text-decoration: underline;  
 }
 
-</style>
+
+</style> 
  <!-- <div class="left_bar" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
         <img src="/julia_book/assets/pics_html/julia_logo-dark.svg"
@@ -741,9 +745,16 @@ section a:hover{
           style="width:15%; height:auto;opacity:0.9;padding-bottom:5px;">
         Links
       </a>
-    </li>    
+    </li>
+    <li>
+      <h3 style="font-weight:400; font-size: 14px; padding-top:4em; margin-bottom:-0.6em; ">Dark Mode (Experimental)</h3>
+        <label class="switch">
+        <input type="checkbox" id="toggleStyles">
+        <span class="slider round"></span>
+      </label>      
+    </li>
   </ul>
-
+  
   <div class="personal_website">
     <a href="https://alfaromartino.github.io"><img src="/julia_book/assets/icons/personal.png"
         style="width:18%; height:auto;opacity:0.9;margin-bottom:-14px; padding-right:4px">
@@ -954,7 +965,7 @@ color: white;
   /* NoFormat for julia repl - no margins or paddings, just colors, fonts, etc */
 .julia_repl_NoFormat{  
     font-family     : "Consolas";
-    font-size       : 90%;
+    font-size       : 95%;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -965,7 +976,7 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 90%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -974,7 +985,7 @@ color: white;
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
     font-family     : "Consolas";    
-    font-size       : 100%;
+    font-size       : 95%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -1009,7 +1020,7 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -2095,6 +2106,7 @@ $(document).ready(function() {
 
 
 
+<!-- MOBILE -->
 <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Poppins|Crimson+Text|Cardo|Ubuntu"></link> -->
 
 <style>
@@ -2367,6 +2379,131 @@ color: white;
 
 </style>
 
+<!-- Dark Mode -->
+
+
+<style>
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+
+.switch input {
+  display: none;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #132433;
+}
+
+input:checked + .slider:before {
+  transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 17px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
+
+  /* =============== */
+/* DARK MODE */
+/* =============== */
+
+body.dark-mode .franklin-content, body.dark-mode .modal-body{
+    background-color: rgb(3, 13, 24) !important;}
+body.dark-mode .franklin-content section, body.dark-mode .index_container, body.dark-mode .modal-content  {
+    color: rgb(235, 244, 252) !important; }
+
+/* FOR LIST OF CHAPTERS */
+    body.dark-mode .index_container,  body.dark-mode .index_container h1{
+        background-color: rgb(3, 13, 24) !important;}
+    
+    body.dark-mode .index_container ul > li{
+        color: rgb(235, 244, 252) !important;}
+
+    body.dark-mode .index_container a {  
+        color: rgb(88, 140, 192);
+  }
+
+  body.dark-mode .index_container a:hover, body.dark-mode section a:hover{
+    color          : rgb(190, 213, 236);
+}
+
+body.dark-mode .multiple_pics { background-color: rgb(75, 109, 146); }
+body.dark-mode .multiple_pics h2 { color: white !important; }
+body.dark-mode .warning, body.dark-mode .note { color: black; }
+
+
+
+body.dark-mode .code_box, body.dark-mode .code_in_modal, body.dark-mode .output_in_modal, body.dark-mode .img_output_in_modal { 
+    border-width    : 1px;
+    border-style    : solid;
+    border-color    :rgb(235, 244, 252) }
+
+</style>
+
+
+
+<script>
+
+document.getElementById('toggleStyles').addEventListener('change', function() {
+  if (this.checked) {
+    document.body.classList.add('dark-mode');
+    localStorage.setItem('darkMode', 'enabled');
+  } else {
+    document.body.classList.remove('dark-mode');
+    localStorage.setItem('darkMode', 'disabled');
+  }
+});
+
+window.addEventListener('load', function() {
+  var darkMode = localStorage.getItem('darkMode');
+
+  if (darkMode === 'enabled') {
+    document.getElementById('toggleStyles').checked = true;
+    document.body.classList.add('dark-mode');
+  } else {
+    document.getElementById('toggleStyles').checked = false;
+  }
+});
+
+
+
+
+</script>
+
 
 
 <!-- {{ispage list_posts links}}  
@@ -2374,6 +2511,7 @@ color: white;
   {{insert /index_page/lists_FORMAT.html}}  
 {{end}} -->
 
+ 
 <div class="franklin-content">
 <section id="introduction" class="scrollspy">
   <div class="container">
@@ -3306,9 +3444,6 @@ for multiple pics in a row
  -->
 
 
-
-
-
 <!-- FOR NAVIGATION-->
        
   
@@ -3539,5 +3674,8 @@ document.addEventListener('keydown', (e) => {
     
     })();
     </script>
+
+
+
 
 
