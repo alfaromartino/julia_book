@@ -2097,7 +2097,8 @@ $(document).ready(function() {
 }
 
 input:checked + .slider {
-  background-color: #132433;
+  /* background-color: #132433; */
+  background-color: #000000;
 }
 
 input:checked + .slider:before {
@@ -2152,7 +2153,7 @@ body.dark-mode .code_box, body.dark-mode .code_in_modal, body.dark-mode .output_
 
   
 body.dark-mode  .left_bar {
-  background-image: linear-gradient(to left bottom, rgb(0, 0, 0), rgb(0, 0, 0) 10%, rgba(63, 99, 136, 0.3) 70%, rgba(63, 99, 136, 0.3));  
+  background-image: linear-gradient(to left bottom, rgb(0, 0, 0), rgb(0, 0, 0) 10%, rgba(63, 99, 136, 0.3) 70%, rgba(63, 99, 136, 0.3));    
 }
 
 body.dark-mode  footer {
@@ -2489,7 +2490,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>The concept of a type-stable operation is relatively straightforward: given the types of the inputs, Julia can identify  <em>concrete types</em> for its outputs. Despite its simplicity, ensuring type stability is subject to various nuances. This is why mastering its implementation necessitates a solid foundation in two key areas: <strong>types themselves and the process involved in a function execution</strong>. This section equips you with the necessary knowledge to grasp both.</p>
+<p>The concept of a type-stable operation is relatively straightforward. Informally, it means that, given the types of its variables, Julia performs operations on inputs with  <em>concrete types</em>. Despite its simplicity, ensuring type stability is subject to various nuances. This is why mastering its implementation necessitates a solid foundation in two key areas: <strong>types themselves and the process involved in a function execution</strong>. This section equips you with the necessary knowledge to grasp both.</p>
 <p>      </div>
     </div>
   </div>
@@ -2500,10 +2501,10 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Remarks on Types</h2></p>
 <p>Recall the distinction between concrete and abstract types introduced <a href="/julia_book/PAGES/3a_variables/#variable_types">here</a>. <strong>Concrete types</strong> represent irreducible units that lack subtypes, such as <code>Int64</code> and <code>Float64</code>. They&#39;re the types that the computer must identify to implement its operations, explaining their centrality for type stability. In contrast, <strong>abstract types</strong> serve as collections of types. For example, <code>Number</code> is an abstract type that comprises all numeric types, including concrete types such as <code>Int64</code>, <code>Float64</code>, <code>Int32</code>, <code>Float32</code>, etc.</p>
-<p>Next, we&#39;ll introduce various approaches to restricting a variable&#39;s type. Even if you don&#39;t ever make use of these techniques, their knowledge will aid in your understanding of type stability.</p>
+<p>Next, we&#39;ll introduce various approaches to restricting a variable&#39;s type. Even if you don&#39;t end up using these techniques, they&#39;ll aid in your understanding of type stability.</p>
  <h4> Type-Annotating Variables </h4>
-<p><span style="color: rgb(62, 121, 180);"><strong>Type annotation</strong></span> refers to the explicit declaration of a variable&#39;s type. It relies on the binary operator <code>::</code> such as in <code>x::Int64</code>, where the left operand is a variable and the right operand is a type. The operator enables the restriction of a variable&#39;s type during assignments. For example, <code>x::Int64 &#61; 2</code> establishes that <code>x</code> can only be reassigned to values with type <code>Int64</code>.</p>
-<p>Type annotation isn&#39;t limited to concrete types—it can also restrict a variable to a subtype of a broader family. The procedure leverages the Boolean binary operator <code>&lt;:</code> as an auxiliary tool, with <code>T &lt;: S</code> assessing whether the type <code>T</code> is a subtype of <code>S</code>. Thus, <code>Int64 &lt;: Number</code> returns <code>true</code>, as <code>Int64</code> is a subtype of <code>Number</code>. The use of <code>&lt;:</code> for type annotation requires combining <code>&lt;:</code> with <code>::</code> and the keyword <code>where</code>. For instance, <code>x::T where T &lt;: Number &#61; 2</code> establishes that <code>x</code> can only be reassigned to subtypes of <code>Number</code> after its execution.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Type annotation</strong></span> refers to the explicit declaration of a variable&#39;s type. It relies on the binary operator <code>::</code>, such as in <code>x::Int64</code>, where the left operand is a variable and the right operand is a type. The operator enables the restriction of a variable&#39;s type during assignments. For example, <code>x::Int64 &#61; 2</code> establishes that <code>x</code> can only be reassigned to values with type <code>Int64</code>.</p>
+<p>Type annotation isn&#39;t limited to concrete types—it can also restrict a variable to a subtype of a broader family. The procedure leverages the Boolean binary operator <code>&lt;:</code>, where <code>T &lt;: S</code> assess whether the type <code>T</code> is a subtype of <code>S</code>. Thus, <code>Int64 &lt;: Number</code> returns <code>true</code>, as <code>Int64</code> is a subtype of <code>Number</code>. The use of <code>&lt;:</code> for type annotation requires combining <code>&lt;:</code> with <code>::</code> and the keyword <code>where</code>. For instance, <code>x::T where T &lt;: Number &#61; 2</code> establishes that <code>x</code> can only be reassigned to subtypes of <code>Number</code> after its execution.</p>
 <p>Below, we illustrate the use of both <code>::</code> and <code>&lt;:</code> for setting a variable&#39;s type during assignments. Note that each tab&#39;s code has the same effect on <code>x</code> and <code>y</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2527,7 +2528,7 @@ y::T where T &lt;: Number  &#61; 2</code></pre>
  </div></div>
 <p>  </p></details></div>
 <p>The variable <code>y</code> in both tabs is declared with the supertype <code>Number</code>, thus allowing for a reassignment like <code>y &#61; 2.5</code> but not <code>y &#61; &quot;hello&quot;</code>. </p>
-<p>Moreover, the second tab&#39;s expression <code>T &lt;: Float64</code> makes <code>x</code> always have type <code>Float64</code>. This follows because <code>Float64</code> is a concrete type, and therefore has no subtypes except for <code>Float64</code> itself. Note that , in the particular case of executing <code>x &#61; 2</code>, Julia will automatically convert <code>Int64</code> to <code>Float64</code>. Therefore, it&#39;ll set <code>x &#61; 2.0</code>.</p>
+<p>Moreover, the second tab&#39;s expression <code>T &lt;: Float64</code> makes <code>x</code> always have type <code>Float64</code>. This follows because <code>Float64</code> is a concrete type, and therefore has no subtypes except for <code>Float64</code> itself. Note that in the particular case of executing <code>x &#61; 2</code>, Julia will automatically convert the <code>Int64</code> value to <code>Float64</code>, yielding <code>x &#61; 2.0</code>. This process is formally called <strong>type promotion</strong>, implying that Julia will convert heterogenous types to a a more general one when possible. In the example, mixing integers and floats result in a promotion of values to floats. </p>
  <h4> Untyped Variables and The Type &quot;Any&quot; </h4>
 <p>The principles just outlined apply even when we don&#39;t explicitly annotate a variable&#39;s type. The reason is that <strong>an assignment without</strong> <code>::</code> <strong>implicitly annotates the variable with</strong> <code>Any</code>. In other words, <code>x &#61; 2</code> and <code>x::Any &#61; 2</code> are equivalent. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that <code>Any</code> is the supertype that encompasses all possible types.  </span></span> Likewise, assignments that include <code>where T</code> omitting <code>&lt;:</code> implicitly take <code>T &lt;: Any</code>. Consequently, <code>x &#61; 2</code> is the same as <code>x::T where T &#61; 2</code> or <code>x::T where T &lt;: Any &#61; 2</code></p>
 <p>The fact that variables by default are restricted to the type <code>Any</code> explains why values having any type can be used for reassignments. For instance, given <code>a &#61; 1</code>, executing <code>a &#61; &quot;hello&quot;</code> afterwards is valid. </p>

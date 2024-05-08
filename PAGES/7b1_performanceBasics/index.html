@@ -2097,7 +2097,8 @@ $(document).ready(function() {
 }
 
 input:checked + .slider {
-  background-color: #132433;
+  /* background-color: #132433; */
+  background-color: #000000;
 }
 
 input:checked + .slider:before {
@@ -2152,7 +2153,7 @@ body.dark-mode .code_box, body.dark-mode .code_in_modal, body.dark-mode .output_
 
   
 body.dark-mode  .left_bar {
-  background-image: linear-gradient(to left bottom, rgb(0, 0, 0), rgb(0, 0, 0) 10%, rgba(63, 99, 136, 0.3) 70%, rgba(63, 99, 136, 0.3));  
+  background-image: linear-gradient(to left bottom, rgb(0, 0, 0), rgb(0, 0, 0) 10%, rgba(63, 99, 136, 0.3) 70%, rgba(63, 99, 136, 0.3));    
 }
 
 body.dark-mode  footer {
@@ -2501,7 +2502,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Defining Type Stability</h2></p>
 <p>Consider the function <code>foo&#40;x&#41; &#61; x * 2</code>. The definition is equivalent to <code>foo&#40;x::Any&#41; &#61; x * 2</code>, and so the argument <code>x</code> isn&#39;t restricted to any type. This implies that, when we eventually execute <code>foo&#40;a&#41;</code> with some specific argument <code>a</code>, multiple dispatch selects an appropriate method to compute <code>a * 2</code>. The process requires identifying the type <code>a</code>, given the information that <code>2</code> has type <code>Int64</code>.</p>
-<p>The ability to generate fast code is heavily dependent on the notion of <span style="color: rgb(62, 121, 180);"><strong>type stability</strong></span>: given a function&#39;s argument types, the compiler must be able to infer the  <em>concrete types</em> of each variable involved. When this is possible, the compiler can specialize operations. Instead, if only abstract types are identified, the compiler must account for multiple possible implementations, resulting in slower code execution. </p>
+<p>The ability to generate fast code is heavily dependent on the notion of <span style="color: rgb(62, 121, 180);"><strong>type stability</strong></span>: given a function&#39;s argument types, the compiler must be able to infer the  <em>concrete types</em> of each input involved. When this is possible, the compiler can specialize operations. Instead, if only abstract types are identified, the compiler must account for multiple possible implementations, resulting in slower code execution. </p>
 <p>In the example, <code>foo&#40;a &#61; 1&#41;</code> is type stable because Julia can infer that <code>x</code> is <code>Int64</code>. This allows the compiler to specialize the method for <code>x * 2</code> to variables of <code>Int64</code> type.</p>
 <p>      </div>
     </div>
@@ -2582,11 +2583,11 @@ end</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>When a Yellow Warning Turns Red?</h2></p>
-<p>Not all type instabilities have a similar impact on performance. The reason is that Julia can handle some type-unstable operations quite effectively. In last instance, the severity of the impact is indicated by <code>@code_warntype</code> through a yellow or red warning. <strong>As a rule of thumb, yellow warnings can be safely disregarded</strong>, as they have a relatively minor effect on performance.</p>
-<p>Broadly speaking, yellow warnings tend to appear when the type instability is caused by a single isolated computation. Nonetheless, such operations could eventually turn into a red warning if they&#39;re incorporated in a for-loop. </p>
+<p>Not all type instabilities have a similar impact on performance. The reason is that Julia can handle some type-unstable operations quite effectively. In last instance, the severity of the impact is indicated by <code>@code_warntype</code> through a yellow or red warning. </p>
+<p><strong>As a rule of thumb, yellow warnings can be safely disregarded</strong>, as they have a relatively minor effect on performance. They tend to appear when the type instability is caused by an isolated computation that Julia can handle well. Nonetheless, such operations could eventually turn into a red warning if they&#39;re incorporated in a for-loop. </p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Throughout the website, we&#39;ll refer to <strong>type instabilities</strong> as those indicated by a red warning exclusively. Yellow warnings will be ignored.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     Throughout the website, we&#39;ll refer to <strong>type instabilities</strong> as those indicated by a red warning exclusively. Yellow warnings will be mostly ignored.  </div>  </div>
 <p>Below, we illustrate how an operation exhibiting a yellow warning gives rise to a red warning.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2642,14 +2643,13 @@ end</code></pre>
     </div>
   </div>
 </section>
-<section id="concrete_types_and_supertypes" class="scrollspy section-bg-color">
+<section id="type_stability_requires_functions_to_operate_on_concrete_types" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Concrete Types and Supertypes</h2></p>
-<p><strong>Having a self-contained function is only a necessary condition for type stability</strong>. In other words, avoiding global variables doesn&#39;t guarantee the property. Instead, we also need to ensure that the compiler is able to recognize  <em>concrete types</em> for each variable in the function.</p>
-<p>For instance, if a vector has elements with dissimilar concrete types, a function using it as an argument will be type unstable. A typical example of this is when vectors have elements of type <code>Number</code>, which is defined as the union of all numeric types &#40;e.g., <code>Int64</code>, <code>Float64</code>, <code>Float32</code>&#41;. </p>
-<p>Below, we provide various examples where Julia can&#39;t identify a concrete type.</p>
+        <h2>Type Stability Requires Functions to Operate on Concrete Types</h2></p>
+<p><strong>Having a self-contained function is only a necessary condition for type stability</strong>—avoiding global variables doesn&#39;t guarantee this property. Instead, the compiler must also be able to recognize and operate on  <em>concrete types</em>.</p>
+<p>Below, we provide examples where the compiler is unable to operate on concrete types. In one case, we consider a function taking a vector with elements of heterogenous types. This determines that the argument has type <code>Vector&#123;Any&#125;</code>, forcing Julia to compile a function&#39;s version that contemplates multiple possible types. A similar conclusion arises with a vector having elements of type <code>Number</code>, which is defined as the union of all numeric types &#40;<code>Int64</code>, <code>Float64</code>, <code>Float32</code>, etc.&#41;. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2657,20 +2657,20 @@ end</code></pre>
     <button class="tablink" data-id=""> Any </button>
     <button class="tablink" data-id=""> Number </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; &#91;1, 2, &quot;hello&quot;&#93;    # x has type &quot;Any&quot;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; &#91;1, 2, &quot;hello&quot;&#93;            # &#96;x&#96; has type Vector&#123;Any&#125;, due to the combination of numbers and strings
 
 
-@code_warntype sum&#40;x&#91;1:2&#93;&#41;  # type unstable</code></pre> </div></div> 
+@code_warntype sum&#40;x&#91;1:2&#93;&#41;      # type unstable -&gt; sum considering the possibility of &#96;Any&#96;</code></pre> </div></div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; Vector&#123;Any&#125;&#40;undef, 10&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; Vector&#123;Any&#125;&#40;undef, 2&#41;      # &#96;x&#96; defined with type Vector&#123;Any&#125;
 x .&#61; 1
 
-@code_warntype sum&#40;x&#41;       # type unstable</code></pre> </div></div> 
+@code_warntype sum&#40;x&#41;           # type unstable -&gt; sum considering the possibility of &#96;Any&#96;</code></pre> </div></div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; Vector&#123;Number&#125;&#40;undef, 10&#41;
-x .&#61; 1
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; Vector&#123;Number&#125;&#40;undef, 2&#41;   # &#96;x&#96; defined with type Vector&#123;Number&#125;
+x .&#61; &#91;1, 1.0&#93;                   # &#96;x&#96; is type promoted to &#91;1.0, 1.0&#93; but still Vector&#123;Number&#125;
 
-@code_warntype sum&#40;x&#41;       # type unstable</code></pre> </div></div> 
+@code_warntype sum&#40;x&#41;           # type unstable -&gt; sum considering the possibility of all numeric types</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
 <p>Instead, all the sums presented below are type stable. The examples additionally reveal that vectors combining <code>Int64</code> and <code>Float64</code> don&#39;t pose a problem, as they&#39;re automatically converted by Julia to <code>Float64</code>.</p>
@@ -2681,20 +2681,20 @@ x .&#61; 1
     <button class="tablink" data-id=""> Float64</button>
     <button class="tablink" data-id=""> Float64</button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; Vector&#123;Int64&#125;&#40;undef, 10&#41;
-x .&#61; 1
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; Vector&#123;Int64&#125;&#40;undef, 10&#41;   # &#96;x&#96; is defined as Vector&#123;Int64&#125;
+x .&#61; 1.0                        # &#96;x&#96; is converted to &#96;Int64&#96; to respect type&#39;s definition
 
-@code_warntype sum&#40;x&#41;       # type stable</code></pre> </div></div> 
+@code_warntype sum&#40;x&#41;           # type stable</code></pre> </div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; Vector&#123;Float64&#125;&#40;undef, 10&#41;
-x .&#61; 1                      # 1 is converted to 1.0 due to x&#39;s type 
+x .&#61; 1                          # 1 is converted to 1.0 to respect x&#39;s type defined above
 
-@code_warntype sum&#40;x&#41;       # type stable</code></pre> </div></div> 
+@code_warntype sum&#40;x&#41;           # type stable</code></pre> </div></div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; &#91;1, 2, 2.5&#93;            # x is converted to Vector&#123;Float64&#125;    
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; &#91;1, 2, 2.5&#93;                # x has type Vector&#123;Float64&#125; &#40;converted by the so-called &#39;type promotion&#39;&#41;
 
 
-@code_warntype sum&#40;x&#41;       # type stable</code></pre> </div></div> 
+@code_warntype sum&#40;x&#41;           # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -3231,7 +3231,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#concrete_types_and_supertypes" data-offset="-40">Concrete Types and Supertypes</a>
+          <a href="#type_stability_requires_functions_to_operate_on_concrete_types" data-offset="-40">Type Stability Requires Functions to Operate on Concrete Types</a>
         </li>
         
       </ul>
