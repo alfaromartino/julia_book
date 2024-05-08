@@ -294,9 +294,9 @@ h4{
 
 h5,h6{
   text-indent:0;
-  line-height:0.1em;
+  line-height:1.2em;
   padding-top:0.99em;
-  padding-bottom: 0.0em;  
+  padding-bottom: -0.0em;
 }
 
 section {
@@ -1650,6 +1650,147 @@ margin-top: 0px;
   </style>    
 
 
+<!-- Dark Mode -->
+
+
+<style>
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+
+.switch input {
+  display: none;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #132433;
+}
+
+input:checked + .slider:before {
+  transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 17px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
+
+  /* =============== */
+/* DARK MODE */
+/* =============== */
+
+body.dark-mode .franklin-content, body.dark-mode .modal-body{
+    background-color: rgb(3, 13, 24) !important;}
+body.dark-mode .franklin-content section, body.dark-mode .index_container, body.dark-mode .modal-content  {
+    color: rgb(235, 244, 252) !important; }
+
+/* FOR LIST OF CHAPTERS */
+    body.dark-mode .index_container,  body.dark-mode .index_container h1{
+        background-color: rgb(3, 13, 24) !important;}
+    
+    body.dark-mode .index_container ul > li{
+        color: rgb(235, 244, 252) !important;}
+
+    body.dark-mode .index_container a {  
+        color: rgb(88, 140, 192);
+  }
+
+  body.dark-mode .index_container a:hover, body.dark-mode section a:hover{
+    color          : rgb(190, 213, 236);
+}
+
+body.dark-mode .multiple_pics { background-color: rgb(75, 109, 146); }
+body.dark-mode .multiple_pics h2 { color: white !important; }
+body.dark-mode .warning, body.dark-mode .note { color: black; }
+
+
+
+body.dark-mode .code_box, body.dark-mode .code_in_modal, body.dark-mode .output_in_modal, body.dark-mode .img_output_in_modal { 
+    border-width    : 1px;
+    border-style    : solid;
+    border-color    :rgb(235, 244, 252) }
+
+  
+body.dark-mode  .left_bar {
+  background-image: linear-gradient(to left bottom, rgb(0, 0, 0), rgb(0, 0, 0) 10%, rgba(63, 99, 136, 0.3) 70%, rgba(63, 99, 136, 0.3));  
+}
+
+body.dark-mode  footer {
+  background-image: linear-gradient(to right,rgb(13, 24, 35),  rgba(63, 99, 136, 0.5)  60%, rgba(63, 99, 136, 0.6) 75%, rgba(63, 99, 136, 0.7));
+  background-color: rgba(63, 99, 136, 0.3);
+  width           : calc(100%+10px);
+  margin-left     : 0px;
+  padding-left    : 10px;
+}
+
+
+</style>
+
+
+
+
+<script>
+  document.getElementById('toggleStyles').addEventListener('change', function() {
+    if (this.checked) {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('darkMode', 'enabled');
+    } else {
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('darkMode', 'disabled');
+    }
+  });
+
+  window.addEventListener('load', function() {
+    var darkMode = localStorage.getItem('darkMode');
+
+    if (darkMode === 'enabled') {
+      document.getElementById('toggleStyles').checked = true;
+      document.body.classList.add('dark-mode');
+    } else {
+      document.getElementById('toggleStyles').checked = false;
+    }
+  });
+
+
+</script>
+
+
+
+
+
 <!-- MOBILE -->
 <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Poppins|Crimson+Text|Cardo|Ubuntu"></link> -->
 
@@ -1659,6 +1800,7 @@ margin-top: 0px;
 
 
 @media (max-width: 850px){
+  
      .jumbotron{
         font-size:90% !important;}
 
@@ -1755,14 +1897,13 @@ margin-top: 0px;
       
       .index_container ul li {padding-right: 5%; padding-left: 0}
       .index_container ul {padding-right: 0; padding-left: 5%;}
+
 }
 
 
 
-
-
-
 </style>
+
 <!-- <div class="left_bar_mobile" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
         <img src="/julia_book/assets/pics_html/julia_logo-dark.svg"
@@ -1798,7 +1939,7 @@ margin-top: 0px;
           style="width:15%; height:auto;opacity:0.9;padding-bottom:5px;">
         CHAPTERS
       </a>
-    </li>    
+    </li>
   </ul>
 
   
@@ -1922,134 +2063,13 @@ color: white;
 @media (max-width: 850px){
       /* .left_bar_mobile ul, .left_bar_mobile ul li {text-indent:0; padding-top:0.5em ; padding-bottom:0em !important; height:3.5em; font-size:102%; padding-left:0.15em;} */
     }  
+
+
   
 
 </style>
 
-<!-- Dark Mode -->
 
-
-<style>
-/* The switch - the box around the slider */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 30px;
-  height: 17px;
-}
-
-.switch input {
-  display: none;
-}
-
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 13px;
-  width: 13px;
-  left: 2px;
-  bottom: 2px;
-  background-color: white;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #132433;
-}
-
-input:checked + .slider:before {
-  transform: translateX(13px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 17px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-
-
-
-  /* =============== */
-/* DARK MODE */
-/* =============== */
-
-body.dark-mode .franklin-content, body.dark-mode .modal-body{
-    background-color: rgb(3, 13, 24) !important;}
-body.dark-mode .franklin-content section, body.dark-mode .index_container, body.dark-mode .modal-content  {
-    color: rgb(235, 244, 252) !important; }
-
-/* FOR LIST OF CHAPTERS */
-    body.dark-mode .index_container,  body.dark-mode .index_container h1{
-        background-color: rgb(3, 13, 24) !important;}
-    
-    body.dark-mode .index_container ul > li{
-        color: rgb(235, 244, 252) !important;}
-
-    body.dark-mode .index_container a {  
-        color: rgb(88, 140, 192);
-  }
-
-  body.dark-mode .index_container a:hover, body.dark-mode section a:hover{
-    color          : rgb(190, 213, 236);
-}
-
-body.dark-mode .multiple_pics { background-color: rgb(75, 109, 146); }
-body.dark-mode .multiple_pics h2 { color: white !important; }
-body.dark-mode .warning, body.dark-mode .note { color: black; }
-
-
-
-body.dark-mode .code_box, body.dark-mode .code_in_modal, body.dark-mode .output_in_modal, body.dark-mode .img_output_in_modal { 
-    border-width    : 1px;
-    border-style    : solid;
-    border-color    :rgb(235, 244, 252) }
-
-</style>
-
-
-
-<script>
-
-document.getElementById('toggleStyles').addEventListener('change', function() {
-  if (this.checked) {
-    document.body.classList.add('dark-mode');
-    localStorage.setItem('darkMode', 'enabled');
-  } else {
-    document.body.classList.remove('dark-mode');
-    localStorage.setItem('darkMode', 'disabled');
-  }
-});
-
-window.addEventListener('load', function() {
-  var darkMode = localStorage.getItem('darkMode');
-
-  if (darkMode === 'enabled') {
-    document.getElementById('toggleStyles').checked = true;
-    document.body.classList.add('dark-mode');
-  } else {
-    document.getElementById('toggleStyles').checked = false;
-  }
-});
-
-
-
-
-</script>
 
 
 
@@ -2808,8 +2828,6 @@ for multiple pics in a row
     
     })();
     </script>
-
-
 
 
 
