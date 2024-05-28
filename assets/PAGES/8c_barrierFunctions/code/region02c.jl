@@ -1,4 +1,4 @@
-x            = ["a", 1]                     # variable with type 'Any'
+x = ["a", 1]                     # variable with type 'Any'
 
 
 

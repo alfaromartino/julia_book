@@ -2509,6 +2509,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>In Julia, functions are not only a fundamental building block of programming, but also a key to unlocking high performance. This is by design, as Julia&#39;s functions have been engineered from the outset to generate efficient machine code. However, to fully unlock their potential, we must understand the underlying process of function calls.</p>
+<p>The main takeaway you should get from this section is that <strong>wrapping operations in functions is a necessary condition for high performance in Julia</strong>.</p>
 <p>Essentially, when a function is called, Julia identifies the concrete types of each variable, selects the most suitable method for these types, and then compiles optimized code. At the heart of the process are three interconnected mechanisms: <strong>type inference</strong>, <strong>dispatch</strong>, and <strong>compilation</strong>. This section will provide a detailed explanation of each.</p>
 <p>      </div>
     </div>
@@ -2519,8 +2520,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Relevance of Functions</h2></p>
-<p>The key takeaway should get from this section is that <strong>wrapping operations in functions is a necessary condition for high performance in Julia</strong>. To investigate why this is the case, let&#39;s begin by outlining the detrimental consequences of working with global variables. </p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Global variables</strong></span> correspond to those defined outside a function&#39;s scope, which Julia treats as potentially embodying any value and therefore any type. The rationale is that, even if the variable holds a value at that moment, the user may reassign it at any part of the script. </p>
+<p>To understand why functions are necessary for high performance, let&#39;s begin by outlining the detrimental consequences of global variables. <span style="color: rgb(62, 121, 180);"><strong>Global variables</strong></span> correspond to those defined outside a function&#39;s scope, which Julia treats as potentially embodying any value and therefore any type. The rationale is that, even if the variable holds a value at that moment, the user may reassign it at any part of the script. </p>
 <p>The use of global variables isn&#39;t limited to operations in the global scope, but also within functions when the variable isn&#39;t passed as an argument. Considering this, our conclusions will apply to both of the following cases.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2703,7 +2703,7 @@ our_sum&#40;x, y, z&#41; &#61; x &#43; y &#43; z</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>our_sum&#40;1&#41;</code> <br/> 1 </div></p>
 <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>our_sum&#40;1, 2&#41;</code> <br/> 3 </div>
 <p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>our_sum&#40;1, 2, 3&#41;</code> <br/> 6 </div></div> </div>   </details></div>
-<p>The fact is relevant for implementing new functionalities within the same function. For example, let&#39;s take the function <code>sum</code> to illustrate this point. So far, we&#39;ve been using it in its simplest form, <code>sum&#40;x&#41;</code>, which adds all the elements of a vector <code>x</code>. However, the function also accepts additional methods such as <code>sum&#40;foo, x&#41;</code>, where the elements of <code>x</code> are transformed through <code>&lt;function&gt;</code>, before summing them.</p>
+<p>The fact is relevant for adding new functionalities to a function. To illustrate this point, let&#39;s take the function <code>sum</code>. So far, we&#39;ve been using it in its simplest form, <code>sum&#40;x&#41;</code>, which adds all the elements of a vector <code>x</code>. However, the function also accepts other methods such as <code>sum&#40;&lt;function&gt;, x&#41;</code>, where the elements of <code>x</code> are transformed through <code>&lt;function&gt;</code>, before summing them.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;2, 3, 4&#93;
 

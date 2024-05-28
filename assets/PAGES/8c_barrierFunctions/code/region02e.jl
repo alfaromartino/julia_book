@@ -1,4 +1,4 @@
-x            = ["a", 1]                     # variable with type 'Any'
+x = ["a", 1]                     # variable with type 'Any'
 
 operation(y) = [y * i for i in 1:100]
 

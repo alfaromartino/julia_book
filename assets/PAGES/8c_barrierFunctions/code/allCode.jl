@@ -27,8 +27,8 @@ function foo(x)
     operation(y)
 end
 
-@code_warntype operation(1)    # barrier function - type stable
-@code_warntype operation(1.)   # barrier function - type stable
+@code_warntype operation(1)    # barrier function is type stable
+@code_warntype operation(1.)   # barrier function is type stable
 
 @code_warntype foo(1)          # type stable
 @code_warntype foo(1.)         # barrier-function solution
@@ -93,7 +93,7 @@ end
 # EXAMPLE 2
 ################
  
-x            = ["a", 1]                     # variable with type 'Any'
+x = ["a", 1]                     # variable with type 'Any'
 
 
 
@@ -111,7 +111,7 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x            = ["a", 1]                     # variable with type 'Any'
+x = ["a", 1]                     # variable with type 'Any'
 
 operation(y) = [y * i for i in 1:100]
 
@@ -129,7 +129,7 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x            = ["a", 1]                     # variable with type 'Any'
+x = ["a", 1]                     # variable with type 'Any'
 
 operation(y) = [y * i for i in 1:100]
 

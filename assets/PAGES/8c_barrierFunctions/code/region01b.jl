@@ -6,8 +6,8 @@ function foo(x)
     operation(y)
 end
 
-@code_warntype operation(1)    # barrier function - type stable
-@code_warntype operation(1.)   # barrier function - type stable
+@code_warntype operation(1)    # barrier function is type stable
+@code_warntype operation(1.)   # barrier function is type stable
 
 @code_warntype foo(1)          # type stable
 @code_warntype foo(1.)         # barrier-function solution
