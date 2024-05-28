@@ -1,0 +1,30 @@
+MethodInstance for Core.kwcall(::@NamedTuple{x::Int64}, ::typeof(foo))
+  from kwcall(::NamedTuple, ::typeof(foo)) @ Main C:\Users\GAMER\MEGA\WEBSITES\julia_book2\_assets\PAGES\7c_gotchas\code\region1a.jl:1
+Arguments
+  _::Core.Const(Core.kwcall)
+  @_2::@NamedTuple{x::Int64}
+  @_3::Core.Const(foo)
+Locals
+  @_4::Int64
+  x::Int64
+Body::Int64
+1 ─       Core.NewvarNode(:(@_4))
+│   %2  = Core.isdefined(@_2, :x)::Core.Const(true)
+└──       goto #3 if not %2
+2 ─       (@_4 = Core.getfield(@_2, :x))
+└──       goto #4
+3 ─       Core.Const(:(Core.UndefKeywordError(:x)))
+└──       Core.Const(:(@_4 = Core.throw(%6)))
+4 ┄ %8  = @_4::Int64
+│         (x = %8)
+│   %10 = (:x,)::Core.Const((:x,))
+│   %11 = Core.apply_type(Core.NamedTuple, %10)::Core.Const(NamedTuple{(:x,)})
+│   %12 = Base.structdiff(@_2, %11)::Core.Const(NamedTuple())
+│   %13 = Base.pairs(%12)::Core.Const(Base.Pairs{Symbol, Union{}, Tuple{}, @NamedTuple{}}())
+│   %14 = Base.isempty(%13)::Core.Const(true)
+└──       goto #6 if not %14
+5 ─       goto #7
+6 ─       Core.Const(:(Base.kwerr(@_2, @_3)))
+7 ┄ %18 = Main.:(var"#foo#158")(x, @_3)::Int64
+└──       return %18
+

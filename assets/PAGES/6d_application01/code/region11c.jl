@@ -1,1 +1,0 @@
-print_compact(viral_new_money) #hide

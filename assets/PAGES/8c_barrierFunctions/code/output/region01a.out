@@ -1,0 +1,56 @@
+MethodInstance for foo(::Int64)
+  from foo(x) @ Main C:\Users\GAMER\MEGA\WEBSITES\julia_book2\_assets\PAGES\7b3_barriers\code\region01a.jl:1
+Arguments
+  #self#::Core.Const(foo)
+  x::Int64
+Locals
+  #582::var"#582#583"{Int64}
+  y::Int64
+  @_5::Int64
+Body::Vector{Int64}
+1 ─       Core.NewvarNode(:(#582))
+│         Core.NewvarNode(:(y))
+│   %3  = (x < 0)::Bool
+└──       goto #3 if not %3
+2 ─       (@_5 = 0)
+└──       goto #4
+3 ─       (@_5 = x)
+4 ┄       (y = @_5)
+│   %9  = Main.:(var"#582#583")::Core.Const(var"#582#583")
+│   %10 = Core.typeof(y)::Core.Const(Int64)
+│   %11 = Core.apply_type(%9, %10)::Core.Const(var"#582#583"{Int64})
+│         (#582 = %new(%11, y))
+│   %13 = #582::var"#582#583"{Int64}
+│   %14 = (1:100)::Core.Const(1:100)
+│   %15 = Base.Generator(%13, %14)::Core.PartialStruct(Base.Generator{UnitRange{Int64}, var"#582#583"{Int64}}, Any[var"#582#583"{Int64}, Core.Const(1:100)])
+│   %16 = Base.collect(%15)::Vector{Int64}
+└──       return %16
+
+MethodInstance for foo(::Float64)
+  from foo(x) @ Main C:\Users\GAMER\MEGA\WEBSITES\julia_book2\_assets\PAGES\7b3_barriers\code\region01a.jl:1
+Arguments
+  #self#::Core.Const(foo)
+  x::Float64
+Locals
+  #582::VAR"#582#583"
+  y::UNION{FLOAT64, INT64}
+  @_5::UNION{FLOAT64, INT64}
+Body::VECTOR
+1 ─       Core.NewvarNode(:(#582))
+│         Core.NewvarNode(:(y))
+│   %3  = (x < 0)::Bool
+└──       goto #3 if not %3
+2 ─       (@_5 = 0)
+└──       goto #4
+3 ─       (@_5 = x)
+4 ┄       (y = @_5)
+│   %9  = Main.:(var"#582#583")::Core.Const(var"#582#583")
+│   %10 = Core.typeof(y)::UNION{TYPE{FLOAT64}, TYPE{INT64}}
+│   %11 = Core.apply_type(%9, %10)::TYPE{VAR"#582#583"{_A}} WHERE _A
+│         (#582 = %new(%11, y))
+│   %13 = #582::VAR"#582#583"
+│   %14 = (1:100)::Core.Const(1:100)
+│   %15 = Base.Generator(%13, %14)::BASE.GENERATOR{UNITRANGE{INT64}, F} WHERE F<:VAR"#582#583"
+│   %16 = Base.collect(%15)::VECTOR
+└──       return %16
+

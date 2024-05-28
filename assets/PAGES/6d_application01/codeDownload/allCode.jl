@@ -144,7 +144,7 @@ is_viral         = (visits .≥ viral_threshold)
 viral            = stats_subset(visits, payrates, is_viral)
  
 viral_threshold  = 100
-is_notviral      = .!(is_viral)      # '!' is negating a boolean value, which we then broadcast
+is_notviral      = .!(is_viral)      # '!' is negating a boolean value and we broadcast it
 notviral         = stats_subset(visits, payrates, is_notviral)
  
 days_to_consider = (1, 10, 25)      # days when the videos were posted
@@ -226,6 +226,7 @@ describe(visits)
 print(describe(visits))
  
 
+
 list_functions = [sum, median, mean, maximum, minimum]
 
 stats_visits   = [fun(visits) for fun in list_functions]
@@ -236,8 +237,10 @@ list_functions = [sum, median, mean, maximum, minimum]
 stats_various  = [fun.([visits, payrates]) for fun in list_functions]
  
 
+
 stats_visits   = NamedTuple((Symbol(fun), fun(visits)) for fun in list_functions)
  
+
 
 vector_of_tuples = [(Symbol(fun), fun(visits)) for fun in list_functions]
 stats_visits     = NamedTuple(vector_of_tuples)

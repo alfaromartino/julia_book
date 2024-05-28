@@ -1,1 +1,0 @@
-print_compact(proportion_viral_lucrative) #hide

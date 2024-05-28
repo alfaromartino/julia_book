@@ -1,1 +1,0 @@
-# 2) Target was 50k. We can use Boolean indices to characterize the videos.

@@ -1,0 +1,26 @@
+MethodInstance for foo(::Vector{Int64}, ::Int64)
+  from foo(x, β) @ Main C:\Users\GAMER\MEGA\WEBSITES\julia_book2\_assets\PAGES\7c_gotchas\code\region12d.jl:3
+Arguments
+  #self#::Core.Const(foo)
+  x::Vector{Int64}
+  β::Int64
+Locals
+  bar::var"#bar#186"{Int64}
+  δ::Int64
+  @_6::Int64
+Body::Vector{Int64}
+1 ─       Core.NewvarNode(:(bar))
+│         Core.NewvarNode(:(δ))
+│   %3  = (β < 0)::Bool
+└──       goto #3 if not %3
+2 ─       (@_6 = -β)
+└──       goto #4
+3 ─       (@_6 = β)
+4 ┄       (δ = @_6)
+│   %9  = Main.:(var"#bar#186")::Core.Const(var"#bar#186")
+│   %10 = Core.typeof(δ)::Core.Const(Int64)
+│   %11 = Core.apply_type(%9, %10)::Core.Const(var"#bar#186"{Int64})
+│         (bar = %new(%11, δ))
+│   %13 = (bar)(x)::Vector{Int64}
+└──       return %13
+

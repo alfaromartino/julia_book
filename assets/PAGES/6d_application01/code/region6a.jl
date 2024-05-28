@@ -1,1 +1,0 @@
-print_html2(stats_audience.mean) #hide

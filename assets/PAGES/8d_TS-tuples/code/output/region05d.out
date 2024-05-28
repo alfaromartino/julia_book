@@ -1,0 +1,16 @@
+MethodInstance for foo(::Vector{Int64})
+  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8d_TS-tuples/code/region05d.jl:3
+Arguments
+  #self#::Core.Const(foo)
+  x::Vector{Int64}
+Locals
+  tup::TUPLE{VARARG{INT64}}
+Body::Int64
+1 ─ %1 = Main.NTuple::Core.Const(Tuple{Vararg{T, N}} where {N, T})
+│   %2 = Main.length(x)::Int64
+│   %3 = Main.eltype(x)::Core.Const(Int64)
+│   %4 = Core.apply_type(%1, %2, %3)::TYPE{TUPLE{VARARG{INT64, _A}}} WHERE _A
+│        (tup = (%4)(x))
+│   %6 = Main.sum(tup)::Int64
+└──      return %6
+

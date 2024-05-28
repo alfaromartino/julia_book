@@ -1,0 +1,1 @@
+#	The same conclusions hold for Named Tuples

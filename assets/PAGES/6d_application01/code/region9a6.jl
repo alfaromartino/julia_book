@@ -1,1 +1,0 @@
-print_compact(viral.nrvideos) #hide
