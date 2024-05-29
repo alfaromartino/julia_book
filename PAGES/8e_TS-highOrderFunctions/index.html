@@ -637,7 +637,7 @@ section a:hover{
                             <td class="tg-ofj5">1</td>
                         </tr>
                         <tr>
-                            <td class="tg-8jgo">Miliseconds</td>
+                            <td class="tg-8jgo">Milliseconds</td>
                             <td class="tg-ofj5">ms</td>
                             <td class="tg-ofj5">10<sup>-3</sup></td>
                         </tr>
@@ -2510,7 +2510,7 @@ color: white;
         <h2>Introduction</h2></p>
 <p>Recall that functions in Julia are  <em>first-class objects</em>, meaning that they can be manipulated as any other variable. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Equivalently, it&#39;s said that functions are  <em>first-class citizens</em>.  </span></span> This enables us to define vectors of functions, create functions that return other functions, and more.</p>
 <p>In particular, it enables the definition of <span style="color: rgb(62, 121, 180);"><strong>high-order functions</strong></span>: functions that take another function as an argument. We&#39;ve already worked with several examples of them, where anonymous functions were used as an input &#40;e.g., <code>map</code> and <code>filter</code>&#41;. </p>
-<p>Next, we consider the conditions under which high-order functions are type stable.  </p>
+<p>Next, we consider the conditions under which high-order functions are type-stable.  </p>
 <p>      </div>
     </div>
   </div>
@@ -2521,7 +2521,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Functions as Arguments: The Issue</h2></p>
 <p>For the explanations, let&#39;s refer to the high-order function as  <em>the parent function</em>, and  <em>the child function</em> as the one passed as an argument. </p>
-<p><strong>Each function in Julia defines its own unique concrete type</strong>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Additionally, each function is a subtype of an abstract type called <code>Function</code>  </span></span> This feature can become problematic regarding specialization of high-order functions. Specifically, it may cause to a combinatorial explosion of specialized methods, as each unique child function would require a separate compilation.</p>
+<p><strong>Each function in Julia defines its own unique concrete type</strong>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Additionally, each function is a subtype of an abstract type called <code>Function</code>  </span></span> This feature can become problematic for specialization of high-order functions. Specifically, it may cause a combinatorial explosion of specialized methods, as each unique child function would require separate compilation.</p>
 <p>To mitigate this issue, <strong>Julia has opted for not always specializing the methods of high-order functions</strong>. In some circumstances, this may result in a degraded performance, similar to working in the global scope. Therefore, it&#39;s important to pinpoint the scenarios where specialization is inhibited and monitor its consequences. In situations where performance is significantly impaired, it&#39;s still possible to explicitly induce specialization. Next, we explore the methods for achieving this.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
@@ -2580,7 +2580,7 @@ end</code></pre> </div></div>
 <p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;abs, &#36;x&#41;</code> <br/>  </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>We can observe a significant reduction in time by adding <code>f&#40;1&#41;</code>, and also a decrease in memory allocations. Excessive allocations are a common symptom of type instability, as we&#39;ll demonstrate when exploring the subject.</p>
+<p>We can observe a significant reduction in time by adding <code>f&#40;1&#41;</code>, along with a decrease in memory allocations. Excessive allocations are a common symptom of type instability, as we&#39;ll demonstrate when exploring the subject.</p>
 <p>Nonetheless, explicitly calling the function to circumvent the no-specialization issue isn&#39;t optimal, since it introduces an unnecessary computation. Fortunately, alternative solutions exist to address the problem. One approach is to type-annotate <code>f</code>, which provides Julia with a hint to specialize. Another solution is to wrap the function in a tuple and then call it. This ensures the identification of the function&#39;s type, as the information is inherent to the tuple&#39;s type.</p>
 <p>For the sake of completeness, we next outline all the approaches, including the previous method with an explicit function call.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>

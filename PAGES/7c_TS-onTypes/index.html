@@ -637,7 +637,7 @@ section a:hover{
                             <td class="tg-ofj5">1</td>
                         </tr>
                         <tr>
-                            <td class="tg-8jgo">Miliseconds</td>
+                            <td class="tg-8jgo">Milliseconds</td>
                             <td class="tg-ofj5">ms</td>
                             <td class="tg-ofj5">10<sup>-3</sup></td>
                         </tr>
@@ -2510,10 +2510,10 @@ color: white;
         <h2>Introduction</h2></p>
 <p>High performance in Julia critically depends on whether functions are type stable. The definition of type stability is relatively straightforward, meaning that the types of all variables can be inferred from the types of the function arguments. When this property holds, Julia can specialize the computation method, resulting in significant performance gains.</p>
 <p>Despite its simplicity, ensuring type stability is subject to various nuances. This is why mastering it necessitates a solid foundation in two key areas: <strong>Julia's type system and the inner workings of functions</strong>. The current section equips you with the necessary knowledge to grasp the former, relegating the internals of functions to the next section. Moreover, <strong>we focus on scalars and vectors</strong>, leaving more complex objects for subsequent sections.  </p>
-<p>Before you continue, it&#39;s recommended that you refresh the basics of types introduced <a href="/julia_book/PAGES/3a_variables/#variable_types">here</a>.</p>
+<p>Before you continue, I recommend refreshing the basics of types introduced <a href="/julia_book/PAGES/3a_variables/#variable_types">here</a>.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Coverage of Julia's Types </span>  </div>  <div class=content> <strong>The subject is covered only to the extent necessary for understanding type stability</strong>. The goal is to preserve a clear intuition for type stability, avoiding unnecessary details. Julia&#39;s type system is indeed quite vast, and a comprehensive exploration system would warrant a dedicated chapter.  </div>  </div>
+      <b>Warning!</b> - Coverage of Julia's Types </span>  </div>  <div class=content> <strong>The subject is covered only to the extent necessary for understanding type stability</strong>. The goal is to preserve a clear intuition for type stability, avoiding unnecessary details. Julia&#39;s type system is indeed quite vast, and a comprehensive exploration would warrant a dedicated chapter.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2542,7 +2542,7 @@ color: white;
         <h2>Abstract and Concrete Types</h2></p>
 <p>The hierarchical nature of types makes it possible to represent subtypes and supertypes as trees. This gives rise to the notions of abstract and concrete types. </p>
 <p>An <span style="color: rgb(62, 121, 180);"><strong>abstract type</strong></span> represents a non-leaf node in a tree. By definition, abstract types can be decomposed into other subtypes, thus serving as parent categories. The type <code>Any</code> in Julia is a prime example of an abstract type. In contrast, a <span style="color: rgb(62, 121, 180);"><strong>concrete type</strong></span> represents a leaf node in a tree, therefore representing an irreducible unit that lacks subtypes. Concrete types are final and can&#39;t be further subdivided. </p>
-<p>The diagram below uses scalars to illustrate the difference between abstract and concrete types. The example is based on the hierarchy of the type <code>Number</code>. It&#39;s worth noting that the names in the table match the type&#39;s corresponding name in Julia. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The <code>Signed</code> subtype of <code>Integers</code> allows for the representation of negative and positive integers. Julia also offers the type <code>Unsigned</code>, which only accepts positive integers and comprise subtypes such as <code>UInt64</code> and <code>UInt32</code>.  </span></span> </p>
+<p>The diagram below uses scalars to illustrate the difference between abstract and concrete types. The example is based on the hierarchy of the type <code>Number</code>. It&#39;s worth noting that the names in the table match the type&#39;s corresponding name in Julia. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The <code>Signed</code> subtype of <code>Integers</code> allows for the representation of negative and positive integers. Julia also offers the type <code>Unsigned</code>, which only accepts positive integers and comprise subtypes such as <code>UInt64</code> and <code>UInt32</code>.  </span></span></p>
 <p> <div class="multiple_pics">
   <h2 style="color:rgb(63, 99,136);"><div style="text-decoration:underline;">Hierarchy of "Number"</div></h2>
     <img src="/julia_book/assets/PAGES/7c_TS-onTypes/tikz/supertypes_Number02.svg" style="width:90%; height:22em; margin-top:1em; margin-bottom:1em;">  
