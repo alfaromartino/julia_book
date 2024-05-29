@@ -2509,7 +2509,6 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>In Julia, functions are not only a fundamental building block of programming, but also a key to unlocking high performance. This is by design, as Julia&#39;s functions have been engineered from the outset to generate efficient machine code. However, to fully unlock their potential, we must understand the underlying process of function calls.</p>
-<p>The main takeaway you should get from this section is that <strong>wrapping operations in functions is a necessary condition for high performance in Julia</strong>.</p>
 <p>Essentially, when a function is called, Julia identifies the concrete types of each variable, selects the most suitable method for these types, and then compiles optimized code. At the heart of the process are three interconnected mechanisms: <strong>type inference</strong>, <strong>dispatch</strong>, and <strong>compilation</strong>. This section will provide a detailed explanation of each.</p>
 <p>      </div>
     </div>
@@ -2520,7 +2519,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Relevance of Functions</h2></p>
-<p>To understand why functions are necessary for high performance, let&#39;s begin by outlining the detrimental consequences of global variables. <span style="color: rgb(62, 121, 180);"><strong>Global variables</strong></span> correspond to those defined outside a function&#39;s scope, which Julia treats as potentially embodying any value and therefore any type. The rationale is that, even if the variable holds a value at that moment, the user may reassign it at any part of the script. </p>
+<p>Beyond technical details, the main takeaway you should get from this section is that <strong>wrapping operations in functions is a necessary condition for high performance in Julia</strong>. To understand why this is so, let&#39;s begin by outlining the detrimental consequences of global variables. </p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Global variables</strong></span> correspond to those defined outside a function&#39;s scope, which Julia treats as potentially embodying any value and therefore any type. The rationale is that, even if the variable holds a value at that moment, the user may reassign it at any part of the script. </p>
 <p>The use of global variables isn&#39;t limited to operations in the global scope, but also within functions when the variable isn&#39;t passed as an argument. Considering this, our conclusions will apply to both of the following cases.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2732,7 +2732,7 @@ z &#61; sum&#40;log, x&#41;     # log&#40;2&#41; &#43; log&#40;3&#41; &#43; log&
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified May 28, 2024 
+          © Martin Alfaro <br>Last Modified May 29, 2024 
       </span> 
   </div> 
 </footer>
