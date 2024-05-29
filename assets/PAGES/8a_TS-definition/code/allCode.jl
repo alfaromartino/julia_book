@@ -38,15 +38,15 @@ sum(x3)             # type stable
  
 x4::BitVector       = [true, false, true]
 
-all(x4)             # type stable (`all` checks whether all arguments are `true`)
+all(x4)             # type stable (`all` returns `true` if all arguments are `true`)
  
 x5::Vector{Number}  = [1, 2, 3]
 
-sum(x5)             # type UNSTABLE -> `sum` considers all the posibilities given by `Number`
+sum(x5)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Number`
  
 x6::Vector{Any}     = [1, 2, 3]
 
-sum(x6)             # type UNSTABLE -> `sum` considers all the posibilities given by `Any`
+sum(x6)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Any`
  
 ############################################################################
 #
