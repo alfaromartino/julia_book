@@ -396,6 +396,21 @@ section a:hover{
 }
 
 
+</style>
+
+
+
+<!-- FOR OFFSETTING LINKS -->
+<style>
+ 
+  :target {
+    scroll-margin-top: 40px; 
+  }
+  
+  .own-anchors a{
+  scroll-margin-top: 4em;
+  }
+
 </style> 
  <!-- <div class="left_bar" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
@@ -978,7 +993,7 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1022,7 +1037,7 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1524,13 +1539,13 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES\3_overview/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Execution and Packages</a></li><br>
+                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Calls and Packages</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3b_define_func/"><i>c</i>. Defining Your Own Functions</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3c_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a></li><br>
+                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Map and Broadcasting (Vectorization)</a></li><br>
                 
               </ul>
             </li>
@@ -2549,17 +2564,23 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section introduces the concepts of <strong>variables</strong> and their <strong>types</strong>. Furthermore, we&#39;ll cover <strong>operators</strong>, with a focus on their syntax. To ensure a smooth learning experience, I&#39;ve minimized the reliance on objects we haven&#39;t covered yet. The only one introduced is vectors, which are expressed by enclosing elements in brackets &#40;e.g., <code>&#91;1,2,3&#93;</code>&#41;. </p>
+<p>This section introduces the concepts of <strong>variables</strong> and their <strong>types</strong>, along with <strong>operators</strong>. To ensure a smooth learning experience, I&#39;ve minimized the reliance on objects we haven&#39;t covered yet. The only one introduced is vectors, which are expressed by enclosing elements in brackets &#40;e.g., <code>&#91;1,2,3&#93;</code>&#41;. </p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="creating_variables" class="scrollspy">
+<section id="variables" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Creating Variables</h2></p>
-<p>Variables are created through the so-called <span style="color: rgb(62, 121, 180);"><strong>assignment operator</strong></span>, denoted by the symbol <code>&#61;</code>. For instance, the statement <code>x &#61; 3</code> associates <code>x</code> with an object holding the value 3. </p>
+        <h2>Variables</h2></p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Variables</strong></span> are <strong>labels</strong> for objects, thus merely acting as identifiers. They&#39;re created through the so-called <span style="color: rgb(62, 121, 180);"><strong>assignment operator</strong></span>, denoted by the symbol <code>&#61;</code>. In turn, <span style="color: rgb(62, 121, 180);"><strong>objects</strong></span> are storage locations that hold <span style="color: rgb(62, 121, 180);"><strong>values</strong></span>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Storage locations are  <em>abstract</em>, meaning that they don&#39;t necessarily map to a physical memory address in the RAM. Indeed, the actual memory location of the object may change dynamically over time. Internally, programming languages handle object storage in a complex manner, depending on various factors &#40;e.g., available memory, performance&#41;. Fortunately, for using high-level languages like Julia, we can avoid getting tangled up in these underlying intricacies.  </span></span>  Each value has a <span style="color: rgb(62, 121, 180);"><strong>type</strong></span> associated, which identifies the nature of the object.</p>
+<p>For example, the assignment <code>x &#61; &quot;Hello&quot;</code> defines the label <code>x</code> for a memory location holding an object with value <code>Hello</code>. Likewise, the value <code>Hello</code> has type <code>String</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Despite its technical inaccuracy, we&#39;ll often say that &quot;a variable has a specific type&quot; for brevity&#39;s sake. Note, though, that it&#39;s a variable&#39;s value that has a specific type, rather than the variable itself.  </span></span> </p>
+<p> <div class="multiple_pics">
+  <h2 style="color:rgb(63, 99,136)">Variables</h2>
+    <img src="/julia_book/assets/PAGES/2a_variables/tikz/variable01.svg" style="width:500px; height:auto; margin-top:1em;">  
+</div> <br/></p>
+ <h4> Defining Variables </h4>
 <p>Variable names can be defined using Unicode characters, opening up a wide range of possibilities. This includes Greek letters, Chinese characters, symbols, and even emoticons. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> There are many online resources available offering lists of Unicode characters &#40;e.g. <a href="https://www.vertex42.com/ExcelTips/unicode-symbols.html">this website</a>&#41;. You can directly insert a Unicode character by copying and pasting it from these resources. Alternatively, you can use Tab completion with the commands listed in <a href="https://docs.julialang.org/en/v1/manual/unicode-input/">the Julia documenation</a>.  </span></span>  While not all symbols are permitted, variable names do accept underscores <code>_</code>, which are helpful for separating words &#40;e.g., <code>intermediate_result</code>&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For instance, names with symbols that are employed in mathematical notation like <code>x^</code> or <code>&#37;x</code> aren&#39;t accepted. Moreover, names accept numbers unless they&#39;re at the beginning, turning a name like <code>1x</code> invalid.  </span></span> Importantly, names are case-sensitive, so that <code>bar</code> and <code>Bar</code> are two distinct variables. </p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">a &#61; 2
@@ -2605,31 +2626,16 @@ x -&#61; 3        # equivalent</code></pre>
     </div>
   </div>
 </section>
-<section id="what_are_variables" class="scrollspy section-bg-color">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg- mx-auto">
-        <h2>What are Variables?</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Variables</strong></span> are <strong>labels</strong> for objects, thus merely acting as identifiers. In turn, <span style="color: rgb(62, 121, 180);"><strong>objects</strong></span> are storage locations that hold <span style="color: rgb(62, 121, 180);"><strong>values</strong></span>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Storage locations are  <em>abstract</em>, meaning that they don&#39;t necessarily map to a physical memory address in the RAM. Indeed, the actual memory location of the object may change dynamically over time. Internally, programming languages handle object storage in a complex manner, depending on various factors &#40;e.g., available memory, performance&#41;. Fortunately, for using high-level languages like Julia, we can avoid getting tangled up in these underlying intricacies.  </span></span>  Each value has a <span style="color: rgb(62, 121, 180);"><strong>type</strong></span> associated, whic identifies the nature of the object.</p>
-<p>For example, the assignment <code>x &#61; &quot;Hello&quot;</code> defines the label <code>x</code> for a memory location holding the value <code>Hello</code>. Likewise, the value <code>Hello</code> has type <code>String</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Despite its technical inaccuracy, we&#39;ll often say that &quot;a variable has a specific type&quot; for brevity&#39;s sake. Note, though, that it&#39;s a variable&#39;s value that has a specific type, rather than the variable itself.  </span></span> </p>
-<p> <div class="multiple_pics">
-  <h2 style="color:rgb(63, 99,136)">Variables</h2>
-    <img src="/julia_book/assets/PAGES/2a_variables/tikz/variable01.svg" style="width:500px; height:auto; margin-top:1em;">  
-</div> <br/></p>
-<p>      </div>
-    </div>
-  </div>
-</section>
-<section id="types" class="scrollspy">
+<section id="types" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Types</h2></p>
-<p>To work with Julia, it&#39;s necessary to understand some basics principles regarding types. We do this next, where we present the bare minimum needed for the upcoming chapters. Further details are relegated to Part II of this website.</p>
-<p>Objects can be broadly classified into <strong>single-element objects</strong> and <strong>collections of elements</strong>, which we respectively refer as <span style="color: rgb(62, 121, 180);"><strong>scalars</strong></span> and <span style="color: rgb(62, 121, 180);"><strong>collections</strong></span>. The following lists outline the main types you can found in each category.</p>
+<p>To work with Julia, it&#39;s necessary to understand some principles regarding types. We do this next, where we present the bare minimum needed for the upcoming chapters. Further details are relegated to Part II of this website.</p>
+<p>Objects can be broadly classified into <strong>single-element objects</strong> and <strong>collections of elements</strong>, which we respectively refer as <span style="color: rgb(62, 121, 180);"><strong>scalars</strong></span> and <span style="color: rgb(62, 121, 180);"><strong>collections</strong></span>. The following lists outline the main types you can find in each category.</p>
  <div class="multiple_pics">
   <!-- <h2 style="color:rgb(63, 99,136)">Objects</h2> -->
-    <img src="/julia_book/assets/PAGES/2a_variables/tikz/list_variables01.svg" style="width:650px; height:auto; margin-top:1em; margin-bottom:1em;">  
+    <img src="/julia_book/assets/PAGES/2a_variables/tikz/list_variables01.svg" style="width:700px; height:auto; margin-top:1em; margin-bottom:1em;">  
 </div>
 <p>Types enable the characterization of an object&#39;s value. They&#39;re denoted by the syntax <code>&lt;name of type&gt;&#123;&lt;type parameters&gt;&#125;</code>, where type parameters are optional and omitted when they need none.</p>
 <p>For instance, scalars comprise numeric types such as <code>Int64</code> for integers, <code>Float64</code> for decimal numbers, and <code>Bool</code> for binary values &#40;<code>true</code> and <code>false</code> that are internally represented by <code>1</code> and <code>0</code>&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The suffix 64 represents the number&#39;s precision. It determines the maximum number of significant digits or decimals that can be accurately represented.  </span></span> Likewise, the type <code>Char</code> represents individual characters, serving as the building block for the type <code>String</code>. The type <code>String</code> is the standard for representing text, and is formally considered as a collection of characters. </p>
@@ -2652,7 +2658,7 @@ x -&#61; 3        # equivalent</code></pre>
     </div>
   </div>
 </section>
-<section id="operators" class="scrollspy section-bg-color">
+<section id="operators" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2693,7 +2699,7 @@ x -&#61; 3        # equivalent</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified May 29, 2024 
+          © Martin Alfaro <br>Last Modified June 5, 2024 
       </span> 
   </div> 
 </footer>
@@ -2778,12 +2784,7 @@ function goToNextPage() {
 }
 
 
-</script>
-
-
-
-
-</div><!-- CONTENT ENDS HERE -->
+</script></div><!-- CONTENT ENDS HERE -->
 
 <!-- ADDED BY FRANKLIN -->
   
@@ -3193,11 +3194,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#creating_variables" data-offset="-40">Creating Variables</a>
-        </li>
-        
-        <li>
-          <a href="#what_are_variables" data-offset="-40">What are Variables?</a>
+          <a href="#variables" data-offset="-40">Variables</a>
         </li>
         
         <li>
@@ -3409,4 +3406,18 @@ document.addEventListener('keydown', (e) => {
     </script>
 
 
+
+
+<!-- <script>
+
+  $('a[href*="#"]').on('click', function (event) {
+    event.preventDefault();
+    var target = $(this.hash);
+    var offset = 500; // adjust this value to fit your needs
+    $('html, body').animate({
+      scrollTop: target.offset().top - offset
+    }, 500);
+  });
+
+</script> -->
 

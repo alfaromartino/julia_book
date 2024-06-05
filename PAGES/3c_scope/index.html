@@ -396,6 +396,21 @@ section a:hover{
 }
 
 
+</style>
+
+
+
+<!-- FOR OFFSETTING LINKS -->
+<style>
+ 
+  :target {
+    scroll-margin-top: 40px; 
+  }
+  
+  .own-anchors a{
+  scroll-margin-top: 4em;
+  }
+
 </style> 
  <!-- <div class="left_bar" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
@@ -978,7 +993,7 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1022,7 +1037,7 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1540,13 +1555,13 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES\3_overview/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Execution and Packages</a></li><br>
+                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Calls and Packages</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3b_define_func/"><i>c</i>. Defining Your Own Functions</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3c_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a></li><br>
+                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Map and Broadcasting (Vectorization)</a></li><br>
                 
               </ul>
             </li>
@@ -2544,12 +2559,12 @@ color: white;
 
  
 <div class="franklin-content">
-<section id="introduction" class="scrollspy">
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Variable scope</strong></span> refers to the code block in which a variable is accessible. The concept allows us to distinguish between <span style="color: rgb(62, 121, 180);"><strong>global variables</strong></span>, which are visible in any part of the code, and <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span>, which only exist within a specific code block. The existence of scopes determines that the same variable <code>x</code> could refer to different objects, depending on where it&#39;s called.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Variable scope</strong></span> refers to the code block in which a variable is accessible. The concept allows us to distinguish between <span style="color: rgb(62, 121, 180);"><strong>global variables</strong></span>, which are accessible in any part of the code, and <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span>, which only exist within a specific code block. The presence of scopes determines that the same variable <code>x</code> could refer to different objects, depending on where it&#39;s called.</p>
 <p>Julia adheres to specific rules for variable scope when it comes to functions. Specifically, given a variable <code>x</code> defined outside a function:</p>
 <ul>
 <li><p>if a new variable <code>x</code> is defined inside a function or is passed to the function as an argument, then <code>x</code> is considered  <em>local</em> to that function. Moreover, any reference to <code>x</code> within the function refers to the local variable, without any relation to the variable <code>x</code> defined outside the function.</p>
@@ -2562,7 +2577,7 @@ color: white;
     </div>
   </div>
 </section>
-<section id="global_and_local_variables" class="scrollspy section-bg-color">
+<section id="global_and_local_variables" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2610,7 +2625,7 @@ end</code></pre>
     </div>
   </div>
 </section>
-<section id="the_role_of_functions" class="scrollspy">
+<section id="the_role_of_functions" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2656,14 +2671,14 @@ y          &#61; double&#40;x&#41;</code></pre>
     </div>
   </div>
 </section>
-<section id="recommendations_for_the_use_of_functions" class="scrollspy section-bg-color">
+<section id="recommendations_for_the_use_of_functions" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Recommendations For The Use Of Functions</h2></p>
-<p>Structuring code around functions offer multiple advantages. However, fully realizing these benefits require following certain principles when writing code. This section outlines a few of these principles. The presentation should be considered as a mere introduction to the subject. It will be investigated further on the website, when we touch on performance improvements. </p>
-<p> <h4> Avoid Global Variables in Functions </h4> The use of global variables is discouraged not only for the reasons outlined previously, but also because they have a devastating impact on performance. This is why variables outside a function should be passed as arguments. This practice emerges naturally once you start seeing functions as mini-programs. It&#39;ll make you think of variables inside a function as labels to describe a task, rather than references to specific global variables.</p>
-<p> <h4> Avoid Redefining Variables within Functions </h4> The suggestion refers to both local variables and function arguments. Redefining such variables can entail several disadvantages. Later on the website, we&#39;ll see that this practice in particular impairs code readability and may decrease performance. As a result, its recommended that you define new variables rather than redefining existing ones. The following example illustrates the suggestion.</p>
+<p>Structuring code around functions offer multiple advantages. However, fully realizing these benefits require following certain principles when writing code. This section outlines a few of these principles, and should be considered as a mere introduction to the subject. The topic will be investigated further, when we explore high performance.</p>
+<p> <h4> Avoid Global Variables in Functions </h4> Global variables are strongly discouraged. This is not only for the reasons outlined previously, but also because they can have a devastating impact on performance. The easiest solution for this is to pass global variables as function arguments. This practice will actually emerge naturally once you understand functions as self-contained mini-programs. After you adopt this perspective, you&#39;ll conceive variables local to a function as labels to describe a task, rather than references to global variables. This mindset shift can help you write more efficient and maintainable code.</p>
+<p> <h4> Avoid Redefining Variables within Functions </h4> The suggestion applies to both local variables and function arguments. Redefining these variables can entail several disadvantages, such as hindering code readability and potentially decreasing performance. As a result, its recommended defining new variables instead of redefining existing ones. The following example illustrates this practice.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2702,7 +2717,7 @@ end</code></pre>
       <span class="modalClose">&times;</span>
       <h2>  Another Issue of Redefining Variables </h2>
     </div>
-    <div class="modal-body"><p>  Inside a function, Julia will throw an error if you make a computation using a global variable <code>x</code> and then redefine <code>x</code>. For example:</p>
+    <div class="modal-body"><p>  Julia will throw an error if, within a function, you perform a computation using a global variable <code>x</code> and then redefine <code>x</code>. For example:</p>
 <p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; 2
 
@@ -2719,10 +2734,10 @@ end</code></pre>
 
 </div>
  <h4> Modularity </h4>
-<p>We&#39;ve emphasized the importance of viewing functions as self-contained mini-programs, with each designed to perform a specific task. This perspective leads us to highlight the importance of <span style="color: rgb(62, 121, 180);"><strong>modularity</strong></span>: the practice of breaking down a program into multiple small functions, each with its own purpose, inputs, and outputs. </p>
-<p>The primary benefit of modularity is the possibility of working with independent code blocks. By keeping these blocks separate, we&#39;re able to turn complex problems into multiple manageable tasks, making it easier to test and debug code. Furthermore, it enables you to eventually improve or substitute parts of your code, without breaking the entire program.</p>
+<p>We&#39;ve emphasized the importance of viewing functions as self-contained mini-programs, which are designed to perform specific tasks. This vision leads us to highlight the importance of <span style="color: rgb(62, 121, 180);"><strong>modularity</strong></span>: the practice of breaking down a program into multiple small functions, each with its own purpose, inputs, and outputs. </p>
+<p>The primary benefit of modularity is the possibility of working with independent code blocks. By keeping these blocks separate, we&#39;re able to turn complex problems into multiple manageable tasks, making it easier to test and debug code. Furthermore, it makes it possible to eventually improve or substitute parts of the code, without breaking the entire program.</p>
 <p>The principle can be better grasped considering the analogy of building a Lego minifigure. In a first step, multiple blocks are created independently, each representing a specific part of the figure &#40;e.g., legs, torso, arms, head&#41;. In a second stage, the individual blocks are brought together and assembled into an integrated minifigure. </p>
-<p>This two-step approach makes it possible to focus on each block individually, concentrating on those parts critical for the figure. Furthermore, it provides great flexibility: as each block is created independently, we can modify certain blocks without needing to rebuild the entire figure. For example, if we want to change the figure&#39;s head, we can simply swap out the corresponding block without starting from scratch.</p>
+<p>This two-step approach allows us to focus on each block individually, concentrating on those parts critical for the figure. Furthermore, it provides great flexibility: as each block is created independently, we can modify certain blocks without needing to rebuild the entire figure. For example, if we wish to change the figure&#39;s head, we can simply swap out the corresponding block, without starting from scratch.</p>
 <p>The principle of modularity is closely related to the suggestion of writing short functions. Some even advocate for functions that consist exclusively of <a href="https://dev.to/kanani_nirav/the-five-lines-of-code-principle-why-less-is-more-in-programming-31j6#:~:text&#61;The&#37;20idea&#37;20is&#37;20that&#37;20a,and&#37;20modify&#37;20than&#37;20longer&#37;20functions.">less than five lines</a>, with entire <a href="https://www.manning.com/books/five-lines-of-code">books</a> written based on this principle. Although this viewpoint can be considered rather extreme, it clearly highlights the benefits of avoiding long functions.</p>
  <!-- Trigger/Open The Modal -->
 <div style="text-indent:0;"> <button class="modalButton">
@@ -2737,8 +2752,8 @@ end</code></pre>
       <span class="modalClose">&times;</span>
       <h2>  Example of Modularity </h2>
     </div>
-    <div class="modal-body"><p> Coming up with mock scenarios illustrating the advantages of modularity is tricky due to several reasons. First, the same function could be deemed modular enough depending on the context and your goals. Second, modularity could become detrimental if it impairs code readability. Finally, making the code more modular may not be worthwhile if you don&#39;t plan to reuse it.</p>
-<p>Assuming that there are advantages in applying the principle, we next provide an example for its implementation. The example&#39;s goal is to compute the cost of buying a product, when a good is subject to a percentage tax over the total value. </p>
+    <div class="modal-body"><p> Coming up with mock scenarios illustrating the advantages of modularity is tricky. This is due to several reasons. First, the same function could be deemed modular enough, depending on the context and your goals. Second, modularity may become detrimental if it impairs code readability. Finally, making the code more modular may not be worthwhile if you don&#39;t plan to reuse it.</p>
+<p>Assuming that there are advantages in applying the principle, we next provide an example. The example&#39;s goal is to compute the cost of buying a product, when a good is subject to a percentage tax over the total value. </p>
 <p> <div style="height:8em">  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2803,7 +2818,7 @@ expenditure_iPhones &#61; expenditure&#40;gross_value, tax_paid&#41;</code></pre
  </div></div>
 <p>  </p></details></div></p>
  </div>
-<p>Note that, despite being more verbose, Approach 2 is more readable and hence allows the user to quickly understand what the code does. This becomes especially important when the person reading the code is not the original author. In contrast, Approach 1 requires the reader to carefully examine each term of <code>expenditure</code> to decipher its meaning.</p>
+<p>While approach 2 is more verbose, it&#39;s also more readable, allowing the user to quickly understand the code&#39;s purpose. In contrast, Approach 1 requires the reader to carefully examine each term of <code>expenditure</code> to decipher its meaning.</p>
 <p>Furthermore, <strong>Approach 2 is more modular</strong>, as it breaks down total expenditure into two distinct components: the money to purchase the product without taxes and the taxes paid. While the benefits of this may not be immediately apparent in such a simple example, they would be easily appreciated in a more complex scenario. This is due to several reasons.</p>
 <p>First, Approach 2 offers greater flexibility compared to Approach 1. It can easily accommodate scenarios with multiple taxes or taxes of different forms, simply by recomputing <code>tax_paid</code>. In contrast, fitting new cases through Approach 1 would necessitate modifying the entire script, including a full redefinition of <code>expenditure</code> and its components. Second, Approach 2 is more convenient for testing code blocks separately. This feature is critical for ensuring proper code functioning, and can additionally simplify code debugging and the identification of performance bottlenecks.  </p>
     </div>    
@@ -2832,7 +2847,7 @@ expenditure_iPhones &#61; expenditure&#40;gross_value, tax_paid&#41;</code></pre
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified May 29, 2024 
+          © Martin Alfaro <br>Last Modified June 5, 2024 
       </span> 
   </div> 
 </footer>
@@ -2917,12 +2932,7 @@ function goToNextPage() {
 }
 
 
-</script>
-
-
-
-
-</div><!-- CONTENT ENDS HERE -->
+</script></div><!-- CONTENT ENDS HERE -->
 
 <!-- ADDED BY FRANKLIN -->
   
@@ -3544,4 +3554,18 @@ document.addEventListener('keydown', (e) => {
     </script>
 
 
+
+
+<!-- <script>
+
+  $('a[href*="#"]').on('click', function (event) {
+    event.preventDefault();
+    var target = $(this.hash);
+    var offset = 500; // adjust this value to fit your needs
+    $('html, body').animate({
+      scrollTop: target.offset().top - offset
+    }, 500);
+  });
+
+</script> -->
 

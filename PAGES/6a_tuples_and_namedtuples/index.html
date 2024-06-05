@@ -396,6 +396,21 @@ section a:hover{
 }
 
 
+</style>
+
+
+
+<!-- FOR OFFSETTING LINKS -->
+<style>
+ 
+  :target {
+    scroll-margin-top: 40px; 
+  }
+  
+  .own-anchors a{
+  scroll-margin-top: 4em;
+  }
+
 </style> 
  <!-- <div class="left_bar" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
@@ -978,7 +993,7 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1022,7 +1037,7 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1570,13 +1585,13 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES\3_overview/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Execution and Packages</a></li><br>
+                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Calls and Packages</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3b_define_func/"><i>c</i>. Defining Your Own Functions</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3c_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a></li><br>
+                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Map and Broadcasting (Vectorization)</a></li><br>
                 
               </ul>
             </li>
@@ -2544,25 +2559,25 @@ color: white;
 
  
 <div class="franklin-content">
-<section id="introduction" class="scrollspy section-bg-color">
+<section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Our previous discussions on collections have centered around vectors and tuples. Furthermore, the coverage of the latter was particularly brief.</p>
-<p>The current section expands on the use of collections, offering a more comprehensive analysis. Specifically, we provide properties of each collection, methods for manipulating them, and approaches to transforming one collection into another. The section also introduces two new types of collections: <strong>named tuples</strong> and <strong>dictionaries</strong>.</p>
+<p>Our previous discussions on collections have centered around vectors and tuples. The current section expands on the subject, offering a more comprehensive analysis and introducing two new types of collections: <strong>named tuples</strong> and <strong>dictionaries</strong>. </p>
+<p>Specifically, we&#39;ll show how to characterize collections through keys and values, methods for their manipulation, and approaches to transforming one collection into another. </p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="keys_and_values" class="scrollspy">
+<section id="keys_and_values" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Keys and Values</h2></p>
-<p>Most collections in Julia are characterized by some <span style="color: rgb(62, 121, 180);"><strong>keys</strong></span>, which serve as unique identifiers of their elements, and a corresponding <span style="color: rgb(62, 121, 180);"><strong>value</strong></span> associated with it. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Not all collections represent maps of keys to values. For example, the type <code>Set</code>, which we haven&#39;t covered, doesn&#39;t have keys. As its name indicates, it represents a group of unique unordered elements.  </span></span>  For instance, the vector <code>x &#61; &#91;2, 4, 6&#93;</code> has the indices <code>1, 2, 3</code> as its keys and <code>2, 4, 6</code> as their respective values. </p>
-<p>The concept of <strong>keys is more general than indices</strong>—they encompass all the possible identifiers of a collection&#39;s elements &#40;e.g., strings, numbers, or other objects&#41;, while indices exclusively rely on integers as identifiers. To know the keys and values of a collection, Julia provides the functions <code>keys</code> and <code>values</code>.</p>
-<p>The following code snippets illustrate the use of these functions. The examples are based on vectors and tuples, whose keys are exclusively represented by indices. Importantly, neither <code>keys</code> nor <code>values</code> necessarily return a vector by default, requiring the function <code>collect</code> for their conversion.</p>
+<p>Most collections in Julia are characterized by <span style="color: rgb(62, 121, 180);"><strong>keys</strong></span>, which serve as unique identifiers of their elements and have a corresponding <span style="color: rgb(62, 121, 180);"><strong>value</strong></span> associated to each. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Not all collections represent maps of keys to values. For example, the type <code>Set</code>, which represents a group of unique unordered elements, doesn&#39;t have keys.  </span></span>  For instance, the vector <code>x &#61; &#91;2, 4, 6&#93;</code> has the indices <code>1, 2, 3</code> as its keys, and <code>2, 4, 6</code> are their respective values. </p>
+<p><strong>Keys are more general than indices</strong>—they encompass all the possible identifiers of a collection&#39;s elements &#40;e.g., strings, numbers, or other objects&#41;, while indices exclusively employ integers as identifiers. To know the keys and values of a collection, Julia provides the functions <code>keys</code> and <code>values</code>.</p>
+<p>The following code snippets illustrate the use of <code>keys</code> and <code>values</code>. The examples are based on vectors and tuples, whose keys are exclusively represented by indices. Importantly, neither <code>keys</code> nor <code>values</code> necessarily return a vector by default, requiring the function <code>collect</code> to get a vector form. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2573,7 +2588,8 @@ color: white;
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>collect&#40;keys&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  1
  2
- 3</code></pre> </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>collect&#40;values&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 3</code></pre> </div></p>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>collect&#40;values&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  4
  5
  6</code></pre> </div></div> </div> 
@@ -2582,15 +2598,16 @@ color: white;
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>collect&#40;keys&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  1
  2
- 3</code></pre> </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>collect&#40;values&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 3</code></pre> </div></p>
+<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>collect&#40;values&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  4
  5
  6</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <h4> The Type &#39;Pair&#39; </h4>
-<p>Collections of key-value pairs in Julia are represented by the type <code>Pair</code>. This is parametrized by the types of its key and value and denoted by <code>Pair&#123;&lt;key type&gt;, &lt;value type&gt;&#125;</code>. Moreover, <strong>a pair of key-value</strong> is denoted in Julia by using the operator <code>&#61;&gt;</code>, defining an object represented as <code>&lt;key&gt; &#61;&gt; &lt;value&gt;</code>. This means that, for instance, <code>&quot;a&quot; &#61;&gt; 1</code> is a <code>Pair</code> object with the string <code>a</code> being its key and <code>1</code> its corresponding value. </p>
-<p>We can build a pair <code>x</code> by using the operator <code>&#61;&gt;</code>, but also using the function <code>Pair&#40;&lt;key&gt;, &lt;value&gt;&#41;</code>. Additionally, we can access its key by using <code>x&#91;1&#93;</code> or <code>x.first</code>, and its value by <code>x&#91;2&#93;</code> or <code>x.second</code>.</p>
+<p>Collections of key-value pairs in Julia are represented by the type <code>Pair&#123;&lt;key type&gt;, &lt;value type&gt;&#125;</code>. While we won&#39;t directly work with objects of having this type, they form the basis for constructing dictionaries and named tuples. </p>
+<p><strong>A key-value pair</strong> can be created by using the operator <code>&#61;&gt;</code> as in <code>&lt;key&gt; &#61;&gt; &lt;value&gt;</code>. For instance, <code>&quot;a&quot; &#61;&gt; 1</code> represents a pair, where <code>a</code> is its key and <code>1</code> its corresponding value. In addition, we can create pairs through the function <code>Pair&#40;&lt;key&gt;, &lt;value&gt;&#41;</code>, such that <code>Pair&#40;&quot;a&quot;,1&#41;</code> is equivalent. Moreover, given a pair <code>x</code>, we can access its key by <code>x&#91;1&#93;</code> or <code>x.first</code>, and its value by <code>x&#91;2&#93;</code> or <code>x.second</code>. All this is demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2612,9 +2629,8 @@ some_pair &#61; Pair&#40;&quot;a&quot;, 1&#41;    # equivalent</code></pre> </di
 <p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>some_pair.second</code> <br/> <pre><code class="plaintext code-output">1</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>While we won&#39;t directly work with objects of type <code>Pair</code>, they form the basis for constructing dictionaries and named tuples. </p>
  <h4> The Type &#39;Symbol&#39; </h4>
-<p>As we indicated, the data type used to represent keys can vary depending on the collection. One important type for this purpose is <code>Symbol</code>, which provides an efficient way to represent string-based keys. A symbol with name <code>x</code> is denoted <code>:x</code>, and can be constructed from strings using the function <code>Symbol&#40;&lt;some string&gt;&#41;</code>. This type has the additional benefit of allowing for a programmatic creation of variables. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For example, this becomes useful for creating new columns in the package <code>DataFrames</code>, which provides a table representation of data.  </span></span> </p>
+<p>The type used to represent keys can vary depending on the collection. One important type used as key is <code>Symbol</code>, which provides an efficient way to represent string-based keys. A symbol with name <code>x</code> is denoted <code>:x</code>, and can be created from strings using the function <code>Symbol&#40;&lt;some string&gt;&#41;</code>.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> This type also enables programmatic creation of variables. For example, it can be employed for creating new columns in the package <code>DataFrames</code>, which provides a table representation of data.  </span></span> </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2638,20 +2654,19 @@ vector_symbols &#61; &#91;Symbol&#40;&quot;x&quot;&#41;, Symbol&#40;&quot;y&quot
     </div>
   </div>
 </section>
-<section id="named_tuples" class="scrollspy section-bg-color">
+<section id="named_tuples" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Named Tuples</h2></p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content> <strong>Tuples and named tuples should only be employed for small collections</strong>. Using them for large collections can lead to slow operations, or even stack overflows that exceed the computer&#39;s processing capacity. For such situations, arrays remain the preferred choice. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Tuples are commonly allocated on the stack of the RAM known, which has a limited capacity. Instead, vectors are allocated in the heap of the RAM known, which is capable of handling much larger collections.  </span></span></p>
-<p>Defining what constitutes  <em>small</em> is challenging and unfortunately there are no definitive answers. We can only indicate that collections with fewer than 10 elements are undoubtedly small, while those exceeding hundreds of elements clearly violate the definition.  </div>  </div>
-<p>Named tuples share several similarities with regular tuples, including their <strong>immutability</strong>. However, they also differ in various ways. For one, <strong>the keys of named tuples are objects of type</strong> <code>Symbol</code>, in contrast to the numerical indices employed by regular tuples. Named tuples also differ syntactically, in that they must always be enclosed in parentheses <code>&#40;&#41;</code>—omitting them is not possible, unlike with regular tuples. </p>
-<p>Each element of a named tuple is specified by <code>&lt;key&gt; &#61; &lt;value&gt;</code> as in <code>a &#61; 10</code>, or a pair <code>&lt;key with Symbol type&gt; &#61;&gt; &lt;value&gt;</code> as in <code>:a &#61;&gt; 10</code>.</p>
-<p>When it comes to named tuples with a single element, they require adding a comma <code>,</code> after the element &#40;as occurs with tuples&#41;. However, it also accepts adding a semicolon <code>;</code> before the element. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The semicolon notation <code>;</code> may seem strange, but it follows from the syntax for keyword arguments in functions.  </span></span> </p>
-<p>Finally, the method for accessing their elements is twofold: accessing the element <code>a</code> of a named tuple <code>nt</code> can be done through either <code>nt&#91;:a&#93;</code> or <code>nt.a</code> </p>
-<p>The following code snippet illustrates all this. </p>
+      <b>Warning!</b> </span>  </div>  <div class=content> <strong>Tuples and named tuples should only be used for small collections</strong>. Using them for large collections can lead to slow operations, or even stack overflows that exceed the computer&#39;s processing capacity. In such situations, arrays remain the preferred choice.</p>
+<p>Defining what constitutes  <em>small</em> is challenging, and unfortunately there&#39;s no definitive answer. We can only indicate that collections with fewer than 10 elements are undoubtedly small, while those exceeding 100 elements clearly violate the definition.  </div>  </div>
+<p>Named tuples share several similarities with regular tuples, including their <strong>immutability</strong>. However, they also exhibit some differences. One of them is that <strong>the keys of named tuples are objects of type</strong> <code>Symbol</code>, unlike regular tuples that employ numerical indices. </p>
+<p>Named tuples also differ syntactically, in that they must always be enclosed in parentheses <code>&#40;&#41;</code>—omitting them is not possible, unlike with regular tuples. Furthermore, when creating a named tuple with a single element, the notation requires either a trailing comma <code>,</code> after the element &#40;similar to regular tuples&#41; or a leading semicolon <code>;</code> before the element. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The semicolon notation <code>;</code> may seem odd, but it actually comes from the syntax for keyword arguments in functions.  </span></span> </p>
+<p>To construct a named tuple, each element must be specified in the format <code>&lt;key&gt; &#61; &lt;value&gt;</code>, such as <code>a &#61; 10</code>. Alternatively, you can use a pair <code>&lt;key with Symbol type&gt; &#61;&gt; &lt;value&gt;</code>, as in <code>:a &#61;&gt; 10</code>. Once a named tuple <code>nt</code> is created, you can access its element <code>a</code> by using either <code>nt&#91;:a&#93;</code> or <code>nt.a</code>. </p>
+<p>The following code snippets illustrate all this. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2691,7 +2706,8 @@ nt &#61; &#40;; :a &#61;&gt; 10 &#41;
  :a
  :b</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>values&#40;nt&#41;</code><br/><div class="akin_to_pre">(10, 20)</div> </div></div> </div>   </details></div>  </div>  </div>
  <h4> Distinction Between The Creation Of Tuples and Named Tuples </h4>
-<p>You can create named tuples from existing variables, where each key and value is inherited from the variable itself. For instance, given variables <code>x &#61; 10</code> and <code>y &#61; 20</code>, you can create a named tuple <code>nt</code> with the key <code>:x</code> returning <code>10</code> and the key <code>:y</code> returning <code>20</code>. This is accomplished by <code>nt &#61; &#40;; x, y&#41;</code>. Note that you need <code>;</code> to be interpreted as a named tuple, as <code>&#40;x,y&#41;</code> would create a regular tuple otherwise. </p>
+<p>It&#39;s possible to create named tuples based on individual variables. For instance, given variables <code>x &#61; 10</code> and <code>y &#61; 20</code>, you can define <code>nt &#61; &#40;; x, y&#41;</code>. This creates a named tuple with keys <code>x</code> and <code>y</code>, and corresponding values <code>10</code> and <code>20</code>. </p>
+<p>The semicolon <code>;</code> is crucial in this construction, as it distinguishes named tuples from regular tuples. Omitting it, as in <code>nt &#61; &#40;x, y&#41;</code>, would result in a regular tuple instead.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2721,7 +2737,7 @@ tup &#61; &#40;x, &#41;</code></pre>
     </div>
   </div>
 </section>
-<section id="dictionaries" class="scrollspy">
+<section id="dictionaries" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2807,7 +2823,7 @@ keys_from_dict &#61; collect&#40;keys&#40;some_dict&#41;&#41;</code></pre> </div
     </div>
   </div>
 </section>
-<section id="creating_named_tuples_and_dictionaries" class="scrollspy section-bg-color">
+<section id="creating_named_tuples_and_dictionaries" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2925,7 +2941,7 @@ nt &#61; NamedTuple&#40;vector_keys_values&#41;</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="destructuring_optional" class="scrollspy">
+<section id="destructuring_optional" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2972,7 +2988,7 @@ x,y  &#61; list</code></pre>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">3</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">4</div> </div><br/></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The examples above destructured all the elements in <code>list</code>. Additionally, we can destructure only a subset of elements in <code>list</code>. For tuples, destructuring assigns values in order, without the possibility of skipping any value. The consequence is that if you&#39;re not interested in any particular element, you need to indicate it. This is done by indicating <code>_</code> as its variable name, hinting that no assignment should be performed for that value.</p>
+<p>In addition to destructuring all elements in <code>list</code> as above, we can also selectively destructure a subset of elements. When working with tuples, destructuring assigns values in a sequential order, without allowing any values to be skipped. As a result, if you&#39;re not interested in a particular element, you must explicitly indicate it. This requires assigning <code>_</code> as a variable name, which signals that no assignment should be performed for that value.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3177,7 +3193,7 @@ end</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified May 29, 2024 
+          © Martin Alfaro <br>Last Modified June 5, 2024 
       </span> 
   </div> 
 </footer>
@@ -3262,12 +3278,7 @@ function goToNextPage() {
 }
 
 
-</script>
-
-
-
-
-</div><!-- CONTENT ENDS HERE -->
+</script></div><!-- CONTENT ENDS HERE -->
 
 <!-- ADDED BY FRANKLIN -->
   
@@ -3897,4 +3908,18 @@ document.addEventListener('keydown', (e) => {
     </script>
 
 
+
+
+<!-- <script>
+
+  $('a[href*="#"]').on('click', function (event) {
+    event.preventDefault();
+    var target = $(this.hash);
+    var offset = 500; // adjust this value to fit your needs
+    $('html, body').animate({
+      scrollTop: target.offset().top - offset
+    }, 500);
+  });
+
+</script> -->
 

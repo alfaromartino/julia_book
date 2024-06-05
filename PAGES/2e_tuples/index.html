@@ -396,6 +396,21 @@ section a:hover{
 }
 
 
+</style>
+
+
+
+<!-- FOR OFFSETTING LINKS -->
+<style>
+ 
+  :target {
+    scroll-margin-top: 40px; 
+  }
+  
+  .own-anchors a{
+  scroll-margin-top: 4em;
+  }
+
 </style> 
  <!-- <div class="left_bar" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
@@ -978,7 +993,7 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1022,7 +1037,7 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1532,13 +1547,13 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES\3_overview/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Execution and Packages</a></li><br>
+                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Calls and Packages</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3b_define_func/"><i>c</i>. Defining Your Own Functions</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3c_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a></li><br>
+                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Map and Broadcasting (Vectorization)</a></li><br>
                 
               </ul>
             </li>
@@ -2544,26 +2559,26 @@ color: white;
 
  
 <div class="franklin-content">
-<section id="introduction" class="scrollspy">
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Collections refer to objects holding multiple elements. The previous sections focused on arrays, which are one form of collection. We&#39;ll now introduce another form of collection, known as tuples. Their coverage at this point will be minimal, as we still haven&#39;t the necessary tools to understand their distinctive features. Still, a basic understanding of tuples is relevant for functions, especially for returning multiple outputs.</p>
-<p>For now, it suffices to know that there are various forms of collections, each serving a different purpose. Tuples in particular are faster than vectors for collections comprising a few elements. However, tuples are immutable, unlike vectors. This means that, once a tuple is created, its elements cannot be added, removed, or modified.</p>
+<p>Collections are objects that store multiple elements. The previous sections focused on arrays, which are one pervasive form of collection. We&#39;ll now introduce another form of collection, known as tuples. Their coverage at this point will be minimal, as we don&#39;t the necessary tools to understand their distinctive features. Still, a basic understanding of tuples is relevant for functions, especially for returning outputs.</p>
+<p>For now, it suffices to know that there are various forms of collections, each serving a different purpose. Tuples in particular are faster than vectors for collections comprising a few elements. However, unlike vectors, tuples are more restrictive due to their fixed size and immutable nature. This means that, once a tuple is created, its elements cannot be added, removed, or modified.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     We emphasize that <strong>tuples should only be used when the number of elements is small</strong>. Large tuples will result in slow computations at best, or directly trigger fatal errors. Keep using vectors for large collections.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content> <strong>Tuples should only be used when the number of elements is small</strong>. Large tuples will result in slow computations at best, or directly trigger fatal errors. Keep using vectors for large collections.  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="defining_tuples" class="scrollspy section-bg-color">
+<section id="defining_tuples" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Defining Tuples</h2></p>
-<p>As with vectors, you can access the  <em>i</em>-th element of a tuple <code>x</code> by using the notation <code>x&#91;i&#93;</code>. In contrast to arrays, the syntax for defining tuples requires enclosing their elements in parentheses <code>&#40;&#41;</code>, rather than square brackets <code>&#91;&#93;</code>. </p>
+<p>Similar to vectors, you can access the  <em>i</em>-th element of a tuple <code>x</code> using the notation <code>x&#91;i&#93;</code>. However, the syntax for defining tuples differs from vectors, and requires enclosing their elements in parentheses <code>&#40;&#41;</code>, rather than square brackets <code>&#91;&#93;</code>. </p>
 <p>When tuples comprise more than one element, the use of <code>&#40;&#41;</code> is optional, and their omission is in fact a common practice. On the contrary, single-element tuples have stricter syntax rules: they always require <code>&#40;&#41;</code> and a trailing comma <code>,</code> after the element. This means that a tuple with single element <code>10</code> is represented by <code>&#40;10,&#41;</code>, while <code>&#40;10&#41;</code> would be instead interpreted as a number.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2587,13 +2602,12 @@ x &#61;  4,5,6           #alternative notation</code></pre>
     </div>
   </div>
 </section>
-<section id="tuples_for_assignments" class="scrollspy">
+<section id="tuples_for_assignments" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Tuples for Assignments</h2></p>
-<p>Tuples are particularly useful to perform <strong>multiple assignments of variables</strong> at once. This requires using <strong>a tuple on the left-hand side of</strong> <code>&#61;</code> and <strong>a collection of objects on the right-hand side</strong> &#40;either a tuple or a vector&#41;. </p>
-<p>The following examples show the use of tuples for assignments, depending on whether we use tuple or a vector as the source.</p>
+<p>Tuples are particularly useful to perform <strong>multiple variable assignments</strong> at once. This is accomplished by using <strong>a tuple on the left-hand side of</strong> <code>&#61;</code> and <strong>a collection of objects on the right-hand side</strong> &#40;either a tuple or a vector&#41;. The following examples demonstrate this.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2613,7 +2627,7 @@ x &#61;  4,5,6           #alternative notation</code></pre>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">4</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">5</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The technique is especially useful for assigning the outputs of a function to multiple variables.</p>
+<p>As we&#39;ll see, the technique is commonly employed for defining multiple variables based on a function&#39;s outputs.</p>
 <p>      </div>
     </div>
   </div>
@@ -2636,7 +2650,7 @@ x &#61;  4,5,6           #alternative notation</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified May 29, 2024 
+          © Martin Alfaro <br>Last Modified June 5, 2024 
       </span> 
   </div> 
 </footer>
@@ -2721,12 +2735,7 @@ function goToNextPage() {
 }
 
 
-</script>
-
-
-
-
-</div><!-- CONTENT ENDS HERE -->
+</script></div><!-- CONTENT ENDS HERE -->
 
 <!-- ADDED BY FRANKLIN -->
   
@@ -3344,4 +3353,18 @@ document.addEventListener('keydown', (e) => {
     </script>
 
 
+
+
+<!-- <script>
+
+  $('a[href*="#"]').on('click', function (event) {
+    event.preventDefault();
+    var target = $(this.hash);
+    var offset = 500; // adjust this value to fit your needs
+    $('html, body').animate({
+      scrollTop: target.offset().top - offset
+    }, 500);
+  });
+
+</script> -->
 

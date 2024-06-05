@@ -396,6 +396,21 @@ section a:hover{
 }
 
 
+</style>
+
+
+
+<!-- FOR OFFSETTING LINKS -->
+<style>
+ 
+  :target {
+    scroll-margin-top: 40px; 
+  }
+  
+  .own-anchors a{
+  scroll-margin-top: 4em;
+  }
+
 </style> 
  <!-- <div class="left_bar" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
@@ -978,7 +993,7 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1022,7 +1037,7 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -2508,8 +2523,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p><a href="/julia_book/PAGES/7d_TS-onFunctions/">Previously</a>, we&#39;ve described the process triggered when a function is called. We emphasized that function calls start by engaging in type inference, where Julia attempts to identify the type of each variable involved. This is a necessary step for specializing the computation method, where the code is tailored for the types identified. However, ensuring specialization demands that the function be  <em>type stable</em>: given the types of the arguments, the compiler must be capable of inferring the type of any expression.</p>
-<p>In this section, we&#39;ll start by clearly defining type stability. Additionally, we&#39;ll identify the conditions to achieve the property. After this, we&#39;ll explore some tools provided by Julia for checking whether a function is type stable. </p>
+<p><a href="/julia_book/PAGES/7d_TS-onFunctions/">Previously</a>, we&#39;ve described the process triggered when a function is called. Specifically, this starts by the type-inference stage, where Julia attempts to identify the type of each variable involved. This is a necessary step for specializing the computation method, as it enables the code to be tailored to the identified types. However, ensuring specialization additionally demands that the function is  <em>type stable</em>: given the types of the arguments, the compiler must be capable of inferring concrete types for any expression.</p>
+<p>In this section, we&#39;ll start by clearly defining type stability. Additionally, we&#39;ll identify the conditions to achieve the property. After this, we&#39;ll explore some tools provided by Julia for checking whether a function is type stable.</p>
 <p>The discussion will focus on scalars and vectors, relegating more complex objects to subsequent sections.</p>
 <p>      </div>
     </div>
@@ -2520,9 +2535,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>A Definition</h2></p>
-<p>To help build intuition, let&#39;s consider a concrete example. Suppose we&#39;ve defined <code>foo&#40;x&#41; &#61; x &#43; 2</code> and a variable <code>a</code>. Although we don&#39;t indicate a specific value for <code>a</code>, we emphasize that <code>a</code> has been already defined and has some concrete value. </p>
-<p>As we discussed in the previous section, Julia follows a series of steps when <code>foo&#40;a&#41;</code> is executed. First, it begins by identifying the concrete type of <code>x</code>, determining what computation method should be invoked for the operation <code>a &#43; 2</code>. Crucially, the choice is solely based on the type of <code>a</code>, not its value.</p>
-<p>If this is the first call to <code>foo&#40;a&#41;</code>, Julia additionally needs to compile the computation method chosen. Specifically, it must create machine code to compute <code>a &#43; 2</code> for the concrete type identified for <code>a</code>. The key to generating fast code depends on the notion of <span style="color: rgb(62, 121, 180);"><strong>type stability</strong></span>. This means that, given the types of the function arguments, the compiler must be able to predict the type of each expression involved. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The official documentation&#39;s definition of type stability is somewhat different, requiring that the compiler can simply predict the output&#39;s type. However, type-annotating the output would satisfy this definition, even if intermediate calculations are type unstable. Consequently, we apply a more stringent condition, requiring that any expression within the function has a predictable type.  </span></span>  When this is possible, the compiler can specialize the method and perform operations directly, resulting in fast execution. Otherwise, it must account for multiple possible implementations, resulting in degraded performance.</p>
+<p>To help build intuition, let&#39;s consider a concrete example. Suppose we&#39;ve defined <code>foo&#40;x&#41; &#61; x &#43; 2</code> and a variable <code>a</code>. Although we don&#39;t indicate a concrete value for <code>a</code>, we emphasize that <code>a</code> has been already defined and has some specific value.</p>
+<p>As we discussed in the previous section, Julia follows a series of steps when <code>foo&#40;a&#41;</code> is executed. First, it begins by identifying the concrete type of <code>x</code>, determining what computation method should be invoked for the operation <code>a &#43; 2</code>. Crucially, the choice is solely based on the concrete type of <code>a</code>, not its value.</p>
+<p>If this is the first call to <code>foo&#40;a&#41;</code>, Julia additionally needs to compile the computation method chosen. Specifically, it must create machine code to compute <code>a &#43; 2</code> for the concrete type identified for <code>a</code>. The key to generating fast code in this step depends on whether the function is <span style="color: rgb(62, 121, 180);"><strong>type stable</strong></span>: given the concrete types of the function arguments, the compiler must be able to predict the concrete type of each expression involved. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The official documentation&#39;s definition of type stability is somewhat different, requiring that the compiler can simply predict the output&#39;s type. However, type-annotating the output would satisfy this definition, even if intermediate calculations are type unstable. Consequently, we apply a more stringent condition, requiring that any expression within the function has a predictable type. Adopting this definition is common practice.  </span></span>  When this is property is satisfied, the compiler can specialize the method and perform operations directly, resulting in fast execution. Otherwise, it must account for multiple possible implementations, resulting in degraded performance.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Type Stability is a Property For Given Inputs Types</strong>  </span>  </div>  <div class=content>     While it&#39;s common to describe a function as &quot;type stable&quot;, it&#39;s actually the individual function calls that may possess this property. This distinction is crucial in practice, as a function can exhibit type stability for certain inputs but not others.  </div>  </div>
 <p>For the explanations, it&#39;s important to distinguish between <span style="color: rgb(62, 121, 180);"><strong>compilation time</strong></span> and <span style="color: rgb(62, 121, 180);"><strong>runtime</strong></span>. The former takes place when a function&#39;s method is created, and entails generating machine code exclusively based on the types identified. Instead, &quot;runtime&quot; is the stage where the operation is executed, once methods have already been created. In our example, both processes occur at the same time. However, this is only because we suppose it&#39;s the first call to <code>foo</code>, and so a method has to be created regardless of <code>a</code>&#39;s type. </p>
@@ -2538,17 +2553,17 @@ color: white;
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;1, 2, &quot;hello&quot;&#93;            # &#96;x&#96; has type &#96;Vector&#123;Any&#125;&#96;
 
 @btime sum&#40;&#36;x&#91;1:2&#93;&#41;            # type UNSTABLE</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  29.920 ns (1 allocation: 64 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  29.317 ns (1 allocation: 64 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;1, 2, 3&#93;                  # &#96;x&#96; has type &#96;Vector&#123;Int64&#125;&#96;
 
 @btime sum&#40;&#36;x&#91;1:2&#93;&#41;            # type stable</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  16.416 ns (1 allocation: 80 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  16.216 ns (1 allocation: 80 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Although both operations ultimately reduce to computing <code>1 &#43; 2</code>, the method implemented in each case differs. In particular, the second approach yields a significantly faster computation, because its method is based on a type-stable call.</p>
+<p>Although both operations ultimately reduce to computing <code>1 &#43; 2</code>, the method implemented in each case differs. In particular, the second approach yields a significantly faster computation because its method is based on a type-stable call.</p>
 <p>More specifically, <strong>the first tab is type unstable</strong>, as <code>x</code> has type <code>Vector&#123;Any&#125;</code> and so <code>x&#91;1&#93;</code> and <code>x&#91;2&#93;</code> have type <code>Any</code>. This feature makes it impossible to predict the type of <code>x&#91;1&#93; &#43; x&#91;2&#93;</code> from the information on <code>x</code>&#39;s type. Consequently, the compiler creates code considering multiple possibilities, including cases for <code>Int64</code>, <code>Float64</code>, <code>Float32</code>, etc. As a consequence, the method consists of numerous conditional statements, with each branch providing an approach for computing <code>x&#91;1&#93; &#43; x&#91;2&#93;</code> for each possible type. At runtime, Julia observes the values and hence types of <code>x&#91;1&#93;</code> and <code>x&#91;2&#93;</code>, selecting the corresponding branch. This results in slow execution code. Note that the implications for the method go beyond the case of <code>x &#61; &#91;1,2,&quot;hello&quot;&#93;</code>—they apply for any variable <code>y</code> with <code>Vector&#123;Any&#125;</code>.</p>
 <p>In contrast, <code>x</code> in the second tab has type <code>Vector&#123;Int64&#125;</code>, making the function call type stable: given inputs with <code>Int64</code>, the compiler can deduce that the type of <code>x&#91;1&#93; &#43; x&#91;2&#93;</code> is <code>Int64</code>. This feature allows the compiler to specialize the method for <code>x&#91;1&#93; &#43; x&#91;2&#93;</code>, thereby removing unnecessary type checks and conversions. The consequence is fast execution, which applies not only to <code>x &#61; &#91;1,2,3&#93;</code> but any call <code>sum&#40;y&#41;</code> with <code>y</code> having type <code>Vector&#123;Float64&#125;</code>.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
@@ -2564,7 +2579,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Type Stability with Scalars and Vectors</h2></p>
 <p>A function is type stable when the type of each operation can be deduced from the input types. The definition applied to a specific object can take different forms, which we must identify to know when type instabilities could arise.</p>
-<p>For the case of scalars and vectors, type stability essentially requires that each operation is specialized to the same  <em>primitive type</em>. Recall that primitive types encompass cases such as <code>Float64</code>, <code>Int64</code>, or <code>Bool</code>. The following table indicates concrete types based on elements with primitive types.</p>
+<p>For the case of scalars and vectors, type stability essentially requires that each operation is specialized to elements having the same concrete type &#40;e.g., <code>Float64</code>, <code>Int64</code>, or <code>Bool</code>&#41;. The following table indicates what objects satisfy this feature. </p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -2581,7 +2596,7 @@ color: white;
 <table class="tg" style="margin-left: auto;  margin-right: auto;">
 <thead>
   <tr>
-    <th class="tg-80zn" colspan="2" style="text-align:center;width:50%">Primitive-Based Concrete Types</th>
+    <th class="tg-80zn" colspan="2" style="text-align:center;width:50%">Objects Whose Elements are Concrete-Types</th>
   </tr>
   <tr>
     <th class="tg-80zn" style="text-align:center;width:50%">Scalars</th>
@@ -2610,14 +2625,14 @@ color: white;
 
 <p style="padding-top:1em; padding-bottom:1em; text-align:center;font-size:90%;"> <u><b>Note</b></u>: <code>Int</code> defaults to <code>Int64</code> or <code>Int32</code>, depending on your CPU's architecture.</p>
 </p>
-<p>To illustrate the implications for vectors, let&#39;s type-annotate vector variables and then proceed to sum all its elements. In cases where the vector&#39;s elements are primitive types, the function call is type stable. </p>
+<p>To illustrate the implications for vectors, let&#39;s type-annotate vector variables and then proceed to sum all its elements. In cases where the vector&#39;s elements are concrete types, the function call is type stable. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Vector{Int} </button>
     <button class="tablink" data-id=""> Vector{Int64}</button>
     <button class="tablink" data-id=""> Vector{Float64}</button>
-    <button class="tablink" data-id=""> BitVector </button>
+    <button class="tablink" data-id=""> BitVector     </button>
     <button class="tablink" data-id=""> Vector{Number}</button>
     <button class="tablink" data-id=""> Vector{Any}</button>
 </div><div data-id="" class="tabcontent active">
@@ -2635,7 +2650,7 @@ sum&#40;x3&#41;             # type stable</code></pre> </div></div>
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x4::BitVector       &#61; &#91;true, false, true&#93;
 
-all&#40;x4&#41;             # type stable &#40;&#96;all&#96; returns &#96;true&#96; if all arguments are &#96;true&#96;&#41;</code></pre> </div></div> 
+sum&#40;x4&#41;             # type stable</code></pre> </div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x5::Vector&#123;Number&#125;  &#61; &#91;1, 2, 3&#93;
 
@@ -2681,7 +2696,7 @@ foo&#40;1, 2.5&#41;         # type UNSTABLE -&gt; &#96;a * 2&#96; is either &#96
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Type Promotion</h2></p>
-<p>As previously noted, combining different types doesn&#39;t always result in type instability. This is because Julia employs a mechanism called <span style="color: rgb(62, 121, 180);"><strong>type promotion</strong></span>, which converts disparate types to a common one, whenever possible. A common scenario where this occurs is when an operation combines integers and floats, in which case the values are automatically converted to floats. Another example is when vectors contain both integers and floats, which are then uniformly converted to floats.</p>
+<p>As previously noted, combining different types doesn&#39;t always result in type instability. This is because Julia employs a mechanism called <span style="color: rgb(62, 121, 180);"><strong>type promotion</strong></span>, which converts dissimilar types to a common one, whenever possible. Common scenarios where this occurs is when either operations or vectors combine integers and floats, in which case the values are automatically converted to floats.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2909,7 +2924,7 @@ end</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified May 29, 2024 
+          © Martin Alfaro <br>Last Modified June 5, 2024 
       </span> 
   </div> 
 </footer>
@@ -2994,12 +3009,7 @@ function goToNextPage() {
 }
 
 
-</script>
-
-
-
-
-</div><!-- CONTENT ENDS HERE -->
+</script></div><!-- CONTENT ENDS HERE -->
 
 <!-- ADDED BY FRANKLIN -->
   
@@ -3629,4 +3639,18 @@ document.addEventListener('keydown', (e) => {
     </script>
 
 
+
+
+<!-- <script>
+
+  $('a[href*="#"]').on('click', function (event) {
+    event.preventDefault();
+    var target = $(this.hash);
+    var offset = 500; // adjust this value to fit your needs
+    $('html, body').animate({
+      scrollTop: target.offset().top - offset
+    }, 500);
+  });
+
+</script> -->
 

@@ -396,6 +396,21 @@ section a:hover{
 }
 
 
+</style>
+
+
+
+<!-- FOR OFFSETTING LINKS -->
+<style>
+ 
+  :target {
+    scroll-margin-top: 40px; 
+  }
+  
+  .own-anchors a{
+  scroll-margin-top: 4em;
+  }
+
 </style> 
  <!-- <div class="left_bar" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
@@ -978,7 +993,7 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1022,7 +1037,7 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -2508,10 +2523,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section discusses a technique for addressing type instability known as <span style="color: rgb(62, 121, 180);"><strong>barrier functions</strong></span>. These are defined as type-stable functions embedded within a type-unstable function. In case a variable has an ambiguous type, the barrier function solves the issue by passing the variable as an argument. Thus, the compiler is compelled to identify its type by engaging in type inference.</p>
+<p>This section discusses a technique for addressing type instability known as <span style="color: rgb(62, 121, 180);"><strong>barrier functions</strong></span>. These are defined as type-stable functions embedded within a type-unstable function. If a variable has an ambiguous type, the barrier function solves the issue by passing the variable as an argument. Thus, the compiler is compelled to identify its type through type inference.</p>
 <p> <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Barrier Functions Should be a Second Option </span>  </div>  <div class=content>     Barrier functions should be reserved for situations where the type instability is either difficult to fix or inherent to the operations performed. The reason is that the original function would still be type unstable. Considering this, strive for type-stable code from the outset whenever possible.  </div>  </div> </p>
+      <b>Warning!</b> - Barrier Functions Should be a Second Option </span>  </div>  <div class=content>     Barrier functions should be reserved for situations where type instability is either difficult to fix or inherent to the operations performed. The reason is that the original function would still be type unstable. Considering this, strive for type-stable code from the outset whenever possible.  </div>  </div> </p>
 <p>      </div>
     </div>
   </div>
@@ -2531,7 +2546,7 @@ end
 @code_warntype foo&#40;1&#41;       # type stable
 @code_warntype foo&#40;1.&#41;      # type UNSTABLE</code></pre> </div> </div>  </details></div>
 <p>The type instability arises because <code>0</code> is an integer, whereas <code>x</code> could be either an <code>Int64</code> or a <code>Float64</code>. In case <code>x</code> is <code>Int64</code>, then <code>y</code> will also be an integer and so <code>foo&#40;1&#41;</code> is type stable. However, if <code>x</code> is <code>Float64</code>, the compiler is unable to determine whether <code>y</code> will be an <code>Int64</code> or a <code>Float64</code>. Consequently, <code>foo&#40;1.&#41;</code> is type unstable.</p>
-<p>Address the type instability through a barrier functions requires embedding a type-stable function into <code>foo</code>, with <code>y</code> passed as one of its arguments. By doing so, the function will identify <code>y</code>&#39;s type any subsequent computation can still specialize. In the example below, the barrier function is referred to as <code>operation</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Notice that there&#39;s an easier solution for this example. This replaces <code>0</code> by <code>zero&#40;x&#41;</code>, where <code>zero&#40;x&#41;</code> returns the null element for the type of <code>x</code>.  </span></span></p>
+<p>Addressing the type instability through a barrier functions requires embedding a type-stable function into <code>foo</code>, with <code>y</code> passed as one of its arguments. By doing so, the function will identify <code>y</code>&#39;s type, and any subsequent computation can still specialize. In the example below, the barrier function is referred to as <code>operation</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Notice that there&#39;s an easier solution for this example. This replaces <code>0</code> with <code>zero&#40;x&#41;</code>, where <code>zero&#40;x&#41;</code> returns the null element for the type of <code>x</code>.  </span></span></p>
  <div class=" code_box"> <details  open><summary> Barrier Function  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">operation&#40;y&#41; &#61; &#91;y * i for i in 1:100&#93;
 
 function foo&#40;x&#41;
@@ -2569,8 +2584,8 @@ end
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Remarks on @code_warntype</h2></p>
-<p>The use of barrier functions makes it more difficult to interpret the output of <code>@code_warntype</code>. The reason is that we could still get a red warning issued, despite that the barrier function has resolved the type instability. Furthermore, barrier functions tend to mitigate the type instability, rather than completely eliminate it.</p>
-<p>To illustrate all this, let&#39;s start presenting a scenario where the barrier function does indeed address the type instability.</p>
+<p>The use of barrier functions can hinder the interpretation of <code>@code_warntype</code>. The reason is that barrier functions generally mitigate the type instability, rather than completely solving it. Consequently, we could still get a red warning.</p>
+<p>To illustrate this, let&#39;s start presenting a scenario where the barrier function does indeed address the type instability.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2689,7 +2704,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified May 29, 2024 
+          © Martin Alfaro <br>Last Modified June 5, 2024 
       </span> 
   </div> 
 </footer>
@@ -2774,12 +2789,7 @@ function goToNextPage() {
 }
 
 
-</script>
-
-
-
-
-</div><!-- CONTENT ENDS HERE -->
+</script></div><!-- CONTENT ENDS HERE -->
 
 <!-- ADDED BY FRANKLIN -->
   
@@ -3397,4 +3407,18 @@ document.addEventListener('keydown', (e) => {
     </script>
 
 
+
+
+<!-- <script>
+
+  $('a[href*="#"]').on('click', function (event) {
+    event.preventDefault();
+    var target = $(this.hash);
+    var offset = 500; // adjust this value to fit your needs
+    $('html, body').animate({
+      scrollTop: target.offset().top - offset
+    }, 500);
+  });
+
+</script> -->
 

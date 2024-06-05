@@ -396,6 +396,21 @@ section a:hover{
 }
 
 
+</style>
+
+
+
+<!-- FOR OFFSETTING LINKS -->
+<style>
+ 
+  :target {
+    scroll-margin-top: 40px; 
+  }
+  
+  .own-anchors a{
+  scroll-margin-top: 4em;
+  }
+
 </style> 
  <!-- <div class="left_bar" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
@@ -978,7 +993,7 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1022,7 +1037,7 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1538,13 +1553,13 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES\3_overview/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Execution and Packages</a></li><br>
+                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Calls and Packages</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3b_define_func/"><i>c</i>. Defining Your Own Functions</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3c_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a></li><br>
+                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Map and Broadcasting (Vectorization)</a></li><br>
                 
               </ul>
             </li>
@@ -2544,7 +2559,7 @@ color: white;
 
  
 <div class="franklin-content">
-<section id="introduction" class="scrollspy">
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2554,12 +2569,12 @@ color: white;
     </div>
   </div>
 </section>
-<section id="user-defined_functions" class="scrollspy section-bg-color">
+<section id="user-defined_functions" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>User-Defined Functions</h2></p>
-<p>When writing a script, you&#39;ll need to define your own functions. Function names follow similar rules to variable names. In particular, they accept Unicode characters, enabling the user to define functions such as <code>∑&#40;x&#41;</code>. Once you create them, functions can be called without invoking any prefix.This means that a function <code>foo</code> can be called by simply executing <code>foo&#40;x&#41;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The method to call a function actually depends on the <strong>module</strong> in which it&#39;s defined, and whether this module has been &quot;imported&quot; or &quot;used&quot;. We won&#39;t cover modules on this website. However, they&#39;re essential when working for large projects, as each module operates as an independent workspace with its own variables. When initiating a new session in Julia, you&#39;re actually working within a module called <code>Main</code>.  </span></span></p>
+<p>When writing a script, you&#39;ll need to define your own functions. Function names follow similar rules to variable names. In particular, they accept Unicode characters, enabling the user to define functions such as <code>∑&#40;x&#41;</code>. Once you create them, functions can be called without invoking any prefix. This means that a function <code>foo</code> can be called by simply executing <code>foo&#40;x&#41;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The method to call a function actually depends on the <strong>module</strong> in which it&#39;s defined, and whether this module has been &quot;imported&quot; or &quot;used&quot;. We won&#39;t cover modules on this website. However, they&#39;re essential when working for large projects, as each module operates as an independent workspace with its own variables. When initiating a new session in Julia, you&#39;re actually working within a module called <code>Main</code>.  </span></span></p>
 <p>There are two approaches to defining functions. We&#39;ll refer to each as the <strong>standard form</strong> and the <strong>compact form</strong>. The standard form is the most general and allows you to write both short and long functions. Conversely, the compact form is employed for single-line functions and is reminiscent of mathematical definitions. To illustrate each form, consider a function <code>foo</code> that sums two variables <code>x</code> and <code>y</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2640,7 +2655,7 @@ end</code></pre>
 <p></div> </div>  </details></div>
 <p>An example of functions without arguments is <code>Pkg.update&#40;&#41;</code>, which was introduced when we studied packages.  </div>  </div>
 <p> <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>The Order In Which Function Are Defined is Irrelevant</strong>  </span>  </div>  <div class=content>     As long as you don&#39;t call it, functions can be defined anywhere in the code. In fact, you can define a function that calls another function, even if the latter hasn&#39;t been specified yet. To illustrate this, consider the following two code snippets, which are functionally equivalent.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>The Order In Which Functions Are Defined is Irrelevant</strong>  </span>  </div>  <div class=content>     A function can be defined anywhere in the code, as long as it&#39;s not called. In fact, you can define a function that calls another function, even if the latter hasn&#39;t been defined yet. To illustrate this, consider the following two code snippets, which are functionally equivalent.</p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2665,15 +2680,15 @@ foo1&#40;x&#41; &#61; 2 &#43; foo2&#40;x&#41;</code></pre>
     </div>
   </div>
 </section>
-<section id="positional_and_keyword_arguments" class="scrollspy">
+<section id="positional_and_keyword_arguments" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Positional and Keyword Arguments</h2></p>
-<p>Up to this point, we&#39;ve been defining and calling a function by a notation like <code>foo&#40;x,y&#41;</code>. The distinctive feature of this syntax is that the arguments follow an order, so that the first argument is assigned to <code>x</code> and the second argument to <code>y</code>. Functions called in this manner are said to have <strong>positional arguments</strong>.</p>
-<p>One downside of positional arguments is that they&#39;re prone to silent errors: if we mistakenly swap the positions of arguments, the function may still provide an output. The issue becomes more severe as the number of arguments grows, in which case the likelihood of introducing bugs increases.</p>
-<p>A way to circumvent the issue is based on the so-called <strong>keyword arguments</strong>. They require the function calls to explicitly indicate its arguments, such as in <code>foo&#40;x&#61;2,y&#61;4&#41;</code>. In this case, the order of arguments with keyword arguments becomes unimportant, making both <code>foo&#40;x&#61;2,y&#61;4&#41;</code> and <code>foo&#40;y&#61;4,x&#61;2&#41;</code> feasible and equivalent.</p>
-<p>The following examples illustrate how to define and call functions with positional and keyword arguments. The approaches can be combined. Note that positional arguments necessarily require a semicolon for its definition, although we can substitute the semicolon by a comma when the function is called.</p>
+<p>Up to this point, we&#39;ve been defining and calling functions using the notation <code>foo&#40;x,y&#41;</code>. The distinctive feature of this syntax is that arguments are passed in a specific order. Thus, <code>foo&#40;1,2&#41;</code> assigns the first argument to <code>x</code> and the second to <code>y</code>. Function arguments of this kind are known as <strong>positional arguments</strong>.</p>
+<p>One major drawback of positional arguments is their susceptibility to silent errors: if we accidentally swap the positions of arguments, the function may still provide an output. As the number of arguments grows, the likelihood of introducing bugs increases, making it more challenging to detect and debug errors.</p>
+<p>One way to circumvent this issue is to use <strong>keyword arguments</strong>. They require function calls to explicitly specify their arguments using a syntax like <code>foo&#40;x&#61;2,y&#61;4&#41;</code>. In this case, the order of arguments becomes also irrelevant, rendering <code>foo&#40;x&#61;2,y&#61;4&#41;</code> and <code>foo&#40;y&#61;4,x&#61;2&#41;</code> valid and equivalent.</p>
+<p>The following examples illustrate how to define and call functions using positional and keyword arguments. Additionally, we show that the approaches can be combined. Note that positional arguments necessarily require a semicolon for its definition, but accept a semicolon or a comma during calls.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2698,7 +2713,7 @@ foo1&#40;x&#41; &#61; 2 &#43; foo2&#40;x&#41;</code></pre>
  </div></div>
 <p>  </p></details></div>
  <h4> Keyword Arguments with Default Values </h4>
-<p>An additional advantage of keyword arguments is that we can set default values for their arguments.</p>
+<p>An additional advantage of keyword arguments is that they allow us to set default values for their arguments.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2718,12 +2733,12 @@ foo1&#40;x&#41; &#61; 2 &#43; foo2&#40;x&#41;</code></pre>
  </div></div>
 <p>  </p></details></div>
  <h4> Using Arguments as Inputs of Other Arguments </h4>
-<p>When a function is called, its arguments are evaluated sequentially from left to right. This feature allows the user to define subsequent arguments employing previous arguments. For instance, given <code>foo&#40;;x,y&#41;</code>, the default value of <code>y</code> could be based on <code>x</code>. </p>
- <div class=" code_box"> <details  open><summary> Preceding Arguments to Define Default Values  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
+<p>When a function is called, its arguments are evaluated sequentially from left to right. This property enables the user to define subsequent arguments in terms of previous ones. For example, given <code>foo&#40;;x,y&#41;</code>, the default value of <code>y</code> could be based on the value of <code>x</code>. </p>
+ <div class=" code_box"> <details  open><summary> Previous Arguments to Define Default Values  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo&#40;; x, y &#61; x&#43;1&#41; &#61; x &#43; y</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;x&#61;2&#41;</code>     #function run with implicit value &#39;y&#61;3&#39;<br/><div class="akin_to_pre">5</div> </div></div> </div>   </details></div>
  <h4> Splatting </h4>
-<p>Given a function <code>foo&#40;x,y&#41;</code>, the arguments <code>x</code> and <code>y</code> can be set by using a tuple or vector <code>z</code>. This is implemented through the splat operator, <code>...</code>, which extracts the individual elements of a collection and uses them as separate values.</p>
+<p>Given a function <code>foo&#40;x,y&#41;</code>, it&#39;s possible to set the values of <code>x</code> and <code>y</code> through a tuple or vector <code>z</code>. The implementation relies on the splat operator <code>...</code>, which unpacks the individual elements of a collection and passes them as separate arguments.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2749,15 +2764,15 @@ z &#61; &#91;2,3&#93;</code></pre>
     </div>
   </div>
 </section>
-<section id="anonymous_functions" class="scrollspy section-bg-color">
+<section id="anonymous_functions" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Anonymous Functions</h2></p>
-<p>Anonymous functions represent a third way to define functions. Unlike the previous definitions of functions, they&#39;re commonly used with a different purpose: as inputs to a function. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Anonymous functions are also known as  <em>lambda functions</em> in other languages.  </span></span> </p>
-<p>As the name suggests, anonymous functions aren&#39;t referenced by a name. Their syntax is <code>x -&gt; &lt;body of the function&gt;</code>, where <code>x</code> is the function&#39;s argument and <code>&lt;body of the function&gt;</code> is an expression. Anonymous functions that depend on two or more arguments are expressed by <code>&#40;x,y&#41; -&gt; &lt;body of the function&gt;</code>. The notation resembles the arrow notation from mathematics &#40;e.g. \(x\mapsto \sqrt{x}\)&#41;.</p>
-<p>To demonstrate its application, we&#39;ll rely on the built-in function <code>map</code>. This passes a function as its first argument, which is then applied element-wise to an array passed as a second argument. Formally, <code>map&#40;&lt;function&gt;, &lt;array&gt;&#41;</code>. For example, we can apply the function <code>add_two&#40;a&#41; &#61; a &#43; 2</code> to each element of <code>x &#61; &#91;1,2,3&#93;</code> by <code>map&#40;add_two, x&#41;</code>, thus returning <code>&#91;3,4,5&#93;</code>. The function will be revisited later, and for now just take <code>map</code> as an example for anonymous functions.</p>
-<p>The execution of <code>map&#40;add_two, x&#41;</code> requires defining <code>add_two</code> previous to calling it. This isn&#39;t only verbose, but also inconvenient if <code>add_two</code> won&#39;t be used again—it&#39;d pollute our workspace by creating a temporary function. In this context, we can employ an anonymous function, thus eliminating the need to create the temporary function <code>add_two</code>.</p>
+<p>Anonymous functions represent a third way to define functions. Unlike the previous definitions of functions, they&#39;re commonly introduced with a different purpose: as inputs to other functions. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Anonymous functions are also known as  <em>lambda functions</em> in other languages.  </span></span> </p>
+<p>As the name suggests, anonymous functions aren&#39;t referenced by a name.  Their syntax resembles the arrow notation from mathematics &#40;e.g. \(x\mapsto \sqrt{x}\)&#41;. Specifically, single-argument functions are expressed as <code>x -&gt; &lt;body of the function&gt;</code>. Likewise, anonymous functions that depend on two or more arguments are expressed by <code>&#40;x,y&#41; -&gt; &lt;body of the function&gt;</code>. </p>
+<p>For the demonstration, let&#39;s consider the built-in function <code>map&#40;&lt;function&gt;, &lt;collection&gt;&#41;</code>. This function takes another function as its first argument, which is then applied element-wise to the collection passed as the second argument. For example, <code>map&#40;add_two, x&#41;</code> applies the function <code>add_two&#40;a&#41; &#61; a &#43; 2</code> to each element of <code>x &#61; &#91;1,2,3&#93;</code>, thus returning <code>&#91;3,4,5&#93;</code>. In subsequent sections, we&#39;ll explain the function <code>map</code> in detail. For now, just take it as an example for anonymous functions.</p>
+<p>The execution of <code>map&#40;add_two, x&#41;</code> requires defining <code>add_two</code> previous to calling it. The creation of temporary function not only clutters our workspace, but it&#39;s additionally inconvenient if <code>add_two</code> won&#39;t be reused. In this context, an anonymous function represents an elegant solution, eliminating the need to create a temporary function like <code>add_two</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2787,7 +2802,7 @@ result     &#61; map&#40;a -&gt; a &#43; 2, x&#41;</code></pre>
  5</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Through <code>map</code>, we can also demonstrate the syntax of anonymous functions having multiple arguments. The function <code>map</code> for operations requiring more than one argument requiresa the syntax <code>map&#40;&lt;function&gt;, &lt;array1&gt;, &lt;array2&gt;&#41;</code>. For instance, <code>map&#40;&#43;, &#91;1,2&#93;, &#91;2,4&#93;&#41;</code> provides the sum of each pair of numbers, which yields <code>&#91;3,6&#93;</code>. </p>
+<p>By using <code>map</code>, we can also demonstrate the syntax of anonymous functions having multiple arguments. For operations requiring more than one argument, its syntax is <code>map&#40;&lt;function&gt;, &lt;array1&gt;, &lt;array2&gt;&#41;</code>. For instance, <code>map&#40;&#43;, &#91;1,2&#93;, &#91;2,4&#93;&#41;</code> provides the sum of each pair of numbers, yielding <code>&#91;3,6&#93;</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2820,14 +2835,13 @@ result   &#61; map&#40;&#40;a,b&#41; -&gt; a &#43; b, x, y&#41;</code></pre>
  </div></div>
 <p>  </p></details></div>
  <h4> The &quot;Do-Block&quot; Syntax &#40;<strong><i>OPTIONAL</i></strong>&#41; </h4>
-<p>Passing anonymous functions as function arguments can help us keep a tidy code. However, they aren&#39;t particularly convenient for functions spanning over several lines. In such case, we can instead insert it through what&#39;s known as a <span style="color: rgb(62, 121, 180);"><strong>do-block</strong></span>. This allows us to introduce an anonymous function into the first argument, although its functionality is wider. It essentially acts as a way to separate the first argument of a function, in case this is long.</p>
-<p>To show whe syntax of a do-block, a function <code>foo&#40;&lt;inner function&gt;, &lt;vector&gt;&#41;</code>. Then, an anonymous function for <code>inner function</code> can be defined as follows: </p>
+<p>Anonymous functions can be useful to keep our code tidy. However, they aren&#39;t particularly practical if functions span over several lines. Nonetheless, the inconvenience can be mitigated by what&#39;s known as a <span style="color: rgb(62, 121, 180);"><strong>do-block</strong></span>. This allows us to insert the anonymous function separately, and then pass it as the first argument to a function call. Its syntax for a function <code>foo&#40;&lt;inner function&gt;, &lt;vector&gt;&#41;</code> is as follows.</p>
  <div class=" code_box"> <details  open><summary> Do-Block Syntax  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo&#40;&lt;vector&gt;&#41; do &lt;arguments of inner function&gt;
     # body of inner function
     end</code></pre>
 <p></div> </div>  </details></div>
-<p>For instance, let&#39;s rewrite the example based on <code>map</code> through a do-block.</p>
+<p>To illustrate the notation with a concrete scenario, let&#39;s revisit the <code>map</code> function example and rewrite it using a do-block.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2870,7 +2884,7 @@ result     &#61; map&#40;x&#41; do a
  5</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The syntax also allows for anonymous functions having multiple arguments, as shown below. </p>
+<p>Do-blocks also accept anonymous functions with multiple arguments, as shown below. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2920,33 +2934,13 @@ result   &#61; map&#40;x,y&#41; do a,b      # not &#40;a,b&#41;
     </div>
   </div>
 </section>
-<section id="macros" class="scrollspy">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg- mx-auto">
-        <h2>Macros</h2></p>
-<p>The use of macros is widespread in Julia. They&#39;re typically included in packages to automate tasks that, otherwise, would be tedious to perform. Defining custom macros requires diving into Julia&#39;s metaprogramming capabilities, which is beyond the scope of the website. This is why we&#39;ll only present how to call macros. </p>
-<p>Once we start applying macros in later sections, several of the questions you could have at this point will be cleared out.</p>
- <h4> Applying Macros </h4>
-<p>Macros are similar to functions, in that they both perform operations on an input. The main difference is that macros take a statement as their argument, while functions pass variables. Specifically, this means that a macro can take the whole expression <code>x &#61; some_function&#40;y&#41;</code> as its argument, possibly modifying <code>x</code>, <code>&#61;</code>, and/or <code>some_function&#40;y&#41;</code>. Another difference is that macros may return a statement as its output, unlike functions.  </p>
-<p>All these features make macros particularly useful for transforming code. For example, they&#39;re commonly applied change the algorithm of an operation. The syntax for macros requires adding <code>@</code> before the macro&#39;s name. For instance, <code>@time</code> is a built-in macro that measures the runtime of some code. </p>
- <div class=" code_box"> <details  open><summary> @time macro  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">@time x &#61; 4 &#43; 5</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat">0.000002 seconds </div></div> </div>   </details></div>
- <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Using macros requires extreme caution, as they could act as black boxes and hence lead to unexpected behaviors. In fact, macros tend to be a common source of bugs. If you apply a macro, make sure you understand which part of the expression is modified and how.  </div>  </div>
-<p>      </div>
-    </div>
-  </div>
-</section>
 <section id="a_functions_documentation_optional" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>A Function's Documentation (<strong><i>OPTIONAL</i></strong>)</h2></p>
-<p>We close this section by outlining how to document user-defined functions. This requires adding a string expression  <em>right before the definition of the function</em>. </p>
-<p>After this, the documentation can be accessed in the same manner as with built-in functions: you can type the function&#39;s name in the REPL after pressing  <kbd> ?</kbd>, or directly hover over the function&#39;s name in VS Code. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> <a href="/julia_book/PAGES/1c_vscode/#keyboard_shortcuts">Here</a>, we explained how to access a function&#39;s documentation, under the subtitle &quot;To See The Documentation of a Function&quot;.  </span></span> </p>
+<p>To conclude this section, we cover how to document user-defined functions. This involves adding a string expression immediately before the function definition.</p>
+<p>After this, the documentation can be accessed in the same manner as with built-in functions: you can type the function&#39;s name in the REPL after pressing  <kbd> ?</kbd>, or directly hover over the function&#39;s name in VS Code. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> <a href="/julia_book/PAGES/1c_vscode/#features_and_keyboard_shortcuts">Here</a>, we explained how to access a function&#39;s documentation, under the subtitle &quot;To See The Documentation of a Function&quot;.  </span></span> </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2989,7 +2983,7 @@ add_three&#40;a&#41; &#61; a &#43; 3</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified May 29, 2024 
+          © Martin Alfaro <br>Last Modified June 5, 2024 
       </span> 
   </div> 
 </footer>
@@ -3074,12 +3068,7 @@ function goToNextPage() {
 }
 
 
-</script>
-
-
-
-
-</div><!-- CONTENT ENDS HERE -->
+</script></div><!-- CONTENT ENDS HERE -->
 
 <!-- ADDED BY FRANKLIN -->
   
@@ -3501,10 +3490,6 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#macros" data-offset="-40">Macros</a>
-        </li>
-        
-        <li>
           <a href="#a_functions_documentation_optional" data-offset="-40">A Function's Documentation (<strong><i>OPTIONAL</i></strong>)</a>
         </li>
         
@@ -3709,4 +3694,18 @@ document.addEventListener('keydown', (e) => {
     </script>
 
 
+
+
+<!-- <script>
+
+  $('a[href*="#"]').on('click', function (event) {
+    event.preventDefault();
+    var target = $(this.hash);
+    var offset = 500; // adjust this value to fit your needs
+    $('html, body').animate({
+      scrollTop: target.offset().top - offset
+    }, 500);
+  });
+
+</script> -->
 

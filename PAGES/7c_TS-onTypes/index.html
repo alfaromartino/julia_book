@@ -396,6 +396,21 @@ section a:hover{
 }
 
 
+</style>
+
+
+
+<!-- FOR OFFSETTING LINKS -->
+<style>
+ 
+  :target {
+    scroll-margin-top: 40px; 
+  }
+  
+  .own-anchors a{
+  scroll-margin-top: 4em;
+  }
+
 </style> 
  <!-- <div class="left_bar" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
@@ -978,7 +993,7 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1022,7 +1037,7 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -2503,82 +2518,80 @@ color: white;
 
  
 <div class="franklin-content">
-<section id="introduction" class="scrollspy">
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>High performance in Julia critically depends on whether functions are type stable. The definition of type stability is relatively straightforward, meaning that the types of all variables can be inferred from the types of the function arguments. When this property holds, Julia can specialize the computation method, resulting in significant performance gains.</p>
-<p>Despite its simplicity, ensuring type stability is subject to various nuances. This is why mastering it necessitates a solid foundation in two key areas: <strong>Julia's type system and the inner workings of functions</strong>. The current section equips you with the necessary knowledge to grasp the former, relegating the internals of functions to the next section. Moreover, <strong>we focus on scalars and vectors</strong>, leaving more complex objects for subsequent sections.  </p>
-<p>Before you continue, I recommend refreshing the basics of types introduced <a href="/julia_book/PAGES/3a_variables/#variable_types">here</a>.</p>
+<p>High performance in Julia depends critically on the notion of type stability. Its definition is relatively straightforward: a function is type-stable when the types of its expressions can be inferred from the types of its arguments. When this property holds, Julia can specialize the computation method, resulting in significant performance gains.</p>
+<p>Despite its simplicity, type stability is subject to various nuances, and a careful definition requires a solid foundation in two key areas: <strong>Julia's type system and the inner workings of functions</strong>. The current section equips you with the necessary knowledge to grasp the former, deferring the internals of functions to the next section. Moreover, <strong>we focus on scalars and vectors</strong>, leaving more complex objects for subsequent sections.  </p>
+<p>Before you continue, I recommend reviewing the basics of types introduced <a href="/julia_book/PAGES/2a_variables/#types">here</a>.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Coverage of Julia's Types </span>  </div>  <div class=content> <strong>The subject is covered only to the extent necessary for understanding type stability</strong>. The goal is to preserve a clear intuition for type stability, avoiding unnecessary details. Julia&#39;s type system is indeed quite vast, and a comprehensive exploration would warrant a dedicated chapter.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content> <strong>The subject is covered only to the extent necessary for understanding type stability</strong>. Julia&#39;s type system is indeed quite vast, and a comprehensive exploration would warrant a dedicated chapter.  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="basics_of_types" class="scrollspy section-bg-color">
+<section id="basics_of_types" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Basics of Types</h2></p>
-<p>Variables in Julia are mere tags for objects. In turn, objects hold values described by types. The most common types for scalars are <code>Float64</code> and <code>Int64</code>, with the vector counterparts being <code>Vector&#123;Float64&#125;</code> and <code>Vector&#123;Int64&#125;</code>. Recall that <code>Vector</code> is an alias for a uni-dimensional array, so that a type like <code>Vector&#123;Float64&#125;</code> is equivalent to <code>Array&#123;Float,1&#125;</code>.</p>
+<p>Variables in Julia are mere tags for objects. In turn, objects hold values described by types. The most common types for scalars are <code>Float64</code> and <code>Int64</code>, with the vector counterparts being <code>Vector&#123;Float64&#125;</code> and <code>Vector&#123;Int64&#125;</code>. Recall that <code>Vector</code> is an alias for a one-dimensional array, so that a type like <code>Vector&#123;Float64&#125;</code> is equivalent to <code>Array&#123;Float,1&#125;</code>.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong><code>Int</code> As an Alternative to <code>Int64</code></strong>  </span>  </div>  <div class=content>     You&#39;ll notice that packages tend to use <code>Int</code> as the default type for integers. The type <code>Int</code> is an alias that adapts its value to your CPU&#39;s architecture. Most modern computers are 64-bit systems, making <code>Int</code> be equivalent to <code>Int64</code>. But, on 32-bit systems, <code>Int</code> becomes <code>Int32</code>.  </div>  </div>
-<p>Julia&#39;s type system is organized in a hierarchical way. This allows for the definition of subsets and supersets of types, which in the context of types are referred to as subtypes and supertypes. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Types don&#39;t necessarily have a subtype-supertype hierarchy. For example, <code>Float64</code> and <code>Vector&#123;String&#125;</code> are distinct types that can&#39;t be related. This fact will become clearer when the concepts of abstract and concrete types are defined.  </span></span>  For instance, the type <code>Any</code> is a supertype that includes all possible types in Julia, occupying the highest position in the type hierarchy. Another example of supertype is <code>Number</code>, which encompasses any numeric type &#40;<code>Float64</code>, <code>Float32</code>, <code>Int64</code>, etc.&#41;. </p>
-<p>Supertypes provide great flexibility for writing code. They enable the grouping of values to define operations in common. For instance, defining <code>&#43;</code> for the abstract type <code>Number</code> ensure its applicability to all number types, regardless of whether they are integers, floats, or their numerical precision.</p>
-<p>A special supertype known as <code>Union</code> will be instrumental for our examples. It represents variables that can potentially hold values with different types. Its syntax is <code>Union&#123;&lt;type1&gt;, &lt;type2&gt;, ...&#125;</code>. For example, a variable with type <code>Union&#123;Int64, Float64&#125;</code> means that the variable could be either an <code>Int64</code> or <code>Float64</code>. Note that, by definition, unions are always supertypes of its arguments. </p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong><code>Int</code> As an Alternative to <code>Int64</code></strong>  </span>  </div>  <div class=content>     You&#39;ll notice that packages tend to use <code>Int</code> as the default type for integers. The type <code>Int</code> is an alias that adapts its value to your CPU&#39;s architecture. Most modern computers are 64-bit systems, making <code>Int</code> be equivalent to <code>Int64</code>. On 32-bit systems, <code>Int</code> becomes <code>Int32</code>.  </div>  </div>
+<p>Julia&#39;s type system is organized in a hierarchical way. This allows for the definition of subsets and supersets of types, which are called <strong>subtypes</strong> and <strong>supertypes</strong> in the context of types. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Types don&#39;t necessarily have a subtype-supertype hierarchy. For example, <code>Float64</code> and <code>Vector&#123;String&#125;</code> exist independently, without a hierarchical relationship. This fact will become clearer when the concepts of abstract and concrete types are defined.  </span></span>  For instance, the type <code>Any</code> is a supertype that includes all possible types in Julia, occupying the highest position in any type hierarchy. Another example of supertype is <code>Number</code>, which encompasses all numeric types &#40;<code>Float64</code>, <code>Float32</code>, <code>Int64</code>, etc.&#41;. </p>
+<p>Supertypes provide great flexibility for writing code. They enable the grouping of values to define operations in common. For instance, defining <code>&#43;</code> for the abstract type <code>Number</code> ensures its applicability to all number types, regardless of whether they are integers, floats, or their numerical precision.</p>
+<p>A special supertype known as <code>Union</code> will be instrumental for our examples. It represents variables that can potentially hold values with different types, and its syntax is <code>Union&#123;&lt;type1&gt;, &lt;type2&gt;, ...&#125;</code>. For example, a variable with type <code>Union&#123;Int64, Float64&#125;</code> could be either an <code>Int64</code> or <code>Float64</code>. Note that, by definition, unions are always supertypes of their arguments. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Union of Types</strong>  </span>  </div>  <div class=content>     Unions of types emerge organically in data analysis. In particular for handling empty entries, which are represented by the type <code>Missing</code>. For instance, if we load a column that contains both integers and empty entries, the resulting data will be stored with type <code>Vector&#123;Union&#123;Missing,Int64&#125;&#125;</code>.  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="abstract_and_concrete_types" class="scrollspy">
+<section id="abstract_and_concrete_types" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Abstract and Concrete Types</h2></p>
 <p>The hierarchical nature of types makes it possible to represent subtypes and supertypes as trees. This gives rise to the notions of abstract and concrete types. </p>
-<p>An <span style="color: rgb(62, 121, 180);"><strong>abstract type</strong></span> represents a non-leaf node in a tree. By definition, abstract types can be decomposed into other subtypes, thus serving as parent categories. The type <code>Any</code> in Julia is a prime example of an abstract type. In contrast, a <span style="color: rgb(62, 121, 180);"><strong>concrete type</strong></span> represents a leaf node in a tree, therefore representing an irreducible unit that lacks subtypes. Concrete types are final and can&#39;t be further subdivided. </p>
-<p>The diagram below uses scalars to illustrate the difference between abstract and concrete types. The example is based on the hierarchy of the type <code>Number</code>. It&#39;s worth noting that the names in the table match the type&#39;s corresponding name in Julia. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The <code>Signed</code> subtype of <code>Integers</code> allows for the representation of negative and positive integers. Julia also offers the type <code>Unsigned</code>, which only accepts positive integers and comprise subtypes such as <code>UInt64</code> and <code>UInt32</code>.  </span></span></p>
+<p>An <span style="color: rgb(62, 121, 180);"><strong>abstract type</strong></span> acts as a parent category, which necessarily breaks down into subtypes. The type <code>Any</code> in Julia is a prime example. In contrast, a <span style="color: rgb(62, 121, 180);"><strong>concrete type</strong></span> represents an irreducible unit lacking subtypes, entailing that it&#39;s final.</p>
+<p>The diagram below illustrates the difference between abstract and concrete types for scalars. The example is based on the hierarchy of the type <code>Number</code>. It&#39;s worth noting that the labels included match the corresponding type name in Julia. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The <code>Signed</code> subtype of <code>Integers</code> allows for the representation of negative and positive integers. Julia also offers the type <code>Unsigned</code>, which only accepts positive integers and comprises subtypes such as <code>UInt64</code> and <code>UInt32</code>.  </span></span></p>
 <p> <div class="multiple_pics">
   <h2 style="color:rgb(63, 99,136);"><div style="text-decoration:underline;">Hierarchy of "Number"</div></h2>
     <img src="/julia_book/assets/PAGES/7c_TS-onTypes/tikz/supertypes_Number02.svg" style="width:90%; height:22em; margin-top:1em; margin-bottom:1em;">  
     <div style="padding-bottom:1.5em;width:75%;margin:0 auto;font-size:90%;"> <u><b>Note</b></u>: Dashed red borders indicate <span style="border: 2px dashed rgb(168, 50, 50); border-style: dashed dashed; padding: 2px;">abstract types</span>, while solid blue borders indicate <span style="border: 2px solid rgb(63, 99,136); padding: 2px;">concrete types</span>.  </div>
 </div> <br/></p>
-<p>The distinction between abstract and concrete types for scalars is relatively straightforward. On the contrary, the difference for vectors is more subtle, as shown in the diagram below. </p>
+<p>For scalars, the distinction between abstract and concrete types is relatively straightforward. On the contrary, the difference for vectors is more subtle, as shown in the diagram below. </p>
 <p> <div class="multiple_pics">
   <h2 style="color:rgb(63, 99,136);"><div style="text-decoration:underline;">Hierarchy of Vectors</div></h2>
     <img src="/julia_book/assets/PAGES/7c_TS-onTypes/tikz/supertypes_Vector02.svg" style="width:90%; height:22em; margin-top:1em; margin-bottom:1em;">  
     <div style="padding-bottom:1.5em;width:75%;margin:0 auto;font-size:90%;"> <u><b>Note</b></u>: Dashed red borders indicate <span style="border: 2px dashed rgb(168, 50, 50); border-style: dashed dashed; padding: 2px;">abstract types</span>, while solid blue borders indicate <span style="border: 2px solid rgb(63, 99,136); padding: 2px;">concrete types</span>.  </div>
 </div> <br/></p>
-<p>The tree reveals that <code>Vector&#123;T&#125;</code> <strong>for a given type</strong> <code>T</code> <strong>is a concrete type</strong>. By definition, this implies that <code>Vector&#123;T&#125;</code> can&#39;t have subtypes. Consequently, vectors like <code>Vector&#123;Int64&#125;</code> aren&#39;t a subtype of <code>Vector&#123;Any&#125;</code>, despite <code>Int64</code> being a subtype of <code>Any</code>. This feature stands in stark contrast to scalars, where <code>Any</code> is an abstract type. </p>
-<p>It&#39;s worth noting that this hierarchy is, ultimately, a deliberate design choice made by Julia&#39;s developers. The reasons for doing so can be justified in two grounds. Firstly, it aligns with the definition of vectors as collections of elements with a  <em>homogeneous</em> type. Secondly, the design yields significant computational benefits. By avoiding the same internal representation as heterogeneous vectors like <code>x &#61; &#91;1, &quot;hello&quot;&#93;</code>, Julia can specialize and optimize its operations for homogeneous vectors such as <code>x &#61; &#91;1, 2&#93;</code>, leading to improved performance.</p>
+<p>The tree reveals that <code>Vector&#123;T&#125;</code> <strong>for a given type</strong> <code>T</code> <strong>is a concrete type</strong>. By definition, this implies that variables can be instances of some <code>Vector&#123;T&#125;</code>. Moreover, <code>Vector&#123;T&#125;</code> can&#39;t have subtypes. Consequently, vectors like <code>Vector&#123;Int64&#125;</code> aren&#39;t a subtype of <code>Vector&#123;Any&#125;</code>, despite <code>Int64</code> being a subtype of <code>Any</code>. This feature stands in stark contrast to scalars, where <code>Any</code> is an abstract type. However, it also perfectly aligns with the understanding of vectors as collections of  <em>homogeneous elements</em>, in the sense of sharing the same type. </p>
+<p> <h4> Only concrete Types Can be Instantiated, Abstract Types Can&#39;t </h4><div class="own-anchors"><a name="instantiate"></a></div></p>
+<p>In Julia, <span style="color: rgb(62, 121, 180);"><strong>instantiation</strong></span> refers to the process of creating an object with a certain type. Importantly, only objects with concrete types can be instantiated, which entails that there can&#39;t be values with abstract types. This fundamental principle has implications for some certain colloquial expressions we commonly use. For example, when we say that a variable has type <code>Any</code>, it actually means that the variable can assume any concrete type, as long as it&#39;s a subtype of <code>Any</code>.</p>
+<p>This distinction will become crucial in what comes, particularly for type-annotating variables. It implies that declaring a variable with an abstract type amounts to restricting the set of possible concrete types, with the variable ultimately adopting one of these concrete types.</p>
  <h4> Relevance for Type Stability </h4>
 <p>At this point, you may be wondering how all this relates to type stability. The answer is given by how Julia performs computations.</p>
-<p>When Julia computes a specific operation, it needs to identify a method that handles the variables involved. The issue lies in that, without explicit type definitions, variables in the global scope are treated as having type <code>Any</code>. This prevents the possibility of specialization, as Julia is forced to consider multiple methods, one for each possible type of its variables. Performance as a result is  substantially degraded.</p>
-<p>In contrast, when we wrap code in a function, Julia engages in a process known as <strong>type inference</strong>. This will be studied thoroughly in the next section, but it simply means that <strong>Julia assigns a concrete type for each variable local to a function</strong>. Formally, a variable <code>x</code> becomes an <span style="color: rgb(62, 121, 180);"><strong>instance</strong></span> of a concrete type, which can be bound through the function <code>typeof&#40;x&#41;</code>. For instance, <code>x &#61; 2</code> adopts <code>Int64</code> within a function, despite being treated with type <code>Any</code> in the global scope.</p>
-<p>After the concrete types are identified, Julia must choose a method to compute the operations. The ability to specialize hinges critically on whether the function is <strong>type stable</strong>: the concrete types inferred in the function are sufficient information to infer the type of the outputs returned. Essentially, this means that the operations performed take <span style="color: rgb(62, 121, 180);"><strong>primitive data types</strong></span> as their inputs, thus allowing for specialization. </p>
-<p>Primitive types form the foundation upon which all other data structures are built. They&#39;re represented by plain old bits, which is the information that the computer processes to execute its instructions. Examples of primitive types are <code>Int64</code>, <code>Float64</code>, and <code>Bool</code>. For the case of vectors, type stability requires that the elements are instead having primitive types. Consequently, vectors given by <code>Vector&#123;Int64&#125;</code> or <code>Vector&#123;Float64&#125;</code> allow for specialization. On the contrary, when only a concrete type like <code>Vector&#123;Any&#125;</code> can be inferred, the function is type unstable. This means that the multiple computational methods must be considered, one for each possible type that may be encountered.</p>
+<p>Given an operation, high performance requires specialization of the computation method. We&#39;ll see that this is unfeasible in the global scope, as Julia treats global variables as embodying any type. In contrast, when we wrap code in a function, Julia begins by identifying concrete types for each argument. With this information, it attempts to identify concrete types for all expressions within the function. When concrete types can indeed be identified, we say that the function is <strong>type stable</strong>, and Julia is able to specialize its method. Otherwise, if expressions could adopt various concrete types, performance is substantially degraded. This is because Julia is forced to consider multiple implementations, one for each possible type.</p>
+<p>For scalars and vectors, this essentially means that expressions must ultimately operate over <span style="color: rgb(62, 121, 180);"><strong>primitive types</strong></span>. Examples of numeric primitive types are integers and floating-point numbers, such as <code>Int64</code>, <code>Float64</code>, and <code>Bool</code>. Thus, operations like <code>sum</code> over <code>Vector&#123;Int64&#125;</code> or <code>Vector&#123;Float64&#125;</code> allow for specialization, while operating over <code>Vector&#123;Any&#125;</code> precludes it.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>String Objects</strong>  </span>  </div>  <div class=content>     Our focus throughout the chapter is on numeric variables. However, the standard type <code>String</code> for text doesn&#39;t pose a problem for type stability. This is because <code>String</code> is internally represented as a collection of characters with the primitive type <code>Char</code>.  </div>  </div>
- <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Why Julia Doesn't Exclude Variables with type like <code>Vector&#123;Any&#125;</code>?</strong>  </span>  </div>  <div class=content>     Julia aims to be a general-purpose language, capable of delivering high performance when necessary. Although vectors with mixed primitive types aren&#39;t optimal for performance, Julia allows the user to accommodate cases like this for convenience. This feature is particularly valuable in data analysis, where the original data could have been conceived with mixed types.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>String Objects</strong>  </span>  </div>  <div class=content>     While our focus is on numeric variables, the standard type <code>String</code> doesn&#39;t pose a problem for type stability. This is because <code>String</code> is internally represented as a collection of characters, which are represented by the primitive type <code>Char</code>.  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="the_operator_to_identify_supertypes" class="scrollspy section-bg-color">
+<section id="the_operator_to_identify_supertypes" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>The Operator <: to Identify Supertypes</h2></p>
-<p>For the remainder of this section, we&#39;ll introduce operators and functions designed to handle types. We begin by introducing the operator <code>&lt;:</code> to identify supertypes. After this, we indicate approaches to declaring a variable&#39;s type. </p>
-<p><strong>It's quite possible that you won't have to use any of the techniques presented</strong>. The reason is that, as we&#39;ll see, type-inference makes types be automatically identified when variables are passed to a function. Nevertheless, the operators introduced will help you understand the explanations and notation employed in the upcoming sections.</p>
+<p>The remainder of the section is devoted to operators and functions that handle types. Specifically, we&#39;ll present the operator <code>&lt;:</code> to identify supertypes, along with several approaches to declaring a variable&#39;s type. </p>
+<p><strong>It's quite possible that you won't use any of the techniques presented</strong>. The reason is that, as we&#39;ll see, Julia identifies the types of variables passed to a function. Nevertheless, the operators introduced will be crucial to understand upcoming sections.</p>
  <h4> Use of <code>&lt;:</code> </h4>
-<p>The symbol <code>:&lt;</code> assesses whether a type <code>T</code> is a subset of <code>S</code>. This can be employed as an operator <code>T &lt;: S</code> or as a function <code>&lt;:&#40;T,S&#41;</code>. For example, <code>Int64 &lt;: Number</code> and <code>&lt;:&#40;Int64, Number&#41;</code> will return <code>true</code>, since <code>Int64</code> is a subtype of <code>Number</code>.</p>
+<p>The symbol <code>:&lt;</code> assesses whether a type <code>T</code> is a subset of <code>S</code>. This can be employed as an operator <code>T &lt;: S</code> or as a function <code>&lt;:&#40;T,S&#41;</code>. For example, <code>Int64 &lt;: Number</code> or <code>&lt;:&#40;Int64, Number&#41;</code> verifies whether <code>Int64</code> is a subtype of <code>Number</code>, which would return <code>true</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2600,9 +2613,10 @@ Int64   &lt;: Vector&#123;Int64&#125;</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The fact that <code>Int64 &lt;: Int64</code> evaluates to true illustrates a fundamental principle: <strong>every type is a subtype of itself</strong>. Moreover, it&#39;s the only subtype in the case of concrete types.</p>
+<p>The fact that <code>Int64 &lt;: Int64</code> evaluates to true illustrates a fundamental principle: <strong>every type is a subtype of itself</strong>. Moreover, in the case of concrete types, this is the only subtype.</p>
  <h4> The Keyword <code>where</code> </h4>
-<p>By combining <code>&lt;:</code> with a type with <code>Union</code>, you can also check whether a given type belongs to a set of types. For example, <code>Int64 &lt;: Union&#123;Int64, Float64&#125;</code> checks whether <code>Int64</code> is either <code>Int64</code> or <code>Float64</code>, thereby evaluating to <code>true</code>. The approach can be made more widely applicable by using the keyword <code>where</code>, along with a type parameter <code>T</code> that can assume multiple values. The syntax is <code>&lt;type depending on T&gt; where T &lt;: &lt;set of types&gt;</code>, where you can use any other variable instead of <code>T</code>. </p>
+<p>By combining <code>&lt;:</code> with the type with <code>Union</code>, you can also check if a type belongs to a set of types. For example, <code>Int64 &lt;: Union&#123;Int64, Float64&#125;</code> evaluates whether <code>Int64</code> equals <code>Int64</code> or <code>Float64</code>, thus returning <code>true</code>. </p>
+<p>The approach can be made more widely applicable by using the keyword <code>where</code>, along with a type parameter <code>T</code> that can take multiple values. The syntax is <code>&lt;type depending on T&gt; where T &lt;: &lt;set of types&gt;</code>, where <code>T</code> can be represented by any other character.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2642,10 +2656,10 @@ Vector&#123;Number&#125;  &lt;: Vector&#123;Any&#125;</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The technique allows us to distinguish between a concrete object like <code>Vector&#123;Any&#125;</code> and a set of possible vectors <code>Vector&#123;T&#125; where T &lt;: Any</code>: the former only covers one specific vector, while the latter encompasses simultaneously cases like <code>Vector&#123;Int64&#125;</code>, <code>Vector&#123;Float64&#125;</code>, <code>Vector&#123;String&#125;</code>, etc. The distinction between <code>Vector&#123;Any&#125;</code> and the set of vectors defined by <code>Vector&#123;T&#125; where T</code> is crucial for type stability, as we&#39;ll see that the former type necessarily creates performance issues.</p>
+<p>Types constructed through parameters like <code>T</code> are known as <span style="color: rgb(62, 121, 180);"><strong>parametric types</strong></span>. In the example above, they allow us to distinguish between a concrete type like <code>Vector&#123;Any&#125;</code> and a set of concrete types <code>Vector&#123;T&#125; where T &lt;: Any</code>, where the latter encompasses <code>Vector&#123;Int64&#125;</code>, <code>Vector&#123;Float64&#125;</code>, <code>Vector&#123;String&#125;</code>, etc. </p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - The Type <code>Any</code> </span>  </div>  <div class=content>     When we omit <code>&lt;:</code> and simply write <code>where T</code>, Julia implicitly assumes the statement <code>where T &lt;: Any</code>.</p>
+      <b>Warning!</b> - The Type <code>Any</code> </span>  </div>  <div class=content>     When we omit <code>&lt;:</code> and simply write <code>where T</code>, Julia implicitly interprets the statement as <code>where T &lt;: Any</code>.</p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2671,16 +2685,16 @@ Vector&#123;Int64&#125; &lt;: Vector&#123;T&#125; where T</code></pre>
     </div>
   </div>
 </section>
-<section id="type-annotating_variables" class="scrollspy">
+<section id="type-annotating_variables" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Type-Annotating Variables</h2></p>
-<p>We now indicate how to explicitly declare a variable&#39;s type, a process that it&#39;s known as <span style="color: rgb(62, 121, 180);"><strong>type annotation</strong></span>. The technique can be used to assert a variable&#39;s type <strong>during an assignment</strong> or to restrict the types of <strong>function arguments</strong>. </p>
-<p>There are two approaches to type-annotate variables. The first approach relies on the binary operator <code>::</code>, whose syntax for a variable <code>x</code> is <code>x::&lt;type&gt;</code>. The second approach leverages the Boolean binary operator <code>&lt;:</code>, which has to be combined with <code>::</code> and the keyword <code>where</code>. The syntax is <code>x::T where T &lt;: &lt;type&gt;</code>. </p>
-<p>Next, we illustrate each, by separately considering assignments and function arguments.</p>
+<p>We now indicate how to <span style="color: rgb(62, 121, 180);"><strong>type-annotate</strong></span> a variable. The technique can be used to either assert a variable&#39;s type <strong>during an assignment</strong> or to restrict the types of <strong>function arguments</strong>. </p>
+<p>There are two approaches to type-annotating variables. The first one relies on the binary operator <code>::</code> and its syntax is <code>x::&lt;type&gt;</code>. The second approach leverages the Boolean binary operator <code>&lt;:</code>, which must be combined with <code>::</code> and the keyword <code>where</code>. Specifically, the syntax is <code>x::T where T &lt;: &lt;type&gt;</code>, where <code>T</code> can be replaced with any other character.</p>
+<p>Next, we illustrate both, by separately considering type-annotations for assignments and for function arguments.</p>
  <h4> Assignments </h4>
-<p>We start by illustrating the approaches for scalars. Note that each tab below declares an identical type for <code>x</code> and for <code>y</code>. </p>
+<p>Let&#39;s start illustrating the approaches for scalar assignments. Each tab below declares an identical type for <code>x</code> and for <code>y</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2708,9 +2722,9 @@ y::T where T &lt;: Number &#61; 2      # only reassignments to &#96;Float64&#96;
 <p>  </p></details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Modifying Types </span>  </div>  <div class=content>     Once you assert a type for <code>x</code> during an assignment, you can&#39;t eventually change <code>x</code>&#39;s type. The only way to modify this behavior is by starting a new Julia session.  </div>  </div>
-<p>The fact that <code>x</code> has the same type in each tab is because <code>T &lt;: Float64</code> necessarily defines the type <code>Float64</code>. This follows because <code>Float64</code> is a concrete type, and so it has no subtypes except for itself by definition.</p>
-<p>This is why types for scalars are usually asserted through <code>::</code> rather than <code>&lt;:</code>, as it&#39;s less verbose. On the contrary, choosing <code>::</code> or <code>&lt;:</code> entails different implications when a vector&#39;s type is asserted. This follows because declaring <code>Vector&#123;Number&#125;</code> is quite different from <code>Vector&#123;T&#125; where T &lt;: Number</code>. The former establishes that the type of each element is <code>Number</code>. Instead, the latter indicates that each element has a concrete type, among those that are a subtype of <code>Number</code>.</p>
+      <b>Warning!</b> - Modifying Types </span>  </div>  <div class=content>     Once you assert a type for <code>x</code> in an assignment, you can&#39;t modify <code>x</code>&#39;s type afterwards. The only way to fix this is by starting a new Julia session.  </div>  </div>
+<p>The fact that <code>x</code> has the same type across all tabs follows because <code>T &lt;: Float64</code> only includes <code>Float64</code>. This occurs as <code>Float64</code> is a concrete type, which by definition has no subtypes other than itself. Considering this, it&#39;s common to directly assert scalar types through <code>::</code> rather than <code>&lt;:</code>.</p>
+<p>On the contrary, the choice between <code>::</code> or <code>&lt;:</code> has different implications when a vector&#39;s type is asserted. The reason is that declaring <code>Vector&#123;Number&#125;</code> is quite different from <code>Vector&#123;T&#125; where T &lt;: Number</code>. The former establishes that <code>Vector&#123;Number&#125;</code> is the only possible concrete type, while the latter that elements have a concrete type that is a subtype of <code>Number</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2734,7 +2748,7 @@ y::Vector&#123;T&#125; where T &lt;: Number &#61; &#91;1,2,3&#93;     # &#96;x&#
 <p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>typeof&#40;y&#41;</code> <br/> Vector&#123;Int64&#125; &#40;alias for Array&#123;Int64, 1&#125;&#41; </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The principles just outlined apply even when a variable&#39;s type isn&#39;t explicitly annotated. The reason is that <strong>an assignment without</strong> <code>::</code> <strong>implicitly annotates the variable with</strong> <code>Any</code>, where <code>Any</code> is the supertype that encompasses all possible types. Specifically, statements like <code>x &#61; 2</code> and <code>x::Any &#61; 2</code> are equivalent.</p>
+<p>The principles outlined apply even when a variable&#39;s type isn&#39;t explicitly annotated. The reason is that <strong>an assignment without</strong> <code>::</code> <strong>implicitly annotates the variable with</strong> <code>Any</code>, where <code>Any</code> is the supertype that encompasses all possible types. Specifically, statements like <code>x &#61; 2</code> and <code>x::Any &#61; 2</code> are equivalent.</p>
 <p>The same occurs when omitting <code>&lt;:</code> from the expression <code>where T</code>, which implicitly takes <code>T &lt;: Any</code>. Thus, for instance, <code>x &#61; 2</code> is equivalent to <code>x::T where T &#61; 2</code> and <code>x::T where T &lt;: Any &#61; 2</code>. Considering this, all the variables below restrict types in the same way.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2743,18 +2757,20 @@ y::Vector&#123;T&#125; where T &lt;: Number &#61; &#91;1,2,3&#93;     # &#96;x&#
     <button class="tablink" data-id=""> Type 'Any' with Operator <: </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">a      &#61; 2
+<pre><code class="language-julia"># all are equivalent
+a      &#61; 2
 b::Any &#61; 2</code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">a                   &#61; 2
+<pre><code class="language-julia"># all are equivalent
+a                   &#61; 2
 b::T where T        &#61; 2
 c::T where T &lt;: Any &#61; 2</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The default restriction of variables to <code>Any</code> is the reason why we can reassign them with any value. For instance, given <code>a &#61; 1</code>, executing <code>a &#61; &quot;hello&quot;</code> afterwards is valid because <code>a</code> is implicitly type-annotated with <code>Any</code>.</p>
+<p>The default restriction to <code>Any</code> is the reason why we can reassign variables with any value. For instance, given <code>a &#61; 1</code>, executing <code>a &#61; &quot;hello&quot;</code> afterwards is valid because <code>a</code> is implicitly type-annotated with <code>Any</code>.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> - One-liner Statements Using `where` </span>  </div>  <div class=content>     Be careful with one-liner statements using <code>where</code>, especially when <code>where T</code> is shorthand for <code>where T &lt;: Any</code>. These concise statements can easily lead to confusion.</p>
@@ -2780,8 +2796,7 @@ foo&#40;x::T&#41; where &#123;T &lt;: Any&#125; &#61; 2    # slightly less confu
  </div></div>
 <p>  </p></details></div>  </div>  </div>
  <h4> Functions </h4>
-<p>Function arguments can also be type-annotated. The practice primarily serves to prevent incorrect function usage. In this way, we can ensure that a function doesn&#39;t process unintended data types, even when they&#39;d yield a result.</p>
-<p>The examples below illustrate this. They assume that we only want the function to process integers, even when floats could be applied. </p>
+<p>Function arguments can also be type-annotated. The examples below illustrate this, where the function only processes integers.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2807,7 +2822,7 @@ end</code></pre>
 <p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo2&#40;&#91;1,2&#93;, &#91;3.0, 4.0&#93;&#41;</code> <br/> <span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching foo2&#40;::Vector&#123;Int64&#125;, ::Vector&#123;Float64&#125;&#41; </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Note that employing the same parameter <code>T</code> as above forces both variables to share the same type. Moreover, types like <code>Int64</code> precludes the use of <code>Float64</code>, even for numbers like <code>3.0</code>. For more flexibility, a more suitable approach is to use a type like <code>Number</code>, along with the incorporation of two different type parameters. </p>
+<p>Note that employing the same parameter <code>T</code> for both arguments forces variables to share the same type. Moreover, types like <code>Int64</code> preclude the use of <code>Float64</code>, even for numbers like <code>3.0</code>. If you seek to stay flexible, a more suitable approach is to use an abstract type like <code>Number</code> and two different type parameters. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2831,15 +2846,14 @@ end</code></pre>
 <p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo3&#40;1.5, 2&#41;</code> <br/> 3.5 </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In fact, the greatest flexibility is achieved when we don&#39;t type-annotate function arguments at all, as they implicitly default to <code>Any</code>. This can be observed below, where all the tabs define the same function &#40;except the last one&#41;.</p>
+<p>In fact, the greatest flexibility is achieved when we don&#39;t type-annotate function arguments at all, as they will implicitly default to <code>Any</code>. This can be observed below, where all the tabs define the same function.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Implicit "Any"  </button>
     <button class="tablink" data-id=""> "Any" with :: </button>
     <button class="tablink" data-id=""> "Any" with <: </button>
-    <button class="tablink" data-id=""> Equivalent to <: </button>
-    <button class="tablink" data-id=""> NOT equivalent to <:</button>
+    <button class="tablink" data-id=""> Equivalent to <: </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">function foo&#40;x, y&#41;
@@ -2864,25 +2878,19 @@ end</code></pre>
     x &#43; y 
 end</code></pre>
 <p></div></div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">function foo&#40;x::T, y::T&#41; where T   # &#96;T&#96; can be anything, but &#96;foo&#96; forces &#96;x&#96; and &#96;y&#96; share the same type
-    x &#43; y 
-end</code></pre>
-<p></div></div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="creating_variables_with_some_type" class="scrollspy section-bg-color">
+<section id="creating_variables_with_some_type" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Creating Variables with Some Type</h2></p>
-<p>To conclude this section, we present an approach for defining variables with a <strong>concrete type</strong>, based on the values of another variable <code>x</code>. This can be useful to transform <code>x</code> into another type, as long as the transformation is possible. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Note that the approach is only valid for concrete types, not abstract types. This is because abstract types can&#39;t be instantiated, meaning that a variable can&#39;t adopt it as a type.  </span></span> </p>
-<p>The implementation utilizes the function <code>Type&#40;x&#41;</code>, where <code>Type</code> should be replaced with the literal name of the concrete type &#40;e.g., <code>Vector&#123;Float64&#125;</code>&#41;. The function supports broadcasting.</p>
+<p>To conclude this section, we present a particular approach for defining variables. This replicates the values of another variable <code>x</code>, while constructing the object with a <strong>concrete type</strong>. The approach relies on the use of special functions called <span style="color: rgb(62, 121, 180);"><strong>constructors</strong></span>, which create new instances of a concrete type. These functions are useful for transforming a variable <code>x</code> into another type, provided the transformation is possible.</p>
+<p>Constructors are implemented by <code>Type&#40;x&#41;</code>, where <code>Type</code> should be replaced with the literal name of the type &#40;e.g., <code>Vector&#123;Float64&#125;</code>&#41;. Like any other function, it supports broadcasting.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2920,6 +2928,76 @@ y &#61; Float64.&#40;x&#41;</code></pre>
  3.0</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
+ <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b> Remark</b> </span>  </div>  <div class=content>     We can use parametric types as constructors. Moreover, although abstract types can&#39;t be instantiated, some can still be used as constructors. In these cases, Julia will attempt to convert the object to a specific concrete type. As we show below, not all types can be used with this purpose.</p>
+<p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Scalars </button>
+    <button class="tablink" data-id=""> Vectors </button>
+    <button class="tablink" data-id=""> Unfeasible </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; 1
+
+y &#61; Number&#40;x&#41;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>typeof&#40;y&#41;</code><br/><div class="akin_to_pre">Int64</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91;1, 2&#93;
+
+y &#61; &#40;Vector&#123;T&#125; where T&#41;&#40;x&#41;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>typeof&#40;y&#41;</code><br/><div class="akin_to_pre">Vector{Int64}</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; 1
+
+z &#61; Any&#40;x&#41;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no constructors have been defined for Any</div> </div> 
+ </div></div>
+<p>  </p></details></div>  </div>  </div>
+<p>We can alternatively employ the function <code>convert&#40;T,x&#41;</code>, which transforms <code>x</code> to the type <code>T</code> when possible. </p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Scalar </button>
+    <button class="tablink" data-id=""> Vector </button>
+    <button class="tablink" data-id=""> Broadcasting </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; 1
+
+y &#61; convert&#40;Float64, x&#41;
+z &#61; convert&#40;Bool, x&#41;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">1.0</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">true</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91;1, 2, 3&#93;
+
+y &#61; convert&#40;Vector&#123;Any&#125;, x&#41;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Any}:
+ 1
+ 2
+ 3</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91;1, 2, 3&#93;
+
+y &#61; convert.&#40;Float64, x&#41;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Float64}:
+ 1.0
+ 2.0
+ 3.0</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
 <p>      </div>
     </div>
   </div>
@@ -2942,7 +3020,7 @@ y &#61; Float64.&#40;x&#41;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified May 29, 2024 
+          © Martin Alfaro <br>Last Modified June 5, 2024 
       </span> 
   </div> 
 </footer>
@@ -3027,12 +3105,7 @@ function goToNextPage() {
 }
 
 
-</script>
-
-
-
-
-</div><!-- CONTENT ENDS HERE -->
+</script></div><!-- CONTENT ENDS HERE -->
 
 <!-- ADDED BY FRANKLIN -->
   
@@ -3662,4 +3735,18 @@ document.addEventListener('keydown', (e) => {
     </script>
 
 
+
+
+<!-- <script>
+
+  $('a[href*="#"]').on('click', function (event) {
+    event.preventDefault();
+    var target = $(this.hash);
+    var offset = 500; // adjust this value to fit your needs
+    $('html, body').animate({
+      scrollTop: target.offset().top - offset
+    }, 500);
+  });
+
+</script> -->
 

@@ -396,6 +396,21 @@ section a:hover{
 }
 
 
+</style>
+
+
+
+<!-- FOR OFFSETTING LINKS -->
+<style>
+ 
+  :target {
+    scroll-margin-top: 40px; 
+  }
+  
+  .own-anchors a{
+  scroll-margin-top: 4em;
+  }
+
 </style> 
  <!-- <div class="left_bar" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
@@ -978,7 +993,7 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1022,7 +1037,7 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1558,13 +1573,13 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES\3_overview/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Execution and Packages</a></li><br>
+                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Calls and Packages</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3b_define_func/"><i>c</i>. Defining Your Own Functions</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3c_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a></li><br>
+                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Map and Broadcasting (Vectorization)</a></li><br>
                 
               </ul>
             </li>
@@ -2544,25 +2559,25 @@ color: white;
 
  
 <div class="franklin-content">
-<section id="introduction" class="scrollspy">
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>We continue introducing preliminary concepts for implementing mutations. The previous section distinguished between the use of <code>&#61;</code> for assignments and mutations. Now, we&#39;ll deal with approaches to creating vectors.</p>
+<p>We continue introducing preliminary concepts for mutations. The previous section distinguished between the use of <code>&#61;</code> for assignments and mutations. Now, we&#39;ll deal with approaches to creating vectors.</p>
 <p>Our presentation starts by outlining the process of initializing vectors, which involves reserving memory without assigning initial values. We&#39;ll then discuss how to create vectors with predefined values, such as zeros or ones. The section concludes showing how to concatenate multiple vectors into a new one.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="initializing_vectors" class="scrollspy section-bg-color">
+<section id="initializing_vectors" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Initializing Vectors</h2></p>
-<p>Creating an array involves two steps: allocating memory space and assigning initial values to its elements. However, if you intend to eventually populate the array with specific values, it&#39;s more efficient to only initialize the array. This involves reserving memory space, but without setting any initial values.</p>
+<p>Creating an array involves two steps: allocating memory space and assigning initial values to its elements. If you intend to eventually populate the array with specific values, it&#39;s nonetheless more efficient to only initialize the array. This involves reserving memory space, but without setting any initial values.</p>
 <p>The approach relies on the so-called <code>undef</code> values, which represent arbitrary content held in memory at the moment of reserving space. Importantly, while <code>undef</code> provides concrete numbers, these values are meaningless and vary every time you initialize an array.</p>
-<p>There are two methods for initializing arrays with <code>undef</code> values. The first one requires specifying the type and length of the array., using the syntax <code>Vector&#123;&lt;elements&#39; type&gt;&#125;&#40;undef, &lt;length&gt;&#41;</code>. The second approach is based on the function <code>similar&#40;x&#41;</code> function, which creates a vector with the same type and dimensions as <code>x</code>.</p>
+<p>There are two methods for initializing arrays with <code>undef</code> values. The first one requires specifying the type and length of the array, using the syntax <code>Vector&#123;&lt;elements&#39; type&gt;&#125;&#40;undef, &lt;length&gt;&#41;</code>. The second approach is based on the function <code>similar&#40;x&#41;</code>, which creates a vector with the same type and dimensions as <code>x</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2586,19 +2601,19 @@ x &#61; similar&#40;y&#41;                      # &#96;x&#96; has the same type 
  2497355825296</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The example starkly shows that <code>undef</code> values don&#39;t follow any particular logic. Moreover, these values vary every time the code is executed, as they capture any content held in RAM at the moment of allocation. In fact, a more descriptive way to call <code>undef</code> values would be <strong>uninitialized values</strong>, explaining why both expressions are often employed interchangeably.</p>
+<p>The example starkly shows that <code>undef</code> values don&#39;t follow any particular logic. Moreover, these values vary in each execution, as they capture any content held in RAM at the moment of allocation. In fact, a more descriptive way to call <code>undef</code> values would be through its alternative <strong>uninitialized values</strong>.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="creating_vectors" class="scrollspy">
+<section id="creating_vectors" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Creating Vectors</h2></p>
 <p>In the following, we present several approaches to creating arrays with predefined values. </p>
  <h4> Vectors With Range </h4>
-<p>We can create a sequence of values by specifying a range. This method has been extensively covered on the website, and take the form of a vector through <code>collect&#40;&lt;range&gt;&#41;</code>.</p>
+<p>Sequences of values can be created by specifying ranges, which have been extensively applied on the website. Ranges can be materialized into vectors by the function <code>collect&#40;&lt;range&gt;&#41;</code>.</p>
  <div class=" code_box"> <details  open><summary> A Vector Filled With a Sequence  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">some_range &#61; 2:5
 
 x          &#61; collect&#40;some_range&#41;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">4-element Vector{Int64}:
@@ -2802,7 +2817,7 @@ x                &#61; repeat&#40;vector_to_repeat, nr_repetitions&#41;</code></
     </div>
   </div>
 </section>
-<section id="adding_removing_and_replacing_elements_optional" class="scrollspy section-bg-color">
+<section id="adding_removing_and_replacing_elements_optional" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2996,7 +3011,7 @@ y &#61; replace&#40;x, 3 &#61;&gt; 0, 5 &#61;&gt; 1&#41;   # new copy</code></pr
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified May 29, 2024 
+          © Martin Alfaro <br>Last Modified June 5, 2024 
       </span> 
   </div> 
 </footer>
@@ -3081,12 +3096,7 @@ function goToNextPage() {
 }
 
 
-</script>
-
-
-
-
-</div><!-- CONTENT ENDS HERE -->
+</script></div><!-- CONTENT ENDS HERE -->
 
 <!-- ADDED BY FRANKLIN -->
   
@@ -3708,4 +3718,18 @@ document.addEventListener('keydown', (e) => {
     </script>
 
 
+
+
+<!-- <script>
+
+  $('a[href*="#"]').on('click', function (event) {
+    event.preventDefault();
+    var target = $(this.hash);
+    var offset = 500; // adjust this value to fit your needs
+    $('html, body').animate({
+      scrollTop: target.offset().top - offset
+    }, 500);
+  });
+
+</script> -->
 

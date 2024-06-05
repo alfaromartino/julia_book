@@ -396,6 +396,21 @@ section a:hover{
 }
 
 
+</style>
+
+
+
+<!-- FOR OFFSETTING LINKS -->
+<style>
+ 
+  :target {
+    scroll-margin-top: 40px; 
+  }
+  
+  .own-anchors a{
+  scroll-margin-top: 4em;
+  }
+
 </style> 
  <!-- <div class="left_bar" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
@@ -978,7 +993,7 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1022,7 +1037,7 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1560,13 +1575,13 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES\3_overview/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Execution and Packages</a></li><br>
+                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Calls and Packages</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3b_define_func/"><i>c</i>. Defining Your Own Functions</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3c_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a></li><br>
+                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Map and Broadcasting (Vectorization)</a></li><br>
                 
               </ul>
             </li>
@@ -2549,7 +2564,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section concludes with the preliminary concepts for studying mutations. In particular, it deals with the behavior of a vector&#39;s slice. </p>
+<p>This section completes the coverage of preliminary concepts for studying mutations. In particular, it deals with the behavior of a vector&#39;s slice. </p>
 <p>A <span style="color: rgb(62, 121, 180);"><strong>slice</strong></span> is a subset of a vector&#39;s elements and is denoted as <code>x&#91;&lt;indices&gt;&#93;</code>. Importantly, <strong>slices act differently depending on where they're included</strong>. Formally, we need to distinguish between slices that act as:</p>
 <ul>
 <li><p><span style="color: rgb(62, 121, 180);"><strong>copies</strong></span> of the original vector: it creates a new object, allocated in a new memory address. </p>
@@ -2557,7 +2572,7 @@ color: white;
 <li><p><span style="color: rgb(62, 121, 180);"><strong>views</strong></span> of the original vector: it references the original object, and so both the original object and the slice point to the same memory address.</p>
 </li>
 </ul>
-<p>The distinction is essential when it comes to mutating an object through a slice, as the slice has to reference the original object—formally, mutations need to work with views. In contrast, slices acting as copies don&#39;t reference the original object, and thus their mutations don&#39;t affect it.</p>
+<p>The distinction is essential when it comes to mutating an object through a slice. As the slice must reference the original object, mutations need of views for their implementation. Otherwise, if slices act as copies, the parent object and the slice have no relation. </p>
 <p>      </div>
     </div>
   </div>
@@ -2567,7 +2582,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Slices and the = Operator</h2></p>
-<p>Mutating a vector through a slice involves assigning new values through the operator <code>&#61;</code>. However, a slice behaves differently depending on its position in the assignment. <strong>A slice on the left-hand side of</strong> <code>&#61;</code> <strong>acts as a view</strong>, referencing the original elements and allowing mutation of the vector. In contrast, <strong>a slice on the right-hand side of</strong> <code>&#61;</code> <strong>creates a copy</strong>, making it point to a new object. This means that the objects have no relation, and thus modifying the slice doesn&#39;t affect the original vector.</p>
+<p>Mutating vectors through slices is achieved by assigning new values through the operator <code>&#61;</code>. However, when slices are used in assignments, we need to be particularly cautious. The reason is that their behavior differs, depending on the position of the slice in the assignment. </p>
+<p>Specifically, <strong>slices on the left-hand side of</strong> <code>&#61;</code> <strong>act as views</strong>. This means that the slices reference the original elements, thus allowing for the mutation of its parent object. In contrast, <strong>slices on the right-hand side of</strong> <code>&#61;</code> <strong>create a copy</strong>, and therefore point to a new object. This means that any modification made to the slice won&#39;t affect the original object. </p>
 <p>The following code snippet demonstrates this, where we refer to the left-hand side as  <em>LHS</em> and the right-hand side as  <em>RHS</em>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2595,7 +2611,7 @@ x&#91;1&#93; &#61; 0        # it mutates &#39;x&#39; but does NOT modify &#39;y&
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Aliasing vs Copy</strong>  </span>  </div>  <div class=content>     The creation of copies for objects on the right-hand side of <code>&#61;</code> only applies to <strong>slices</strong>, such as in statements <code>y &#61; x&#91;&lt;indices&gt;&#93;</code>.  Instead, having the whole object <code>x</code> on the right-hand side of <code>&#61;</code>, as in <code>y &#61; x</code>, transforms the operation into an aliasing assignment. This makes <code>y</code> and <code>x</code> reference the same object, so that modifications of <code>y</code> would also affect <code>x</code>.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Aliasing vs Copy</strong>  </span>  </div>  <div class=content>     Objects on the right-hand side of <code>&#61;</code> are only copies when it comes to <strong>slices</strong>, such as in statements <code>y &#61; x&#91;&lt;indices&gt;&#93;</code>.  Instead, if we introduce an entire object <code>x</code> on the right-hand side of <code>&#61;</code>, as in <code>y &#61; x</code>, the operation entails the creation of an alias. This means that <code>y</code> and <code>x</code> reference the same object, and so any modification of <code>y</code> also affects <code>x</code>.</p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2632,7 +2648,8 @@ x&#91;1&#93; &#61; 0        # it does NOT modify &#39;y&#39;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>The Function "view"</h2></p>
-<p>We&#39;ve focused on the behavior of slices according to their position against <code>&#61;</code>. But, it&#39;s important to have a more general understanding of when slices act as copies or views. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> We&#39;ll show later on this website that views commonly increase speed, by avoiding the computational overhead of allocating memory.  </span></span> Broadly speaking, <strong>copies tend to be the default behavior of slices in Julia</strong>. Thus, for instance, a slice incorporated as a function argument or in an expression defines a copy. The following code snippet provides several examples of this behavior.</p>
+<p>Beyond their behavior in assignments, it&#39;s crucial to understand when slices act as copies or views. The relevance of this knowledge will become clearer when we explore high performance, as views avoid the overhead associated with memory allocations.</p>
+<p>Broadly speaking, <strong>copies tend to be the default behavior of slices in Julia</strong>. Thus, for instance, a slice incorporated as a function argument or in an expression defines a copy. The following examples illustrates this behavior.</p>
  <div class=" code_box"> <details  open><summary> Slices as Copies  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;3,4,5&#93;
 
@@ -2645,7 +2662,7 @@ x&#91;1:2&#93; .&#43; 2
 
 &#40;sum&#40;x&#91;1:2&#93;&#41; &gt; 0&#41; &amp;&amp; true</code></pre>
 <p></div> </div>  </details></div>
-<p>When we want that a slice acts as a view, we have to state it explicitly. This is accomplished through the function <code>view</code>, which makes the slice a reference to the original object. Its syntax is <code>view&#40;x, &lt;indices&gt;&#41;</code>, where <code>&lt;indices&gt;</code> are the slice&#39;s subset of indices. To illustrate it, we revisit and compare the last code snippet.</p>
+<p>Considering this behavior, we must explicitly indicate when we want a slice to act as a view. This is accomplished through the function <code>view</code>, which creates a reference to the original object. Its syntax is <code>view&#40;x, &lt;indices&gt;&#41;</code>, where <code>&lt;indices&gt;</code> are the subset of indices that define the slice. To demonstrate its usage, let&#39;s revisit and compare the last code snippet.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2688,9 +2705,8 @@ x&#91;1:2&#93; .&#43; 2
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Macros @view and @views</h2></p>
-<p>The previous examples reveal that transforming slices into views is verbose and hinders readability. This is especially true when we have several slices in the same expression. To facilitate the use of views, Julia provides the macros <code>@view</code> and <code>@views</code>. </p>
-<p>The macro <code>@view</code> turns an expression like <code>@view x&#91;1:2&#93;</code> into <code>view&#40;x, 1:2&#41;</code>. It&#39;s primarily useful for expressions where there aren&#39;t so many slices, although its benefits are arguable given that it only saves a few characters. Furthermore, if we perform operations with slices, we need to apply <code>@view</code> with parentheses, as in <code>@view&#40;x&#91;1:2&#93;&#41; .&#43; @view&#40;x&#91;2:3&#93;&#41;</code>.</p>
-<p>On the contrary, the macro <code>@views</code> transforms each slice in an expression into a view. This is particularly convenient for expressions with multiple slices, as we only need to indicate once that every slice should be taken as a view. </p>
+<p>The previous examples reveal that defining slices as views can be somewhat verbose, especially if several slices are involved. Taking this into account, Julia offers the macros <code>@view</code> and <code>@views</code>.</p>
+<p>The <code>@view</code> macro simplifies the creation of views by transforming an expression like <code>view&#40;x, 1:2&#41;</code> into <code>@view x&#91;1:2&#93;</code>. Its benefits are debatable, as it only saves a few characters and requires parentheses when there are multiple slices involved &#40;e.g., <code>@view&#40;x&#91;1:2&#93;&#41; .&#43; @view&#40;x&#91;2:3&#93;&#41;</code>&#41;. In contrast, the macro <code>@views</code> automatically transforms  <em>every</em> slice of an expression into a view. This makes it particularly convenient, as its inclusion applies to multiple slices at once.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;4,5,6&#93;
 
@@ -2701,7 +2717,7 @@ y &#61; @view&#40;x&#91;1:2&#93;&#41; .&#43; @view&#40;x&#91;2:3&#93;&#41;
 
 @views y &#61; x&#91;1:2&#93; .&#43; x&#91;2:3&#93;</code></pre>
 <p></div> </div>  </details></div>
-<p>An important application of <code>@views</code> is for functions. Its inclusion at the beginning of a function definition turns every slice within the function into a view.</p>
+<p>One of the most significant applications of <code>@views</code> is in function definitions. By placing <code>@views</code> at the beginning of a function, you can automatically convert every slice within the function into a view.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2749,7 +2765,7 @@ end</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified May 29, 2024 
+          © Martin Alfaro <br>Last Modified June 5, 2024 
       </span> 
   </div> 
 </footer>
@@ -2834,12 +2850,7 @@ function goToNextPage() {
 }
 
 
-</script>
-
-
-
-
-</div><!-- CONTENT ENDS HERE -->
+</script></div><!-- CONTENT ENDS HERE -->
 
 <!-- ADDED BY FRANKLIN -->
   
@@ -3461,4 +3472,18 @@ document.addEventListener('keydown', (e) => {
     </script>
 
 
+
+
+<!-- <script>
+
+  $('a[href*="#"]').on('click', function (event) {
+    event.preventDefault();
+    var target = $(this.hash);
+    var offset = 500; // adjust this value to fit your needs
+    $('html, body').animate({
+      scrollTop: target.offset().top - offset
+    }, 500);
+  });
+
+</script> -->
 

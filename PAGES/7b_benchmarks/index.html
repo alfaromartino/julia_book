@@ -396,6 +396,21 @@ section a:hover{
 }
 
 
+</style>
+
+
+
+<!-- FOR OFFSETTING LINKS -->
+<style>
+ 
+  :target {
+    scroll-margin-top: 40px; 
+  }
+  
+  .own-anchors a{
+  scroll-margin-top: 4em;
+  }
+
 </style> 
  <!-- <div class="left_bar" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
@@ -978,7 +993,7 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1022,7 +1037,7 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -2503,7 +2518,7 @@ color: white;
 
  
 <div class="franklin-content">
-<section id="introduction" class="scrollspy section-bg-color">
+<section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2513,7 +2528,7 @@ color: white;
     </div>
   </div>
 </section>
-<section id="time_metrics" class="scrollspy">
+<section id="time_metrics" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2569,7 +2584,7 @@ color: white;
     </div>
   </div>
 </section>
-<section id="time_to_first_plot" class="scrollspy section-bg-color">
+<section id="time_to_first_plot" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2584,7 +2599,7 @@ color: white;
     </div>
   </div>
 </section>
-<section id="time" class="scrollspy">
+<section id="time" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2593,14 +2608,14 @@ color: white;
  <div class=" code_box"> <details  open><summary> @time  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; 1:100
 
 @time sum&#40;x&#41;         # first run                     -&gt; it incorporates compilation time 
-@time sum&#40;x&#41;         # time without compilation time -&gt; relevant for each subsequent run</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  0.003469 seconds (2.37 k allocations: 145.188 KiB, 99.20% compilation time)
+@time sum&#40;x&#41;         # time without compilation time -&gt; relevant for each subsequent run</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  0.003763 seconds (2.37 k allocations: 145.109 KiB, 99.11% compilation time)
   0.000005 seconds (1 allocation: 16 bytes)
 </code></pre> </div></div> </div>   </details></div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="package_benchmarktools" class="scrollspy section-bg-color">
+<section id="package_benchmarktools" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2617,7 +2632,7 @@ color: white;
 
 x &#61; 1:100
 @btime sum&#40;&#36;x&#41;        # provides minimum time only</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  2.117 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.500 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using BenchmarkTools
@@ -2642,14 +2657,14 @@ x &#61; 1:100
 x &#61; rand&#40;100&#41;
 
 @btime sum&#40;x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  16.893 ns (1 allocation: 16 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  16.132 ns (1 allocation: 16 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using BenchmarkTools
 x &#61; rand&#40;100&#41;
 
 @btime sum&#40;&#36;x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  9.156 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  6.600 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2657,7 +2672,7 @@ x &#61; rand&#40;100&#41;
     </div>
   </div>
 </section>
-<section id="chairmarks" class="scrollspy">
+<section id="chairmarks" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2673,24 +2688,24 @@ x &#61; rand&#40;100&#41;
 x &#61; rand&#40;100&#41;
 
 display&#40;@b sum&#40;&#36;x&#41;&#41;        # provides minimum time only</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">9.484 ns</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">6.704 ns</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using Chairmarks
 x &#61; rand&#40;100&#41;
 
 display&#40;@be sum&#40;&#36;x&#41;&#41;       # analogous to &#96;@benchmark&#96; in BenchmarkTools</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">Benchmark: 3614 samples with 2704 evaluations
-min    9.455 ns
-median 9.503 ns
-mean   9.592 ns
-max    41.942 ns</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">Benchmark: 3638 samples with 3720 evaluations
+min    6.694 ns
+median 6.855 ns
+mean   6.990 ns
+max    34.462 ns</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="remark_on_random_numbers_used_on_the_website" class="scrollspy section-bg-color">
+<section id="remark_on_random_numbers_used_on_the_website" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2746,7 +2761,7 @@ y &#61; sum&#40;x&#41;</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="benchmarks_in_perspective" class="scrollspy">
+<section id="benchmarks_in_perspective" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2766,17 +2781,17 @@ y &#61; sum&#40;x&#41;</code></pre> </div></div>
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100_000&#41;
 
 foo&#40;&#41;  &#61; sum&#40;2 .* x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  54.157 μs (4 allocations: 781.34 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  65.900 μs (4 allocations: 781.34 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100_000&#41;
 
 foo&#40;x&#41; &#61; sum&#40;a -&gt; 2 * a, x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  9.592 μs (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  6.060 μs (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The results reveal that the most efficient approach achieves a significant speedup, taking less than 15&#37; of the slowest approach&#39;s time. However, in absolute terms, the &quot;slow&quot; approach is already fast enough, taking approximately 0.00004 seconds.</p>
+<p>The results reveal that the most efficient approach achieves a significant speedup, taking less than 15&#37; of the slowest approach&#39;s time. However, in absolute terms, the &quot;slow&quot; approach is already fast enough, taking less than 0.0001 seconds.</p>
 <p>Most of our benchmarks will feature a similar pattern, where absolute times are negligible. In this context, the relevance of the conclusions hinge on the characteristics of our work. If the operation will be called once in isolation, you should prioritize readability and choose the approach most suitable in this regard. On the contrary, if the operation will be performed repeatedly, you should consider that small differences will compound and become significant. </p>
 <p>To demonstrate this point, let&#39;s call these functions in a for-loop with 100k iterations.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2793,7 +2808,7 @@ function replicate&#40;&#41;
       foo&#40;&#41;
    end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  7.569 s (400000 allocations: 74.51 GiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  22.221 s (400000 allocations: 74.51 GiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100_000&#41;
@@ -2804,12 +2819,12 @@ function replicate&#40;x&#41;
       foo&#40;x&#41;
    end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.002 s (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  650.441 ms (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The symbol <code>_</code> is a convention in programming when a &quot;throwaway&quot; variables is used for iteration. It reflects that the variable won&#39;t be referenced within the loop body, as we only seek to repeatedly calculate the same operation.</p>
-<p>The example starkly reveals the consequences of calling the function within a for-loop. The execution time of the slow version balloons to 26 seconds now, while the fast version completes its task in under one second. Overall, the example unveils the potential relevance of optimizing functions in repeated or intensive operations.</p>
+<p>The symbol <code>_</code> is a programming convention to denote &quot;throwaway&quot; variables. This is a variable included solely to satisfy the syntax of an operation, but whose value isn&#39;t actually used. In our case, it reflects that each iteration is performing the same operation for benchmark purposes.</p>
+<p>The example starkly reveals the consequences of calling the function within a for-loop. The execution time of the slow version balloons to more than 20 seconds now, while the fast version does it in under one second. Overall, the comparison unveils the relevance of optimizing functions with repeated or intensive operations, where even slight improvements can have a substantial impact on performance. </p>
 <p>      </div>
     </div>
   </div>
@@ -2832,7 +2847,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified May 29, 2024 
+          © Martin Alfaro <br>Last Modified June 5, 2024 
       </span> 
   </div> 
 </footer>
@@ -2917,12 +2932,7 @@ function goToNextPage() {
 }
 
 
-</script>
-
-
-
-
-</div><!-- CONTENT ENDS HERE -->
+</script></div><!-- CONTENT ENDS HERE -->
 
 <!-- ADDED BY FRANKLIN -->
   
@@ -3560,4 +3570,18 @@ document.addEventListener('keydown', (e) => {
     </script>
 
 
+
+
+<!-- <script>
+
+  $('a[href*="#"]').on('click', function (event) {
+    event.preventDefault();
+    var target = $(this.hash);
+    var offset = 500; // adjust this value to fit your needs
+    $('html, body').animate({
+      scrollTop: target.offset().top - offset
+    }, 500);
+  });
+
+</script> -->
 

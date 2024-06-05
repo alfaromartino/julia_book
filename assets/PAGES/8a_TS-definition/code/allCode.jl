@@ -38,7 +38,7 @@ sum(x3)             # type stable
  
 x4::BitVector       = [true, false, true]
 
-all(x4)             # type stable (`all` returns `true` if all arguments are `true`)
+sum(x4)             # type stable
  
 x5::Vector{Number}  = [1, 2, 3]
 

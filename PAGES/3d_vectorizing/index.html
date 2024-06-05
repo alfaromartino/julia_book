@@ -396,6 +396,21 @@ section a:hover{
 }
 
 
+</style>
+
+
+
+<!-- FOR OFFSETTING LINKS -->
+<style>
+ 
+  :target {
+    scroll-margin-top: 40px; 
+  }
+  
+  .own-anchors a{
+  scroll-margin-top: 4em;
+  }
+
 </style> 
  <!-- <div class="left_bar" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
@@ -844,7 +859,7 @@ color: white;
   
 
 
-    <h1><i>3e.</i> Broadcasting (Vectorization)</h1>    
+    <h1><i>3e.</i> Map and Broadcasting (Vectorization)</h1>    
     <div class="lead"> </div>
     
     
@@ -978,7 +993,7 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1022,7 +1037,7 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 100%;
+  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
@@ -1542,13 +1557,13 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES\3_overview/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Execution and Packages</a></li><br>
+                <li><a href="/julia_book/PAGES\3a_packages/"><i>b</i>. Function Calls and Packages</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3b_define_func/"><i>c</i>. Defining Your Own Functions</a></li><br>
                 
                 <li><a href="/julia_book/PAGES\3c_scope/"><i>d</i>. Variable Scope & Relevance of Functions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Broadcasting (Vectorization)</a></li><br>
+                <li><a href="/julia_book/PAGES\3d_vectorizing/"><i>e</i>. Map and Broadcasting (Vectorization)</a></li><br>
                 
               </ul>
             </li>
@@ -2544,16 +2559,17 @@ color: white;
 
  
 <div class="franklin-content">
-<section id="introduction" class="scrollspy">
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Programming languages have multiple approaches for transforming collections of objects. These methods are useful when, for instance, we aim to compute all the squared elements of <code>x&#61;&#91;2,3,4&#93;</code>.</p>
-<p>In this section, we explore one way to execute these transformations: <span style="color: rgb(62, 121, 180);"><strong>broadcasting</strong></span>, also known as <span style="color: rgb(62, 121, 180);"><strong>vectorization</strong></span>. This allows the user to element-wise apply <strong>functions</strong> and <strong>operators</strong> to iterable collections such as vectors, tuples, and ranges. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Formally, iterable collections refer to collections whose elements can be accessed sequentially.  </span></span> Unlike other methods, broadcasting makes it possible to perform these operations through a simple syntax.</p>
+<p>This section explores element-wise operations on <strong>iterable collections</strong>. These collections are defined by their ability to access elements sequentially, and include examples such as vectors, tuples, and ranges.</p>
+<p>The first approach covered is the <code>map</code> function. This is particularly convenient for transforming collections, by applying a function to each element. </p>
+<p>After this, we&#39;ll shift our focus to a fundamental technique in Julia known as <strong>broadcasting</strong>. This allows the user to apply functions and operators element-wise, while maintaining code compact. The technique is quite versatile, supporting operations on collections of equal size, but also on combinations of scalars and same-size collections. Its distinctive syntax is based on an appended dot <code>.</code> to the function/operator, making it easily recognizable.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     The terms <strong>broadcasting</strong> and <strong>vectorization</strong> will be used interchangeably on this website. Strictly speaking, vectorization is restricted to applications with arrays of the same size, while broadcasting is an extension allowing for scalars.  </div>  </div>
+      <b> Remark</b> </span>  </div>  <div class=content>     On this website, the terms <strong>broadcasting</strong> and <strong>vectorization</strong> will be used interchangeably. Strictly speaking, vectorization is restricted to applications with arrays of the same size, while broadcasting is an extension allowing for scalars.  </div>  </div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content>     Later on the website, we&#39;ll explore <strong>for-loops</strong> as an alternative approach to transforming arrays. Several languages strongly recommend vectorizing operations to improve speed, highly discouraging for-loops. <br/><strong>Such advice does not apply to Julia</strong>. In fact, when it comes to optimizing code in Julia, for-loops are often the key to achieving faster performance. In this context, the main advantage of vectorization in Julia is to streamline code without sacrificing much speed.  </div>  </div>
@@ -2561,13 +2577,13 @@ color: white;
     </div>
   </div>
 </section>
-<section id="the_map_function" class="scrollspy section-bg-color">
+<section id="the_map_function" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>The "Map" Function</h2></p>
-<p>To motivate broadcasting, let&#39;s begin by consider the most basic approach to computing operations element-wise. This is given by the function <code>map</code>. </p>
-<p>Given a single-argument function <code>foo</code> and a vector <code>x</code>, its syntax is <code>map&#40;foo, x&#41;</code> and provides as result <code>&#91;foo&#40;x&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;&#41;...&#93;</code>. The function <code>map</code> is commonly employed with a function <code>foo</code> that is anonymous, as shown below. </p>
+<p><code>map</code> is a tool available in many programming languages, allowing the user to perform element-wise operations on collections. There are two ways to use <code>map</code>, depending on the number of input vectors.</p>
+<p>In its simplest form, <code>map</code> takes a single-argument function <code>foo</code> and a collection <code>x</code>. Its syntax is <code>map&#40;foo,x&#41;</code>, and returns a new collection with  <em>i</em>-th element <code>foo&#40;x&#91;i&#93;&#41;</code>. As shown below, <code>map</code> is commonly used with an anonymous function playing the role of <code>foo</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2582,11 +2598,11 @@ z &#61; map&#40;log,x&#41;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">3-element Vector{Float64}:
  0.0
- 0.6931471805599453
- 1.0986122886681098</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;log&#40;x&#91;1&#93;&#41;, log&#40;x&#91;2&#93;&#41;, log&#40;x&#91;3&#93;&#41;&#93;</code><br/><div class="akin_to_pre">3-element Vector{Float64}:
+ 0.69315
+ 1.09861</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;log&#40;x&#91;1&#93;&#41;, log&#40;x&#91;2&#93;&#41;, log&#40;x&#91;3&#93;&#41;&#93;</code><br/><div class="akin_to_pre">3-element Vector{Float64}:
  0.0
- 0.6931471805599453
- 1.0986122886681098</div> </div></div> </div> 
+ 0.69315
+ 1.09861</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;1, 2, 3&#93;
@@ -2603,13 +2619,15 @@ z &#61; map&#40;a -&gt; 2 * a, x&#41;</code></pre>
  6</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p><code>map</code> also allows functions <code>foo</code> with multiple arguments. When, <code>x</code> and <code>y</code> have the same size, <code>map&#40;foo, x, y&#41;</code> returns <code>&#91;foo&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;,y&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;,y&#91;3&#93;&#41;...&#93;</code>. Instead, when <code>x</code> and <code>y</code> have different sizes, <code>foo</code> is applied element-wise until one of the vectors is exhausted. This rule applies in particular when either <code>x</code> or <code>y</code> is a scalar. </p>
+<p>The second way to use <code>map</code> is with functions that take multiple arguments. Its syntax is <code>map&#40;foo, x, y&#41;</code> for a two-argument function <code>foo</code>, returning a new collection with  <em>i</em>-th element <code>foo&#40;x&#91;i&#93;, y&#91;i&#93;&#41;</code>. When the collections <code>x</code> and <code>y</code> have different sizes, <code>foo</code> <strong>is applied element-wise until the shortest vector is exhausted</strong>. Note that this rule applies even when either <code>x</code> or <code>y</code> is a scalar, in which case <code>map</code> returns a single element.</p>
+<p>Below, we apply <code>map</code> to <code>&#43;</code>. Recall that <code>&#43;</code> can be used as a function, such as <code>&#43;&#40;2,3&#41;</code> returning <code>6</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Vector of Same Size </button>
+    <button class="tablink" data-id=""> Anonymous function (Equivalent) </button>
     <button class="tablink" data-id=""> Vectors of Different Size </button>
-    <button class="tablink" data-id=""> A Vector and a Scalar </button>
+    <button class="tablink" data-id=""> A Vector and a Scalar </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91; 1, 2, 3&#93;
@@ -2620,7 +2638,23 @@ z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; exists as 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  0
  0
- 0</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;&#43;&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, &#43;&#40;x&#91;2&#93;,y&#91;2&#93;&#41;, &#43;&#40;x&#91;3&#93;,y&#91;3&#93;&#41;&#93;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 0</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;&#43;&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, &#43;&#40;x&#91;2&#93;,y&#91;2&#93;&#41;, &#43;&#40;x&#91;3&#93;,y&#91;3&#93;&#41;&#93;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 0
+ 0
+ 0</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91; 1, 2, 3&#93;
+y &#61; &#91;-1,-2,-3&#93;
+
+z &#61; map&#40;&#40;a,b&#41; -&gt; a&#43;b, x, y&#41;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 0
+ 0
+ 0</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;x&#91;1&#93;&#43;y&#91;1&#93;, x&#91;2&#93;&#43;y&#91;2&#93;, x&#91;3&#93;&#43;y&#91;3&#93;&#93;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  0
  0
  0</div> </div></div> </div> 
@@ -2633,7 +2667,8 @@ z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  0
- 0</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;&#43;&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, &#43;&#40;x&#91;2&#93;,y&#91;2&#93;&#41;&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 0</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;&#43;&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, &#43;&#40;x&#91;2&#93;,y&#91;2&#93;&#41;&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  0
  0</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
@@ -2644,12 +2679,23 @@ y &#61;  -1
 z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an operator and a function</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">1-element Vector{Int64}:
- 0</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;&#43;&#40;x&#91;1&#93;,y&#91;1&#93;&#41;&#93;</code><br/><div class="akin_to_pre">1-element Vector{Int64}:
+ 0</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;&#43;&#40;x&#91;1&#93;,y&#91;1&#93;&#41;&#93;</code><br/><div class="akin_to_pre">1-element Vector{Int64}:
  0</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>From the examples, we can guess that <code>map</code> can become overly verbose if we need to perform multiple operations. This is when broadcasting becomes helpful, by offering a simpler syntax for performing element-wise operations.</p>
-<p>Below, we delve into the concept of broadcasting progressively. To begin, we explore broadcasting of functions and operators, addressing each separately. The presentation at this stage focuses exclusively on vectors of equal size. After this, we show that, although broadcasting doesn&#39;t always allow for vectors of different sizes, it does accept operations that combine scalars and vectors. In such cases, the scalar is treated as a vector with the same size as the other vectors, with the scalar value repeated.</p>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="broadcasting" class="scrollspy section-bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Broadcasting</h2></p>
+<p>The function <code>map</code> can quickly become cumbersome when dealing with complex functions or multiple arguments. This is where broadcasting comes into play, offering a more efficient syntax for element-wise operations.</p>
+<p>The concept of broadcasting will be explored in a step-by-step manner. First, we&#39;ll cover broadcasting of functions and operators separately, exclusively focusing on vectors of equal size. After this, we&#39;ll demonstrate how broadcasting can also accommodate combinations of scalars and vectors, despite not supporting vectors of different sizes in general. In these cases, the scalar is treated as a vector that matches the size of the vectors.</p>
+<p>Unlike other programming languages, <strong>broadcasting is an intrinsic feature of Julia</strong>, thereby applying to  <em>any</em> function or operator. For the case of functions, this entails that broadcasting even applies to user-defined functions. </p>
 <p>      </div>
     </div>
   </div>
@@ -2659,8 +2705,10 @@ z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Functions</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Function broadcasting</strong></span> plays a similar role as <code>map</code>, allowing the user to apply a function element-wise. The operation requires appending a dot <strong> <em>after</em></strong> the name of the function. For example, <code>log.&#40;x&#41;</code> applies <code>log</code> to each element of a vector <code>x</code>. </p>
-<p>Remarkably, <strong>any function</strong> <code>f</code> <strong>has a vectorized version</strong> <code>f.</code>, regardless of whether function is defined by the user or a third party.</p>
+<p>Broadcasting allows functions to be applied element-wise, significantly expanding their range of applications. The feature is implemented by simply appending a dot <strong> <em>after</em></strong> the name of the function, as in <code>foo.&#40;x&#41;</code>. </p>
+<p>Remarkably, <strong>any function</strong> <code>foo</code> <strong>has a broadcasting counterpart</strong> <code>foo.</code>. This implies that the functionality is automatically available for all user-defined functions. Additionally, it clearly reveals that broadcasting isn&#39;t restricted to numeric collections, applying to any iterable collection regardless of its elements. For instance, we&#39;ll show below that it can be used for strings.</p>
+<p>Similarly to <code>map</code>, broadcasting can be applied to both single- and multiple-argument functions. Each case warrants separate consideration. </p>
+<p>In the case of single-argument functions, broadcasting <code>foo</code> over a collection <code>x</code> returns a new collection with  <em>i</em>-th element <code>foo&#40;x&#91;i&#93;&#41;</code>. The following examples demonstrate its usage.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2674,11 +2722,11 @@ x &#61; &#91;1,2,3&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>log.&#40;x&#41;</code><br/><div class="akin_to_pre">3-element Vector{Float64}:
  0.0
- 0.6931471805599453
- 1.0986122886681098</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;log&#40;x&#91;1&#93;&#41;, log&#40;x&#91;2&#93;&#41;, log&#40;x&#91;3&#93;&#41;&#93;</code>     # identical to <code>log.&#40;x&#41;</code><br/><div class="akin_to_pre">3-element Vector{Float64}:
+ 0.69315
+ 1.09861</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;log&#40;x&#91;1&#93;&#41;, log&#40;x&#91;2&#93;&#41;, log&#40;x&#91;3&#93;&#41;&#93;</code>     # identical to <code>log.&#40;x&#41;</code><br/><div class="akin_to_pre">3-element Vector{Float64}:
  0.0
- 0.6931471805599453
- 1.0986122886681098</div> </div></div> </div> 
+ 0.69315
+ 1.09861</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">square&#40;a&#41; &#61; a^2     #user-defined function for a single element &#39;a&#39;
@@ -2694,8 +2742,9 @@ x &#61; &#91;1,2,3&#93;</code></pre>
  9</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Broadcasting isn&#39;t restricted only to functions with single arguments—it&#39;s possible to broadcast a function with multiple arguments. This means that, given vectors <code>x</code> and <code>y</code>, <code>f.&#40;x,y&#41;</code> applies <code>f</code> element-wise for each pair of elements from <code>&#40;x,y&#41;</code>. Formally, <code>f.&#40;x,y&#41;</code> computes <code>f&#40;x&#91;i&#93;,y&#91;i&#93;&#41;</code> for every possible index <code>i</code>, which is equivalent to <code>&#91;f&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, f&#40;x&#91;2&#93;,y&#91;2&#93;&#41;, ...&#93;</code>.</p>
-<p>To illustrate this usage, we refer to the function <code>max</code>, which returns the maximum of two numbers &#40;e.g., <code>max&#40;1,2&#41;</code> returns <code>2</code>&#41;.</p>
+<p>As for multiple-argument functions, suppose a function <code>foo</code> and collections <code>x</code> and <code>y</code>. Then, <code>foo.&#40;x,y&#41;</code> returns a new collection with  <em>i</em>-th element <code>foo&#40;x&#91;i&#93;,y&#91;i&#93;&#41;</code>. </p>
+<p>Importantly, <strong>collections with different sizes aren't allowed</strong>, establishing a clear contrast between broadcasting and <code>map</code>. We&#39;ll see later that the sole exception to this rule is when one of the objects is a scalar &#40;or a single-element collection&#41;.</p>
+<p>To illustrate the usage, we make use of the function <code>max</code>, which returns the maximum of its arguments &#40;e.g., <code>max&#40;1,2&#41;</code> returns <code>2</code>&#41;.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2711,7 +2760,8 @@ y &#61; &#91;2, 0, 8&#93;</code></pre>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>max.&#40;x,y&#41;</code><br/><div class="akin_to_pre">3-element Vector{Float64}:
  2
  4
- 8</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;max&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, max&#40;x&#91;2&#93;&#41;,y&#91;2&#93;&#41;, max&#40;x&#91;3&#93;&#41;,y&#91;3&#93;&#41;&#93;</code>     # identical to <code>max.&#40;x,y&#41;</code><br/><div class="akin_to_pre">3-element Vector{Float64}:
+ 8</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;max&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, max&#40;x&#91;2&#93;&#41;,y&#91;2&#93;&#41;, max&#40;x&#91;3&#93;&#41;,y&#91;3&#93;&#41;&#93;</code>     # identical to <code>max.&#40;x,y&#41;</code><br/><div class="akin_to_pre">3-element Vector{Float64}:
  2
  4
  8</div> </div></div> </div> 
@@ -2725,7 +2775,8 @@ y &#61; &#91; 2,  4,  10&#93;</code></pre>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo.&#40;x&#41;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  0
  0
- 0</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;foo&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;&#41;,y&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;&#41;,y&#91;3&#93;&#41;&#93;</code>     # identical to <code>foo.&#40;x,y&#41;</code><br/><div class="akin_to_pre">3-element Vector{Float64}:
+ 0</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>&#91;foo&#40;x&#91;1&#93;,y&#91;1&#93;&#41;, foo&#40;x&#91;2&#93;&#41;,y&#91;2&#93;&#41;, foo&#40;x&#91;3&#93;&#41;,y&#91;3&#93;&#41;&#93;</code>     # identical to <code>foo.&#40;x,y&#41;</code><br/><div class="akin_to_pre">3-element Vector{Float64}:
  0
  0
  0</div> </div></div> </div> 
@@ -2733,7 +2784,7 @@ y &#61; &#91; 2,  4,  10&#93;</code></pre>
 <p>  </p></details></div>
 <p><a id="examp1" class="anchor"></a> <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     Broadcasting can be applied to functions with arguments of any type, not just numbers. For instance, consider the function <code>string</code>, which concatenates string arguments to form a sentence &#40;e.g., <code>string&#40;&quot;Hello &quot;,&quot;World&quot;&#41;</code> returns <code>&quot;Hello World&quot;</code>&#41;. </p>
+      <b> Remark</b> </span>  </div>  <div class=content>     Broadcasting can be applied to functions with arguments of any type, not just numbers. For instance, consider the function <code>string</code>, which concatenates string arguments to form a sentence &#40;e.g., <code>string&#40;&quot;hello &quot;,&quot;world&quot;&#41;</code> returns <code>&quot;hello world&quot;</code>&#41;. </p>
 <p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">country       &#61;  &#91;&quot;France&quot;, &quot;Canada&quot;&#93;
 is_in         &#61;  &#91;&quot; is in &quot;  , &quot; is in &quot;&#93;
@@ -2751,7 +2802,7 @@ region        &#61;  &#91;&quot;Europe&quot;, &quot;North America&quot;&#93;</co
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Operators</h2></p>
 <p>It&#39;s also possible to <span style="color: rgb(62, 121, 180);"><strong>broadcast operators</strong></span>, making the operator apply element-wise. Its use requires prepending a dot <strong> <em>before</em></strong> the operator. </p>
-<p>In this respect, it&#39;s helpful to recall the classification of operators based on the number of operands, along with their corresponding syntax. Specifically, the syntax of  <em>unary operators</em> is <code>&lt;symbol&gt;x</code>, so that <code>.√x</code> broadcasts <code>√</code>. Likewise, the syntax for  <em>binary operators</em> is <code>x &lt;symbol&gt; y</code>, such that <code>x .&#43; y</code> computes the element-wise sum of vectors <code>x</code> and <code>y</code>, resulting in <code>&#91;x&#91;1&#93;&#43;y&#91;1&#93;, x&#91;2&#93;&#43;y&#91;2&#93;, ...&#93;</code>. </p>
+<p>For its application, it&#39;s helpful to recall the syntax of operators based on the number of operands. Specifically, the syntax of  <em>unary operators</em> is <code>&lt;symbol&gt;x</code>, so that <code>.√x</code> broadcasts <code>√</code>. Likewise, the syntax for  <em>binary operators</em> is <code>x &lt;symbol&gt; y</code>, such that <code>x .&#43; y</code> computes the element-wise sum of vectors <code>x</code> and <code>y</code>, resulting in <code>&#91;x&#91;1&#93;&#43;y&#91;1&#93;, x&#91;2&#93;&#43;y&#91;2&#93;, ...&#93;</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2772,8 +2823,8 @@ y &#61; &#91;-1, -2, -3&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>.√x</code><br/><div class="akin_to_pre">3-element Vector{Float64}: 
  1.0
- 1.4142135623730951
- 1.7320508075688772</div> </div></div> </div> 
+ 1.41421
+ 1.73205</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -2785,9 +2836,8 @@ y &#61; &#91;-1, -2, -3&#93;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Operators With Single-Element Objects</h2></p>
-<p>In all the cases we&#39;ve covered, broadcasting required arguments of the same size. On the contrary, broadcasting <code>f&#40;x,y&#41;</code> over <code>x &#61; &#91;1,2&#93;</code> and <code>y&#61;&#91;3,4,5&#93;</code> is unfeasible. The explanation is that broadcasting has to be able to take pairs of values, which is not possible when the vectors have different sizes.</p>
-<p>However, there&#39;s one exception to this, which occurs when we broadcast functions/operations to:  <em>i)</em> vectors with more than one element having an equal size, and  <em>ii)</em> scalars. In these cases, scalars are treated as single-element objects having the same size as the vectors, with all entries equal to the scalar.</p>
-<p>For example, given <code>x &#61; &#91;1,2,3&#93;</code>, the expression <code>x .&#43; 2</code> produces the same result as defining <code>y&#61;&#91;2,2,2&#93;</code> and then executing <code>x .&#43; y</code>. We illustrate this below.</p>
+<p>In all the cases covered, broadcasting was based on arguments of the same size. Instead, when it comes to collections of dissimilar size, such as <code>x &#61; &#91;1,2&#93;</code> and <code>y&#61;&#91;3,4,5&#93;</code>, broadcasting becomes unfeasible.</p>
+<p>One exception to this rule occurs when functions/operations are broadcasted over vectors of equal size and scalars. In these cases, scalars are treated as objects having the same size as the vectors, with all entries equal to the scalar number. For example, given <code>x &#61; &#91;1,2,3&#93;</code> and <code>y &#61; 2</code>, the expression <code>x .&#43; y</code> produces the same result as defining <code>y &#61; &#91;2,2,2&#93;</code> and then executing <code>x .&#43; y</code>. This is demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2815,15 +2865,14 @@ y &#61; &#91;5, 5, 5&#93;</code></pre>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     The following code snippet demonstrates how we can use this property to rewrite the <a href="#examp1">example</a> presented above.</p>
- <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
+      <b> Remark</b> </span>  </div>  <div class=content>     We emphasize that the broadcasting mechanism is valid for any iterable collection. Thus, the <a href="#examp1">example</a> for strings presented above, can be rewritten as follows.</p>
+<p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">country       &#61;  &#91;&quot;France&quot;, &quot;Canada&quot;&#93;
 is_in         &#61;  &quot; is in &quot;
 region        &#61;  &#91;&quot;Europe&quot;, &quot;North America&quot;&#93;</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>string.&#40;country, is_in, region&#41;</code><br/><div class="akin_to_pre">2-element Vector{String}:
  "France is in Europe"
- "Canada is in North America"</div> </div></div> </div>   </details></div>
-<p>The operation executed repeatedly reused the single element <code>is_in</code> in each iteration.  </div>  </div>
+ "Canada is in North America"</div> </div></div> </div>   </details></div>  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2833,7 +2882,8 @@ region        &#61;  &#91;&quot;Europe&quot;, &quot;North America&quot;&#93;</co
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Iterable Objects</h2></p>
-<p>All the examples so far were broadcasting vectors. However, the operation can be applied to any iterable object, including tuples and ranges. The following examples demonstrate this.</p>
+<p>So far, our examples have focused on broadcasting vectors. Furthermore, we&#39;ve explored broadcasting by treating functions and operators separately. Next, we apply broadcasting to other elements and combined operations. </p>
+<p>We first show that broadcasting can be applied to any iterable object. This includes tuples and ranges, as the following examples demonstrate.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2844,12 +2894,12 @@ region        &#61;  &#91;&quot;Europe&quot;, &quot;North America&quot;&#93;</co
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#40;1, 2, 3&#41;    # or simply x &#61; 1, 2, 3</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>log.&#40;x&#41;</code><br/><div class="akin_to_pre">(0.0, 0.6931471805599453, 1.0986122886681098)</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x .&#43; x</code><br/><div class="akin_to_pre">(2, 4, 6)</div> </div><br/></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>log.&#40;x&#41;</code><br/><div class="akin_to_pre">(0.0, 0.69315, 1.09861)</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x .&#43; x</code><br/><div class="akin_to_pre">(2, 4, 6)</div> </div><br/></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; 1:3</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>log.&#40;x&#41;</code><br/><div class="akin_to_pre">(0.0, 0.6931471805599453, 1.0986122886681098)</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x .&#43; x</code><br/><div class="akin_to_pre">(2, 4, 6)</div> </div><br/></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>log.&#40;x&#41;</code><br/><div class="akin_to_pre">(0.0, 0.69315, 1.09861)</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x .&#43; x</code><br/><div class="akin_to_pre">(2, 4, 6)</div> </div><br/></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#40;1, 2, 3&#41;    # or simply x &#61; 1, 2, 3
@@ -2858,27 +2908,65 @@ y &#61; 1:3</code></pre>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x .&#43; y</code><br/><div class="akin_to_pre">(2, 4, 6)</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>      </div>
-    </div>
-  </div>
-</section>
-<section id="broadcasting_functions_and_operators_simultaneously" class="scrollspy">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg- mx-auto">
-        <h2>Broadcasting Functions and Operators Simultaneously</h2></p>
-<p>It&#39;s possible to broadcast operations that combine operators and functions. The following code snippet demonstrates this, by computing the element-wise sum of two vectors and then taking logs of each resulting element.</p>
- <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
+<p>It&#39;s also possible to simultaneously broadcast operators and functions. Given the pervasiveness of such operations, Julia provides the <a href="/julia_book/PAGES/3a_packages/#macros">macro</a> <code>@.</code> for an effortless application. The macro should be added at the beginning of the statement, and has the effect of automatically adding a &quot;dot&quot; to each operator and function found in a statement. </p>
+<p>To demonstrate its use, suppose we seek to add two vectors element-wise, and then transform the resulting elements by squaring each.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Broadcast </button>    
+    <button class="tablink" data-id=""> Macro @. </button>
+    <button class="tablink" data-id=""> Operation Implemented </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;1, 0, 2&#93;
 y &#61; &#91;1, 2, 0&#93;
 
 square&#40;x&#41; &#61; x^2</code></pre>
-<p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>square.&#40;x .&#43; y&#41;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>square.&#40;x .&#43; y&#41;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  4
  4
- 4</div> </div></div> </div>   </details></div>
- <h4> Implications for Function Definitions </h4>
-<p>In scenarios where we seek to simultaneously broadcast operators and functions, there are two approaches we can follow. First, we could define a function that operates on single elements, and eventually broadcast. Alternatively, we could directly define the vectorized function. To demonstrate both approaches, suppose a vector <code>x</code> and that our aim is to get the squared elements of <code>x</code>.</p>
+ 4</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91;1, 0, 2&#93;
+y &#61; &#91;1, 2, 0&#93;
+
+square&#40;x&#41; &#61; x^2</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@. square&#40;x &#43; y&#41;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 4
+ 4
+ 4</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91;1, 0, 2&#93;
+y &#61; &#91;1, 2, 0&#93;
+
+temp &#61; x .&#43; y
+z    &#61; temp .^ 2</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>temp</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 2
+ 2
+ 2</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 4
+ 4
+ 4</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="broadcasting_functions_vs_broadcasting_operators" class="scrollspy">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Broadcasting Functions vs Broadcasting Operators</h2></p>
+<p>We&#39;ve demonstrated that both functions and operators can be broadcasted. This permits us to implement operations in two distinct ways: either broadcast a function that operates on a single element or define a function that directly performs the broadcasted operation.</p>
+<p>By computing the squared elements of a vector <code>x</code>, the examples below demonstrate both approaches.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2886,9 +2974,9 @@ square&#40;x&#41; &#61; x^2</code></pre>
     <button class="tablink" data-id=""> Functions with Vector Arguments </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">number_squared&#40;a&#41; &#61; a^2         # function for a single element &#39;a&#39;
+<pre><code class="language-julia">x                 &#61; &#91;1, 2, 3&#93;
 
-x &#61; &#91;1, 2, 3&#93;</code></pre>
+number_squared&#40;a&#41; &#61; a ^ 2         # function for a single element &#39;a&#39;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>number_squared.&#40;x&#41;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  1
@@ -2896,9 +2984,9 @@ x &#61; &#91;1, 2, 3&#93;</code></pre>
  9</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">vector_squared&#40;x&#41; &#61; x.^2         # function for a vector &#39;x&#39;
+<pre><code class="language-julia">x                 &#61; &#91;1, 2, 3&#93;
 
-x &#61; &#91;1, 2, 3&#93;</code></pre>
+vector_squared&#40;x&#41; &#61; x .^ 2         # function for a vector &#39;x&#39;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>vector_squared&#40;x&#41;</code> # &#39;.&#39; not needed &#40;it&#39;d be redundant&#41;<br/><div class="akin_to_pre">3-element Vector{Int64}:
  1
@@ -2906,7 +2994,7 @@ x &#61; &#91;1, 2, 3&#93;</code></pre>
  9</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Between these two alternatives, <strong>defining a function that operates on a single element is a better choice</strong>. This is due to several reasons. First, the approach allows the user to perform computations for both scalars and collections. Second, it keeps the code more modular, as it separates the operation and its element-wise application. Finally, the computation <code>number_square.&#40;x&#41;</code> makes it clear that it&#39;s an element-wise operation, which otherwise would be hidden.</p>
+<p>While both approaches yield the same output, <strong>defining a function that operates on a single element is the more advisable choice</strong>. This is due to several reasons. Firstly, <code>number_squared&#40;a&#41;</code> enables users to seamlessly perform computations on both scalar values and collections, simply by choosing between executing the function or its broadcasted version. Secondly, it decouples the specific operation from whether its application should be element-wise or not. Lastly, the notation <code>number_square.&#40;x&#41;</code> explicitly conveys that the operation is element-wise, an aspect that would remain hidden in <code>vector_squared&#40;x&#41;</code>.</p>
 <p>      </div>
     </div>
   </div>
@@ -3019,7 +3107,7 @@ list &#61; &#91;1, 2, 3&#93;</code></pre>
       <div class="col-lg- mx-auto">
         <h2>Currying and Fixing Arguments (<strong><i>OPTIONAL</i></strong>)</h2></p>
 <p><span style="color: rgb(62, 121, 180);"><strong>Currying</strong></span> is a technique that transforms the evaluation of a function with multiple arguments, turning it into the evaluation of a sequence of functions, each with a single argument. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The name comes from the mathematician Haskell Curry, not the spice.  </span></span> For instance, the curried version of <code>f&#40;x,y&#41;</code> provides an identical result and is written <code>f&#40;x&#41;&#40;y&#41;</code>.</p>
-<p>Our interest in currying lies in its ability to simplify broadcasting: it enables treating an argument as a single object, without the need to use vectors/tuples or <code>Ref</code>. The technique could seem confusing for new users. In particular, it requires a good understanding of functions as first-class objects, which allows functions to be treated as variables themselves. My primary goal is that you can at least recognize the syntax of currying, and thus be able to read code that applies it.</p>
+<p>Our interest in currying lies in its ability to simplify broadcasting: it enables the treatment of an argument as a single object, without the need to use vectors/tuples or <code>Ref</code>. The technique could seem confusing for new users. In particular, it requires a good understanding of functions as first-class objects, entailing that functions can be treated as variables themselves. My primary goal is that you can at least recognize the syntax of currying, and thus be able to read code that applies the technique.</p>
 <p>We start by illustrating how currying can be applied in general.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3153,7 +3241,7 @@ list &#61; &#91;1, 2, 3&#93;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified May 29, 2024 
+          © Martin Alfaro <br>Last Modified June 5, 2024 
       </span> 
   </div> 
 </footer>
@@ -3238,12 +3326,7 @@ function goToNextPage() {
 }
 
 
-</script>
-
-
-
-
-</div><!-- CONTENT ENDS HERE -->
+</script></div><!-- CONTENT ENDS HERE -->
 
 <!-- ADDED BY FRANKLIN -->
   
@@ -3643,7 +3726,7 @@ for multiple pics in a row
     <button class="nav-toggle" aria-label="Toggle navigation">
       <!-- <span class="nav-toggle-icon"></span> -->
         <img src="/julia_book/assets/icons/dropdown.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:2px;margin-left:0px;">
-      <span class="nav-title"><i>3e.</i> Broadcasting (Vectorization)</span>
+      <span class="nav-title"><i>3e.</i> Map and Broadcasting (Vectorization)</span>
     </button>
     <div class="nav-menu">
       <ul>
@@ -3654,6 +3737,10 @@ for multiple pics in a row
         
         <li>
           <a href="#the_map_function" data-offset="-40">The "Map" Function</a>
+        </li>
+        
+        <li>
+          <a href="#broadcasting" data-offset="-40">Broadcasting</a>
         </li>
         
         <li>
@@ -3673,7 +3760,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#broadcasting_functions_and_operators_simultaneously" data-offset="-40">Broadcasting Functions and Operators Simultaneously</a>
+          <a href="#broadcasting_functions_vs_broadcasting_operators" data-offset="-40">Broadcasting Functions vs Broadcasting Operators</a>
         </li>
         
         <li>
@@ -3885,4 +3972,18 @@ document.addEventListener('keydown', (e) => {
     </script>
 
 
+
+
+<!-- <script>
+
+  $('a[href*="#"]').on('click', function (event) {
+    event.preventDefault();
+    var target = $(this.hash);
+    var offset = 500; // adjust this value to fit your needs
+    $('html, body').animate({
+      scrollTop: target.offset().top - offset
+    }, 500);
+  });
+
+</script> -->
 
