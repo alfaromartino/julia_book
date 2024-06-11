@@ -115,7 +115,8 @@ header .jumbotron {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">    
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    
  
 
  
@@ -912,7 +913,7 @@ color: white;
        
     /* FOR INLINE CODE, WRITTEN WITHIN THE TEXT*/
   code {  
-    background-color: rgb(209, 217, 224);         /*rgb(199, 223, 236);*/
+    background-color: rgb(209, 217, 224);              /*rgb(199, 223, 236);*/
     color           : black;
     text-indent     : 0%;
     padding-top     : 0.1em;
@@ -921,13 +922,13 @@ color: white;
     padding-right   : 0.3em;
     vertical-align  : 0.05em;
     border          : 1px solid rgb(0, 16, 41);
-    overflow: hidden;
+    overflow        : hidden;
   }
 
   .julia_repl_NoFormat code, .mixed_output_NoFormat code {  
     background-color: rgb(82, 120, 104);         /*rgb(199, 223, 236);*/
     color           : #DCDCDC;
-    border          : 1px solid rgb(82, 120, 104);    
+    border          : 1px solid rgb(82, 120, 104);        
   }
 
 
@@ -945,7 +946,7 @@ color: white;
     font-size     : 12px;
     text-transform: lowercase;
     font-weight   : 500;
-    padding       : 0px 10px 2px;
+    padding       : 2px 10px 2px;
       /* background-color:   #3f6b4b; */
     background-color: rgb(63,99,136);
     position        : absolute;
@@ -969,20 +970,43 @@ color: white;
   
 
 
-
 /* ================================================================= 
                       BASIC FORMAT FOR OUTPUTS
   ================================================================= */ 
-  /* to not collapse with the copy button and `pre` */
+/* format of `julia>` */
+
+      .julia_line{
+        color      : rgb(32, 198, 121) !important;
+        font-weight: bold;
+        display    : inline;
+        font-size  : 100%;
+      }
+
+/* to fix disproportionate size in outputs */
+      .julia_repl_NoFormat {
+        font-size    : 90%;
+      }
+
+      .julia_repl_NoFormat .julia_line, .julia_repl_NoFormat code{
+        font-size:100%
+      }
+
+      .mixed_output_NoFormat{ font-size    : 90%;}
+
+      .mixed_output_NoFormat pre, .mixed_output_NoFormat .julia_line, .mixed_output_NoFormat code {
+        font-size:100%
+      }
+
+
+/* to not collapse with the copy button and `pre` */
 .akin_to_pre {
   white-space: pre-wrap;
-  font-family: "Consolas";
+  font-family: "Consolas", monospace;  
 }
 
   /* NoFormat for julia repl - no margins or paddings, just colors, fonts, etc */
 .julia_repl_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -993,16 +1017,16 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 
+
+
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
-    font-family     : "Consolas";    
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;    
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -1024,9 +1048,10 @@ color: white;
 
 /* NoFormat for Mixed */
 
+
+
 .mixed_output_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -1037,13 +1062,11 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 .mixed_output_NoFormat pre code{
-  font-size       : 90%;
   margin          : 0 !important;
   padding         : 0 !important;
   border          : none;
@@ -1055,7 +1078,7 @@ color: white;
 /* Inline for julia_repl and franklin_output - adding margins and paddings  */
 .mixed_output_inline{
     color           : #DCDCDC;
-    font-family     : "Consolas";    
+    font-family     : "Consolas", monospace;    
     background-color: rgb(1, 59,31);
 
     padding-left  : 1em;
@@ -1063,7 +1086,7 @@ color: white;
     padding-bottom: 1em;
     
     margin-top   : 0;
-    margin-bottom: 0;
+    margin-bottom: 0;    
   }
 
   
@@ -1119,7 +1142,6 @@ color: white;
 
 .code_NoFormat{    
     line-height     : 1.45;
-    font-size       : 95%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(0, 16, 41);
@@ -1131,8 +1153,9 @@ color: white;
     background-color: rgb(0, 16, 41);
 }
 
+
 .code_NoFormat pre code{          
-    font-family     : "Cascadia Mono";       /* Fira Mono */
+    font-family     : "Cascadia Mono", monospace ;       /* Fira Mono */
     margin          : 0 !important;
     padding         : 0 !important;
     border          : none;
@@ -1164,8 +1187,9 @@ color: white;
 
 .code_box{
   margin : 0;
-  padding: 0;
+  padding: 0;  
 }
+
 .code_box details > summary{  
   width           : max-content;  max-width : 90%;
   padding-left    : 10px;
@@ -1245,7 +1269,7 @@ color: white;
 
 .tab_wrapper{
   width  : 100%;
-  display: inline-block;  
+  display: inline-block;    
   }
 
 
@@ -1463,8 +1487,7 @@ margin-top: 0px;
 
 
 
-
-  </style>  
+</style>  
     
   
 
@@ -2549,27 +2572,23 @@ color: white;
 </style>
 
 
-
-
-
 <!-- {{ispage list_posts links}}  
   {{insert /index_page/lists_header.html}}  
   {{insert /index_page/lists_FORMAT.html}}  
 {{end}} -->
 
- 
 <div class="franklin-content">
 <section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>A key feature of programming is its ability to automate repetitive tasks. One way to implement this is through <span style="color: rgb(62, 121, 180);"><strong>for-loops</strong></span>, which run the same code block on each element of a list.</p>
+<p>A key feature of programming is its ability to automate repetitive tasks. Ac common way to implement this is via <span style="color: rgb(62, 121, 180);"><strong>for-loops</strong></span>, which run the same code block on each element of a list.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Always Wrap For-Loops in Functions</strong>  </span>  </div>  <div class=content>     At this stage of the website where we&#39;re still introducing fundamental concepts, subjects are presented as simple as possible. This is why for-loops in particular are written in the global scope to simplify the presentation. </p>
 <p>However, <strong>you should always wrap for-loops in functions</strong>. Executing for-loops outside a function severely degrade performance and are subject to different rules regarding variable scoping. In fact, older versions of Julia weren&#39;t restricting for-loops in the global scope.  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>About High Performance</strong>  </span>  </div>  <div class=content>     In certain languages &#40;e.g., Matlab, Python, and R&#41;, for-loops can negatively impact performance. These languages recommend instead using vectorized code, which is a technique operating over the whole vector rather than its individual elements. Such a recommendation has no bearing on Julia, where <strong>for-loops are as fast as vectorized code</strong>. In fact, speeding up operations in Julia commonly rely on for-loops, making it crucial to achieve high-performance.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>About High Performance</strong>  </span>  </div>  <div class=content>     For-loops can negatively impact performance in certain languages &#40;e.g., Matlab, Python, and R&#41;. These languages recommend instead using vectorized code, which operates over the whole vector rather than its individual elements. Such a recommendation has no bearing on Julia, where <strong>for-loops are as fast as vectorized code</strong>. In fact, speeding up operations in Julia commonly rely on for-loops, making it crucial to achieve high-performance.  </div>  </div>
 <p>To illustrate the syntax of for-loops, consider the function <code>println&#40;a&#41;</code>. This evaluates <code>a</code> and displays its output in the REPL. In case <code>a</code> has type <code>String</code>, <code>println&#40;a&#41;</code> simply displays the word stored in <code>a</code>. The syntax of for-loops requires the keyword <code>for</code> at the beginning and the keyword <code>end</code> at the end, as shown below. </p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">for x in &#91;&quot;hello&quot;,&quot;beautiful&quot;,&quot;world&quot;&#93;
@@ -2580,7 +2599,7 @@ end</code></pre>
 "world"</div></div></div> </div>   </details></div>
 <p>There are three components that characterize a for-loop:</p>
 <div class="itemNoSpace"><ul>
-<li><p><strong>A code block to be executed</strong>: represented by <code>println&#40;x&#41;</code> in the example.</p>
+<li><p><strong>A code block to be executed</strong>: represented in the example by <code>println&#40;x&#41;</code>.</p>
 </li>
 </ul>
 <ul>
@@ -2588,7 +2607,7 @@ end</code></pre>
 </li>
 </ul>
 <ul>
-<li><p><strong>An iteration variable</strong>: this corresponds to <code>x</code> in the example. It serves as a label that references each element in the list, with no significance outside the for-loop. As we expand upon below, the iteration variable is a local variable.</p>
+<li><p><strong>An iteration variable</strong>: this corresponds to <code>x</code> in the example. It serves as a label that references each element in the list, with no significance outside the for-loop. The iteration variable is a local variable, as we expand upon later.</p>
 </li>
 </ul></div>
 <br/>
@@ -2673,7 +2692,7 @@ end</code></pre>
 <p>For instance, we can create vectors containing a sequence by applying the function <code>collect</code> to a range.</p>
 <p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; collect&#40;4:6&#41;</code></pre>
-<p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+<p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  4
  5
  6</div> </div></div> </div>   </details></div>  </div>  </div>
@@ -2767,7 +2786,7 @@ end</code></pre>
 8</div></div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Despite all these equivalences of method, I recommend directly using <code>eachindex</code>. This is optimal, and additionally constitutes a valid iterator for any vector independently of how it&#39;s indexed.  </div>  </div>
+<p>Despite all these equivalences, I recommend directly using <code>eachindex</code>. This chooses the optimal method for iterating, and additionally constitutes a valid iterator for any vector independently of how it&#39;s indexed.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2815,7 +2834,7 @@ for word in &#91;&quot;hello&quot;&#93;
     x &#61; word                # &#96;x&#96; is local to the for-loop, not available outside it
 end</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: x not defined</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: x not defined</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>Next, we show the consequences of variable scope for global variables. They&#39;re summarized by the last rule we mentioned above.</p>
@@ -2832,7 +2851,7 @@ for i in eachindex&#40;x&#41;
     x&#91;i&#93; * 10        # it refers to the &#96;x&#96; outside of the for-loop
 end</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  20
  40
  60</div> </div></div> </div> 
@@ -2844,7 +2863,7 @@ for word in &#91;&quot;hello&quot;&#93;
     x &#61; word                        # it reassigns the &#96;x&#96; defined outside the for-loop
 end</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">"hello"</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">"hello"</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -2870,7 +2889,7 @@ end</code></pre>
 
 y &#61; &#91;a^2 for a in x&#93;                  # or y &#61; &#91;x&#91;i&#93;^2 for i in eachindex&#40;x&#41;&#93;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
   1
   4
   9</div> </div></div> </div> 
@@ -2881,7 +2900,7 @@ y &#61; &#91;a^2 for a in x&#93;                  # or y &#61; &#91;x&#91;i&#93;
 foo&#40;a&#41; &#61; a^2
 y      &#61; &#91;foo&#40;a&#41; for a in x&#93;          # or y &#61; &#91;foo&#40;x&#91;i&#93;&#41; for i in eachindex&#40;x&#41;&#93;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
   1
   4
   9</div> </div></div> </div> 
@@ -2890,7 +2909,7 @@ y      &#61; &#91;foo&#40;a&#41; for a in x&#93;          # or y &#61; &#91;foo&
 <p>You can also add conditions to comprehensions, which are placed at the end of the expression. </p>
  <div class=" code_box"> <details  open><summary> Comprehension with Condition  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;i for i in 1:4 if i ≤ 3&#93;</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Int64}:  
+<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Int64}:  
  1
  2 
  3</div> </div></div> </div>   </details></div>
@@ -2899,7 +2918,7 @@ y      &#61; &#91;foo&#40;a&#41; for a in x&#93;          # or y &#61; &#91;foo&
       <b> Remark</b> </span>  </div>  <div class=content>     Array comprehensions can also be used to create matrices. In terms of syntax, this requires using a comma and specifying the second dimension. </p>
 <p> <div class=" code_box"> <details  open><summary> Comprehension for Matrices  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">y &#61; &#91;i * j for i in 1:2, j in 1:2&#93;</code></pre>
-<p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2×2 Matrix{Int64}:
+<p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">2×2 Matrix{Int64}:
  1  2
  2  4</div> </div></div> </div>   </details></div>  </div>  </div>
 <p>      </div>
@@ -2956,7 +2975,7 @@ end</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;i * j for i in 1:2 for j in 1:2&#93;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">4-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">4-element Vector{Int64}:
  1
  2
  2
@@ -2965,7 +2984,7 @@ end</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;i * j for &#40;i,j&#41; in zip&#40;1:2, 1:2&#41;&#93;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  1
  4</div> </div></div> </div> 
  </div></div>
@@ -2994,7 +3013,7 @@ end</code></pre>
 
 y &#61; &#91;index * value for &#40;index,value&#41; in enumerate&#40;x&#41;&#93;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  10
  40</div> </div></div> </div> 
  </div></div>
@@ -3016,7 +3035,7 @@ x              &#61; &#91;10, 50, 100&#93;
 list_functions &#61; &#91;maximum, minimum, mean, median&#93;
 
 descriptive&#40;vector,list&#41; &#61; &#91;foo&#40;vector&#41; for foo in list&#93;</code></pre>
-<p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>descriptive&#40;x, list_functions&#41;</code><br/><div class="akin_to_pre">4-element Vector{Real}:
+<p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>descriptive&#40;x, list_functions&#41;</code><br/><div class="akin_to_pre">4-element Vector{Real}:
  100
   10
   53.333333333333336
@@ -3043,7 +3062,7 @@ descriptive&#40;vector,list&#41; &#61; &#91;foo&#40;vector&#41; for foo in list&
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 5, 2024 
+          © Martin Alfaro <br>Last Modified June 10, 2024 
       </span> 
   </div> 
 </footer>
@@ -3508,6 +3527,76 @@ for multiple pics in a row
 
 </style>
 
+<!-- FOR COPYING THE TITLES IN SECTION -->
+       
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const h2Elements = document.querySelectorAll('h2');
+
+        h2Elements.forEach(h2 => {
+            h2.addEventListener('click', function (event) {
+                const text = h2.textContent.trim();
+                const url  = `${window.location.origin}${window.location.pathname}#${text.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}`;
+
+                // Create a temporary input element
+                const tempInput = document.createElement('input');
+                document.body.appendChild(tempInput);
+                tempInput.value = url;
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                // Create a container element for the tooltip
+                const tooltipContainer = document.createElement('div');
+                tooltipContainer.style.position = 'absolute'; // Set position: relative on the container                
+
+                // Create a tooltip element
+                const tooltip                    = document.createElement('span');
+                      tooltip.textContent        = 'Link Copied';
+                      tooltip.style.position     = 'absolute';
+                      tooltip.style.background   = 'rgba(63, 99, 136, 0.75)';
+                      tooltip.style.color        = 'white';
+                      tooltip.style.padding      = '4px 2px';
+                      tooltip.style.borderRadius = '4px';
+                      tooltip.style.fontSize     = '14px';
+
+
+                tooltipContainer.appendChild(tooltip); // Add the tooltip to the container
+                h2.appendChild(tooltipContainer); // Add the container to the h2 element
+
+                // Get the cursor position
+                const rect = h2.getBoundingClientRect();
+                const x    = event.clientX - rect.left - 28;
+                const y    = event.clientY - rect.bottom - 25;
+
+
+
+                // Set the tooltip position
+                tooltip.style.top  = `${y}px`;  // Adjust the y position to move the tooltip above the cursor
+                tooltip.style.left = `${x}px`;
+
+                // Remove the tooltip after 2 seconds
+                setTimeout(() => {
+                    h2.removeChild(tooltipContainer);
+                }, 1000);
+            });
+        });
+    });
+</script>
+
+
+
+<style>
+    h2 {
+        cursor: pointer;
+    }
+
+    .hand-cursor {
+        cursor: wait;
+    }
+</style>    
+
+
 
 
 <!-- 
@@ -3685,9 +3774,11 @@ document.addEventListener('keydown', (e) => {
   display: block;
 }
 
-</style>
 
-    
+
+
+
+</style>    
 
 
 
@@ -3756,6 +3847,7 @@ document.addEventListener('keydown', (e) => {
     
     })();
     </script>
+
 
 
 

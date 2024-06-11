@@ -115,7 +115,8 @@ header .jumbotron {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">    
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    
  
 
  
@@ -912,7 +913,7 @@ color: white;
        
     /* FOR INLINE CODE, WRITTEN WITHIN THE TEXT*/
   code {  
-    background-color: rgb(209, 217, 224);         /*rgb(199, 223, 236);*/
+    background-color: rgb(209, 217, 224);              /*rgb(199, 223, 236);*/
     color           : black;
     text-indent     : 0%;
     padding-top     : 0.1em;
@@ -921,13 +922,13 @@ color: white;
     padding-right   : 0.3em;
     vertical-align  : 0.05em;
     border          : 1px solid rgb(0, 16, 41);
-    overflow: hidden;
+    overflow        : hidden;
   }
 
   .julia_repl_NoFormat code, .mixed_output_NoFormat code {  
     background-color: rgb(82, 120, 104);         /*rgb(199, 223, 236);*/
     color           : #DCDCDC;
-    border          : 1px solid rgb(82, 120, 104);    
+    border          : 1px solid rgb(82, 120, 104);        
   }
 
 
@@ -945,7 +946,7 @@ color: white;
     font-size     : 12px;
     text-transform: lowercase;
     font-weight   : 500;
-    padding       : 0px 10px 2px;
+    padding       : 2px 10px 2px;
       /* background-color:   #3f6b4b; */
     background-color: rgb(63,99,136);
     position        : absolute;
@@ -969,20 +970,43 @@ color: white;
   
 
 
-
 /* ================================================================= 
                       BASIC FORMAT FOR OUTPUTS
   ================================================================= */ 
-  /* to not collapse with the copy button and `pre` */
+/* format of `julia>` */
+
+      .julia_line{
+        color      : rgb(32, 198, 121) !important;
+        font-weight: bold;
+        display    : inline;
+        font-size  : 100%;
+      }
+
+/* to fix disproportionate size in outputs */
+      .julia_repl_NoFormat {
+        font-size    : 90%;
+      }
+
+      .julia_repl_NoFormat .julia_line, .julia_repl_NoFormat code{
+        font-size:100%
+      }
+
+      .mixed_output_NoFormat{ font-size    : 90%;}
+
+      .mixed_output_NoFormat pre, .mixed_output_NoFormat .julia_line, .mixed_output_NoFormat code {
+        font-size:100%
+      }
+
+
+/* to not collapse with the copy button and `pre` */
 .akin_to_pre {
   white-space: pre-wrap;
-  font-family: "Consolas";
+  font-family: "Consolas", monospace;  
 }
 
   /* NoFormat for julia repl - no margins or paddings, just colors, fonts, etc */
 .julia_repl_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -993,16 +1017,16 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 
+
+
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
-    font-family     : "Consolas";    
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;    
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -1024,9 +1048,10 @@ color: white;
 
 /* NoFormat for Mixed */
 
+
+
 .mixed_output_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -1037,13 +1062,11 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 .mixed_output_NoFormat pre code{
-  font-size       : 90%;
   margin          : 0 !important;
   padding         : 0 !important;
   border          : none;
@@ -1055,7 +1078,7 @@ color: white;
 /* Inline for julia_repl and franklin_output - adding margins and paddings  */
 .mixed_output_inline{
     color           : #DCDCDC;
-    font-family     : "Consolas";    
+    font-family     : "Consolas", monospace;    
     background-color: rgb(1, 59,31);
 
     padding-left  : 1em;
@@ -1063,7 +1086,7 @@ color: white;
     padding-bottom: 1em;
     
     margin-top   : 0;
-    margin-bottom: 0;
+    margin-bottom: 0;    
   }
 
   
@@ -1119,7 +1142,6 @@ color: white;
 
 .code_NoFormat{    
     line-height     : 1.45;
-    font-size       : 95%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(0, 16, 41);
@@ -1131,8 +1153,9 @@ color: white;
     background-color: rgb(0, 16, 41);
 }
 
+
 .code_NoFormat pre code{          
-    font-family     : "Cascadia Mono";       /* Fira Mono */
+    font-family     : "Cascadia Mono", monospace ;       /* Fira Mono */
     margin          : 0 !important;
     padding         : 0 !important;
     border          : none;
@@ -1164,8 +1187,9 @@ color: white;
 
 .code_box{
   margin : 0;
-  padding: 0;
+  padding: 0;  
 }
+
 .code_box details > summary{  
   width           : max-content;  max-width : 90%;
   padding-left    : 10px;
@@ -1245,7 +1269,7 @@ color: white;
 
 .tab_wrapper{
   width  : 100%;
-  display: inline-block;  
+  display: inline-block;    
   }
 
 
@@ -1463,8 +1487,7 @@ margin-top: 0px;
 
 
 
-
-  </style>  
+</style>  
     
   
 
@@ -2549,15 +2572,11 @@ color: white;
 </style>
 
 
-
-
-
 <!-- {{ispage list_posts links}}  
   {{insert /index_page/lists_header.html}}  
   {{insert /index_page/lists_FORMAT.html}}  
 {{end}} -->
 
- 
 <div class="franklin-content">
 <section id="introduction" class="scrollspy">
   <div class="container">
@@ -2641,7 +2660,7 @@ color: white;
 <pre><code class="language-julia">x &#61; &#91;4,5&#93;
 
 x&#91;:&#93; &#61;  &#91;0,0&#93;</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  0
  0</div> </div></div> </div>   </details></div>
 <p>This becomes important when we study speeding up operations, as usually mutating elements is faster than creating new objects.  </div>  </div>
@@ -2686,7 +2705,7 @@ x&#91;:&#93; &#61;  &#91;0,0&#93;</code></pre>
 y &#61; x   #&#39;y&#39; points to the same object as &#39;x&#39; &#40;do not interpret it as &#39;y&#39; pointing to &#39;x&#39;&#41; 
 
 x &#61; 4   #&#39;x&#39; now points to another object &#40;but &#39;y&#39; still points to the object holding 2&#41;</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">4</div> </div> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2</div> </div></div> </div>   </details></div>
+<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">4</div> </div> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">2</div> </div></div> </div>   </details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     Notice that <strong>two variables could comprise identical elements, and yet refer to different objects</strong>. </p>
@@ -2696,8 +2715,8 @@ x &#61; 4   #&#39;x&#39; now points to another object &#40;but &#39;y&#39; still
 
 y &#61; &#91;4,5&#93;
 z &#61; x</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x &#61;&#61; y</code><br/><div class="akin_to_pre">true                    #`x` and `y` have identical elements</div> </div> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x &#61;&#61;&#61; y</code><br/><div class="akin_to_pre">false                   #`x` and `y` DO NOT point to the same object</div> </div></p>
-<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x &#61;&#61; z</code><br/><div class="akin_to_pre">true                    #`x` and `z` have identical elements</div> </div> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x &#61;&#61;&#61; z</code><br/><div class="akin_to_pre">true                    #`x` and `z` DO point to the same object</div> </div></div> </div>   </details></div>
+<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x &#61;&#61; y</code><br/><div class="akin_to_pre">true                    #`x` and `y` have identical elements</div> </div> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x &#61;&#61;&#61; y</code><br/><div class="akin_to_pre">false                   #`x` and `y` DO NOT point to the same object</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x &#61;&#61; z</code><br/><div class="akin_to_pre">true                    #`x` and `z` have identical elements</div> </div> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x &#61;&#61;&#61; z</code><br/><div class="akin_to_pre">true                    #`x` and `z` DO point to the same object</div> </div></div> </div>   </details></div>
 <p> <div class="multiple_pics">
   <h2 style="color:rgb(63, 99,136)">Graphical Representation</h2>
     <img src="/julia_book/assets/PAGES/5b_mutation/tikz/interpret05.svg" style="width:450px ; height:auto; padding-right:0em;">  
@@ -2712,9 +2731,9 @@ z &#61; x</code></pre>
 y &#61; x
 
 x&#91;1&#93; &#61;  0</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  0
- 5</div> </div><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 5</div> </div><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  0
  5</div> </div></div> </div>   </details></div>
 <p>If you want <code>x</code> and <code>y</code> to be considered as separate objects, you should use the function <code>copy</code> instead. This function creates a new object that contains the same elements as the original object.</p>
@@ -2723,9 +2742,9 @@ x&#91;1&#93; &#61;  0</code></pre>
 y &#61; copy&#40;x&#41;
 
 x&#91;1&#93; &#61;  0</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  0
- 5</div> </div><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 5</div> </div><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  4
  5</div> </div></div> </div>   </details></div>
 <p>      </div>
@@ -2750,7 +2769,7 @@ x&#91;1&#93; &#61;  0</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 5, 2024 
+          © Martin Alfaro <br>Last Modified June 10, 2024 
       </span> 
   </div> 
 </footer>
@@ -3215,6 +3234,76 @@ for multiple pics in a row
 
 </style>
 
+<!-- FOR COPYING THE TITLES IN SECTION -->
+       
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const h2Elements = document.querySelectorAll('h2');
+
+        h2Elements.forEach(h2 => {
+            h2.addEventListener('click', function (event) {
+                const text = h2.textContent.trim();
+                const url  = `${window.location.origin}${window.location.pathname}#${text.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}`;
+
+                // Create a temporary input element
+                const tempInput = document.createElement('input');
+                document.body.appendChild(tempInput);
+                tempInput.value = url;
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                // Create a container element for the tooltip
+                const tooltipContainer = document.createElement('div');
+                tooltipContainer.style.position = 'absolute'; // Set position: relative on the container                
+
+                // Create a tooltip element
+                const tooltip                    = document.createElement('span');
+                      tooltip.textContent        = 'Link Copied';
+                      tooltip.style.position     = 'absolute';
+                      tooltip.style.background   = 'rgba(63, 99, 136, 0.75)';
+                      tooltip.style.color        = 'white';
+                      tooltip.style.padding      = '4px 2px';
+                      tooltip.style.borderRadius = '4px';
+                      tooltip.style.fontSize     = '14px';
+
+
+                tooltipContainer.appendChild(tooltip); // Add the tooltip to the container
+                h2.appendChild(tooltipContainer); // Add the container to the h2 element
+
+                // Get the cursor position
+                const rect = h2.getBoundingClientRect();
+                const x    = event.clientX - rect.left - 28;
+                const y    = event.clientY - rect.bottom - 25;
+
+
+
+                // Set the tooltip position
+                tooltip.style.top  = `${y}px`;  // Adjust the y position to move the tooltip above the cursor
+                tooltip.style.left = `${x}px`;
+
+                // Remove the tooltip after 2 seconds
+                setTimeout(() => {
+                    h2.removeChild(tooltipContainer);
+                }, 1000);
+            });
+        });
+    });
+</script>
+
+
+
+<style>
+    h2 {
+        cursor: pointer;
+    }
+
+    .hand-cursor {
+        cursor: wait;
+    }
+</style>    
+
+
 
 
 <!-- 
@@ -3388,9 +3477,11 @@ document.addEventListener('keydown', (e) => {
   display: block;
 }
 
-</style>
 
-    
+
+
+
+</style>    
 
 
 
@@ -3459,6 +3550,7 @@ document.addEventListener('keydown', (e) => {
     
     })();
     </script>
+
 
 
 

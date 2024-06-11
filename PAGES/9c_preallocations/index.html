@@ -115,7 +115,8 @@ header .jumbotron {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">    
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    
  
 
  
@@ -912,7 +913,7 @@ color: white;
        
     /* FOR INLINE CODE, WRITTEN WITHIN THE TEXT*/
   code {  
-    background-color: rgb(209, 217, 224);         /*rgb(199, 223, 236);*/
+    background-color: rgb(209, 217, 224);              /*rgb(199, 223, 236);*/
     color           : black;
     text-indent     : 0%;
     padding-top     : 0.1em;
@@ -921,13 +922,13 @@ color: white;
     padding-right   : 0.3em;
     vertical-align  : 0.05em;
     border          : 1px solid rgb(0, 16, 41);
-    overflow: hidden;
+    overflow        : hidden;
   }
 
   .julia_repl_NoFormat code, .mixed_output_NoFormat code {  
     background-color: rgb(82, 120, 104);         /*rgb(199, 223, 236);*/
     color           : #DCDCDC;
-    border          : 1px solid rgb(82, 120, 104);    
+    border          : 1px solid rgb(82, 120, 104);        
   }
 
 
@@ -945,7 +946,7 @@ color: white;
     font-size     : 12px;
     text-transform: lowercase;
     font-weight   : 500;
-    padding       : 0px 10px 2px;
+    padding       : 2px 10px 2px;
       /* background-color:   #3f6b4b; */
     background-color: rgb(63,99,136);
     position        : absolute;
@@ -969,20 +970,43 @@ color: white;
   
 
 
-
 /* ================================================================= 
                       BASIC FORMAT FOR OUTPUTS
   ================================================================= */ 
-  /* to not collapse with the copy button and `pre` */
+/* format of `julia>` */
+
+      .julia_line{
+        color      : rgb(32, 198, 121) !important;
+        font-weight: bold;
+        display    : inline;
+        font-size  : 100%;
+      }
+
+/* to fix disproportionate size in outputs */
+      .julia_repl_NoFormat {
+        font-size    : 90%;
+      }
+
+      .julia_repl_NoFormat .julia_line, .julia_repl_NoFormat code{
+        font-size:100%
+      }
+
+      .mixed_output_NoFormat{ font-size    : 90%;}
+
+      .mixed_output_NoFormat pre, .mixed_output_NoFormat .julia_line, .mixed_output_NoFormat code {
+        font-size:100%
+      }
+
+
+/* to not collapse with the copy button and `pre` */
 .akin_to_pre {
   white-space: pre-wrap;
-  font-family: "Consolas";
+  font-family: "Consolas", monospace;  
 }
 
   /* NoFormat for julia repl - no margins or paddings, just colors, fonts, etc */
 .julia_repl_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -993,16 +1017,16 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 
+
+
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
-    font-family     : "Consolas";    
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;    
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -1024,9 +1048,10 @@ color: white;
 
 /* NoFormat for Mixed */
 
+
+
 .mixed_output_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -1037,13 +1062,11 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 .mixed_output_NoFormat pre code{
-  font-size       : 90%;
   margin          : 0 !important;
   padding         : 0 !important;
   border          : none;
@@ -1055,7 +1078,7 @@ color: white;
 /* Inline for julia_repl and franklin_output - adding margins and paddings  */
 .mixed_output_inline{
     color           : #DCDCDC;
-    font-family     : "Consolas";    
+    font-family     : "Consolas", monospace;    
     background-color: rgb(1, 59,31);
 
     padding-left  : 1em;
@@ -1063,7 +1086,7 @@ color: white;
     padding-bottom: 1em;
     
     margin-top   : 0;
-    margin-bottom: 0;
+    margin-bottom: 0;    
   }
 
   
@@ -1119,7 +1142,6 @@ color: white;
 
 .code_NoFormat{    
     line-height     : 1.45;
-    font-size       : 95%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(0, 16, 41);
@@ -1131,8 +1153,9 @@ color: white;
     background-color: rgb(0, 16, 41);
 }
 
+
 .code_NoFormat pre code{          
-    font-family     : "Cascadia Mono";       /* Fira Mono */
+    font-family     : "Cascadia Mono", monospace ;       /* Fira Mono */
     margin          : 0 !important;
     padding         : 0 !important;
     border          : none;
@@ -1164,8 +1187,9 @@ color: white;
 
 .code_box{
   margin : 0;
-  padding: 0;
+  padding: 0;  
 }
+
 .code_box details > summary{  
   width           : max-content;  max-width : 90%;
   padding-left    : 10px;
@@ -1245,7 +1269,7 @@ color: white;
 
 .tab_wrapper{
   width  : 100%;
-  display: inline-block;  
+  display: inline-block;    
   }
 
 
@@ -1463,8 +1487,7 @@ margin-top: 0px;
 
 
 
-
-  </style>  
+</style>  
     
   
 
@@ -2508,23 +2531,22 @@ color: white;
 </style>
 
 
-
-
-
 <!-- {{ispage list_posts links}}  
   {{insert /index_page/lists_header.html}}  
   {{insert /index_page/lists_FORMAT.html}}  
 {{end}} -->
 
- 
 <div class="franklin-content">
 <section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section explores the benefits of <span style="color: rgb(62, 121, 180);"><strong>pre-allocating</strong></span> vectors for storing results. The strategy is particularly useful for operations involving for-loops or broadcasting updates. It consists of <strong>initializing the vectors prior to executing an operation</strong>, making it possible to reuse the same vectors in each iteration. This entails performance gains, by sidestepping the memory overhead of creating new objects repeatedly.</p>
-<p>The section begins by reviewing methods to initialize vectors, which constitutes a prerequisite to pre-allocate them. We then present two scenarios where pre-allocations prove to be advantageous. Both cases require intermediate steps, and one of them highlights the use of pre-allocations with nested for-loops.</p>
+<p>When working with repeated vector computations, such as those that arising in for-loops, memory allocation can become a major performance bottleneck. This is because memory allocation is a costly operation that involves searching for free memory, tracking memory information, and freeing unused memory &#40;a process known as garbage collection&#41;. While the cost of an allocation in isolation may not be substantial, incurring it repeatedly can significantly impact performance.</p>
+<p>To address this issue, we can employ a strategy known as <span style="color: rgb(62, 121, 180);"><strong>pre-allocation</strong></span>. This involves reserving a block of memory before it&#39;s actually needed, which is then reused multiple times during the execution of a program. The approach is particularly relevant for intermediate results that don&#39;t need to be preserved across iterations or stored for future use.</p>
+<p>In practical terms, it requires initializing vectors before running the for-loop, which are then  <em>mutated</em> in each iteration. By doing so, we avoid the overhead of creating new objects multiple times.</p>
+<p>The performance gains from pre-allocation can be substantial. In fact, this technique is a common optimization strategy, applicable to multiple programming languages beyond Julia. Ultimately, its effectiveness relies on minimizing the use of the heap.</p>
+<p>The section begins by reviewing methods to initialize vectors, which constitutes a prerequisite to pre-allocation. We then present two scenarios where pre-allocation proves advantageous, including one that highlights its benefits for nested for-loops.</p>
 <p>      </div>
     </div>
   </div>
@@ -2534,8 +2556,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Initializing Vectors</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Initializing an array</strong></span> refers to creating an array to be subsequently filled with values. The process involves two steps: reserving the space in memory and populating it with some initial values. An efficient way to initialize an array is by only performing the first step, leaving whatever is in the memory address. Unfilled values in Julia are represented by <code>undef</code>, which keep any content held in the memory address at that moment.</p>
-<p>There are two methods for initializing an array with <code>undef</code> values. The first requires specifying the type and length of the array, whose syntax resembles the creation of new vectors. The second is based on the function <code>similar</code>, which creates a vector with the same type and dimensions as another existing vector. </p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Initializing a vector</strong></span> refers to the creation of a vector to subsequently fill it with values. The process involves two steps: reserving the space in memory and populating it with some initial values. An efficient way to initialize a vector is by only performing the first step, leaving whatever is in the memory address. Unfilled values in Julia are represented by <code>undef</code>, which keep any content held in the memory address at that moment.</p>
+<p>There are two methods for initializing a vector with <code>undef</code> values. The first requires specifying the type and length of the array, whose syntax resembles the creation of new vectors. The second is based on the function <code>similar</code>, which creates a vector with the same type and dimensions as another existing vector. </p>
 <p>Below, we compare the performance of several approaches to initializing a vector. In particular, we show that working with <code>undef</code> values is faster than setting a value. To starkly show these differences, we create a vector with 100 elements and repeat the procedure 100,000 times. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2554,7 +2576,7 @@ function foo&#40;x, repetitions&#41;
         Vector&#123;Int64&#125;&#40;undef, length&#40;x&#41;&#41;
     end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x, &#36;repetitions&#41;</code> <br/> <pre><code class="plaintext code-output">  1.581 ms (100000 allocations: 85.45 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, &#36;repetitions&#41;</code> <br/> <pre><code class="plaintext code-output">  1.581 ms (100000 allocations: 85.45 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; collect&#40;1:100&#41;
@@ -2565,7 +2587,7 @@ function foo&#40;x, repetitions&#41;
         similar&#40;x&#41;
     end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x, &#36;repetitions&#41;</code> <br/> <pre><code class="plaintext code-output">  1.623 ms (100000 allocations: 85.45 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, &#36;repetitions&#41;</code> <br/> <pre><code class="plaintext code-output">  1.623 ms (100000 allocations: 85.45 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; collect&#40;1:100&#41;
@@ -2576,7 +2598,7 @@ function foo&#40;x, repetitions&#41;
         zeros&#40;Int64, length&#40;x&#41;&#41;
     end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x, &#36;repetitions&#41;</code> <br/> <pre><code class="plaintext code-output">  7.530 ms (100000 allocations: 85.45 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, &#36;repetitions&#41;</code> <br/> <pre><code class="plaintext code-output">  7.530 ms (100000 allocations: 85.45 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; collect&#40;1:100&#41;
@@ -2587,7 +2609,7 @@ function foo&#40;x, repetitions&#41;
         ones&#40;Int64, length&#40;x&#41;&#41;
     end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x, &#36;repetitions&#41;</code> <br/> <pre><code class="plaintext code-output">  4.674 ms (100000 allocations: 85.45 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, &#36;repetitions&#41;</code> <br/> <pre><code class="plaintext code-output">  4.674 ms (100000 allocations: 85.45 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; collect&#40;1:100&#41;
@@ -2598,7 +2620,7 @@ function foo&#40;x, repetitions&#41;
         fill&#40;2, length&#40;x&#41;&#41;                  # vector filled with integer 2
     end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x, &#36;repetitions&#41;</code> <br/> <pre><code class="plaintext code-output">  4.877 ms (100000 allocations: 85.45 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, &#36;repetitions&#41;</code> <br/> <pre><code class="plaintext code-output">  4.877 ms (100000 allocations: 85.45 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2642,7 +2664,7 @@ function foo&#40;x&#41;
     a,b,c &#61; &#91;similar&#40;x&#41; for _ in 1:3&#93;
     # &lt;some calculations using a,b,c&gt;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  49.848 ns (4 allocations: 320 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  49.848 ns (4 allocations: 320 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;1,2,3&#93;
@@ -2651,7 +2673,7 @@ function foo&#40;x&#41;
     a,b,c &#61; &#40;similar&#40;x&#41; for _ in 1:3&#41;
     # &lt;some calculations using a,b,c&gt;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  35.348 ns (3 allocations: 240 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  35.348 ns (3 allocations: 240 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>   </p>
@@ -2683,13 +2705,13 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  45.416 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  45.416 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
 foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;                  # 2 .* x implicitly creates a temporary vector</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  36.779 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  36.779 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2712,7 +2734,7 @@ function foo&#40;x; output &#61; similar&#40;x&#41;&#41;
 end
 
 calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#40;x&#41;&#41; for _ in 1:100&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  6.160 μs (101 allocations: 88.38 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime calling_foo_in_a_loop&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  6.160 μs (101 allocations: 88.38 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2720,7 +2742,7 @@ calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#40;x&#41;&#41; f
 foo&#40;x&#41; &#61; 2 .* x
 
 calling_foo_in_a_loop&#40;x&#41; &#61; &#91;sum&#40;foo&#40;x&#41;&#41; for _ in 1:100&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  6.433 μs (101 allocations: 88.38 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime calling_foo_in_a_loop&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  6.433 μs (101 allocations: 88.38 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2744,7 +2766,7 @@ function foo&#33;&#40;output,x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;&#36;output, &#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  5.100 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#33;&#40;&#36;output, &#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  5.100 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
@@ -2759,12 +2781,12 @@ function foo&#33;&#40;output,x&#41;
 end
 
 calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x&#41;&#41; for _ in 1:100&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;&#36;output, &#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.340 μs (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime calling_foo_in_a_loop&#40;&#36;output, &#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.340 μs (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <h4> Via Broadcasting </h4>
-<p>The second option relies on the operator <code>.&#61;</code> to update a vector&#39;s values. Relative to the example above, it allows for an update through a simpler syntax, where <code>foo&#33;</code> is defined in one line. </p>
+<p>The second option relies on the operator <code>.&#61;</code> to update a vector&#39;s values. Relative to the example above, this allows for an update through a simpler syntax, where <code>foo&#33;</code> is defined in one line. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2776,14 +2798,14 @@ calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x
 output &#61; similar&#40;x&#41;
 
 foo&#33;&#40;output,x&#41; &#61; &#40;output .&#61; 2 .* x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;&#36;output, &#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  5.800 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#33;&#40;&#36;output, &#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  5.800 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
 output &#61; similar&#40;x&#41;
 
 foo&#33;&#40;output,x&#41; &#61; &#40;@. output &#61; 2 * x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;&#36;output, &#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  5.400 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#33;&#40;&#36;output, &#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  5.400 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
@@ -2792,7 +2814,7 @@ output &#61; similar&#40;x&#41;
 foo&#33;&#40;output,x&#41; &#61; &#40;@. output &#61; 2 * x&#41;
 
 calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x&#41;&#41; for _ in 1:100&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;&#36;output,&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.320 μs (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime calling_foo_in_a_loop&#40;&#36;output,&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.320 μs (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2827,7 +2849,7 @@ calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Pre-Allocations and Intermediate Steps</h2></p>
-<p>Our discussion so far has centered around the benefits of pre-allocating vectors in nested for-loops. However, its applicability extends beyond this specific scenario.</p>
+<p>So far, our discussion has centered around the benefits of pre-allocating vectors in nested for-loops. However, its applicability extends beyond this specific scenario.</p>
 <p>Broadly speaking, pre-allocating proves useful when:  <span style="font-style:italic"><strong>i</strong></span>&#41; the vector serves an intermediate result that feeds into another operation, and  <span style="font-style:italic"><strong>ii</strong></span>&#41; the intermediate result is computed inside a for-loop. If these two conditions are met, reusing the same pre-allocated vector outperforms a strategy based on a new vector for each iteration.</p>
 <p>Next, we analyze a case where these conditions hold, even though <code>foo</code> isn&#39;t called in a for-loop as it&#39;d be the case in a nested for-loop. The usefulness of a pre-allocation emerges because <code>output</code> demands a complex computation, making it convenient to split the calculation in several steps. </p>
 <p>To illustrate the procedure, consider an operation where <code>temp</code> represents an intermediate variable to compute <code>output</code>. All the implementations below don&#39;t pre-allocate <code>temp</code>, and hence create a new vector in each iteration.</p>
@@ -2848,13 +2870,13 @@ function foo&#40;x; output &#61; similar&#40;x&#41;&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  14.700 μs (201 allocations: 11.81 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  14.700 μs (201 allocations: 11.81 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
 foo&#40;x&#41; &#61; &#91;sum&#40;x .&gt; x&#91;i&#93;&#41; for i in eachindex&#40;x&#41;&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  14.600 μs (201 allocations: 11.81 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  14.600 μs (201 allocations: 11.81 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2863,7 +2885,7 @@ function foo&#40;x&#41;
     temp   &#61; &#91;x .&gt; x&#91;i&#93; for i in eachindex&#40;x&#41;&#93;
     output &#61; sum.&#40;temp&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  15.100 μs (202 allocations: 12.69 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  15.100 μs (202 allocations: 12.69 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2890,7 +2912,7 @@ function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.850 μs (2 allocations: 1.75 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#33;&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.850 μs (2 allocations: 1.75 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2903,7 +2925,7 @@ function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.660 μs (2 allocations: 1.75 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#33;&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.660 μs (2 allocations: 1.75 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2916,7 +2938,7 @@ function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.660 μs (2 allocations: 1.75 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#33;&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.660 μs (2 allocations: 1.75 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>   </p>
@@ -2945,7 +2967,7 @@ function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.790 μs (2 allocations: 1.75 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#33;&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.790 μs (2 allocations: 1.75 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2960,7 +2982,7 @@ function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#33;&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.680 μs (2 allocations: 1.75 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#33;&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.680 μs (2 allocations: 1.75 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2987,7 +3009,7 @@ function foo&#33;&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40
 end
 
 calling_foo_in_a_loop&#40;x&#41; &#61; &#91;foo&#33;&#40;x&#41; for _ in 1:1_000&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.734 ms (2001 allocations: 1.72 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime calling_foo_in_a_loop&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.734 ms (2001 allocations: 1.72 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
@@ -3005,7 +3027,7 @@ function foo&#33;&#40;x, output, temp&#41;
 end
 
 calling_foo_in_a_loop&#40;x, output, temp&#41; &#61; &#91;foo&#33;&#40;x, output, temp&#41; for _ in 1:1_000&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime calling_foo_in_a_loop&#40;&#36;x, &#36;output, &#36;temp&#41;</code> <br/> <pre><code class="plaintext code-output">  1.666 ms (1 allocation: 7.94 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime calling_foo_in_a_loop&#40;&#36;x, &#36;output, &#36;temp&#41;</code> <br/> <pre><code class="plaintext code-output">  1.666 ms (1 allocation: 7.94 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -3031,7 +3053,7 @@ calling_foo_in_a_loop&#40;x, output, temp&#41; &#61; &#91;foo&#33;&#40;x, output
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 5, 2024 
+          © Martin Alfaro <br>Last Modified June 10, 2024 
       </span> 
   </div> 
 </footer>
@@ -3496,6 +3518,76 @@ for multiple pics in a row
 
 </style>
 
+<!-- FOR COPYING THE TITLES IN SECTION -->
+       
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const h2Elements = document.querySelectorAll('h2');
+
+        h2Elements.forEach(h2 => {
+            h2.addEventListener('click', function (event) {
+                const text = h2.textContent.trim();
+                const url  = `${window.location.origin}${window.location.pathname}#${text.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}`;
+
+                // Create a temporary input element
+                const tempInput = document.createElement('input');
+                document.body.appendChild(tempInput);
+                tempInput.value = url;
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                // Create a container element for the tooltip
+                const tooltipContainer = document.createElement('div');
+                tooltipContainer.style.position = 'absolute'; // Set position: relative on the container                
+
+                // Create a tooltip element
+                const tooltip                    = document.createElement('span');
+                      tooltip.textContent        = 'Link Copied';
+                      tooltip.style.position     = 'absolute';
+                      tooltip.style.background   = 'rgba(63, 99, 136, 0.75)';
+                      tooltip.style.color        = 'white';
+                      tooltip.style.padding      = '4px 2px';
+                      tooltip.style.borderRadius = '4px';
+                      tooltip.style.fontSize     = '14px';
+
+
+                tooltipContainer.appendChild(tooltip); // Add the tooltip to the container
+                h2.appendChild(tooltipContainer); // Add the container to the h2 element
+
+                // Get the cursor position
+                const rect = h2.getBoundingClientRect();
+                const x    = event.clientX - rect.left - 28;
+                const y    = event.clientY - rect.bottom - 25;
+
+
+
+                // Set the tooltip position
+                tooltip.style.top  = `${y}px`;  // Adjust the y position to move the tooltip above the cursor
+                tooltip.style.left = `${x}px`;
+
+                // Remove the tooltip after 2 seconds
+                setTimeout(() => {
+                    h2.removeChild(tooltipContainer);
+                }, 1000);
+            });
+        });
+    });
+</script>
+
+
+
+<style>
+    h2 {
+        cursor: pointer;
+    }
+
+    .hand-cursor {
+        cursor: wait;
+    }
+</style>    
+
+
 
 
 <!-- 
@@ -3665,9 +3757,11 @@ document.addEventListener('keydown', (e) => {
   display: block;
 }
 
-</style>
 
-    
+
+
+
+</style>    
 
 
 
@@ -3736,6 +3830,7 @@ document.addEventListener('keydown', (e) => {
     
     })();
     </script>
+
 
 
 

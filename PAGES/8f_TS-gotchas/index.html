@@ -115,7 +115,8 @@ header .jumbotron {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">    
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    
  
 
  
@@ -912,7 +913,7 @@ color: white;
        
     /* FOR INLINE CODE, WRITTEN WITHIN THE TEXT*/
   code {  
-    background-color: rgb(209, 217, 224);         /*rgb(199, 223, 236);*/
+    background-color: rgb(209, 217, 224);              /*rgb(199, 223, 236);*/
     color           : black;
     text-indent     : 0%;
     padding-top     : 0.1em;
@@ -921,13 +922,13 @@ color: white;
     padding-right   : 0.3em;
     vertical-align  : 0.05em;
     border          : 1px solid rgb(0, 16, 41);
-    overflow: hidden;
+    overflow        : hidden;
   }
 
   .julia_repl_NoFormat code, .mixed_output_NoFormat code {  
     background-color: rgb(82, 120, 104);         /*rgb(199, 223, 236);*/
     color           : #DCDCDC;
-    border          : 1px solid rgb(82, 120, 104);    
+    border          : 1px solid rgb(82, 120, 104);        
   }
 
 
@@ -945,7 +946,7 @@ color: white;
     font-size     : 12px;
     text-transform: lowercase;
     font-weight   : 500;
-    padding       : 0px 10px 2px;
+    padding       : 2px 10px 2px;
       /* background-color:   #3f6b4b; */
     background-color: rgb(63,99,136);
     position        : absolute;
@@ -969,20 +970,43 @@ color: white;
   
 
 
-
 /* ================================================================= 
                       BASIC FORMAT FOR OUTPUTS
   ================================================================= */ 
-  /* to not collapse with the copy button and `pre` */
+/* format of `julia>` */
+
+      .julia_line{
+        color      : rgb(32, 198, 121) !important;
+        font-weight: bold;
+        display    : inline;
+        font-size  : 100%;
+      }
+
+/* to fix disproportionate size in outputs */
+      .julia_repl_NoFormat {
+        font-size    : 90%;
+      }
+
+      .julia_repl_NoFormat .julia_line, .julia_repl_NoFormat code{
+        font-size:100%
+      }
+
+      .mixed_output_NoFormat{ font-size    : 90%;}
+
+      .mixed_output_NoFormat pre, .mixed_output_NoFormat .julia_line, .mixed_output_NoFormat code {
+        font-size:100%
+      }
+
+
+/* to not collapse with the copy button and `pre` */
 .akin_to_pre {
   white-space: pre-wrap;
-  font-family: "Consolas";
+  font-family: "Consolas", monospace;  
 }
 
   /* NoFormat for julia repl - no margins or paddings, just colors, fonts, etc */
 .julia_repl_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -993,16 +1017,16 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 
+
+
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
-    font-family     : "Consolas";    
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;    
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -1024,9 +1048,10 @@ color: white;
 
 /* NoFormat for Mixed */
 
+
+
 .mixed_output_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -1037,13 +1062,11 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 .mixed_output_NoFormat pre code{
-  font-size       : 90%;
   margin          : 0 !important;
   padding         : 0 !important;
   border          : none;
@@ -1055,7 +1078,7 @@ color: white;
 /* Inline for julia_repl and franklin_output - adding margins and paddings  */
 .mixed_output_inline{
     color           : #DCDCDC;
-    font-family     : "Consolas";    
+    font-family     : "Consolas", monospace;    
     background-color: rgb(1, 59,31);
 
     padding-left  : 1em;
@@ -1063,7 +1086,7 @@ color: white;
     padding-bottom: 1em;
     
     margin-top   : 0;
-    margin-bottom: 0;
+    margin-bottom: 0;    
   }
 
   
@@ -1119,7 +1142,6 @@ color: white;
 
 .code_NoFormat{    
     line-height     : 1.45;
-    font-size       : 95%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(0, 16, 41);
@@ -1131,8 +1153,9 @@ color: white;
     background-color: rgb(0, 16, 41);
 }
 
+
 .code_NoFormat pre code{          
-    font-family     : "Cascadia Mono";       /* Fira Mono */
+    font-family     : "Cascadia Mono", monospace ;       /* Fira Mono */
     margin          : 0 !important;
     padding         : 0 !important;
     border          : none;
@@ -1164,8 +1187,9 @@ color: white;
 
 .code_box{
   margin : 0;
-  padding: 0;
+  padding: 0;  
 }
+
 .code_box details > summary{  
   width           : max-content;  max-width : 90%;
   padding-left    : 10px;
@@ -1245,7 +1269,7 @@ color: white;
 
 .tab_wrapper{
   width  : 100%;
-  display: inline-block;  
+  display: inline-block;    
   }
 
 
@@ -1463,8 +1487,7 @@ margin-top: 0px;
 
 
 
-
-  </style>  
+</style>  
     
   
 
@@ -2508,15 +2531,11 @@ color: white;
 </style>
 
 
-
-
-
 <!-- {{ispage list_posts links}}  
   {{insert /index_page/lists_header.html}}  
   {{insert /index_page/lists_FORMAT.html}}  
 {{end}} -->
 
- 
 <div class="franklin-content">
  <div class=note style="width:62%">  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">
@@ -2536,8 +2555,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 1: Integers and Floats</h2></p>
-<p>When defining functions, keep in mind that <code>Int64</code> and <code>Float64</code> are distinct types. Mixing them may introduce type instability inadvertently. </p>
-<p>In the following example, the function <code>foo</code> takes a numeric variable <code>x</code> as its argument and performs two tasks. The first one defines a variable <code>y</code> as a transformation of <code>x</code>, where all negative values are replaced by zero. The second task runs an operation based on the resulting <code>y</code>.</p>
+<p>When working with scalars, keep in mind that <code>Int64</code> and <code>Float64</code> are distinct types. Mixing them may introduce type instability inadvertently. </p>
+<p>In the following example, the function <code>foo</code> takes a numeric variable <code>x</code> as its argument and performs two tasks. The first one defines a variable <code>y</code> by a transformation of <code>x</code>, where all negative values are replaced by zero. The second task runs an operation based on the resulting <code>y</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2575,10 +2594,10 @@ end
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 2: Collections of Collections</h2></p>
-<p>When working in data analysis, collections of collections emerge naturally. For example, the <code>DataFrames</code> package, which is the standard tool for handling datasets, relies on this structure. It defines a table where each column correspond to a variable. As we haven&#39;t introduced this package, we consider a vector of vectors in the following, which replicates the same structure.</p>
-<p>For the demonstration, suppose a vector of vectors named <code>data</code>, along with an operation depending on one of its inner vectors. The key feature giving rise to type instability is that <code>data</code> has type <code>Vector&#123;Vector&#125;</code>. This is actually a desirable feature in data analysis, as it makes it possible to hold inner vectors of different types &#40;e.g., strings, numbers&#41;. However, it also means that <code>data</code> lacks information about the types of its inner vectors—<code>Vector&#123;Vector&#125;</code> only conveys that the elements held are vectors, without specifying the type comprised by the elements held in the inner vectors. Consequently, any function that takes <code>data</code> as an argument and operates on an inner vector will be type unstable.</p>
-<p>A straightforward <strong>solution</strong> is to include barrier functions that take inner vectors as their arguments. This approach is able to correct the type instability, as the function will attempt to identify concrete types for the inner vectors passed. </p>
-<p>In the following, we illustrate the approach by supposing that the operation is based on the inner vector <code>vec2</code>. The code snippets in both tabs pass <code>data</code> as a function&#39;s argument, with the second one additionally using a barrier function with <code>vec2</code> as its argument. Note that the barrier function is defined in-place, making the value of <code>vec2</code> &#40;and hence of <code>data</code>&#41; be updated.</p>
+<p>When working in data analysis, collections of collections emerge naturally. An example of this data structure is given by the <code>DataFrames</code> package, which is the standard tool for handling datasets. A DataFrame defines a table where each column corresponds to a variable. As we haven&#39;t introduced this package, we&#39;ll keep matters simple and consider a vector of vectors, which replicates a similar structure.</p>
+<p>Specifically, suppose a vector <code>data</code> comprising multiple inner vectors. The issue lies in that a function taking <code>data</code> as its argument and operates on an inner vector will be type unstable. The feature of <code>data</code> determining this is that its type is <code>Vector&#123;Vector&#125;</code>. This flexibility is a desirable feature in data analysis, as it allows for holding inner vectors of different types &#40;e.g., strings, numbers&#41;. However, it also determines that <code>data</code> lacks information about the types of its inner vectors. The reason is that <code>Vector&#123;Vector&#125;</code> only indicates that its elements are vectors, without specifying the type of their elements. </p>
+<p>The simplest <strong>solution</strong> is to include a barrier function that takes the inner vector as its argument. This approach is able to correct the type instability, as the function will attempt to identify concrete types for the inner vectors passed. </p>
+<p>In the following, we illustrate the approach by supposing that the operation is based on an inner vector <code>vec2</code>. The code snippets in both tabs pass <code>data</code> as a function&#39;s argument, with the second one additionally using a barrier function with <code>vec2</code> as its argument. Note that the barrier function is defined in-place, making the value of <code>vec2</code> and hence of <code>data</code> be updated.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2619,7 +2638,7 @@ end
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 3: Barrier Functions</h2></p>
-<p>While barrier functions can mitigate type instabilities, it&#39;s essential to remember that <strong>the parent function remains type unstable</strong>. This implies that if we fail to resolve the type instability before executing a repeated operation, the performance cost of that instability will be incurred multiple times.</p>
+<p>While barrier functions can mitigate type instabilities, it&#39;s essential to keep in mind that <strong>the parent function remains type unstable</strong>. This implies that if we fail to resolve the type instability before executing a repeated operation, the performance cost of that instability will be incurred multiple times.</p>
 <p>To illustrate this point, let&#39;s revisit the last example involving a vector of vectors. Below, we present two incorrect approaches to using a barrier function under such scenario, followed by a demonstration of its proper application.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2677,7 +2696,7 @@ foo&#40;data&#41; &#61; operation&#33;&#40;data&#91;2&#93;&#41;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 4: Inference is by Type, Not By Value</h2></p>
-<p>Type inference in a function is exclusively based on the types of its arguments. This entails in particular that values do not participate in the identification of types. To explain its implications, let&#39;s consider the following concrete example.</p>
+<p>Compiler creates method instances exclusively based on types, with values not participating in the process. To explain its implications, let&#39;s consider the following concrete example.</p>
  <div class=" code_box"> <details  open><summary> Type Inference Is Not By Value  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;condition&#41;
     y &#61; condition ?  2.5  :  1
     
@@ -3312,7 +3331,7 @@ end
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 5, 2024 
+          © Martin Alfaro <br>Last Modified June 10, 2024 
       </span> 
   </div> 
 </footer>
@@ -3777,6 +3796,76 @@ for multiple pics in a row
 
 </style>
 
+<!-- FOR COPYING THE TITLES IN SECTION -->
+       
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const h2Elements = document.querySelectorAll('h2');
+
+        h2Elements.forEach(h2 => {
+            h2.addEventListener('click', function (event) {
+                const text = h2.textContent.trim();
+                const url  = `${window.location.origin}${window.location.pathname}#${text.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}`;
+
+                // Create a temporary input element
+                const tempInput = document.createElement('input');
+                document.body.appendChild(tempInput);
+                tempInput.value = url;
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                // Create a container element for the tooltip
+                const tooltipContainer = document.createElement('div');
+                tooltipContainer.style.position = 'absolute'; // Set position: relative on the container                
+
+                // Create a tooltip element
+                const tooltip                    = document.createElement('span');
+                      tooltip.textContent        = 'Link Copied';
+                      tooltip.style.position     = 'absolute';
+                      tooltip.style.background   = 'rgba(63, 99, 136, 0.75)';
+                      tooltip.style.color        = 'white';
+                      tooltip.style.padding      = '4px 2px';
+                      tooltip.style.borderRadius = '4px';
+                      tooltip.style.fontSize     = '14px';
+
+
+                tooltipContainer.appendChild(tooltip); // Add the tooltip to the container
+                h2.appendChild(tooltipContainer); // Add the container to the h2 element
+
+                // Get the cursor position
+                const rect = h2.getBoundingClientRect();
+                const x    = event.clientX - rect.left - 28;
+                const y    = event.clientY - rect.bottom - 25;
+
+
+
+                // Set the tooltip position
+                tooltip.style.top  = `${y}px`;  // Adjust the y position to move the tooltip above the cursor
+                tooltip.style.left = `${x}px`;
+
+                // Remove the tooltip after 2 seconds
+                setTimeout(() => {
+                    h2.removeChild(tooltipContainer);
+                }, 1000);
+            });
+        });
+    });
+</script>
+
+
+
+<style>
+    h2 {
+        cursor: pointer;
+    }
+
+    .hand-cursor {
+        cursor: wait;
+    }
+</style>    
+
+
 
 
 <!-- 
@@ -3958,9 +4047,11 @@ document.addEventListener('keydown', (e) => {
   display: block;
 }
 
-</style>
 
-    
+
+
+
+</style>    
 
 
 
@@ -4029,6 +4120,7 @@ document.addEventListener('keydown', (e) => {
     
     })();
     </script>
+
 
 
 

@@ -115,7 +115,8 @@ header .jumbotron {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">    
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    
  
 
  
@@ -912,7 +913,7 @@ color: white;
        
     /* FOR INLINE CODE, WRITTEN WITHIN THE TEXT*/
   code {  
-    background-color: rgb(209, 217, 224);         /*rgb(199, 223, 236);*/
+    background-color: rgb(209, 217, 224);              /*rgb(199, 223, 236);*/
     color           : black;
     text-indent     : 0%;
     padding-top     : 0.1em;
@@ -921,13 +922,13 @@ color: white;
     padding-right   : 0.3em;
     vertical-align  : 0.05em;
     border          : 1px solid rgb(0, 16, 41);
-    overflow: hidden;
+    overflow        : hidden;
   }
 
   .julia_repl_NoFormat code, .mixed_output_NoFormat code {  
     background-color: rgb(82, 120, 104);         /*rgb(199, 223, 236);*/
     color           : #DCDCDC;
-    border          : 1px solid rgb(82, 120, 104);    
+    border          : 1px solid rgb(82, 120, 104);        
   }
 
 
@@ -945,7 +946,7 @@ color: white;
     font-size     : 12px;
     text-transform: lowercase;
     font-weight   : 500;
-    padding       : 0px 10px 2px;
+    padding       : 2px 10px 2px;
       /* background-color:   #3f6b4b; */
     background-color: rgb(63,99,136);
     position        : absolute;
@@ -969,20 +970,43 @@ color: white;
   
 
 
-
 /* ================================================================= 
                       BASIC FORMAT FOR OUTPUTS
   ================================================================= */ 
-  /* to not collapse with the copy button and `pre` */
+/* format of `julia>` */
+
+      .julia_line{
+        color      : rgb(32, 198, 121) !important;
+        font-weight: bold;
+        display    : inline;
+        font-size  : 100%;
+      }
+
+/* to fix disproportionate size in outputs */
+      .julia_repl_NoFormat {
+        font-size    : 90%;
+      }
+
+      .julia_repl_NoFormat .julia_line, .julia_repl_NoFormat code{
+        font-size:100%
+      }
+
+      .mixed_output_NoFormat{ font-size    : 90%;}
+
+      .mixed_output_NoFormat pre, .mixed_output_NoFormat .julia_line, .mixed_output_NoFormat code {
+        font-size:100%
+      }
+
+
+/* to not collapse with the copy button and `pre` */
 .akin_to_pre {
   white-space: pre-wrap;
-  font-family: "Consolas";
+  font-family: "Consolas", monospace;  
 }
 
   /* NoFormat for julia repl - no margins or paddings, just colors, fonts, etc */
 .julia_repl_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -993,16 +1017,16 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 
+
+
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
-    font-family     : "Consolas";    
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;    
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -1024,9 +1048,10 @@ color: white;
 
 /* NoFormat for Mixed */
 
+
+
 .mixed_output_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -1037,13 +1062,11 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 .mixed_output_NoFormat pre code{
-  font-size       : 90%;
   margin          : 0 !important;
   padding         : 0 !important;
   border          : none;
@@ -1055,7 +1078,7 @@ color: white;
 /* Inline for julia_repl and franklin_output - adding margins and paddings  */
 .mixed_output_inline{
     color           : #DCDCDC;
-    font-family     : "Consolas";    
+    font-family     : "Consolas", monospace;    
     background-color: rgb(1, 59,31);
 
     padding-left  : 1em;
@@ -1063,7 +1086,7 @@ color: white;
     padding-bottom: 1em;
     
     margin-top   : 0;
-    margin-bottom: 0;
+    margin-bottom: 0;    
   }
 
   
@@ -1119,7 +1142,6 @@ color: white;
 
 .code_NoFormat{    
     line-height     : 1.45;
-    font-size       : 95%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(0, 16, 41);
@@ -1131,8 +1153,9 @@ color: white;
     background-color: rgb(0, 16, 41);
 }
 
+
 .code_NoFormat pre code{          
-    font-family     : "Cascadia Mono";       /* Fira Mono */
+    font-family     : "Cascadia Mono", monospace ;       /* Fira Mono */
     margin          : 0 !important;
     padding         : 0 !important;
     border          : none;
@@ -1164,8 +1187,9 @@ color: white;
 
 .code_box{
   margin : 0;
-  padding: 0;
+  padding: 0;  
 }
+
 .code_box details > summary{  
   width           : max-content;  max-width : 90%;
   padding-left    : 10px;
@@ -1245,7 +1269,7 @@ color: white;
 
 .tab_wrapper{
   width  : 100%;
-  display: inline-block;  
+  display: inline-block;    
   }
 
 
@@ -1463,8 +1487,7 @@ margin-top: 0px;
 
 
 
-
-  </style>  
+</style>  
     
   
 
@@ -2508,27 +2531,23 @@ color: white;
 </style>
 
 
-
-
-
 <!-- {{ispage list_posts links}}  
   {{insert /index_page/lists_header.html}}  
   {{insert /index_page/lists_FORMAT.html}}  
 {{end}} -->
 
- 
 <div class="franklin-content">
 <section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Vector creations can be a performance bottleneck, as they cause memory allocations. These creations occur not only when defining new vectors, but also when computing temporary vectors for intermediate steps. For example, accessing a vector slice &#40;e.g., <code>x&#91;1:2&#93;</code>&#41; or performing broadcasted operations for intermediate steps &#40;e.g., <code>sum&#40;x .* y&#41;</code>&#41; involve the creation of temporary vectors.</p>
-<p>As discussed in previous sections, <strong>tuples</strong> can avoid these allocations. Building on this approach, this section introduces <strong>static vectors</strong>, available though the <code>StaticArrays</code> package. Static vectors are essentially tuples at their core, and are therefore <strong>only suitable for objects comprising a few elements</strong>. As a rule of thumb, consider <strong>using static vectors for up to 75 elements</strong>. Beyond this limit, the creation and access overhead will outweigh any potential speed gain, or directly become computationally infeasible.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The number of elements I suggest is lower than the official documentation&#39;s recommendation, which indicate 100 elements. As you approach that upper limit, the time savings compared to regular vectors diminishes pronouncedly. Quite likely, you might end up spending more time benchmarking performance than you would gain in speed benefits.  </span></span> </p>
-<p>When the number of elements is small, static vectors have several advantages over tuples. Firstly, they maintain their performance for larger collections. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> You can see this by executing <code>sum&#40;x .* y&#41;</code> when <code>x</code> and <code>y</code> are treated as tuples or static vectors  </span></span>. Secondly, static vectors are manipulated in the same manner as regular vectors, even supporting other array types such as matrices &#40;hence the name of the package&#41;. Finally, unlike tuples that are immutable collections, <code>StaticArrays</code> offers mutable variants. These provide performance benefits relative to arrays, although immutable options still offer the best performance.</p>
+<p>Vector creation can be a performance bottleneck due to their overhead caused by memory allocations. The issue arises not only when defining new vectors, but also when we reference a slice like <code>x&#91;1:2&#93;</code>, or computing intermediate results on the fly like <code>x .* y</code> in <code>sum&#40;x .* y&#41;</code>.</p>
+<p>This section introduces one way to address this limitation of the built-in vectors. It&#39;s based on the so-called <strong>static vectors</strong>, which are made available by the <code>StaticArrays</code> package. Unlike the built-in vectors, which are allocated on the heap, static vectors are allocated on the stack  and are essentially tuples under the hood. This feature determines that they&#39;re <strong>only suitable for collections comprising a few elements</strong>. As a rule of thumb, consider <strong>using static vectors for up to 75 elements</strong>. Beyond this threshold, the overhead associated with their creation and access will outweigh any potential performance gain, or directly result in a fatal error.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The recommended number of elements is actually lower than the documentation&#39;s suggested limit of up to 100 elements. The reason for this discrepancy is that as you approach the upper limit, the performance benefits of static vectors compared to regular vectors decreases significantly. As a result, you may find yourself spending more time benchmarking performance than reaping any speed advantages.  </span></span> </p>
+<p>Despite being built on top of tuples, static vectors offer various additional advantages. Firstly, they maintain their performance benefits even with larger collections. Secondly, static vectors are more convenient to work with, as they can be manipulated as regular vectors. In fact, they support other array types like matrices, explaining the package&#39;s name. Finally, <code>StaticArrays</code> provides mutable variants, making them less rigid than tuples, which only exist as immutable objects. In this respect, it&#39;s worth indicating that, while the mutable version provides performance benefits relative to regular vectors, the immutable option still offers the best performance.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     To avoid repetition, <strong>the entire section assumes all collections contain a few elements</strong>. This means that all the benefits of static vectors highlighted in the section are contingent upon this assumption. Moreover, <strong>we'll proceed as if you had executed</strong> <code>using StaticArrays</code> at the beginning of each script to access the package.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     To avoid repetition, <strong>the entire section assumes all collections contain a few elements</strong>. Considering this, any benefit of static vectors that is highlighted is contingent upon this assumption. We&#39;ll also suppose that the <code>StaticArrays</code> package is already available in the workspace, which demands including the line <code>using StaticArrays</code> at the beginning of each session.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2538,8 +2557,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Creating Static Vectors</h2></p>
-<p>There are several variants of static vectors. We&#39;ll mainly focus on the type <code>SVector</code>, which we&#39;ll refer to as SVectors. </p>
-<p>Below, we present several approaches to creating an SVector, each serving a distinct purpose. The first one creates an SVector by defining each element, while the other converts a standard vector into an SVector.</p>
+<p>The package <code>StaticArrays</code> include several variants of static vectors.Our focus we&#39;ll be mainly on the type <code>SVector</code>, which we&#39;ll refer to as SVectors. </p>
+<p>There are several approaches to creating an SVector, each serving a distinct purpose. We present them below. The first one creates an SVector through literal values, while the other option included converts a standard vector into an SVector.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2553,7 +2572,7 @@ sx &#61; SVector&#40;3,4,5&#41;
 sx &#61; SVector&#123;3, Int64&#125;&#40;3,4,5&#41;
 sx &#61; SA&#91;3,4,5&#93;
 sx &#61; @SVector &#91;i for i in 3:5&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sx</code> <br/> <pre><code class="plaintext code-output">3-element SVector{3, Int64} with indices SOneTo(3):
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>sx</code> <br/> <pre><code class="plaintext code-output">3-element SVector{3, Int64} with indices SOneTo(3):
  3
  4
  5</code></pre> </div></div> </div> 
@@ -2565,7 +2584,7 @@ sx &#61; SVector&#40;x...&#41;
 sx &#61; SVector&#123;length&#40;x&#41;, eltype&#40;x&#41;&#125;&#40;x&#41;
 sx &#61; SA&#91;x...&#93;
 sx &#61; @SVector &#91;a for a in x&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>sx</code> <br/> <pre><code class="plaintext code-output">10-element SVector{10, Int64} with indices SOneTo(10):
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>sx</code> <br/> <pre><code class="plaintext code-output">10-element SVector{10, Int64} with indices SOneTo(10):
   1
   2
   3
@@ -2574,8 +2593,8 @@ sx &#61; @SVector &#91;a for a in x&#93;</code></pre> </div></div>
  10</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Of these approaches, we&#39;ll mainly rely on the function <code>SVector</code>, occasionally employing <code>SA</code> for indexing. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Approaches like the <code>@SVector</code> macro require some caveats. For instance, it doesn&#39;t allow for defining ranges that include local variables. This precludes the use of <code>eachindex&#40;x&#41;</code> in the definition of ranges, unless <code>x</code> is a global variable.  </span></span> Note the use of the <a href="/julia_book/PAGES/4c_arguments/#splatting">splatting operator</a> <code>...</code> to turn a regular vector into an SVector. The operator <code>...</code> is necessary for the function <code>SVector</code> to transform a collection into a sequence of arguments. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For instance, <code>foo&#40;x...&#41;</code> is equivalent to <code>foo&#40;x&#91;1&#93;, x&#91;2&#93;, x&#91;3&#93;&#41;</code> given a vector or tuple <code>x</code> with 3 elements.  </span></span></p>
-<p>We can also define slices of an SVector <code>sx</code>. However, we must be mindful of how indexing works for SVectors: a slice remains an SVector when indices are specified as SVectors, whereas the slice becomes an ordinary vector for indices given by ranges or regular vectors. The sole exception to this rule is when the slice is created through <code>sx&#91;:&#93;</code>, in which case an SVector is returned.</p>
+<p>Of these approaches, we&#39;ll mainly rely on the function <code>SVector</code>, occasionally employing <code>SA</code> for indexing. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The approach based on the macro <code>@SVector</code> requires some caveats. For instance, it doesn&#39;t support specifications based on local variables. This precludes the use of <code>eachindex&#40;x&#41;</code>, unless <code>x</code> is a global variable.  </span></span> Note the use of the <a href="/julia_book/PAGES/4c_arguments/#splatting">splatting operator</a> <code>...</code> to turn a regular vector into an SVector. The operator <code>...</code> is necessary for the function <code>SVector</code> to transform a collection into a sequence of arguments. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For instance, <code>foo&#40;x...&#41;</code> is equivalent to <code>foo&#40;x&#91;1&#93;, x&#91;2&#93;, x&#91;3&#93;&#41;</code> given a vector or tuple <code>x</code> with 3 elements.  </span></span></p>
+<p>It&#39;s possible to define slices of SVectors, although we must be mindful of how indexing works for SVectors: a slice remains an SVector when indices are specified as SVectors, whereas the slice becomes an ordinary vector for indices given by ranges or regular vectors. The sole exception to this rule is when the slice references the whole object &#40;i.e., <code>sx&#91;:&#93;</code>&#41;, in which case an SVector is returned.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2587,13 +2606,13 @@ sx &#61; @SVector &#91;a for a in x&#93;</code></pre> </div></div>
 # both define static vectors
 slice1 &#61; sx&#91;:&#93;
 slice2 &#61; sx&#91;SA&#91;1,2&#93;&#93;        # or slice2 &#61; sx&#91;SVector&#40;1,2&#41;&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>slice1</code> <br/> <pre><code class="plaintext code-output">8-element SVector{8, Int64} with indices SOneTo(8):
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>slice1</code> <br/> <pre><code class="plaintext code-output">8-element SVector{8, Int64} with indices SOneTo(8):
   3
   4
   ⋮
   9
  10</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>slice2</code> <br/> <pre><code class="plaintext code-output">2-element SVector{2, Int64} with indices SOneTo(2):
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>slice2</code> <br/> <pre><code class="plaintext code-output">2-element SVector{2, Int64} with indices SOneTo(2):
  3
  4</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
@@ -2602,7 +2621,7 @@ slice2 &#61; sx&#91;SA&#91;1,2&#93;&#93;        # or slice2 &#61; sx&#91;SVector
 # both define and ordinary vector
 slice2 &#61; sx&#91;1:2&#93;
 slice2 &#61; sx&#91;&#91;1,2&#93;&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>slice</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>slice</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Int64}:
  3
  4</code></pre> </div></div> </div> 
  </div></div>
@@ -2616,7 +2635,7 @@ slice2 &#61; sx&#91;&#91;1,2&#93;&#93;</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>SVectors Don't Allocate and Are Faster</h2></p>
-<p>The <code>StaticArrays</code> package are internally based on tuples, entailing that SVectors don&#39;t allocate memory. </p>
+<p>The objects defined in <code>StaticArrays</code> are built on top of tuples when possible. This entails that SVectors typically don&#39;t allocate memory. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2633,7 +2652,7 @@ function foo&#40;x&#41;
 
     sum&#40;a&#41; * sum&#40;b&#41;         # 0 allocation &#40;scalars don&#39;t allocate&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  29.819 ns (2 allocations: 160 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  29.819 ns (2 allocations: 160 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;10&#41;
@@ -2644,7 +2663,7 @@ end</code></pre> </div></div>
 
     sum&#40;a&#41; * sum&#40;b&#41;         # 0 allocation &#40;scalars don&#39;t allocate&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  15.015 ns (1 allocation: 80 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  15.015 ns (1 allocation: 80 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;10&#41;;   tup &#61; Tuple&#40;x&#41;
@@ -2655,7 +2674,7 @@ function foo&#40;x&#41;
 
     sum&#40;a&#41; * sum&#40;b&#41;         # 0 allocation &#40;scalars don&#39;t allocate&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;tup&#41;</code> <br/> <pre><code class="plaintext code-output">  1.400 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;tup&#41;</code> <br/> <pre><code class="plaintext code-output">  1.400 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;10&#41;;   sx &#61; SA&#91;x...&#93;
@@ -2666,11 +2685,11 @@ function foo&#40;x&#41;
 
     sum&#40;a&#41; * sum&#40;b&#41;         # 0 allocation &#40;scalars don&#39;t allocate&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  1.600 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  1.600 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Avoiding memory allocation is especially relevant for operations that implicitly or explicitly create temporary vectors, such as broadcasting.</p>
+<p>The impact of SVectors on memory allocations is especially relevant for operations creating temporary vectors, such as broadcasting.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2680,17 +2699,17 @@ end</code></pre> </div></div>
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;10&#41;
 
 foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  17.936 ns (1 allocation: 144 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  17.936 ns (1 allocation: 144 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;10&#41;;   sx &#61; SVector&#40;x...&#41;
 
 foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  1.800 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  1.800 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Interestingly, even if an operation doesn&#39;t allocate with regular vectors, SVectors still provide performance benefits. To illustrate this, consider the function <code>sum&#40;f, &lt;vector&gt;&#41;</code>, which sums the elements of <code>&lt;vector&gt;</code> after they&#39;re transformed via <code>f</code>. The implementation below shows that the operation is faster with SVectors, despite not allocating memory under regular vectors.</p>
+<p>Interestingly, even if an operation doesn&#39;t allocate memory under regular vectors, SVectors still provide performance benefits. To illustrate this, consider the function <code>sum&#40;f, &lt;vector&gt;&#41;</code>, which sums the elements of <code>&lt;vector&gt;</code> after they&#39;re transformed via <code>f</code>. The implementation below shows that the operation is faster with SVectors, despite not allocating memory with regular vectors.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2700,13 +2719,13 @@ foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;</code></pre> </div></div>
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; rand&#40;10&#41;
 
 foo&#40;x&#41; &#61; sum&#40;a -&gt; 10 &#43; 2a &#43;  3a^2, x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  4.400 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  4.400 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; rand&#40;10&#41;;  sx &#61; SVector&#40;x...&#41;;
 
 foo&#40;x&#41; &#61; sum&#40;a -&gt; 10 &#43; 2a &#43;  3a^2, x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  2.900 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  2.900 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2739,7 +2758,7 @@ sx&#91;1&#93; &#61; 0</code></pre>
 mx &#61; MVector&#40;x...&#41;
 
 mx&#91;1&#93; &#61; 0</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>mx</code> <br/> <pre><code class="plaintext code-output">3-element MVector{3, Int64} with indices SOneTo(3):
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>mx</code> <br/> <pre><code class="plaintext code-output">3-element MVector{3, Int64} with indices SOneTo(3):
  0
  2
  3</code></pre> </div></div> </div> 
@@ -2757,22 +2776,22 @@ mx&#91;1&#93; &#61; 0</code></pre> </div></div>
 sx &#61; SVector&#40;x...&#41;;  mx &#61; MVector&#40;x...&#41;
 
 foo&#40;x&#41; &#61; sum&#40;a -&gt; 10 &#43; 2a &#43;  3a^2, x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  4.400 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  4.400 ns (0 allocations: 0 bytes)
 </code></pre> </div></p>
-<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  2.800 ns (0 allocations: 0 bytes)
+<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  2.800 ns (0 allocations: 0 bytes)
 </code></pre> </div>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;mx&#41;</code> <br/> <pre><code class="plaintext code-output">  2.900 ns (0 allocations: 0 bytes)
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;mx&#41;</code> <br/> <pre><code class="plaintext code-output">  2.900 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x  &#61; rand&#40;10&#41;
 sx &#61; SVector&#40;x...&#41;;  mx &#61; MVector&#40;x...&#41;
 
 foo&#40;x&#41; &#61; 10 &#43; 2x &#43;  3x^2</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo.&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  19.739 ns (1 allocation: 144 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo.&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  19.739 ns (1 allocation: 144 bytes)
 </code></pre> </div></p>
-<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo.&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  1.600 ns (0 allocations: 0 bytes)
+<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo.&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  1.600 ns (0 allocations: 0 bytes)
 </code></pre> </div>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo.&#40;&#36;mx&#41;</code> <br/> <pre><code class="plaintext code-output">  6.600 ns (1 allocation: 96 bytes)
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo.&#40;&#36;mx&#41;</code> <br/> <pre><code class="plaintext code-output">  6.600 ns (1 allocation: 96 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2813,7 +2832,7 @@ function foo&#40;x; output &#61; similar&#40;x&#41;&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.188 μs (101 allocations: 5.17 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.188 μs (101 allocations: 5.17 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;50&#41;
@@ -2826,7 +2845,7 @@ function foo&#40;x; output &#61; similar&#40;x&#41;, temp &#61; similar&#40;x&#4
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  695.745 ns (2 allocations: 992 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  695.745 ns (2 allocations: 992 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;50&#41;;   sx &#61; SVector&#40;x...&#41;
@@ -2839,7 +2858,7 @@ function foo&#40;x; output &#61; Vector&#123;Float64&#125;&#40;undef, length&#40
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  183.661 ns (1 allocation: 496 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  183.661 ns (1 allocation: 496 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;50&#41;;   sx &#61; SVector&#40;x...&#41;
@@ -2852,7 +2871,7 @@ function foo&#40;x; output &#61; similar&#40;x&#41;&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  148.817 ns (1 allocation: 448 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  148.817 ns (1 allocation: 448 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;50&#41;;   sx &#61; SVector&#40;x...&#41;
@@ -2865,7 +2884,7 @@ function foo&#40;x; output &#61; MVector&#123;length&#40;x&#41;,eltype&#40;x&#41
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>@btime foo&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  148.975 ns (1 allocation: 448 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;sx&#41;</code> <br/> <pre><code class="plaintext code-output">  148.975 ns (1 allocation: 448 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2961,7 +2980,7 @@ end
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 5, 2024 
+          © Martin Alfaro <br>Last Modified June 10, 2024 
       </span> 
   </div> 
 </footer>
@@ -3426,6 +3445,76 @@ for multiple pics in a row
 
 </style>
 
+<!-- FOR COPYING THE TITLES IN SECTION -->
+       
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const h2Elements = document.querySelectorAll('h2');
+
+        h2Elements.forEach(h2 => {
+            h2.addEventListener('click', function (event) {
+                const text = h2.textContent.trim();
+                const url  = `${window.location.origin}${window.location.pathname}#${text.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}`;
+
+                // Create a temporary input element
+                const tempInput = document.createElement('input');
+                document.body.appendChild(tempInput);
+                tempInput.value = url;
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                // Create a container element for the tooltip
+                const tooltipContainer = document.createElement('div');
+                tooltipContainer.style.position = 'absolute'; // Set position: relative on the container                
+
+                // Create a tooltip element
+                const tooltip                    = document.createElement('span');
+                      tooltip.textContent        = 'Link Copied';
+                      tooltip.style.position     = 'absolute';
+                      tooltip.style.background   = 'rgba(63, 99, 136, 0.75)';
+                      tooltip.style.color        = 'white';
+                      tooltip.style.padding      = '4px 2px';
+                      tooltip.style.borderRadius = '4px';
+                      tooltip.style.fontSize     = '14px';
+
+
+                tooltipContainer.appendChild(tooltip); // Add the tooltip to the container
+                h2.appendChild(tooltipContainer); // Add the container to the h2 element
+
+                // Get the cursor position
+                const rect = h2.getBoundingClientRect();
+                const x    = event.clientX - rect.left - 28;
+                const y    = event.clientY - rect.bottom - 25;
+
+
+
+                // Set the tooltip position
+                tooltip.style.top  = `${y}px`;  // Adjust the y position to move the tooltip above the cursor
+                tooltip.style.left = `${x}px`;
+
+                // Remove the tooltip after 2 seconds
+                setTimeout(() => {
+                    h2.removeChild(tooltipContainer);
+                }, 1000);
+            });
+        });
+    });
+</script>
+
+
+
+<style>
+    h2 {
+        cursor: pointer;
+    }
+
+    .hand-cursor {
+        cursor: wait;
+    }
+</style>    
+
+
 
 
 <!-- 
@@ -3603,9 +3692,11 @@ document.addEventListener('keydown', (e) => {
   display: block;
 }
 
-</style>
 
-    
+
+
+
+</style>    
 
 
 
@@ -3674,6 +3765,7 @@ document.addEventListener('keydown', (e) => {
     
     })();
     </script>
+
 
 
 

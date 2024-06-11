@@ -115,7 +115,8 @@ header .jumbotron {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">    
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    
  
 
  
@@ -912,7 +913,7 @@ color: white;
        
     /* FOR INLINE CODE, WRITTEN WITHIN THE TEXT*/
   code {  
-    background-color: rgb(209, 217, 224);         /*rgb(199, 223, 236);*/
+    background-color: rgb(209, 217, 224);              /*rgb(199, 223, 236);*/
     color           : black;
     text-indent     : 0%;
     padding-top     : 0.1em;
@@ -921,13 +922,13 @@ color: white;
     padding-right   : 0.3em;
     vertical-align  : 0.05em;
     border          : 1px solid rgb(0, 16, 41);
-    overflow: hidden;
+    overflow        : hidden;
   }
 
   .julia_repl_NoFormat code, .mixed_output_NoFormat code {  
     background-color: rgb(82, 120, 104);         /*rgb(199, 223, 236);*/
     color           : #DCDCDC;
-    border          : 1px solid rgb(82, 120, 104);    
+    border          : 1px solid rgb(82, 120, 104);        
   }
 
 
@@ -945,7 +946,7 @@ color: white;
     font-size     : 12px;
     text-transform: lowercase;
     font-weight   : 500;
-    padding       : 0px 10px 2px;
+    padding       : 2px 10px 2px;
       /* background-color:   #3f6b4b; */
     background-color: rgb(63,99,136);
     position        : absolute;
@@ -969,20 +970,43 @@ color: white;
   
 
 
-
 /* ================================================================= 
                       BASIC FORMAT FOR OUTPUTS
   ================================================================= */ 
-  /* to not collapse with the copy button and `pre` */
+/* format of `julia>` */
+
+      .julia_line{
+        color      : rgb(32, 198, 121) !important;
+        font-weight: bold;
+        display    : inline;
+        font-size  : 100%;
+      }
+
+/* to fix disproportionate size in outputs */
+      .julia_repl_NoFormat {
+        font-size    : 90%;
+      }
+
+      .julia_repl_NoFormat .julia_line, .julia_repl_NoFormat code{
+        font-size:100%
+      }
+
+      .mixed_output_NoFormat{ font-size    : 90%;}
+
+      .mixed_output_NoFormat pre, .mixed_output_NoFormat .julia_line, .mixed_output_NoFormat code {
+        font-size:100%
+      }
+
+
+/* to not collapse with the copy button and `pre` */
 .akin_to_pre {
   white-space: pre-wrap;
-  font-family: "Consolas";
+  font-family: "Consolas", monospace;  
 }
 
   /* NoFormat for julia repl - no margins or paddings, just colors, fonts, etc */
 .julia_repl_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -993,16 +1017,16 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 
+
+
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
-    font-family     : "Consolas";    
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;    
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -1024,9 +1048,10 @@ color: white;
 
 /* NoFormat for Mixed */
 
+
+
 .mixed_output_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -1037,13 +1062,11 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 .mixed_output_NoFormat pre code{
-  font-size       : 90%;
   margin          : 0 !important;
   padding         : 0 !important;
   border          : none;
@@ -1055,7 +1078,7 @@ color: white;
 /* Inline for julia_repl and franklin_output - adding margins and paddings  */
 .mixed_output_inline{
     color           : #DCDCDC;
-    font-family     : "Consolas";    
+    font-family     : "Consolas", monospace;    
     background-color: rgb(1, 59,31);
 
     padding-left  : 1em;
@@ -1063,7 +1086,7 @@ color: white;
     padding-bottom: 1em;
     
     margin-top   : 0;
-    margin-bottom: 0;
+    margin-bottom: 0;    
   }
 
   
@@ -1119,7 +1142,6 @@ color: white;
 
 .code_NoFormat{    
     line-height     : 1.45;
-    font-size       : 95%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(0, 16, 41);
@@ -1131,8 +1153,9 @@ color: white;
     background-color: rgb(0, 16, 41);
 }
 
+
 .code_NoFormat pre code{          
-    font-family     : "Cascadia Mono";       /* Fira Mono */
+    font-family     : "Cascadia Mono", monospace ;       /* Fira Mono */
     margin          : 0 !important;
     padding         : 0 !important;
     border          : none;
@@ -1164,8 +1187,9 @@ color: white;
 
 .code_box{
   margin : 0;
-  padding: 0;
+  padding: 0;  
 }
+
 .code_box details > summary{  
   width           : max-content;  max-width : 90%;
   padding-left    : 10px;
@@ -1245,7 +1269,7 @@ color: white;
 
 .tab_wrapper{
   width  : 100%;
-  display: inline-block;  
+  display: inline-block;    
   }
 
 
@@ -1463,8 +1487,7 @@ margin-top: 0px;
 
 
 
-
-  </style>  
+</style>  
     
   
 
@@ -2508,15 +2531,11 @@ color: white;
 </style>
 
 
-
-
-
 <!-- {{ispage list_posts links}}  
   {{insert /index_page/lists_header.html}}  
   {{insert /index_page/lists_FORMAT.html}}  
 {{end}} -->
 
- 
 <div class="franklin-content">
 <section id="introduction" class="scrollspy">
   <div class="container">
@@ -2548,14 +2567,14 @@ color: white;
 
 y     &#61; 3 * x</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">6</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">6</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x     &#61; 2
 
 foo&#40;&#41; &#61; 3 * x</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;&#41;</code><br/><div class="akin_to_pre">6</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;&#41;</code><br/><div class="akin_to_pre">6</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>Recall that an expression like <code>x &#61; 2</code> is shorthand for <code>x::Any &#61; 2</code>. This reflects that global variables default to <code>Any</code>, unless they&#39;re type-annotated. Also remember that only concrete types can be <a href="/julia_book/PAGES/7c_TS-onTypes/#instantiate">instantiated</a>, meaning that values can only adopt a concrete type. Consequently, <code>x::Any</code> shouldn&#39;t be understood as <code>x</code> having type <code>Any</code>, but rather that <code>x</code> can take any concrete type that is a subtype of <code>Any</code>. Since <code>Any</code> is always the top hierarchy in Julia, this is equivalent to saying that <code>x</code>&#39;s types are unrestricted.</p>
@@ -2576,8 +2595,8 @@ foo&#40;&#41; &#61; 3 * x</code></pre>
  <div class=" code_box"> <details  open><summary> Methods  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo&#40;a,b&#41;                  &#61; a &#43; b
 foo&#40;a::String, b::String&#41; &#61; &quot;This is &#36;a and this is &#36;b&quot;</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;1,2&#41;</code><br/><div class="akin_to_pre">3</div> </div></p>
-<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;&quot;some text&quot;, &quot;more text&quot;&#41;</code><br/><div class="akin_to_pre">"This is some text and this is more text"</div> </div></div> </div>   </details></div>
+<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;1,2&#41;</code><br/><div class="akin_to_pre">3</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;&quot;some text&quot;, &quot;more text&quot;&#41;</code><br/><div class="akin_to_pre">"This is some text and this is more text"</div> </div></div> </div>   </details></div>
 <p>The code snippet defines the behavior of <code>foo</code>, which depends on the argument types at call time. Specifically, it specifies that the body of <code>foo&#40;a,b&#41;</code> applies to any combination of types for <code>a</code> and <code>b</code>, except when each has type <code>String</code>, in which case the relevant function body is <code>foo&#40;a::String, b::String&#41;</code>. This explains the different outputs obtained for each function call.</p>
 <p>The example also reveals that <strong>methods don't have to share the same functionality</strong>. Obviously, grouping radically different operations under the same function&#39;s name isn&#39;t recommended. However, the technique is valuable when used properly. For instance, it enables the adoption of more efficient algorithms, tailored to the specific types being considered.</p>
 <p>Furthermore, <strong>methods don't need to have the same number of arguments</strong>. For instance, defining the following methods for a function <code>bar</code> is possible.</p>
@@ -2585,9 +2604,9 @@ foo&#40;a::String, b::String&#41; &#61; &quot;This is &#36;a and this is &#36;b&
 <pre><code class="language-julia">bar&#40;x&#41;       &#61; x
 bar&#40;x, y&#41;    &#61; x &#43; y
 bar&#40;x, y, z&#41; &#61; x &#43; y &#43; z</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>bar&#40;1&#41;</code> <br/> 1 </div></p>
-<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>bar&#40;1, 2&#41;</code> <br/> 3 </div>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>bar&#40;1, 2, 3&#41;</code> <br/> 6 </div></div> </div>   </details></div>
+<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>bar&#40;1&#41;</code> <br/> 1 </div></p>
+<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>bar&#40;1, 2&#41;</code> <br/> 3 </div>
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>bar&#40;1, 2, 3&#41;</code> <br/> 6 </div></div> </div>   </details></div>
 <p>The feature is particularly relevant for extending a function&#39;s functionality. To illustrate this point, let&#39;s take the function <code>sum</code>. Until now, we&#39;ve only used its simplest form, <code>sum&#40;x&#41;</code>, which adds all the elements of a collection <code>x</code>. However, <code>sum</code> also supports another method <code>sum&#40;&lt;function&gt;, x&#41;</code>, where the elements of <code>x</code> are transformed through <code>&lt;function&gt;</code>, before summing them.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;2, 3, 4&#93;
@@ -2614,12 +2633,12 @@ z &#61; sum&#40;log, x&#41;     # log&#40;2&#41; &#43; log&#40;3&#41; &#43; log&
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo&#40;a, b&#41; &#61; 2 &#43; a * b</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;1, 2&#41;</code><br/><div class="akin_to_pre">4</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;1, 2&#41;</code><br/><div class="akin_to_pre">4</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo&#40;a::T, b::S&#41; where &#123;T,S&#125; &#61; 2 &#43; a * b</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;1, 2&#41;</code><br/><div class="akin_to_pre">4</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;1, 2&#41;</code><br/><div class="akin_to_pre">4</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>The first tab defines the method <code>foo&#40;a,b&#41;</code>, which takes arguments without any explicit type restrictions. Recall that untyped variables are actually implicitly type-annotated with <code>Any</code>. Consequently, the function body holds for any combination of types of <code>a</code> and <code>b</code>. This can be observed more clearly in the second tab, which defines the same function but explicitly stating the assumptions on types: as <code>&#123;T,S&#125;</code> is equivalent to <code>&#123;T&lt;:Any, S:&lt;Any&#125;</code>, <code>a</code> and <code>b</code> accept values of any type.</p>
@@ -2645,9 +2664,9 @@ z &#61; sum&#40;log, x&#41;     # log&#40;2&#41; &#43; log&#40;3&#41; &#43; log&
 <p>Let&#39;s continue with the same example, but adding several function calls. </p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo&#40;a, b&#41; &#61; 2 &#43; a * b</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;1, 2&#41;</code><br/><div class="akin_to_pre">4</div> </div></p>
-<div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;3, 2&#41;</code><br/><div class="akin_to_pre">8</div> </div>
-<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;3.0, 2&#41;</code><br/><div class="akin_to_pre">8.0</div> </div></div> </div>   </details></div>
+<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;1, 2&#41;</code><br/><div class="akin_to_pre">4</div> </div></p>
+<div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;3, 2&#41;</code><br/><div class="akin_to_pre">8</div> </div>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;3.0, 2&#41;</code><br/><div class="akin_to_pre">8.0</div> </div></div> </div>   </details></div>
 <p>If we&#39;ve just started a new session, so that <code>foo&#40;1,2&#41;</code> is called for the first time, Julia won&#39;t find any method instance for <code>foo&#40;a::Int64, b::Int64&#41;</code>. Consequently, it&#39;ll have to generate a new implementation for this unique combination of types. Compiling code is the reason a function&#39;s first call is slower than the subsequent runs, a phenomenon that is dubbed <a href="/julia_book/PAGES/7b_benchmarks/#time_to_first_plot">Time To First Plot</a>. </p>
 <p>Note that this code is eventually stored, so that the computation of <code>foo&#40;3, 2&#41;</code> will directly invoke the method instance <code>foo&#40;a::Int64, b::Int64&#41;</code>. Nonetheless, the call <code>foo&#40;3.0, 2&#41;</code> requires compiling a new method instance <code>foo&#40;a::Float64, b::Int64&#41;</code>, resulting in a first-call latency again.</p>
  <h4> Type Inference </h4>
@@ -2660,7 +2679,7 @@ z &#61; sum&#40;log, x&#41;     # log&#40;2&#41; &#43; log&#40;3&#41; &#43; log&
 <pre><code class="language-julia">x      &#61; &#91;1, 2, &quot;hello&quot;&#93;    # Vector&#123;Any&#125;
 
 foo&#40;x&#41; &#61; x&#91;1&#93; &#43; x&#91;2&#93;        # type unstable</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;x&#41;</code><br/><div class="akin_to_pre">3</div> </div></div> </div>   </details></div>
+<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;x&#41;</code><br/><div class="akin_to_pre">3</div> </div></div> </div>   </details></div>
 <p>In the example, the compiler can&#39;t identify a unique concrete type for <code>x&#91;1&#93;</code> and <code>x&#91;2&#93;</code>. Consequently, it can&#39;t specialize the operation <code>&#43;</code>.</p>
 <p>      </div>
     </div>
@@ -2686,7 +2705,7 @@ b         &#61; 1
 
 foo&#40;a&#41;    &#61; a * b</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;a&#41;</code><br/><div class="akin_to_pre">2</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;a&#41;</code><br/><div class="akin_to_pre">2</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">a         &#61; 2
@@ -2694,7 +2713,7 @@ b::Number &#61; 1
 
 foo&#40;a&#41;    &#61; a * b</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;a&#41;</code><br/><div class="akin_to_pre">2</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;a&#41;</code><br/><div class="akin_to_pre">2</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>In both examples <code>b</code> is a global variable. Consequently, <code>b</code>&#39;s type in the first tab is inferred to <code>Any</code>, while in the second tab to <code>Number</code>.</p>
@@ -2710,20 +2729,20 @@ foo&#40;a&#41;    &#61; a * b</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo1&#40;a::Float64, b::Float64&#41; &#61; a * b</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo1&#40;0.5, 2.0&#41;</code><br/><div class="akin_to_pre">1.0</div> </div></p>
-<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo1&#40;1, 2&#41;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching foo1(::Int64, ::Int64)</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo1&#40;0.5, 2.0&#41;</code><br/><div class="akin_to_pre">1.0</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo1&#40;1, 2&#41;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching foo1(::Int64, ::Int64)</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo2&#40;a, b&#41; &#61; a * b</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo2&#40;0.5, 2.0&#41;</code><br/><div class="akin_to_pre">1.0</div> </div></p>
-<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo2&#40;1, 2&#41;</code><br/><div class="akin_to_pre">2</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo2&#40;0.5, 2.0&#41;</code><br/><div class="akin_to_pre">1.0</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo2&#40;1, 2&#41;</code><br/><div class="akin_to_pre">2</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>The function&#39;s first tab only accepts arguments with type <code>Float64</code>. Note that even integer variables are rejected, as function arguments aren&#39;t converted to a common type. On the contrary, the function&#39;s second tab entails the same process for <code>Float64</code> inputs, but additionally allows for other types. The flexibility stems from the implicit type-annotation <code>Any</code> for the function arguments. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Packages Commonly Type-Annotate Function Arguments</strong>  </span>  </div>  <div class=content>     When inspect the code of packages, you may notice that function arguments are often type-annotated. The reason for this isn&#39;t related to performance, but rather to ensure the function&#39;s intended usage, safeguarding against inadvertent type mismatches. </p>
-<p>For instance, suppose a function that computes a theater&#39;s revenues through <code>tickets * price</code>. In Julia, the operator <code>*</code> multiplies numbers, but also concatenates words for expressions with type <code>String</code>. Therefore, without type-annotations, the function can be misused. This is shown in the first table, with the second tab addressing the issue by asserting types.</p>
+<p>For instance, suppose a function that computes a theater&#39;s revenues through <code>nr_tickets * price</code>. In Julia, the operator <code>*</code> multiplies numbers, but also concatenates words for expressions with type <code>String</code>. Therefore, without type-annotations, the function can be misused. This is shown in the first table, with the second tab addressing the issue by asserting types.</p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2731,16 +2750,16 @@ foo&#40;a&#41;    &#61; a * b</code></pre>
     <button class="tablink" data-id=""> Type-Annotated Function </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">revenue1&#40;tickets, price&#41; &#61; tickets * price</code></pre>
+<pre><code class="language-julia">revenue1&#40;nr_tickets, price&#41; &#61; nr_tickets * price</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>revenue1&#40;3, 2&#41;</code><br/><div class="akin_to_pre">6</div> </div></p>
-<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>revenue1&#40;&quot;this is &quot;, &quot;allowed&quot;&#41;</code><br/><div class="akin_to_pre">"this is allowed"</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>revenue1&#40;3, 2&#41;</code><br/><div class="akin_to_pre">6</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>revenue1&#40;&quot;this is &quot;, &quot;allowed&quot;&#41;</code><br/><div class="akin_to_pre">"this is allowed"</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">revenue2&#40;tickets::Int64, price::Number&#41; &#61; tickets * price</code></pre>
+<pre><code class="language-julia">revenue2&#40;nr_tickets::Int64, price::Number&#41; &#61; nr_tickets * price</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>revenue2&#40;3, 2&#41;</code><br/><div class="akin_to_pre">6</div> </div></p>
-<p><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>revenue2&#40;&quot;this is &quot;, &quot;not allowed&quot;&#41;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching revenue2(::String, ::String)</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>revenue2&#40;3, 2&#41;</code><br/><div class="akin_to_pre">6</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>revenue2&#40;&quot;this is &quot;, &quot;not allowed&quot;&#41;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching revenue2(::String, ::String)</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
 <p>      </div>
@@ -2765,7 +2784,7 @@ foo&#40;a&#41;    &#61; a * b</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 5, 2024 
+          © Martin Alfaro <br>Last Modified June 10, 2024 
       </span> 
   </div> 
 </footer>
@@ -3230,6 +3249,76 @@ for multiple pics in a row
 
 </style>
 
+<!-- FOR COPYING THE TITLES IN SECTION -->
+       
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const h2Elements = document.querySelectorAll('h2');
+
+        h2Elements.forEach(h2 => {
+            h2.addEventListener('click', function (event) {
+                const text = h2.textContent.trim();
+                const url  = `${window.location.origin}${window.location.pathname}#${text.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}`;
+
+                // Create a temporary input element
+                const tempInput = document.createElement('input');
+                document.body.appendChild(tempInput);
+                tempInput.value = url;
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                // Create a container element for the tooltip
+                const tooltipContainer = document.createElement('div');
+                tooltipContainer.style.position = 'absolute'; // Set position: relative on the container                
+
+                // Create a tooltip element
+                const tooltip                    = document.createElement('span');
+                      tooltip.textContent        = 'Link Copied';
+                      tooltip.style.position     = 'absolute';
+                      tooltip.style.background   = 'rgba(63, 99, 136, 0.75)';
+                      tooltip.style.color        = 'white';
+                      tooltip.style.padding      = '4px 2px';
+                      tooltip.style.borderRadius = '4px';
+                      tooltip.style.fontSize     = '14px';
+
+
+                tooltipContainer.appendChild(tooltip); // Add the tooltip to the container
+                h2.appendChild(tooltipContainer); // Add the container to the h2 element
+
+                // Get the cursor position
+                const rect = h2.getBoundingClientRect();
+                const x    = event.clientX - rect.left - 28;
+                const y    = event.clientY - rect.bottom - 25;
+
+
+
+                // Set the tooltip position
+                tooltip.style.top  = `${y}px`;  // Adjust the y position to move the tooltip above the cursor
+                tooltip.style.left = `${x}px`;
+
+                // Remove the tooltip after 2 seconds
+                setTimeout(() => {
+                    h2.removeChild(tooltipContainer);
+                }, 1000);
+            });
+        });
+    });
+</script>
+
+
+
+<style>
+    h2 {
+        cursor: pointer;
+    }
+
+    .hand-cursor {
+        cursor: wait;
+    }
+</style>    
+
+
 
 
 <!-- 
@@ -3407,9 +3496,11 @@ document.addEventListener('keydown', (e) => {
   display: block;
 }
 
-</style>
 
-    
+
+
+
+</style>    
 
 
 
@@ -3478,6 +3569,7 @@ document.addEventListener('keydown', (e) => {
     
     })();
     </script>
+
 
 
 

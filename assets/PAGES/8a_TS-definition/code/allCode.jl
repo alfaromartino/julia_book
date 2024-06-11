@@ -10,13 +10,45 @@ using Statistics, BenchmarkTools, Chairmarks
 #
 ############################################################################
  
+x = [1, 2, 3]                  # `x` has type `Vector{Int64}`
+
+@btime sum($x[1:2])            # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = [1, 2, "hello"]            # `x` has type `Vector{Any}`
 
 @btime sum($x[1:2])            # type UNSTABLE
  
-x = [1, 2, 3]                  # `x` has type `Vector{Int64}`
+############################################################################
+#
+#           TYPE STABILITY WITH SCALARS
+#
+############################################################################
+ 
+function foo(x,y)
+    a = (x > y) ?  x  :  y
 
-@btime sum($x[1:2])            # type stable
+    [a * i for i in 1:100_000]
+end
+
+foo(1, 2)           # type stable   -> `a * i` is always `Int64`
+@btime foo(1, 2)            # hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+function foo(x,y)
+    a = (x > y) ?  x  :  y
+
+    [a * i for i in 1:100_000]
+end
+
+foo(1, 2.5)         # type UNSTABLE -> `a * i` is either `Int64` or `Float64`
+@btime foo(1, 2.5)            # hide
  
 ############################################################################
 #
@@ -28,45 +60,54 @@ x1::Vector{Int}     = [1, 2, 3]
 
 sum(x1)             # type stable
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x2::Vector{Int64}   = [1, 2, 3]
 
 sum(x2)             # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 x3::Vector{Float64} = [1, 2, 3]
 
 sum(x3)             # type stable
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x4::BitVector       = [true, false, true]
 
 sum(x4)             # type stable
  
-x5::Vector{Number}  = [1, 2, 3]
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x                  = [1, 2, 3]
+
+sum(x)             # type stable
+@btime sum(x)   # hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x5::Vector{Number} = [1, 2, 3]
 
 sum(x5)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Number`
+@btime sum(x5)   # hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 x6::Vector{Any}     = [1, 2, 3]
 
 sum(x6)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Any`
- 
-############################################################################
-#
-#           TYPE STABILITY WITH VECTORS
-#
-############################################################################
- 
-function foo(x,y)
-    a = (x > y) ?  x  :  y
-
-    a * 2
-end
-
-foo(1, 2)           # type stable   -> `a * 2` is always `Int64`
- 
-function foo(x,y)
-    a = (x > y) ?  x  :  y
-
-    a * 2
-end
-
-foo(1, 2.5)         # type UNSTABLE -> `a * 2` is either `Int64` or `Float64`
+@btime sum(x6)   # hide
  

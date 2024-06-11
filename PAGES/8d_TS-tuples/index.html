@@ -115,7 +115,8 @@ header .jumbotron {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">    
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    
  
 
  
@@ -912,7 +913,7 @@ color: white;
        
     /* FOR INLINE CODE, WRITTEN WITHIN THE TEXT*/
   code {  
-    background-color: rgb(209, 217, 224);         /*rgb(199, 223, 236);*/
+    background-color: rgb(209, 217, 224);              /*rgb(199, 223, 236);*/
     color           : black;
     text-indent     : 0%;
     padding-top     : 0.1em;
@@ -921,13 +922,13 @@ color: white;
     padding-right   : 0.3em;
     vertical-align  : 0.05em;
     border          : 1px solid rgb(0, 16, 41);
-    overflow: hidden;
+    overflow        : hidden;
   }
 
   .julia_repl_NoFormat code, .mixed_output_NoFormat code {  
     background-color: rgb(82, 120, 104);         /*rgb(199, 223, 236);*/
     color           : #DCDCDC;
-    border          : 1px solid rgb(82, 120, 104);    
+    border          : 1px solid rgb(82, 120, 104);        
   }
 
 
@@ -945,7 +946,7 @@ color: white;
     font-size     : 12px;
     text-transform: lowercase;
     font-weight   : 500;
-    padding       : 0px 10px 2px;
+    padding       : 2px 10px 2px;
       /* background-color:   #3f6b4b; */
     background-color: rgb(63,99,136);
     position        : absolute;
@@ -969,20 +970,43 @@ color: white;
   
 
 
-
 /* ================================================================= 
                       BASIC FORMAT FOR OUTPUTS
   ================================================================= */ 
-  /* to not collapse with the copy button and `pre` */
+/* format of `julia>` */
+
+      .julia_line{
+        color      : rgb(32, 198, 121) !important;
+        font-weight: bold;
+        display    : inline;
+        font-size  : 100%;
+      }
+
+/* to fix disproportionate size in outputs */
+      .julia_repl_NoFormat {
+        font-size    : 90%;
+      }
+
+      .julia_repl_NoFormat .julia_line, .julia_repl_NoFormat code{
+        font-size:100%
+      }
+
+      .mixed_output_NoFormat{ font-size    : 90%;}
+
+      .mixed_output_NoFormat pre, .mixed_output_NoFormat .julia_line, .mixed_output_NoFormat code {
+        font-size:100%
+      }
+
+
+/* to not collapse with the copy button and `pre` */
 .akin_to_pre {
   white-space: pre-wrap;
-  font-family: "Consolas";
+  font-family: "Consolas", monospace;  
 }
 
   /* NoFormat for julia repl - no margins or paddings, just colors, fonts, etc */
 .julia_repl_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -993,16 +1017,16 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 
+
+
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
-    font-family     : "Consolas";    
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;    
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -1024,9 +1048,10 @@ color: white;
 
 /* NoFormat for Mixed */
 
+
+
 .mixed_output_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -1037,13 +1062,11 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 .mixed_output_NoFormat pre code{
-  font-size       : 90%;
   margin          : 0 !important;
   padding         : 0 !important;
   border          : none;
@@ -1055,7 +1078,7 @@ color: white;
 /* Inline for julia_repl and franklin_output - adding margins and paddings  */
 .mixed_output_inline{
     color           : #DCDCDC;
-    font-family     : "Consolas";    
+    font-family     : "Consolas", monospace;    
     background-color: rgb(1, 59,31);
 
     padding-left  : 1em;
@@ -1063,7 +1086,7 @@ color: white;
     padding-bottom: 1em;
     
     margin-top   : 0;
-    margin-bottom: 0;
+    margin-bottom: 0;    
   }
 
   
@@ -1119,7 +1142,6 @@ color: white;
 
 .code_NoFormat{    
     line-height     : 1.45;
-    font-size       : 95%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(0, 16, 41);
@@ -1131,8 +1153,9 @@ color: white;
     background-color: rgb(0, 16, 41);
 }
 
+
 .code_NoFormat pre code{          
-    font-family     : "Cascadia Mono";       /* Fira Mono */
+    font-family     : "Cascadia Mono", monospace ;       /* Fira Mono */
     margin          : 0 !important;
     padding         : 0 !important;
     border          : none;
@@ -1164,8 +1187,9 @@ color: white;
 
 .code_box{
   margin : 0;
-  padding: 0;
+  padding: 0;  
 }
+
 .code_box details > summary{  
   width           : max-content;  max-width : 90%;
   padding-left    : 10px;
@@ -1245,7 +1269,7 @@ color: white;
 
 .tab_wrapper{
   width  : 100%;
-  display: inline-block;  
+  display: inline-block;    
   }
 
 
@@ -1463,8 +1487,7 @@ margin-top: 0px;
 
 
 
-
-  </style>  
+</style>  
     
   
 
@@ -2508,23 +2531,22 @@ color: white;
 </style>
 
 
-
-
-
 <!-- {{ispage list_posts links}}  
   {{insert /index_page/lists_header.html}}  
   {{insert /index_page/lists_FORMAT.html}}  
 {{end}} -->
 
- 
 <div class="franklin-content">
 <section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>A <strong>type-stable function</strong> arises when the compiler has the ability to infer the types of its expressions, given the types of its arguments. However, this definition manifests in various ways when applied to specific objects. So far, we&#39;ve exclusively focused on scalars and vectors, in which case attaining type stability is relatively straightforward. It basically requires that their constituting elements have primitive types such as <code>Float64</code>, <code>Int64</code>, or <code>Bool</code>. </p>
-<p>This section moves forward by applying the definition to more complex objects, such as other collections &#40;tuples&#41;, functions, and types themselves. Their exploration will challenge our understanding of type stability, demanding a clear grasp of its definition and its subtleties.</p>
+<p>A function is considered type stable when, given the types of its arguments, the compiler can accurately predict single concrete types for its expressions. This definition, while universal, takes on different forms when applied to specific objects. So far, we&#39;ve exclusively concentrated on scalars and vectors, whose conditions for type stability are relatively straightforward. </p>
+<p>In this section, we begin the analysis of type stability for other data structures. In particular, we cover tuples, deferring functions and types themselves to subsequent sections. Guaranteeing type stability with tuples is more nuanced compared to vectors, as their type characterization demands more information. Its exploration will challenge our understanding of type stability, demanding a clear grasp of its definition and subtleties.</p>
+ <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Warning!</b> - Tuples Are Only Suitable For Small Collections </span>  </div>  <div class=content>     Remember that tuples should only be used for collections that comprise a few elements. Using them for large collections will result in significant performance degradation, or directly trigger fatal errors.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2534,17 +2556,13 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Features of Tuples</h2></p>
-<p>Jointly with vectors, tuples are the most pervasive form of collections in Julia. Their coverage is important regarding type stability for two reasons. First, it&#39;ll automatically cover <strong>named tuples</strong>, which are just tuples with symbols as keys instead of indices. In particular, they behave similarly to tuples for type stability, as names are irrelevant for choosing a computation method. Second, tuples play a crucial role for performance. We&#39;ll expand on this aspect when we analyze  <em>static vectors</em>, but their main advantage is avoiding memory allocations, resulting in faster computations. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Static vectors essentially provide the performance benefits of tuples, but allowing a representation similar to vectors.  </span></span></p>
- <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Tuples Are Only Suitable For Small Collections </span>  </div>  <div class=content>     Remember that tuples should only be used for collections that comprise a few elements. Using them for large collections will result in significant performance degradation, or directly trigger fatal errors.  </div>  </div>
-<p>Tuples have a more intricate type system than vectors, which is a direct consequence of their underlying design principles. To expand on this, let&#39;s compare the nature of each object. </p>
-<p>Vectors represent a collection that could dynamically vary in size, with elements sharing the same type. For instance, the type <code>Vector&#123;Float64&#125;</code> establishes that  <em>all</em> its elements have type <code>Float64</code>, implicitly assuming that the number of elements is indeterminate.</p>
-<p>For their part, tuples are collections with a fixed size, whose elements can exhibit heterogeneous types. This makes a tuple&#39;s type be more demanding in terms of information: it requires the number of elements and the type of  <em>each</em> element. For instance, consider <code>tup &#61; &#40;&quot;hello&quot;, 1&#41;</code>. This variable has type <code>Tuple&#123;String, Int64&#125;</code>, indicating that the first element has type <code>String</code> and the second one <code>Int64</code>.  Furthermore, it implicitly sets the number of elements to two, without any possibility of adding or removing elements.</p>
-<p>When tuples have <code>N</code> elements with a homogeneous type <code>T</code>, Julia provides the convenient alias <code>Ntuple&#123;N, Float64&#125;</code>. This is just syntactic sugar for <code>Tuple&#123;T, T,...,T&#125;</code>, where <code>T</code> appears N times. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Don&#39;t confuse <code>NTuple</code> as an abbreviation for the type <code>NamedTuple</code>.  </span></span></p>
-<p>In the following, we explore instances where tuples and vectors differ in their implications for type stability.</p>
- <h4> Types of Tuple Elements Can Be Heterogeneous </h4>
-<p>Unlike vectors, a tuple retains information of each individual element&#39;s type. This determines that Julia won&#39;t attempt to promote the types of its elements, as it does with vectors. This can be observed in the following example.</p>
+<p>Tuples and vectors are the most ubiquitous forms of collections in Julia, with tuples playing a vital role for two reasons. Firstly, tuples are instrumental in optimizing performance, as they avoid the overhead of memory allocation. This is an aspect that we&#39;ll expand on when we analyze  <em>static vectors</em>, which can be viewed as tuples with a vector-like representation. The second reason is that exploring tuples automatically encompasses the case of <strong>named tuples</strong>. These are just tuples with keys given by symbols instead of indices.</p>
+<p>In comparison to vectors, tuples possess a more intricate type system. To appreciate this, let&#39;s compare the inherent characteristics of each. As for vectors, the necessary information to describe them is relatively minor, as they represent collections of elements sharing a uniform type. Moreover, since vectors can dynamically vary in size, their type doesn&#39;t demand information about the number of elements. For instance, the type <code>Vector&#123;Float64&#125;</code> conveys that  <em>all</em> elements have type <code>Float64</code>, with the number of elements remaining indeterminate.</p>
+<p>For their part, tuples are fixed-size collections that can accommodate heterogeneous types. This makes the type characterization more demanding, requiring the number of elements and the type of  <em>each</em> individual element. For instance, consider the variable <code>tup &#61; &#40;&quot;hello&quot;, 1&#41;</code>, which has type <code>Tuple&#123;String, Int64&#125;</code>. This explicitly indicates that the first element has type <code>String</code> and the second one <code>Int64</code>.  Furthermore, it implicitly sets the number of elements to two, with no possibility of appending or removing elements.</p>
+<p>The fact that the number of elements is part of the type is evident with tuples containing <code>N</code> elements of the same type <code>T</code>. In this case, Julia provides the convenient alias <code>Ntuple&#123;N, Float64&#125;</code>, which is just syntactic sugar for <code>Tuple&#123;T, T,...,T&#125;</code> where <code>T</code> appears N times. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Don&#39;t confuse <code>NTuple</code> as an abbreviation for the type <code>NamedTuple</code>.  </span></span></p>
+<p>In the following, we present scenarios where the choice between tuples and vectors have different consequences for type stability.</p>
+ <h4> Tuple Elements Can Have Heterogeneous Types </h4>
+<p>The type characterizing provides information on each individual element&#39;s type. This deems type promotion unnecessary, as it occurs when we define vectors with heterogeneous types. The difference in behavior can be observed in the following example.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2564,7 +2582,7 @@ foo&#40;x&#41; &#61; sum&#40;x&#91;1:2&#93;&#41;
 @code_warntype foo&#40;vector&#41;              # type stable &#40;output returned is &#96;Float64&#96;&#41;</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>A consequence of this is that type stability can be achieved even when elements have remarkably different types. </p>
+<p>A consequence of this is that type stability with tuples can be achieved even when its elements have dissimilar types. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2584,9 +2602,9 @@ foo&#40;x&#41; &#61; sum&#40;x&#91;1:2&#93;&#41;
 @code_warntype foo&#40;vector&#41;              # type UNSTABLE</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
- <h4> Vectors Have Less Information than Tuples </h4>
-<p>Our task may demand converting tuples to vectors or vice versa, which can pose challenges for type stability. </p>
-<p>When creating a vector from a tuple, type instability arises when elements have heterogeneous types. This occurs because vectors share the same type for all its elements, thereby requiring a supertype to encompass all heterogeneous types. The consequence is that Julia won&#39;t be able to specialize. </p>
+ <h4> Vectors Contain Less Information than Tuples </h4>
+<p>In some scenarios, our task may demand converting tuples to vectors or vice versa. This conversion can pose challenges for type stability. </p>
+<p>Specifically, when creating a vector from a tuple, type instability will arise if the tuple has elements with heterogeneous types. This occurs because vectors must have a uniform type for all their elements. Consequently, the heterogeneous types of the tuple must be encompassed through a supertype. The consequence is that Julia won&#39;t be able to specialize. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2616,7 +2634,7 @@ end
 @code_warntype foo&#40;tup&#41;       # type UNSTABLE</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>For its part, creating a tuple from a vector will inevitably cause a type instability. The key to this is that vectors don&#39;t store information about the number of elements contained. Without this information, the compiler needs to assume that tuples have a variable number of arguments. This represents a type instability, as it involves multiple types, one for each possible number of elements.</p>
+<p>For its part, creating a tuple from a vector will inevitably cause a type instability, regardless of the vector&#39;s characteristics. The reason is that vectors don&#39;t store information about the number of elements contained. Consequently, the compiler must treat tuples as having a variable number of arguments. This makes the function call type unstable, as each possible number of elements results in a different concrete type.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2655,15 +2673,16 @@ end
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Dispatch By Value</h2></p>
-<p>A key takeaway from the previous example is that defining tuples from vectors will invariably introduce type instability. A simple remedy for this is to create the corresponding tuple outside the function, and then pass it as an argument.</p>
+<p>A key takeaway from the previous example is that defining tuples from vectors invariably introduce type instability. A simple remedy for this is to create the corresponding tuple outside the function, and then pass it as an argument. This is demonstrated in the code snippet below.</p>
  <div class=" code_box"> <details  open><summary> Tuple as Function Argument  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">x   &#61; &#91;1, 2, 3&#93;
 tup &#61; Tuple&#40;x&#41;
 
 foo&#40;tup&#41; &#61; sum&#40;tup&#91;1:2&#93;&#41;
 
 @code_warntype foo&#40;tup&#41;         # type stable</code></pre> </div> </div>  </details></div>
-<p>However, it could be that you unavoidably need to define the tuple inside the function. When this is the case, there are a few alternatives. Note that simply specifying the vector&#39;s number of elements doesn&#39;t solve the issue. The reason is that the compiler generates methods based on information about types, not values. Consequently, if you incorporate a function argument like <code>length&#40;x&#41;</code>, the compiler will only extract as information that the number of elements has type <code>Int64</code>. </p>
-<p>An approach that does work is to define the tuple&#39;s length through a literal value. Nonetheless, this solution defeats the purpose of having a general function, as it&#39;d limit the function to only work with tuples of a single predetermined size.</p>
+<p><strong>This approach should be your first consideration</strong> when addressing the type instability. Nonetheless, there may be scenarios where defining the tuple inside the function is unavoidable. For these cases, there are a few alternatives we could consider. </p>
+<p>Note first that simply passing the vector&#39;s number of elements as an argument doesn&#39;t solve the issue. The reason is that the compiler generates method instances based on information about types, not values. This means that a function argument like <code>length&#40;x&#41;</code> merely informs that the number of elements has type <code>Int64</code>, without providing any additional insight.</p>
+<p>Instead, one effective solution is to define the tuple&#39;s length using a literal value, as demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2691,10 +2710,13 @@ end
 @code_warntype foo&#40;tup&#41;       # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>In this context, the most general solution is to provide the compiler with information on values, which is known <strong>dispatching by value</strong>. The approach is more advanced, so  <em>I recommend using it only when creating the corresponding tuple outside the function is unfeasible</em>. </p>
-<p>Its implementation requires a workaround, since the compiler creates methods based on information about types exclusively. Specifically, it involves the creation of a type that stores the vector&#39;s number of elements. This is achieved through the built-in type <code>Val</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> You could find it useful to revisit <a href="/julia_book/PAGES/7b01_preliminaries_stability/#remarks_on_types">the section on types</a>.  </span></span></p>
-<p>Specifically, suppose a function <code>foo</code> and a value <code>a</code> that you want the compiler to know. The solution is to include a type-annotated argument without name, whose type is <code>Val</code> and has a type parameter <code>a</code>. Formally, the function argument is <code>::Val&#123;a&#125;</code>. Once you create the function <code>foo</code> in this way, you call it passing an argument <code>Val&#40;a&#41;</code>, which instantiates a type with parameter <code>a</code>.</p>
-<p>Before applying the methodology to the creation of tuples from vectors, let&#39;s consider a more general example. Suppose a function that defines a variable that adopts values with different types, contingent to a condition. By dispatching by value, we can pass information about the Boolean value capturing the condition. This allows the compiler to specialize the method when the condition is <code>true</code> and when it&#39;s <code>false</code>.</p>
+<p>The downside of this solution is that it defeats the purpose of having a generic function, as it restricts the function to tuples of a single predetermined size. In this context, to eliminate the type instability without constraining functionality, we need to introduce a more advanced solution. This is based on a technique known as <strong>dispatch by value</strong>. Since this approach is more complex to implement, textit&#123;I recommend using it only when passing the tuple as a function argument is unfeasible&#125;. </p>
+<p>Next, we lay out the principles of dispatch by value, and then apply the technique to the specific case of tuples.</p>
+ <h4> Definition </h4>
+<p>Dispatch by value enables users to pass information about values to the compiler. Implementing this feature, nonetheless, requires a workaround, since the compiler only gathers information about types. The hack consists of creating a type that stores values as type parameters. In the case of tuples, this type parameter is simply the vector&#39;s number of elements. </p>
+<p>The functionality is achieved via the built-in type <code>Val</code>, whose syntax can be best explained with an example. Suppose a function <code>foo</code> and a value <code>a</code> that you wish the compiler to know. The technique requires defining <code>foo</code> with a type-annotated argument having no name, <code>::Val&#123;a&#125;</code>.  After this, you must call <code>foo</code> passing an argument <code>Val&#40;a&#41;</code>, which instantiates a type with parameter <code>a</code>.</p>
+<p>To illustrate the syntax, we revisit an example from previous sections. This considers a variable <code>y</code> that could be an <code>Int64</code> or <code>Float64</code>, contingent upon a condition. The ambiguity of <code>y</code>&#39;s type is then transmitted to any subsequent operation, leading to type instability.</p>
+<p>Dispatch by value is implemented by defining the condition as a type parameter of <code>Val</code>. In this way, the compiler will receive information about whether condition is <code>true</code> or <code>false</code>, and therefore know <code>y</code>&#39;s type. This makes it possible to specialize its operations.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2720,7 +2742,12 @@ end
 @code_warntype foo&#40;Val&#40;false&#41;&#41;   # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Applying this technique to the creation of tuples from vectors, we can pass the vector&#39;s number of elements as a type parameter. In this way, the function becomes type stable.</p>
+ <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Warning!</b> </span>  </div>  <div class=content>     The function argument <code>Val</code> must be defined with <code>&#123;&#125;</code>, but called with <code>&#40;&#41;</code>. This is because types define their parameters with <code>&#123;&#125;</code>, while instances of types require functions.  </div>  </div>
+ <h4> Dispatching by Value with Tuples </h4>
+<p>Let&#39;s now revisit the conversion of vectors to tuples. As we previously discussed, type instability arises because vectors don&#39;t store their size as part of their type information, leaving the compiler without sufficient information to determine the tuple&#39;s type.</p>
+<p>Dispatch by value provides a solution to this issue: by passing the vector&#39;s length as a type parameter, the function call becomes type stable.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2770,7 +2797,7 @@ end
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 5, 2024 
+          © Martin Alfaro <br>Last Modified June 10, 2024 
       </span> 
   </div> 
 </footer>
@@ -3235,6 +3262,76 @@ for multiple pics in a row
 
 </style>
 
+<!-- FOR COPYING THE TITLES IN SECTION -->
+       
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const h2Elements = document.querySelectorAll('h2');
+
+        h2Elements.forEach(h2 => {
+            h2.addEventListener('click', function (event) {
+                const text = h2.textContent.trim();
+                const url  = `${window.location.origin}${window.location.pathname}#${text.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}`;
+
+                // Create a temporary input element
+                const tempInput = document.createElement('input');
+                document.body.appendChild(tempInput);
+                tempInput.value = url;
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                // Create a container element for the tooltip
+                const tooltipContainer = document.createElement('div');
+                tooltipContainer.style.position = 'absolute'; // Set position: relative on the container                
+
+                // Create a tooltip element
+                const tooltip                    = document.createElement('span');
+                      tooltip.textContent        = 'Link Copied';
+                      tooltip.style.position     = 'absolute';
+                      tooltip.style.background   = 'rgba(63, 99, 136, 0.75)';
+                      tooltip.style.color        = 'white';
+                      tooltip.style.padding      = '4px 2px';
+                      tooltip.style.borderRadius = '4px';
+                      tooltip.style.fontSize     = '14px';
+
+
+                tooltipContainer.appendChild(tooltip); // Add the tooltip to the container
+                h2.appendChild(tooltipContainer); // Add the container to the h2 element
+
+                // Get the cursor position
+                const rect = h2.getBoundingClientRect();
+                const x    = event.clientX - rect.left - 28;
+                const y    = event.clientY - rect.bottom - 25;
+
+
+
+                // Set the tooltip position
+                tooltip.style.top  = `${y}px`;  // Adjust the y position to move the tooltip above the cursor
+                tooltip.style.left = `${x}px`;
+
+                // Remove the tooltip after 2 seconds
+                setTimeout(() => {
+                    h2.removeChild(tooltipContainer);
+                }, 1000);
+            });
+        });
+    });
+</script>
+
+
+
+<style>
+    h2 {
+        cursor: pointer;
+    }
+
+    .hand-cursor {
+        cursor: wait;
+    }
+</style>    
+
+
 
 
 <!-- 
@@ -3400,9 +3497,11 @@ document.addEventListener('keydown', (e) => {
   display: block;
 }
 
-</style>
 
-    
+
+
+
+</style>    
 
 
 
@@ -3471,6 +3570,7 @@ document.addEventListener('keydown', (e) => {
     
     })();
     </script>
+
 
 
 

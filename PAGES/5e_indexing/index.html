@@ -115,7 +115,8 @@ header .jumbotron {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">    
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    
  
 
  
@@ -912,7 +913,7 @@ color: white;
        
     /* FOR INLINE CODE, WRITTEN WITHIN THE TEXT*/
   code {  
-    background-color: rgb(209, 217, 224);         /*rgb(199, 223, 236);*/
+    background-color: rgb(209, 217, 224);              /*rgb(199, 223, 236);*/
     color           : black;
     text-indent     : 0%;
     padding-top     : 0.1em;
@@ -921,13 +922,13 @@ color: white;
     padding-right   : 0.3em;
     vertical-align  : 0.05em;
     border          : 1px solid rgb(0, 16, 41);
-    overflow: hidden;
+    overflow        : hidden;
   }
 
   .julia_repl_NoFormat code, .mixed_output_NoFormat code {  
     background-color: rgb(82, 120, 104);         /*rgb(199, 223, 236);*/
     color           : #DCDCDC;
-    border          : 1px solid rgb(82, 120, 104);    
+    border          : 1px solid rgb(82, 120, 104);        
   }
 
 
@@ -945,7 +946,7 @@ color: white;
     font-size     : 12px;
     text-transform: lowercase;
     font-weight   : 500;
-    padding       : 0px 10px 2px;
+    padding       : 2px 10px 2px;
       /* background-color:   #3f6b4b; */
     background-color: rgb(63,99,136);
     position        : absolute;
@@ -969,20 +970,43 @@ color: white;
   
 
 
-
 /* ================================================================= 
                       BASIC FORMAT FOR OUTPUTS
   ================================================================= */ 
-  /* to not collapse with the copy button and `pre` */
+/* format of `julia>` */
+
+      .julia_line{
+        color      : rgb(32, 198, 121) !important;
+        font-weight: bold;
+        display    : inline;
+        font-size  : 100%;
+      }
+
+/* to fix disproportionate size in outputs */
+      .julia_repl_NoFormat {
+        font-size    : 90%;
+      }
+
+      .julia_repl_NoFormat .julia_line, .julia_repl_NoFormat code{
+        font-size:100%
+      }
+
+      .mixed_output_NoFormat{ font-size    : 90%;}
+
+      .mixed_output_NoFormat pre, .mixed_output_NoFormat .julia_line, .mixed_output_NoFormat code {
+        font-size:100%
+      }
+
+
+/* to not collapse with the copy button and `pre` */
 .akin_to_pre {
   white-space: pre-wrap;
-  font-family: "Consolas";
+  font-family: "Consolas", monospace;  
 }
 
   /* NoFormat for julia repl - no margins or paddings, just colors, fonts, etc */
 .julia_repl_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -993,16 +1017,16 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 
+
+
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
-    font-family     : "Consolas";    
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;    
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -1024,9 +1048,10 @@ color: white;
 
 /* NoFormat for Mixed */
 
+
+
 .mixed_output_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -1037,13 +1062,11 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 .mixed_output_NoFormat pre code{
-  font-size       : 90%;
   margin          : 0 !important;
   padding         : 0 !important;
   border          : none;
@@ -1055,7 +1078,7 @@ color: white;
 /* Inline for julia_repl and franklin_output - adding margins and paddings  */
 .mixed_output_inline{
     color           : #DCDCDC;
-    font-family     : "Consolas";    
+    font-family     : "Consolas", monospace;    
     background-color: rgb(1, 59,31);
 
     padding-left  : 1em;
@@ -1063,7 +1086,7 @@ color: white;
     padding-bottom: 1em;
     
     margin-top   : 0;
-    margin-bottom: 0;
+    margin-bottom: 0;    
   }
 
   
@@ -1119,7 +1142,6 @@ color: white;
 
 .code_NoFormat{    
     line-height     : 1.45;
-    font-size       : 95%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(0, 16, 41);
@@ -1131,8 +1153,9 @@ color: white;
     background-color: rgb(0, 16, 41);
 }
 
+
 .code_NoFormat pre code{          
-    font-family     : "Cascadia Mono";       /* Fira Mono */
+    font-family     : "Cascadia Mono", monospace ;       /* Fira Mono */
     margin          : 0 !important;
     padding         : 0 !important;
     border          : none;
@@ -1164,8 +1187,9 @@ color: white;
 
 .code_box{
   margin : 0;
-  padding: 0;
+  padding: 0;  
 }
+
 .code_box details > summary{  
   width           : max-content;  max-width : 90%;
   padding-left    : 10px;
@@ -1245,7 +1269,7 @@ color: white;
 
 .tab_wrapper{
   width  : 100%;
-  display: inline-block;  
+  display: inline-block;    
   }
 
 
@@ -1463,8 +1487,7 @@ margin-top: 0px;
 
 
 
-
-  </style>  
+</style>  
     
   
 
@@ -2549,23 +2572,18 @@ color: white;
 </style>
 
 
-
-
-
 <!-- {{ispage list_posts links}}  
   {{insert /index_page/lists_header.html}}  
   {{insert /index_page/lists_FORMAT.html}}  
 {{end}} -->
 
- 
 <div class="franklin-content">
 <section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>To mutate vectors, the first step is to identify the specific elements to be modified. This process is known as <strong>vector indexing</strong>. </p>
-<p>We&#39;ve already introduced vectors and ranges for vector indexing, making it possible to select elements of <code>x</code> through <code>x&#91;&#91;1,2,3&#93;&#93;</code> or <code>x&#91;1:3&#93;</code>. These approaches are effective for simple selections, but they fall short for selecting multiple elements meeting a certain condition. This section expands our toolbox by presenting new forms of indexing. The approaches are based on techniques we&#39;ve learned so far, primarily broadcasting and Boolean operations.</p>
+<p>A prerequisite for mutating vectors is to identify the specific elements to be modified. This process is known as <strong>vector indexing</strong>. We&#39;ve already covered basic indexing methods, such as selecting elements through vectors and ranges &#40;e.g., <code>x&#91;&#91;1,2,3&#93;&#93;</code> or <code>x&#91;1:3&#93;</code>&#41;. While these approaches are effective for simple selections, they fall short for selecting multiple elements based on certain conditions. This section expands our toolbox by presenting more advanced forms of indexing, which build upon broadcasting and Boolean operations.</p>
 <p>      </div>
     </div>
   </div>
@@ -2575,15 +2593,14 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Logical Indexing</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Logical indexing</strong></span> enables the user to select elements by identifying <strong>indices through a Boolean vector</strong>. </p>
-<p>Formally, consider a vector <code>x</code> and a Boolean vector <code>y</code> of the same size. Then, <code>x&#91;y&#93;</code> returns a new vector containing the elements from <code>x</code> where <code>y</code> is true, and discards elements where <code>y</code> is false. The following example illustrates this.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Logical indexing</strong></span>, also known as  <em>Boolean indexing</em> or  <em>masking</em>, enables the user to select elements based on a set of conditions. Unlike traditional indexing methods that rely on positions, logical indexing enables you to choose elements based on their properties. </p>
+<p>The functionality is implemented through a Boolean vector to filter elements, where <code>true</code> keeps an element and <code>false</code> discards it. Formally, consider a vector <code>x</code> and a Boolean vector <code>y</code> of the same length. Then, <code>x&#91;y&#93;</code> will return a new vector containing the elements from <code>x</code> where the corresponding element of <code>y</code> is true. In other words, it filters out any elements where <code>y</code> is false. The following example illustrates its use.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;1,2,3&#93;
 y &#61; &#91;true, false, true&#93;</code></pre>
-<p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;y&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+<p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x&#91;y&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  1
  3</div> </div></div> </div>   </details></div>
-<p>The convenience of logical indexing arises when the Boolean vector <code>y</code> is constructed through functions and operators, as we do next.</p>
 <p>      </div>
     </div>
   </div>
@@ -2593,7 +2610,8 @@ y &#61; &#91;true, false, true&#93;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Boolean Functions and Operators for Logical Indexing</h2></p>
-<p><strong>Broadcasting functions and operators</strong> is an efficient way to create Boolean vectors. The following examples reveal the relevance of this approach for logical indexing. This is demonstrated by selecting the elements of a vector <code>x</code> that are lower than 10.</p>
+<p>The real strength of logical indexing stems from its ability to build Boolean vectors through broadcasting functions and operators. This feature makes it possible to state complex conditional statements easily.</p>
+<p>The following examples implement these approaches, by selecting <code>x</code>&#39;s elements that are lower than 10.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2605,7 +2623,7 @@ y &#61; &#91;true, false, true&#93;</code></pre>
 
 y &#61; x&#91;x .&lt; 10&#93;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  1
  2
  3</div> </div></div> </div> 
@@ -2616,15 +2634,14 @@ y &#61; x&#91;x .&lt; 10&#93;</code></pre>
 criterion&#40;a&#41; &#61; &#40;a &lt; 10&#41;             #function to eventually broadcast
 y            &#61; x&#91;criterion.&#40;x&#41;&#93;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  1
  2
  3</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The first case uses logical indexing by broadcasting the operator <code>&lt;</code>. Its broadcasted version <code>x .&lt; 10</code> provides a <code>Bool</code> vector with <code>true</code> and <code>false</code>, which is used to select the elements of <code>x</code>. An identical result arises by broadcasting the function <code>criterion&#40;a&#41;</code>, as <code>criterion.&#40;x&#41;</code> returns the same vector as <code>x .&lt; 10</code>. Note that the application of functions for logical indexing is more convenient for more complex conditions than the one considered.</p>
-<p>Logical indexing significantly expands our options by incorporating the comparison tools learned in the section <a href="/julia_book/PAGES/5b_conditionals/">Conditional Statements</a>. In particular, we can express multiple conditions through the operators <code>&amp;&amp;</code> and <code>||</code>.</p>
-<p>To demonstrate this, let&#39;s show how to create  <em>i)</em> a vector comprising all the elements in <code>x</code> different from its extrema &#40;i.e., a&#39;s minimum and maximum&#41;, and  <em>ii)</em> a vector only including <code>x</code>&#39;s extrema. To do this, we use two built-in functions: <code>maximum</code> and <code>minimum</code>.</p>
+<p>Note that the conditions comprised by <code>x .&lt; 10</code> are identical to <code>criterion.&#40;x&#41;</code>. An approach based on functions like the latter is particularly useful when dealing with multiple conditions. It facilitates the combination of conditions, which require the operators <code>&amp;&amp;</code> and <code>||</code> introduced in <a href="/julia_book/PAGES/5b_conditionals/">Conditional Statements</a>.</p>
+<p>To illustrate their use, let&#39;s create two vectors:  <em>i)</em> one containing all elements in <code>x</code> except its extrema &#40;i.e., the minimum and maximum values&#41;, and  <em>ii)</em> one comprising only the extrema of <code>x</code>. We&#39;ll achieve this by utilizing the built-in <code>maximum</code> and <code>minimum</code> functions.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2634,7 +2651,7 @@ y            &#61; x&#91;criterion.&#40;x&#41;&#93;</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;1, 2, 3, 4, 5&#93;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;&#40;x .≠ minimum&#40;x&#41;&#41; .&amp;&amp; &#40;x .≠ maximum&#40;x&#41;&#41;&#93;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x&#91;&#40;x .≠ minimum&#40;x&#41;&#41; .&amp;&amp; &#40;x .≠ maximum&#40;x&#41;&#41;&#93;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  2
  3
  4</div> </div></div> </div> 
@@ -2642,12 +2659,12 @@ y            &#61; x&#91;criterion.&#40;x&#41;&#93;</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;1, 2, 3, 4, 5&#93;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;&#40;x .&#61;&#61; minimum&#40;x&#41;&#41; .|| &#40;x .&#61;&#61; maximum&#40;x&#41;&#41;&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x&#91;&#40;x .&#61;&#61; minimum&#40;x&#41;&#41; .|| &#40;x .&#61;&#61; maximum&#40;x&#41;&#41;&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  1
  5</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Note that all the operators in the examples are broadcasted, including <code>&amp;&amp;</code> and <code>||</code>. Otherwise, an error will be thrown.</p>
+<p>Note that both <code>≠</code> and <code>&amp;&amp;</code> must be broadcasted in the example, as well as <code>&#61;&#61;</code> and <code>||</code>. The reason is that these operators only apply to scalars, and therefore their use for vectors must be element-wise. </p>
 <p>      </div>
     </div>
   </div>
@@ -2667,8 +2684,9 @@ y            &#61; x&#91;criterion.&#40;x&#41;&#93;</code></pre>
 </li>
 </ul>
 
-<p>Another common approach for selecting elements in a vector relies on <code>in</code> and <code>∈</code>. Both come in the form of both functions and operators, and their purpose is to check whether each element of a vector belongs to a set. <code>in</code> and <code>∈</code> were introduced <a href="/julia_book/4d_vectorizing/#broadcasting_binary_operators_only_one_vector_broadcasted">here</a>, so it&#39;s advisable to read that section first. </p>
-<p>To explain their use in logical indexing, let <code>x</code> be the vector from which we want to select elements. Moreover, let <code>set_numbers</code> be the numbers we want to keep from <code>x</code>. Logical indexing requires broadcasting <code>in</code> or <code>∈</code>. However, standard broadcasting would entail simultaneously iterating over <code>x</code> and <code>set_numbers</code>. In contrast, we&#39;d like to iterate only over <code>x</code>. Therefore, we need to indicate that <code>set_numbers</code> should be treated as a single object. This can be done in different ways, as we saw <a href="/julia_book/4d_vectorizing/#broadcasting_binary_operators_only_one_vector_broadcasted">here</a>. In particular, we&#39;ll employ the method based on <code>Ref&#40;set_numbers&#41;</code> as a function argument/operand. </p>
+<p>Another common approach for selecting elements of a vector involves <code>in</code> and <code>∈</code>. Both are available as functions and operators, and were already introduced <a href="/julia_book/4d_vectorizing/#broadcasting_binary_operators_only_one_vector_broadcasted">here</a>. Their primary purpose is to determine whether an element belongs to a set.</p>
+<p>To explain their application in logical indexing, let&#39;s consider a vector <code>x</code> from which we want to select specific elements. Suppose in particular that we want to retain the numbers contained in <code>set_numbers</code>. </p>
+<p>Logical indexing requires broadcasting <code>in</code> or <code>∈</code>. However, standard broadcasting would entail simultaneously iterating over <code>x</code> and <code>set_numbers</code>, when we actually would like to iterate only over <code>x</code>. Therefore, we need to indicate that <code>set_numbers</code> should be treated as a single object. This can be done in different ways, as we saw <a href="/julia_book/4d_vectorizing/#broadcasting_binary_operators_only_one_vector_broadcasted">here</a>. In particular, we&#39;ll employ the method based on <code>Ref&#40;set_numbers&#41;</code>. </p>
 <p>The following example demonstrates how to use <code>in</code> and <code>∈</code> to select the minimum and maximum of <code>x</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2684,11 +2702,12 @@ set_numbers &#61; &#91;minimum&#40;x&#41;, maximum&#40;x&#41;&#93;
 bool_indices &#61; in.&#40;x, Ref&#40;set_numbers&#41;&#41;          #&#96;Ref&#40;set_numbers&#41;&#96; can be replaced by &#96;&#40;set_numbers,&#41;&#96;
 bool_indices &#61; &#40;∈&#41;.&#40;x,Ref&#40;set_numbers&#41;&#41;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
  1
  0
  0
- 1</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>a&#91;bool_indices&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 1</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>a&#91;bool_indices&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  -100
   100</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
@@ -2699,11 +2718,12 @@ set_numbers &#61; &#91;minimum&#40;x&#41;, maximum&#40;x&#41;&#93;
 #vector for logical indexing
 bool_indices &#61; x .∈ Ref&#40;set_numbers&#41;            #not possible to broadcast &#96;in&#96; as far as I know</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
  1
  0
  0
- 1</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;bool_indices&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 1</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x&#91;bool_indices&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  -100
   100</div> </div></div> </div> 
  </div></div>
@@ -2717,11 +2737,11 @@ set_numbers &#61; &#91;minimum&#40;x&#41;, maximum&#40;x&#41;&#93;
 
 #vector for logical indexing
 bool_indices &#61; x&#91;in&#40;set_numbers&#41;.&#40;x&#41;&#93;       #curried version, no need to use &#96;Ref&#40;set_numbers&#41;&#96;</code></pre>
-<p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
+<p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
  1
  0
  0
- 1</div> </div><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;bool_indices&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 1</div> </div><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x&#91;bool_indices&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  -100
   100</div> </div></div> </div>   </details></div>  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
@@ -2742,11 +2762,12 @@ set_numbers &#61; &#91;minimum&#40;x&#41;, maximum&#40;x&#41;&#93;
 bool_indices &#61; &#40;&#33;in&#41;.&#40;x, Ref&#40;set_numbers&#41;&#41;
 bool_indices &#61; &#40;∉&#41;.&#40;x, Ref&#40;set_numbers&#41;&#41;          #or &#96;&#40;&#33;∈&#41;.&#40;x, Ref&#40;set_numbers&#41;&#41;&#96;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
  0
  1
  1
- 0</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;bool_indices&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 0</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x&#91;bool_indices&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  2
  4</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
@@ -2757,11 +2778,12 @@ set_numbers &#61; &#91;minimum&#40;x&#41;, maximum&#40;x&#41;&#93;
 #vector for logical indexing
 bool_indices &#61; x .∉ Ref&#40;set_numbers&#41;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
  0
  1
  1
- 0</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x&#91;bool_indices&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 0</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x&#91;bool_indices&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  2
  4</div> </div></div> </div> 
  </div></div>
@@ -2789,11 +2811,12 @@ bool_indices &#61; x .∉ Ref&#40;set_numbers&#41;</code></pre>
 y &#61; findall&#40;a -&gt; a &gt; 7, x&#41;
 z &#61; x&#91;findall&#40;a -&gt; a &gt; 7, x&#41;&#93;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  4
- 5</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 5</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  8
- 9</div> </div><br/></div> </div> 
+ 9</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;5,6,7,8,9&#93;
@@ -2801,11 +2824,12 @@ z &#61; x&#91;findall&#40;a -&gt; a &gt; 7, x&#41;&#93;</code></pre>
 y &#61; findall&#40;x .&gt; 7&#41;
 z &#61; x&#91;findall&#40;x .&gt; 7&#41;&#93;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  4
- 5</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 5</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  8
- 9</div> </div><br/></div> </div> 
+ 9</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>The second function is <code>filter</code>, which returns the  <em>elements</em> of a vector <code>x</code> that meet a condition. Despite what the name suggests, <code>filter</code> keeps elements rather than discarding them. It works similarly to <code>findall</code>, with the difference that it directly returns the elements, rather than the indices. Moreover, it requires passing both a function and a vector to implement it.</p>
@@ -2813,7 +2837,7 @@ z &#61; x&#91;findall&#40;x .&gt; 7&#41;&#93;</code></pre>
 <pre><code class="language-julia">x &#61; &#91;5,6,7,8,9&#93;
 
 y &#61; filter&#40;a -&gt; a &gt; 7, x&#41;</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  8
  9</div> </div></div> </div>   </details></div>
 <p>      </div>
@@ -2838,7 +2862,7 @@ y &#61; filter&#40;a -&gt; a &gt; 7, x&#41;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 5, 2024 
+          © Martin Alfaro <br>Last Modified June 10, 2024 
       </span> 
   </div> 
 </footer>
@@ -3303,6 +3327,76 @@ for multiple pics in a row
 
 </style>
 
+<!-- FOR COPYING THE TITLES IN SECTION -->
+       
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const h2Elements = document.querySelectorAll('h2');
+
+        h2Elements.forEach(h2 => {
+            h2.addEventListener('click', function (event) {
+                const text = h2.textContent.trim();
+                const url  = `${window.location.origin}${window.location.pathname}#${text.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}`;
+
+                // Create a temporary input element
+                const tempInput = document.createElement('input');
+                document.body.appendChild(tempInput);
+                tempInput.value = url;
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                // Create a container element for the tooltip
+                const tooltipContainer = document.createElement('div');
+                tooltipContainer.style.position = 'absolute'; // Set position: relative on the container                
+
+                // Create a tooltip element
+                const tooltip                    = document.createElement('span');
+                      tooltip.textContent        = 'Link Copied';
+                      tooltip.style.position     = 'absolute';
+                      tooltip.style.background   = 'rgba(63, 99, 136, 0.75)';
+                      tooltip.style.color        = 'white';
+                      tooltip.style.padding      = '4px 2px';
+                      tooltip.style.borderRadius = '4px';
+                      tooltip.style.fontSize     = '14px';
+
+
+                tooltipContainer.appendChild(tooltip); // Add the tooltip to the container
+                h2.appendChild(tooltipContainer); // Add the container to the h2 element
+
+                // Get the cursor position
+                const rect = h2.getBoundingClientRect();
+                const x    = event.clientX - rect.left - 28;
+                const y    = event.clientY - rect.bottom - 25;
+
+
+
+                // Set the tooltip position
+                tooltip.style.top  = `${y}px`;  // Adjust the y position to move the tooltip above the cursor
+                tooltip.style.left = `${x}px`;
+
+                // Remove the tooltip after 2 seconds
+                setTimeout(() => {
+                    h2.removeChild(tooltipContainer);
+                }, 1000);
+            });
+        });
+    });
+</script>
+
+
+
+<style>
+    h2 {
+        cursor: pointer;
+    }
+
+    .hand-cursor {
+        cursor: wait;
+    }
+</style>    
+
+
 
 
 <!-- 
@@ -3476,9 +3570,11 @@ document.addEventListener('keydown', (e) => {
   display: block;
 }
 
-</style>
 
-    
+
+
+
+</style>    
 
 
 
@@ -3547,6 +3643,7 @@ document.addEventListener('keydown', (e) => {
     
     })();
     </script>
+
 
 
 

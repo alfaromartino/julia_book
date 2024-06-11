@@ -115,7 +115,8 @@ header .jumbotron {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">    
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    
  
 
  
@@ -912,7 +913,7 @@ color: white;
        
     /* FOR INLINE CODE, WRITTEN WITHIN THE TEXT*/
   code {  
-    background-color: rgb(209, 217, 224);         /*rgb(199, 223, 236);*/
+    background-color: rgb(209, 217, 224);              /*rgb(199, 223, 236);*/
     color           : black;
     text-indent     : 0%;
     padding-top     : 0.1em;
@@ -921,13 +922,13 @@ color: white;
     padding-right   : 0.3em;
     vertical-align  : 0.05em;
     border          : 1px solid rgb(0, 16, 41);
-    overflow: hidden;
+    overflow        : hidden;
   }
 
   .julia_repl_NoFormat code, .mixed_output_NoFormat code {  
     background-color: rgb(82, 120, 104);         /*rgb(199, 223, 236);*/
     color           : #DCDCDC;
-    border          : 1px solid rgb(82, 120, 104);    
+    border          : 1px solid rgb(82, 120, 104);        
   }
 
 
@@ -945,7 +946,7 @@ color: white;
     font-size     : 12px;
     text-transform: lowercase;
     font-weight   : 500;
-    padding       : 0px 10px 2px;
+    padding       : 2px 10px 2px;
       /* background-color:   #3f6b4b; */
     background-color: rgb(63,99,136);
     position        : absolute;
@@ -969,20 +970,43 @@ color: white;
   
 
 
-
 /* ================================================================= 
                       BASIC FORMAT FOR OUTPUTS
   ================================================================= */ 
-  /* to not collapse with the copy button and `pre` */
+/* format of `julia>` */
+
+      .julia_line{
+        color      : rgb(32, 198, 121) !important;
+        font-weight: bold;
+        display    : inline;
+        font-size  : 100%;
+      }
+
+/* to fix disproportionate size in outputs */
+      .julia_repl_NoFormat {
+        font-size    : 90%;
+      }
+
+      .julia_repl_NoFormat .julia_line, .julia_repl_NoFormat code{
+        font-size:100%
+      }
+
+      .mixed_output_NoFormat{ font-size    : 90%;}
+
+      .mixed_output_NoFormat pre, .mixed_output_NoFormat .julia_line, .mixed_output_NoFormat code {
+        font-size:100%
+      }
+
+
+/* to not collapse with the copy button and `pre` */
 .akin_to_pre {
   white-space: pre-wrap;
-  font-family: "Consolas";
+  font-family: "Consolas", monospace;  
 }
 
   /* NoFormat for julia repl - no margins or paddings, just colors, fonts, etc */
 .julia_repl_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -993,16 +1017,16 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 
+
+
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
-    font-family     : "Consolas";    
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;    
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -1024,9 +1048,10 @@ color: white;
 
 /* NoFormat for Mixed */
 
+
+
 .mixed_output_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -1037,13 +1062,11 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 .mixed_output_NoFormat pre code{
-  font-size       : 90%;
   margin          : 0 !important;
   padding         : 0 !important;
   border          : none;
@@ -1055,7 +1078,7 @@ color: white;
 /* Inline for julia_repl and franklin_output - adding margins and paddings  */
 .mixed_output_inline{
     color           : #DCDCDC;
-    font-family     : "Consolas";    
+    font-family     : "Consolas", monospace;    
     background-color: rgb(1, 59,31);
 
     padding-left  : 1em;
@@ -1063,7 +1086,7 @@ color: white;
     padding-bottom: 1em;
     
     margin-top   : 0;
-    margin-bottom: 0;
+    margin-bottom: 0;    
   }
 
   
@@ -1119,7 +1142,6 @@ color: white;
 
 .code_NoFormat{    
     line-height     : 1.45;
-    font-size       : 95%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(0, 16, 41);
@@ -1131,8 +1153,9 @@ color: white;
     background-color: rgb(0, 16, 41);
 }
 
+
 .code_NoFormat pre code{          
-    font-family     : "Cascadia Mono";       /* Fira Mono */
+    font-family     : "Cascadia Mono", monospace ;       /* Fira Mono */
     margin          : 0 !important;
     padding         : 0 !important;
     border          : none;
@@ -1164,8 +1187,9 @@ color: white;
 
 .code_box{
   margin : 0;
-  padding: 0;
+  padding: 0;  
 }
+
 .code_box details > summary{  
   width           : max-content;  max-width : 90%;
   padding-left    : 10px;
@@ -1245,7 +1269,7 @@ color: white;
 
 .tab_wrapper{
   width  : 100%;
-  display: inline-block;  
+  display: inline-block;    
   }
 
 
@@ -1463,8 +1487,7 @@ margin-top: 0px;
 
 
 
-
-  </style>  
+</style>  
     
   
 
@@ -2549,15 +2572,11 @@ color: white;
 </style>
 
 
-
-
-
 <!-- {{ispage list_posts links}}  
   {{insert /index_page/lists_header.html}}  
   {{insert /index_page/lists_FORMAT.html}}  
 {{end}} -->
 
- 
 <div class="franklin-content">
 <section id="introduction" class="scrollspy">
   <div class="container">
@@ -2585,21 +2604,21 @@ color: white;
     <button class="tablink" data-id=""> Tuple </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;4, 5, 6&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>collect&#40;keys&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>collect&#40;keys&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  1
  2
  3</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>collect&#40;values&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>collect&#40;values&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  4
  5
  6</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#40;4, 5, 6&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>collect&#40;keys&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>collect&#40;keys&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  1
  2
  3</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>collect&#40;values&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>collect&#40;values&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  4
  5
  6</code></pre> </div></div> </div> 
@@ -2617,16 +2636,16 @@ color: white;
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_pair &#61; &#40;&quot;a&quot; &#61;&gt; 1&#41;      # or simply &#39;some_pair &#61; &quot;a&quot; &#61;&gt; 1&#39;
 
 some_pair &#61; Pair&#40;&quot;a&quot;, 1&#41;    # equivalent</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>some_pair</code> <br/> <pre><code class="plaintext code-output">"a" => 1</code></pre> </div></p>
-<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>some_pair&#91;1&#93;</code> <br/> <pre><code class="plaintext code-output">"a"</code></pre> </div>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>some_pair.first</code> <br/> <pre><code class="plaintext code-output">"a"</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>some_pair</code> <br/> <pre><code class="plaintext code-output">"a" => 1</code></pre> </div></p>
+<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>some_pair&#91;1&#93;</code> <br/> <pre><code class="plaintext code-output">"a"</code></pre> </div>
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>some_pair.first</code> <br/> <pre><code class="plaintext code-output">"a"</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_pair &#61; &#40;&quot;a&quot; &#61;&gt; 1&#41;      # or simply &#39;some_pair &#61; &quot;a&quot; &#61;&gt; 1&#39;
 
 some_pair &#61; Pair&#40;&quot;a&quot;, 1&#41;    # equivalent</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>some_pair</code> <br/> <pre><code class="plaintext code-output">"a" => 1</code></pre> </div></p>
-<div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>some_pair&#91;2&#93;</code> <br/> <pre><code class="plaintext code-output">1</code></pre> </div>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>some_pair.second</code> <br/> <pre><code class="plaintext code-output">1</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>some_pair</code> <br/> <pre><code class="plaintext code-output">"a" => 1</code></pre> </div></p>
+<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>some_pair&#91;2&#93;</code> <br/> <pre><code class="plaintext code-output">1</code></pre> </div>
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>some_pair.second</code> <br/> <pre><code class="plaintext code-output">1</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <h4> The Type &#39;Symbol&#39; </h4>
@@ -2640,12 +2659,12 @@ some_pair &#61; Pair&#40;&quot;a&quot;, 1&#41;    # equivalent</code></pre> </di
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_symbol &#61; :x
 
 some_symbol &#61; Symbol&#40;&quot;x&quot;&#41;                       # equivalent</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>some_symbol</code> <br/> <pre><code class="plaintext code-output">:x</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>some_symbol</code> <br/> <pre><code class="plaintext code-output">:x</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">vector_symbols &#61; &#91;:x, :y&#93;
 
 vector_symbols &#61; &#91;Symbol&#40;&quot;x&quot;&#41;, Symbol&#40;&quot;y&quot;&#41;&#93;     # equivalent</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>vector_symbols</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Symbol}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>vector_symbols</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Symbol}:
  :x
  :y</code></pre> </div></div> </div> 
  </div></div>
@@ -2681,7 +2700,7 @@ nt &#61; &#40;; a&#61;10, b&#61;20&#41;
 nt &#61; &#40;  :a &#61;&gt; 10, :b &#61;&gt; 10&#41;
 nt &#61; &#40;; :a &#61;&gt; 10, :b &#61;&gt; 10&#41;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>nt</code><br/><div class="akin_to_pre">(a = 10, b = 20)</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>nt.a</code><br/><div class="akin_to_pre">10</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>nt&#91;:a&#93;</code> #alternative way to access &#39;a&#39;<br/><div class="akin_to_pre">10</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>nt</code><br/><div class="akin_to_pre">(a = 10, b = 20)</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>nt.a</code><br/><div class="akin_to_pre">10</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>nt&#91;:a&#93;</code> #alternative way to access &#39;a&#39;<br/><div class="akin_to_pre">10</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia"># all &#39;nt&#39; are equivalent
@@ -2694,7 +2713,7 @@ nt &#61; &#40;; :a &#61;&gt; 10 &#41;
 #not &#39;nt &#61;  &#40;a &#61; 10&#41;&#39;  -&gt; this is interpreted as &#39;nt &#61; a &#61; 10&#39;
 #not &#39;nt &#61; &#40;:a &#61;&gt; 10&#41;&#39; -&gt; this is interpreted as a pair</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>nt</code><br/><div class="akin_to_pre">(a = 10, )</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>nt.a</code><br/><div class="akin_to_pre">10</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>nt&#91;:a&#93;</code> #alternative way to access &#39;a&#39;<br/><div class="akin_to_pre">10</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>nt</code><br/><div class="akin_to_pre">(a = 10, )</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>nt.a</code><br/><div class="akin_to_pre">10</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>nt&#91;:a&#93;</code> #alternative way to access &#39;a&#39;<br/><div class="akin_to_pre">10</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
@@ -2702,9 +2721,9 @@ nt &#61; &#40;; :a &#61;&gt; 10 &#41;
       <b> Remark</b> </span>  </div>  <div class=content>     Note that we can also employ the functions <code>keys</code> and <code>values</code> here.</p>
 <p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">nt &#61; &#40;a&#61;10, b&#61;20&#41;</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>collect&#40;keys&#40;nt&#41;&#41;</code><br/><div class="akin_to_pre">2-element Vector{Symbol}:
+<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>collect&#40;keys&#40;nt&#41;&#41;</code><br/><div class="akin_to_pre">2-element Vector{Symbol}:
  :a
- :b</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>values&#40;nt&#41;</code><br/><div class="akin_to_pre">(10, 20)</div> </div></div> </div>   </details></div>  </div>  </div>
+ :b</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>values&#40;nt&#41;</code><br/><div class="akin_to_pre">(10, 20)</div> </div></div> </div>   </details></div>  </div>  </div>
  <h4> Distinction Between The Creation Of Tuples and Named Tuples </h4>
 <p>It&#39;s possible to create named tuples based on individual variables. For instance, given variables <code>x &#61; 10</code> and <code>y &#61; 20</code>, you can define <code>nt &#61; &#40;; x, y&#41;</code>. This creates a named tuple with keys <code>x</code> and <code>y</code>, and corresponding values <code>10</code> and <code>20</code>. </p>
 <p>The semicolon <code>;</code> is crucial in this construction, as it distinguishes named tuples from regular tuples. Omitting it, as in <code>nt &#61; &#40;x, y&#41;</code>, would result in a regular tuple instead.</p>
@@ -2721,7 +2740,7 @@ y &#61; 20
 nt  &#61; &#40;; x, y&#41;
 tup &#61; &#40;x, y&#41;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>nt</code><br/><div class="akin_to_pre">(x = 10, y = 20)</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>tup</code><br/><div class="akin_to_pre">(10, 20)</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>nt</code><br/><div class="akin_to_pre">(x = 10, y = 20)</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>tup</code><br/><div class="akin_to_pre">(10, 20)</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; 10
@@ -2730,7 +2749,7 @@ tup &#61; &#40;x, y&#41;</code></pre>
 nt  &#61; &#40;; x&#41;
 tup &#61; &#40;x, &#41;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>nt</code><br/><div class="akin_to_pre">(x = 10,)</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>tup</code><br/><div class="akin_to_pre">(10,)</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>nt</code><br/><div class="akin_to_pre">(x = 10,)</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>tup</code><br/><div class="akin_to_pre">(10,)</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -2761,24 +2780,24 @@ tup &#61; &#40;x, &#41;</code></pre>
     <button class="tablink" data-id=""> Tuple </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_dict &#61; Dict&#40;3 &#61;&gt; 10, 4 &#61;&gt; 20&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Int64, Int64} with 2 entries:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Int64, Int64} with 2 entries:
   4 => 20
-  3 => 10</code></pre> </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict&#91;1&#93;</code> <br/> <pre><code class="plaintext code-output">10</code></pre> </div></div> </div> 
+  3 => 10</code></pre> </div><br/> <div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>dict&#91;1&#93;</code> <br/> <pre><code class="plaintext code-output">10</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">dict &#61; Dict&#40;&quot;a&quot; &#61;&gt; 10, &quot;b&quot; &#61;&gt; 20&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{String, Int64} with 2 entries:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{String, Int64} with 2 entries:
   "b" => 20
-  "a" => 10</code></pre> </div> <br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict&#91;&quot;a&quot;&#93;</code> <br/> <pre><code class="plaintext code-output">10</code></pre> </div></div> </div> 
+  "a" => 10</code></pre> </div> <br/> <div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>dict&#91;&quot;a&quot;&#93;</code> <br/> <pre><code class="plaintext code-output">10</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_dict &#61; Dict&#40;:a &#61;&gt; 10, :b &#61;&gt; 20&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Symbol, Int64} with 2 entries:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Symbol, Int64} with 2 entries:
   :a => 10
-  :b => 20</code></pre> </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict&#91;:a&#93;</code> <br/> <pre><code class="plaintext code-output">10</code></pre> </div></div> </div> 
+  :b => 20</code></pre> </div><br/> <div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>dict&#91;:a&#93;</code> <br/> <pre><code class="plaintext code-output">10</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_dict &#61; Dict&#40;&#40;1,1&#41; &#61;&gt; 10, &#40;1,2&#41; &#61;&gt; 20&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Tuple{Int64, Int64}, Int64} with 2 entries:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Tuple{Int64, Int64}, Int64} with 2 entries:
   (1, 2) => 20
-  (1, 1) => 10</code></pre> </div><br/> <div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict&#91;&#40;1,1&#41;&#93;</code> <br/> <pre><code class="plaintext code-output">10</code></pre> </div></div> </div> 
+  (1, 1) => 10</code></pre> </div><br/> <div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>dict&#91;&#40;1,1&#41;&#93;</code> <br/> <pre><code class="plaintext code-output">10</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>As regular dictionaries are unordered, accessing their elements doesn&#39;t follow any pattern. The following example illustrates this, where a vector collects the keys of a dictionary. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The package <code>OrderedCollections</code> addresses this, by offering a special dictionary called <code>OrderedDict</code>. It behaves pretty similarly to regular dictionaries, including its syntax.  </span></span></p>
@@ -2793,28 +2812,28 @@ tup &#61; &#40;x, &#41;</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_dict &#61; Dict&#40;3 &#61;&gt; 10, 4 &#61;&gt; 20&#41;
 
 keys_from_dict &#61; collect&#40;keys&#40;some_dict&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>keys_from_dict</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>keys_from_dict</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Int64}:
  4
  3</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_dict &#61; Dict&#40;&quot;a&quot; &#61;&gt; 10, &quot;b&quot; &#61;&gt; 20&#41;
 
 keys_from_dict &#61; collect&#40;keys&#40;some_dict&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>keys_from_dict</code> <br/> <pre><code class="plaintext code-output">2-element Vector{String}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>keys_from_dict</code> <br/> <pre><code class="plaintext code-output">2-element Vector{String}:
  "b"
  "a"</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_dict &#61; Dict&#40;:a &#61;&gt; 10, :b &#61;&gt; 20&#41;
 
 keys_from_dict &#61; collect&#40;keys&#40;some_dict&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>keys_from_dict</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Symbol}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>keys_from_dict</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Symbol}:
  :a
  :b</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">some_dict &#61; Dict&#40;&#40;1,1&#41; &#61;&gt; 10, &#40;1,2&#41; &#61;&gt; 20&#41;
 
 keys_from_dict &#61; collect&#40;keys&#40;some_dict&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>keys_from_dict</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Tuple{Int64, Int64}}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>keys_from_dict</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Tuple{Int64, Int64}}:
  (1, 2)
  (1, 1)</code></pre> </div></div> </div> 
  </div></div>
@@ -2843,7 +2862,7 @@ keys_from_dict &#61; collect&#40;keys&#40;some_dict&#41;&#41;</code></pre> </div
 
 
 dict &#61; Dict&#40;pairs&#40;vector&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Int64, Int64} with 2 entries:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Int64, Int64} with 2 entries:
   2 => 20
   1 => 10</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
@@ -2852,7 +2871,7 @@ values_for_dict &#61; &#91;10, 20&#93;
 
 
 dict &#61; Dict&#40;zip&#40;keys_for_dict, values_for_dict&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Symbol, Int64} with 2 entries:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Symbol, Int64} with 2 entries:
   :a => 10
   :b => 20</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
@@ -2861,7 +2880,7 @@ values_for_dict &#61; &#40;10, 20&#41;
 
 
 dict &#61; Dict&#40;zip&#40;keys_for_dict, values_for_dict&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Symbol, Int64} with 2 entries:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Symbol, Int64} with 2 entries:
   :a => 10
   :b => 20</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
@@ -2870,7 +2889,7 @@ dict &#61; Dict&#40;zip&#40;keys_for_dict, values_for_dict&#41;&#41;</code></pre
 
 
 dict &#61; Dict&#40;pairs&#40;nt_for_dict&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Symbol, Int64} with 2 entries:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Symbol, Int64} with 2 entries:
   :a => 10
   :b => 20</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
@@ -2879,7 +2898,7 @@ values_for_dict    &#61; &#40;10, 20&#41;
 vector_keys_values &#61; &#91;&#40;keys_for_dict&#91;i&#93;, values_for_dict&#91;i&#93;&#41; for i in eachindex&#40;keys_for_dict&#41;&#93;
 
 dict &#61; Dict&#40;vector_keys_values&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Symbol, Int64} with 2 entries:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>dict</code> <br/> <pre><code class="plaintext code-output">Dict{Symbol, Int64} with 2 entries:
   :a => 10
   :b => 20</code></pre> </div></div> </div> 
  </div></div>
@@ -2900,42 +2919,42 @@ b &#61; 20
 
 
 nt &#61; &#40;; a, b&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>nt</code> <br/> <pre><code class="plaintext code-output">(a = 10, b = 20)</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>nt</code> <br/> <pre><code class="plaintext code-output">(a = 10, b = 20)</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">keys_for_nt   &#61; &#91;:a, :b&#93;
 values_for_nt &#61; &#91;10, 20&#93;
 
 
 nt &#61; &#40;; zip&#40;keys_for_nt, values_for_nt&#41;...&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>nt</code> <br/> <pre><code class="plaintext code-output">(a = 10, b = 20)</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>nt</code> <br/> <pre><code class="plaintext code-output">(a = 10, b = 20)</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">keys_for_nt   &#61; &#91;:a, :b&#93;
 values_for_nt &#61; &#91;10, 20&#93;
 
 
 nt &#61; NamedTuple&#40;zip&#40;keys_for_nt, values_for_nt&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>nt</code> <br/> <pre><code class="plaintext code-output">(a = 10, b = 20)</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>nt</code> <br/> <pre><code class="plaintext code-output">(a = 10, b = 20)</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">keys_for_nt   &#61; &#40;:a, :b&#41;
 values_for_nt &#61; &#40;10, 20&#41;
 
 
 nt &#61; NamedTuple&#40;zip&#40;keys_for_nt, values_for_nt&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>nt</code> <br/> <pre><code class="plaintext code-output">(a = 10, b = 20)</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>nt</code> <br/> <pre><code class="plaintext code-output">(a = 10, b = 20)</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">keys_for_nt        &#61; &#91;:a, :b&#93;
 values_for_nt      &#61; &#91;10, 20&#93;
 vector_keys_values &#61; &#91;&#40;keys_for_nt&#91;i&#93;, values_for_nt&#91;i&#93;&#41; for i in eachindex&#40;keys_for_nt&#41;&#93;
 
 nt &#61; NamedTuple&#40;vector_keys_values&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>nt</code> <br/> <pre><code class="plaintext code-output">(a = 10, b = 20)</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>nt</code> <br/> <pre><code class="plaintext code-output">(a = 10, b = 20)</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">dict &#61; Dict&#40;:a &#61;&gt; 10, :b &#61;&gt; 20&#41;
 
 
 
 nt &#61; NamedTuple&#40;vector_keys_values&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>nt</code> <br/> <pre><code class="plaintext code-output">(a = 10, b = 20)</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>nt</code> <br/> <pre><code class="plaintext code-output">(a = 10, b = 20)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>       </div>
     </div>
@@ -2964,28 +2983,28 @@ nt &#61; NamedTuple&#40;vector_keys_values&#41;</code></pre> </div></div>
 
 x,y  &#61; list</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">3</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">4</div> </div><br/></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">4</div> </div><br/></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">list &#61; 3:4
 
 x,y  &#61; list</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">3</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">4</div> </div><br/></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">4</div> </div><br/></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">list &#61; &#40;3,4&#41;
 
 x,y  &#61; list</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">3</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">4</div> </div><br/></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">4</div> </div><br/></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">list &#61; &#40;a &#61; 3, b &#61; 4&#41;
 
 x,y  &#61; list</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">3</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">4</div> </div><br/></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">4</div> </div><br/></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>In addition to destructuring all elements in <code>list</code> as above, we can also selectively destructure a subset of elements. When working with tuples, destructuring assigns values in a sequential order, without allowing any values to be skipped. As a result, if you&#39;re not interested in a particular element, you must explicitly indicate it. This requires assigning <code>_</code> as a variable name, which signals that no assignment should be performed for that value.</p>
@@ -3002,28 +3021,28 @@ x,y  &#61; list</code></pre>
 
 &#40;x,&#41;    &#61; list</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">3</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">list &#61; &#91;3,4,5&#93;
 
 x,y     &#61; list</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">3</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">4</div> </div><br/></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">4</div> </div><br/></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">list &#61; &#91;3,4,5&#93;
 
 _,_,z   &#61; list                  # _ skips the assignment of that value</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">5</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z</code><br/><div class="akin_to_pre">5</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">list &#61; &#91;3,4,5&#93;
 
 x,_,z   &#61; list                  # _ skips the assignment of that value</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">3</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">5</div> </div><br/></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z</code><br/><div class="akin_to_pre">5</div> </div><br/></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <h4> Named Tuples Destructuring </h4>
@@ -3041,21 +3060,21 @@ x,_,z   &#61; list                  # _ skips the assignment of that value</code
 
 x, y, z &#61; nt</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">10</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">20</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">30</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">10</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">20</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z</code><br/><div class="akin_to_pre">30</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">nt      &#61; &#40;; name1 &#61; 10, name2 &#61; 20, name3 &#61; 30&#41;
 
 x, y    &#61; nt</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">10</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">20</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">10</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">20</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">nt      &#61; &#40;; name1 &#61; 10, name2 &#61; 20, name3 &#61; 30&#41;
 
 _, _, z &#61; nt        # _ is notation to indicate we don&#39;t want the first two values of &#39;nt&#39;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>z</code><br/><div class="akin_to_pre">30</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z</code><br/><div class="akin_to_pre">30</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>Instead of using a tuple on the left-hand side, let&#39;s now utilize a named tuple. This makes it possible to specify the variables to be created by referencing their corresponding keys. The variable created will then be assigned the value associated with that key, regardless of the order in which you specify each variable.</p>
@@ -3070,14 +3089,14 @@ _, _, z &#61; nt        # _ is notation to indicate we don&#39;t want the first 
 
 &#40;; name2, name1&#41; &#61; nt                   # names in any order</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>name1</code><br/><div class="akin_to_pre">10</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>name3</code><br/><div class="akin_to_pre">30</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>name1</code><br/><div class="akin_to_pre">10</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>name3</code><br/><div class="akin_to_pre">30</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">nt &#61; &#40;; name1 &#61; 10, name2 &#61; 20, name3 &#61; 30&#41;
 
 &#40;; name3&#41;               &#61; nt</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>name3</code><br/><div class="akin_to_pre">30</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>name3</code><br/><div class="akin_to_pre">30</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
@@ -3095,7 +3114,7 @@ _, _, z &#61; nt        # _ is notation to indicate we don&#39;t want the first 
  name2, name1    &#61; nt            # variables defined according to POSITION
 &#40;name2, name1&#41;   &#61; nt            # alternative notation</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>name2</code><br/><div class="akin_to_pre">10</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>name1</code><br/><div class="akin_to_pre">20</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>name2</code><br/><div class="akin_to_pre">10</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>name1</code><br/><div class="akin_to_pre">20</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">nt &#61; &#40;; name1 &#61; 10, name2 &#61; 20, name3 &#61; 30&#41;
@@ -3103,7 +3122,7 @@ _, _, z &#61; nt        # _ is notation to indicate we don&#39;t want the first 
 &#40;; name2, name1&#41; &#61; nt            # variables defined according to NAME
  ; name2, name1  &#61; nt            # alternative notation</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>name1</code><br/><div class="akin_to_pre">10</div> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>name2</code><br/><div class="akin_to_pre">20</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>name1</code><br/><div class="akin_to_pre">10</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>name2</code><br/><div class="akin_to_pre">20</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>The same caveat applies to a single-variable assignment.</p>
@@ -3118,14 +3137,14 @@ _, _, z &#61; nt        # _ is notation to indicate we don&#39;t want the first 
 
 &#40;name2,&#41;  &#61; nt            # variable defined according to POSITION -&gt; only first element</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>name2</code><br/><div class="akin_to_pre">10</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>name2</code><br/><div class="akin_to_pre">10</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">nt &#61; &#40;; name1 &#61; 10, name2 &#61; 20&#41;
 
 &#40;; name2&#41; &#61; nt            # variable defined according to NAME</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>name2</code><br/><div class="akin_to_pre">20</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>name2</code><br/><div class="akin_to_pre">20</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
  <h4> An Application of Destructuring </h4>
@@ -3146,7 +3165,7 @@ function foo&#40;x, parameters_list&#41;
     x * parameters_list.δ &#43; exp&#40;parameters_list.β&#41; / parameters_list.β
 end</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;2, parameters_list&#41;</code><br/><div class="akin_to_pre">14.695</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;2, parameters_list&#41;</code><br/><div class="akin_to_pre">14.695</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">parameters_list &#61; &#40;; β &#61; 3, δ &#61; 4, ϵ &#61; 5&#41;
@@ -3156,7 +3175,7 @@ function foo&#40;x, δ, β&#41;
     x * δ &#43; exp&#40;β&#41; / β
 end</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;2, parameters_list.β, parameters_list.δ&#41;</code><br/><div class="akin_to_pre">14.695</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;2, parameters_list.β, parameters_list.δ&#41;</code><br/><div class="akin_to_pre">14.695</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">parameters_list &#61; &#40;; β &#61; 3, δ &#61; 4, ϵ &#61; 5&#41;
@@ -3168,7 +3187,7 @@ function foo&#40;x, parameters_list&#41;
     x * δ &#43; exp&#40;β&#41; / β
 end</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>foo&#40;2, parameters_list&#41;</code><br/><div class="akin_to_pre">14.695</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;2, parameters_list&#41;</code><br/><div class="akin_to_pre">14.695</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -3193,7 +3212,7 @@ end</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 5, 2024 
+          © Martin Alfaro <br>Last Modified June 10, 2024 
       </span> 
   </div> 
 </footer>
@@ -3658,6 +3677,76 @@ for multiple pics in a row
 
 </style>
 
+<!-- FOR COPYING THE TITLES IN SECTION -->
+       
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const h2Elements = document.querySelectorAll('h2');
+
+        h2Elements.forEach(h2 => {
+            h2.addEventListener('click', function (event) {
+                const text = h2.textContent.trim();
+                const url  = `${window.location.origin}${window.location.pathname}#${text.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}`;
+
+                // Create a temporary input element
+                const tempInput = document.createElement('input');
+                document.body.appendChild(tempInput);
+                tempInput.value = url;
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                // Create a container element for the tooltip
+                const tooltipContainer = document.createElement('div');
+                tooltipContainer.style.position = 'absolute'; // Set position: relative on the container                
+
+                // Create a tooltip element
+                const tooltip                    = document.createElement('span');
+                      tooltip.textContent        = 'Link Copied';
+                      tooltip.style.position     = 'absolute';
+                      tooltip.style.background   = 'rgba(63, 99, 136, 0.75)';
+                      tooltip.style.color        = 'white';
+                      tooltip.style.padding      = '4px 2px';
+                      tooltip.style.borderRadius = '4px';
+                      tooltip.style.fontSize     = '14px';
+
+
+                tooltipContainer.appendChild(tooltip); // Add the tooltip to the container
+                h2.appendChild(tooltipContainer); // Add the container to the h2 element
+
+                // Get the cursor position
+                const rect = h2.getBoundingClientRect();
+                const x    = event.clientX - rect.left - 28;
+                const y    = event.clientY - rect.bottom - 25;
+
+
+
+                // Set the tooltip position
+                tooltip.style.top  = `${y}px`;  // Adjust the y position to move the tooltip above the cursor
+                tooltip.style.left = `${x}px`;
+
+                // Remove the tooltip after 2 seconds
+                setTimeout(() => {
+                    h2.removeChild(tooltipContainer);
+                }, 1000);
+            });
+        });
+    });
+</script>
+
+
+
+<style>
+    h2 {
+        cursor: pointer;
+    }
+
+    .hand-cursor {
+        cursor: wait;
+    }
+</style>    
+
+
 
 
 <!-- 
@@ -3835,9 +3924,11 @@ document.addEventListener('keydown', (e) => {
   display: block;
 }
 
-</style>
 
-    
+
+
+
+</style>    
 
 
 
@@ -3906,6 +3997,7 @@ document.addEventListener('keydown', (e) => {
     
     })();
     </script>
+
 
 
 

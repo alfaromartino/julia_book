@@ -115,7 +115,8 @@ header .jumbotron {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">    
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    
  
 
  
@@ -912,7 +913,7 @@ color: white;
        
     /* FOR INLINE CODE, WRITTEN WITHIN THE TEXT*/
   code {  
-    background-color: rgb(209, 217, 224);         /*rgb(199, 223, 236);*/
+    background-color: rgb(209, 217, 224);              /*rgb(199, 223, 236);*/
     color           : black;
     text-indent     : 0%;
     padding-top     : 0.1em;
@@ -921,13 +922,13 @@ color: white;
     padding-right   : 0.3em;
     vertical-align  : 0.05em;
     border          : 1px solid rgb(0, 16, 41);
-    overflow: hidden;
+    overflow        : hidden;
   }
 
   .julia_repl_NoFormat code, .mixed_output_NoFormat code {  
     background-color: rgb(82, 120, 104);         /*rgb(199, 223, 236);*/
     color           : #DCDCDC;
-    border          : 1px solid rgb(82, 120, 104);    
+    border          : 1px solid rgb(82, 120, 104);        
   }
 
 
@@ -945,7 +946,7 @@ color: white;
     font-size     : 12px;
     text-transform: lowercase;
     font-weight   : 500;
-    padding       : 0px 10px 2px;
+    padding       : 2px 10px 2px;
       /* background-color:   #3f6b4b; */
     background-color: rgb(63,99,136);
     position        : absolute;
@@ -969,20 +970,43 @@ color: white;
   
 
 
-
 /* ================================================================= 
                       BASIC FORMAT FOR OUTPUTS
   ================================================================= */ 
-  /* to not collapse with the copy button and `pre` */
+/* format of `julia>` */
+
+      .julia_line{
+        color      : rgb(32, 198, 121) !important;
+        font-weight: bold;
+        display    : inline;
+        font-size  : 100%;
+      }
+
+/* to fix disproportionate size in outputs */
+      .julia_repl_NoFormat {
+        font-size    : 90%;
+      }
+
+      .julia_repl_NoFormat .julia_line, .julia_repl_NoFormat code{
+        font-size:100%
+      }
+
+      .mixed_output_NoFormat{ font-size    : 90%;}
+
+      .mixed_output_NoFormat pre, .mixed_output_NoFormat .julia_line, .mixed_output_NoFormat code {
+        font-size:100%
+      }
+
+
+/* to not collapse with the copy button and `pre` */
 .akin_to_pre {
   white-space: pre-wrap;
-  font-family: "Consolas";
+  font-family: "Consolas", monospace;  
 }
 
   /* NoFormat for julia repl - no margins or paddings, just colors, fonts, etc */
 .julia_repl_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -993,16 +1017,16 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 
+
+
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
-    font-family     : "Consolas";    
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;    
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -1024,9 +1048,10 @@ color: white;
 
 /* NoFormat for Mixed */
 
+
+
 .mixed_output_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -1037,13 +1062,11 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 .mixed_output_NoFormat pre code{
-  font-size       : 90%;
   margin          : 0 !important;
   padding         : 0 !important;
   border          : none;
@@ -1055,7 +1078,7 @@ color: white;
 /* Inline for julia_repl and franklin_output - adding margins and paddings  */
 .mixed_output_inline{
     color           : #DCDCDC;
-    font-family     : "Consolas";    
+    font-family     : "Consolas", monospace;    
     background-color: rgb(1, 59,31);
 
     padding-left  : 1em;
@@ -1063,7 +1086,7 @@ color: white;
     padding-bottom: 1em;
     
     margin-top   : 0;
-    margin-bottom: 0;
+    margin-bottom: 0;    
   }
 
   
@@ -1119,7 +1142,6 @@ color: white;
 
 .code_NoFormat{    
     line-height     : 1.45;
-    font-size       : 95%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(0, 16, 41);
@@ -1131,8 +1153,9 @@ color: white;
     background-color: rgb(0, 16, 41);
 }
 
+
 .code_NoFormat pre code{          
-    font-family     : "Cascadia Mono";       /* Fira Mono */
+    font-family     : "Cascadia Mono", monospace ;       /* Fira Mono */
     margin          : 0 !important;
     padding         : 0 !important;
     border          : none;
@@ -1164,8 +1187,9 @@ color: white;
 
 .code_box{
   margin : 0;
-  padding: 0;
+  padding: 0;  
 }
+
 .code_box details > summary{  
   width           : max-content;  max-width : 90%;
   padding-left    : 10px;
@@ -1245,7 +1269,7 @@ color: white;
 
 .tab_wrapper{
   width  : 100%;
-  display: inline-block;  
+  display: inline-block;    
   }
 
 
@@ -1463,8 +1487,7 @@ margin-top: 0px;
 
 
 
-
-  </style>  
+</style>  
     
   
 
@@ -2549,22 +2572,18 @@ color: white;
 </style>
 
 
-
-
-
 <!-- {{ispage list_posts links}}  
   {{insert /index_page/lists_header.html}}  
   {{insert /index_page/lists_FORMAT.html}}  
 {{end}} -->
 
- 
 <div class="franklin-content">
 <section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section completes the coverage of preliminary concepts for studying mutations. In particular, it deals with the behavior of a vector&#39;s slice. </p>
+<p>This section concludes the coverage of preliminary concepts for understanding mutations. In particular, it deals with the behavior of a vector&#39;s slice. </p>
 <p>A <span style="color: rgb(62, 121, 180);"><strong>slice</strong></span> is a subset of a vector&#39;s elements and is denoted as <code>x&#91;&lt;indices&gt;&#93;</code>. Importantly, <strong>slices act differently depending on where they're included</strong>. Formally, we need to distinguish between slices that act as:</p>
 <ul>
 <li><p><span style="color: rgb(62, 121, 180);"><strong>copies</strong></span> of the original vector: it creates a new object, allocated in a new memory address. </p>
@@ -2582,9 +2601,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Slices and the = Operator</h2></p>
-<p>Mutating vectors through slices is achieved by assigning new values through the operator <code>&#61;</code>. However, when slices are used in assignments, we need to be particularly cautious. The reason is that their behavior differs, depending on the position of the slice in the assignment. </p>
-<p>Specifically, <strong>slices on the left-hand side of</strong> <code>&#61;</code> <strong>act as views</strong>. This means that the slices reference the original elements, thus allowing for the mutation of its parent object. In contrast, <strong>slices on the right-hand side of</strong> <code>&#61;</code> <strong>create a copy</strong>, and therefore point to a new object. This means that any modification made to the slice won&#39;t affect the original object. </p>
-<p>The following code snippet demonstrates this, where we refer to the left-hand side as  <em>LHS</em> and the right-hand side as  <em>RHS</em>.</p>
+<p>Vector mutation through slices is achieved by assigning new values through the operator <code>&#61;</code>. However, we need to be particularly cautious when slices are used in assignments. The reason is that their behavior differs, depending on the position of the slice in the assignment. </p>
+<p>Specifically, <strong>slices on the left-hand side of</strong> <code>&#61;</code> <strong>act as views</strong>. This means that the slices reference the original elements, thus allowing for the mutation of its parent object. In contrast, <strong>slices on the right-hand side of</strong> <code>&#61;</code> <strong>create a copy</strong>, and therefore point to a new object. Consequently, any modification made to the slice won&#39;t affect the original object. </p>
+<p>The following code snippet demonstrates this feature, where we refer to the left-hand side as  <em>LHS</em> and the right-hand side as  <em>RHS</em>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2597,7 +2616,7 @@ color: white;
 
 x&#91;1&#93; &#61; 0        # &#39;x&#91;1&#93;&#39; is a view and mutates &#39;x&#39;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  0
  5</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
@@ -2607,11 +2626,11 @@ y    &#61; x&#91;1&#93;     # &#39;y&#39; is unrelated to &#39;x&#39; because &#
 
 x&#91;1&#93; &#61; 0        # it mutates &#39;x&#39; but does NOT modify &#39;y&#39;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">4</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">4</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Aliasing vs Copy</strong>  </span>  </div>  <div class=content>     Objects on the right-hand side of <code>&#61;</code> are only copies when it comes to <strong>slices</strong>, such as in statements <code>y &#61; x&#91;&lt;indices&gt;&#93;</code>.  Instead, if we introduce an entire object <code>x</code> on the right-hand side of <code>&#61;</code>, as in <code>y &#61; x</code>, the operation entails the creation of an alias. This means that <code>y</code> and <code>x</code> reference the same object, and so any modification of <code>y</code> also affects <code>x</code>.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Aliasing vs Copy</strong>  </span>  </div>  <div class=content>     Objects on the right-hand side of <code>&#61;</code> are only treated as copies when it comes to <strong>slices</strong>. For instance, this is what occurs in statements <code>y &#61; x&#91;&lt;indices&gt;&#93;</code>.  Instead, if we insert the whole object <code>x</code> on the right-hand side of <code>&#61;</code>, as in <code>y &#61; x</code>, the operation creates an alias. This means that <code>y</code> and <code>x</code> reference the same object, and so any modification made to <code>y</code> will also be reflected in <code>x</code>.</p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2624,7 +2643,7 @@ y &#61; x           # the whole object &#40;a view&#41;
 
 x&#91;1&#93; &#61; 0        # it DOES modify &#39;y&#39;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  4
  5</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
@@ -2634,7 +2653,7 @@ y &#61; x&#91;:&#93;        # a slice of the whole object &#40;a copy&#41;
 
 x&#91;1&#93; &#61; 0        # it does NOT modify &#39;y&#39;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  0
  5</div> </div></div> </div> 
  </div></div>
@@ -2648,8 +2667,8 @@ x&#91;1&#93; &#61; 0        # it does NOT modify &#39;y&#39;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>The Function "view"</h2></p>
-<p>Beyond their behavior in assignments, it&#39;s crucial to understand when slices act as copies or views. The relevance of this knowledge will become clearer when we explore high performance, as views avoid the overhead associated with memory allocations.</p>
-<p>Broadly speaking, <strong>copies tend to be the default behavior of slices in Julia</strong>. Thus, for instance, a slice incorporated as a function argument or in an expression defines a copy. The following examples illustrates this behavior.</p>
+<p>Understanding slice behavior beyond assignments is crucial. Broadly speaking, <strong>slices typically default to creating copies</strong>. This behavior is exhibited, for example, when a slice is passed as a function argument or used within an expression. The distinction will take greater significance when we explore high performance, as views can speed up computations by avoiding the overhead of memory allocations. </p>
+<p>The following examples illustrate the behavior of slices as copies.</p>
  <div class=" code_box"> <details  open><summary> Slices as Copies  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;3,4,5&#93;
 
@@ -2662,7 +2681,7 @@ x&#91;1:2&#93; .&#43; 2
 
 &#40;sum&#40;x&#91;1:2&#93;&#41; &gt; 0&#41; &amp;&amp; true</code></pre>
 <p></div> </div>  </details></div>
-<p>Considering this behavior, we must explicitly indicate when we want a slice to act as a view. This is accomplished through the function <code>view</code>, which creates a reference to the original object. Its syntax is <code>view&#40;x, &lt;indices&gt;&#41;</code>, where <code>&lt;indices&gt;</code> are the subset of indices that define the slice. To demonstrate its usage, let&#39;s revisit and compare the last code snippet.</p>
+<p>Given this behavior, it&#39;s essential to explicitly specify when a slice must behave as a view. This is achieved via the function <code>view</code>, which creates a reference to the original object. Its syntax is <code>view&#40;x, &lt;indices&gt;&#41;</code>, where <code>&lt;indices&gt;</code> represent the subset of indices defining the slice. To demonstrate its usage, let&#39;s revisit and compare the previous code snippet.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2705,8 +2724,8 @@ x&#91;1:2&#93; .&#43; 2
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Macros @view and @views</h2></p>
-<p>The previous examples reveal that defining slices as views can be somewhat verbose, especially if several slices are involved. Taking this into account, Julia offers the macros <code>@view</code> and <code>@views</code>.</p>
-<p>The <code>@view</code> macro simplifies the creation of views by transforming an expression like <code>view&#40;x, 1:2&#41;</code> into <code>@view x&#91;1:2&#93;</code>. Its benefits are debatable, as it only saves a few characters and requires parentheses when there are multiple slices involved &#40;e.g., <code>@view&#40;x&#91;1:2&#93;&#41; .&#43; @view&#40;x&#91;2:3&#93;&#41;</code>&#41;. In contrast, the macro <code>@views</code> automatically transforms  <em>every</em> slice of an expression into a view. This makes it particularly convenient, as its inclusion applies to multiple slices at once.</p>
+<p>The previous examples reveal the verbosity of defining slices as views, especially when several slices are involved. To alleviate this inconvenience, Julia offers the macros <code>@view</code> and <code>@views</code>.</p>
+<p>The <code>@view</code> macro streamlines view creation by converting expressions like <code>view&#40;x, 1:2&#41;</code> into <code>@view x&#91;1:2&#93;</code>. Nonetheless, its benefits are debatable: it only saves a few characters and requires parentheses when multiple slices are involved &#40;e.g., <code>@view&#40;x&#91;1:2&#93;&#41; .&#43; @view&#40;x&#91;2:3&#93;&#41;</code>&#41;. In contrast, the macro <code>@views</code> effectively simplify notation, by automatically transforming  <em>every</em> slice within an expression into a view. </p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;4,5,6&#93;
 
@@ -2765,7 +2784,7 @@ end</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 5, 2024 
+          © Martin Alfaro <br>Last Modified June 10, 2024 
       </span> 
   </div> 
 </footer>
@@ -3230,6 +3249,76 @@ for multiple pics in a row
 
 </style>
 
+<!-- FOR COPYING THE TITLES IN SECTION -->
+       
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const h2Elements = document.querySelectorAll('h2');
+
+        h2Elements.forEach(h2 => {
+            h2.addEventListener('click', function (event) {
+                const text = h2.textContent.trim();
+                const url  = `${window.location.origin}${window.location.pathname}#${text.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}`;
+
+                // Create a temporary input element
+                const tempInput = document.createElement('input');
+                document.body.appendChild(tempInput);
+                tempInput.value = url;
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                // Create a container element for the tooltip
+                const tooltipContainer = document.createElement('div');
+                tooltipContainer.style.position = 'absolute'; // Set position: relative on the container                
+
+                // Create a tooltip element
+                const tooltip                    = document.createElement('span');
+                      tooltip.textContent        = 'Link Copied';
+                      tooltip.style.position     = 'absolute';
+                      tooltip.style.background   = 'rgba(63, 99, 136, 0.75)';
+                      tooltip.style.color        = 'white';
+                      tooltip.style.padding      = '4px 2px';
+                      tooltip.style.borderRadius = '4px';
+                      tooltip.style.fontSize     = '14px';
+
+
+                tooltipContainer.appendChild(tooltip); // Add the tooltip to the container
+                h2.appendChild(tooltipContainer); // Add the container to the h2 element
+
+                // Get the cursor position
+                const rect = h2.getBoundingClientRect();
+                const x    = event.clientX - rect.left - 28;
+                const y    = event.clientY - rect.bottom - 25;
+
+
+
+                // Set the tooltip position
+                tooltip.style.top  = `${y}px`;  // Adjust the y position to move the tooltip above the cursor
+                tooltip.style.left = `${x}px`;
+
+                // Remove the tooltip after 2 seconds
+                setTimeout(() => {
+                    h2.removeChild(tooltipContainer);
+                }, 1000);
+            });
+        });
+    });
+</script>
+
+
+
+<style>
+    h2 {
+        cursor: pointer;
+    }
+
+    .hand-cursor {
+        cursor: wait;
+    }
+</style>    
+
+
 
 
 <!-- 
@@ -3399,9 +3488,11 @@ document.addEventListener('keydown', (e) => {
   display: block;
 }
 
-</style>
 
-    
+
+
+
+</style>    
 
 
 
@@ -3470,6 +3561,7 @@ document.addEventListener('keydown', (e) => {
     
     })();
     </script>
+
 
 
 

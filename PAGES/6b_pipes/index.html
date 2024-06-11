@@ -115,7 +115,8 @@ header .jumbotron {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">    
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    
  
 
  
@@ -912,7 +913,7 @@ color: white;
        
     /* FOR INLINE CODE, WRITTEN WITHIN THE TEXT*/
   code {  
-    background-color: rgb(209, 217, 224);         /*rgb(199, 223, 236);*/
+    background-color: rgb(209, 217, 224);              /*rgb(199, 223, 236);*/
     color           : black;
     text-indent     : 0%;
     padding-top     : 0.1em;
@@ -921,13 +922,13 @@ color: white;
     padding-right   : 0.3em;
     vertical-align  : 0.05em;
     border          : 1px solid rgb(0, 16, 41);
-    overflow: hidden;
+    overflow        : hidden;
   }
 
   .julia_repl_NoFormat code, .mixed_output_NoFormat code {  
     background-color: rgb(82, 120, 104);         /*rgb(199, 223, 236);*/
     color           : #DCDCDC;
-    border          : 1px solid rgb(82, 120, 104);    
+    border          : 1px solid rgb(82, 120, 104);        
   }
 
 
@@ -945,7 +946,7 @@ color: white;
     font-size     : 12px;
     text-transform: lowercase;
     font-weight   : 500;
-    padding       : 0px 10px 2px;
+    padding       : 2px 10px 2px;
       /* background-color:   #3f6b4b; */
     background-color: rgb(63,99,136);
     position        : absolute;
@@ -969,20 +970,43 @@ color: white;
   
 
 
-
 /* ================================================================= 
                       BASIC FORMAT FOR OUTPUTS
   ================================================================= */ 
-  /* to not collapse with the copy button and `pre` */
+/* format of `julia>` */
+
+      .julia_line{
+        color      : rgb(32, 198, 121) !important;
+        font-weight: bold;
+        display    : inline;
+        font-size  : 100%;
+      }
+
+/* to fix disproportionate size in outputs */
+      .julia_repl_NoFormat {
+        font-size    : 90%;
+      }
+
+      .julia_repl_NoFormat .julia_line, .julia_repl_NoFormat code{
+        font-size:100%
+      }
+
+      .mixed_output_NoFormat{ font-size    : 90%;}
+
+      .mixed_output_NoFormat pre, .mixed_output_NoFormat .julia_line, .mixed_output_NoFormat code {
+        font-size:100%
+      }
+
+
+/* to not collapse with the copy button and `pre` */
 .akin_to_pre {
   white-space: pre-wrap;
-  font-family: "Consolas";
+  font-family: "Consolas", monospace;  
 }
 
   /* NoFormat for julia repl - no margins or paddings, just colors, fonts, etc */
 .julia_repl_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -993,16 +1017,16 @@ color: white;
 .julia_repl_NoFormat .akin_to_pre{  
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 
+
+
 /* NoFormat for \output{} - no margins or paddings, just colors, fonts, etc  */
 .franklin_output_NoFormat{
-    font-family     : "Consolas";    
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;    
     margin          : 0;
     padding         : 0;
     background-color: rgb(1, 59,31);
@@ -1024,9 +1048,10 @@ color: white;
 
 /* NoFormat for Mixed */
 
+
+
 .mixed_output_NoFormat{  
-    font-family     : "Consolas";
-    font-size       : 95%;
+    font-family     : "Consolas", monospace;
     color           : #DCDCDC;
     border          : none;
     background-color: rgb(1, 59,31);
@@ -1037,13 +1062,11 @@ color: white;
 .mixed_output_NoFormat pre{
   line-height: 1.35;
   color      : #DCDCDC;
-  font-size  : 95%;
   margin     : 0;
   padding    : 0;
 }
 
 .mixed_output_NoFormat pre code{
-  font-size       : 90%;
   margin          : 0 !important;
   padding         : 0 !important;
   border          : none;
@@ -1055,7 +1078,7 @@ color: white;
 /* Inline for julia_repl and franklin_output - adding margins and paddings  */
 .mixed_output_inline{
     color           : #DCDCDC;
-    font-family     : "Consolas";    
+    font-family     : "Consolas", monospace;    
     background-color: rgb(1, 59,31);
 
     padding-left  : 1em;
@@ -1063,7 +1086,7 @@ color: white;
     padding-bottom: 1em;
     
     margin-top   : 0;
-    margin-bottom: 0;
+    margin-bottom: 0;    
   }
 
   
@@ -1119,7 +1142,6 @@ color: white;
 
 .code_NoFormat{    
     line-height     : 1.45;
-    font-size       : 95%;
     margin          : 0;
     padding         : 0;
     background-color: rgb(0, 16, 41);
@@ -1131,8 +1153,9 @@ color: white;
     background-color: rgb(0, 16, 41);
 }
 
+
 .code_NoFormat pre code{          
-    font-family     : "Cascadia Mono";       /* Fira Mono */
+    font-family     : "Cascadia Mono", monospace ;       /* Fira Mono */
     margin          : 0 !important;
     padding         : 0 !important;
     border          : none;
@@ -1164,8 +1187,9 @@ color: white;
 
 .code_box{
   margin : 0;
-  padding: 0;
+  padding: 0;  
 }
+
 .code_box details > summary{  
   width           : max-content;  max-width : 90%;
   padding-left    : 10px;
@@ -1245,7 +1269,7 @@ color: white;
 
 .tab_wrapper{
   width  : 100%;
-  display: inline-block;  
+  display: inline-block;    
   }
 
 
@@ -1463,8 +1487,7 @@ margin-top: 0px;
 
 
 
-
-  </style>  
+</style>  
     
   
 
@@ -2549,23 +2572,19 @@ color: white;
 </style>
 
 
-
-
-
 <!-- {{ispage list_posts links}}  
   {{insert /index_page/lists_header.html}}  
   {{insert /index_page/lists_FORMAT.html}}  
 {{end}} -->
 
- 
 <div class="franklin-content">
 <section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>We introduce two approaches for computing outputs that involve multiple intermediate steps. First, we introduce the so-called <span style="color: rgb(62, 121, 180);"><strong>let blocks</strong></span>, which create a new scope and return the last line as the output. Essentially, let blocks provide a concise way to encapsulate a sequence of operations. This makes them similar to functions, but with less syntactic clutter. Moreover, all variables within the &quot;let&quot; scope are local and therefore inaccessible outside it, making Let blocks particularly helpful to maintain a tidy namespace.</p>
-<p>The second approach is based on <span style="color: rgb(62, 121, 180);"><strong>pipes</strong></span>. They make it possible to chain a series of operations together, providing the final output as their result. As the built-in pipe can become unwieldy beyond a single-argument function, we also present an alternative implementation stemming from the <code>Pipe</code> package.</p>
+<p>This section introduces two approaches to computing outputs that involve multiple intermediate steps. First, we introduce the so-called <span style="color: rgb(62, 121, 180);"><strong>let blocks</strong></span>, which create a new scope that returns the last line as its output. Let blocks offer a concise way to wrap a sequence of operations, making them similar to functions but with less syntactic clutter. They also help maintain a tidy namespace, as all intermediate variables will be local and therefore inaccessible outside the block.</p>
+<p>The second approach is based on <span style="color: rgb(62, 121, 180);"><strong>pipes</strong></span>, which chain a series of operations and return the final output as result. As the built-in pipe can become unwieldy beyond single-argument functions, we also present an alternative based on the <code>Pipe</code> package.</p>
 <p>      </div>
     </div>
   </div>
@@ -2575,10 +2594,11 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Let Blocks</h2></p>
-<p>Let blocks are particularly helpful when we need to perform a series of operations, but only care about the ultimate result. To illustrate this, suppose we want to compute the rounded logarithm of the absolute value of <code>a</code>, \(\mathrm{round}\left(\ln\left(\left|a\right|\right)\right)\). </p>
-<p>In Julia, this operation can be implemented through the expression <code>round&#40;log&#40;abs&#40;a&#41;&#41;&#41;</code>, where <code>round&#40;x&#41;</code> returns the closest integer to <code>x</code>. The operation requires three sequential steps:  <em>i)</em> computing the absolute value of <code>a</code>,  <em>ii)</em> computing the logarithm of the result, and  <em>iii)</em> rounding the resulting output.</p>
-<p>The readability of this operation could be enhanced by introducing intermediate variables for each operation. However, this approach would clutter our namespace with temporary variables and obscure the nested nature of the operations. A more elegant solution is to utilize a <strong>let-block</strong>, which allows us to encapsulate these intermediate steps in a concise and expressive manner. Similar to a function, a let-block takes arguments and returns the value of its last expression. Moreover, it&#39;s delimited by the <code>let</code> and <code>end</code> keywords, with its arguments specified after <code>let</code>. </p>
-<p>The following code examples compare the approaches to implementing the operation, including a let block. The final output is stored in the variable <code>output</code>.</p>
+<p>Let blocks are particularly helpful when we need to perform a series of operations, but only care about the ultimate result. To illustrate their utility, suppose we want to compute the rounded logarithm of <code>a</code>&#39;s absolute value. Formally, \(\mathrm{round}\left(\ln\left(\left|a\right|\right)\right)\). </p>
+<p>In Julia, this operation can be implemented using the expression <code>round&#40;log&#40;abs&#40;a&#41;&#41;&#41;</code>, where <code>round&#40;x&#41;</code> returns the closest integer to <code>x</code>. However, its readability isn&#39;t optimal due to the multiple parentheses, which could be exacerbated with longer names of variables and functions. </p>
+<p>To enhance readability, we could split the operation into multiple steps:  <em>i)</em> computing the absolute value of <code>a</code>,  <em>ii)</em> computing the logarithm of the result, and  <em>iii)</em> rounding the resulting output. Based on this, one option is to create three intermediate variables that store the output of each step. However, this approach would clutter our namespace, and additionally obscure the nested nature of the operations. </p>
+<p>A more elegant solution is to introduce a <strong>let-block</strong>, which creates a new scope delimited by the <code>let</code> and <code>end</code> keywords. This construct allows us to wrap multiple computations and return the last calculation as the output. Remarkably, let-blocks support argument passing, which requires specifying them after the <code>let</code> keyword.</p>
+<p>The following code examples compare these approaches, with the final output stored in the variable <code>output</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2590,14 +2610,14 @@ color: white;
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
 output &#61; round&#40;log&#40;abs&#40;a&#41;&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
 temp1  &#61; abs&#40;a&#41;
 temp2  &#61; log&#40;temp1&#41;
 output &#61; round&#40;temp2&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
@@ -2606,7 +2626,7 @@ output &#61; let b &#61; a         # &#39;b&#39; is a local variable having the 
    temp2 &#61; log&#40;temp1&#41;
    round&#40;temp2&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>temp1</code> #local to let-block &#40;same as <code>temp2</code>&#41;<br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `temp1` not defined</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>temp1</code> #local to let-block &#40;same as <code>temp2</code>&#41;<br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `temp1` not defined</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
@@ -2615,11 +2635,11 @@ output &#61; let a &#61; a         # the &#39;a&#39; on the left still refers to
    temp2 &#61; log&#40;temp1&#41;
    round&#40;temp2&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div><br/> <div class="julia_repl_NoFormat"> <span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>temp1</code> #local to let-block &#40;same as <code>temp2</code>&#41;<br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `temp1` not defined</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>temp1</code> #local to let-block &#40;same as <code>temp2</code>&#41;<br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `temp1` not defined</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Let Blocks Can Mutate Variables</strong>  </span>  </div>  <div class=content>     Let blocks behave like functions regarding assignments and mutation: you can mutate its arguments, although you can&#39;t reassign their values. </p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Let Blocks Can Mutate Variables</strong>  </span>  </div>  <div class=content>     Let blocks behave like functions regarding assignments and mutation. This means that you can mutate their arguments, but can&#39;t reassign variables. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2631,7 +2651,7 @@ end</code></pre> </div></div>
 output &#61; let x &#61; x
    x&#91;1&#93; &#61; 0
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  0
  2
  2</code></pre> </div></div> </div> 
@@ -2641,13 +2661,13 @@ end</code></pre> </div></div>
 output &#61; let x &#61; x
    x &#61; 0
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  2
  2
  2</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Since mutations are possible, it&#39;s essential to exercise caution to prevent unintended global changes.  </div>  </div>
+<p>Since mutations are possible, it&#39;s essential to exercise caution to prevent unintended changes in the global scope.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2657,8 +2677,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Pipes</h2></p>
-<p>Pipes offer an alternative approach to computing an output that requires several intermediate steps. Unlike let-blocks, pipes are specifically designed to nest results. This means that each operation performed necessarily takes the output of the previous operation as its input. </p>
-<p>Pipes are especially well-suited for single-argument functions, and are implemented using the <code>|&gt;</code> keyword. To illustrate its use, let&#39;s revisit the previous example of let blocks.</p>
+<p>Pipes offer an alternative for streamlining outputs that involve several intermediate steps. Unlike let-blocks, pipes are specifically designed to chain together operations, where each step takes the output of the previous step as its input. This makes them particularly well-suited for single-argument functions, whose results are nested using the <code>|&gt;</code> keyword.</p>
+<p>To illustrate the application of pipes, let&#39;s revisit the example presented for let blocks.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2668,16 +2688,16 @@ end</code></pre> </div></div>
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
 output &#61; round&#40;log&#40;abs&#40;a&#41;&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
 output &#61; a |&gt; abs |&gt; log |&gt; round</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Let Blocks and Pipes For Long Names</strong>  </span>  </div>  <div class=content>     Let blocks and pipes can also be employed for temporarily rename variables. This is potentially useful when a variable has intentionally a lengthy name to convey its meaning clearly. The feature allows users to strike a balance between using meaningful variable names, while also maintaining code readability.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Let Blocks and Pipes For Long Names</strong>  </span>  </div>  <div class=content>     Let blocks and pipes also enable the creation of temporary aliases for variables with lengthy names. In this way, users can give meaningful names to variables, while preserving code readability.</p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2690,37 +2710,37 @@ output &#61; a |&gt; abs |&gt; log |&gt; round</code></pre> </div></div>
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
 
 output &#61; variable_with_a_long_name - log&#40;variable_with_a_long_name&#41; / abs&#40;variable_with_a_long_name&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
 
 temp   &#61; variable_with_a_long_name
 output &#61; temp - log&#40;temp&#41; / abs&#40;temp&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
 
 output &#61; variable_with_a_long_name       |&gt;
          a -&gt; a - log&#40;a&#41; / abs&#40;a&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2 ; using Pipe
 
 output &#61; @pipe variable_with_a_long_name |&gt;
                _ - log&#40;_&#41; / abs&#40;_&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">variable_with_a_long_name &#61; 2
 
 output &#61; let x &#61; variable_with_a_long_name
     x - log&#40;x&#41; / abs&#40;x&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.6534264097200273</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
  <h4> Broadcasting Pipes </h4>
-<p>Pipes can be broadcasted just like any other operator by adding <code>.</code> before it. Thus, <code>.|&gt;</code> applies the subsequent operation element-wise to the preceding output. </p>
-<p>For instance, suppose an operation that transforms each element of a vector <code>x</code>, by taking the logarithm of their absolute numbers. After this, the goal is to calculate the sum of all elements in the resulting transformed vector.</p>
+<p>Just like any other operator, pipes can be broadcasted by prefixing them with a dot <code>.</code>, as in <code>.|&gt;</code>. In this way, the subsequent operation is applied element-wise to the preceding output. </p>
+<p>To demonstrate its use, consider the following operation over <code>x</code>. First, we transform its elements by taking the logarithm of its absolute values, and then sum its resulting elements.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2731,24 +2751,24 @@ end</code></pre> </div></div>
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;-1,2,3&#93;
 
 output &#61; sum&#40;log.&#40;abs.&#40;x&#41;&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.791759469228055</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.791759469228055</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;-1,2,3&#93;
 
 temp1  &#61; abs.&#40;x&#41;
 temp2  &#61; log.&#40;temp1&#41;
 output &#61; sum&#40;temp2&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.791759469228055</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.791759469228055</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;-1,2,3&#93;
 
 output &#61; x .|&gt; abs .|&gt; log |&gt; sum</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">1.791759469228055</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.791759469228055</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <h4> Pipes with More Complex Operations </h4>
-<p>So far, our examples with <code>|&gt;</code> have followed a straightforward pattern: each function takes a single argument, and the output of one function becomes the input for the next. However, this precludes the application of pipes to operations or functions with multiple arguments, where we need to indicate how the preceding output should be incorporated. For instance, it prevents the user from executing an intermediate step like <code>2 * x</code>, where <code>x</code> is the previous output. </p>
-<p>To overcome this limitation, we should <strong>combine pipes with anonymous functions</strong>. By doing so, the preceding output is treated as an argument of the anonymous function, enabling users to explicitly define how the output is incorporated into the subsequent operation.</p>
+<p>So far, our examples featuring pipes have adhered to a simple pattern, where each function was taking a single argument. Nonetheless, this approach imposes a significant constraint, as it precludes the application of pipes to operations and functions that require multiple arguments. Consequently, it becomes impossible to incorporate a function like <code>foo&#40;x,y&#41;</code> or an operation like <code>2 * x</code>.</p>
+<p>The issue arises because these cases require specifying how the preceding output should be integrated into the subsequent operation. Fortunately, the limitation can be circumvented by <strong>combining pipes with anonymous functions</strong>. This enables the preceding output to be treated as an argument of the anonymous function. As shown below, the technique greatly expands the utility of pipes.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2778,8 +2798,9 @@ output &#61; a              |&gt;
  </div></div>
 <p>  </p></details></div>
  <h4> Package Pipe </h4>
-<p>While defining anonymous functions can be a viable approach, it can quickly become cumbersome and undermine the original goal of writing clean code. Fortunately, the <code>Pipe</code> package offers a more elegant solution through its <code>@pipe</code> macro. This allows us to maintain the same syntax as pipes, but eliminates the need for anonymous functions. It&#39;s implemented by directly referencing the preceding output through <code>_</code>.</p>
-<p>To illustrate its use, we compare the implementation of the last example with this package.</p>
+<p>While combining pipes and anonymous functions is a viable approach, it can quickly degenerate into cumbersome code. If this occurs, the use of pipes would undermine the very goal of writing clean and readable code.</p>
+<p>A solution for this is offered by the <code>Pipe</code> package through the <code>@pipe</code> macro. This allows us to maintain an identical syntax for single-argument operations, while eliminating the need for anonymous functions in multi-argument operations. The functionality is achieved by introducing the <code>_</code> symbol as way to reference the preceding output.</p>
+<p>For the illustration, we revisit the last example.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2818,8 +2839,8 @@ output &#61; @pipe a            |&gt;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Function Composition (<strong><i>OPTIONAL</i></strong>)</h2></p>
-<p>Emulating mathematical notation, you can also compose two functions <code>f</code> and <code>g</code> through the operator <code>∘</code>. The symbol can be inserted by Tab Completion through <code>\circ</code>. As in Mathematics, <code>&#40;f ∘ g&#41;&#40;x&#41;</code> is equivalent to <code>f&#40;g&#40;x&#41;&#41;</code>. </p>
-<p>The operator <code>∘</code> is also available as a function, thus allowing for the notation <code>∘&#40;f,g&#41;&#40;x&#41;</code>. Note that function composition can be used as an alternative to piping, as <code>&#40;f ∘ g&#41;&#40;x&#41;</code> is equal to <code>x |&gt; f |&gt; g</code>. </p>
+<p>An alternative approach to nest functions is through the composition operator <code>∘</code>. This can be inserted by Tab Completion through <code>\circ</code>, and its functionality is the same as in Mathematics. Specifically, <code>&#40;f ∘ g&#41;&#40;x&#41;</code> provides an identical output to <code>f&#40;g&#40;x&#41;&#41;</code>, for some functions <code>f</code> and <code>g</code>. </p>
+<p>The operator <code>∘</code> also acts as an alternative to piping, providing the same output as <code>x |&gt; f |&gt; g</code>. Moreover, <code>∘</code> is also available as a function, where <code>∘&#40;f,g&#41;&#40;x&#41;</code> is equivalent to <code>&#40;f ∘ g&#41;&#40;x&#41;</code>.</p>
 <p>The following examples show applications with built-in and user-defined functions. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2836,7 +2857,7 @@ output   &#61; log&#40;abs&#40;a&#41;&#41;
 output   &#61; a |&gt; abs |&gt; log
 output   &#61; &#40;log ∘ abs&#41;&#40;a&#41;
 output   &#61; ∘&#40;log, abs&#41;&#40;a&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">0.0</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">0.0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a        &#61; 2
 outer&#40;a&#41; &#61; a &#43; 2
@@ -2848,7 +2869,7 @@ output   &#61; outer&#40;inner&#40;a&#41;&#41;
 output   &#61; a |&gt; inner |&gt; outer
 output   &#61; &#40;outer ∘ inner&#41;&#40;a&#41;
 output   &#61; ∘&#40;outer, inner&#41;&#40;a&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">3.0</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">3.0</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>Function composition can also be employed jointly with broadcasting. The notation for this purpose is easier to understand by thinking of the composition as a new function \(h:=f\circ g\), such that \(h\left(x\right):=\left(f\circ g\right)\left(x\right)\) and therefore \(h\left(x\right):=\left(f\circ g\right)\left(x\right)=f\left[g\left(x\right)\right]\). Considering this, broadcasting <code>h</code> would require <code>h.&#40;x&#41;</code>, which is equivalent to <code>&#40;f ∘ g&#41;.&#40;x&#41;</code> or <code>∘&#40;f,g&#41;.&#40;x&#41;</code>.</p>
@@ -2867,7 +2888,7 @@ output   &#61; log.&#40;abs.&#40;x&#41;&#41;
 output   &#61; x .|&gt; abs .|&gt; log
 output   &#61; &#40;log ∘ abs&#41;.&#40;x&#41;
 output   &#61; ∘&#40;log, abs&#41;.&#40;x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
  0.0
  0.6931471805599453
  1.0986122886681098</code></pre> </div></div> </div> 
@@ -2882,13 +2903,13 @@ output   &#61; outer.&#40;inner.&#40;x&#41;&#41;
 output   &#61; x .|&gt; inner .|&gt; outer
 output   &#61; &#40;outer ∘ inner&#41;.&#40;x&#41;
 output   &#61; ∘&#40;outer, inner&#41;.&#40;x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
  2.5
  3.0
  3.5</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Lastly, we can also broadcast the composition operator <code>∘</code> itself. This technique allows us to seamless apply multiple functions to an object. For instance, the following example ensures that each function takes the absolute value of its argument previous to apply the function of interest. </p>
+<p>Lastly, it&#39;s possible to broadcast the composition operator <code>∘</code> itself, allowing us to apply multiple functions to the same object. For instance, the following example ensures that each function takes the absolute value of its argument, previous to apply the function of interest. </p>
  <div class=" code_box"> <details  open><summary> Broadcasting ∘  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">a            &#61; -1
 
 inners       &#61; abs
@@ -2897,10 +2918,10 @@ compositions &#61; outers .∘ inners
 
 # all &#96;output&#96; are equivalent
 output       &#61; &#91;log&#40;abs&#40;a&#41;&#41;, sqrt&#40;abs&#40;a&#41;&#41;&#93;
-output       &#61; &#91;foo&#40;a&#41; for foo in compositions&#93;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>compositions</code> <br/> <pre><code class="plaintext code-output">2-element Vector{ComposedFunction{O, typeof(abs)} where O}:
+output       &#61; &#91;foo&#40;a&#41; for foo in compositions&#93;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>compositions</code> <br/> <pre><code class="plaintext code-output">2-element Vector{ComposedFunction{O, typeof(abs)} where O}:
  log ∘ abs
  sqrt ∘ abs</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><span style="color:rgb(32, 198, 121) !important; font-weight: bold;">julia&gt</span> <code>output</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Float64}:
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Float64}:
  0.0
  1.0</code></pre> </div></div> </div>   </details></div>
 <p>      </div>
@@ -2925,7 +2946,7 @@ output       &#61; &#91;foo&#40;a&#41; for foo in compositions&#93;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 5, 2024 
+          © Martin Alfaro <br>Last Modified June 10, 2024 
       </span> 
   </div> 
 </footer>
@@ -3390,6 +3411,76 @@ for multiple pics in a row
 
 </style>
 
+<!-- FOR COPYING THE TITLES IN SECTION -->
+       
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const h2Elements = document.querySelectorAll('h2');
+
+        h2Elements.forEach(h2 => {
+            h2.addEventListener('click', function (event) {
+                const text = h2.textContent.trim();
+                const url  = `${window.location.origin}${window.location.pathname}#${text.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '_')}`;
+
+                // Create a temporary input element
+                const tempInput = document.createElement('input');
+                document.body.appendChild(tempInput);
+                tempInput.value = url;
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                // Create a container element for the tooltip
+                const tooltipContainer = document.createElement('div');
+                tooltipContainer.style.position = 'absolute'; // Set position: relative on the container                
+
+                // Create a tooltip element
+                const tooltip                    = document.createElement('span');
+                      tooltip.textContent        = 'Link Copied';
+                      tooltip.style.position     = 'absolute';
+                      tooltip.style.background   = 'rgba(63, 99, 136, 0.75)';
+                      tooltip.style.color        = 'white';
+                      tooltip.style.padding      = '4px 2px';
+                      tooltip.style.borderRadius = '4px';
+                      tooltip.style.fontSize     = '14px';
+
+
+                tooltipContainer.appendChild(tooltip); // Add the tooltip to the container
+                h2.appendChild(tooltipContainer); // Add the container to the h2 element
+
+                // Get the cursor position
+                const rect = h2.getBoundingClientRect();
+                const x    = event.clientX - rect.left - 28;
+                const y    = event.clientY - rect.bottom - 25;
+
+
+
+                // Set the tooltip position
+                tooltip.style.top  = `${y}px`;  // Adjust the y position to move the tooltip above the cursor
+                tooltip.style.left = `${x}px`;
+
+                // Remove the tooltip after 2 seconds
+                setTimeout(() => {
+                    h2.removeChild(tooltipContainer);
+                }, 1000);
+            });
+        });
+    });
+</script>
+
+
+
+<style>
+    h2 {
+        cursor: pointer;
+    }
+
+    .hand-cursor {
+        cursor: wait;
+    }
+</style>    
+
+
 
 
 <!-- 
@@ -3559,9 +3650,11 @@ document.addEventListener('keydown', (e) => {
   display: block;
 }
 
-</style>
 
-    
+
+
+
+</style>    
 
 
 
@@ -3630,6 +3723,7 @@ document.addEventListener('keydown', (e) => {
     
     })();
     </script>
+
 
 
 
