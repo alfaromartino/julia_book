@@ -12,9 +12,9 @@ Pkg.instantiate() #to install the packages
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# We use `foo(ref($x))` for more accurate benchmarks of any function `foo(x)`
+# For more accurate benchmarks, we interpolate variable `x` as in `foo($x)`
 using BenchmarkTools
-ref(x) = (Ref(x))[]
+
 
 
 ############################################################################
@@ -34,12 +34,16 @@ a = -2
 
 output = round(log(abs(a)))
  
+
+
 a = -2
 
 temp1  = abs(a)
 temp2  = log(temp1)
 output = round(temp2)
  
+
+
 a = -2
 
 output = let b = a         # 'b' is a local variable having the value of 'a' 
@@ -48,6 +52,8 @@ output = let b = a         # 'b' is a local variable having the value of 'a'
    round(temp2)
 end
  
+
+
 a = -2
 
 output = let a = a         # the 'a' on the left still refers to a local variable
@@ -56,6 +62,8 @@ output = let a = a         # the 'a' on the left still refers to a local variabl
    round(temp2)
 end
  
+
+
 a = -2
 
 output = a |> abs |> log |> round
@@ -86,12 +94,16 @@ output = sum(log.(abs.(x)))
  
 # hide
  
+
+
 x = [-1,2,3]
 
 temp1  = abs.(x)
 temp2  = log.(temp1)
 output = sum(temp2)
  
+
+
 x = [-1,2,3]
 
 output = x .|> abs .|> log |> sum
@@ -104,12 +116,16 @@ a = -2
 
 output = round(2 * abs(a))
  
+
+
 a = -2
 
 temp1  = abs(a)
 temp2  = 2 * temp1
 output = round(temp2)
  
+
+
 a = -2
 
 output = a |> abs |> (x -> 2 * x) |> round
@@ -120,6 +136,8 @@ output = a              |>
          x -> 2 * x     |>
          round
  
+
+
 #
 a = -2
 
@@ -131,6 +149,8 @@ output =       a            |>
                x -> 2 * x   |>
                round
  
+
+
 using Pipe
 a = -2
 
@@ -156,6 +176,8 @@ output   = a |> abs |> log
 output   = (log ∘ abs)(a)
 output   = ∘(log, abs)(a)# hide
  
+
+
 a        = 2
 outer(a) = a + 2
 inner(a) = a / 2
@@ -167,6 +189,8 @@ output   = a |> inner |> outer
 output   = (outer ∘ inner)(a)
 output   = ∘(outer, inner)(a)# hide
  
+
+
 x        = [1, 2, 3]
 
 
@@ -177,6 +201,8 @@ output   = x .|> abs .|> log
 output   = (log ∘ abs).(x)
 output   = ∘(log, abs).(x)# hide
  
+
+
 x        = [1, 2, 3]
 outer(a) = a + 2
 inner(a) = a / 2
@@ -188,6 +214,8 @@ output   = x .|> inner .|> outer
 output   = (outer ∘ inner).(x)
 output   = ∘(outer, inner).(x)# hide
  
+
+
 a            = -1
 
 inners       = abs
@@ -212,21 +240,29 @@ output = variable_with_a_long_name - log(variable_with_a_long_name) / abs(variab
  
 # hide
  
+
+
 variable_with_a_long_name = 2
 
 temp   = variable_with_a_long_name
 output = temp - log(temp) / abs(temp)
  
+
+
 variable_with_a_long_name = 2
 
 output = variable_with_a_long_name       |>
          a -> a - log(a) / abs(a)
  
+
+
 variable_with_a_long_name = 2 ; using Pipe
 
 output = @pipe variable_with_a_long_name |>
                _ - log(_) / abs(_)
  
+
+
 variable_with_a_long_name = 2
 
 output = let x = variable_with_a_long_name
@@ -242,6 +278,8 @@ object_with_a_long_name = [-1,2,3]
 output = [abs(object_with_a_long_name[i]) + object_with_a_long_name[i] / exp(object_with_a_long_name[i])
           for i in eachindex(object_with_a_long_name)]
  
+
+
 object_with_a_long_name = [-1,2,3]
 
 temp   = object_with_a_long_name
@@ -249,16 +287,22 @@ output = [abs(temp[i]) + temp[i] / exp(temp[i]) for i in eachindex(temp)]
  
 # hide
  
+
+
 object_with_a_long_name = [-1,2,3]
 
 output = object_with_a_long_name |>
          x -> [abs(x[i]) + x[i] / exp(x[i]) for i in eachindex(x)]
  
+
+
 object_with_a_long_name = [-1,2,3]
 
 output = @pipe object_with_a_long_name |>
                [abs(_[i]) + _[i] / exp(_[i]) for i in eachindex(_)]
  
+
+
 object_with_a_long_name = [-1,2,3]
 
 output = let x = object_with_a_long_name

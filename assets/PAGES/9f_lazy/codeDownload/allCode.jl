@@ -1,9 +1,9 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# We use `foo(ref($x))` for more accurate benchmarks of any function `foo(x)`
+# For more accurate benchmarks, we interpolate variable `x` as in `foo($x)`
 using BenchmarkTools
-ref(x) = (Ref(x))[]
+
 
 
 ############################################################################
@@ -13,7 +13,7 @@ ref(x) = (Ref(x))[]
 ############################################################################
  
 # necessary packages for this file
-using LazyArrays, Random
+using Random, LazyArrays
  
 ####################################################
 #	GENERATORS VS ARRAY COMPREHENSIONS
@@ -22,16 +22,24 @@ using LazyArrays, Random
 x = [a for a in 1:10]
  
 
+
+
 x = (a for a in 1:10)
  
+
+
 
 x = 1:10
  
 
+
+
 x = collect(1:10)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 function foo(x)
@@ -40,10 +48,12 @@ function foo(x)
     sum(y)
 end
     
-@btime foo(ref($x))
+@btime foo($x)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 function foo(x)
@@ -52,16 +62,20 @@ function foo(x)
     sum(y)
 end
     
-@btime foo(ref($x))
+@btime foo($x)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 foo(x) = sum(a * 2 for a in x)              # 0 allocations
     
-@btime foo(ref($x))
+@btime foo($x)
  
+
+
 
 ############################################################################
 #
@@ -69,23 +83,23 @@ foo(x) = sum(a * 2 for a in x)              # 0 allocations
 #
 ############################################################################
 
-
-
 ####################################################
 #	FILTER
 ####################################################
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting the seed for reproducibility
 x = collect(1:100)
 
 function foo(x)
     sum(x .> 50)                            # 1 allocation
 end
     
-@btime foo(ref($x))
+@btime foo($x)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = collect(1:100)
 
 function foo(x)
@@ -94,10 +108,12 @@ function foo(x)
     sum(y)
 end
     
-@btime foo(ref($x))
+@btime foo($x)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = collect(1:100)
 
 function foo(x)
@@ -106,10 +122,12 @@ function foo(x)
     sum(y)
 end
     
-@btime foo(ref($x))
+@btime foo($x)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = collect(1:100)
 
 function foo(x)
@@ -118,14 +136,16 @@ function foo(x)
     sum(y)
 end
     
-@btime foo(ref($x))
+@btime foo($x)
  
+
+
 
 ####################################################
 #	MAP
 ####################################################
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 function foo(x) 
@@ -134,10 +154,12 @@ function foo(x)
     sum(y)
 end
     
-@btime foo(ref($x))
+@btime foo($x)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 function foo(x)
@@ -146,32 +168,37 @@ function foo(x)
     sum(y)
 end
     
-@btime foo(ref($x))
+@btime foo($x)
  
-
 ############################################################################
 #
 #                           LAZY BROADCASTING
 #
 ############################################################################
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting the seed for reproducibility
 # broadcasting eager by default
 x = rand(100) ; y = rand(100)
 
 foo(x,y) = sum(2 .* x) + sum(2 .* y) / sum(x .* y)
 
-@btime foo($x,$y)
+@btime foo($x, $y)
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 using LazyArrays
 x = rand(100) ; y = rand(100)
 
 foo(x,y) = sum(@~ 2 .* x) + sum(@~ 2 .* y) / sum(@~ x .* y)
 
-@btime foo($x,$y)
+@btime foo($x, $y)
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100) ; y = rand(100)
 
 function foo(x,y) 
@@ -182,9 +209,12 @@ function foo(x,y)
     sum(lx ./ ly)
 end
 
-@btime foo(ref($x),ref($y))
+@btime foo($x, $y)
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100) ; y = rand(100)
 
 function foo(x,y) 
@@ -195,9 +225,12 @@ function foo(x,y)
     sum(Iterators.map(temp, x,y))
 end
 
-@btime foo(ref($x),ref($y))
+@btime foo($x, $y)
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100) ; y = rand(100)
 
 function foo(x,y) 
@@ -208,118 +241,5 @@ function foo(x,y)
     sum(@~ temp.(x,y))
 end
 
-@btime foo(ref($x),ref($y))
- 
-####################################################
-#	CONDITIONS
-####################################################
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-function foo(x)
-    condition1     = x .> 0.25
-    condition2     = x .< 0.75    
-
-
-    sum(condition1 .&& condition2)
-end
-
-@btime foo(ref($x))
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-function foo(x)
-    condition1     = (a > 0.25 for a in x)
-    condition2     = (a < 0.75 for a in x)
-    all_conditions = ((x && y) for (x,y) in  zip(condition1, condition2))
-        
-    sum(all_conditions)
-end
-
-@btime foo(ref($x))
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-function foo(x)
-    condition(x) = 0.75 > x > 0.25
-    
-
-
-    sum(@~ condition.(x))
-end
-
-
-@btime foo(ref($x))
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-function foo(x)
-    condition1(a)     = a > 0.25
-    condition2(a)     = a < 0.75
-    all_conditions(a) = condition1(a) && condition2(a)
-    
-    sum(@~ all_conditions.(x))
-end
-
-@btime foo(ref($x))
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-function foo(x)
-    all_conditions    = Iterators.map(a ->  0.25 < a < 0.75 , x)    
-    
-
-    sum(all_conditions)
-end
-
-@btime foo(ref($x))
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-function foo(x)
-    condition1(a)     = a > 0.25
-    condition2(a)     = a < 0.75    
-    all_conditions    = Iterators.map(a -> condition1(a) && condition2(a) , x)    
-
-    sum(all_conditions)
-end
-
-@btime foo(ref($x))
- 
-####################################################
-#	CONDITIONS
-####################################################
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
-x       = rand(100)
-weights = rand(100) |> (y ->  y ./ sum(y))
-
-temp(x,weights)           = x * weights
-weighted_share(x,weights) = sum(temp.(x,weights))
-
-@btime weighted_share(ref($x), ref($weights))
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
-x       = rand(100)
-weights = rand(100) |> (y ->  y ./ sum(y))
-
-temp(x,weights)           = x * weights
-weighted_share(x,weights) = sum(Iterators.map(temp, x, weights))
-
-@btime weighted_share(ref($x), ref($weights))
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
-x       = rand(100)
-weights = rand(100) |> (y ->  y ./ sum(y))
-
-temp(x,weights)           = x * weights
-weighted_share(x,weights) = sum(@~ temp.(x,weights))
-
-@btime weighted_share(ref($x), ref($weights))
+@btime foo($x, $y)
  

@@ -1,9 +1,9 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# We use `foo(ref($x))` for more accurate benchmarks of any function `foo(x)`
+# For more accurate benchmarks, we interpolate variable `x` as in `foo($x)`
 using BenchmarkTools
-ref(x) = (Ref(x))[]
+
 
 
 ############################################################################
@@ -13,7 +13,7 @@ ref(x) = (Ref(x))[]
 ############################################################################
  
 # necessary packages for this file
-using StatsBase, Distributions, Random, Pipe
+using Random, StatsBase, Distributions , Pipe
  
 ############################################################################
 #
@@ -59,9 +59,11 @@ sorted_visits   = visits[indices]
  
 
 
+
 range_payrates  = unique(payrates) |> sort
 range_payrates |> print_compact
  
+
 
 using StatsBase
 occurrences_payrates = countmap(payrates) |> sort
@@ -100,6 +102,7 @@ rounded_proportion = round(proportion_viral_lucrative, digits=1)
 rounded_proportion = round(Int, proportion_viral_lucrative)
  
 
+
 ############################################################################
 #
 # FUNCTIONS TO REPRESENT TASKS
@@ -117,6 +120,8 @@ function stats_subset(visits, payrates, condition)
     return (; nrvideos, audience, revenue)
 end
  
+
+
 using Pipe
 function stats_subset(visits, payrates, condition)
     nrvideos = sum(condition)
@@ -128,6 +133,8 @@ function stats_subset(visits, payrates, condition)
     return (; nrvideos, audience, revenue)
 end
  
+
+
 using Pipe
 function stats_subset(visits, payrates, condition)
     nrvideos = sum(condition)
@@ -151,6 +158,7 @@ days_to_consider = (1, 10, 25)      # days when the videos were posted
 is_day           = in.(eachindex(visits), Ref(days_to_consider))
 specific_days    = stats_subset(visits, payrates, is_day)
  
+
 
 ############################################################################
 #
@@ -216,6 +224,7 @@ temp  = @view new_visits[new_visits .≥ viral_threshold]
 temp  = temp .* 1.2     # it creates a new variable 'temp', it does not modify 'new_visits'
  
 
+
 ############################################################################
 #
 # BROADCASTING OVER A LIST OF FUNCTIONS (OPTIONAL)
@@ -227,10 +236,12 @@ print(describe(visits))
  
 
 
+
 list_functions = [sum, median, mean, maximum, minimum]
 
 stats_visits   = [fun(visits) for fun in list_functions]
  
+
 
 list_functions = [sum, median, mean, maximum, minimum]
 
@@ -238,8 +249,10 @@ stats_various  = [fun.([visits, payrates]) for fun in list_functions]
  
 
 
+
 stats_visits   = NamedTuple((Symbol(fun), fun(visits)) for fun in list_functions)
  
+
 
 
 vector_of_tuples = [(Symbol(fun), fun(visits)) for fun in list_functions]

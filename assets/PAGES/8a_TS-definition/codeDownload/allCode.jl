@@ -1,9 +1,9 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# We use `foo(ref($x))` for more accurate benchmarks of any function `foo(x)`
+# For more accurate benchmarks, we interpolate variable `x` as in `foo($x)`
 using BenchmarkTools
-ref(x) = (Ref(x))[]
+
 
 
 ############################################################################
@@ -13,46 +13,49 @@ ref(x) = (Ref(x))[]
 ############################################################################
  
 # necessary packages for this file
-using Statistics
+using Statistics, BenchmarkTools, Chairmarks
  
 ############################################################################
 #
-#                           GLOBAL VARIABLES
+#           A DEFINITION
 #
 ############################################################################
  
-x      = rand(10)
-foo(x) = sum(x)
+x = [1, 2, 3]                  # `x` has type `Vector{Int64}`
 
-@btime foo(ref($x))
-#@code_warntype foo() # hide
+@btime sum($x[1:2])            # type stable
  
-x     = rand(10)
-foo() = sum(x)
 
-@btime foo()
-#@code_warntype foo() # hide
+
+x = [1, 2, "hello"]            # `x` has type `Vector{Any}`
+
+@btime sum($x[1:2])            # type UNSTABLE
  
-x     = rand(10)
+############################################################################
+#
+#           TYPE STABILITY WITH SCALARS
+#
+############################################################################
+ 
+function foo(x,y)
+    a = (x > y) ?  x  :  y
 
-@btime begin
-    sum(x)
+    [a * i for i in 1:100_000]
 end
-#@code_warntype foo() # hide
+
+foo(1, 2)           # type stable   -> `a * i` is always `Int64`
+@btime foo(1, 2)            # hide
  
-using Statistics
 
-x      = rand(10)
-foo(x) = sum(x) * prod(x) * mean(x) * std(x)
 
-@btime foo(ref($x))
- 
-using Statistics
+function foo(x,y)
+    a = (x > y) ?  x  :  y
 
-x      = rand(10)
-foo()  = sum(x) * prod(x) * mean(x) * std(x)
+    [a * i for i in 1:100_000]
+end
 
-@btime foo()
+foo(1, 2.5)         # type UNSTABLE -> `a * i` is either `Int64` or `Float64`
+@btime foo(1, 2.5)            # hide
  
 ############################################################################
 #
@@ -60,39 +63,46 @@ foo()  = sum(x) * prod(x) * mean(x) * std(x)
 #
 ############################################################################
  
-x  = [1, 2, "hello"]            # `x` has type Vector{Any}, due to the combination of numbers and strings
+x1::Vector{Int}     = [1, 2, 3]
 
-
-sum(x[1:2])     # hide
-@code_warntype sum(x[1:2])      # type UNSTABLE -> sum considering the possibility of `Any`
+sum(x1)             # type stable
  
-x  = Vector{Any}(undef, 2)      # `x` defined with type Vector{Any}
-x .= 1
 
-sum(x)          # hide
-@code_warntype sum(x)           # type UNSTABLE -> sum considering the possibility of `Any`
+
+x2::Vector{Int64}   = [1, 2, 3]
+
+sum(x2)             # type stable
  
-x  = Vector{Number}(undef, 2)   # `x` defined with type Vector{Number}
-x .= [1, 1.0]                   # `x` is type promoted to [1.0, 1.0] but still Vector{Number}
 
-sum(x)          # hide 
-@code_warntype sum(x)           # type UNSTABLE -> sum considering the possibility of all numeric types
+
+x3::Vector{Float64} = [1, 2, 3]
+
+sum(x3)             # type stable
  
-x  = Vector{Int64}(undef, 10)   # `x` is defined as Vector{Int64}
-x .= 1.0                        # `x` is converted to `Int64` to respect type's definition
 
-sum(x)          # hide
-@code_warntype sum(x)           # type stable
+
+x4::BitVector       = [true, false, true]
+
+sum(x4)             # type stable
  
-x  = Vector{Float64}(undef, 10)
-x .= 1                          # 1 is converted to 1.0 to respect x's type defined above
 
-sum(x)          # hide
-@code_warntype sum(x)           # type stable
+
+x                  = [1, 2, 3]
+
+sum(x)             # type stable
+@btime sum(x)   # hide
  
-x  = [1, 2, 2.5]                # x has type Vector{Float64} (converted by the so-called 'type promotion')
 
 
-sum(x)          # hide
-@code_warntype sum(x)           # type stable
+x5::Vector{Number} = [1, 2, 3]
+
+sum(x5)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Number`
+@btime sum(x5)   # hide
+ 
+
+
+x6::Vector{Any}    = [1, 2, 3]
+
+sum(x6)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Any`
+@btime sum(x6)   # hide
  

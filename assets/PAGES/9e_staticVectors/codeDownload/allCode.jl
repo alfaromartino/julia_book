@@ -1,9 +1,9 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# We use `foo(ref($x))` for more accurate benchmarks of any function `foo(x)`
+# For more accurate benchmarks, we interpolate variable `x` as in `foo($x)`
 using BenchmarkTools
-ref(x) = (Ref(x))[]
+
 
 
 ############################################################################
@@ -13,7 +13,7 @@ ref(x) = (Ref(x))[]
 ############################################################################
  
 # necessary packages for this file
-using BenchmarkTools, StaticArrays
+using Random, StaticArrays
  
 # all 'sx' define a static vector with same elements as 'x'
 x = collect(1:10)
@@ -24,6 +24,8 @@ sx = SA[x...]
 sx = @SVector [a for a in x]
  
 
+
+
 # all 'sx' define the same static vector '[3,4,5]'
 
 
@@ -33,12 +35,16 @@ sx = SA[3,4,5]
 sx = @SVector [i for i in 3:5]
  
 
+
+
 x = collect(3:10) ; sx = SVector(x...)
 
 # both define static vectors
 slice1 = sx[:]
 slice2 = sx[SA[1,2]]        # or slice2 = sx[SVector(1,2)]
  
+
+
 
 x = collect(3:10) ; sx = SVector(x...)
 
@@ -47,17 +53,23 @@ slice2 = sx[1:2]
 slice2 = sx[[1,2]]
  
 
-x = collect(3:10) ; sx = SVector(x...)
 
-slice1 = sx[1]
-slice2 = sx[:]
- 
 
 x = collect(3:10) ; sx = SVector(x...)
 
 slice1 = sx[1]
 slice2 = sx[:]
  
+
+
+
+x = collect(3:10) ; sx = SVector(x...)
+
+slice1 = sx[1]
+slice2 = sx[:]
+ 
+
+
 
 x  = [1,2,3]
 sx = SVector(x...)
@@ -65,18 +77,24 @@ sx = SVector(x...)
 #sx[1] = 0          # ERROR: setindex!(::SVector{3, Int64}, value, ::Int) is not defined.
  
 
+
+
 x  = [1,2,3]
 mx = MVector(x...)
 
 mx[1] = 0
  
 
+
+
 sx = SVector(1,2,3)
 
 mx = similar(sx)        # it defines an MVector with undef elements
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(10)
 
 function foo(x)
@@ -86,10 +104,12 @@ function foo(x)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo(ref($x))
+@btime foo($x)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(10)
 
 @views function foo(x)
@@ -99,10 +119,12 @@ x = rand(10)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo(ref($x))
+@btime foo($x)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(10);   tup = Tuple(x)
 
 function foo(x)
@@ -112,10 +134,12 @@ function foo(x)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo(ref($tup))
+@btime foo($tup)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(10);   sx = SA[x...]
 
 function foo(x)
@@ -125,10 +149,12 @@ function foo(x)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo(ref($sx))
+@btime foo($sx)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(10);   mx = MVector(x...)
 
 function foo(x)
@@ -138,68 +164,82 @@ function foo(x)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo(ref($mx))
+@btime foo($mx)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(10)
 
 foo(x) = sum(2 .* x)
 
-@btime foo(ref($x))
+@btime foo($x)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(10);   sx = SVector(x...)
 
 foo(x) = sum(2 .* x)
 
-@btime foo(ref($sx))
+@btime foo($sx)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x  = rand(10)
 
 foo(x) = sum(a -> 10 + 2a +  3a^2, x)
 
-@btime foo(ref($x))
+@btime foo($x)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x  = rand(10);  sx = SVector(x...);
 
 foo(x) = sum(a -> 10 + 2a +  3a^2, x)
 
-@btime foo(ref($sx))
+@btime foo($sx)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x  = rand(10)
 sx = SVector(x...);  mx = MVector(x...)
 
 foo(x) = sum(a -> 10 + 2a +  3a^2, x)
  
-@btime foo(ref($x))
+@btime foo($x)
  
-@btime foo(ref($sx))
+@btime foo($sx)
  
-@btime foo(ref($mx))
+@btime foo($mx)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x  = rand(10)
 sx = SVector(x...);  mx = MVector(x...)
 
 foo(x) = 10 + 2x +  3x^2
  
-@btime foo.(ref($x))
+@btime foo.($x)
  
-@btime foo.(ref($sx))
+@btime foo.($sx)
  
-@btime foo.(ref($mx))
+@btime foo.($mx)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50)
 
 function foo(x; output = similar(x))
@@ -211,10 +251,12 @@ function foo(x; output = similar(x))
     return output
 end
  
-@btime foo(ref($x))
+@btime foo($x)
  
 
-using Random, StaticArrays; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50)
 
 function foo(x; output = similar(x), temp = similar(x))
@@ -226,10 +268,12 @@ function foo(x; output = similar(x), temp = similar(x))
     return output
 end
  
-@btime foo(ref($x));
+@btime foo($x)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50);   sx = SVector(x...)
 
 function foo(x; output = Vector{Float64}(undef, length(x)))
@@ -241,10 +285,12 @@ function foo(x; output = Vector{Float64}(undef, length(x)))
     return output
 end
  
-@btime foo(ref($sx));
+@btime foo($sx)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50);   sx = SVector(x...)
 
 function foo(x; output = similar(x))
@@ -256,10 +302,12 @@ function foo(x; output = similar(x))
     return output
 end
  
-@btime foo(ref($sx));
+@btime foo($sx)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50);   sx = SVector(x...)
 
 function foo(x; output = MVector{length(x),eltype(x)}(undef))
@@ -271,10 +319,12 @@ function foo(x; output = MVector{length(x),eltype(x)}(undef))
     return output
 end
  
-@btime foo(ref($sx));
+@btime foo($sx)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50)
 
 function foo(x)
@@ -292,7 +342,9 @@ end
 @code_warntype foo(x)                     # type unstable
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50);   sx = SVector(x...)
 
 function foo(x)
@@ -310,7 +362,9 @@ end
 @code_warntype foo(sx)                    # type stable
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(50)
 
 function foo(x, ::Val{N}) where N
@@ -328,19 +382,25 @@ end
 @code_warntype foo(x, Val(length(x)))     # type stable
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 y = rand(100)
 
 @btime sum($x .* $y)
  
 
-using Random; Random.seed!(123)       #setting the seed for reproducibility
+
+
+Random.seed!(123)       #setting the seed for reproducibility
 x = tuple(rand(100)...)
 y = tuple(rand(100)...)
 
 @btime sum($x .* $y)
  
+
+
 
 using BenchmarkTools
 x2 = SVector(rand(100)...)

@@ -1,9 +1,9 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# We use `foo(ref($x))` for more accurate benchmarks of any function `foo(x)`
+# For more accurate benchmarks, we interpolate variable `x` as in `foo($x)`
 using BenchmarkTools
-ref(x) = (Ref(x))[]
+
 
 
 ############################################################################
@@ -25,7 +25,7 @@ function foo(x)
 end
 
 @code_warntype foo(1)      # type stable
-@code_warntype foo(1.)     # type unstable
+@code_warntype foo(1.)     # type UNSTABLE
  
 
 
@@ -54,7 +54,7 @@ function foo(data)
     end
 end
 
-@code_warntype foo(data)            # type unstable
+@code_warntype foo(data)            # type UNSTABLE
 #@btime foo(ref($data))
  
 
@@ -110,7 +110,7 @@ function foo(data)
     end
 end
 
-@code_warntype foo(data)            # type unstable
+@code_warntype foo(data)            # type UNSTABLE
  
 #@btime foo(ref($data))
  
@@ -128,7 +128,7 @@ function foo(data)
     end
 end
 
-@code_warntype foo(data)            # type unstable
+@code_warntype foo(data)            # type UNSTABLE
  
 #@btime foo(ref($data))
  
@@ -145,8 +145,8 @@ function foo(condition)
     return [y * i for i in 1:100]
 end
 
-@code_warntype foo(true)         # type unstable
-@code_warntype foo(false)        # type unstable
+@code_warntype foo(true)         # type UNSTABLE
+@code_warntype foo(false)        # type UNSTABLE
  
 
 
@@ -172,7 +172,7 @@ function foo(x)                         # 'Vector{Int64}' has no info on the num
     2 .+ tuple_x
 end
 
-@code_warntype foo(x)                   # type unstable
+@code_warntype foo(x)                   # type UNSTABLE
 # @btime foo(ref($x))
  
 
@@ -187,7 +187,7 @@ function foo(x, N)                      # The value of 'N' isn't considered, onl
     2 .+ tuple_x
 end
 
-@code_warntype foo(x, length(x))        # type unstable
+@code_warntype foo(x, length(x))        # type UNSTABLE
  
 
 
@@ -229,7 +229,7 @@ function foo(x)
     2 .+ tuple_x
 end
 
-@code_warntype foo(x)                   # type unstable
+@code_warntype foo(x)                   # type UNSTABLE
 # @btime foo(ref($x))
  
 
@@ -250,7 +250,7 @@ foo(; x) = x
 foo(; x = β) = x
 
 β = 1
-@code_warntype foo()            #type unstable
+@code_warntype foo()            #type UNSTABLE
  
 
 
@@ -353,7 +353,7 @@ function foo()
     return bar()
 end
 
-@code_warntype foo()      # type unstable
+@code_warntype foo()      # type UNSTABLE
  
 
 
@@ -365,7 +365,7 @@ function foo()
     return bar()
 end
 
-@code_warntype foo()      # type unstable
+@code_warntype foo()      # type UNSTABLE
  
 
 
@@ -418,7 +418,7 @@ function foo()
     return bar()
 end
 
-@code_warntype foo()            # type unstable
+@code_warntype foo()            # type UNSTABLE
  
 
 
@@ -431,7 +431,7 @@ function foo()
     return bar()
 end
 
-@code_warntype foo()            # type unstable
+@code_warntype foo()            # type UNSTABLE
  
 
 
@@ -444,7 +444,7 @@ function foo()
     return bar()
 end
 
-@code_warntype foo()            # type unstable
+@code_warntype foo()            # type UNSTABLE
  
 
 
@@ -457,7 +457,7 @@ function foo()
     return bar()
 end
 
-@code_warntype foo()            # type unstable
+@code_warntype foo()            # type UNSTABLE
  
 
 
@@ -497,7 +497,7 @@ function foo(x)
     return closure2(x)
 end
 
-@code_warntype foo(1)            # type unstable
+@code_warntype foo(1)            # type UNSTABLE
  
 
 
@@ -543,7 +543,7 @@ function foo(x, β)
     return bar(x)
 end
 
-@code_warntype foo(x, β)        # type unstable
+@code_warntype foo(x, β)        # type UNSTABLE
  
 
 
@@ -605,7 +605,7 @@ function foo(x, β)
     filter(x -> x > β, x)       # keep elements greater than 'β'
 end
 
-@code_warntype foo(x, β)        # type unstable
+@code_warntype foo(x, β)        # type UNSTABLE
  
 
 
@@ -651,7 +651,7 @@ function foo(x)
     return bar()
 end
 
-@code_warntype foo(1)          # type unstable
+@code_warntype foo(1)          # type UNSTABLE
  
 
 
@@ -667,7 +667,7 @@ function foo(x)
     return bar()
 end
 
-@code_warntype foo(1)          # type unstable
+@code_warntype foo(1)          # type UNSTABLE
  
 
 
@@ -698,7 +698,7 @@ function foo(x, β)
     return bar(x)
 end
 
-@code_warntype foo(x, β)        # type unstable
+@code_warntype foo(x, β)        # type UNSTABLE
  
 
 
@@ -714,7 +714,7 @@ function foo(β)
     return x(β)
 end
 
-@code_warntype foo(1)      # type unstable
+@code_warntype foo(1)      # type UNSTABLE
  
 
 

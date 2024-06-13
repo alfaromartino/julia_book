@@ -12,9 +12,9 @@ Pkg.instantiate() #to install the packages
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# We use `foo(ref($x))` for more accurate benchmarks of any function `foo(x)`
+# For more accurate benchmarks, we interpolate variable `x` as in `foo($x)`
 using BenchmarkTools
-ref(x) = (Ref(x))[]
+
 
 
 ############################################################################
@@ -24,7 +24,7 @@ ref(x) = (Ref(x))[]
 ############################################################################
  
 # necessary packages for this file
-# using StatsBase, Random
+using StatsBase
  
 ############################################################################
 #
