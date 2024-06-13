@@ -2542,12 +2542,12 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Global variables</strong></span> can be accessed and modified anywhere in the code. In contrast, <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span> are only accessible within a specific scope &#40;e.g., in a function or a loop&#41;. In particular, we&#39;ll exclusively refer to local variables as those in relation to a function&#39;s scope, which encompass both function arguments and variables defined inside the function.</p>
-<p><strong>Operations with global variables are a common source of type instability</strong>: since they can be redefined at any point, Julia treats them as having type <code>Any</code>. This type ambiguity explains why performing operations in the global scope is slow—the compiler has to consider multiple possible methods for each operation, precluding specialization.</p>
-<p>This section explores two approaches to making operations with global variables type-stable: type-annotating global variables and declaring global variables as constants. The latter approach is particularly convenient for variables that remain unmodified throughout the script, like <code>π &#61; 3.1415926535897</code>.</p>
+<p>Variables can be categorized as global or local, according to the code block in which they live. Specifically, <span style="color: rgb(62, 121, 180);"><strong>global variables</strong></span> can be accessed and modified anywhere in the code, while <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span> are only accessible within a specific scope. For the purpose of this section, local variables will specifically refer to those existing in a function&#39;s scope, thus encompassing both function arguments and variables defined inside the function.</p>
+<p>The distinction is relevant for type stability, as <strong>global variables are a common source of type instability</strong>. The issue arises because Julia&#39;s type system doesn&#39;t infer a concrete type for global variables. Therefore, the compiler has to consider multiple possibilities when processing computations, which prevents performing specialized operations. The consequence is a slowdown in computations.</p>
+<p>The current section explores two approaches to work with global variables without incurring in this issue: type-annotations and constants. Defining global variables as constants is a natural choice when the values are truly fixed, like in the case of <code>π &#61; 3.1415926535897</code>. More broadly, constants can be used in any scenario where the variable remains unmodified throughout the script. One particular advantage of constants is that they&#39;re more performant than type-annotated global variables. The reason is that the compiler knows both the type and value of constants, thus enabling further optimizations. Indeed, <strong>the behavior of constants within a function is indistinguishable from a literal value</strong>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Literal values refer to values expressed directly in the code rather than through a variable, like <code>1</code>, <code>&quot;hello&quot;</code>, or <code>true</code>.  </span></span></p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - You Should Always Wrap Code in a Function </span>  </div>  <div class=content>     Keep in mind that <strong>functions implement additional optimizations</strong> that aren&#39;t possible in the global scope. Due to this, even if you implement the fixes for global variables that we propose in this section, you should additionally rely on functions when you care about performance.  </div>  </div>
+      <b>Warning!</b> - You Should Still Wrap Code in a Function </span>  </div>  <div class=content>     Even if you implement the fixes proposed for global variables, <strong>functions implement optimizations</strong> that aren&#39;t possible in the global scope. Consequently, you should use still wrap tasks in functions for optimal performance.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2557,24 +2557,20 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>When Are We Using Global Variables?</h2></p>
-<p>Self-contained functions solely rely on their arguments and locally defined variables, without depending on global variables. The first tab below shows an example of a self-contained function. In contrast, the subsequent two tabs illustrate scenarios operating with global variables. They include a function employing variables defined outside its scope, as well as operations performed in the global scope. </p>
+<p>Before exploring approaches for addressing global variables, let&#39;s first identify scenarios that rely on them. The simplest case consists of operations performed in the global scope, which is presented in the first tab below. The second tab illustrates a more subtle case, where a function references a global variable.</p>
+<p>To provide a contrast, the last tab presents a self-contained function that acts as alternative to the last case. By definition self-contained functions don&#39;t depend on global variables, as they exclusively operate with locally defined variables. Beyond any performance gain, these functions are easier to reason about, as they don&#39;t require tracking variables across the script to understand their purpose. Moreover, by not depending on global variables, their output is independent of the script&#39;s state. These features allow self-contained functions to embody a specific task, giving them a clear well-defined functionality.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Function with no Global Variables</button>    
+    <button class="tablink first_tab active" data-id=""> Global Scope </button>    
     <button class="tablink" data-id=""> Function with A Global Variable </button>
-    <button class="tablink" data-id=""> Operations in Global Scope </button>
+    <button class="tablink" data-id=""> Self-Contained Function </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; 2
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia"># all operations are type UNSTABLE &#40;they&#39;re defined in the global scope&#41;
+x &#61; 2
 
-function foo&#40;x&#41; 
-    y &#61; 2 * x 
-    z &#61; log&#40;y&#41;
-
-    return z
-end
-
-@code_warntype foo&#40;x&#41;  # type stable</code></pre> </div></div> 
+y &#61; 2 * x 
+z &#61; log&#40;y&#41;</code></pre> </div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; 2
 
@@ -2585,13 +2581,18 @@ function foo&#40;&#41;
     return z
 end
 
-@code_warntype foo&#40;&#41; # type unstable</code></pre> </div></div> 
+@code_warntype foo&#40;&#41; # type UNSTABLE</code></pre> </div></div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia"># all operations are type unstable &#40;they&#39;re defined in the global scope&#41;
-x &#61; 2
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; 2
 
-y &#61; 2 * x 
-z &#61; log&#40;y&#41;</code></pre> </div></div> 
+function foo&#40;x&#41; 
+    y &#61; 2 * x 
+    z &#61; log&#40;y&#41;
+
+    return z
+end
+
+@code_warntype foo&#40;x&#41;  # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -2603,10 +2604,10 @@ z &#61; log&#40;y&#41;</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Achieving Type Stability With Global Variables</h2></p>
-<p>Working with global variables is a practice often discouraged in modern programming paradigms, which additionally affects performance by turning operations type unstable. However, there are some scenarios where global variables could come in handy. In that case, there are two approaches addressing the performance issue: setting a global variable as a constant or annotating it with a concrete type. </p>
-<p>Note, nonetheless, that writing self-contained functions should be the first option to consider. Aside from performance considerations, these functions maintain the code modular and easier to understand, without the need to track global variables across the script to discern their purpose.</p>
+<p>The previous example emphasized the benefits of self-contained functions, providing a compelling reason to avoid global variables. Global variables are further discouraged in Julia due to their significant negative impact on performance, by making operations type unstable.</p>
+<p>Despite these issues, operating with global variables can result convenient in certain scenarios. For instance, it&#39;d be significantly impractical to locally define constants in every single function. Considering this, we present two approaches that let us work with global variables, while attending their performance penalty: declaring a global variable as a constant and annotating it with a  <em>concrete type</em>. Next, we explore each separately.</p>
  <h4> Constant Global Variables </h4>
-<p>Declaring a global variable as a constant requires adding the keyword <code>const</code> before the variable&#39;s name, such as <code>const x &#61; 3</code>. Any variable can be declared as a constant, including vectors, as the following examples show.</p>
+<p>Declaring global variables as constants requires adding the keyword <code>const</code> before the variable&#39;s name, such as <code>const x &#61; 3</code>. This approach can be applied to any type of variable, including collections, as demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2624,12 +2625,12 @@ foo&#40;&#41;   &#61; sum&#40;b&#41;
 @code_warntype foo&#40;&#41;        # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>A constant global variable doesn&#39;t incur the performance penalties of using a global variable. However, it&#39;s worth remarking that <strong>you should declare a global variable as a constant only if its value won't change throughout the script</strong>. In other words, the global variable should be truly constant, such as the value \(\pi := 3.1415\). Reassigning the value of a constant at some point in the script will lead to silent bugs. </p>
+<p>It&#39;s worth remarking that <strong>global variables should only be declared constants if their value will remain unchanged throughout the script</strong>. In other words, the global variable should be truly constant, as reassigning its value may lead to hard-to-detect bugs.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content> <strong>If you have to modify the value of a constant global variable, change the definition of the constant and then re-run the entire script.</strong> Redefining the value later in the code will trigger a warning in the REPL. The reason is that functions defined earlier in the code will still rely on the constant&#39;s original value. Only if you rerun the whole script will changes take effect </p>
-<p>To illustrate it, compare the following code snippets. Both execute the function <code>foo</code> for a constant value of <code>x&#61;1</code>, and then for a value of <code>x&#61;2</code>. The first tab shows the consequences of a script including two different constant values for <code>x</code>, where the value returned by <code>foo</code> is still based on <code>x &#61; 1</code>. On the contrary, rerunning the entire script based on a new value for <code>x</code> circumvents the issue, as demonstrated in the second tab.</p>
- <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+      <b>Warning!</b> </span>  </div>  <div class=content>     The possibility of redefining constants was introduced to facilitate testing during interactive usage. In this way, the users avoid the need to restart a Julia session for each new constant value. However, the practice assumes that all dependent functions are re-declared if the constant&#39;s value is modified. Otherwise, any function that isn&#39;t redefined will still rely on the constant&#39;s original value. This is why, <strong>if you absolutely need to reassign the value of a constant, you should re-run the entire script.</strong></p>
+<p>To illustrate the potential consequences of overlooking this practice, let&#39;s compare the following code snippets. Both execute the function <code>foo</code> for a constant value of <code>x&#61;1</code>, which is subsequently redefined as <code>x&#61;2</code>. The first example runs the script without re-executing the definition of <code>foo</code>, in which case the value returned by <code>foo</code> is still based on <code>x &#61; 1</code>. Instead, the second example emulates the re-execution of the entire script, which eliminates the issue by re-executing <code>foo</code>&#39;s definition. </p>
+<p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Wrong Use </button>
@@ -2640,75 +2641,144 @@ foo&#40;&#41;   &#61; sum&#40;b&#41;
 foo&#40;&#41;   &#61; x
 foo&#40;&#41;             # it gives 1
 
-x &#61; 2
+x     &#61; 2
 foo&#40;&#41;             # it still gives 1</code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">const x &#61; 2
+<pre><code class="language-julia">const x &#61; 1
 foo&#40;&#41;   &#61; x
+foo&#40;&#41;             # it gives 1
+
+x     &#61; 2
+foo&#40;&#41; &#61; x 
 foo&#40;&#41;             # it gives 2</code></pre>
 <p></div></div> 
  </div></div>
-<p>  </p></details></div>
-<p>Redefining constants was introduced to facilitate code testing, as the user doesn&#39;t need to start a new Julia session for each new constant value. Despite this, you should be cautious when doing so.  </div>  </div>
+<p>  </p></details></div>  </div>  </div>
  <h4> Type-Annotating a Global Variable </h4>
-<p>The second approach to ensure type stability is by specifying a global variable&#39;s type. This is done by including the operator <code>::</code> after the variable&#39;s name, such as <code>x::Int64</code>. Compared to <code>const</code>, this approach enables you to reassign global variable without unexpected consequences, as <code>::</code> only affects the type of the variable, not its value.</p>
+<p>We now present the second approach to address type instability with global variables. This involves asserting a  <em>concrete</em> type for a global variable, by including the operator <code>::</code> after the variable&#39;s name &#40;e.g., <code>x::Int64</code>&#41;. Note that type stability won&#39;t emerge if the global variable is declared with an abstract type.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Int64 </button>
     <button class="tablink" data-id=""> Vector{Float64} </button>
+    <button class="tablink" data-id=""> Abstract Type </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x::Int64 &#61; 5
 foo&#40;&#41;    &#61; 2 * x
 
-foo&#40;&#41;          # type stable</code></pre>
+@code_warntype foo&#40;&#41;     # type stable</code></pre>
 <p></div></div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">y::Vector&#123;Float64&#125; &#61; &#91;1, 2, 3&#93;
 foo&#40;&#41;              &#61; sum&#40;y&#41;
 
-foo&#40;&#41;          # type stable</code></pre>
+@code_warntype foo&#40;&#41;     # type stable</code></pre>
+<p></div></div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">z::Vector&#123;Number&#125;  &#61; &#91;1, 2, 3&#93;
+foo&#40;&#41;              &#61; sum&#40;z&#41;
+
+@code_warntype foo&#40;&#41;     # type UNSTABLE</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
- <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Type-annotating a function argument doesn't improve performance</strong>  </span>  </div>  <div class=content>     Type-annotating function arguments is commonly done when packages are written. The goal is to ensure that the function accepts only arguments with a specific type. By doing so, the developer shields the user from getting an output despite passing variables with wrong types. </p>
-<p>For instance, <code>*</code> applied to strings in Julia will concatenate words. Thus, if we want to define a function to multiple numbers, a way to prevent misuses is by restricting the operation to numeric types.</p>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="differences_between_approaches" class="scrollspy section-bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Differences Between Approaches</h2></p>
+<p>There are significant differences between the two approaches explored, with implications for both code behavior and performance. The key for these differences lies in that <strong>type-annotations assert a variable's type, while constants additionally declare its value</strong>. Let&#39;s analyze each case.</p>
+ <h4> Differences on Code </h4>
+<p>Type-annotations allow you to reassign global variable without unexpected consequences, unlike the case of constants. This means you don&#39;t need to re-run the entire script when redefining the variable.</p>
+ <div class=" code_box"> <details  open><summary> Redefining Global Variable  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x::Int64 &#61; 5
+foo&#40;&#41;    &#61; 2 * x
+foo&#40;&#41;               # output is 10
+
+x        &#61; 2
+foo&#40;&#41;    &#61; 2 * x
+foo&#40;&#41;               # output is 4</code></pre>
+<p></div> </div>  </details></div>
+ <h4> Differences in Performance </h4>
+<p>While type-annotations provide more flexibility, they can prevent certain optimizations that are achievable with constants. This is because the compiler regards constant values as fixed, thus behaving like literal values embedded directly in the code. The following code shows one scenario where this feature makes a difference. </p>
+<p>The example involves repeating an operation, which can be fully determined if the global variable&#39;s value is known. From the compiler&#39;s point of view, a constant is equivalent to a hardcoded value. This feature enables the compiler to generate a method instance with the operation replaced by its output. Instead, when a global variable is only type-annotated, the compiler can&#39;t assume that the value is fixed. Consequently, it creates a generic method instance  that recomputes the operation in each iteration. This fact explains the differences in timing between the tabs.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Untyped Arguments </button>
-    <button class="tablink" data-id=""> Typed-Annotated Arguments </button>
+    <button class="tablink first_tab active" data-id=""> Const </button>
+    <button class="tablink" data-id=""> Type-Annotated </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo1&#40;a,b&#41; &#61; a * b
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">const k1  &#61; 2
 
-a &#61; 1 
-b &#61; 2
-
-x &#61; &quot;hello &quot;
-y &#61; &quot;world&quot;</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo1&#40;a,b&#41;</code><br/><div class="akin_to_pre">2</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo1&#40;x,y&#41;</code><br/><div class="akin_to_pre">"hello world"</div> </div></div> </div> 
+function foo&#40;&#41;
+    for _ in 1:100_000
+       2^k1
+    end
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#41;</code> <br/> <pre><code class="plaintext code-output">  0.800 ns (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo2&#40;a::Number, b::Number&#41; &#61; a * b
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">k2::Int64 &#61; 2
 
-a &#61; 1 
-b &#61; 2
-
-x &#61; &quot;hello &quot;
-y &#61; &quot;world&quot;</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo2&#40;a,b&#41;</code><br/><div class="akin_to_pre">2</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo2&#40;x,y&#41;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching foo2(::String, ::String)</div> </div></div> </div> 
+function foo&#40;&#41;
+    for _ in 1:100_000
+       2^k2
+    end
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#41;</code> <br/> <pre><code class="plaintext code-output">  115.600 μs (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Beyond this use, type-annotating function arguments doesn&#39;t affect type stability. The reason is that a function always checks the types of its arguments, regardless of whether you type annotate them. </p>
-<p>Type-annotating a function argument is only relevant for type stability when keyword arguments employ global variables as their default value. We&#39;ll expand on this in a <a href="/julia_book/PAGES/7c_gotchas/#gotcha_5_global_variables_as_default_values_of_keyword_arguments">subsequent section</a>.  </div>  </div>
+ <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b> Remark</b> </span>  </div>  <div class=content>     Don&#39;t infer from this example that the compiler is incapable of recognizing invariant operations within a for-loop. The compiler&#39;s capabilities are continually evolving thanks to the efforts of Julia&#39;s developers. For instance, the compiler may pre-compute invariant operations depending on how the code is written, thus achieving a similar performance to using constants.</p>
+<p>To illustrate this, let&#39;s calculate the shares of a variable <code>x</code>. A naive approach would involve a for-loop with <code>sum&#40;x&#41;</code> incorporated into the loop body, resulting in the repeated computation of <code>sum&#40;x&#41;</code>. If, on the contrary, we calculate shares through <code>x ./ sum&#40;x&#41;</code>, the compiler is smart enough to recognize the invariance of <code>sum&#40;x&#41;</code> across iterations. Consequently, by pre-computing <code>sum&#40;x&#41;</code>, the speed achieved is comparable to a version  that treats <code>sum&#40;x&#41;</code> as a constant. </p>
+<p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Broadcast </button>
+    <button class="tablink" data-id=""> Constant </button>
+    <button class="tablink" data-id=""> For-Loop </button>    
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; rand&#40;100_000&#41;
+
+
+function foo&#40;x&#41;
+    y    &#61; similar&#40;x&#41;
+    
+    for i in eachindex&#40;x,y&#41;
+        y&#91;i&#93; &#61; x&#91;i&#93; / sum&#40;x&#41;
+    end
+
+    return y
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  633.245 ms (2 allocations: 781.30 KiB)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; rand&#40;100_000&#41;
+
+
+foo&#40;x&#41; &#61; x ./ sum&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  49.400 μs (2 allocations: 781.30 KiB)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; rand&#40;100_000&#41;
+const sum_x &#61; sum&#40;x&#41;
+
+foo&#40;x&#41; &#61; x ./ sum_x</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  41.500 μs (2 allocations: 781.30 KiB)
+</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2731,7 +2801,7 @@ y &#61; &quot;world&quot;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 10, 2024 
+          © Martin Alfaro <br>Last Modified June 12, 2024 
       </span> 
   </div> 
 </footer>
@@ -3301,6 +3371,10 @@ for multiple pics in a row
         
         <li>
           <a href="#achieving_type_stability_with_global_variables" data-offset="-40">Achieving Type Stability With Global Variables</a>
+        </li>
+        
+        <li>
+          <a href="#differences_between_approaches" data-offset="-40">Differences Between Approaches</a>
         </li>
         
       </ul>

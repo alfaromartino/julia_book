@@ -1,18 +1,13 @@
-# to execute the benchmarks
-using BenchmarkTools
-ref(x) = (Ref(x))[]
-
-# Functions to print result with a specific format (only relevant for the website)
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x) 
+include(joinpath(homedir(), "JULIA_UTILS", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
- ############################################################################
+############################################################################
 #
 #                           GLOBAL VARIABLES
 #
-############################################################################ 
+############################################################################
  
- x = 2
+x = 2
 
 function foo(x) 
     y = 2 * x 
@@ -21,10 +16,13 @@ function foo(x)
     return z
 end
 
-# foo(x)  # hide
-@code_warntype foo(x)  # type stable 
+@code_warntype foo(x)  # type stable
  
- x = 2
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x = 2
 
 function foo() 
     y = 2 * x 
@@ -33,67 +31,116 @@ function foo()
     return z
 end
 
-foo()   # hide
-@code_warntype foo() # type unstable 
+@code_warntype foo() # type UNSTABLE
  
- # all operations are type unstable (they're defined in the global scope)
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# all operations are type UNSTABLE (they're defined in the global scope)
 x = 2
 
 y = 2 * x 
-z = log(y) 
+z = log(y)
  
- x  = Vector{Any}(undef, 10)
-x .= 1
-
-sum(x)          # hide
-@code_warntype sum(x)       # type unstable 
- 
- x  = [1, 2, "hello"]    # x has type "Any"
-
-
-sum(x[1:2])     # hide
-@code_warntype sum(x[1:2])  # type unstable 
- 
- x  = Vector{Number}(undef, 10)
-x .= 1
-
-sum(x)          # hide 
-@code_warntype sum(x)       # type unstable 
- 
- x  = Vector{Int64}(undef, 10)
-x .= 1
-
-sum(x)          # hide
-@code_warntype sum(x)       # type stable 
- 
- x  = Vector{Float64}(undef, 10)
-x .= 1                      # 1 is converted to 1.0 due to x's type 
-
-sum(x)          # hide
-@code_warntype sum(x)       # type stable 
- 
- x  = [1, 2, 2.5]            # x is converted to Vector{Float64}    
-
-
-sum(x)          # hide
-@code_warntype sum(x)       # type stable 
- 
- x  = [1.0, 2, 2.0]          # x is converted to Vector{Float64}
-
-
-sum(x)          # hide
-@code_warntype sum(x)       # type stable 
- 
- const a = 5
+const a = 5
 foo()   = 2 * a
 
-foo()          # hide
-@code_warntype foo()        # type stable 
+@code_warntype foo()        # type stable
  
- const b = [1, 2, 3]
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+const b = [1, 2, 3]
 foo()   = sum(b)
 
-foo()          # hide
-@code_warntype foo()        # type stable 
+@code_warntype foo()        # type stable
  
+const k1  = 2
+
+function foo()
+    for _ in 1:100_000
+       2^k1
+    end
+end
+
+@btime foo()    # hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+k2::Int64 = 2
+
+function foo()
+    for _ in 1:100_000
+       2^k2
+    end
+end
+
+@btime foo()    # hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+k2::Int64 = 2
+
+function foo()
+    for _ in 1:1_000_000
+       2^k2
+    end
+end
+
+@btime foo()    # hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# remark on performance
+ 
+using Random; Random.seed!(1234) # hide
+x           = rand(100_000)
+
+
+function foo(x)
+    y    = similar(x)
+    
+    for i in eachindex(x,y)
+        y[i] = x[i] / sum(x)
+    end
+
+    return y
+end
+@btime foo($x)    # hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+using Random; Random.seed!(1234) # hide
+x           = rand(100_000)
+
+
+foo(x) = x ./ sum(x)
+
+@btime foo($x)    # hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+using Random; Random.seed!(1234) # hide
+x           = rand(100_000)
+const sum_x = sum(x)
+
+foo(x) = x ./ sum_x
+
+@btime foo($x)    # hide
  

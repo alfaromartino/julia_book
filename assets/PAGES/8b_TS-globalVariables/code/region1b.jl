@@ -7,5 +7,4 @@ function foo()
     return z
 end
 
-foo()   # hide
-@code_warntype foo() # type unstable
+@code_warntype foo() # type UNSTABLE

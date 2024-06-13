@@ -7,5 +7,4 @@ function foo(x)
     return z
 end
 
-# foo(x)  # hide
 @code_warntype foo(x)  # type stable

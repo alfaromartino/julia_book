@@ -2583,17 +2583,16 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>The upcoming sections will be devoted to the concept of <strong>vector mutation</strong>. However, to properly cover this subject, we first need to introduce some preliminary concepts:</p>
+<p>The upcoming sections will be devoted to the concept of <strong>vector mutation</strong>. However, to properly cover this subject, we first need to introduce some preliminary concepts. They include:</p>
 <ul>
-<li><p>a distinction between assignments and mutations</p>
+<li><p>understanding the distinction between assignments and mutations</p>
 </li>
-<li><p>initialize arrays to eventually mutate them</p>
+<li><p>approaches to initializing arrays to eventually mutate them</p>
 </li>
-<li><p>approaches to vector indexing for selecting elements</p>
+<li><p>approaches to vector indexing for the selection of elements</p>
 </li>
 </ul>
-<p>The current section in particular seeks to <strong>distinguish between assignments and mutations of variables</strong>. Likewise, the next two sections elaborate on the remaining concepts. </p>
-<p>The difference between assignments and mutations can easily go unnoticed by new users. The reason is that both operations use the operator <code>&#61;</code>, despite being fundamentally different. Establishing a clear distinction between these concepts is relevant not only for Julia, but also for other programming languages like Python. </p>
+<p>The current section in particular seeks to <strong>distinguish between assignments and mutations of variables</strong>. The difference between these concepts can easily go unnoticed by new users, as both operations use the operator <code>&#61;</code> despite being fundamentally different. Understanding the distinction is relevant not only for Julia, but also for other programming languages &#40;e.g., Python&#41;.</p>
 <p>      </div>
     </div>
   </div>
@@ -2603,7 +2602,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Some Background</h2></p>
-<p>Recall that a <strong>variable</strong> is a label for an <strong>object</strong>, with the object in turn holding a <strong>value</strong>. Moreover, objects vary accoding the number of <strong>elements</strong> stored, encompassing both single-element objects &#40;e.g., integers, floating points&#41; and collections &#40;e.g., vectors&#41;.</p>
+<p>Recall that a <strong>variable</strong> is a label for an <strong>object</strong>, where the object in turn holds a <strong>value</strong>. Moreover, objects vary according to the number of <strong>elements</strong> stored, encompassing both single-element objects &#40;e.g., integers, floating points&#41; and collections &#40;e.g., vectors&#41;.</p>
  <div class="multiple_pics">
 <div class="row">
   <div class="column2">
@@ -2616,7 +2615,7 @@ color: white;
   </div>  
 </div>
 </div>
-<p>The distinction between an object and its elements is crucial for the rest of the section. The reason is that  <em>assignments are operations related to objects</em>, whereas  <em>mutations are related to elements</em>. More specifically, assignments rebind variables to new objects, while mutations modify the elements of an existing object.</p>
+<p>The distinction between an object and its elements is crucial for the rest of the section, as  <em>assignments are operations related to objects</em>, whereas  <em>mutations are related to elements</em>. More specifically, we&#39;ll see that assignments rebind variables to new objects, while mutations modify the elements of an existing object.</p>
 <p>      </div>
     </div>
   </div>
@@ -2626,8 +2625,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Assignments</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Assignments</strong></span> bind a variable to an object. The operation is performed through statements like <code>x &#61; 3</code> or <code>x &#61; &#91;1,2,3&#93;</code>, where <code>3</code> and <code>&#91;1,2,3&#93;</code> represent the objects. </p>
-<p>Grasping the concept of assignments becomes simpler if we <strong>understand an object as a memory address</strong>. From this perspective, a statement like <code>x &#61; &#91;1,2,3&#93;</code> can be viewed as a two-step process:  <em>i</em>&#41; identifying a memory location that will hold the object with value <code>&#91;1,2,3&#93;</code>, and  <em>ii</em>&#41; assigning a label <code>x</code> to the memory location for easy access to it. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Memory locations should be understood as an &quot;abstract&quot; storage concept, which doesn&#39;t necessarily correspond to a physical location in RAM. Internally, memory is handled in a complex way.  </span></span></p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Assignments</strong></span> bind a variable to an object, and their implementation relies on the operator <code>&#61;</code>. Specifically, they&#39;re performed through statements like <code>x &#61; 3</code> or <code>x &#61; &#91;1,2,3&#93;</code>, where <code>3</code> and <code>&#91;1,2,3&#93;</code> represent the objects to be assigned.</p>
+<p>Grasping the concept of assignments becomes simpler if we <strong>understand an object as a memory address</strong>. From this perspective, a statement like <code>x &#61; &#91;1,2,3&#93;</code> can be viewed as a two-step process:  <em>i</em>&#41; identifying a memory location to hold the object with value <code>&#91;1,2,3&#93;</code>, and  <em>ii</em>&#41; assigning a label <code>x</code> to the memory location for easy access to it.</p>
 <p>      </div>
     </div>
   </div>
@@ -2726,7 +2725,7 @@ z &#61; x</code></pre>
   <h2 style="color:rgb(63, 99,136)">Graphical Representation</h2>
     <img src="/julia_book/assets/PAGES/5b_mutation/tikz/interpret06.svg" style="width:750px ; height:auto; margin-top:-1em;">  
 </div>
- <div class=" code_box"> <details  open><summary> y as an Alias  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
+ <div class=" code_box"> <details  open><summary> Variable <code>y</code> as an Alias  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;4,5&#93;
 y &#61; x
 
@@ -2737,7 +2736,7 @@ x&#91;1&#93; &#61;  0</code></pre>
  0
  5</div> </div></div> </div>   </details></div>
 <p>If you want <code>x</code> and <code>y</code> to be considered as separate objects, you should use the function <code>copy</code> instead. This function creates a new object that contains the same elements as the original object.</p>
- <div class=" code_box"> <details  open><summary> y as a Copy  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
+ <div class=" code_box"> <details  open><summary> Variable <code>y</code> as a Copy  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;4,5&#93;
 y &#61; copy&#40;x&#41;
 
@@ -2769,7 +2768,7 @@ x&#91;1&#93; &#61;  0</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 10, 2024 
+          © Martin Alfaro <br>Last Modified June 12, 2024 
       </span> 
   </div> 
 </footer>
