@@ -2545,8 +2545,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Computations can be categorized as either &quot;lazy&quot; or &quot;eager&quot;. <span style="color: rgb(62, 121, 180);"><strong>Lazy operations</strong></span> only define the code to be executed, without generating the output immediately. They&#39;re a form of deferring computation. In contrast, <span style="color: rgb(62, 121, 180);"><strong>eager operations</strong></span> are executed as soon as they&#39;re defined, providing instant access to the results. So far, most of the operations performed on this website have fallen into the eager category.</p>
-<p>Lazy operations can significantly boost performance, especially when applied to intermediate computations. This stems from two factors. First, lazy evaluation enables Julia to <strong>sidestep unnecessary memory allocations</strong>. By deferring computations until they&#39;re actually needed, Julia is able to perform calculations on the fly and feed them directly into the final computations. Secondly, lazy operations facilitate <strong>fusing operations</strong>, a process that combines multiple operations into a single more efficient one. This provides Julia with a comprehensive view of the intended operation, allowing it to implement optimized approaches.</p>
+<p>Broadly speaking, the execution of computations can be categorized as either &quot;lazy&quot; or &quot;eager&quot;. <span style="color: rgb(62, 121, 180);"><strong>Eager operations</strong></span> are executed as soon as they&#39;re defined, providing instant access to the results. So far, most of the operations performed on this website have fallen into the eager category. In contrast, <span style="color: rgb(62, 121, 180);"><strong>Lazy operations</strong></span> only define the code to be executed, without generating the output immediately. They&#39;re a form of deferring computation. </p>
+<p>This section provides multiple approaches for implementing lazy operations. They&#39;re particularly valuable given their significant boost in performance when applied to intermediate computations. This stems from two factors. First, lazy evaluation <strong>sidesteps unnecessary memory allocations</strong>: by deferring computations until they&#39;re actually needed, they can be computed on the fly and then feed them directly into the final computations. Secondly, lazy operations facilitate <strong>fusing operations</strong>, a process that combines multiple operations into a single one. This provides the compiler with a comprehensive view of the intended operation, allowing it to implement an optimized method.</p>
 <p>      </div>
     </div>
   </div>
@@ -2556,8 +2556,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Generators</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Generators</strong></span> are <strong>a lazy alternative to array comprehensions</strong> that create arrays by iterating over values. Unlike array comprehensions, which eagerly compute and store all the elements in memory, generators defer the computation of values until they&#39;re required.</p>
-<p>Generators share the same syntax as array comprehensions, except they&#39;re enclosed in parentheses <code>&#40; &#41;</code> instead of square brackets <code>&#91; &#93;</code>. They also maintain the same flexibility as array comprehensions, including the ability to add conditions and iterate simultaneously over multiple collections.</p>
+<p><a href="/julia_book/PAGES/4c_forLoops/#array_comprehensions"><strong>Array comprehensions</strong></a> represent a convenient approach to creating vectors. This proceeds by describing the elements to be created through a for-loop, which are then computed and stored. <span style="color: rgb(62, 121, 180);"><strong>Generators</strong></span> provide <strong>a lazy alternative</strong>, deferring the materialization of the vector until it&#39;s required.</p>
+<p>Generators share the same syntax as array comprehensions, except they&#39;re enclosed in parentheses <code>&#40; &#41;</code> instead of square brackets <code>&#91; &#93;</code>. They also maintain the same flexibility, including the ability to add conditions and iterate simultaneously over multiple collections.</p>
 <p>Below, we demonstrate how to define generators, which formally define an object with type <code>Base.Generator</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2577,7 +2577,7 @@ color: white;
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">Base.Generator{UnitRange{Int64}, typeof(identity)}(identity, 1:10)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>To illustrate the performance benefits of generators, let&#39;s create a vector and then sum its elements. The example showcases how generators are capable of reducing memory allocations, by bypassing the storage of intermediate outputs. Specifically, the generator directly feeds its output to <code>sum</code>, allowing Julia to take a holistic approach to the computation. This enables the compiler to perform the sum through a reduction, thereby avoiding the need for any temporary storage. Overall, Julia ends up operating with scalars, which don&#39;t allocate. </p>
+<p>To illustrate the performance benefits of generators, let&#39;s create a vector and then sum its elements. The example showcases how generators are capable of reducing memory allocations, by bypassing the storage of intermediate outputs. Specifically, the generator directly feeds its output to <code>sum</code>, allowing Julia to take a holistic approach to the computation. In this way, the compiler performs the sum through a reduction, thus avoiding the need for any temporary storage by operating with scalars. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2612,7 +2612,7 @@ foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations<
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The last tab shows that generators can also be passed directly as a function argument. This approach isn&#39;t specific to built-in functions like <code>sum</code>, and it actually extends to  <em>any</em> function accepting a collection as its input.</p>
+<p>The last tab shows that generators can also be incorporated directly as a function argument. The approach is applicable to  <em>any</em> function accepting a collection as its input.</p>
 <p>      </div>
     </div>
   </div>
@@ -2622,7 +2622,7 @@ foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations<
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Iterators</h2></p>
-<p>Throughout the website, we&#39;ve already presented numerous cases involving lazy iterators. For instance, the range <code>1:10</code> represents a lazy sequence of numbers, which are accessed one-by-one on demand. This explains their convenience for iterating in a for-loop, as they avoid materializing the collection. The fact that ranges are lazy also explains why we must call the function <code>collect</code> to materialize them into vectors. Other examples of lazy iterators covered on the website are <code>eachindex</code>, <code>enumerate</code>, and <code>zip</code>. </p>
+<p>Throughout the website, we&#39;ve already presented numerous cases involving lazy iterators. For instance, the range <code>1:10</code> represents a lazy sequence of numbers, accessed one-by-one on demand. This explains their convenience for iterating in a for-loop, as they avoid materializing the collection. The fact that ranges are lazy also explains why we must call the function <code>collect</code> to materialize them into vectors. Other examples of lazy iterators covered on the website are <code>eachindex</code>, <code>enumerate</code>, and <code>zip</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2701,13 +2701,13 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Lazy Broadcasting</h2></p>
-<p>There&#39;s a lazy version of broadcasting, available through the package <code>LazyArrays</code>. This requires the inclusion of the macro <code>@~</code> at the start of the broadcasting operation.</p>
-<p>This is particularly useful because, even if we don&#39;t store the result, any broadcasted operation creates a temporary vector. One solution would be to replace the broadcasted expressions with a generator. However, this would make the code overly verbose. On the contrary, <code>@~</code> keeps the code short and readable. This is illustrated in the following example, where lazy broadcasting additionally entails zero memory allocations.</p>
+<p>The <code>LazyArrays</code> package offers a lazy version of broadcasting. Its use requires prepending the <code>@~</code> macro where the broadcasted operation begins.</p>
+<p>The technique address the memory allocations created by broadcasting, which emerges even if the computation is executed on the fly. Furthermore, it offers a concise notation that keeps the code short and readable, in contrast to generators. Below, we demonstrate its implementation.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Broadcast </button>
-    <button class="tablink" data-id=""> Broadcast (@~) </button>
+    <button class="tablink first_tab active" data-id=""> Eager Broadcast </button>
+    <button class="tablink" data-id=""> Lazy Broadcast </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia"># broadcasting eager by default
 x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
@@ -2724,7 +2724,7 @@ foo&#40;x,y&#41; &#61; sum&#40;@~ 2 .* x&#41; &#43; sum&#40;@~ 2 .* y&#41; / sum
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>An additional advantage of <code>@~</code> is that it implements some optimizations for broadcasted operations when possible. This is why we usually observe that <code>@~</code> is faster than a lazy map, despite that both don&#39;t allocate memory. This can be seen in the following comparison.</p>
+<p>An additional advantage of <code>@~</code> is that it implements some optimizations for broadcasted operations when possible. As a result, <code>@~</code> is typically faster than a lazy map, despite that both don&#39;t allocate memory. This performance benefit can be appreciated in the following comparison.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
