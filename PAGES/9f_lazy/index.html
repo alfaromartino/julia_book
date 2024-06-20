@@ -2545,8 +2545,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Broadly speaking, the execution of computations can be categorized as either &quot;lazy&quot; or &quot;eager&quot;. <span style="color: rgb(62, 121, 180);"><strong>Eager operations</strong></span> are executed as soon as they&#39;re defined, providing instant access to the results. So far, most of the operations performed on this website have fallen into the eager category. In contrast, <span style="color: rgb(62, 121, 180);"><strong>Lazy operations</strong></span> only define the code to be executed, without generating the output immediately. They&#39;re a form of deferring computation. </p>
-<p>This section provides multiple approaches for implementing lazy operations. They&#39;re particularly valuable given their significant boost in performance when applied to intermediate computations. This stems from two factors. First, lazy evaluation <strong>sidesteps unnecessary memory allocations</strong>: by deferring computations until they&#39;re actually needed, they can be computed on the fly and then feed them directly into the final computations. Secondly, lazy operations facilitate <strong>fusing operations</strong>, a process that combines multiple operations into a single one. This provides the compiler with a comprehensive view of the intended operation, allowing it to implement an optimized method.</p>
+<p>Broadly speaking, the approaches to executing computations can be categorized as either &quot;lazy&quot; or &quot;eager&quot;. <span style="color: rgb(62, 121, 180);"><strong>Eager operations</strong></span> are executed as soon as they&#39;re defined, providing instant access to the results. So far, most of the operations performed on this website have fallen into this category. In contrast, <span style="color: rgb(62, 121, 180);"><strong>Lazy operations</strong></span> define the code to be executed, without generating the output immediately. They represent a form of deferring computation. </p>
+<p>This section provides various approaches for implementing lazy computations. The technique is particularly valuable for operations involving heavy intermediate computations, as lazy evaluation <strong>sidesteps unnecessary memory allocations</strong>: by deferring computations until needed, they can be computed on the fly and then fed directly into the final computations. </p>
+<p>The first approach presented is based on the so-called <strong>generators</strong>, which is the lazy analogous of array comprehensions. After this, we introduce several functions from the package <strong>Iterators</strong>, which provide lazy implementations of functions like <code>map</code>. The section concludes diving into broadcasting operations. We first highlight that the concept of <strong>fusing operations</strong>, a process that combines multiple operations into a single one. This provides the compiler with a comprehensive view of the intended operation, enabling a more optimized calculation. The topic is indirectly related to lazy operations, where we&#39;ll show that implementing lazy approaches facilitates loop fusions. We end up with the coverage of <code>LazyArrays</code> that turns any broadcasted operation into a lazy evaluation. </p>
 <p>      </div>
     </div>
   </div>
@@ -2556,9 +2557,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Generators</h2></p>
-<p><a href="/julia_book/PAGES/4c_forLoops/#array_comprehensions"><strong>Array comprehensions</strong></a> represent a convenient approach to creating vectors. This proceeds by describing the elements to be created through a for-loop, which are then computed and stored. <span style="color: rgb(62, 121, 180);"><strong>Generators</strong></span> provide <strong>a lazy alternative</strong>, deferring the materialization of the vector until it&#39;s required.</p>
+<p><a href="/julia_book/PAGES/4c_forLoops/#array_comprehensions">Array comprehensions</a> represent a convenient approach to creating vectors, describing its elements through a for-loop. While array comprehensions compute and store these values, <span style="color: rgb(62, 121, 180);"><strong>generators</strong></span> provide <strong>a lazy alternative</strong>, deferring the materialization of the vector until it&#39;s required. They&#39;re particularly valuable for computing reductions of transformed values, as generators can generate values on demand to be processed sequentially. </p>
 <p>Generators share the same syntax as array comprehensions, except they&#39;re enclosed in parentheses <code>&#40; &#41;</code> instead of square brackets <code>&#91; &#93;</code>. They also maintain the same flexibility, including the ability to add conditions and iterate simultaneously over multiple collections.</p>
-<p>Below, we demonstrate how to define generators, which formally define an object with type <code>Base.Generator</code>.</p>
+<p>Below, we demonstrate how to define generators, which formally have type <code>Base.Generator</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2577,7 +2578,8 @@ color: white;
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">Base.Generator{UnitRange{Int64}, typeof(identity)}(identity, 1:10)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>To illustrate the performance benefits of generators, let&#39;s create a vector and then sum its elements. The example showcases how generators are capable of reducing memory allocations, by bypassing the storage of intermediate outputs. Specifically, the generator directly feeds its output to <code>sum</code>, allowing Julia to take a holistic approach to the computation. In this way, the compiler performs the sum through a reduction, thus avoiding the need for any temporary storage by operating with scalars. </p>
+<p>To illustrate the performance benefits of generators, let&#39;s compute the sum of a vector&#39;s elements. The example will showcase how generators bypass the storage of intermediate outputs, thus reducing memory allocations. This is achieved by the generator directly feeding its output to <code>sum</code>, allowing the compiler to perform the sum through a reduction. Thus, by operating with scalars, generators avoid the need for any temporary storage</p>
+<p>Remarkably, generators can be incorporated directly as a function argument, which produces a compact syntax. The approach is applicable to  <em>any</em> function accepting a collection as its input.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2592,7 +2594,7 @@ function foo&#40;x&#41;
     
     sum&#40;y&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  67.040 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  48.069 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2602,17 +2604,17 @@ function foo&#40;x&#41;
     
     sum&#40;y&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  21.966 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  23.647 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
+
 foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  21.966 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  23.948 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The last tab shows that generators can also be incorporated directly as a function argument. The approach is applicable to  <em>any</em> function accepting a collection as its input.</p>
 <p>      </div>
     </div>
   </div>
@@ -2622,7 +2624,7 @@ foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations<
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Iterators</h2></p>
-<p>Throughout the website, we&#39;ve already presented numerous cases involving lazy iterators. For instance, the range <code>1:10</code> represents a lazy sequence of numbers, accessed one-by-one on demand. This explains their convenience for iterating in a for-loop, as they avoid materializing the collection. The fact that ranges are lazy also explains why we must call the function <code>collect</code> to materialize them into vectors. Other examples of lazy iterators covered on the website are <code>eachindex</code>, <code>enumerate</code>, and <code>zip</code>. </p>
+<p>Throughout the website, we&#39;ve already presented numerous cases involving iterators, which creates values sequentially on demand. For instance, the range <code>1:10</code> represents a lazy sequence of numbers, accessed one-by-one. This explains their convenience for iterating in a for-loop, as they avoid materializing the collection to be iterated. The fact that ranges are lazy also explains why we must call the function <code>collect</code> to materialize them into vectors. Other examples of lazy iterators covered on the website are <code>eachindex</code>, <code>enumerate</code>, and <code>zip</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2641,8 +2643,8 @@ foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations<
  10</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Additional functionalities are provided by the package <code>Iterators</code>, which is &quot;imported&quot; every time we run a session in Julia. The package provides several methods for generating lazy sequences, as well as functions that perform operations lazily. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The package <code>IterTools</code> extends <code>Iterators</code>, providing even more functionalities.  </span></span> </p>
-<p>Examples of the latter are <code>Iterators.filter</code> and <code>Iterators.map</code>, which are the lazy implementations of <code>filter</code> and <code>map</code>. The following example demonstrates that they eliminate memory allocation of intermediate computations, thereby reducing the memory footprint of their eager counterparts.</p>
+<p>The built-in package <code>Iterators</code>, which is &quot;imported&quot; every time we run a session in Julia, provides additional functions for generating lazy sequences. Additionally, it implements lazy analogous of various functions. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The package <code>IterTools</code> extends <code>Iterators</code>, providing even more functionalities.  </span></span> Examples are <code>Iterators.filter</code> and <code>Iterators.map</code>, which are the lazy implementations of <code>filter</code> and <code>map</code>. </p>
+<p>The following example focus on these functions, showcasing how they&#39;re capable of reducing the memory allocation of intermediate computation.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2658,7 +2660,7 @@ function foo&#40;x&#41;
 
     sum&#40;y&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  70.709 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  60.963 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; collect&#40;1:100&#41;
@@ -2668,7 +2670,7 @@ function foo&#40;x&#41;
 
     sum&#40;y&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  55.894 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  43.333 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2678,7 +2680,7 @@ function foo&#40;x&#41;
 
     sum&#40;y&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  68.303 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  51.531 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2688,7 +2690,7 @@ function foo&#40;x&#41;
 
     sum&#40;y&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  21.944 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  24.875 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2696,7 +2698,81 @@ end</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="lazy_broadcasting" class="scrollspy">
+<section id="broadcasting_fusing_operations" class="scrollspy">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Broadcasting: Fusing Operations</h2> blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah </p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Broadcasting </button>
+    <button class="tablink" data-id=""> Broadcasting </button>    
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+β &#61; 1.5
+
+foo&#40;x,β&#41; &#61; exp.&#40;β * x&#41;  &#43; log.&#40;β * x&#41; &#43; &#40;β * x&#41; * 5</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  740.351 ns (7 allocations: 6.12 KiB)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+β &#61; 1.5
+
+foo&#40;x,β&#41; &#61; @. exp&#40;β * x&#41;  &#43; log&#40;β * x&#41; &#43; &#40;β * x&#41; * 5</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  545.213 ns (1 allocation: 896 bytes)
+</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Broadcasting </button>
+    <button class="tablink" data-id=""> Broadcasting </button>
+    <button class="tablink" data-id=""> Broadcasting </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
+
+function foo&#40;x,y&#41; 
+    a &#61; @. 3 * exp&#40;x&#41; &#43; 2 * x
+    b &#61; @. 2 * exp&#40;y&#41; &#43; 3 * y
+    
+    
+    a ./ b
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  523.158 ns (3 allocations: 2.62 KiB)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
+
+function foo&#40;x,y&#41;    
+
+
+
+
+    @. &#40;3 * exp&#40;x&#41; &#43; 2 * x&#41; / &#40;2 * exp&#40;y&#41; &#43; 3 * y&#41;
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  443.434 ns (1 allocation: 896 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
+
+function foo&#40;x,y&#41; 
+    lx&#40;a&#41;     &#61; 3 * exp&#40;a&#41; &#43; 2 * a
+    ly&#40;b&#41;     &#61; 2 * exp&#40;b&#41; &#43; 3 * b
+    
+
+    @. lx&#40;x&#41; / ly&#40;y&#41;
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  419.095 ns (1 allocation: 896 bytes)
+</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="lazy_broadcasting" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2709,18 +2785,18 @@ end</code></pre> </div></div>
     <button class="tablink first_tab active" data-id=""> Eager Broadcast </button>
     <button class="tablink" data-id=""> Lazy Broadcast </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia"># broadcasting eager by default
-x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia"># eager broadcasting &#40;default&#41;
+x &#61; rand&#40;100&#41;
 
-foo&#40;x,y&#41; &#61; sum&#40;2 .* x&#41; &#43; sum&#40;2 .* y&#41; / sum&#40;x .* y&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  206.977 ns (3 allocations: 2.62 KiB)
+foo&#40;x,y&#41; &#61; sum&#40;2 .* x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  23.594 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using LazyArrays
-x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
+x &#61; rand&#40;100&#41;
 
-foo&#40;x,y&#41; &#61; sum&#40;@~ 2 .* x&#41; &#43; sum&#40;@~ 2 .* y&#41; / sum&#40;@~ x .* y&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  21.665 ns (0 allocations: 0 bytes)
+foo&#40;x,y&#41; &#61; sum&#40;@~ 2 .* x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  23.972 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2735,37 +2811,37 @@ foo&#40;x,y&#41; &#61; sum&#40;@~ 2 .* x&#41; &#43; sum&#40;@~ 2 .* y&#41; / sum
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
 
 function foo&#40;x,y&#41; 
-    lx        &#61; @. 4 * x^3 &#43; 3 * x^2 &#43; 2 * x &#43; 1
-    ly        &#61; @. 2 * y^3 &#43; 3 * y^2 &#43; 4 * y &#43; 1
-    
-    
-    sum&#40;lx ./ ly&#41;
+    lx&#40;a&#41;     &#61; 3 * exp&#40;a&#41; &#43; 2 * a
+    ly&#40;b&#41;     &#61; 2 * exp&#40;b&#41; &#43; 3 * b    
+    temp&#40;a,b&#41; &#61; lx&#40;a&#41; / ly&#40;b&#41;
+
+    sum&#40;temp.&#40;x,y&#41;&#41;   
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  235.097 ns (11 allocations: 2.69 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  422.613 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
 
 function foo&#40;x,y&#41; 
-    lx&#40;a&#41;     &#61; 4 * a^3 &#43; 3 * a^2 &#43; 2 * a &#43; 1
-    ly&#40;b&#41;     &#61; 2 * b^3 &#43; 3 * b^2 &#43; 4 * b &#43; 1
+    lx&#40;a&#41;     &#61; 3 * exp&#40;a&#41; &#43; 2 * a
+    ly&#40;b&#41;     &#61; 2 * exp&#40;b&#41; &#43; 3 * b
     temp&#40;a,b&#41; &#61; lx&#40;a&#41; / ly&#40;b&#41;
     
     sum&#40;Iterators.map&#40;temp, x,y&#41;&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  116.865 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  412.563 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
 
 function foo&#40;x,y&#41; 
-    lx&#40;a&#41;     &#61; 4 * a^3 &#43; 3 * a^2 &#43; 2 * a &#43; 1
-    ly&#40;b&#41;     &#61; 2 * b^3 &#43; 3 * b^2 &#43; 4 * b &#43; 1
+    lx&#40;a&#41;     &#61; 3 * exp&#40;a&#41; &#43; 2 * a
+    ly&#40;b&#41;     &#61; 2 * exp&#40;b&#41; &#43; 3 * b
     temp&#40;a,b&#41; &#61; lx&#40;a&#41; / ly&#40;b&#41;
     
     sum&#40;@~ temp.&#40;x,y&#41;&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  40.161 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  438.889 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2791,7 +2867,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 13, 2024 
+          © Martin Alfaro <br>Last Modified June 20, 2024 
       </span> 
   </div> 
 </footer>
@@ -3361,6 +3437,10 @@ for multiple pics in a row
         
         <li>
           <a href="#iterators" data-offset="-40">Iterators</a>
+        </li>
+        
+        <li>
+          <a href="#broadcasting_fusing_operations" data-offset="-40">Broadcasting: Fusing Operations</a>
         </li>
         
         <li>

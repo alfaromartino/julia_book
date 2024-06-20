@@ -1,7 +1,7 @@
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting the seed for reproducibility #hide
 using LazyArrays
-x = rand(100) ; y = rand(100)
+x = rand(100)
 
-foo(x,y) = sum(@~ 2 .* x) + sum(@~ 2 .* y) / sum(@~ x .* y)
+foo(x,y) = sum(@~ 2 .* x)
 
-@btime foo($x, $y) #hide
+@btime foo($x) #hide

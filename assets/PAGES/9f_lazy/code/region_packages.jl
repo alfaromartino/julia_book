@@ -1,2 +1,2 @@
 # necessary packages for this file
-using LazyArrays, Random
+using Random, LazyArrays
