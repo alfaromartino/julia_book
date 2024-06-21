@@ -2543,10 +2543,10 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>When working with repeated vector computations, such as those that arising in for-loops, memory allocation can become a major performance bottleneck. This is because memory allocation is a costly operation that involves searching for free memory, tracking memory information, and freeing unused memory &#40;a process known as garbage collection&#41;. While the cost of an allocation in isolation may not be substantial, incurring it repeatedly can significantly impact performance.</p>
-<p>To address this issue, we can employ a strategy known as <span style="color: rgb(62, 121, 180);"><strong>pre-allocation</strong></span>. This involves reserving a block of memory before it&#39;s actually needed, which is then reused multiple times during the execution of a program. The approach is particularly relevant for intermediate results that don&#39;t need to be preserved across iterations or stored for future use.</p>
+<p>To address this issue, we can employ a strategy known as <span style="color: rgb(62, 121, 180);"><strong>pre-allocation</strong></span>. This involves reserving a block of memory, which is then reused multiple times during the execution of a program. The approach is particularly relevant for intermediate results that don&#39;t need to be preserved across iterations or stored for future use.</p>
 <p>In practical terms, it requires initializing vectors before running the for-loop, which are then  <em>mutated</em> in each iteration. By doing so, we avoid the overhead of creating new objects multiple times.</p>
-<p>The performance gains from pre-allocation can be substantial. In fact, this technique is a common optimization strategy, applicable to multiple programming languages beyond Julia. Ultimately, its effectiveness relies on minimizing the use of the heap.</p>
-<p>The section begins by reviewing methods to initialize vectors, which constitutes a prerequisite to pre-allocation. We then present two scenarios where pre-allocation proves advantageous, including one that highlights its benefits for nested for-loops.</p>
+<p>The performance gains from pre-allocation can be substantial. In fact, this technique is a common optimization strategy applicable to multiple programming languages beyond Julia. Ultimately, its effectiveness relies on minimizing the use of the heap.</p>
+<p>The section begins by reviewing methods to initialize vectors, which constitutes a prerequisite for pre-allocation. We then present two scenarios where pre-allocation proves advantageous, including one that highlights its benefits for nested for-loops.</p>
 <p>      </div>
     </div>
   </div>
@@ -2556,9 +2556,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Initializing Vectors</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Initializing a vector</strong></span> refers to the creation of a vector to subsequently fill it with values. The process involves two steps: reserving the space in memory and populating it with some initial values. An efficient way to initialize a vector is by only performing the first step, leaving whatever is in the memory address. Unfilled values in Julia are represented by <code>undef</code>, which keep any content held in the memory address at that moment.</p>
-<p>There are two methods for initializing a vector with <code>undef</code> values. The first requires specifying the type and length of the array, whose syntax resembles the creation of new vectors. The second is based on the function <code>similar</code>, which creates a vector with the same type and dimensions as another existing vector. </p>
-<p>Below, we compare the performance of several approaches to initializing a vector. In particular, we show that working with <code>undef</code> values is faster than setting a value. To starkly show these differences, we create a vector with 100 elements and repeat the procedure 100,000 times. </p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Vector initialization</strong></span> refers to the creation of a vector that will be subsequently filled with values. The process involves two steps: reserving the space in memory and populating it with some initial values. An efficient way to initialize a vector is by only performing the first step, keeping whatever content is held in the memory address at that moment. Values with such a feature are referred in Julia as <code>undef</code>.</p>
+<p>There are two methods for initializing a vector with <code>undef</code> values. The first requires specifying the type and length of the array, and its syntax resembles the creation of new vectors. The second is based on the function <code>similar&#40;y&#41;</code>, which creates a vector with the same type and dimensions as another existing vector <code>y</code>.</p>
+<p>Below, we compare the performance of approaches to initializing a vector. In particular, we show that working with <code>undef</code> values is faster than setting specific values. To starkly show these differences, we create a vector with 100 elements and repeat the procedure 100,000 times. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2626,8 +2626,8 @@ end</code></pre> </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     Recall that <code>_</code> is a widely adopted convention in Julia for denoting <strong>a dummy variable</strong>. This is a variable with a value assigned, but that won&#39;t be used or referenced anywhere in the code. The sole purpose is to satisfy the syntax requirements of the for-loop, which expects a variable to iterate over. </p>
-<p>In the case of a for-loop, it hints the reader that we seek to repeat exactly the same operation. The use of <code>_</code> is arbitrary, and any other symbol could be used in its place.  </div>  </div>
+      <b> Remark</b> </span>  </div>  <div class=content>     Recall that <code>_</code> is a convention adopted for denoting <strong>dummy variables</strong>. They&#39;re variables that have a value, but aren&#39;t used or referenced anywhere in the code. In the context of a for-loop, the sole purpose of <code>_</code> is to satisfy the syntax requirements, which expects a variable to iterate over. </p>
+<p>The symbol <code>_</code> is arbitrary and any other could be used in its place. Throughout the website, we&#39;ve consistently used <code>_</code> when our intention is to repeatedly compute the same operation.  </div>  </div>
  <h4> Approaches to Initializing Vectors </h4>
 <p>We can initialize <code>output</code> by passing it to the function as a keyword argument. This enables using <code>similar&#40;x&#41;</code>, where <code>x</code> is a previous function&#39;s argument. Considering this, the following two implementations turn out to be equivalent.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2651,7 +2651,7 @@ end</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>When it comes to initializing multiple variables, we can leverage a concise syntax based on array comprehension. The only requisite for using this approach is that the variables to be initialized share the same type. Below, we additionally present a more efficient approach based on what&#39;s known as generators. This subject is covered in a subsequent section. At this point, you should only know that the method based on generators doesn&#39;t allocate. Furthermore, its syntax is similar to array comprehension, with the only difference that brackets <code>&#91;&#93;</code> are replaced with parentheses <code>&#40;&#41;</code>.  </p>
+<p>When it comes to initializing multiple variables, we can leverage array comprehension to obtain a concise syntax. The only requisite for this approach is that all variables to be initialized share the same type. Below, we additionally present a more efficient approach based on what&#39;s known as generators. This subject is covered in a subsequent section. At this point, you should only know that the method based on generators doesn&#39;t allocate. Furthermore, its syntax is similar to array comprehension, with the only difference that brackets <code>&#91;&#93;</code> are replaced with parentheses <code>&#40;&#41;</code>.  </p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3053,7 +3053,7 @@ calling_foo_in_a_loop&#40;x, output, temp&#41; &#61; &#91;foo&#33;&#40;x, output
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 20, 2024 
+          © Martin Alfaro <br>Last Modified June 21, 2024 
       </span> 
   </div> 
 </footer>

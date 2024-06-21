@@ -204,7 +204,7 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100)
 β = 1.5
 
-foo(x,β) = exp.(β * x)  + log.(β * x) + (β * x) * 5
+foo(x,β) = exp.(β * x) + (β * x) * 5
 
 @btime foo($x, $β) #hide
  
@@ -216,7 +216,7 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100)
 β = 1.5
 
-foo(x,β) = @. exp(β * x)  + log(β * x) + (β * x) * 5
+foo(x,β) = @. exp(β * x) + (β * x) * 5
 
 @btime foo($x, $β) #hide
  
@@ -226,11 +226,11 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100) ; y = rand(100)
 
 function foo(x,y) 
-    a = @. 3 * exp(x) + 2 * x
-    b = @. 2 * exp(y) + 3 * y
+    num = @. x^2 + 2 * x
+    den = @. y^2 + 3 * y
     
     
-    a ./ b
+    num ./ den
 end
 
 @btime foo($x, $y) #hide
@@ -247,7 +247,7 @@ function foo(x,y)
 
 
 
-    @. (3 * exp(x) + 2 * x) / (2 * exp(y) + 3 * y)
+    @. (x^2 + 2 * x) / (y^2 + 3 * y)
 end
 
 @btime foo($x, $y) #hide
@@ -260,11 +260,11 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100) ; y = rand(100)
 
 function foo(x,y) 
-    lx(a)     = 3 * exp(a) + 2 * a
-    ly(b)     = 2 * exp(b) + 3 * b
+    num(a)    = a^2 + 2 * a
+    den(b)    = b^2 + 3 * b
     
 
-    @. lx(x) / ly(y)
+    @. num(x) / den(y)
 end
 
 @btime foo($x, $y) #hide
@@ -277,9 +277,9 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100) ; y = rand(100)
 
 function foo(x,y) 
-    lx(a)     = 3 * exp(a) + 2 * a
-    ly(b)     = 2 * exp(b) + 3 * b    
-    temp(a,b) = lx(a) / ly(b)
+    num(a)    = a^2 + 2 * a
+    den(b)    = b^2 + 3 * b
+    temp(a,b) = num(a) / den(b)
 
     temp.(x,y)
 end
@@ -296,7 +296,7 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 # eager broadcasting (default)
 x = rand(100)
 
-foo(x,y) = sum(2 .* x)
+foo(x) = sum(2 .* x)
 
 @btime foo($x) #hide
  
@@ -309,7 +309,7 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 using LazyArrays
 x = rand(100)
 
-foo(x,y) = sum(@~ 2 .* x)
+foo(x) = sum(@~ 2 .* x)
 
 @btime foo($x) #hide
  
@@ -322,9 +322,9 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100) ; y = rand(100)
 
 function foo(x,y) 
-    lx(a)     = 3 * exp(a) + 2 * a
-    ly(b)     = 2 * exp(b) + 3 * b    
-    temp(a,b) = lx(a) / ly(b)
+    term1(a)  = 2 * a + 1
+    term2(b)  = 3 * b - 1
+    temp(a,b) = term1(a) * term2(b)
 
     sum(temp.(x,y))   
 end
@@ -340,9 +340,9 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100) ; y = rand(100)
 
 function foo(x,y) 
-    lx(a)     = 3 * exp(a) + 2 * a
-    ly(b)     = 2 * exp(b) + 3 * b
-    temp(a,b) = lx(a) / ly(b)
+    term1(a)  = 2 * a + 1
+    term2(b)  = 3 * b - 1
+    temp(a,b) = term1(a) * term2(b)
     
     sum(Iterators.map(temp, x,y))
 end
@@ -358,9 +358,9 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100) ; y = rand(100)
 
 function foo(x,y) 
-    lx(a)     = 3 * exp(a) + 2 * a
-    ly(b)     = 2 * exp(b) + 3 * b
-    temp(a,b) = lx(a) / ly(b)
+    term1(a)  = 2 * a + 1
+    term2(b)  = 3 * b - 1
+    temp(a,b) = term1(a) * term2(b)
     
     sum(@~ temp.(x,y))
 end

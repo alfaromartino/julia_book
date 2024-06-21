@@ -2,11 +2,11 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100) ; y = rand(100)
 
 function foo(x,y) 
-    lx(a)     = 3 * exp(a) + 2 * a
-    ly(b)     = 2 * exp(b) + 3 * b
+    num(a)    = a^2 + 2 * a
+    den(b)    = b^2 + 3 * b
     
 
-    @. lx(x) / ly(y)
+    @. num(x) / den(y)
 end
 
 @btime foo($x, $y) #hide

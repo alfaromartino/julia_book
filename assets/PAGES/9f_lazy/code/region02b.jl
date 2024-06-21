@@ -6,7 +6,7 @@ function foo(x,y)
 
 
 
-    @. (3 * exp(x) + 2 * x) / (2 * exp(y) + 3 * y)
+    @. (x^2 + 2 * x) / (y^2 + 3 * y)
 end
 
 @btime foo($x, $y) #hide
