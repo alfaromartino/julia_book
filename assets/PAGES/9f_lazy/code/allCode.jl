@@ -9,8 +9,11 @@ using Random, LazyArrays
 ####################################################
  
 x = [a for a in 1:10]
+
+y = [a for a in 1:10 if a > 5]
+print_asis(x)   #hide
  
-print_asis(x)
+print_asis(y)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -18,8 +21,11 @@ print_asis(x)
 # <space_to_be_deleted>
  
 x = (a for a in 1:10)
+
+y = (a for a in 1:10 if a > 5)
+print_asis(x)   #hide
  
-print_asis(x)
+print_asis(y)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>

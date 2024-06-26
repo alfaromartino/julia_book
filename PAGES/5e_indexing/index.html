@@ -1731,6 +1731,10 @@ margin-top: 0px;
 
   
 
+  
+
+  
+
 
 
 <style>
@@ -2572,13 +2576,14 @@ color: white;
 </style>
 
 
+
 <!-- {{ispage list_posts links}}  
   {{insert /index_page/lists_header.html}}  
   {{insert /index_page/lists_FORMAT.html}}  
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy">
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2588,7 +2593,7 @@ color: white;
     </div>
   </div>
 </section>
-<section id="logical_indexing" class="scrollspy section-bg-color">
+<section id="logical_indexing" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2605,7 +2610,7 @@ y &#61; &#91;true, false, true&#93;</code></pre>
     </div>
   </div>
 </section>
-<section id="boolean_functions_and_operators_for_logical_indexing" class="scrollspy">
+<section id="boolean_functions_and_operators_for_logical_indexing" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2669,7 +2674,7 @@ y            &#61; x&#91;criterion.&#40;x&#41;&#93;</code></pre>
     </div>
   </div>
 </section>
-<section id="logical_indexing_through_in_and" class="scrollspy section-bg-color">
+<section id="logical_indexing_through_in_and" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2792,7 +2797,7 @@ bool_indices &#61; x .∉ Ref&#40;set_numbers&#41;</code></pre>
     </div>
   </div>
 </section>
-<section id="functions_to_select_elements" class="scrollspy">
+<section id="functions_to_select_elements" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2862,7 +2867,7 @@ y &#61; filter&#40;a -&gt; a &gt; 7, x&#41;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 21, 2024 
+          © Martin Alfaro <br>Last Modified June 25, 2024 
       </span> 
   </div> 
 </footer>
@@ -2998,55 +3003,54 @@ function goToNextPage() {
 
 
 <!-- FOR MODALS and TABS-->
-
 <script>
-  
-  const btns   = document.getElementsByClassName('modalButton');
+
+  const btns = document.getElementsByClassName('modalButton');
   const modals = document.getElementsByClassName('modal');
 
   [...btns].forEach((btn, ind) => {
- btn.onclick = () => {
-    if (modals[ind].style.display === 'block') {
-      modals[ind].style.display = 'none';
-    } else {
-      modals[ind].style.display = 'block';
-    }
- };
-});
+    btn.onclick = () => {
+      if (modals[ind].style.display === 'block') {
+        modals[ind].style.display = 'none';
+      } else {
+        modals[ind].style.display = 'block';
+      }
+    };
+  });
 
 
   // Close the modal when user clicks outside of it
-window.addEventListener('click', function(event) {
-const modals        = document.getElementsByClassName('modal');
-const modalContents = document.getElementsByClassName('modal-content');
-const modalButtons  = document.getElementsByClassName('modalButton');
-for (let i = 0; i < modals.length; i++) {
-  const modal        = modals[i];
-  const modalContent = modalContents[i];
-  const modalButton  = modalButtons[i];
-  if (modal.style.display === 'block' && !modalContent.contains(event.target) && !modalButton.contains(event.target)) {
-    modal.style.display = 'none';
-  }
-}
-});
-
-  
-document.addEventListener('keydown', function (event) {
-  if (event.ctrlKey && event.key === 'z') {
-    // Select the button element      
-    const modal = document.getElementById('modal_bar');
-    if (modal && modal.style.display === 'block') {
-      modal.style.display = 'none';
+  window.addEventListener('click', function (event) {
+    const modals = document.getElementsByClassName('modal');
+    const modalContents = document.getElementsByClassName('modal-content');
+    const modalButtons = document.getElementsByClassName('modalButton');
+    for (let i = 0; i < modals.length; i++) {
+      const modal = modals[i];
+      const modalContent = modalContents[i];
+      const modalButton = modalButtons[i];
+      if (modal.style.display === 'block' && !modalContent.contains(event.target) && !modalButton.contains(event.target)) {
+        modal.style.display = 'none';
+      }
     }
-    else { modal.style.display = 'block'; }
-
-    // Check if modal with id="modal_bar" is opened
-  }
-});
+  });
 
 
+  document.addEventListener('keydown', function (event) {
+    if (event.ctrlKey && event.key === 'z') {
+      // Select the button element      
+      const modal = document.getElementById('modal_bar');
+      if (modal && modal.style.display === 'block') {
+        modal.style.display = 'none';
+      }
+      else { modal.style.display = 'block'; }
 
-</script> 
+      // Check if modal with id="modal_bar" is opened
+    }
+  });
+
+
+
+</script>
 
 <!-- NECESSARY TO MAKE IT WORK -->
 <script> 
@@ -3329,7 +3333,7 @@ for multiple pics in a row
 
 <!-- FOR COPYING THE TITLES IN SECTION -->
        
-<script>
+  <script>
     document.addEventListener('DOMContentLoaded', function () {
         const h2Elements = document.querySelectorAll('h2');
 

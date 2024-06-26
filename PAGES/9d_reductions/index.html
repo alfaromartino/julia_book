@@ -1590,6 +1590,8 @@ margin-top: 0px;
 
   
 
+  
+
 <div class="bar_top">
   <ul>
      <li>
@@ -1640,15 +1642,17 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES\8a_TS-definition/"><i>b</i>. Defining Type Stability</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8b_TS-globalVariables/"><i>c</i>. Type Stability with Global Variables</a></li><br>
+                <li><a href="/julia_book/PAGES\8b_TS-scalarsVectors/"><i>c</i>. Type Stability with Scalars and Vectors</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8c_barrierFunctions/"><i>d</i>. Barrier Functions</a></li><br>
+                <li><a href="/julia_book/PAGES\8c_TS-globalVariables/"><i>d</i>. Type Stability with Global Variables</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8d_TS-tuples/"><i>e</i>. Type Stability with Tuples</a></li><br>
+                <li><a href="/julia_book/PAGES\8d_barrierFunctions/"><i>e</i>. Barrier Functions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8e_TS-highOrderFunctions/"><i>f</i>. Type Stability with High-Order Functions</a></li><br>
+                <li><a href="/julia_book/PAGES\8e_TS-tuples/"><i>f</i>. Type Stability with Tuples</a></li><br>
                 
-                <li><a href="/julia_book/PAGES\8f_TS-gotchas/"><i>g</i>. Gotchas for Type Stability</a></li><br>
+                <li><a href="/julia_book/PAGES\8f_TS-highOrderFunctions/"><i>g</i>. Type Stability with Higher-Order Functions</a></li><br>
+                
+                <li><a href="/julia_book/PAGES\8g_TS-gotchas/"><i>h</i>. Gotchas for Type Stability</a></li><br>
                 
               </ul>
             </li>            
@@ -1672,6 +1676,8 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES\9f_lazy/"><i>f</i>. Lazy Operations</a></li><br>
                 
+                <li><a href="/julia_book/PAGES\9g_lazyBroadcasting/"><i>g</i>. Lazy Broadcasting and Loop Fusion</a></li><br>
+                
               </ul>
             </li>            
           </ul>
@@ -1685,6 +1691,8 @@ margin-top: 0px;
 </div>
 
 
+
+  
 
   
 
@@ -2531,6 +2539,7 @@ color: white;
 </style>
 
 
+
 <!-- {{ispage list_posts links}}  
   {{insert /index_page/lists_header.html}}  
   {{insert /index_page/lists_FORMAT.html}}  
@@ -2540,7 +2549,7 @@ color: white;
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     The scripts of this section are available <a href="https://github.com/alfaromartino/julia_book/tree/main//assets/PAGES/9d_reductions/codeDownload"><strong>here</strong></a> under the name <code>allCode.jl</code>. They&#39;ve been tested under Julia 1.10.0.  </div>  </div>
-<section id="introduction" class="scrollspy">
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2552,7 +2561,7 @@ color: white;
     </div>
   </div>
 </section>
-<section id="intuition_about_reductions" class="scrollspy section-bg-color">
+<section id="intuition_about_reductions" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2720,7 +2729,7 @@ end</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="avoiding_memory_allocations_through_reductions" class="scrollspy">
+<section id="avoiding_memory_allocations_through_reductions" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2812,7 +2821,7 @@ end</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="reductions_via_built-in_functions" class="scrollspy section-bg-color">
+<section id="reductions_via_built-in_functions" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2890,7 +2899,7 @@ foo&#40;x,y&#41; &#61; minimum&#40;a -&gt; a&#91;1&#93; * a&#91;2&#93;, zip&#40;
     </div>
   </div>
 </section>
-<section id="the_reduce_and_mapreduce_functions" class="scrollspy">
+<section id="the_reduce_and_mapreduce_functions" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2976,7 +2985,7 @@ foo&#40;x&#41; &#61; reduce&#40;&#43;, map&#40;a -&gt; 3 * a, x&#41;&#41;</code>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 21, 2024 
+          © Martin Alfaro <br>Last Modified June 25, 2024 
       </span> 
   </div> 
 </footer>
@@ -3112,55 +3121,54 @@ function goToNextPage() {
 
 
 <!-- FOR MODALS and TABS-->
-
 <script>
-  
-  const btns   = document.getElementsByClassName('modalButton');
+
+  const btns = document.getElementsByClassName('modalButton');
   const modals = document.getElementsByClassName('modal');
 
   [...btns].forEach((btn, ind) => {
- btn.onclick = () => {
-    if (modals[ind].style.display === 'block') {
-      modals[ind].style.display = 'none';
-    } else {
-      modals[ind].style.display = 'block';
-    }
- };
-});
+    btn.onclick = () => {
+      if (modals[ind].style.display === 'block') {
+        modals[ind].style.display = 'none';
+      } else {
+        modals[ind].style.display = 'block';
+      }
+    };
+  });
 
 
   // Close the modal when user clicks outside of it
-window.addEventListener('click', function(event) {
-const modals        = document.getElementsByClassName('modal');
-const modalContents = document.getElementsByClassName('modal-content');
-const modalButtons  = document.getElementsByClassName('modalButton');
-for (let i = 0; i < modals.length; i++) {
-  const modal        = modals[i];
-  const modalContent = modalContents[i];
-  const modalButton  = modalButtons[i];
-  if (modal.style.display === 'block' && !modalContent.contains(event.target) && !modalButton.contains(event.target)) {
-    modal.style.display = 'none';
-  }
-}
-});
-
-  
-document.addEventListener('keydown', function (event) {
-  if (event.ctrlKey && event.key === 'z') {
-    // Select the button element      
-    const modal = document.getElementById('modal_bar');
-    if (modal && modal.style.display === 'block') {
-      modal.style.display = 'none';
+  window.addEventListener('click', function (event) {
+    const modals = document.getElementsByClassName('modal');
+    const modalContents = document.getElementsByClassName('modal-content');
+    const modalButtons = document.getElementsByClassName('modalButton');
+    for (let i = 0; i < modals.length; i++) {
+      const modal = modals[i];
+      const modalContent = modalContents[i];
+      const modalButton = modalButtons[i];
+      if (modal.style.display === 'block' && !modalContent.contains(event.target) && !modalButton.contains(event.target)) {
+        modal.style.display = 'none';
+      }
     }
-    else { modal.style.display = 'block'; }
-
-    // Check if modal with id="modal_bar" is opened
-  }
-});
+  });
 
 
+  document.addEventListener('keydown', function (event) {
+    if (event.ctrlKey && event.key === 'z') {
+      // Select the button element      
+      const modal = document.getElementById('modal_bar');
+      if (modal && modal.style.display === 'block') {
+        modal.style.display = 'none';
+      }
+      else { modal.style.display = 'block'; }
 
-</script> 
+      // Check if modal with id="modal_bar" is opened
+    }
+  });
+
+
+
+</script>
 
 <!-- NECESSARY TO MAKE IT WORK -->
 <script> 
@@ -3443,7 +3451,7 @@ for multiple pics in a row
 
 <!-- FOR COPYING THE TITLES IN SECTION -->
        
-<script>
+  <script>
     document.addEventListener('DOMContentLoaded', function () {
         const h2Elements = document.querySelectorAll('h2');
 
