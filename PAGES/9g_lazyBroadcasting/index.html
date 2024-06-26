@@ -2553,7 +2553,7 @@ color: white;
         <h2>Introduction</h2></p>
 <p>This section continues analyzing lazy and eager operations towards reducing memory allocations. The focus now shifts to broadcasting operations, which strike a balance between code readability and performance.</p>
 <p>In Julia, broadcasting is eager by default, entailing that outputs are immediately computed upon execution. When working with vectors, this implies that broadcasting allocates memory. The current section presents various approaches to avoiding unnecessary memory allocations that may arise due to this, or directly eliminating them. </p>
-<p>We&#39;ll start highlighting the significance of <strong>loop fusion</strong>, where multiple broadcasting operations are combined into a single one. Guaranteeing this property prevents broadcasting operations from allocating memory independently. After this, we&#39;ll explore the <code>LazyArrays</code> package, which evaluates broadcasting operations in a lazy manner.</p>
+<p>We&#39;ll start highlighting the notion of <strong>loop fusion</strong>, where multiple broadcasting operations are combined into a single one. Guaranteeing this property prevents broadcasting operations from allocating memory independently. After this, we&#39;ll explore the <code>LazyArrays</code> package, which evaluates broadcasting operations in a lazy manner.</p>
 <p>      </div>
     </div>
   </div>
@@ -2563,8 +2563,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>What Broadcasting Does?</h2></p>
-<p>Before exploring memory allocations with broadcasted operations, let&#39;s briefly analyze the internal execution mechanism of broadcasting. Essentially, broadcasting is a syntactic sugar that translates code into a for-loop, while sidestepping the verbosity of an explicit for-loop. The following code snippets illustrate how broadcasting &#40;roughly&#41; executes internally, establishing an equivalence with for-loops.</p>
-<p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+<p>Before exploring memory allocations, let&#39;s briefly analyze the internal execution mechanism of broadcasting. Essentially, broadcasting represents syntactic sugar to translate code into a for-loop, sidestepping the verbosity of an explicit for-loop. The following code snippets illustrate how broadcasting &#40;roughly&#41; executes internally, establishing an equivalence with for-loops.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Broadcasting </button>
@@ -2573,7 +2573,7 @@ color: white;
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;1_000&#41;
 
 foo&#40;x&#41; &#61; 2 .* x</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  275.000 ns (1 allocation: 7.94 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  220.408 ns (1 allocation: 7.94 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;1_000&#41;
@@ -2587,10 +2587,11 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  356.500 ns (1 allocation: 7.94 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  317.588 ns (1 allocation: 7.94 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
-<p>  </p></details></div> Despite their equivalence, you&#39;ll often notice performance differences between broadcasting and for-loops. These discrepancies arise because the compiler applies distinct optimizations to each case.</p>
+<p>  </p></details></div>
+<p>Despite their equivalence, you&#39;ll often notice performance differences between broadcasting and for-loops. These discrepancies arise because the compiler applies distinct optimizations to each case.</p>
 <p>It&#39;s also worth remarking that broadcasting isn&#39;t inherently faster than a for-loop, as occurs in the examples. On the contrary, for-loops in Julia are flexible enough to outperform broadcasting, although this requires manual implementation of the necessary optimizations to do so. Considering this, broadcasting in Julia is more about code readability, without sacrificing potential performance significantly. Beyond this, the example&#39;s key takeaway is that <strong>broadcasting ultimately executes a for-loop</strong>.</p>
  <!-- Trigger/Open The Modal -->
 <div style="text-indent:0;"> 
@@ -2624,7 +2625,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div> </div>
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  23.571 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  23.671 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
@@ -2638,7 +2639,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div> </div>
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  24.200 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  23.571 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>  </div></p>
@@ -2654,7 +2655,7 @@ end</code></pre> </div> </div>
 <div class="code_inline" style="padding-bottom:12.4em"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;1_000&#41;
 
 foo&#40;x&#41; &#61; x ./ sum&#40;x&#41;</code></pre> </div> </div>
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  506.701 ns (1 allocation: 7.94 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  475.897 ns (1 allocation: 7.94 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;1_000&#41;
@@ -2669,7 +2670,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div> </div>
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  486.979 ns (1 allocation: 7.94 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  490.722 ns (1 allocation: 7.94 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;1_000&#41;
@@ -2684,7 +2685,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div> </div>
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  36.100 μs (1 allocation: 7.94 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  36.000 μs (1 allocation: 7.94 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>  </div>  </p>
@@ -2701,9 +2702,9 @@ end</code></pre> </div> </div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting: Loop Fusion</h2></p>
-<p>In Julia, broadcasting is eager by default, meaning it immediately evaluates the expression and materializes its result. When broadcasting vectors, this inevitably leads to memory allocations. In terms of the example above, this corresponds to the vector <code>output</code> created to store the result in the for-loop version. Importantly, the memory allocation arises regardless of whether the result is explicitly stored. For instance, the intermediate calculation <code>2 .* x</code> in <code>sum&#40;2 .* x&#41;</code> will be temporarily stored, even though only the final output is provided.</p>
-<p>Taking this into account, we must be mindful about how expressions with multiple broadcasting operations are handled—splitting them improperly can result in unnecessary allocations. Essentially, when you chain multiple broadcasting operations together, we need to ensure that Julia&#39;s compiler can fuse all operations into a single optimized loop. In this way, Julia is able to perform all operations in a single pass over the data, avoiding the creation of intermediate vectors. A single for-loop additionally gives the compiler a comprehensive view of all the operations, allowing for additional optimizations.</p>
-<p>One common scenario where we could inadvertently prevent loop fusion is when an operation combines scalars and vectors. The crux here is that certain operations will provide the same result, irrespective of whether they&#39;re broadcasted or not. This can be observed in the following example.</p>
+<p>In Julia, broadcasting is eager by default, which means that expressions are immediately evaluated and their results materialized. This inevitably leads to memory allocations when broadcasting vectors. In terms of the example above, the allocation in the for-loop version corresponds to the vector <code>output</code> that stores the result. Importantly, memory allocations arise regardless of whether the result is explicitly stored. Such is the case when <code>sum&#40;2 .* x&#41;</code> is run, where the intermediate calculation <code>2 .* x</code> is temporarily stored, even though only the final result is returned.</p>
+<p>Taking this into account, we must be mindful about how expressions with multiple broadcasting operations are handled—splitting them improperly can result in unnecessary allocations. Essentially, when you chain multiple broadcasting operations together, we need to ensure that Julia&#39;s compiler can fuse all operations into a single optimized loop. This allows Julia to perform all operations in a single pass over the data, avoiding the creation of intermediate vectors. A single loop additionally gives the compiler a comprehensive view of all the operations to be computed, allowing for additional optimizations.</p>
+<p>One common scenario where we could inadvertently prevent loop fusion is when scalars and vectors are combined. The issue arises because certain operations produce the same result whether they&#39;re broadcasted or not. This can be observed in the following example.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2729,7 +2730,7 @@ foo&#40;x,β&#41; &#61; x * β</code></pre> </div></div>
  6</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In a long expression, such a feature determines that we can obtain the same output if we avoid <code>.</code> for certain operations. Unfortunately, this will lead Julia to internally compute each broadcasting operation separately, thus creating multiple temporary vectors. To appreciate this, consider the following code snippet that avoids various <code>.</code>. To make the point clearer, we also provide an equivalent implementation, laying bare what is internally executed.</p>
+<p>In a long expression, such a feature determines that we can obtain the same output if we avoid <code>.</code> for certain operations. Unfortunately, this will lead Julia to internally compute each broadcasting operation separately, thus creating multiple temporary vectors. To appreciate this, consider the following code snippet, which deliberately omits various dots. To make the point clearer, we also provide an equivalent implementation, laying bare what is internally executed.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2739,7 +2740,7 @@ foo&#40;x,β&#41; &#61; x * β</code></pre> </div></div>
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
 foo&#40;x&#41; &#61; exp.&#40;2 * x&#41; &#43; &#40;3 * x&#41; * 5</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  356.158 ns (5 allocations: 4.38 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  334.222 ns (5 allocations: 4.38 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2752,11 +2753,11 @@ function foo&#40;x&#41;
 
     return term1 &#43; term2
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  330.000 ns (5 allocations: 4.38 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  358.500 ns (5 allocations: 4.38 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Consequently, to circumvent this issue and ensure loop fusion, <strong>we must add</strong> <code>.</code> <strong>to every single operator and function to be broadcasted</strong>. To simplify this process and reduce the risk of forgetting a dot, the <code>@.</code> macro comes in handy. By adding it at the beginning of the expression, you&#39;ll ensure that  <em>each</em> operator and function is broadcasted. </p>
+<p>To guarantee loop fusion, it&#39;s then essential to <strong>append a dot to every operator and function to be broadcasted</strong>. Note that his process can be error-prone when dealing with multiple operations, with the omission of one dot creating unnecessary allocations. Fortunately, the <code>@.</code> macro provides a convenient solution that reduces the risk of oversight. By prefixing the expression with <code>@.</code>, you&#39;ll ensure that  <em>all</em> operators and functions are broadcasted. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2767,24 +2768,23 @@ end</code></pre> </div></div>
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
 foo&#40;x&#41; &#61; exp.&#40;2 .* x&#41; .&#43; &#40;3 .* x&#41; .* 5</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  230.365 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  236.451 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
 foo&#40;x&#41; &#61; @. exp&#40;2 * x&#41; &#43; &#40;3 * x&#41; * 5</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  232.471 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  233.094 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
 foo&#40;a&#41; &#61; exp&#40;2 * a&#41; &#43; &#40;3 * a&#41; * 5</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo.&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  224.783 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo.&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  230.184 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>It&#39;s worth emphasizing that loop fusion not only reduces allocations: it also potentially improves performance, by providing the compiler with a holistic view of the operations.</p>
-<p>The example considers scenarios where there&#39;s only one expression. When more operations are added and the expression becomes longer, it&#39;ll be inevitable to split operations. However, we can still ensure loop fusion if each operation is defined as a function. The approach takes advantage of a function definition being actually a lazy operation, where we only describe the code to be executed without performing any computation. In the following, we present an example where broadcasting is embedded in the operation, or alternatively we broadcast the function comprising the final output. </p>
+<p>The previous example only considered scenarios with relatively simple expressions. Instead, when multiple operations are added and the expression becomes longer, the need to split operations is inevitable. When this occurs, we can still achieve loop fusion by defining each operation as a separate function. This approach leverages the fact that function definitions are essentially lazy, meaning we only specify the code to be executed without performing any actual computation. The following example illustrates this approach in two ways: by defining a function where the final operation is broadcasted, and an alternative where the last function is broadcasted. Both determine that only the final output allocates memory.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2797,7 +2797,7 @@ aux1&#40;a&#41; &#61; exp&#40;2 * a&#41;
 aux2&#40;a&#41; &#61; &#40;3 * a&#41; * 5
 
 foo&#40;x&#41;  &#61; @. aux1&#40;x&#41; &#43; aux2&#40;x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  231.735 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  234.118 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
@@ -2806,7 +2806,7 @@ aux1&#40;a&#41; &#61; exp&#40;2 * a&#41;
 aux2&#40;a&#41; &#61; &#40;3 * a&#41; * 5
 
 foo&#40;a&#41;  &#61; aux1&#40;a&#41; &#43; aux2&#40;a&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo.&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  225.275 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo.&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  227.932 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2819,8 +2819,8 @@ foo&#40;a&#41;  &#61; aux1&#40;a&#41; &#43; aux2&#40;a&#41;</code></pre> </div><
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Lazy Broadcasting</h2></p>
-<p>The <code>LazyArrays</code> package offers a lazy version of broadcasting. Its use requires prepending the <code>@~</code> macro to the operation.</p>
-<p>The technique addresses the memory allocations caused by broadcasting, which emerges even if the computation is executed on the fly. Furthermore, it offers a concise notation that promotes code brevity and readability, unlike generators. The implementation is demonstrated below.</p>
+<p>So far, all the cases considered were assuming that the ultimate output was a collection. In this context, the goal has been to reduce memory allocations to a single one, given by the final result. Next, we consider cases where broadcasting serves as an intermediate step in computations that ultimately return a scalar value.</p>
+<p>These types of operations require turn broadcasting into a lazy operation. Such functionality is provided by the <code>LazyArrays</code> package, whose use requires prepending the <code>@~</code> macro to the broadcasting operation. The technique is capable of fusing the broadcasting and reduction operation, allowing for computing the former on-the-fly. An example is provided below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2831,18 +2831,18 @@ foo&#40;a&#41;  &#61; aux1&#40;a&#41; &#43; aux2&#40;a&#41;</code></pre> </div><
 x      &#61; rand&#40;100&#41;
 
 foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  43.074 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  45.584 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using LazyArrays
 x      &#61; rand&#40;100&#41;
 
 foo&#40;x&#41; &#61; sum&#40;@~ 2 .* x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  8.308 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  8.208 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>An additional advantage of <code>@~</code> is that it implements some optimizations for broadcasted operations when possible. As a result, <code>@~</code> is typically faster than a lazy map, despite that both don&#39;t allocate memory. This performance benefit can be appreciated in the following comparison.</p>
+<p>Broadcasting lazily with <code>@~</code> also allows for splitting operations, as shown below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2859,7 +2859,7 @@ function foo&#40;x,y&#41;
 
     sum&#40;temp.&#40;x,y&#41;&#41;   
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  48.178 ns (1 allocation: 896 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  47.047 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
@@ -2887,7 +2887,40 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>      </div>
+<p> <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b> Remark</b> </span>  </div>  <div class=content>     An additional advantage of <code>@~</code> is that it implements some optimizations for broadcasted operations when possible. As a result, <code>@~</code> is typically faster than a lazy map, despite that both don&#39;t allocate memory. This performance benefit can be appreciated in the following comparison.</p>
+<p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Lazy Broadcast @~ </button>
+    <button class="tablink" data-id=""> Lazy Map </button>    
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
+
+function foo&#40;x,y&#41; 
+    term1&#40;a&#41;  &#61; 2 * a &#43; 1
+    term2&#40;b&#41;  &#61; 3 * b - 1
+    temp&#40;a,b&#41; &#61; term1&#40;a&#41; * term2&#40;b&#41;
+    
+    sum&#40;@~ temp.&#40;x,y&#41;&#41;
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  15.030 ns (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41; ; y &#61; rand&#40;100&#41;
+
+function foo&#40;x,y&#41; 
+    term1&#40;a&#41;  &#61; 2 * a &#43; 1
+    term2&#40;b&#41;  &#61; 3 * b - 1
+    temp&#40;a,b&#41; &#61; term1&#40;a&#41; * term2&#40;b&#41;
+    
+    sum&#40;Iterators.map&#40;temp, x,y&#41;&#41;
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  41.171 ns (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>  </div>  </div>       </div>
     </div>
   </div>
 </section>
@@ -2909,7 +2942,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 25, 2024 
+          © Martin Alfaro <br>Last Modified June 26, 2024 
       </span> 
   </div> 
 </footer>
@@ -3439,6 +3472,10 @@ for multiple pics in a row
 
     .hand-cursor {
         cursor: wait;
+    }
+
+    h2:hover {
+        color: rgba(0,0,0, 0.5);
     }
 </style>    
 
