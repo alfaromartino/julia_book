@@ -2563,8 +2563,8 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Relevance of Functions</h2></p>
 <p>Beyond technical details, the main takeaway from this subsection is that <strong>wrapping operations in functions is a necessary condition for high performance</strong>. To understand why this is so, this subsection starts by outlining the detrimental consequences of global variables. </p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Global variables</strong></span> include those defined outside a function&#39;s scope. The key for their low performance is that Julia treats them as potentially embodying any value and therefore any type. The rationale for this decision is that, even if the variable holds a value at that moment, the user may reassign it at any part of the script. For their part, <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span> as those defined within the function, including function arguments.</p>
-<p>The use of global variables isn&#39;t limited to operations in the global scope, but also to functions when the variable isn&#39;t passed as an argument. Considering this, our conclusions apply to both of the following cases.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Global variables</strong></span> include those defined outside a function&#39;s scope. The issue causing their low performance is that Julia treats them as potentially embodying any value and therefore any type. This decision has been adopted given that, even if the variable holds a value at that moment, the user may reassign it at any part of the script. For their part, <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span> are those defined within the function, including function arguments.</p>
+<p>The use of global variables isn&#39;t limited to operations in the global scope, but also to functions when the variable isn&#39;t passed as an argument. Considering this, our conclusions apply to both following cases.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2607,7 +2607,7 @@ foo&#40;a::String, b::String&#41; &#61; &quot;This is &#36;a and this is &#36;b&
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;1,2&#41;</code><br/><div class="akin_to_pre">3</div> </div></p>
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;&quot;some text&quot;, &quot;more text&quot;&#41;</code><br/><div class="akin_to_pre">"This is some text and this is more text"</div> </div></div> </div>   </details></div>
 <p>The code snippet defines the behavior of <code>foo</code>, which depends on the argument types at call time. Specifically, it specifies that the body of <code>foo&#40;a,b&#41;</code> applies to any combination of types for <code>a</code> and <code>b</code>, except when each has type <code>String</code>, in which case the relevant function body is <code>foo&#40;a::String, b::String&#41;</code>. This explains the different outputs obtained for each function call.</p>
-<p>The example also reveals that <strong>methods don't have to share the same functionality</strong>. Obviously, grouping radically different operations under the same function&#39;s name isn&#39;t recommended. However, the technique is valuable when used properly. For instance, it enables the adoption of more efficient algorithms, tailored to the specific types being considered.</p>
+<p>The example also reveals that <strong>methods don't have to share the same functionality</strong>. Obviously, grouping drastically different operations under the same function&#39;s name isn&#39;t recommended. However, the technique is valuable when used properly. For instance, it enables the adoption of more efficient algorithms, tailored to the specific types being considered.</p>
 <p>Furthermore, <strong>methods don't need to have the same number of arguments</strong>. For instance, defining the following methods for a function <code>bar</code> is possible.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">bar&#40;x&#41;       &#61; x
@@ -2793,7 +2793,7 @@ foo&#40;a&#41;    &#61; a * b</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 26, 2024 
+          © Martin Alfaro <br>Last Modified August 22, 2024 
       </span> 
   </div> 
 </footer>

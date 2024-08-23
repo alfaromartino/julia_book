@@ -2551,7 +2551,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section presents standard tools for benchmarking code. Our website in particular will provide results based on the package <code>BenchmarkTools</code>, which is currently the most mature and reliable option. Nonetheless, the newer <code>Chairmarks</code> has shown impressive speed gains. Once it&#39;s been around enough to uncover potential bugs, I&#39;d recommend it as the default option.</p>
+<p>This section presents standard tools for benchmarking code. Our website in particular will provide results based on the package <code>BenchmarkTools</code>, which is currently the most mature and reliable option. Nonetheless, the newer <code>Chairmarks</code> package has shown impressive speed gains. Once it&#39;s been around enough to uncover potential bugs, I&#39;d recommend it as the default option.</p>
 <p>      </div>
     </div>
   </div>
@@ -2561,7 +2561,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Time Metrics</h2></p>
-<p>Regardless of the package employed, Julia uses the same time metrics asdescribed below. These metrics can be accessed at any time <strong>in the left bar</strong>, under &quot;<strong>Notation & Hotkeys</strong>&quot;. </p>
+<p>Regardless of the package employed, Julia uses the same time metrics described below. These metrics can be accessed at any time <strong>in the left bar</strong>, under &quot;<strong>Notation & Hotkeys</strong>&quot;. </p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -2607,7 +2607,7 @@ color: white;
 </tbody>
 </table>
  <br/></p>
-<p>All packages additionally provide information about <strong>memory allocations on the heap</strong>. They&#39;re simply referred to as <strong>allocations</strong>, and we&#39;ll explain their relevance in the upcoming sections. Basically, they&#39;re relevant for performance, as they&#39;re usually a signal of suboptimal coding. </p>
+<p>All packages additionally provide information about <strong>memory allocations on the heap</strong>, which are simply referred to as <strong>allocations</strong>. Their relevance will be explained in the upcoming sections. Basically, they influence performance and potentially hint suboptimal coding. </p>
 <p>      </div>
     </div>
   </div>
@@ -2617,9 +2617,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>"Time to First Plot"</h2></p>
-<p>The expression &quot;Time to First Plot&quot; refers to a side effect of how the language works: in each session, <strong>the first function call is slower than the subsequent ones</strong>. This arises because Julia compiles code during the initial run, a process we&#39;ll explain in more detail in the next sections.</p>
-<p>This overhead isn&#39;t a major hindrance when working on a large project, since the penalty will be incurred only once. On the contrary, Julia may not be the best option when you simply want to perform a rapid analysis &#40;e.g., run one regression or draw a graph to quickly unveil a relation&#41;.</p>
-<p>The speed of the first run varies significantly. While it may be imperceptible in some cases, it can be noticeable in others. For instance, I bet you didn&#39;t notice that running <code>sum&#40;x&#41;</code> for the first time in your code was slower than the subsequent runs&#33; Instead, the first plot of high-quality graphs can take up to 15 seconds, explaining where the term &quot;Time to First Plot&quot; comes from. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The time indicated is for <code>Plots</code>, the standard package for the task. This is a metapackage bundling several plotting libraries. Some of these libraries are relatively fast, requiring less than 5 seconds for rendering the first figure.  </span></span></p>
+<p>The expression &quot;Time to First Plot&quot; refers to a side effect of how the Julia language works: in each session, <strong>the first function call is slower than the subsequent ones</strong>. This arises because Julia compiles code during its initial run, as we&#39;ll explain more thoroughly in the next sections.</p>
+<p>This overhead isn&#39;t a major hindrance when working on a large project, since the penalty will be incurred only once. However, it determines that Julia may not be the best option when you simply aim to perform a rapid analysis &#40;e.g., run one regression or draw a graph to quickly unveil a relation&#41;.</p>
+<p>The speed of the first run varies significantly. While it may be imperceptible in some cases, it can be noticeable in others. For instance, I bet you didn&#39;t notice that running <code>sum&#40;x&#41;</code> for the first time in your code was slower than the subsequent runs&#33; On the contrary, drawing high-quality plots can take up to 15 seconds, explaining where the term &quot;Time to First Plot&quot; comes from. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The time indicated is for <code>Plots</code>, the standard package for the task. This is a metapackage bundling several plotting libraries. Some of these libraries are relatively fast, requiring less than 5 seconds for rendering the first figure.  </span></span></p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content>     The time-to-first-plot issue has been reduced significantly since <code>Julia 1.9</code>, and each new version is reducing this overhead even further.  </div>  </div>
@@ -2632,7 +2632,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>@time</h2></p>
-<p>Julia comes with a built-in macro called <code>@time</code> to measure the execution time of a single run. Nonetheless, the results provided by this macro suffer from two significant limitations. First, the timing is volatile and unreliable, as it only considers a single execution. Furthermore, considering the time-to-first-plot issue, the initial timing will incorporate compilation time, and hence be unrepresentative of its subsequent calls. Taking this into account, you should always execute <code>@time</code> at least twice. The following illustrates <code>@time</code>, making it clear that the first run includes compilation time.</p>
+<p>Julia comes with a built-in macro called <code>@time</code> to measure the execution time of a single run. The results provided by this macro, nonetheless, suffer from two significant limitations. First, the timing provided is volatile and unreliable, as it only considers a single execution. Furthermore, considering the time-to-first-plot issue, the initial timing will incorporate compilation time, and hence it&#39;s unrepresentative of the subsequent calls. Taking this into account, you should always execute <code>@time</code> at least twice. The following illustrates its use, making it clear that the first run includes compilation time.</p>
  <div class=" code_box"> <details  open><summary> @time  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; 1:100
 
 @time sum&#40;x&#41;         # first run                     -&gt; it incorporates compilation time 
@@ -2648,8 +2648,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Package "BenchmarkTools" </h2></p>
-<p>A better option for measuring execution time is the package <code>BenchmarkTools</code>. This reports times based on repeated computations of the operation, thus improving accuracy.</p>
-<p>It can be called by using <code>@btime</code>, which only reports the minimum time, or through <code>@benchmark</code>, which provides a more detailed analysis. Both macros discard the time of the first call, thus excluding compilation time from the results.</p>
+<p>A better option for measuring execution time is provided by the package <code>BenchmarkTools</code>. This reports times based on repeated computations of the operation, thus improving accuracy.</p>
+<p>It can be called through either the macro <code>@btime</code>, which only reports the minimum time, or through the macro <code>@benchmark</code>, which provides a more detailed analysis. Both macros discard the time of the first call, thus excluding compilation time from the results.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2673,7 +2673,7 @@ x &#61; 1:100
     </div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Notice that both macros append the symbol <code>&#36;</code> to the variable <code>x</code>. The notation is necessary to indicate that <code>x</code> shouldn&#39;t be interpreted as a global variable. This is actually the case when the variable is passed to a function. As we&#39;ll exclusively benchmark functions, you should always add <code>&#36;</code> to each variable—<strong>omitting</strong> <code>&#36;</code> <strong>would lead to inaccurate results</strong>.</p>
+<p>Notice that both macros append the symbol <code>&#36;</code> to the variable <code>x</code>. The notation is necessary to indicate that <code>x</code> shouldn&#39;t be interpreted as a global variable, as occurs when when a variable is passed to a function. As we&#39;ll exclusively benchmark functions, you should always add <code>&#36;</code> to each variable—<strong>omitting</strong> <code>&#36;</code> <strong>would lead to inaccurate results</strong>.</p>
 <p>The following example demonstrates the consequence of excluding <code>&#36;</code>, wrongly reporting higher times than they really are. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> In fact, <code>sum&#40;x&#41;</code> doesn&#39;t allocate memory, unlike what&#39;s reported without <code>&#36;</code>.  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2738,8 +2738,8 @@ max    34.462 ns</code></pre> </div></div> </div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Remark On Random Numbers Used On The Website</h2></p>
-<p>In the upcoming sections, we&#39;ll identify efficient approaches for computing an operation, whose execution relies on random numbers. To eliminate any possible bias, these approaches will be computed with the same random numbers. This is achieved by specifying the same <strong>random seed</strong>. By doing so, the random number generator produces the same sequence of random numbers. </p>
-<p>The implementation is provided by the package <code>Random</code>, which requires specifying a seed. You can use any arbitrary number, as long as it&#39;s the same for each operation.</p>
+<p>In the upcoming sections, we&#39;ll identify efficient approaches for computing an operation. The tests will be executed relying on random numbers. To eliminate any possible bias, all of them will be based on the same random numbers, which is achieved by specifying a <strong>random seed</strong>. By doing so, the random number generator produces the same sequence of random numbers every time we execute the program.</p>
+<p>The creation of random numbers is given by the package <code>Random</code>, which requires specifying a seed. You can use any arbitrary number for setting the seed, and ensure that the same seed is established before executing each operation.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2794,10 +2794,10 @@ y &#61; sum&#40;x&#41;</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Benchmarks In Perspective</h2></p>
-<p>In the upcoming chapters, we&#39;ll be evaluating approaches for performing a task. Most of the time, the differences in time will be negligible, possibly in the ballpark of nanoseconds. This could mislead us into thinking that the method chosen has little practical implications. </p>
-<p>It&#39;s true that operations in isolation usually have an insignificant impact on runtime. However, <strong>the relevance of our benchmarks lies in scenarios where these operations are performed repeatedly</strong>. This includes cases where the operation is called in a for-loop, or in iterative procedures like solving systems of equations or maximizing a function. In these situations, small differences in timing are amplified, as they&#39;re replicated multiple times.</p>
+<p>In the upcoming chapters, we&#39;ll be evaluating approaches for performing a task. Most of the time, the differences in time will be negligible, possibly in the ballpark of nanoseconds. This could mislead us into thinking that the method chosen lacks any practical implication. </p>
+<p>It&#39;s true that operations in isolation usually have an insignificant impact on runtime. However, <strong>the relevance of our benchmarks lies in scenarios where these operations are performed repeatedly</strong>. This includes cases where the operation is called in a for-loop, or in iterative procedures &#40;e.g,. solving systems of equations or the maximization of a function&#41;. In these situations, small differences in timing are amplified, as they&#39;re replicated multiple times.</p>
  <h4> An Example </h4>
-<p>Let&#39;s illustrate the practical implications of benchmarks by considering a concrete case. Suppose we seek to sum all the elements of <code>x</code>, after doubling each of them. We&#39;ll compare two approaches for this task. </p>
+<p>Let&#39;s illustrate the practical usage of benchmarks by considering a concrete case. Suppose we seek to double each element of <code>x</code> and then sum them. We&#39;ll compare two approaches for this task. </p>
 <p>The first method will be based on <code>sum&#40;2 .* x&#41;</code>, where <code>x</code> will enter into the computation as a global variable. As we&#39;ll discuss in later sections, this approach is relatively inefficient. A more efficient alternative is given by <code>sum&#40;a -&gt; 2 * a, x&#41;</code>, with <code>x</code> passed as a function&#39;s argument. Aside what this function specifically does, what matters is that it produces the same result as the baseline approach, but implementing a different technique.</p>
 <p>The runtime of each approach is as follows.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2851,8 +2851,8 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The symbol <code>_</code> is a programming convention to denote &quot;throwaway&quot; variables. This is a variable included solely to satisfy the syntax of an operation, but whose value isn&#39;t actually used. In our case, it reflects that each iteration is performing the same operation for benchmark purposes.</p>
-<p>The example starkly reveals the consequences of calling the function within a for-loop. The execution time of the slow version balloons to more than 20 seconds now, while the fast version does it in under one second. Overall, the comparison unveils the relevance of optimizing functions with repeated or intensive operations, where even slight improvements can have a substantial impact on performance. </p>
+<p>The symbol <code>_</code> is a programming convention to denote &quot;throwaway&quot; variables. They represent variables solely included to satisfy the syntax of an operation, but whose value isn&#39;t actually used. In our case, it reflects that each iteration is performing the same operation for benchmark purposes.</p>
+<p>The example starkly reveals the consequences of calling the function within a for-loop. The execution time of the slow version balloons to more than 20 seconds now, while the fast version does it in under one second. Overall, this unveils the relevance of optimizing functions with repeated or intensive operations, where even slight improvements can have a substantial impact on performance. </p>
 <p>      </div>
     </div>
   </div>
@@ -2875,7 +2875,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified June 26, 2024 
+          © Martin Alfaro <br>Last Modified August 22, 2024 
       </span> 
   </div> 
 </footer>
