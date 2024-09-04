@@ -57,7 +57,7 @@ end
 # EXAMPLE 1
 ################
  
-x            = ["a", 1]                     # variable with type 'Any'
+x = ["a", 1]                     # variable with type 'Any'
 
 
 
@@ -73,7 +73,7 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x            = ["a", 1]                     # variable with type 'Any'
+x = ["a", 1]                     # variable with type 'Any'
 
 operation(y) = [y * i for i in 1:100]
 
