@@ -2588,7 +2588,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>We present the very basics for getting started with Julia. As we haven&#39;t introduced functions or macros yet, we&#39;ll keep the discussion to a bare minimum. In particular, we&#39;ll cover the concept of interactive and non-interactive modes, along with approaches for adding comments and specifying paths.</p>
+<p>In the following, we present the very basics for getting started with Julia. As we haven&#39;t introduced functions or macros yet, we&#39;ll keep the discussion to a bare minimum. Specifically, this means we&#39;ll limit ourselves to covering interactive and non-interactive modes, along with approaches for adding comments and specifying paths.</p>
 <p>      </div>
     </div>
   </div>
@@ -2598,15 +2598,15 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Using Julia in VS Code</h2></p>
-<p>REPL stands for &quot;Read-Eval-Print-Loop&quot;, and refers to Julia&#39;s working environment when you execute <code>julia.exe</code>. The REPL allows you to provide inputs at the prompt <code>julia&gt;</code> and obtain outputs in return. Using Julia in this way is known as <span style="color: rgb(62, 121, 180);"><strong>interactive mode</strong></span>.</p>
+<p>The REPL, short for &quot;Read-Eval-Print Loop,&quot; refers to Julia&#39;s working environment. This activates when you run <code>julia.exe</code>, allowing you to enter inputs at the prompt <code>julia&gt;</code> and receive their corresponding outputs. This usage of Julia is known as <span style="color: rgb(62, 121, 180);"><strong>interactive mode</strong></span>.</p>
 <p> <div class="gif_drop"> <details open><summary> Screenshot  </summary>
     <p> <img style="width:60%;height:60%;" src="/julia_book/assets/PAGES/1b_basics/pics/01.png"/>
     </p></details></div> </p>
-<p>You won&#39;t be directly interacting with the REPL, but rather through a code editor. For the purposes of this website, we&#39;ll assume that you&#39;re using VS Code as your code editor. To use Julia in VS Code, it&#39;s necessary to install its corresponding plugin. This can be found by navigating to the Extensions tab, as depicted below.</p>
+<p>Throughout this website, we&#39;ll assume you&#39;re working with a code editor, rather than directly interacting with the REPL. In particular, we&#39;ll be using VS Code as our code editor of choice. To get started with Julia in VS Code, you&#39;ll need to install the Julia extension. You can find this by navigating to the Extensions tab, as indicated below with a blue circle.</p>
  <div class="gif_drop"> <details open><summary> Screenshot  </summary>
     <p> <img style="width:60%;height:60%;" src="/julia_book/assets/PAGES/1b_basics/pics/extensions.png"/>
     </p></details></div>
-<p>When starting a new file in VS Code, you need to select the programming language to be used. This can be done by either clicking on the option at the bottom corner &#40;see below&#41;, or by using the keyboard shortcut  <kbd> Ctrl+k</kbd> &#43;  <kbd> M</kbd> and typing &quot;julia&quot;. Note that the REPL is located at the bottom of the screen, while the code to be executed must be written at the top, above the REPL.</p>
+<p>The REPL is situated at the bottom of the screen, while the code must be written in the editor area above the REPL. Note that when starting a new file in VS Code, you&#39;ll need to specify the programming language you want to use. You can do this by clicking on the language option located at the bottom corner of the screen, or by using the keyboard shortcut  <kbd> Ctrl+k</kbd> &#43;  <kbd> M</kbd> and typing &quot;julia&quot;. </p>
  <div class="gif_drop"> <details open><summary> Screenshot  </summary>
     <p> <img style="width:60%;height:60%;" src="/julia_book/assets/PAGES/1b_basics/pics/language.png"/>
     </p></details></div>
@@ -2619,8 +2619,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Adding Comments in a Script</h2></p>
-<p>You can include comments in your code, just like in any programming language. Comments are lines of text that won&#39;t be executed, and are intended to offer clarifications or explanations.</p>
-<p>To add  <em>single-line comments</em>, precede the text with the symbol <code>#</code>.  The symbol <code>#</code> can be placed anywhere on a line, with anything written after <code>#</code> ignored. Alternatively, to add  <em>multi-line comments</em>, you must begin the comment by <code>#&#61;</code> and end it with <code>&#61;#</code>.</p>
+<p>Julia allows you to include comments in your code, just like in any programming language. Comments are lines of text that won&#39;t be executed but are useful for clarifications and explanations.</p>
+<p>To add a  <em>single-line comments</em>, simply precede the text with the <code>#</code> symbol. The <code>#</code> symbol can be placed anywhere on a line, and anything written after it will be ignored. Alternatively, you can add a  <em>multi-line comment</em> by beginning the text with <code>#&#61;</code> and end it with <code>&#61;#</code>.</p>
  <div class=" code_box"> <details  open><summary> Adding Comments  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia"># This is an example of a comment
 
@@ -2639,18 +2639,25 @@ x &#61; 2   # &#96;x&#61;2&#96; is run, but anything after &#96;#&#96; won&#39;t
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Paths of Files and Folders</h2></p>
-<p>The way to specify a file path differs across operating systems. This is an aspect that extends beyond Julia. </p>
-<p>The following examples demonstrate how to define a path in Julia, according to each operating system. We also show introduce the function <code>joinpath</code>, which is a cross-platform way to construct file paths. It automatically uses the appropriate directory separator for the current operating system, making your code portable. As example, the illustrations consider the folder <code>C:\user\julia</code> on Windows or <code>/users/julia</code> on Linux/macOS. </p>
+<p>File management systems vary across operating systems, making the syntax for specifying file paths in Julia differ depending on them. Below, we provide examples that illustrate the syntax for a folder <code>C:\user\julia</code> on Windows and <code>/user/julia</code> on Linux/macOS. Alternatively, the function <code>joinpath</code> provides a platform-agnostic approach to specifying file paths, making your code portable across systems. </p>
+<p>File management systems vary across operating systems, which affects the syntax for specifying file paths in Julia. In this respect, Julia provides two approaches. The first one involves using operating system-specific syntax, as illustrated by the examples below for a file <code>C:\user\file.jl</code> on Windows and <code>/user/file.jl</code> on Linux/macOS. A more versatile alternative is the <code>joinpath</code> function, which applies regardless of the operating system. </p>
  <div class=" code_box"> <details  open><summary> Specifying Paths  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia"># On Windows
-&quot;C:\\user\\julia&quot;
+<pre><code class="language-julia"># On Windows &#40;note that double \\&#41;
+&quot;C:\\user\\file.jl&quot;
 
 # On Unix-based systems &#40;e.g., macOS or Linux&#41;
-&quot;/user/julia&quot;
+&quot;/user/file.jl&quot;
 
 # on any operating system
-joinpath&#40;&quot;/&quot;, &quot;user&quot;, &quot;julia&quot;&#41;</code></pre>
+joinpath&#40;&quot;/&quot;, &quot;user&quot;, &quot;file.jl&quot;&#41;</code></pre>
 <p></div> </div>  </details></div>
+<p>Two special paths have a convenient shortcut:</p>
+<div class="bullets"><ul>
+<li><p><code>@__DIR__</code>, which identifies the directory where your script is saved. <br/>For instance, if your script is in <code>C:\user\julia</code>, then <code>joinpath&#40;@__DIR__, &quot;graphs&quot;&#41;</code> refers to <code>C:/user/julia/graphs</code>.</p>
+</li>
+<li><p><code>homedir&#40;&#41;</code>, which indicates the user&#39;s home directory. <br/>This refers to <code>C:\Users\username</code> on Windows &#40;where &quot;username&quot; is your actual user&#41;, and is the equivalent of <code>~</code> on Linux. For instance, you can access Google Drive&#39;s folder located on either <code>C:\Users\martin\GoogleDrive</code> or <code>\home\martin\GoogleDrive</code> by the command <code>joinpath&#40;homedir&#40;&#41;, &quot;GoogleDrive&quot;&#41;</code>.</p>
+</li>
+</ul></div>
 <p>      </div>
     </div>
   </div>
@@ -2660,36 +2667,12 @@ joinpath&#40;&quot;/&quot;, &quot;user&quot;, &quot;julia&quot;&#41;</code></pre
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Executing Code From a File</h2></p>
-<p>You can also work <span style="color: rgb(62, 121, 180);"><strong>non-interactively</strong></span> with Julia. This requires storing a script in a file to eventually execute it. For instance, a file at <code>C:\user\julia\graphs.jl</code> on Windows or <code>/users/julia/graphs.jl</code> on Unix systems can be executed as follows:</p>
+<p>You can also work <span style="color: rgb(62, 121, 180);"><strong>non-interactively</strong></span> with Julia. This requires storing a script in a file to eventually execute it. For instance, the following line executes a file at <code>C:\user\julia\graphs.jl</code> on Windows or <code>/users/julia/graphs.jl</code> on macOS/Linux systems:</p>
  <div class=" code_box"> <details  open><summary> Executing Code From a File  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">include&#40;joinpath&#40;&quot;/&quot;, &quot;user&quot;, &quot;julia&quot;, &quot;graphs.jl&quot;&#41;&#41;</code></pre>
 <p></div> </div>  </details></div>
- <!-- Trigger/Open The Modal -->
-<div style="text-indent:0;"> <button class="modalButton">
-  &nbsp<i class="fa fa-exclamation-circle" style='font-size:16px;padding-right:0.0em'></i><strong>(OPTIONAL)</strong> -  Convenient Expressions for Paths</button> </div>
-
-<!-- The Modal -->
-<div class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-    <div class="modal-header">
-      <span class="modalClose">&times;</span>
-      <h2>  Convenient Expressions for Paths </h2>
-    </div>
-    <div class="modal-body"><p> There are two handy expressions to work with paths. As we haven&#39;t covered macros or functions yet, their reading is optional. For the example, let&#39;s consider Windows as the operating system. </p>
-<div class="bullets"><ul>
-<li><p>The first one is <code>@__DIR__</code>. This identifies the file&#39;s folder where your script is saved, enabling you to refer to folders relative to it. For instance, suppose that your script is saved in <code>C:/user/julia</code>. Then, <code>joinpath&#40;@__DIR__, &quot;graphs&quot;&#41;</code> refers to <code>C:/user/julia/graphs</code>.</p>
-</li>
-</ul>
-<ul>
-<li><p>The second one is <code>homedir&#40;&#41;</code>, which indicates the user&#39;s home directory. This will look like <code>C:\Users\your_name</code> on Windows, where &quot;your_name&quot; is your home directory. This is useful when you have several computers and your files are in a folder from Google Drive. Your home directory might be different in each computer, and hence you&#39;ll need to change the folder every time you&#39;re working with one of your computers. Instead, you can directly specify <code>joinpath&#40;homedir&#40;&#41;, &quot;Google Drive&quot;&#41;</code>.</p>
-</li>
-</ul></div>
-<p> </p>
-    </div>    
-  </div>
-  
+ <div style="visibility: hidden;margin-bottom:-4em">
+this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible
 </div>
 <p>      </div>
     </div>
@@ -2713,7 +2696,7 @@ joinpath&#40;&quot;/&quot;, &quot;user&quot;, &quot;julia&quot;&#41;</code></pre
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 4, 2024 
+          © Martin Alfaro <br>Last Modified September 6, 2024 
       </span> 
   </div> 
 </footer>
