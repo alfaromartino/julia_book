@@ -2595,7 +2595,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section provides an overview of standard types for text representation. The discussion will be relatively brief, as string analysis won&#39;t be a primary focus of the website. Despite this, you should still be familiar with the approaches to introducing text and the principles of string interpolation. </p>
+<p>This section provides a concise overview of standard types for text representation, covering the fundamental concepts of introducing text and string interpolation. Although in-depth string analysis isn&#39;t necessary, understanding these basic principles are essential for using Julia effectively.</p>
 <p>      </div>
     </div>
   </div>
@@ -2605,7 +2605,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Characters</h2> </p>
-<p>The <code>Char</code> type represents individual characters and supports Unicode characters. Thus, it encompasses encompassing a wide range of numbers, letters, and symbols. A character <code>x</code> is defined by using the syntax <code>&#39;x&#39;</code>.</p>
+<p>The <code>Char</code> type is used to represent individual characters. As it supports Unicode characters, it encompasses not only numbers and letters, but also a wide range of symbols. A character <code>x</code> is introduced by using the syntax <code>&#39;x&#39;</code>, as shown below.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia"># x equals the character &#39;a&#39;
 x &#61; &#39;a&#39;
@@ -2614,7 +2614,7 @@ x &#61; &#39;a&#39;
 x &#61; &#39;β&#39;
 y &#61; &#39;🐒&#39;</code></pre>
 <p></div> </div>  </details></div>
-<p>Notice that characters must be enclosed in single quotes <code>&#39; &#39;</code>. Otherwise, Julia will interpret them as variables, rather than literal characters. This holds even for symbols like 🐒.</p>
+<p>Notice that characters necessarily must be enclosed in single quotes <code>&#39; &#39;</code>, or otherwise Julia will interpret the expression as a variable. This holds even for symbols like 🐒.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia"># any character is allowed for defining a variable
 🐒 &#61; 2          # 🐒 represents a variable, just like if we had defined x &#61; 2
@@ -2631,7 +2631,7 @@ z  &#61; &#39;🐒&#39;       # z equals the character 🐒</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Strings</h2> </p>
-<p>We&#39;ll rarely use the type <code>Char</code> directly. Instead, we&#39;ll work with the type <code>String</code>, which is an ordered collection of characters. This type is employed to represent text.</p>
+<p>We&#39;ll rarely use the type <code>Char</code> directly. Instead, we&#39;ll work with the type <code>String</code>, which is an ordered collection of characters that can represent text.</p>
 <p>Strings can be defined through either double quotes <code>&quot; &quot;</code> or triple quotes <code>&quot;&quot;&quot; &quot;&quot;&quot;</code>. The latter is particularly convenient for handling newlines, such as when the text has to span multiple lines. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For more on the differences between double and triple quotes, see <a href="https://docs.julialang.org/en/v1/manual/strings/#Triple-Quoted-String-Literals">here</a>  </span></span></p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &quot;Hello, beautiful world&quot;
@@ -2647,8 +2647,8 @@ x &#61; &quot;&quot;&quot;Hello, beautiful world&quot;&quot;&quot;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>String Interpolation</h2> </p>
-<p><span style="color: rgb(62, 121, 180);"><strong>String interpolation</strong></span> allows you to evaluate Julia code and insert its output into a string. The technique represents a convenient way to introduce content that depends on variables, computations, or expressions.</p>
-<p>An expression is interpolated into a string by preceding it with <code>&#36;</code>. Moreover, expressions incorporating spaces need to be delimited with curly braces <code>&#36;&#40;&#41;</code>. Both cases are exemplified below.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>String interpolation</strong></span> allows you to embed expressions or variables within a string, and then evaluate those expressions or replace the variables with their values. </p>
+<p>To interpolate an expression into a string, you simply prefix it with the <code>&#36;</code> symbol. If the expression contains spaces, you&#39;ll need to enclose it in curly braces, like <code>&#36;&#40;&#41;</code>. Both cases are exemplified below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
