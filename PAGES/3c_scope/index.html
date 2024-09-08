@@ -480,7 +480,7 @@ section a:hover{
                 <h2> LINKS TO SECTIONS </h2>
             </div>
                 <div class="modal-body">
-                    To quickly access a specific section of this page, simply hover over the title of the desired section and click on it. The relevant link will be automatically copied to your clipboard, which you can then paste.
+                    To quickly share a link that goes to a specific section, hover over the title and click on it. The relevant link will be automatically copied to your clipboard, which you can then paste.
                 <span class="brmine"></span>
             </div>
             <div class="modal-header">
@@ -2595,15 +2595,15 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Variable scope</strong></span> refers to the code block in which a variable is accessible. The concept allows us to distinguish between <span style="color: rgb(62, 121, 180);"><strong>global variables</strong></span>, which are accessible in any part of the code, and <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span>, which only exist within a specific code block. The presence of scopes determines that the same variable <code>x</code> could refer to different objects, depending on where it&#39;s called.</p>
-<p>Julia adheres to specific rules for variable scope when it comes to functions. Specifically, given a variable <code>x</code> defined outside a function:</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Variable scope</strong></span> refers to the code block in which a variable is accessible. The concept allows us to distinguish between <span style="color: rgb(62, 121, 180);"><strong>global variables</strong></span>, which are accessible in any part of the code, and <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span>, which only exist within a specific code block. The existence of scopes determines that the same variable <code>x</code> could refer to different objects, depending on where it&#39;s called.</p>
+<p>When it comes to functions, Julia adheres to specific rules for variable scope. Specifically, given a variable <code>x</code> defined outside a function:</p>
 <ul>
-<li><p>if a new variable <code>x</code> is defined inside a function or is passed to the function as an argument, then <code>x</code> is considered  <em>local</em> to that function. Moreover, any reference to <code>x</code> within the function refers to the local variable, without any relation to the variable <code>x</code> defined outside the function.</p>
+<li><p>if a new variable <code>x</code> is defined inside a function or is passed to the function as an argument, then <code>x</code> is considered  <em>local</em> to that function. Moreover, any reference to <code>x</code> within the function refers to the local variable, without any relation to the variable <code>x</code> defined outside the function,</p>
 </li>
 <li><p>if the function includes <code>x</code>, but it doesn&#39;t define a new <code>x</code> nor <code>x</code> is a function argument, then <code>x</code> refers to the variable defined outside the function &#40;i.e., the global variable&#41;.</p>
 </li>
 </ul>
-<p>These rules can be better understood by illustrating them, as we do next.</p>
+<p>The rules can be more effectively understood by illustrating them, as we do next.</p>
 <p>      </div>
     </div>
   </div>
@@ -2614,7 +2614,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Global and Local Variables</h2></p>
 <p>A variable that is local to a function only exists within the function&#39;s scope. Consequently, if we attempt to reference it outside the function, Julia will indicate that the variable doesn&#39;t exist. </p>
-<p>Variables local to a function encompass:  <em>i)</em> the function arguments, and  <em>ii)</em> variables defined in the function body. Any other variable appearing in a function refers to a global variable. </p>
+<p>Variables local to a function encompass:  <em>i)</em> the function arguments, and  <em>ii)</em> variables defined in the function body. Any other variable appearing in a function necessarily refers to a global variable. </p>
 <p>Identifying local variables in a function is crucial, as a local variable may share the same name as a global variable without them being related. The distinction between global and local variables is easier to grasp through the following examples.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2661,7 +2661,7 @@ end</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>The Role of Functions</h2></p>
-<p><strong>A function</strong> should be understood <strong>as a self-cointained mini-program to represent a specific task</strong>. Under this interpretation, local variables simply serve as labels for articulating the mechanics of the task. Consequently, it&#39;s logical that variables defined within a function aren&#39;t stored for use outside of it.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Local variables play a similar role to integration variables in maths. Formally, \(t\) in \(\int f\left(t\right)\,\mathrm{d}t\) for some function \(f\) is just a symbol indicating over which variable we&#39;re integrating. This is why the integral can be equivalently expressed through \(x\), as \(\int f\left(x\right)\,\mathrm{d}x\), or any other label for \(t\).  </span></span> </p>
+<p><strong>A function</strong> should be understood <strong>as a self-cointained mini-program to represent a specific task</strong>. Under this interpretation, local variables simply act as labels that help articulate the mechanics of the task. Indeed, variables local to a function are inaccessible outside of it.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Local variables play a similar role to integration variables in math. Formally, \(t\) in \(\int f\left(t\right)\,\mathrm{d}t\) for some function \(f\) is just a symbol indicating over which variable we&#39;re integrating. This is why the integral can be equivalently expressed through \(x\), as \(\int f\left(x\right)\,\mathrm{d}x\), or any other label for \(t\).  </span></span> </p>
 <p>To explain what this means, consider the existence of a variable <code>x</code>, and another variable <code>y</code> computed by transforming <code>x</code> through the function <code>f</code>. Formally, <code>y &#61; f&#40;x&#41;</code>, where we directly assume that the transformation doubles <code>x</code>, so that <code>y &#61; 2 * x</code>. The following are two approaches to computing <code>y</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2692,12 +2692,11 @@ y          &#61; double&#40;x&#41;</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The function in Approach 1 utilizes the global variable <code>x</code>. This practice is highly discouraged for several reasons. First, it makes the function not reusable, as it&#39;s exclusively confined to doubling the global variable <code>x</code>, rather than acting as a mini-program that doubles  <em>any</em> variable.</p>
-<p>Second, the inclusion of the global variable <code>x</code> prevents the function from being self-contained: the function&#39;s output varies depending on the value of <code>x</code> when executing the function. If you work on a long project, this feature makes the code prone to bugs.</p>
-<p>A final reason to avoid global variables is their detrimental impact on performance, which we&#39;ll study later on the website. In fact, global variables are directly a performance killer in Julia.</p>
-<p>On the contrary, Approach 2 refers to <code>x</code> as a local variable. This <code>x</code> is unrelated to the global variable <code>x</code>—it simply serves as a label to identify the variable we want to double. Indeed, we could&#39;ve used any other label, as is illustrated in Approach 3 through the monkey emoji, <code>🐒</code>.</p>
-<p>Approach 2 aligns with the conception of a function as a self-cointained mini-program, as the function embodies the task of doubling a variable. Thus, the function can be reused throughout the project and potentially applied to any variable. This implies that applying <code>double</code> to the global variable <code>x</code> is just one possible use case.</p>
-<p>Approach 2 also ensures that the function is self-contained, by avoiding references to any variable outside its scope. This enables users to predict the outcome of using <code>double</code> by simply inspecting the function, eliminating the need to review the entire codebase.</p>
+<p>The function in Approach 1 utilizes the global variable <code>x</code>. This practice is highly discouraged for several reasons. Firstly, it prevents the reusability of the function, as it&#39;s specifically designed to double the global variable <code>x</code>, rather than acting as a mini-program that doubles  <em>any</em> variable.</p>
+<p>Second, the inclusion of the global variable <code>x</code> compromises the function&#39;s self-containment, as the function&#39;s output depends on the value of <code>x</code> at the moment of execution. If you work on a long project, this feature makes the code more prone to bugs.</p>
+<p>Lastly, global variables have a detrimental impact on performance, a topic we&#39;ll study later on the website. In fact, global variables in Julia are directly a performance killer.</p>
+<p>In contrast, Approach 2 refers to <code>x</code> as a local variable. This <code>x</code> is unrelated to the global variable <code>x</code>—it simply serves as a label to identify the variable to be doubled. Indeed, we could&#39;ve replaced it with any other label, as demonstrated in Approach 3 through the monkey emoji, <code>🐒</code>.</p>
+<p>By avoiding referencing any variable outside its scope, Approach 2 makes the function self-contained. This allows users to predict the consequence of applying <code>double</code> by simply inspecting the function, eliminating the need to review the entire codebase. Thus, Approach 2 aligns with the interpretation of a function as a self-contained mini-program: the function embodies the task of doubling a variable, turning the function reusable and applicable to any variable. In this context, applying <code>double</code> to the global variable <code>x</code> is just one possible use case.</p>
 <p>      </div>
     </div>
   </div>
@@ -2707,9 +2706,10 @@ y          &#61; double&#40;x&#41;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Recommendations For The Use Of Functions</h2></p>
-<p>Structuring code around functions offer multiple advantages. However, fully realizing these benefits require following certain principles when writing code. This section outlines a few of these principles, and should be considered as a mere introduction to the subject. The topic will be investigated further, when we explore high performance.</p>
-<p> <h4> Avoid Global Variables in Functions </h4> Global variables are strongly discouraged. This is not only for the reasons outlined previously, but also because they can have a devastating impact on performance. The easiest solution for this is to pass global variables as function arguments. This practice will actually emerge naturally once you understand functions as self-contained mini-programs. After you adopt this perspective, you&#39;ll conceive variables local to a function as labels to describe a task, rather than references to global variables. This mindset shift can help you write more efficient and maintainable code.</p>
-<p> <h4> Avoid Redefining Variables within Functions </h4> The suggestion applies to both local variables and function arguments. Redefining these variables can entail several disadvantages, such as hindering code readability and potentially decreasing performance. As a result, its recommended defining new variables instead of redefining existing ones. The following example illustrates this practice.</p>
+<p>Structuring code around functions offer numerous advantages. However, to fully realize these benefits, it&#39;s essential to follow certain principles when writing code. This section outlines a few of them, and should be considered as a mere introduction to the subject. The topic will be investigated further, when we explore high performance.</p>
+<p> <h4> Avoid Global Variables in Functions </h4> Global variables are strongly discouraged. This is not only due to the reasons mentioned previously, but also because they can have a devastating impact on performance. The easiest solution to this issue is to pass global variables as function arguments. This practice will actually become second nature once you start viewing functions as self-contained mini-programs. Specifically, by adopting this perspective, you&#39;ll conceive local variables as labels to describe a task, rather than references to global variables. This shift in mindset can help you write more efficient and maintainable code.</p>
+ <h4> Avoid Redefining Variables within Functions </h4>
+<p>The suggestion applies to both local variables and function arguments. Redefining these variables can have several disadvantages, including reduced code readability and potential performance degradation. Therefore, it&#39;s recommended that you define new variables instead of redefining existing ones. This approach is demonstrated in the following example.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2748,7 +2748,7 @@ end</code></pre>
       <span class="modalClose">&times;</span>
       <h2>  Another Issue of Redefining Variables </h2>
     </div>
-    <div class="modal-body"><p>  Julia will throw an error if, within a function, you perform a computation using a global variable <code>x</code> and then redefine <code>x</code>. For example:</p>
+    <div class="modal-body"><p>  Within a function, Julia will throw an error if you perform a computation using a global variable <code>x</code> and then redefine <code>x</code>. For example:</p>
 <p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; 2
 
@@ -2765,11 +2765,11 @@ end</code></pre>
   
 </div>
  <h4> Modularity </h4>
-<p>We&#39;ve emphasized the importance of viewing functions as self-contained mini-programs, which are designed to perform specific tasks. This vision leads us to highlight the importance of <span style="color: rgb(62, 121, 180);"><strong>modularity</strong></span>: the practice of breaking down a program into multiple small functions, each with its own purpose, inputs, and outputs. </p>
-<p>The primary benefit of modularity is the possibility of working with independent code blocks. By keeping these blocks separate, we&#39;re able to turn complex problems into multiple manageable tasks, making it easier to test and debug code. Furthermore, it makes it possible to eventually improve or substitute parts of the code, without breaking the entire program.</p>
-<p>The principle can be better grasped considering the analogy of building a Lego minifigure. In a first step, multiple blocks are created independently, each representing a specific part of the figure &#40;e.g., legs, torso, arms, head&#41;. In a second stage, the individual blocks are brought together and assembled into an integrated minifigure. </p>
-<p>This two-step approach allows us to focus on each block individually, concentrating on those parts critical for the figure. Furthermore, it provides great flexibility: as each block is created independently, we can modify certain blocks without needing to rebuild the entire figure. For example, if we wish to change the figure&#39;s head, we can simply swap out the corresponding block, without starting from scratch.</p>
-<p>The principle of modularity is closely related to the suggestion of writing short functions. Some even advocate for functions that consist exclusively of <a href="https://dev.to/kanani_nirav/the-five-lines-of-code-principle-why-less-is-more-in-programming-31j6#:~:text&#61;The&#37;20idea&#37;20is&#37;20that&#37;20a,and&#37;20modify&#37;20than&#37;20longer&#37;20functions.">less than five lines</a>, with entire <a href="https://www.manning.com/books/five-lines-of-code">books</a> written based on this principle. Although this viewpoint can be considered rather extreme, it clearly highlights the benefits of avoiding long functions.</p>
+<p>We&#39;ve emphasized the importance of viewing functions as self-contained mini-programs, designed to perform specific tasks. This perspective leads us to highlight the importance of <span style="color: rgb(62, 121, 180);"><strong>modularity</strong></span>: the practice of breaking down a program into multiple small functions, each with its own distinct purpose, inputs, and outputs. </p>
+<p>The primary benefit of modularity is the ability to work with independent code blocks. By keeping these blocks separate, we can decompose complex problems into multiple manageable tasks, making it easier to test and debug code. Additionally, modularity makes it possible to eventually improve or substitute parts of the code, without breaking the entire program.</p>
+<p>A helpful way to understand this principle is by considering the analogy of building a Lego minifigure. In the first step, multiple blocks are created independently, each representing a specific part of the figure, such as the legs, torso, arms, and head. Then, in the second stage, these individual blocks are brought together and assembled into an integrated minifigure.</p>
+<p>This two-step approach offers several advantages. By focusing on each block individually, we can concentrate and refine each part without worrying about the entire structure. Additionally, it provides great flexibility: since each block is created independently, we can modify specific blocks without having to rebuild the entire figure. For instance, if we want to change the figure&#39;s head, we can simply swap out the corresponding block, without starting from scratch.</p>
+<p>The principle of modularity is closely tied to the suggestion of writing short functions. Some proponents even argue that functions should be limited to <a href="https://dev.to/kanani_nirav/the-five-lines-of-code-principle-why-less-is-more-in-programming-31j6#:~:text&#61;The&#37;20idea&#37;20is&#37;20that&#37;20a,and&#37;20modify&#37;20than&#37;20longer&#37;20functions.">fewer than five lines of code</a> Indeed, entire <a href="https://www.manning.com/books/five-lines-of-code">books</a> have been written based on this principle. Although this viewpoint may be considered rather extreme, it clearly emphasizes the advantages of avoiding lengthy functions.</p>
  <!-- Trigger/Open The Modal -->
 <div style="text-indent:0;"> <button class="modalButton">
   &nbsp<i class="fa fa-exclamation-circle" style='font-size:16px;padding-right:0.0em'></i><strong>(OPTIONAL)</strong> -  Example of Modularity</button> </div>
@@ -2783,8 +2783,8 @@ end</code></pre>
       <span class="modalClose">&times;</span>
       <h2>  Example of Modularity </h2>
     </div>
-    <div class="modal-body"><p> Coming up with mock scenarios illustrating the advantages of modularity is tricky. This is due to several reasons. First, the same function could be deemed modular enough, depending on the context and your goals. Second, modularity may become detrimental if it impairs code readability. Finally, making the code more modular may not be worthwhile if you don&#39;t plan to reuse it.</p>
-<p>Assuming that there are advantages in applying the principle, we next provide an example. The example&#39;s goal is to compute the cost of buying a product, when a good is subject to a percentage tax over the total value. </p>
+    <div class="modal-body"><p> Coming up with mock scenarios illustrating the advantages of modularity can be tricky. This occurs because the same function could be deemed modular enough, depending on the context and your goals. Moreover, modularity may become detrimental if it impairs code readability. On top of this, note that making code more modular may not be justified if there aren&#39;t plans to reuse it.</p>
+<p>With these challenges in mind, we&#39;ll present an example that showcases the potential benefits of modularity. The example focuses on calculating the cost of purchasing a product, when this is subject to a percentage tax over the total value. Specifically, consider the following two scripts to compute this.</p>
 <p> <div style="height:8em">  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2803,7 +2803,7 @@ expenditure&#40;price, quantity, tax_paid&#41; &#61; value_before_taxes&#40;pric
 <p></div> </div>
  </div></div>
 <p>  </p></details></div>  </div></p>
-<p>Considering an iPhone with a price of 1,000 USD and a tax rate of 5&#37;, we can apply these two mini-programs to compute the total expenditure of buying two iPhones. </p>
+<p>Consider now a scenario where an iPhone has a price of 1,000 USD and a tax rate of 5&#37;. Then, we can apply these two mini-programs to compute the total expenditure of purchasing two iPhones. </p>
 <p> <div style="height:30em">  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2850,7 +2850,7 @@ expenditure_iPhones &#61; expenditure&#40;gross_value, tax_paid&#41;</code></pre
 <p>  </p></details></div></p>
  </div>
 <p>While approach 2 is more verbose, it&#39;s also more readable, allowing the user to quickly understand the code&#39;s purpose. In contrast, Approach 1 requires the reader to carefully examine each term of <code>expenditure</code> to decipher its meaning.</p>
-<p>Furthermore, <strong>Approach 2 is more modular</strong>, as it breaks down total expenditure into two distinct components: the money to purchase the product without taxes and the taxes paid. While the benefits of this may not be immediately apparent in such a simple example, they would be easily appreciated in a more complex scenario. This is due to several reasons.</p>
+<p>Furthermore, <strong>Approach 2 is more modular</strong>, as it breaks down total expenditure into two distinct components: the money to purchase the product without taxes and the taxes paid. While the benefits of this may not be immediately apparent in such a simple example, they would be easily appreciated in a more complex scenario. There are several reasons for this.</p>
 <p>First, Approach 2 offers greater flexibility compared to Approach 1. It can easily accommodate scenarios with multiple taxes or taxes of different forms, simply by recomputing <code>tax_paid</code>. In contrast, fitting new cases through Approach 1 would necessitate modifying the entire script, including a full redefinition of <code>expenditure</code> and its components. Second, Approach 2 is more convenient for testing code blocks separately. This feature is critical for ensuring proper code functioning, and can additionally simplify code debugging and the identification of performance bottlenecks.  </p>
     </div>    
   </div>
