@@ -2725,8 +2725,8 @@ z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an
       <div class="col-lg- mx-auto">
         <h2>Broadcasting</h2></p>
 <p>The function <code>map</code> can quickly become cumbersome when dealing with complex functions or multiple arguments. This is where broadcasting comes into play, offering a more efficient syntax for element-wise operations.</p>
-<p>The concept of broadcasting will be explored in a step-by-step manner. First, we&#39;ll cover broadcasting of functions and operators separately, exclusively focusing on vectors of equal size. After this, we&#39;ll demonstrate how broadcasting can also accommodate combinations of scalars and vectors, despite not supporting vectors of different sizes in general. In these cases, the scalar is treated as a vector that matches the size of the vectors.</p>
-<p>Unlike other programming languages, <strong>broadcasting is an intrinsic feature of Julia</strong>, thereby applying to  <em>any</em> function or operator. For the case of functions, this entails that broadcasting even applies to user-defined functions. </p>
+<p>The concept of broadcasting will be explored in a step-by-step manner. We&#39;ll first explore how broadcasting applies to vectors of equal size, covering both functions and operators. After this, we&#39;ll demonstrate how broadcasting can also accommodate combinations of scalars and vectors, despite not supporting vectors of different sizes in general. In these cases, the scalar is treated as a vector that matches the size of the vectors.</p>
+<p>Unlike other programming languages, <strong>broadcasting is an intrinsic feature of Julia</strong>, thereby applying to  <em>any</em> function or operator. For the particular case of functions, this entails that broadcasting even applies to user-defined functions. </p>
 <p>      </div>
     </div>
   </div>
@@ -2737,7 +2737,7 @@ z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Functions</h2></p>
 <p>Broadcasting allows functions to be applied element-wise, significantly expanding their range of applications. The feature is implemented by simply appending a dot <strong> <em>after</em></strong> the name of the function, as in <code>foo.&#40;x&#41;</code>. </p>
-<p>Remarkably, <strong>any function</strong> <code>foo</code> <strong>has a broadcasting counterpart</strong> <code>foo.</code>. This implies that the functionality is automatically available for all user-defined functions. Additionally, it clearly reveals that broadcasting isn&#39;t restricted to numeric collections, applying to any iterable collection regardless of its elements. For instance, we&#39;ll show below that it can be used for strings.</p>
+<p>Remarkably, <strong>any function</strong> <code>foo</code> <strong>has a broadcasting counterpart</strong> <code>foo.</code>. This implies that the functionality is automatically available for all user-defined functions. Additionally, broadcasting isn&#39;t restricted to numeric collections, applying to any iterable collection regardless of its elements. For instance, we&#39;ll show below that it can be used for string manipulation.</p>
 <p>Similarly to <code>map</code>, broadcasting can be applied to both single- and multiple-argument functions. Each case warrants separate consideration. </p>
 <p>In the case of single-argument functions, broadcasting <code>foo</code> over a collection <code>x</code> returns a new collection with  <em>i</em>-th element <code>foo&#40;x&#91;i&#93;&#41;</code>. The following examples demonstrate its usage.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
