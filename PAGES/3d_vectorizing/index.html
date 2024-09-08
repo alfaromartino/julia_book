@@ -991,14 +991,14 @@ color: white;
 
 /* to fix disproportionate size in outputs */
       .julia_repl_NoFormat {
-        font-size    : 90%;
+        font-size    : 87%;
       }
 
       .julia_repl_NoFormat .julia_line, .julia_repl_NoFormat code{
         font-size:100%
       }
 
-      .mixed_output_NoFormat{ font-size    : 90%;}
+      .mixed_output_NoFormat{ font-size    : 87%;}
 
       .mixed_output_NoFormat pre, .mixed_output_NoFormat .julia_line, .mixed_output_NoFormat code {
         font-size:100%
@@ -1240,32 +1240,32 @@ color: white;
 }
 
 .hide_tab > details > summary {  
-  width: 30px; max-width: 90%;  
-  padding-left: 11px; 
-  padding-right: 0px;
-  padding-bottom: 0px;
-  background-color:  rgb(63,99,136);   
-  cursor: pointer;
-  color: #ffffff;
-  text-indent:0;  
-  border:#282c34; 
-  border-width:1px;  
-  border-style:solid;   
+  width           : 30px; max-width: 90%;
+  padding-left    : 11px;
+  padding-right   : 0px;
+  padding-bottom  : 0px;
+  background-color: rgb(63,99,136);
+  cursor          : pointer;
+  color           : #ffffff;
+  text-indent     : 0;
+  border          : #282c34;
+  border-width    : 1px;
+  border-style    : solid;
 }
 
 .hide_tab > details[open] > summary {
-  position:absolute;
-  width: 35px; max-width: 90%;      
-  height:1.94em;  
-  padding-bottom: 0px;
-  padding-top: 3px;   
-  padding-left: 12px;  
-  padding-right: 5px;   
+  position        : absolute;
+  width           : 35px; max-width: 90%;
+  height          : 1.94em;
+  padding-bottom  : 0px;
+  padding-top     : 3px;
+  padding-left    : 12px;
+  padding-right   : 5px;
   background-color: rgb(63,99,136);
-  border:#282c34; 
-  border-width:1px;  
-  border-style:solid; 
-  border-bottom: none;  
+  border          : #282c34;
+  border-width    : 1px;
+  border-style    : solid;
+  border-bottom   : none;
 }
 
 
@@ -1370,24 +1370,24 @@ color: white;
 
 
 .sign_output{ 
-  color:white;  
-  width: 100%; max-width: 100%;
-  height:auto;  
-  padding-bottom: 0px;
-  padding-top: 0px;   
-  padding-left: 12px;  
-  padding-right: 12px;   
-  background-color:  #3f6b4b;
-  border:#282c34; 
-  border-width:1px;    
-  border-style:solid;  
-  margin-bottom:0px;
-  padding-top:0em;
+  color           : white;
+  width           : 100%; max-width: 100%;
+  height          : auto;
+  padding-bottom  : 0px;
+  padding-top     : 0px;
+  padding-left    : 12px;
+  padding-right   : 12px;
+  background-color: #3f6b4b;
+  border          : #282c34;
+  border-width    : 1px;
+  border-style    : solid;
+  margin-bottom   : 0px;
+  padding-top     : 0em;
 }
 
 .outputmodal_container{   
-    padding:0;
-  margin:0;  
+  padding: 0;
+  margin : 0;
 }
 
   
@@ -2595,9 +2595,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section explores element-wise operations on <strong>iterable collections</strong>. These collections are defined by their ability to access elements sequentially, and include examples such as vectors, tuples, and ranges.</p>
-<p>The first approach covered is the <code>map</code> function. This is particularly convenient for transforming collections, by applying a function to each element. </p>
-<p>After this, we&#39;ll shift our focus to a fundamental technique in Julia known as <strong>broadcasting</strong>. This allows the user to apply functions and operators element-wise, while maintaining code compact. The technique is quite versatile, supporting operations on collections of equal size, but also on combinations of scalars and same-size collections. Its distinctive syntax is based on an appended dot <code>.</code> to the function/operator, making it easily recognizable.</p>
+<p>This section explores element-wise operations on <strong>iterable collections</strong>, which are characterized by their ability to access elements sequentially. Examples of such collections include vectors, tuples, and ranges.</p>
+<p>The first approach covered is the <code>map</code> function. This applies a function to each individual element, making it particularly convenient for transforming collections.</p>
+<p>After this, we&#39;ll shift our focus to a fundamental technique in Julia known as <strong>broadcasting</strong>. This allows the user to apply functions and operators element-wise, while maintaining code compact. The technique is quite versatile, supporting operations on collections of equal size, as well as on combinations of scalars and same-size collections. Its distinctive syntax, which involves appending a dot <code>.</code> to the function/operator, makes it easily identifiable.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     On this website, the terms <strong>broadcasting</strong> and <strong>vectorization</strong> will be used interchangeably. Strictly speaking, vectorization is restricted to applications with arrays of the same size, while broadcasting is an extension allowing for scalars.  </div>  </div>
@@ -2613,8 +2613,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>The "Map" Function</h2></p>
-<p><code>map</code> is a tool available in many programming languages, allowing the user to perform element-wise operations on collections. There are two ways to use <code>map</code>, depending on the number of input vectors.</p>
-<p>In its simplest form, <code>map</code> takes a single-argument function <code>foo</code> and a collection <code>x</code>. Its syntax is <code>map&#40;foo,x&#41;</code>, and returns a new collection with  <em>i</em>-th element <code>foo&#40;x&#91;i&#93;&#41;</code>. As shown below, <code>map</code> is commonly used with an anonymous function playing the role of <code>foo</code>.</p>
+<p>The <code>map</code> function is available in many programming languages, enabling the user to create a new collection with transformed elements. It can be applied in two ways, depending on the number of input vectors.</p>
+<p>In its most basic form, <code>map</code> takes a single-argument function <code>foo</code> and a collection <code>x</code>. Its syntax is <code>map&#40;foo,x&#41;</code>, and returns a new collection with  <em>i</em>-th element <code>foo&#40;x&#91;i&#93;&#41;</code>. A common use case for <code>map</code> involves using an anonymous function as the argument <code>foo</code>, as illustrated below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2650,8 +2650,8 @@ z &#61; map&#40;a -&gt; 2 * a, x&#41;</code></pre>
  6</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The second way to use <code>map</code> is with functions that take multiple arguments. Its syntax is <code>map&#40;foo, x, y&#41;</code> for a two-argument function <code>foo</code>, returning a new collection with  <em>i</em>-th element <code>foo&#40;x&#91;i&#93;, y&#91;i&#93;&#41;</code>. When the collections <code>x</code> and <code>y</code> have different sizes, <code>foo</code> <strong>is applied element-wise until the shortest vector is exhausted</strong>. Note that this rule applies even when either <code>x</code> or <code>y</code> is a scalar, in which case <code>map</code> returns a single element.</p>
-<p>Below, we apply <code>map</code> to <code>&#43;</code>. Recall that <code>&#43;</code> can be used as a function, such as <code>&#43;&#40;2,3&#41;</code> returning <code>6</code>.</p>
+<p>The second way to use <code>map</code> is with functions that take multiple arguments. In this case, the syntax is <code>map&#40;foo, x, y&#41;</code>, where <code>foo</code> is a two-argument function, returning a new collection with  <em>i</em>-th element <code>foo&#40;x&#91;i&#93;, y&#91;i&#93;&#41;</code>. When the collections <code>x</code> and <code>y</code> have different sizes, <code>foo</code> <strong>is applied element-wise until the shortest collection is exhausted</strong>. Note that this rule applies even when either <code>x</code> or <code>y</code> is a scalar, in which case <code>map</code> returns a single element.</p>
+<p>To demonstrate the use of <code>map</code> with multiple arguments, let&#39;s consider the addition operation <code>&#43;</code>. As you may recall, <code>&#43;</code> can be used in two ways: as an operator &#40;e.g., <code>2 &#43; 3</code>&#41; and as a function &#40;e.g., <code>&#43;&#40;2, 3&#41;</code>&#41;. By using <code>&#43;</code> as a function, we can apply <code>map</code> to perform element-wise addition of multiple collections.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
