@@ -2595,7 +2595,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Functions can be broken down into three: </p>
+<p>Broadly speaking, functions can be broken down into three: </p>
 <div class="enumRomanSpace"><ol>
 <li><p>built-in functions,</p>
 </li>
@@ -2606,7 +2606,7 @@ color: white;
 </ol></div>
 <p><strong>This section focuses on i) and ii)</strong>, relegating iii&#41; to the next section. We consider in particular how to apply functions, which in turn takes us to the discussion of packages. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Notation for Functions</strong>  </span>  </div>  <div class=content>     Julia&#39;s developers suggest a <strong>snake-case</strong> format for function names. This consists of lowercase letters, numbers, and possibly underscores to separate words, such as <code>snake_case123</code>. Note that this is only a convention, not a language&#39;s requirement.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Notation for Functions</strong>  </span>  </div>  <div class=content>     Julia&#39;s developers suggest a <strong>snake-case</strong> format for function names. This consists of lowercase letters, numbers, and possibly underscores to separate words &#40;e.g., <code>snake_case123</code>&#41;. Note that this is only a convention, not a language&#39;s requirement.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2617,7 +2617,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Packages</h2></p>
 <p>When you start a new session in Julia, only a handful of very basic functions are available &#40;e.g., those for sums, products, and subtractions&#41;. This is a deliberate choice made by Julia developers, who rely on <strong>packages</strong> for incorporating functions into the workspace. In fact, both built-in and third-party developer functions are contained in packages—the only difference is that the former are loaded by default.</p>
-<p>The approach is not unique to Julia. However, Julia embraces this philosophy more than other programming languages. Thus, it doesn&#39;t even include standard functions such as averages or standard deviations, which are instead relegated to a package called <code>Statistics</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The extent to which Julia advocates for this principle is evident in <code>Statistics</code> itself, where functions for computing distributions are included in another package, called <code>Distributions</code>.  </span></span></p>
+<p>The approach is not unique to Julia. However, Julia embraces this philosophy more than other programming languages. Thus, it doesn&#39;t even include standard functions such as averages or standard deviations, which are instead relegated to a package called <code>Statistics</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The extent to which Julia advocates for this principle is evident in <code>Statistics</code> itself, where functions for computing distributions are included in another package called <code>Distributions</code>.  </span></span></p>
 <p>The logic is based on a programming principle known as <a href="https://en.wikipedia.org/wiki/Modular_programming"><strong>modularity</strong></a>. This promotes the development of small reusable modules, rather than large intertwined code. Its main advantage is letting packages evolve independently, without bugs and deprecations spreading across the entire Julia ecosystem. The practical implication for users is that they need to load several packages in each session, even to perform simple tasks.</p>
 <p>      </div>
     </div>
@@ -2629,7 +2629,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Loading Packages and Calling Functions</h2></p>
 <p>The concept of packages is tightly related to modules. Formally, <span style="color: rgb(62, 121, 180);"><strong>modules</strong></span> are independent blocks of code, each acting as a separate workspace and exporting a set of functions. When you run Julia, you&#39;re in fact writing your script in a module called <code>Main</code>. </p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Packages</strong></span> are a special types of modules. Their distinctive feature is that they include information about its <strong>dependencies</strong>, which are the necessary packages to run the package itself. To get access to a package&#39;s functions, you need to load the package by either using the keyword <code>import</code> or <code>using</code>. The choice between these two determines how functions are eventually called. If you load a package with <code>import</code>, you need to prefix the function&#39;s name with the package&#39;s name. On the contrary, no prefix is needed when the package is loaded with <code>use</code>.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Packages</strong></span> are a special types of modules. Their distinctive feature is that they include information about its <strong>dependencies</strong>, defined as the necessary packages to run the package itself. To get access to a package&#39;s functions, you need to load the package by either using the keyword <code>import</code> or <code>using</code>. The choice between these two determines how functions are eventually called. If you load a package with <code>import</code>, you need to prefix the function&#39;s name with the package&#39;s name. On the contrary, no prefix is needed when the package is loaded with <code>using</code>.</p>
 <p>Below, we demonstrate each approach by calling the function <code>mean</code> from the package <code>Statistics</code>. Note that, although this package isn&#39;t loaded by default, it comes pre-installed with Julia.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2662,7 +2662,7 @@ mean&#40;x&#41;</code></pre>
       <div class="col-lg- mx-auto">
         <h2>Built-in Functions</h2></p>
 <p>Julia&#39;s built-in functions reside in two packages known as <code>Core</code> and <code>Base</code>, which are loaded automatically in every Julia session. They&#39;re incorporated as if we had executed <code>using Core</code> and <code>using Base</code>, so that their functions can be called without any prefix. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Some built-in functions may require a prefix. For instance, this occurs with the function <code>isgreater</code>, which has to be called through <code>Base.isgreater</code>. Furthermore, there are submodules loaded by default acting as subpackages. For instance, you have the function <code>Base.Iterators.accumulate</code>, which is part of the submodule <code>Iterators</code> from <code>Base</code>. As <code>Base</code> is loaded by <code>using</code>, you can directly call this function through <code>Iterators.accumulate</code>.  </span></span> </p>
-<p>Among built-in mathematical functions, the syntax of the most common is as follows.</p>
+<p>Among the built-in mathematical functions, the syntax of the most common is as follows.</p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -2737,7 +2737,7 @@ mean&#40;x&#41;</code></pre>
 <p>Loading packages with <code>import</code> could also be beneficial in other scenarios. For instance, it may reduce the possibility of ambiguity in the meaning of a function, thereby improving code readability. For instance, consider a script making use of the function <code>rank</code>. This name could be a reference to various concepts depending on the context &#40;e.g., the rank of a matrix, the order in a list&#41;. To shed some light on its particular meaning, you could indicate the package of <code>rank</code> when the function is called.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content> <code>import</code> is also useful if you have customized functions that are commonly applied across projects. For example, I have a function called <code>table_in_pdf</code> that I regularly use in my projects. The function exports Julia tables to a pdf with some predefined format. While the name of the function makes it clear what it&#39;s doing, an user could wonder if this function comes from a standard package. You could hint this isn&#39;t the case, by including the function in a package called <code>userDefined</code>. In this way, you could load the package through <code>import UserDefined</code>, and then calling the function through <code>UserDefined.table_in_pdf</code>.  </div>  </div>
+      <b> Remark</b> </span>  </div>  <div class=content> <code>import</code> is also useful if you have customized functions and they&#39;re commonly applied across projects. For example, consider a function called <code>table_in_pdf</code>, which exports Julia tables to a PDF with some predefined format. While the name of the function makes it clear what it&#39;s doing, a user could wonder if this function comes from a standard package. You could hint this isn&#39;t the case, by including the function in a package called <code>userDefined</code>. In this way, you can load the package using <code>import UserDefined</code>, and then calling the function through <code>UserDefined.table_in_pdf</code>.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2842,7 +2842,7 @@ average&#40;x&#41;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 7, 2024 
+          © Martin Alfaro <br>Last Modified September 8, 2024 
       </span> 
   </div> 
 </footer>
