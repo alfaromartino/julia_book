@@ -2595,8 +2595,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section lays the foundations for defining conditions, which are functions and operators returning true or false as their output. A typical example of condition is <code>x &gt; y</code>.</p>
-<p>For the syntax of conditions, it&#39;s worth recalling the classification of operators introduced <a href="/julia_book/PAGES/3a_variables/#operators">here</a>. Briefly, consider a generic operator <code>&lt;operator&gt;</code> and two <code>Bool</code> variables <code>x</code> and <code>y</code>. Then, a <strong>unary operator</strong> takes only one argument and is written at the left &#40;i.e., <code>&lt;operator&gt;x</code>&#41;, while a <strong>binary operator</strong> takes two arguments and is written in the middle &#40;i.e., <code>x &lt;operator&gt; y</code>&#41;.</p>
+<p>This section lays the foundations for defining conditions. These are defined as functions and operators returning true or false as their output. A typical example of condition is <code>x &gt; y</code>.</p>
+<p>For this section, it&#39;ll be worth recalling the classification of operators discussed <a href="/julia_book/PAGES/3a_variables/#operators">here</a>. In general, operators can be categorized into two types: unary and binary. Given a generic operator <code>&lt;operator&gt;</code> and two <code>Bool</code> variables <code>x</code> and <code>y</code>, a <strong>unary operator</strong> takes a single argument and is typically written to the left of its operand, as in <code>&lt;operator&gt;x</code>. In contrast, <strong>binary operator</strong> takes two arguments and is written between them, as in <code>x &lt;operator&gt; y</code>.</p>
 <p>      </div>
     </div>
   </div>
@@ -2606,8 +2606,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Conditions</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Conditions</strong></span> are formally represented as values with type <code>Bool</code>, evaluating to either <code>true</code> or <code>false</code>. They&#39;re internally represented as integers restricted to <code>1</code> and <code>0</code>. </p>
-<p>The representation of Boolean values in the REPL depends on their dimensionality. While <code>Bool</code> scalars are displayed as <code>true</code> and <code>false</code>, <code>Bool</code> vectors are represented as series of <code>1</code> and <code>0</code>. Nonetheless, both representations are equivalent, and are illustrated below.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Conditions</strong></span> are formally represented as values with type <code>Bool</code>, evaluating to either <code>true</code> or <code>false</code>. Internally, these values are stored as integers restricted to <code>1</code> and <code>0</code>.</p>
+<p>The representation of Boolean values in the REPL varies depending on their dimension: while <code>Bool</code> scalars are displayed as <code>true</code> and <code>false</code>, <code>Bool</code> vectors are represented as <code>1</code> and <code>0</code>. Despite the difference in appearance, both representations are equivalent, as illustrated below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2635,8 +2635,8 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
 <p>  </p></details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Using parentheses for single conditions is optional, allowing us to write <code>y &#61; x &gt; 0</code> rather than <code>y &#61; &#40;x &gt; 0&#41;</code>. However, this syntax can be ambiguous and potentially being misinterpreted as <code>&#40;y &#61; x&#41; &gt; 0</code>. To avoid confusion and ensure clarity, it&#39;s a good practice to always include parentheses. This will become essential when working with multiple conditions, where the absence of parentheses can drastically alter the outcome.  </div>  </div>
-<p>The example introduced above was defining a condition based on the operator <code>&gt;</code>. More generally, conditions rely on the use of <span style="color: rgb(62, 121, 180);"><strong>comparison operators</strong></span>, which are formally defined as  <em>binary operators</em> that compare values of various types &#40;e.g., numbers and strings&#41;. The next list defines common comparison operators, which follow the syntax of typical binary operators. </p>
+      <b>Warning!</b> </span>  </div>  <div class=content>     When writing single conditions, parentheses are optional, allowing us to write <code>y &#61; x &gt; 0</code> rather than <code>y &#61; &#40;x &gt; 0&#41;</code>. However, the first syntax is ambiguous, potentially being misinterpreted as <code>&#40;y &#61; x&#41; &gt; 0</code>. To avoid confusion, it&#39;s a good practice to always include parentheses. This is especially true when working with multiple conditions, where the absence of parentheses can drastically alter the outcome.  </div>  </div>
+<p>The previous example was defining a condition based on the operator <code>&gt;</code>. More generally, conditions rely on the use of <span style="color: rgb(62, 121, 180);"><strong>comparison operators</strong></span>, which are formally defined as  <em>binary operators</em> that compare values of various types &#40;e.g., numbers and strings&#41;. The next list defines the most common comparison operators.</p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -2687,7 +2687,7 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
  <br/></p>
 <p> <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     The non-standard characters can be written through Tab Completion:</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     The non-standard characters in the table can be written using Tab Completion:</p>
 <ul>
 <li><p><code>≠</code> via <code>\ne</code>, which stands for &quot;not equal&quot;,</p>
 </li>
@@ -2716,6 +2716,7 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
       <div class="col-lg- mx-auto">
         <h2>Logical Operators</h2></p>
 <p>It&#39;s possible to express conditions based on multiple conditions. This requires the use of <span style="color: rgb(62, 121, 180);"><strong>logical operators</strong></span>, which combine multiple conditions into a one. Formally, logical operators take <code>Bool</code> expressions as their operands, and return a <code>Bool</code> as their output. The following are the main logical operators used in Julia. </p>
+<p>You can also create conditions based on multiple conditions by using <span style="color: rgb(62, 121, 180);"><strong>logical operators</strong></span>. These operators combine multiple conditions into a single condition. Formally, they take <code>Bool</code> expressions as their operands and return a <code>Bool</code> as their output. The following are the main logical operators used in Julia. </p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -2752,7 +2753,7 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
 </tbody>
 </table>
 </p>
-<p>In terms of the syntax, notice that <code>&amp;&amp;</code> and <code>||</code> follow the rules of  <em>binary</em> operators.</p>
+<p>In terms of syntax, notice that <code>&amp;&amp;</code> and <code>||</code> follow the rules of  <em>binary</em> operators.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; 2
 y &#61; 3
@@ -2763,7 +2764,7 @@ z1 &#61; &#40;x &gt; 0&#41; &amp;&amp; &#40;y &gt; 0&#41;
 # is either &#96;x&#96; or &#96;y&#96; &#40;or both&#41; positive? 
 z2 &#61; &#40;x &gt; 0&#41; || &#40;y &gt; 0&#41;</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z1</code><br/><div class="akin_to_pre">true</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z2</code><br/><div class="akin_to_pre">true</div> </div></div> </div>   </details></div>
-<p>In addition to logical binary operators, we have the unary operator &quot;not&quot;, which is represented by <code>&#33;</code>. This simply transforms <code>true</code> into <code>false</code>, and vice versa. Its syntax requires placing <code>&#33;</code> at the beginning of the condition &#40;i.e., before the parenthesis&#41;. </p>
+<p>In addition to logical binary operators, there&#39;s also the unary &quot;not&quot; operator, denoted by <code>&#33;</code>. This operator inverts a condition, changing <code>true</code> to <code>false</code> and vice versa. To use it, simply place <code>&#33;</code> at the start of the condition &#40;i.e., before the parenthesis&#41;. </p>
 <p>As an illustration of <code>&#33;</code>, the variables <code>y1</code> and <code>y2</code> below are equivalent.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; 2
@@ -2775,14 +2776,14 @@ y1 &#61; &#40;x &gt; 0&#41;
 y2 &#61; &#33;&#40;x ≤ 0&#41;</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y1</code>    #identical output as &#39;y2&#39;<br/><div class="akin_to_pre">true</div> </div></div> </div>   </details></div>
 <p> <h4> Logical Operators as Short-Circuit Operators </h4><div class="own-anchors"><a name="short-circuit"></a></div></p>
-<p>One key feature of <code>&amp;&amp;</code> and <code>||</code> is that they&#39;re <span style="color: rgb(62, 121, 180);"><strong>short-circuit operators</strong></span>. This means that, once an operand is evaluated, the remaining operands are evaluated only if the previous operands didn&#39;t establish the truth or falseness of the expression. Specifically:</p>
+<p>A key feature of <code>&amp;&amp;</code> and <code>||</code> is that they&#39;re <span style="color: rgb(62, 121, 180);"><strong>short-circuit operators</strong></span>. This means that, once an operand is evaluated, the remaining operands are evaluated only if the previous operands didn&#39;t establish the truth or falseness of the expression. Specifically:</p>
 <div class="itemNoSpace"><ul>
-<li><p><code>&#40;x &gt; 0&#41; || &#40;y &gt; 0&#41;</code><br/> The expression is true when  <em>at least one condition</em> is satisfied. This means that Julia begins by analyzing <code>x &gt; 0</code>. If this expression is true, it immediately returns <code>true</code>, without evaluating any subsequent expression—only if <code>x &gt; 0</code> is false will Julia evaluate <code>y &gt; 0</code>.</p>
+<li><p><code>&#40;x &gt; 0&#41; || &#40;y &gt; 0&#41;</code><br/> This expression is true when  <em>at least one condition</em> is satisfied. Thus, Julia begins by analyzing <code>x &gt; 0</code>. If this expression is true, it immediately returns <code>true</code>, without evaluating any subsequent expression. Only when <code>x &gt; 0</code> is false will Julia evaluate <code>y &gt; 0</code>.</p>
 </li>
-<li><p><code>&#40;x &gt; 0&#41; &amp;&amp; &#40;y &gt; 0&#41;</code><br/> The expression is true if  <em>both conditions</em> are satisfied. Consequently, Julia begins by analyzing <code>x &gt; 0</code>. If this expression is false, it immediately returns <code>false</code>, without evaluating any subsequent expression—only if <code>x &gt; 0</code> is true will Julia evaluate <code>y &gt; 0</code>.</p>
+<li><p><code>&#40;x &gt; 0&#41; &amp;&amp; &#40;y &gt; 0&#41;</code><br/> This expression is true if  <em>both conditions</em> are satisfied. Thus, Julia begins by analyzing <code>x &gt; 0</code>. If this expression is false, it immediately returns <code>false</code>, without evaluating any subsequent expression. Only when <code>x &gt; 0</code> is true will Julia evaluate <code>y &gt; 0</code>.</p>
 </li>
 </ul></div>
-<p>As not all the operands are necessarily evaluated, we might obtain an output even when some operands contain invalid expressions. This is demonstrated in the next example, where we incorporate invalid Julia code as a condition.</p>
+<p>Since not all operands are always evaluated, it&#39;s possible to get a result even if some operands contain invalid expressions. This is shown in the next example, where we include invalid Julia code as a condition.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2809,8 +2810,8 @@ y2 &#61; &#33;&#40;x ≤ 0&#41;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Multiple Conditions</h2></p>
-<p>Note that including parentheses or not with only two conditions is unimportant: expressions like <code>&#40;x &gt; 0&#41; &amp;&amp; &#40;y &gt; 0&#41;</code> and <code>&#40;x &gt; 0&#41; || &#40;y &gt; 0&#41;</code> can always be written as <code>x &gt; 0 &amp;&amp; y &gt; 0</code> and <code>x &gt; 0 || y &gt; 0</code>, without much risk of confusion. </p>
-<p>However, with three or more conditions involved, the interpretation of the statements become too ambiguous, radically modifying the output returned. Before explaining the rules, the following example makes our point clear. </p>
+<p>When working with only two conditions, using parentheses is not crucial. This is because expressions like <code>&#40;x &gt; 0&#41; &amp;&amp; &#40;y &gt; 0&#41;</code> and <code>&#40;x &gt; 0&#41; || &#40;y &gt; 0&#41;</code> can be safely written as <code>x &gt; 0 &amp;&amp; y &gt; 0</code> and <code>x &gt; 0 || y &gt; 0</code>, without much risk of confusion. </p>
+<p>However, when dealing with three or more conditions, the lack of parentheses can lead to ambiguity, radically changing the output returned. The following example illustrates this point.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2837,13 +2838,13 @@ y &#61; 0</code></pre>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>&#40;x &lt; 0 &amp;&amp; y &gt; 4&#41; || &#40;y &lt; 2&#41;</code><br/><div class="akin_to_pre">true</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In the example, the expression without parenthesis is equivalent to the last tab&#39;s, since <code>&amp;&amp;</code> <strong>has higher precedence than</strong> <code>||</code> in Julia. This is a technical way to say in operations where both <code>&amp;&amp;</code> and <code>||</code> are involved, <code>&amp;&amp;</code> will be evaluated first.</p>
-<p>To avoid any confusion, we&#39;ll consistently add parentheses throughout the website. This improves readability and spares us the need to memorize rules.</p>
-<p>The next optional subsection covers Julia&#39;s precedence rule in practice. If you&#39;ll always enclose conditions in parentheses, you can safely skip it, without compromising your understanding of the language.</p>
+<p>In the example, the expression without parenthesis is equivalent to the last tab&#39;s, since <code>&amp;&amp;</code> <strong>has higher precedence than</strong> <code>||</code> in Julia. In other words, when both <code>&amp;&amp;</code> and <code>||</code> are used, <code>&amp;&amp;</code> is evaluated first.</p>
+<p>To avoid confusion when there are more than two conditions, <strong>we'll always add parentheses throughout the website</strong>. This improves readability and spares us the need to memorize specific rules.</p>
+<p>In case you want to know more about it, the next optional subsection covers Julia&#39;s precedence rules in more detail. However, if you&#39;ll consistently enclose conditions in parentheses, you can safely skip it,.</p>
  <h4> Multiple Conditions without Parentheses &#40;<strong><i style="color:red">OPTIONAL</i></strong>&#41; </h4>
-<p>To simplify the exposition, let&#39;s focus on cases with three conditions combined. They&#39;ll be represented through <code>Bool</code> variables <code>a</code>, <code>b</code>, and <code>c</code>. Each variable could be representing expressions like <code>x &gt; 0</code>.</p>
-<p>To understand how Julia groups three conditions stated without parentheses, there are two rules you need to know. The first one is that <code>&amp;&amp;</code> has higher precedence than <code>||</code>. This means that <code>a &amp;&amp; b || c</code> is equivalent to <code>&#40;a &amp;&amp; b&#41; || c</code>, whereas <code>a || b &amp;&amp; c</code> is equivalent to <code>a || &#40;b &amp;&amp; c&#41;</code>. The second one is just that <code>&amp;&amp;</code> and <code>||</code> are  short-circuit operators. Thus, <code>a &amp;&amp; b</code> returns <code>false</code> if its first operand <code>a</code> is false, and the second operand <code>b</code> is never evaluated. Moreover, <code>a || b</code> returns <code>true</code> if the first operand <code>a</code> is true, with the second operand <code>b</code> never evaluated.</p>
-<p>The following diagrams describe the process for evaluating <code>a &amp;&amp; b || c</code> and <code>a || b &amp;&amp; c</code>, based on the two rules mentioned. </p>
+<p>To simplify the explanation, let&#39;s focus on cases with three conditions. These conditions will be represented through <code>Bool</code> variables <code>a</code>, <code>b</code>, and <code>c</code>, with each variable possibly representing expressions like <code>x &gt; 0</code>.</p>
+<p>To understand how Julia groups three conditions without parentheses, there are two rules you need to know. First, <code>&amp;&amp;</code> has higher precedence than <code>||</code>. This means that <code>a &amp;&amp; b || c</code> is equivalent to <code>&#40;a &amp;&amp; b&#41; || c</code>, whereas <code>a || b &amp;&amp; c</code> is equivalent to <code>a || &#40;b &amp;&amp; c&#41;</code>. Second, <code>&amp;&amp;</code> and <code>||</code> are short-circuit operators. Thus, <code>a &amp;&amp; b</code> immediately returns <code>false</code> if its first operand <code>a</code> is false, without evaluating the second operand <code>b</code>. Likewise, <code>a || b</code> returns <code>true</code> if the first operand <code>a</code> is true, without evaluating the second operand <code>b</code>.</p>
+<p>The following diagrams describe the process for evaluating <code>a &amp;&amp; b || c</code> and <code>a || b &amp;&amp; c</code>, based on these two rules. </p>
 <p> <div class="multiple_pics" style="padding-top:2em;">
   <div class="column2">
   <h2 style="color:rgb(63, 99,136);"><span style="text-decoration:underline;">CASE 1:</span><span style="text-transform: lowercase;"> <code>a || b &amp;&amp; c</code> is equivalent to <code>a || &#40;b &amp;&amp; c&#41;</code>  </span></h2>
@@ -2854,7 +2855,7 @@ y &#61; 0</code></pre>
     <img src="/julia_book/assets/PAGES/4a_logical/tikz/diagram01b.svg" style="width:1000px ; height:auto; padding-top:1em;">
   </div>  
 </div> <br/></p>
-<p>To see the rules in actions, let&#39;s go through several examples that combine true/false values for <code>a</code>, <code>b</code>, and <code>c</code>. The examples use the invalid expression <code>does-not-matter</code> to emphasize that some conditions aren&#39;t necessarily evaluated, due to the short-circuit logic of <code>&amp;&amp;</code> and <code>||</code>.</p>
+<p>To illustrate the rules in practice, let&#39;s go through several examples that combine true/false values for <code>a</code>, <code>b</code>, and <code>c</code>. In these examples, we&#39;ll use the invalid expression <code>does-not-matter</code>. This is to emphasize that some conditions aren&#39;t necessarily evaluated thanks to the short-circuit behavior of <code>&amp;&amp;</code> and <code>||</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2875,9 +2876,9 @@ y &#61; 0</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Functions to Check Multiple Conditions: "all" and "any" </h2></p>
-<p>Julia has two built-in functions called <code>all</code> and <code>any</code> to evaluate multiple conditions. The function <code>all</code> returns <code>true</code> if  <em>every condition</em> is true, whereas the function <code>any</code> returns <code>true</code> if  <em>at least one condition</em> holds. Each function specifies the conditions to be evaluated through a vector or function. Instead, representing conditions through multiple separate arguments is disallowed. Next, we cover each case separately.</p>
+<p>Julia provides two built-in functions called <code>all</code> and <code>any</code> to evaluate multiple conditions. They&#39;re defined such that <code>all</code> returns <code>true</code> if  <em>every condition</em> is true, whereas <code>any</code> returns <code>true</code> if  <em>at least one condition</em> is true. The syntax of the functions <strong>requires specifying the conditions through a vector or function</strong>, and do not support passing conditions as separate arguments. Next, we cover each case separately.</p>
  <h4> Vectors for Representing Multiple Conditions </h4>
-<p>In the following, we demonstrate the syntax of <code>all</code> and <code>any</code> when they take a vector as their argument. The examples are based on the conditions <code>a&gt;0</code> and <code>b&gt;0</code> for some scalars <code>a</code> and <code>b</code>. </p>
+<p>In the following, we demonstrate the syntax of <code>all</code> and <code>any</code> when they take a vector as their argument. The examples use the conditions <code>a&gt;0</code> and <code>b&gt;0</code>, where <code>a</code> and <code>b</code> are scalars.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">a &#61;  1
 b &#61; -1
@@ -2888,9 +2889,8 @@ are_all_positive &#61; all&#40;&#91;a &gt; 0, b &gt; 0&#93;&#41;
 # function indicating whether at least one element satisfies the condition
 is_one_positive  &#61; any&#40;&#91;a &gt; 0, b &gt; 0&#93;&#41;</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>are_all_positive</code><br/><div class="akin_to_pre">false</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>is_one_positive</code><br/><div class="akin_to_pre">true</div> </div></div> </div>   </details></div>
-<p>The function <code>all</code> returns <code>true</code> when all the conditions contained in the vector are satisfied. In the example, this means that all the vector&#39;s elements should be positive, which doesn&#39;t hold since <code>b &#61; -1</code>. Conversely, <code>any</code> returns <code>true</code> when at least one of the conditions contained in the vector hold. This implies that at least one of the element&#39;s vector is positive, which is satisfied due to <code>a &#61; 1</code>.</p>
-<p>The syntax of <code>all</code> and <code>any</code> doesn&#39;t allow for expressing multiple conditions through multiple arguments. In other words, expressions like <code>all&#40;a &gt; 0, b &gt; 0&#41;</code> are not permitted. Instead, the functions necessarily require a vector. </p>
-<p>This feature actually makes the functions more versatile, <strong>enabling the use of broadcasting operations for checking multiple conditions</strong>. For instance, the following code snippet implements the same operations as above, but through a vector <code>x</code>.</p>
+<p>The function <code>all</code> returns <code>true</code> only when all the conditions are satisfied, thus requiring that each vector&#39;s entry is positive. In the example, this doesn&#39;t hold since <code>b &#61; -1</code>. Conversely, <code>any</code> returns <code>true</code> when at least one of the conditions holds, thus requiring at least one of the element&#39;s vector to be positive. In the example, this is satisfied since <code>a &#61; 1</code>.</p>
+<p>As we indicated, <code>all</code> and <code>any</code> do not support passing multiple conditions as separate arguments. This entails that expressions like <code>all&#40;a &gt; 0, b &gt; 0&#41;</code> aren&#39;t allowed. Nevertheless, this restriction actually makes the functions more flexible, as they <strong>enable the use of broadcasting operations for checking multiple conditions</strong>. For example, the following code snippet implements the same operations as above, but through a vector <code>x</code>.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;1, -1&#93;
 
@@ -2898,14 +2898,14 @@ are_all_positive &#61; all&#40;x .&gt; 0&#41;
 is_one_positive  &#61; any&#40;x .&gt; 0&#41;</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>are_all_positive</code><br/><div class="akin_to_pre">false</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>is_one_positive</code><br/><div class="akin_to_pre">true</div> </div></div> </div>   </details></div>
  <h4> Functions for Representing Multiple Conditions </h4>
-<p>In addition to expressing conditions through vectors, <code>all</code> and <code>any</code> accept <strong>passing a function to represent the condition to check</strong>. The syntax then becomes <code>all&#40;&lt;function&gt;, &lt;array&gt;&#41;</code> and <code>any&#40;&lt;function&gt;, &lt;array&gt;&#41;</code>, where <code>&lt;function&gt;</code> can be an anonymous function. The following examples implement <code>all&#40;x .&gt; 0&#41;</code> and <code>any&#40;x .&gt; 0&#41;</code> as in the last example, but using this approach.</p>
+<p>In addition to expressing conditions through vectors, <code>all</code> and <code>any</code> accept <strong>passing a function to represent the condition to check</strong>. The syntax for this is <code>all&#40;&lt;function&gt;, &lt;array&gt;&#41;</code> and <code>any&#40;&lt;function&gt;, &lt;array&gt;&#41;</code>, where <code>&lt;function&gt;</code> can be an anonymous function. The following examples demonstrate how to implement <code>all&#40;x .&gt; 0&#41;</code> and <code>any&#40;x .&gt; 0&#41;</code> using this approach.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;1, -1&#93;
 
 are_all_positive &#61; all&#40;i -&gt; i &gt; 0, x&#41; 
 is_one_positive  &#61; any&#40;i -&gt; i &gt; 0, x&#41;</code></pre>
 <p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>are_all_positive</code><br/><div class="akin_to_pre">false</div> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>is_one_positive</code><br/><div class="akin_to_pre">true</div> </div></div> </div>   </details></div>
-<p>By using a function as the argument, <code>all</code> and <code>any</code> can also be applied <strong>to assess the same condition on multiple vectors</strong>. This is achieved by broadcasting <code>all</code> and <code>any</code>.</p>
+<p>By passing a function as an argument, <code>all</code> and <code>any</code> can also be used <strong>to evaluate the same condition across multiple vectors</strong>. This is achieved by broadcasting <code>all</code> and <code>any</code>.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;1, -1&#93;
 y &#61; &#91;1,  1&#93;
@@ -2939,7 +2939,7 @@ is_one_positive  &#61; any.&#40;i -&gt; i &gt; 0, &#91;x,y&#93;&#41;</code></pre
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 8, 2024 
+          © Martin Alfaro <br>Last Modified September 9, 2024 
       </span> 
   </div> 
 </footer>
