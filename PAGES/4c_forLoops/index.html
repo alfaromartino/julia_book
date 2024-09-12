@@ -2943,10 +2943,10 @@ y      &#61; &#91;foo&#40;a&#41; for a in x&#93;          # or y &#61; &#91;foo&
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Multiple Iterations</h2></p>
-<p>Thus far, we&#39;ve considered for-loops that iterate over single values. We now extend their application to <strong>iterate over multiple values</strong>. Specifically, we&#39;ll examine two key scenarios: iterating simultaneously over two lists and iterating over both the indices and values of a vector.</p>
+<p>Thus far, we&#39;ve considered for-loops that iterate over single values. We now extend their application to <strong>iterate over multiple values</strong>. Specifically, we&#39;ll examine two scenarios: iterating simultaneously over two lists and iterating over both the indices and values of a vector.</p>
  <h4> Iterating over Two Lists </h4>
-<p>Depending on the combination of elements aimed, there are two ways to simultaneously iterate over two lists <code>x</code> and <code>y</code>. First, if you seek to iterate over all the possible combinations of their elements, you need the function <code>Iterators.product&#40;x,y&#41;</code>, where the package <code>Iterators</code> is &quot;imported&quot; by default in each Julia session.</p>
-<p>Alternatively, you can iterate over all the ordered pairs of <code>x</code> and <code>y</code>, where each iteration considers the  <em>i</em>-th element of <code>x</code> and <code>y</code>. This operation requires the function <code>zip&#40;x,y&#41;</code>. </p>
+<p>There are two ways to simultaneously iterate over two lists <code>x</code> and <code>y</code>, depending on the combination of elements desired. First, if you seek to iterate over all the possible combinations of their elements, you need the function <code>Iterators.product&#40;x,y&#41;</code>. This is part of the package <code>Iterators</code>, which is imported by default in each Julia session.</p>
+<p>Alternatively, you can iterate over all the ordered pairs of elements from <code>x</code> and <code>y</code>. This is implemented through the function <code>zip&#40;x,y&#41;</code>. In this case, each iteration will consider the pair of  <em>i</em>-th elements from <code>x</code> and <code>y</code>, </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2978,7 +2978,7 @@ end</code></pre>
 [2,4]</div></div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Array comprehensions provide another way to iterate over multiple values. In particular, by using multiple <code>for</code> clauses in the comprehension, it&#39;s possible to generate all possible combinations of two lists. Alternatively, the <code>zip</code> function enables you to iterate over pairs of elements.</p>
+<p>It&#39;s also possible to iterate over multiple values via array comprehensions. While iteration over pairs still requires the function <code>zip</code>, iterating over all possible combinations can be achieved with a simpler syntax. This involves the inclusion of mutiple <code>for</code> clauses within the comprehension.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3003,7 +3003,7 @@ end</code></pre>
  </div></div>
 <p>  </p></details></div>
  <h4> Simultaneously Iterating over Indices and Values </h4>
-<p>Given a vector <code>x</code>, we can also iterate over each pair of index-value. This is implemented through the function <code>enumerate</code>.</p>
+<p>We can also iterate over each pair of index-value of a vector. This is implemented through the function <code>enumerate</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3040,7 +3040,7 @@ y &#61; &#91;index * value for &#40;index,value&#41; in enumerate&#40;x&#41;&#93
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Iterating over Functions</h2><a id="iterate_functions" class="anchor"></a></p>
-<p>Functions in Julia are <span style="color: rgb(62, 121, 180);"><strong>first-class objects</strong></span>. This means that they can be manipulated similarly to other fundamental data types, such as strings and numbers. This feature allows us todefine a vector of functions and apply each of them to an object. In the following example, we illustrate this particularly use by providing descriptive statics for a vector <code>x</code>.</p>
+<p>Functions in Julia are <span style="color: rgb(62, 121, 180);"><strong>first-class objects</strong></span>. This means that they can be manipulated in a similar manner to other fundamental data types, such as strings and numbers. This feature allows us to define a vector of functions, to eventually apply each to an object. In the following example, we illustrate this use to provide descriptive statics of a vector <code>x</code>.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">using Statistics    # loaded to access the function &#96;mean&#96; and &#96;median&#96;
 
