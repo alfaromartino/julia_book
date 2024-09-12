@@ -2653,8 +2653,7 @@ end</code></pre>
 <ul>
 <li><p><strong>An iteration variable</strong>: represented in the example by <code>x</code>. This serves as a label that takes on the value of each element in the list, one at a time, as the loop iterates. The iteration variable is a local variable, with no significance outside the for-loop. Its sole purpose is to provide a convenient way to access and manipulate the elements of the list within the loop.</p>
 </li>
-</ul>
-<p>The iteration variable</p></div>
+</ul></div>
 <br/>
 <p>The following sections will demonstrate how different objects can be employed as lists. We&#39;ll also show that for-loops can iterate over elements that may not be immediately apparent, such as functions.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
@@ -2811,8 +2810,8 @@ end</code></pre>
 <p>Similar to functions, for-loops create a new scope for variables. In fact, the scoping rules for both are similar, with one key difference: <strong>for-loops can modify global variables, whereas functions cannot</strong>.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     The rules of variable scope we present apply generally, with one exception that arises from following bad practices. Since this case is rare, we won&#39;t cover its scoping rules.</p>
-<p>Basicelly, the issue occurs when  <em>i)</em> the for-loop is  <em>not</em> wrapped in a function,  <em>ii)</em> a local variable shares its name with a global variable, and  <em>iii)</em> the script is run non-interactively &#40;i.e., run by using the function <code>include</code>&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that there are two methods to execute a script, as we saw <a href="/julia_book/PAGES/1b_basics/">here</a>. The first method is the one we&#39;re using, where you work interactively with Julia. This includes running commands in the REPL&#39;s prompt <code>julia&gt;</code>and the execution of a script through a code editor. The second method consists of executing a file that stores a script, through the function <code>include</code>.  </span></span> </p>
+      <b>Warning!</b> </span>  </div>  <div class=content>     The rules of variable scope we present apply generally, with one exception that arises from following bad practices. Since this case is rare, we won&#39;t cover it.</p>
+<p>Basically, the issue occurs when  <em>i)</em> the for-loop is  <em>not</em> wrapped in a function,  <em>ii)</em> a local variable shares its name with a global variable, and  <em>iii)</em> the script is run non-interactively &#40;i.e., run by using the function <code>include</code>&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that there are two methods to execute a script, as we saw <a href="/julia_book/PAGES/1b_basics/">here</a>. The first method is the one we&#39;re using, where you work interactively with Julia. This includes running commands in the REPL&#39;s prompt <code>julia&gt;</code>and the execution of a script through a code editor. The second method consists of executing a file that stores a script, through the function <code>include</code>.  </span></span> </p>
 <p>Unless the three conditions hold simultaneously, you don&#39;t have to worry about this scenario. And even if this occurs, Julia will display a warning in the REPL indicating that there&#39;s a problem with your code.  </div>  </div>
 <p>To formalize the variable scope of for-loops, we&#39;ll refer to a variable <code>x</code>. The rules governing its scope are:</p>
 <div class="itemNoSpace"><ul>
@@ -3074,7 +3073,7 @@ descriptive&#40;vector,list&#41; &#61; &#91;foo&#40;vector&#41; for foo in list&
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 11, 2024 
+          © Martin Alfaro <br>Last Modified September 12, 2024 
       </span> 
   </div> 
 </footer>
