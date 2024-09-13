@@ -2595,7 +2595,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>A prerequisite for mutating vectors is to identify the specific elements to be modified. This process is known as <strong>vector indexing</strong>. We&#39;ve already covered basic indexing methods, such as selecting elements through vectors and ranges &#40;e.g., <code>x&#91;&#91;1,2,3&#93;&#93;</code> or <code>x&#91;1:3&#93;</code>&#41;. While these approaches are effective for simple selections, they fall short for selecting multiple elements based on certain conditions. This section expands our toolbox by presenting more advanced forms of indexing, which build upon broadcasting and Boolean operations.</p>
+<p>Mutating vectors requires first identifying the specific elements to be modified. This process is known as <strong>vector indexing</strong>, and we&#39;ve already covered basic indexing methods based on vectors and ranges &#40;e.g., <code>x&#91;&#91;1,2,3&#93;&#93;</code> or <code>x&#91;1:3&#93;</code>&#41;. While these approaches are effective for simple selections, they fall short for more complex scenarios, such as selecting elements based on conditions. </p>
+<p>This section expands our toolkit by introducing more advanced forms of indexing. The techniques primarily build on broadcasting and Boolean operations.</p>
 <p>      </div>
     </div>
   </div>
@@ -2605,8 +2606,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Logical Indexing</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Logical indexing</strong></span>, also known as  <em>Boolean indexing</em> or  <em>masking</em>, enables the user to select elements based on a set of conditions. Unlike traditional indexing methods that rely on positions, logical indexing enables you to choose elements based on their properties. </p>
-<p>The functionality is implemented through a Boolean vector to filter elements, where <code>true</code> keeps an element and <code>false</code> discards it. Formally, consider a vector <code>x</code> and a Boolean vector <code>y</code> of the same length. Then, <code>x&#91;y&#93;</code> will return a new vector containing the elements from <code>x</code> where the corresponding element of <code>y</code> is true. In other words, it filters out any elements where <code>y</code> is false. The following example illustrates its use.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Logical indexing</strong></span>, also known as  <em>Boolean indexing</em> or  <em>masking</em>, enables the user to select elements based on a set of conditions. The functionality is implemented through a Boolean vector <code>y</code> of the same length as <code>x</code> that serves as a filter. Specifically, the expression <code>x&#91;y&#93;</code> will return a new vector, where <code>true</code> retains the element and <code>false</code> discards it.  The following example illustrates its use.</p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;1,2,3&#93;
 y &#61; &#91;true, false, true&#93;</code></pre>
@@ -2622,8 +2622,8 @@ y &#61; &#91;true, false, true&#93;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Boolean Functions and Operators for Logical Indexing</h2></p>
-<p>The real strength of logical indexing stems from its ability to build Boolean vectors through broadcasting functions and operators. This feature makes it possible to state complex conditional statements easily.</p>
-<p>The following examples implement these approaches, by selecting <code>x</code>&#39;s elements that are lower than 10.</p>
+<p>The power of logical indexing stems from the possibility of broadcasting operators and functions to build Boolean vectors. This feature makes it possible to state complex conditional statements easily.</p>
+<p>For instance, the following code snippets leverages broadcasting to select <code>x</code>&#39;s elements that are lower than 10.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2643,8 +2643,8 @@ y &#61; x&#91;x .&lt; 10&#93;</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;1, 2, 3, 100, 200&#93;
 
-criterion&#40;a&#41; &#61; &#40;a &lt; 10&#41;             #function to eventually broadcast
-y            &#61; x&#91;criterion.&#40;x&#41;&#93;</code></pre>
+condition&#40;a&#41; &#61; &#40;a &lt; 10&#41;             #function to eventually broadcast
+y            &#61; x&#91;condition.&#40;x&#41;&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  1
@@ -2652,31 +2652,34 @@ y            &#61; x&#91;criterion.&#40;x&#41;&#93;</code></pre>
  3</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Note that the conditions comprised by <code>x .&lt; 10</code> are identical to <code>criterion.&#40;x&#41;</code>. An approach based on functions like the latter is particularly useful when dealing with multiple conditions. It facilitates the combination of conditions, which require the operators <code>&amp;&amp;</code> and <code>||</code> introduced in <a href="/julia_book/PAGES/5b_conditionals/">Conditional Statements</a>.</p>
-<p>To illustrate their use, let&#39;s create two vectors:  <em>i)</em> one containing all elements in <code>x</code> except its extrema &#40;i.e., the minimum and maximum values&#41;, and  <em>ii)</em> one comprising only the extrema of <code>x</code>. We&#39;ll achieve this by utilizing the built-in <code>maximum</code> and <code>minimum</code> functions.</p>
+<p>Each condition in <code>x .&lt; 10</code> is equivalent to <code>condition.&#40;x&#41;</code>, making the two methods interchangeable. However, when dealing with multiple conditions, we must combine conditions expressed through the logical operators <code>&amp;&amp;</code> and <code>||</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The logical operators <code>&amp;&amp;</code> and <code>||</code> were introduced in <a href="/julia_book/PAGES/4b_conditionals/">the section about conditional statements</a>  </span></span>. This has direct implications for readability, as the use of broadcasting operators can result in verbose code, due to the repeated dots in their syntax. This contrasts with the approach based a function, which minimizes boilerplate code, as the following example shows. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id="">Selecting All But Extrema</button>
-    <button class="tablink" data-id=""> Only Selecting Extrema</button>    
+        <button class="tablink first_tab active" data-id="">Indexing through a Broadcast Operator</button>
+    <button class="tablink" data-id=""> Indexing through a Broadcast Function</button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;1, 2, 3, 4, 5&#93;</code></pre>
+<pre><code class="language-julia">x &#61; &#91;3, 6, 8, 100&#93;
+
+# numbers greater than 5, lower than 10, but not including 8
+y &#61; x&#91;&#40;x .&gt; 5&#41; .&amp;&amp; &#40;x .&lt; 10&#41; .&amp;&amp; &#40;x .≠ 8&#41;&#93;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x&#91;&#40;x .≠ minimum&#40;x&#41;&#41; .&amp;&amp; &#40;x .≠ maximum&#40;x&#41;&#41;&#93;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
- 2
- 3
- 4</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">1-element Vector{Int64}:
+ 6</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;1, 2, 3, 4, 5&#93;</code></pre>
+<pre><code class="language-julia">x &#61; &#91;3, 6, 7, 8, 100&#93;
+
+# numbers greater than 5, lower than 10, but not including 8
+condition&#40;a&#41; &#61; &#40;a &gt; 5&#41; &amp;&amp; &#40;a &lt; 10&#41; &amp;&amp; &#40;a ≠ 8&#41;           #function to eventually broadcast
+y            &#61; x&#91;condition.&#40;x&#41;&#93;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x&#91;&#40;x .&#61;&#61; minimum&#40;x&#41;&#41; .|| &#40;x .&#61;&#61; maximum&#40;x&#41;&#41;&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
- 1
- 5</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">1-element Vector{Int64}:
+ 6</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Note that both <code>≠</code> and <code>&amp;&amp;</code> must be broadcasted in the example, as well as <code>&#61;&#61;</code> and <code>||</code>. The reason is that these operators only apply to scalars, and therefore their use for vectors must be element-wise. </p>
+<p>Note that all operators must be broadcasted when stating the condition. This includes <code>&amp;&amp;</code>, which is a  <em>scalar</em> operator, and hence must be applied element-wise. </p>
 <p>      </div>
     </div>
   </div>
@@ -2688,7 +2691,7 @@ y            &#61; x&#91;criterion.&#40;x&#41;&#93;</code></pre>
         <h2>Logical Indexing Through "in" and "∈" </h2></p>
 <p> <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     We employ the following symbols, which can be added through Tab Completion:</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     The symbols used in this section, <code>∈</code> and <code>∉</code>, can be inserted through Tab Completion:</p>
 <ul>
 <li><p><code>∈</code> by <code>\in</code> </p>
 </li>
@@ -2696,10 +2699,10 @@ y            &#61; x&#91;criterion.&#40;x&#41;&#93;</code></pre>
 </li>
 </ul>
 
-<p>Another common approach for selecting elements of a vector involves <code>in</code> and <code>∈</code>. Both are available as functions and operators, and were already introduced <a href="/julia_book/4d_vectorizing/#broadcasting_binary_operators_only_one_vector_broadcasted">here</a>. Their primary purpose is to determine whether an element belongs to a set.</p>
-<p>To explain their application in logical indexing, let&#39;s consider a vector <code>x</code> from which we want to select specific elements. Suppose in particular that we want to retain the numbers contained in <code>set_numbers</code>. </p>
-<p>Logical indexing requires broadcasting <code>in</code> or <code>∈</code>. However, standard broadcasting would entail simultaneously iterating over <code>x</code> and <code>set_numbers</code>, when we actually would like to iterate only over <code>x</code>. Therefore, we need to indicate that <code>set_numbers</code> should be treated as a single object. This can be done in different ways, as we saw <a href="/julia_book/4d_vectorizing/#broadcasting_binary_operators_only_one_vector_broadcasted">here</a>. In particular, we&#39;ll employ the method based on <code>Ref&#40;set_numbers&#41;</code>. </p>
-<p>The following example demonstrates how to use <code>in</code> and <code>∈</code> to select the minimum and maximum of <code>x</code>.</p>
+<p>To select elements of a vector through logical indexing, another approach involves the use of <code>in</code> and <code>∈</code>. Each of these symbols is available as a function and an operator, and they determine whether an element belongs to a given set. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> <code>in</code> and <code>∈</code> were <a href="/julia_book/4d_vectorizing/#broadcasting_binary_operators_only_one_vector_broadcasted">introduced here</a>.  </span></span></p>
+<p>When using these functions with broadcasting, there&#39;s an important caveat to consider. As introduced in the section on <a href="/julia_book/3d_vectorizing/#broadcasting_over_one_argument_only">broadcasting over one argument only</a>, we need to be mindful of how broadcasting behaves when the function takes multiple arguments.</p>
+<p>To demonstrate their use, let&#39;s consider a vector <code>x</code> from which we want to select specific elements. Suppose in particular that your goal is to retain the numbers contained in <code>set_numbers</code>.  If we use either <code>in.&#40;x, set_numbers&#41;</code> or <code>x ∈. set_numbers</code>, Julia will simultaneously iterate over each pair of <code>x</code> and <code>set_numbers</code>. However, this isn&#39;t the desired operation. Rather, our goal is to check whether each element of <code>x</code> belongs to <code>set_numbers</code>. This requires us treating <code>set_numbers</code> as a single object, which can be achieved via <code>Ref&#40;set_numbers&#41;</code>. </p>
+<p>Considering this, the following example demonstrates how to properly use <code>in</code> and <code>∈</code>. The scenario supposes that the aim is to create a vector <code>y</code>, which contains the minimum and maximum of the vector <code>x</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2710,16 +2713,18 @@ y            &#61; x&#91;criterion.&#40;x&#41;&#93;</code></pre>
 <pre><code class="language-julia">x           &#61; &#91;-100, 2, 4, 100&#93;
 set_numbers &#61; &#91;minimum&#40;x&#41;, maximum&#40;x&#41;&#93;
 
-#identical vectors for logical indexing
-bool_indices &#61; in.&#40;x, Ref&#40;set_numbers&#41;&#41;          #&#96;Ref&#40;set_numbers&#41;&#96; can be replaced by &#96;&#40;set_numbers,&#41;&#96;
-bool_indices &#61; &#40;∈&#41;.&#40;x,Ref&#40;set_numbers&#41;&#41;</code></pre>
+# logical indexing &#40;both versions are equivalent&#41;
+bool_indices &#61; in.&#40;x, Ref&#40;set_numbers&#41;&#41;    #&#96;Ref&#40;set_numbers&#41;&#96; can be replaced by &#96;&#40;set_numbers,&#41;&#96;
+bool_indices &#61; &#40;∈&#41;.&#40;x,Ref&#40;set_numbers&#41;&#41;
+
+y            &#61; x&#91;bool_indices&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
  1
  0
  0
  1</div> </div></p>
-<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>a&#91;bool_indices&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  -100
   100</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
@@ -2727,39 +2732,43 @@ bool_indices &#61; &#40;∈&#41;.&#40;x,Ref&#40;set_numbers&#41;&#41;</code></pr
 <pre><code class="language-julia">x           &#61; &#91;-100, 2, 4, 100&#93;
 set_numbers &#61; &#91;minimum&#40;x&#41;, maximum&#40;x&#41;&#93;
 
-#vector for logical indexing
-bool_indices &#61; x .∈ Ref&#40;set_numbers&#41;            #not possible to broadcast &#96;in&#96; as far as I know</code></pre>
+# logical indexing
+bool_indices &#61; x .∈ Ref&#40;set_numbers&#41;       #only option, not possible to broadcast &#96;in&#96;
+
+
+y            &#61; x&#91;bool_indices&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
  1
  0
  0
  1</div> </div></p>
-<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x&#91;bool_indices&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  -100
   100</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     The function <code>in</code> has a &quot;curried&quot; version, allowing the user to broadcast <code>in</code> without relying on the expression <code>Ref&#40;set_numbers&#41;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> See <a href="/julia_book/4d_vectorizing/#currying_optional">here</a> for currying techniques  </span></span>. Specifically, it makes it possible broadcast <code>in</code> through <code>in&#40;set_numbers&#41;.&#40;x&#41;</code>, as the example below shows.</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     The <code>in</code> function has an alternative &quot;curried&quot; version, allowing the user to broadcast <code>in</code> without relying on the expression <code>Ref&#40;set_numbers&#41;</code>. Currying techniques were introduced <a href="/julia_book/4d_vectorizing/#currying_optional">here</a>, and they broadcast <code>in</code> through <code>in&#40;set_numbers&#41;.&#40;x&#41;</code>, as in the example below.</p>
 <p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x           &#61; &#91;2, 4, 100&#93;
 set_numbers &#61; &#91;minimum&#40;x&#41;, maximum&#40;x&#41;&#93;
 
-#vector for logical indexing
-bool_indices &#61; x&#91;in&#40;set_numbers&#41;.&#40;x&#41;&#93;       #curried version, no need to use &#96;Ref&#40;set_numbers&#41;&#96;</code></pre>
+#logical indexing
+bool_indices &#61; x&#91;in&#40;set_numbers&#41;.&#40;x&#41;&#93;   #no need to use &#96;Ref&#40;set_numbers&#41;&#96;
+y            &#61; x&#91;bool_indices&#93;</code></pre>
 <p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>bool_indices</code><br/><div class="akin_to_pre">4-element BitVector:
  1
  0
  0
- 1</div> </div><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x&#91;bool_indices&#93;</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
+ 1</div> </div><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  -100
   100</div> </div></div> </div>   </details></div>  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     The functions and operators <code>in</code> and <code>∈</code> allow for negated versions, <code>&#33;in</code> and <code>∉</code> &#40;equivalent to <code>&#33;∈</code>&#41;, which select elements  <em>not</em> belonging to a set. </p>
-<p>In the example below, they&#39;re used to keep those elements of <code>x</code> that are not its minimum or maximum. </p>
+<p>In the example below, these versions are applied to retain the elements of <code>x</code> that are neither its minimum nor its maximum. </p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2804,13 +2813,13 @@ bool_indices &#61; x .∉ Ref&#40;set_numbers&#41;</code></pre>
     </div>
   </div>
 </section>
-<section id="functions_to_select_elements" class="scrollspy section-bg-color">
+<section id="the_functions_findall_and_filter" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Functions to Select Elements</h2></p>
-<p>We close this section with two functions that select elements from a vector based on a condition: <code>findall</code> and <code>filter</code>. </p>
-<p>The function <code>findall</code> returns the  <em>indices</em> of a vector <code>x</code> that meet a condition. It can be implemented by specifying the condition in two different ways:  <em>i</em>&#41; through a function, and  <em>ii</em>&#41; through a Boolean vector. The following example illustrates both approaches, where we show what the function does and how to use its output for selecting elements.</p>
+        <h2>The Functions "findall" and "filter"</h2></p>
+<p>We close this section with two additional methods to select elements from a vector. They&#39;re provided by the functions <code>findall</code> and <code>filter</code>. </p>
+<p>The function <code>findall</code> returns the  <em>indices</em> of a vector <code>x</code> that satisfy a given condition. The condition can be embedded in two ways: through a function that returns a Boolean scalar, or by directly passing a Boolean vector. The following example illustrates both approaches.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2844,7 +2853,7 @@ z &#61; x&#91;findall&#40;x .&gt; 7&#41;&#93;</code></pre>
  9</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The second function is <code>filter</code>, which returns the  <em>elements</em> of a vector <code>x</code> that meet a condition. Despite what the name suggests, <code>filter</code> keeps elements rather than discarding them. It works similarly to <code>findall</code>, with the difference that it directly returns the elements, rather than the indices. Moreover, it requires passing both a function and a vector to implement it.</p>
+<p>The other function is <code>filter</code>, which returns the  <em>elements</em> of a vector <code>x</code> that satisfy a given condition. Despite what the name suggests, <code>filter</code> actually retain these elements, rather than discarding them. Similarly to <code>findall</code>, the condition in <code>filter</code> can be passed through a function or vector. In fact, the only difference between the functions is that <code>filter</code> returns the actual elements that meet the condition, whereas <code>findall</code> returns their corresponding indices.</p>
  <div class=" code_box"> <details  open><summary> Function filter  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;5,6,7,8,9&#93;
 
@@ -2874,7 +2883,7 @@ y &#61; filter&#40;a -&gt; a &gt; 7, x&#41;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 12, 2024 
+          © Martin Alfaro <br>Last Modified September 13, 2024 
       </span> 
   </div> 
 </footer>
@@ -3454,7 +3463,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#functions_to_select_elements" data-offset="-40">Functions to Select Elements</a>
+          <a href="#the_functions_findall_and_filter" data-offset="-40">The Functions "findall" and "filter"</a>
         </li>
         
       </ul>
