@@ -2595,12 +2595,12 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Defining Mutability</h2></p>
-<p>Objects in programming can be broadly classified into two categories: mutable and immutable. <span style="color: rgb(62, 121, 180);"><strong>Mutable objects</strong></span> are designed to be flexible, allowing their constituting elements to be modified, appended, or removed at will. A prime example of mutable objects is <strong>vectors</strong>, which can be transformed as needed. </p>
-<p>In contrast, <span style="color: rgb(62, 121, 180);"><strong>immutable objects</strong></span> are inherently unchangeable, prohibiting any additions, removals, or modifications to their elements. This immutability effectively locks variables into a read-only state, ensuring code safety by providing a safeguard against unintended changes. An additional benefit of mutability is that it can potentially lead to performance gains. Common examples of immutable objects include <strong>tuples</strong>, which remain unchanged once created. </p>
-<p>The section is relatively brief, and only aims to highlight the differences between mutable and immutable objects. The upcoming sections will expand on their use and properties.</p>
+<p>Objects in programming can be broadly classified into two categories: mutable and immutable. <span style="color: rgb(62, 121, 180);"><strong>Mutable objects</strong></span> are designed to be flexible, allowing their elements to be modified, appended, or removed at will. A prime example of mutable objects is <strong>vectors</strong>.</p>
+<p>In contrast, <span style="color: rgb(62, 121, 180);"><strong>immutable objects</strong></span> are inherently unchangeable: they prevent any additions, removals, or modifications of their elements. This immutability effectively locks variables into a read-only state, safeguarding against unintended changes. Additionally, it can potentially lead to performance enhancements. Common examples of immutable objects include <strong>tuples</strong>, which remain fixed once created. </p>
+<p>This section will be relatively brief, focusing solely on the distinctions between mutable and immutable objects. Subsequent sections will expand on their uses and properties.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     A popular package called <code>StaticArrays</code> provides an implementation of <strong>immutable vectors</strong>. We&#39;ll explore this package when we discuss high performance, as it significantly accelerates computations involving small vectors.  </div>  </div>
+      <b> Remark</b> </span>  </div>  <div class=content>     A popular package called <code>StaticArrays</code> provides an implementation of <strong>immutable vectors</strong>. We&#39;ll explore this package in the context of high performance, as it greatly speeds up computations that involve small vectors.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2610,7 +2610,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Examples of Mutability and Immutability</h2></p>
-<p>The following examples show what occurs when we attempt to modify existing elements of mutable and immutable objects. The examples are based on vectors, tuples, and a more nuanced example: strings. Since strings are essentially sequences of characters, their immutability implies that individual characters can&#39;t be changed.</p>
+<p>To illustrate the consequences of immutability, the following examples attempt to modify existing elements of a collection. The examples use vectors as an example of mutability and tuples as an example of immutability. Additionally, we present the case of strings, which is a more nuanced example of immutability. Since strings are essentially sequences of characters, their immutability means that individual characters can’t be altered.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2639,7 +2639,7 @@ color: white;
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x&#91;1&#93; &#61; &quot;a&quot;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching setindex!(::String, ::Int64, ::Int64)</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Mutability may also allow for the dynamic removal and addition of elements, although this isn&#39;t a required feature. <a href="/julia_book/PAGES/5bc_initializing/#adding_removing_and_replacing_elements_optional">In a later section</a>, we&#39;ll provide several approaches to implementing this functionality. Here, we only show the possibility through the functions <code>push&#33;</code> and <code>pop&#33;</code>, which respectively add and remove one element at the end. </p>
+<p>The key characteristic of mutable objects is their ability to modify existing elements. Moreover, mutability also commonly allows for the dynamic addition and removal of elements. <a href="/julia_book/PAGES/5c_initializing/#adding_removing_and_replacing_elements_optional">In a subsequent section</a>, we&#39;ll present various methods for implementing this functionality. For now, we simply demonstrate the concept by using the functions <code>push&#33;</code> and <code>pop&#33;</code>, which respectively add and remove an element at the end of a collection.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2650,7 +2650,7 @@ color: white;
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;3,4&#93;
 
-push&#33;&#40;x, 5&#41;    # add element 5 at the end</code></pre>
+push&#33;&#40;x, 5&#41;       # add element 5 at the end</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  3
@@ -2660,7 +2660,7 @@ push&#33;&#40;x, 5&#41;    # add element 5 at the end</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;3,4,5&#93;
 
-pop&#33;&#40;x&#41;          # delete last element</code></pre>
+pop&#33;&#40;x&#41;           # delete last element</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">2-element Vector{Int64}:
  3
@@ -2669,9 +2669,9 @@ pop&#33;&#40;x&#41;          # delete last element</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#40;3,4,5&#41;
 
-pop&#33;&#40;x&#41;                 # error, just like push&#33;&#40;x, &lt;some element&gt;&#41;</code></pre>
+pop&#33;&#40;x&#41;           # error, just like push&#33;&#40;x, &lt;some element&gt;&#41;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching pop&#33;&#40;::Tuple&#123;Int64, Int64, Int64&#125;&#41; </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching pop!(::Tuple{Int64, Int64, Int64})</div></div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
