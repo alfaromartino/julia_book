@@ -1,8 +1,8 @@
 ####################################################
 #	PACKAGE ENVIRONMENT
 ####################################################
-# This code allows you to reproduce the code with the exact package versions used when writing this note.
-# It requires having all files (allCode_withPkgEnvironment.jl, Manifest.toml, and Project.toml) in the same folder.
+# This code allows you to reproduce the code with the exact package versions used on the website.
+# It requires having all files in the same folder (allCode_withPkgEnvironment.jl, Manifest.toml, and Project.toml).
 
 import Pkg
 Pkg.activate(@__DIR__)
@@ -12,16 +12,9 @@ Pkg.instantiate() #to install the packages
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# For more accurate benchmarks, we interpolate variable `x` as in `foo($x)`
+# for more accurate results, we perform benchmarks through functions and interpolate each variable.
+# this means that benchmarking a function `foo(x)` should be `foo($x)`
 using BenchmarkTools
-
-
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
  
 #############################          NUMBERS           #########################################
 ####################################################

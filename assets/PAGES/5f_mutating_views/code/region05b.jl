@@ -1,4 +1,5 @@
-x  = [-1, -2, 1, 2]
+x          = [-2, -1, 1]
 
-y  = x[x .< 0]              # `y` is a new object
-y .= 0                      # this does NOT modify `x`
+slice      = view(x, x .< 0)            # or slice = @view x[x .< 0]
+slice     .= 0
+print_asis(x) #hide

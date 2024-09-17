@@ -1,8 +1,8 @@
 ####################################################
 #	PACKAGE ENVIRONMENT
 ####################################################
-# This code allows you to reproduce the code with the exact package versions used when writing this note.
-# It requires having all files (allCode_withPkgEnvironment.jl, Manifest.toml, and Project.toml) in the same folder.
+# This code allows you to reproduce the code with the exact package versions used on the website.
+# It requires having all files in the same folder (allCode_withPkgEnvironment.jl, Manifest.toml, and Project.toml).
 
 import Pkg
 Pkg.activate(@__DIR__)
@@ -12,30 +12,27 @@ Pkg.instantiate() #to install the packages
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# For more accurate benchmarks, we interpolate variable `x` as in `foo($x)`
+# for more accurate results, we perform benchmarks through functions and interpolate each variable.
+# this means that benchmarking a function `foo(x)` should be `foo($x)`
 using BenchmarkTools
-
-
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
  
 # necessary packages for this file
-using Random, LazyArrays
+using Random
  
 ####################################################
 #	GENERATORS VS ARRAY COMPREHENSIONS
 ####################################################
  
 x = [a for a in 1:10]
+
+y = [a for a in 1:10 if a > 5]
  
 
 
 
 x = (a for a in 1:10)
+
+y = (a for a in 1:10 if a > 5)
  
 
 
@@ -54,7 +51,7 @@ Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
 function foo(x)
-    y = [a * 2 for a in x]                  # 1 allocation (same as y = x .* 2)
+    y = [a * 2 for a in x]                  # 1 allocation
     
     sum(y)
 end
@@ -80,6 +77,7 @@ end
 
 Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
+
 
 foo(x) = sum(a * 2 for a in x)              # 0 allocations
     
@@ -180,77 +178,4 @@ function foo(x)
 end
     
 @btime foo($x)
- 
-############################################################################
-#
-#                           LAZY BROADCASTING
-#
-############################################################################
- 
-Random.seed!(123)       #setting the seed for reproducibility
-# broadcasting eager by default
-x = rand(100) ; y = rand(100)
-
-foo(x,y) = sum(2 .* x) + sum(2 .* y) / sum(x .* y)
-
-@btime foo($x, $y)
- 
-
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-using LazyArrays
-x = rand(100) ; y = rand(100)
-
-foo(x,y) = sum(@~ 2 .* x) + sum(@~ 2 .* y) / sum(@~ x .* y)
-
-@btime foo($x, $y)
- 
-
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100) ; y = rand(100)
-
-function foo(x,y) 
-    lx        = @. 4 * x^3 + 3 * x^2 + 2 * x + 1
-    ly        = @. 2 * y^3 + 3 * y^2 + 4 * y + 1
-    
-    
-    sum(lx ./ ly)
-end
-
-@btime foo($x, $y)
- 
-
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100) ; y = rand(100)
-
-function foo(x,y) 
-    lx(a)     = 4 * a^3 + 3 * a^2 + 2 * a + 1
-    ly(b)     = 2 * b^3 + 3 * b^2 + 4 * b + 1
-    temp(a,b) = lx(a) / ly(b)
-    
-    sum(Iterators.map(temp, x,y))
-end
-
-@btime foo($x, $y)
- 
-
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100) ; y = rand(100)
-
-function foo(x,y) 
-    lx(a)     = 4 * a^3 + 3 * a^2 + 2 * a + 1
-    ly(b)     = 2 * b^3 + 3 * b^2 + 4 * b + 1
-    temp(a,b) = lx(a) / ly(b)
-    
-    sum(@~ temp.(x,y))
-end
-
-@btime foo($x, $y)
  

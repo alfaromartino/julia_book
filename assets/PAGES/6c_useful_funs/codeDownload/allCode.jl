@@ -1,16 +1,9 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# For more accurate benchmarks, we interpolate variable `x` as in `foo($x)`
+# for more accurate results, we perform benchmarks through functions and interpolate each variable.
+# this means that benchmarking a function `foo(x)` should be `foo($x)`
 using BenchmarkTools
-
-
-
-############################################################################
-#
-#                           START OF THE CODE 
-#
-############################################################################
  
 # necessary packages for this file
 using StatsBase

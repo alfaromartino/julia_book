@@ -1,66 +1,64 @@
 include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
-# necessary packages for this file
-# using StatsBase, Random
- 
 ############################################################################
 #
-#           MUTATION THROUGH VECTORS
+#           MUTATIONS VIA VECTORS
 #
 ############################################################################
  
-x         = [1, 2, 3, 4]
+x         = [1, 2, 3]
 
 x[3]      = 30
-x[4]      = 40
 print_asis(x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x         = [1, 2, 3, 4]
+x         = [1, 2, 3]
 
-
-x[3:end]  = [30, 40]
+x[2:end]  = [20, 30]
 print_asis(x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x         = [1, 2, 3, 4]
+x         = [1, 2, 3]
 
-
-x[3:end]  = [x[i] * 10 for i in 3:length(x)]
+x[x .≥ 2] = [2, 3] .* 10
 print_asis(x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x         = [1, 2, 3, 4]
+x         = [1, 2, 3]
 
-
-x[x .≥ 3] = [x[i] * 10 for i in 3:length(x)]
+x[x .≥ 2] = x[x .≥ 2] .* 10
 print_asis(x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x         = [1, 2, 3, 4]
+x         = [1, 2, 3]
 
-
-x[x .≥ 3] = x[x .≥ 3] .* 10
+x[2:end]  = [x[i] * 10 for i in 2:length(x)]
 print_asis(x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x    = [1, 2, 3, 4]
+####################################################
+#	WARNING: MUTATION VS ASSIGNMENT
+####################################################
+ 
+# assignment
+ 
+x    = [1, 2, 3]
 
 x    = x .* 10
 print_asis(x) #hide
@@ -69,7 +67,9 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x    = [1, 2, 3, 4]
+# mutation
+ 
+x    = [1, 2, 3]
 
 x[:] = x .* 10
 print_asis(x) #hide
@@ -80,7 +80,7 @@ print_asis(x) #hide
  
 ############################################################################
 #
-#           MUTATION THROUGH .=
+#           MUTATION VIA .=
 #
 ############################################################################
  
@@ -88,16 +88,16 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x          = [-1, -2, 3, 4]
+x          = [-2, -1, 1]
 
-x[x .< 0]  = zeros(length(x[x .< 0]))
+x[x .< 0] .= 0
 print_asis(x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x          = [-1, -2, 3, 4]
+x          = [-2, -1, 1]
 
 x[x .< 0] .= zeros(length(x[x .< 0]))           # identical output
 print_asis(x) #hide
@@ -106,83 +106,9 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x          = [-1, -2, 3, 4]
+x          = [-2, -1, 1]
 
-x[x .< 0] .= 0
-print_asis(x) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x          = [-1, -2, 3, 4]
-
-x[x .< 0] .= zeros(length(x[x .< 0]))
-print_asis(x) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x          = [1, 2, 3, 4]
-
-condition  = (x .≥ 1) .&& (x .≤ 2)
-slice      = view(x, condition)
-
-slice     .= slice .* 10
-print_asis(x) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-###############
-# an explicit view
-###############
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x      = [1, 2, 3, 4]
-slice  = view(x, x .≥ 3)
-
-slice .= x[x .≥ 3] .* 10                 # same operation as 'x[x .≥ 3] = x[x .≥ 3] .* 10'
-print_asis(x) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x      = [1, 2, 3, 4]
-slice  = view(x, x .≥ 3)
-
-slice .= [i * 10 for i in [3,4]]     # same operation as 'x[x .≥ 3] = [i * 10 for i in [3,4]]'
-print_asis(x) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x          = [1, 2, 3, 4]
-x[x .≥ 3] .= x[x .≥ 3] .* 10
-print_asis(x) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x          = [1, 2, 3, 4]
-x[x .≥ 3]  = x[x .≥ 3] .* 10
-print_asis(x) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x          = [-1, -2, 1, 2]
-
-x[x .< 0] .= 0
+x[x .< 0]  = zeros(length(x[x .< 0]))
 print_asis(x) #hide
  
 # <space_to_be_deleted>
@@ -191,107 +117,119 @@ print_asis(x) #hide
  
 ############################################################################
 #
-# SORTPERM -> indices of the sorted vector
+#           COMBINING .= and view
 #
 ############################################################################
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x  = [-1, -2, 1, 2]
+x          = [-2, -1, 1]
 
-y  = view(x, x .< 0)
-y .= 0
- 
-print_asis(y) #hide
- 
+
+x[x .< 0] .= 0
 print_asis(x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x  = [-1, -2, 1, 2]
+x          = [-2, -1, 1]
 
-y  = x[x .< 0]              # `y` is a new object
-y .= 0                      # this does NOT modify `x`
- 
-print_asis(y) #hide
- 
+slice      = view(x, x .< 0)            # or slice = @view x[x .< 0]
+slice     .= 0
 print_asis(x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x  = [1, 2, 3, 4]
+####################################################
+#	same operations allowed
+####################################################
+ 
+x      = [1, 2, 3]
+slice  = view(x, x .≥ 2)
 
-y  = view(x, x .≥ 3)
-y .= x[x .≥ 3] .* 10
+slice .= slice .* 10                                  # same as 'x[x .≥ 2] = x[x .≥ 2] .* 10'
 print_asis(x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x  = [1, 2, 3, 4]
+x      = [1, 2, 3]
+slice  = view(x, x .≥ 2)
 
-y  = view(x, x .≥ 3)
-y  = x[x .≥ 3] .* 10    # this creates a new variable 'y'
+slice .= [slice[i] * 10 for i in eachindex(slice)]    # same as 'x[x .≥ 2] = [x[i] * 10 for i in eachindex(x[x .≥ 2])]'
+print_asis(x) #hide
+ 
+####################################################
+#	WARNING ABOUT THE USE OF .= AND VIEW
+####################################################
+ 
+# correct way to mutate
+ 
+x      = [-2, -1, 1]
+
+slice  = view(x, x .< 0)
+slice .= 0
 print_asis(x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+ 
+# incorrect ways -> no mutation
+ 
+x      = [-2, -1, 1]
+
+slice  = x[x .< 0]          # `slice` is a copy
+slice .= 0                  # this does NOT modify `x`
+print_asis(x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x      = [-2, -1, 1]
+
+slice  = view(x, x .< 0)
+slice  = 0                  # this creates a new object, it does not modify `x`
+print_asis(x) #hide
+ 
+############################################################################
+#
+#           MUTATION VIA FOR-LOOPS
+#
+############################################################################
  
 x = Vector{Int64}(undef, 3)  # `x` is initialized with 3 undefined elements
 
 
 for i in eachindex(x)
-    x[i] = i
+    x[i] = 0
 end
+print_asis(x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-y = [3, 4, 5]
-x = similar(y)            # `x` mimicks the type of `y`, which is Vector{Int64}(undef, 3)
+y = [1, 2, 3]
+x = similar(y)               # `x` replicates the type of `y`, which is Vector{Int64}(undef, 3)
 
 for i in eachindex(x)
-    x[i] = i
+    x[i] = 0
 end
+print_asis(x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x = zeros(Int64,3)         # `x` is Vector{Int64} with 3 elements equal to zero
+x     = zeros(3)
+slice = view(x, 1:2)
 
-
-for i in eachindex(x)
-    x[i] = i
+for i in eachindex(slice)
+    slice[i] = 1
 end
- 
-x = Vector{Int64}(undef, 3)  # `x` is initialized with 3 undefined Int64 elements
-
-
-for i in eachindex(x)
-#    x[i] = i * 2.5                
-end
- 
-y = [3, 4, 5]
-x = similar(y)            # `x` has the same type as `y`, which is Vector{Int64}(undef, 3)
-
-for i in eachindex(x)
-#    x[i] = i * 2.5
-end
- 
-x = zeros(Int64,3)         # `x` is Vector{Int64} with 3 elements equal to zero
-
-
-for i in eachindex(x)
-#    x[i] = i * 2.5 
-end
+print_asis(x) #hide
  

@@ -1,5 +1,5 @@
-x  = [1, 2, 3, 4]
+x      = [1, 2, 3]
+slice  = view(x, x .≥ 2)
 
-y  = view(x, x .≥ 3)
-y .= x[x .≥ 3] .* 10
+slice .= slice .* 10                                  # same as 'x[x .≥ 2] = x[x .≥ 2] .* 10'
 print_asis(x) #hide
