@@ -2606,11 +2606,11 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Let Blocks</h2></p>
-<p>Let blocks are particularly helpful when we need to perform a series of operations, but only care about the ultimate result. To illustrate their utility, suppose we want to compute the rounded logarithm of <code>a</code>&#39;s absolute value. Formally, \(\mathrm{round}\left(\ln\left(\left|a\right|\right)\right)\). </p>
-<p>In Julia, this operation can be implemented using the expression <code>round&#40;log&#40;abs&#40;a&#41;&#41;&#41;</code>, where <code>round&#40;x&#41;</code> returns the closest integer to <code>x</code>. However, its readability isn&#39;t optimal due to the multiple parentheses, which could be exacerbated with longer names of variables and functions. </p>
-<p>To enhance readability, we could split the operation into multiple steps:  <em>i)</em> computing the absolute value of <code>a</code>,  <em>ii)</em> computing the logarithm of the result, and  <em>iii)</em> rounding the resulting output. Based on this, one option is to create three intermediate variables that store the output of each step. However, this approach would clutter our namespace, and additionally obscure the nested nature of the operations. </p>
-<p>A more elegant solution is to introduce a <strong>let-block</strong>, which creates a new scope delimited by the <code>let</code> and <code>end</code> keywords. This construct allows us to wrap multiple computations and return the last calculation as the output. Remarkably, let-blocks support argument passing, which requires specifying them after the <code>let</code> keyword.</p>
-<p>The following code examples compare these approaches, with the final output stored in the variable <code>output</code>.</p>
+<p>Let blocks are particularly helpful when we need to perform a series of operations, but only care about the ultimate result. To illustrate their utility, suppose we want to compute the rounded logarithm of <code>a</code>&#39;s absolute value, formally expressed as \(\mathrm{round}\left(\ln\left(\left|a\right|\right)\right)\). </p>
+<p>In Julia, this operation can be implemented using the expression <code>round&#40;log&#40;abs&#40;a&#41;&#41;&#41;</code>, where <code>round&#40;x&#41;</code> returns the nearest integer to <code>x</code>. However, the readability of this expression is less than ideal due to the multiple parentheses, potentially exacerbated in case we had long names of variables and functions. </p>
+<p>To improve clarity, we could break the operation into multiple steps:  <em>i)</em> compute the absolute value of <code>a</code>,  <em>ii)</em> compute the logarithm of the result, and  <em>iii)</em> round the resulting output. One option to accomplish this is to create three intermediate variables to store the output of each step. Nonetheless, this approach would clutter our namespace, additionally obscuring the nested nature of the operations. </p>
+<p>A more elegant solution is to introduce a <strong>let-block</strong>. This creates a new scope delimited by the <code>let</code> and <code>end</code> keywords, and resembles functions in several aspects. Specifically, the construct allows us to wrap multiple computations and return the last calculation as its output. Moreover, let-blocks support passing arguments to the block, by specifying them after the <code>let</code> keyword.</p>
+<p>The following examples compare various approaches, whose final output stored in the variable <code>output</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2622,7 +2622,9 @@ color: white;
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
 output &#61; round&#40;log&#40;abs&#40;a&#41;&#41;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></p>
+<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>temp1</code> <br/> <pre><code class="plaintext code-output">2</code></pre> </div>
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>temp2</code> <br/> <pre><code class="plaintext code-output">4</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
@@ -2638,16 +2640,20 @@ output &#61; let b &#61; a         # &#39;b&#39; is a local variable having the 
    temp2 &#61; log&#40;temp1&#41;
    round&#40;temp2&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>temp1</code> #local to let-block &#40;same as <code>temp2</code>&#41;<br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `temp1` not defined</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></p>
+<div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>temp1</code> #local to let-block<br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `temp1` not defined</div> </div>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>temp2</code> #local to let-block<br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `temp2` not defined</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">a &#61; -2
 
-output &#61; let a &#61; a         # the &#39;a&#39; on the left still refers to a local variable
+output &#61; let a &#61; a         # the &#39;a&#39; on the left of &#96;&#61;&#96; defines a local variable
    temp1 &#61; abs&#40;a&#41;
    temp2 &#61; log&#40;temp1&#41;
    round&#40;temp2&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div><br/> <div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>temp1</code> #local to let-block &#40;same as <code>temp2</code>&#41;<br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `temp1` not defined</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">1.0</code></pre> </div></p>
+<div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>temp1</code> #local to let-block<br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `temp1` not defined</div> </div>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>temp2</code> #local to let-block<br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: `temp2` not defined</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
@@ -2679,7 +2685,7 @@ end</code></pre> </div></div>
  2</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Since mutations are possible, it&#39;s essential to exercise caution to prevent unintended changes in the global scope.  </div>  </div>
+<p>Since mutations are possible within let-blocks, exercise caution to prevent unintended side effects in the global scope.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2689,8 +2695,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Pipes</h2></p>
-<p>Pipes offer an alternative for streamlining outputs that involve several intermediate steps. Unlike let-blocks, pipes are specifically designed to chain together operations, where each step takes the output of the previous step as its input. This makes them particularly well-suited for single-argument functions, whose results are nested using the <code>|&gt;</code> keyword.</p>
-<p>To illustrate the application of pipes, let&#39;s revisit the example presented for let blocks.</p>
+<p>Pipes provide an alternative approach for operations with multiple intermediate steps. Unlike let-blocks, they&#39;re specifically designed to chain operations together, with each step taking the output of the previous step as its input. Regarding syntax, each of these steps is separated through the <code>|&gt;</code> keyword.</p>
+<p>Pipes are particularly well-suited for sequential applications of single-argument functions. To illustrate this, let&#39;s revisit the example presented above for let blocks.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2709,7 +2715,7 @@ output &#61; a |&gt; abs |&gt; log |&gt; round</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Let Blocks and Pipes For Long Names</strong>  </span>  </div>  <div class=content>     Let blocks and pipes also enable the creation of temporary aliases for variables with lengthy names. In this way, users can give meaningful names to variables, while preserving code readability.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Let Blocks and Pipes For Long Names</strong>  </span>  </div>  <div class=content>     Both approaches facilitate the creation of temporary aliases for variables with lengthy names. In this way, users can assign meaningful names to variables, while preserving code readability.</p>
 <p> <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2751,8 +2757,8 @@ end</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>  </div>  </div>
  <h4> Broadcasting Pipes </h4>
-<p>Just like any other operator, pipes can be broadcasted by prefixing them with a dot <code>.</code>, as in <code>.|&gt;</code>. In this way, the subsequent operation is applied element-wise to the preceding output. </p>
-<p>To demonstrate its use, consider the following operation over <code>x</code>. First, we transform its elements by taking the logarithm of its absolute values, and then sum its resulting elements.</p>
+<p>Just like any other operator, pipes can be broadcasted by prefixing them with a dot <code>.</code>. Thus, <code>.|&gt;</code> indicates that the subsequent operation must be applied element-wise to the preceding output. For example, the expression <code>x .|&gt; abs</code> is equivalent to <code>abs.&#40;x&#41;</code>.</p>
+<p>To demonstrate its use, suppose we want to transform <code>x</code> by taking the logarithm of its absolute values, and then sum the results.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2779,8 +2785,8 @@ output &#61; x .|&gt; abs .|&gt; log |&gt; sum</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
  <h4> Pipes with More Complex Operations </h4>
-<p>So far, our examples featuring pipes have adhered to a simple pattern, where each function was taking a single argument. Nonetheless, this approach imposes a significant constraint, as it precludes the application of pipes to operations and functions that require multiple arguments. Consequently, it becomes impossible to incorporate a function like <code>foo&#40;x,y&#41;</code> or an operation like <code>2 * x</code>.</p>
-<p>The issue arises because these cases require specifying how the preceding output should be integrated into the subsequent operation. Fortunately, the limitation can be circumvented by <strong>combining pipes with anonymous functions</strong>. This enables the preceding output to be treated as an argument of the anonymous function. As shown below, the technique greatly expands the utility of pipes.</p>
+<p>Our examples of pipes so far have followed a simple pattern, with each step consisting of a single-argument function. However, pipes applied in the current form preclude their application to multiple-argument functions or even operations. For example, it prevents the incorporation of expressions like <code>foo&#40;x,y&#41;</code> or <code>2 * x</code>.</p>
+<p>To incorporate such cases, we can <strong>combine pipes with anonymous functions</strong>. In this way, the user can specify how the output of the previous step is incorporated into the subsequent operation. As shown below, the technique greatly expands the utility of pipes.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2802,7 +2808,7 @@ output &#61; round&#40;temp2&#41;</code></pre> </div></div>
 
 output &#61; a |&gt; abs |&gt; &#40;x -&gt; 2 * x&#41; |&gt; round
 
-#equivalent, but more readable
+#equivalent and more readable
 output &#61; a              |&gt;
          abs            |&gt;
          x -&gt; 2 * x     |&gt;
@@ -2810,9 +2816,9 @@ output &#61; a              |&gt;
  </div></div>
 <p>  </p></details></div>
  <h4> Package Pipe </h4>
-<p>While combining pipes and anonymous functions is a viable approach, it can quickly degenerate into cumbersome code. If this occurs, the use of pipes would undermine the very goal of writing clean and readable code.</p>
-<p>A solution for this is offered by the <code>Pipe</code> package through the <code>@pipe</code> macro. This allows us to maintain an identical syntax for single-argument operations, while eliminating the need for anonymous functions in multi-argument operations. The functionality is achieved by introducing the <code>_</code> symbol as way to reference the preceding output.</p>
-<p>For the illustration, we revisit the last example.</p>
+<p>Combining pipes and anonymous functions makes it possible to handle more complex operations. Nonetheless, their combination can quickly result in cumbersome code, which defeats the very own purpose of using pipes to write clean and readable code.</p>
+<p>For operations that return a single output, the <code>Pipe</code> package provides a convenient solution. By prefixing the operation chain with the <code>@pipe</code> macro, the <code>_</code> symbol is interpreted as a reference to the output of the previous step. This feature enables consistent syntax for single-argument operations, where <code>_</code> isn&#39;t required. Simultaneously, it allows for adding <code>_</code> in more complex scenarios, to indicate how the output should be passed to the function or operation. In this way, the macro eliminates the need for boilerplate code associated with anonymous functions.</p>
+<p>To demonstrate its use, we revisit the last example.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2824,7 +2830,7 @@ a &#61; -2
 
 output &#61; a |&gt; abs |&gt; &#40;x -&gt; 2 * x&#41; |&gt; round
 
-#equivalent, but more readable
+#equivalent and more readable
 output &#61;       a            |&gt;
                abs          |&gt;
                x -&gt; 2 * x   |&gt;
@@ -2835,7 +2841,7 @@ a &#61; -2
 
 output &#61; @pipe a |&gt; abs |&gt; 2 * _ |&gt; round
 
-#equivalent, but more readable
+#equivalent and more readable
 output &#61; @pipe a            |&gt;
                abs          |&gt;
                2 * _        |&gt;
@@ -2850,8 +2856,8 @@ output &#61; @pipe a            |&gt;
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Function Composition (<strong><i>OPTIONAL</i></strong>)</h2></p>
-<p>An alternative approach to nest functions is through the composition operator <code>∘</code>. This can be inserted by Tab Completion through <code>\circ</code>, and its functionality is the same as in Mathematics. Specifically, <code>&#40;f ∘ g&#41;&#40;x&#41;</code> provides an identical output to <code>f&#40;g&#40;x&#41;&#41;</code>, for some functions <code>f</code> and <code>g</code>. </p>
+        <h2>Function Composition  <strong>(<i style="color:red">OPTIONAL</i>)</strong></h2></p>
+<p>An alternative approach to nest functions is through the composition operator <code>∘</code>. This can be inserted by tab completion through <code>\circ</code>, and its functionality is the same as in Mathematics. Specifically, for some functions <code>f</code> and <code>g</code>. , <code>&#40;f ∘ g&#41;&#40;x&#41;</code> provides an identical output to <code>f&#40;g&#40;x&#41;&#41;</code>.</p>
 <p>The operator <code>∘</code> also acts as an alternative to piping, providing the same output as <code>x |&gt; f |&gt; g</code>. Moreover, <code>∘</code> is also available as a function, where <code>∘&#40;f,g&#41;&#40;x&#41;</code> is equivalent to <code>&#40;f ∘ g&#41;&#40;x&#41;</code>.</p>
 <p>The following examples show applications with built-in and user-defined functions. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -3534,7 +3540,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#function_composition_optional" data-offset="-40">Function Composition (<strong><i>OPTIONAL</i></strong>)</a>
+          <a href="#function_composition_optional" data-offset="-40">Function Composition ~~~\optional~~~</a>
         </li>
         
       </ul>

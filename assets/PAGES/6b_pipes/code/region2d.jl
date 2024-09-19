@@ -5,3 +5,4 @@ output = let b = a         # 'b' is a local variable having the value of 'a'
    temp2 = log(temp1)
    round(temp2)
 end
+print_asis(output) #hide
