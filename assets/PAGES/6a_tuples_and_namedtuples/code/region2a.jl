@@ -1,1 +1,1 @@
-x = (4, 5, 6)
+some_pair = Pair("a", 1)            # equivalent

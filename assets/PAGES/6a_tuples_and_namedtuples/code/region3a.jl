@@ -1,4 +1,1 @@
-some_symbol = :x
-
-some_symbol = Symbol("x")                       # equivalent
-print_asis(some_symbol) #hide
+x = (a=4, b=5, c=6)

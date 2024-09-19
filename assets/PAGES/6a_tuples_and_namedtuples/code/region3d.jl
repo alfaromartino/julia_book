@@ -1,1 +1,1 @@
-print_asis(some_symbol) #hide
+print_asis(values(x)) #hide
