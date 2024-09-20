@@ -2558,7 +2558,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section presents standard tools for benchmarking code. Our website in particular will provide results based on the package <code>BenchmarkTools</code>, which is currently the most mature and reliable option. Nonetheless, the newer <code>Chairmarks</code> package has shown impressive speed gains. Once it&#39;s been around enough to uncover potential bugs, I&#39;d recommend it as the default option.</p>
+<p>This section presents standard tools for benchmarking code. In particular, our website will provide results based on the package <code>BenchmarkTools</code>, which is currently the most mature and reliable option. Nonetheless, the newer <code>Chairmarks</code> package has shown impressive speed gains. Once it&#39;s been around enough to fix any potential bugs, I&#39;d recommend it as the default option.</p>
 <p>      </div>
     </div>
   </div>
@@ -2614,7 +2614,7 @@ color: white;
 </tbody>
 </table>
  <br/></p>
-<p>All packages additionally provide information about <strong>memory allocations on the heap</strong>, which are simply referred to as <strong>allocations</strong>. Their relevance will be explained in the upcoming sections. Basically, they influence performance and potentially hint suboptimal coding. </p>
+<p>In addition to execution times, all packages provide information about <strong>memory allocations on the heap</strong>, commonly referred to as <strong>allocations</strong>. These allocations can have a significant impact on performance and potentially indicate suboptimal coding practices. Their relevance will become clearer in the upcoming sections. </p>
 <p>      </div>
     </div>
   </div>
@@ -2624,8 +2624,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>"Time to First Plot"</h2></p>
-<p>The expression &quot;Time to First Plot&quot; refers to a side effect of how the Julia language works: in each session, <strong>the first function call is slower than the subsequent ones</strong>. This arises because Julia compiles code during its initial run, as we&#39;ll explain more thoroughly in the next sections.</p>
-<p>This overhead isn&#39;t a major hindrance when working on a large project, since the penalty will be incurred only once. However, it determines that Julia may not be the best option when you simply aim to perform a rapid analysis &#40;e.g., run one regression or draw a graph to quickly unveil a relation&#41;.</p>
+<p>The expression &quot;Time to First Plot&quot; refers to a side effect of how the Julia language works: in each session, <strong>the first function call is slower than the subsequent ones</strong>. This occurs because Julia compiles code during its initial run, as we&#39;ll explain more thoroughly in the next sections.</p>
+<p>Since the penalty will be incurred only once, this overhead isn&#39;t a major hindrance when working on a large project. However, it determines that Julia may not be the best option when you simply aim to perform a rapid analysis &#40;e.g., run one regression or draw a graph to quickly unveil a relation&#41;.</p>
 <p>The speed of the first run varies significantly. While it may be imperceptible in some cases, it can be noticeable in others. For instance, I bet you didn&#39;t notice that running <code>sum&#40;x&#41;</code> for the first time in your code was slower than the subsequent runs&#33; On the contrary, drawing high-quality plots can take up to 15 seconds, explaining where the term &quot;Time to First Plot&quot; comes from. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The time indicated is for <code>Plots</code>, the standard package for the task. This is a metapackage bundling several plotting libraries. Some of these libraries are relatively fast, requiring less than 5 seconds for rendering the first figure.  </span></span></p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
@@ -2639,7 +2639,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>@time</h2></p>
-<p>Julia comes with a built-in macro called <code>@time</code> to measure the execution time of a single run. The results provided by this macro, nonetheless, suffer from two significant limitations. First, the timing provided is volatile and unreliable, as it only considers a single execution. Furthermore, considering the time-to-first-plot issue, the initial timing will incorporate compilation time, and hence it&#39;s unrepresentative of the subsequent calls. Taking this into account, you should always execute <code>@time</code> at least twice. The following illustrates its use, making it clear that the first run includes compilation time.</p>
+<p>Julia comes with a built-in macro called <code>@time</code> to measure the execution time of a single run. The results provided by this macro, nonetheless, suffer from two significant limitations. First, the time provided is volatile and unreliable, as it only considers a single execution. Furthermore, considering the time-to-first-plot issue, the initial time will incorporate the compilation overhead, and hence it&#39;s unrepresentative of the subsequent calls. Taking this into account, you should always execute <code>@time</code> at least twice. </p>
+<p>The following example illustrates its use, making it clear that first runs include compilation time.</p>
  <div class=" code_box"> <details  open><summary> @time  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; 1:100
 
 @time sum&#40;x&#41;         # first run                     -&gt; it incorporates compilation time 
@@ -2655,8 +2656,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Package "BenchmarkTools" </h2></p>
-<p>A better option for measuring execution time is provided by the package <code>BenchmarkTools</code>. This reports times based on repeated computations of the operation, thus improving accuracy.</p>
-<p>It can be called through either the macro <code>@btime</code>, which only reports the minimum time, or through the macro <code>@benchmark</code>, which provides a more detailed analysis. Both macros discard the time of the first call, thus excluding compilation time from the results.</p>
+<p>A more accurate alternative for measuring execution time is provided by the <code>BenchmarkTools</code> package. By performing repeated computations of the operation, this reports more reliable timing results.</p>
+<p>The package can be used through either the macro <code>@btime</code>, which only reports the minimum time, or through the macro <code>@benchmark</code>, which provides a more detailed analysis. Both macros discard the time of the first call, thus excluding compilation time from the results.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2680,8 +2681,8 @@ x &#61; 1:100
     </div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Notice that both macros append the symbol <code>&#36;</code> to the variable <code>x</code>. The notation is necessary to indicate that <code>x</code> shouldn&#39;t be interpreted as a global variable, as occurs when when a variable is passed to a function. As we&#39;ll exclusively benchmark functions, you should always add <code>&#36;</code> to each variable—<strong>omitting</strong> <code>&#36;</code> <strong>would lead to inaccurate results</strong>.</p>
-<p>The following example demonstrates the consequence of excluding <code>&#36;</code>, wrongly reporting higher times than they really are. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> In fact, <code>sum&#40;x&#41;</code> doesn&#39;t allocate memory, unlike what&#39;s reported without <code>&#36;</code>.  </span></span></p>
+<p>Notice that we appended the symbol <code>&#36;</code> to the variable <code>x</code> in both macros. The notation is necessary to indicate that <code>x</code> shouldn&#39;t be interpreted as a global variable, as occurs when when a variable is passed to a function. As we&#39;ll exclusively benchmark functions, you should always add <code>&#36;</code> to each variable—<strong>omitting</strong> <code>&#36;</code> <strong>would lead to inaccurate results</strong>.</p>
+<p>The following example demonstrates the consequence of excluding <code>&#36;</code>, wrongly reporting higher times than the execution really demands. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> In fact, <code>sum&#40;x&#41;</code> doesn&#39;t allocate memory, unlike what&#39;s reported without <code>&#36;</code>.  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2712,7 +2713,7 @@ x &#61; rand&#40;100&#41;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Package "Chairmarks"</h2></p>
-<p>A recent new alternative to benchmarking code is given by the package <code>Chairmarks</code>. Its notation is quite similar to <code>BenchmarkTools</code>, with the macros <code>@b</code> and <code>@be</code> providing a similar functionality to <code>@btime</code> and <code>@benchmark</code> respectively. However, <code>Chairmarks</code> is orders of magnitude faster. </p>
+<p>A recent new alternative to benchmarking code is given by the package <code>Chairmarks</code>. Its notation is quite similar to <code>BenchmarkTools</code>, with the macros <code>@b</code> and <code>@be</code> providing a similar functionality to <code>@btime</code> and <code>@benchmark</code> respectively. The main benefit of <code>Chairmarks</code> is its speed, being orders of magnitude faster than <code>BenchmarkTools</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2745,8 +2746,10 @@ max    34.462 ns</code></pre> </div></div> </div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Remark On Random Numbers Used On The Website</h2></p>
-<p>In the upcoming sections, we&#39;ll identify efficient approaches for computing an operation. The tests will be executed relying on random numbers. To eliminate any possible bias, all of them will be based on the same random numbers, which is achieved by specifying a <strong>random seed</strong>. By doing so, the random number generator produces the same sequence of random numbers every time we execute the program.</p>
-<p>The creation of random numbers is given by the package <code>Random</code>, which requires specifying a seed. You can use any arbitrary number for setting the seed, and ensure that the same seed is established before executing each operation.</p>
+<p>The upcoming sections will present alternative approaches for computing the same operation, with the goal of identifying the most efficient method. To compare performance without skewing results, the execution times of each approach will be tested using  <em>the same set of random numbers</em> as inputs.</p>
+<p>Producing identical random numbers in demand can be achieved by using random seeds. By fixing a random seed, we guarantee that each time we generate a set of numbers, the same sequence of random numbers is produced. This creates a consistent pattern of random numbers each time the code is executed.</p>
+<p>Rather than generating a predictable sequence, our use case only requires that the same set of random numbers is provided for the operation analyzed. We can ensure this by simply resetting the seed before executing each operation, so that the same set of random numbers is generated during the first call.</p>
+<p>Random number generation is provided by the package <code>Random</code>. Below, we show how to set a specific seed, for which  <em>any arbitrary number can be used</em>. For instance, the following examples set the seed <code>1234</code> before executing each operation.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2770,7 +2773,7 @@ x &#61; rand&#40;100&#41;
 y &#61; rand&#40;100&#41;           # different from &#96;x&#96;</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>When any code snippet on this website includes random numbers, we&#39;ll exclude the lines setting the random seed. For instance, below we demonstrate what we&#39;ll show versus the actual code executed.</p>
+<p>To simplify the presentation throughout the website, code snippets based on random numbers will omit the lines that set the random seed. This can be appreciated below, where we illustrate the code that will be displayed and the actual code executed.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2801,12 +2804,12 @@ y &#61; sum&#40;x&#41;</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Benchmarks In Perspective</h2></p>
-<p>In the upcoming chapters, we&#39;ll be evaluating approaches for performing a task. Most of the time, the differences in time will be negligible, possibly in the ballpark of nanoseconds. This could mislead us into thinking that the method chosen lacks any practical implication. </p>
-<p>It&#39;s true that operations in isolation usually have an insignificant impact on runtime. However, <strong>the relevance of our benchmarks lies in scenarios where these operations are performed repeatedly</strong>. This includes cases where the operation is called in a for-loop, or in iterative procedures &#40;e.g,. solving systems of equations or the maximization of a function&#41;. In these situations, small differences in timing are amplified, as they&#39;re replicated multiple times.</p>
+<p>When evaluating approaches for performing a task, the differences in execution time are often negligible, typically on the order of nanoseconds. However, this should not lead us to believe that the choice of method has no practical implications.</p>
+<p>It&#39;s true that operations in isolation usually have an insignificant impact on runtime. However, <strong>the relevance of our benchmarks lies in scenarios where these operations are performed repeatedly</strong>. This includes cases where the operation is called in a for-loop, or in iterative procedures &#40;e.g., solving systems of equations or the maximization of a function&#41;. In these situations, small differences in timing are amplified, as they&#39;re replicated multiple times.</p>
  <h4> An Example </h4>
-<p>Let&#39;s illustrate the practical usage of benchmarks by considering a concrete case. Suppose we seek to double each element of <code>x</code> and then sum them. We&#39;ll compare two approaches for this task. </p>
-<p>The first method will be based on <code>sum&#40;2 .* x&#41;</code>, where <code>x</code> will enter into the computation as a global variable. As we&#39;ll discuss in later sections, this approach is relatively inefficient. A more efficient alternative is given by <code>sum&#40;a -&gt; 2 * a, x&#41;</code>, with <code>x</code> passed as a function&#39;s argument. Aside what this function specifically does, what matters is that it produces the same result as the baseline approach, but implementing a different technique.</p>
-<p>The runtime of each approach is as follows.</p>
+<p>To illustrate the practical application of benchmarks, let&#39;s consider a concrete example. Suppose we want to double each element of a given vector <code>x</code>, and then calculate their sum. In the following, we&#39;ll compare two different approaches to accomplish this task.</p>
+<p>The first method will be based on <code>sum&#40;2 .* x&#41;</code>, where <code>x</code> enters into the computation as a global variable. As we&#39;ll discuss in later sections, this approach is relatively inefficient. A more efficient alternative is given by <code>sum&#40;a -&gt; 2 * a, x&#41;</code>, with <code>x</code> passed as a function argument. For the purpose of this comparison, the specific functionality of this function is irrelevant. What matters is that this expression produces the same result as the first method, but employing a different technique.</p>
+<p>The runtime performance of each approach is as follows.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2826,9 +2829,9 @@ foo&#40;x&#41; &#61; sum&#40;a -&gt; 2 * a, x&#41;</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The results reveal that the most efficient approach achieves a significant speedup, taking less than 15&#37; of the slowest approach&#39;s time. However, in absolute terms, the &quot;slow&quot; approach is already fast enough, taking less than 0.0001 seconds.</p>
-<p>Most of our benchmarks will feature a similar pattern, where absolute times are negligible. In this context, the relevance of the conclusions hinge on the characteristics of our work. If the operation will be called once in isolation, you should prioritize readability and choose the approach most suitable in this regard. On the contrary, if the operation will be performed repeatedly, you should consider that small differences will compound and become significant. </p>
-<p>To demonstrate this point, let&#39;s call these functions in a for-loop with 100k iterations.</p>
+<p>The results reveal that the second approach achieves a significant speedup, taking less than 15&#37; of the slower approach. However, even the &quot;slow&quot; approach is still extremely fast, taking less than 0.0001 seconds to execute.</p>
+<p>This pattern will be a common theme in our benchmarks, where absolute execution times are often negligible. In such cases, the relevance of our conclusions depends on the specific characteristics of the task at hand. If the operation is only performed once in isolation, readability should be the primary consideration, and the most readable approach should be chosen. On the other hand, if the operation is repeated multiple times, small performance differences might accumulate and become significant, making the faster approach a more suitable choice.</p>
+<p>To illustrate this point, let&#39;s take the functions from the previous example and call them within a for-loop that iterates 100,000 times.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2858,8 +2861,8 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The symbol <code>_</code> is a programming convention to denote &quot;throwaway&quot; variables. They represent variables solely included to satisfy the syntax of an operation, and their value isn&#39;t actually used. In our case, it reflects that each iteration is performing the same operation for benchmark purposes.</p>
-<p>The example starkly reveals the consequences of calling the function within a for-loop. The execution time of the slow version balloons to more than 20 seconds now, while the fast version does it in under one second. Overall, this unveils the relevance of optimizing functions with repeated or intensive operations, where even slight improvements can have a substantial impact on performance. </p>
+<p>The underscore symbol <code>_</code> is a common programming convention to denote &quot;throwaway&quot; variables. These variables are included solely to satisfy the syntax of an operation, and their value isn&#39;t actually used. In our case, it simply reflects that each iteration of the for-loop is replicating the same operation.</p>
+<p>The example starkly reveals the consequences of calling the function within a for-loop. Now, the execution time of the slow version balloons to more than 20 seconds, while the fast version completes the task in under one second. Overall, this unveils the relevance of optimizing functions that are called repeatedly, where even slight improvements can have a substantial impact on performance. </p>
 <p>      </div>
     </div>
   </div>
@@ -2882,7 +2885,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 18, 2024 
+          © Martin Alfaro <br>Last Modified September 19, 2024 
       </span> 
   </div> 
 </footer>

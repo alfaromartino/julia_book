@@ -2595,7 +2595,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>When working with data in Julia, you&#39;ll often need to manipulate and analyze vectors. This section provides an overview of essential functions for conducting these tasks, including sorting, identifying unique elements, counting occurrences, and ranking data. Our ultimate goal is to apply these functions in a practical context, as we&#39;ll do in the next section.</p>
+<p>When working in Julia, you&#39;ll often need to manipulate and analyze vectors. This section provides an overview of essential functions for conducting these tasks, including sorting, identifying unique elements, counting occurrences, and ranking data. Our ultimate goal is to apply these functions in a practical context, as we&#39;ll do in the next section.</p>
 <p>      </div>
     </div>
   </div>
@@ -2605,7 +2605,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Sorting Vectors</h2></p>
-<p>The <code>sort</code> function allows the user to arrange elements in a specific order. By default, it sorts elements in ascending order, but this can be easily reversed to a descending order by setting the keyword argument <code>rev &#61; true</code>. The function comes in two variants: <code>sort</code>, which returns a new sorted copy while preserving the original vector, and the in-place version <code>sort&#33;</code>, which directly updates the vector.</p>
+<p>The <code>sort</code> function allows the user to arrange elements in a specific order. By default, it sorts elements in ascending order, but this can be easily reversed to a descending order by setting the keyword argument <code>rev &#61; true</code>. The function comes in two variants: <code>sort</code>, which returns a new sorted copy, and the in-place version <code>sort&#33;</code>, which directly updates the vector.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2641,7 +2641,7 @@ sort&#33;&#40;x&#41;</code></pre> </div></div>
  5</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p><code>sort&#40;x&#41;</code> provides an additional layer of flexibility, allowing the sorting order to be dictated by transformations of <code>x</code>. Specifically, given a function <code>foo</code> and leveraging the keyword argument <code>by</code>, the sorted order can be  determined by the values of <code>foo&#40;x&#41;</code>.</p>
+<p>Both <code>sort&#40;x&#41;</code> and <code>sort&#33;&#40;x&#41;</code> allows the sorting order to be dictated by transformations of <code>x</code>. Specifically, given a function <code>foo</code> and leveraging the keyword argument <code>by</code>, the sorted order can be determined by the values of <code>foo&#40;x&#41;</code>. We demonstrate this below through the function <code>sort</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2698,7 +2698,7 @@ y      &#61; sort&#40;x, by &#61; foo&#41;      # same as sort&#40;x, by &#61; x
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Indices of Sorted Elements</h2></p>
-<p>While <code>sort</code> returns the ordered  <em>values</em> of the vectors, you may also be interested in the  <em>indices</em> of the sorted elements. This is where <code>sortperm</code> comes into play, which returns the indices of <code>x</code>&#39;s elements that would sort <code>x</code> according to <code>sort&#40;x&#41;</code>. In other words, <code>x&#91;sortperm&#40;x&#41;&#93; &#61;&#61; sort&#40;x&#41;</code> is true. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The name <code>sortperm</code> originates from &quot;sorting permutation&quot;. Although the name might seem somewhat opaque, it arises because the operation returns the permutation of indices that would sort the original vector.  </span></span></p>
+<p>While <code>sort</code> returns the ordered  <em>values</em> of the vectors, you may also be interested in the  <em>indices</em> of the sorted elements. This functionality is provided by the function <code>sortperm</code>, which returns the indices of <code>x</code> that would result in <code>sort&#40;x&#41;</code>. In other words, <code>x&#91;sortperm&#40;x&#41;&#93; &#61;&#61; sort&#40;x&#41;</code> is true. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The name <code>sortperm</code> originates from &quot;sorting permutation&quot;. Although the name might seem somewhat opaque, it arises because the operation returns the permutation of indices that would sort the original vector.  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2734,8 +2734,7 @@ sort_index &#61; sortperm&#40;x&#41;</code></pre> </div></div>
  3</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In the first two examples, the elements are already in ascending order. As a result, <code>sortperm</code> returns the trivial permutation <code>&#91;1, 2, 3, 4&#93;</code>, indicating that the original order is already sorted.</p>
-<p>In contrast, the last example features an unordered vector <code>x &#61; &#91;1, 3, 4, 2&#93;</code>. The resulting vector <code>&#91;1, 4, 2, 3&#93;</code> indicates that the smallest element 1 is at index 1, the second smallest 2 is at index 4, the third smallest 3 is at index 2, and the largest 4 is at index 3.</p>
+<p>Analyzing the examples, we can see that the elements in the first two examples are already in ascending order. As a result, <code>sortperm</code> returns the trivial permutation <code>&#91;1, 2, 3, 4&#93;</code>. In contrast, the last example features an unordered vector <code>x &#61; &#91;1, 3, 4, 2&#93;</code>. Thus, the resulting vector <code>&#91;1, 4, 2, 3&#93;</code> indicates that the smallest element is at index 1, the second smallest is at index 4, the third smallest is at index 2, and the largest at index 3.</p>
 <p>Similar to <code>sort</code>, <code>sortperm</code> also allows retrieving the indices in descending order. This requires setting the <code>rev</code> keyword argument to <code>true</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2772,7 +2771,7 @@ sort_index &#61; sortperm&#40;x, rev&#61;true&#41;</code></pre> </div></div>
  4</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The function <code>sortperm</code> also supports the keyword argument <code>by</code>, thus returning the indices of sorted elements based on transformed values.</p>
+<p>Finally, <code>sortperm</code> also supports the keyword argument <code>by</code>. This allows users to define a custom transformation, which serves as the sorting criterion for the indices provided.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2836,7 +2835,7 @@ index  &#61; sortperm&#40;x, by &#61; foo&#41;</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
  <h4> An Example </h4>
-<p>One primary use case of <code>sortperm</code> is to order a variable based on the values of another variable. For example, suppose we want to assess the daily failures of a machine. Focusing on the first three days of the month, the following code snippet ranks these days by their corresponding failure counts.</p>
+<p>One common application of <code>sortperm</code> is to reorder a variable based on the values of another variable. For example, suppose we want to assess the daily failures of a machine. Focusing on the first three days of the month, the following code snippet ranks these days by their corresponding failure counts.</p>
  <div class=" code_box"> <details  open><summary> Days Sorted By Lowest Number of Failures  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">days     &#61; &#91;&quot;one&quot;, &quot;two&quot;, &quot;three&quot;&#93;
 failures &#61; &#91;8, 2, 4&#93;
 
@@ -2853,12 +2852,12 @@ days_by_failures &#61; days&#91;index&#93;                     # days sorted by 
     </div>
   </div>
 </section>
-<section id="unique_vectors" class="scrollspy section-bg-color">
+<section id="removing_duplicates" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Unique Vectors</h2></p>
-<p>The <code>unique</code> function is designed to eliminate duplicates from a vector, retaining only a single occurrence of each element. In addition to <code>unique</code> that provides a new copy, the in-place version <code>unique&#33;</code> directly updates the original vector.</p>
+        <h2>Removing Duplicates</h2></p>
+<p>The <code>unique</code> function eliminates duplicates from a vector, returning a vector containing each element only once. The function come in two variants, with <code>unique</code> providing a new copy, and the in-place version <code>unique&#33;</code> directly updating the original vector.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2887,7 +2886,8 @@ unique&#33;&#40;x&#41;          # mutates &#39;x&#39;</code></pre> </div></div>
  4</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The <code>StatsBase</code> package also offers a related function called <code>countmap</code>. This enumerates the occurrences of each element in a vector. Formally, it returns a dictionary, where each unique element serves as a key, and its corresponding value represents the count of that element. As the keys in the dictionary are unsorted by design, you must apply the <code>sort</code> function if you prefer sorted keys. The application of <code>sort</code> will automatically transform an ordinary dictionary into an object with type <code>OrderedDict</code>.</p>
+<p>The <code>StatsBase</code> package also offers a related function called <code>countmap</code>. This enumerates the number of times each element shows up in a vector. Formally, it returns a dictionary, where the unique elements serve as keys, and their corresponding values represents the number of occurrences of that element. </p>
+<p>As the keys in the dictionary are unsorted by design, you must apply the <code>sort</code> function to the result if you prefer sorted keys. Note that the application of <code>sort</code> will automatically transform an ordinary dictionary into an object with type <code>OrderedDict</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2944,16 +2944,16 @@ occurrences &#61; collect&#40;values&#40;y&#41;&#41;</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Rounding Numbers</h2></p>
-<p>Julia provides standard functions to approximate numerical values to a specific precision. They comprise the <code>round</code>, <code>floor</code>, and <code>ceil</code> functions. </p>
+<p>Julia provides standard functions to approximate numerical values to a specific precision: <code>round</code>, <code>floor</code>, and <code>ceil</code> functions. They&#39;re such as:</p>
 <ul>
-<li><p><code>round</code>: it approximates a number to the nearest integer. </p>
+<li><p><code>round</code> approximates the number to its nearest integer. </p>
 </li>
-<li><p><code>floor</code>: it approximates a number down to the nearest integer.</p>
+<li><p><code>floor</code> approximates the number down to its nearest integer.</p>
 </li>
-<li><p><code>ceil</code>: it approximates a number up to the nearest integer.</p>
+<li><p><code>ceil</code> approximates the number up to its nearest integer.</p>
 </li>
 </ul>
-<p>Below, we show that these functions have multiple methods. They allow the user to specify the output&#39;s type &#40;e.g., <code>Int64</code> or <code>Float64</code>&#41;, the number of decimals to be included through the keyword argument <code>digits</code>, and the <a href="https://en.wikipedia.org/wiki/Significant_figures#Rules_to_identify_significant_figures_in_a_number">significant digits</a>.</p>
+<p>Below, we show that these functions are quite flexible. In particular, they allow the user to specify the output&#39;s type &#40;e.g., <code>Int64</code> or <code>Float64</code>&#41;, the number of decimals to be included through the keyword argument <code>digits</code>, and the <a href="https://en.wikipedia.org/wiki/Significant_figures#Rules_to_identify_significant_figures_in_a_number">significant digits</a>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3007,7 +3007,7 @@ ceil&#40;x, sigdigits&#61;2&#41;             # 460.0</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Rankings</h2></p>
-<p>Instead of sorting a vector, you may be interested in determining the rank position of each element. The <code>StatsBase</code> package offers two functions for this purpose, <code>competerank</code> and <code>ordinalrank</code>. The main difference between them lies in how they handle identical elements. Specifically, <code>competerank</code> assigns the same rank to identical elements, while <code>ordinalrank</code> assigns different ranks to these elements. Both functions return a rank where 1 corresponds to the lowest value. If you prefer to invert the ranking, so that the highest value corresponds to a rank of 1, you can add the <code>rev &#61; true</code> keyword argument.</p>
+<p>Instead of sorting a vector, you may be interested in determining the rank position of each element. The <code>StatsBase</code> package offers two functions for this purpose, <code>competerank</code> and <code>ordinalrank</code>. The main difference between them lies in how they handle identical elements: <code>competerank</code> assigns the same rank to identical elements, while <code>ordinalrank</code> assigns different ranks to these elements. Both functions return a rank such that 1 corresponds to the lowest value. If you prefer to invert the ranking, so that the highest value corresponds to a rank of 1, you can add the keyword argument <code>rev &#61; true</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3092,7 +3092,7 @@ y &#61; sortperm&#40;x&#41;</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Extrema (Maximum and Minimum)</h2></p>
-<p>We conclude by identifying the extrema in a vector, along with their corresponding indices. The following examples illustrate the application with the maximum, but analogous functions are available for the minimum.</p>
+<p>We conclude by identifying extrema in a vector, along with their corresponding indices. The following examples illustrate the functionality for the maximum, with analogous functions available for the minimum.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3116,7 +3116,7 @@ y &#61; findmax&#40;x&#41;</code></pre> </div></div>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>y</code> <br/> <pre><code class="plaintext code-output">(6, 1)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Additionally, Julia provides the function <code>max</code> and <code>min</code>, which respectively return the maximum and minimum of its arguments. These functions are particularly useful when applied in binary operations.</p>
+<p>Julia additionally provides the function <code>max</code> and <code>min</code>, which respectively return the maximum and minimum of its arguments. These functions are particularly useful when applied in binary operations.</p>
  <div class=" code_box"> <details  open><summary> Max Function  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; 3
 y &#61; 4
 
@@ -3143,7 +3143,7 @@ z &#61; max&#40;x,y&#41;</code></pre> </div> </div> <div class="output_in_modal"
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 18, 2024 
+          © Martin Alfaro <br>Last Modified September 19, 2024 
       </span> 
   </div> 
 </footer>
@@ -3719,7 +3719,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#unique_vectors" data-offset="-40">Unique Vectors</a>
+          <a href="#removing_duplicates" data-offset="-40">Removing Duplicates</a>
         </li>
         
         <li>
