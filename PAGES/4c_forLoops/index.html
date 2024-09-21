@@ -2596,7 +2596,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>A key feature of programming is its ability to automate repetitive tasks. A standard way to implement this is via <span style="color: rgb(62, 121, 180);"><strong>for-loops</strong></span>. They allow you to execute the same block of code, treating each element of a list as a different input.</p>
-<p>For-loops are delimited with the keywords <code>for</code> and <code>end</code>. To illustrate this syntax, consider the function <code>println&#40;a&#41;</code>, which evaluates <code>a</code> and displays its output in the REPL. In case <code>a</code> is a string, <code>println&#40;a&#41;</code> will simply display the word stored in <code>a</code>. The following script repeatedly applies <code>println</code> to display each word in a list. </p>
+<p>For-loops are delimited with the keywords <code>for</code> and <code>end</code>. To illustrate their syntax more specifically, consider the function <code>println&#40;a&#41;</code>, which evaluates <code>a</code> and displays its output in the REPL. In case <code>a</code> is a string, <code>println&#40;a&#41;</code> will simply display the word stored in <code>a</code>. The following script repeatedly applies <code>println</code> to display each word in a list. </p>
  <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">for x in &#91;&quot;hello&quot;,&quot;beautiful&quot;,&quot;world&quot;&#93;
     println&#40;x&#41;
@@ -2660,7 +2660,7 @@ end</code></pre>
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Always Wrap For-Loops in Functions</strong>  </span>  </div>  <div class=content>     At this stage of the website, we&#39;re still introducing fundamental concepts. Thus, the subjects are presented as simple as possible. This is why for-loops in particular will be written in the global scope. </p>
 <p>However, <strong>you should always wrap for-loops in functions</strong>. Executing for-loops outside a function severely degrades performance, and is additionally subject to different rules regarding variable scoping. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> In fact, older versions of Julia were restricting the use of for-loops in the global scope.  </span></span>  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>About High Performance</strong>  </span>  </div>  <div class=content>     For-loops can negatively impact performance in certain languages &#40;e.g., Matlab, Python, and R&#41;. These languages recommend instead using vectorized code, which operates over the whole vector rather than its individual elements. In Part II of this website, we&#39;ll see that such a recommendation has no bearing on Julia. Indeed, <strong>for-loops are as fast as vectorized code</strong>, and speeding up operations in Julia commonly rely on them.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>About High Performance</strong>  </span>  </div>  <div class=content>     For-loops can negatively impact performance in certain languages &#40;e.g., Matlab, Python, and R&#41;. These languages recommend instead using vectorized code, which operates over the whole vector rather than its individual elements. In Part II of this website, we&#39;ll see that such a recommendation has no bearing on Julia. Indeed, <strong>for-loops are as fast as vectorized code in Julia</strong>, and speeding up operations commonly rely on them.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2670,8 +2670,8 @@ end</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Iterating over Indices</h2></p>
-<p>So far, we&#39;ve considered a simple list like <code>&#91;&quot;hello&quot;, &quot;beautiful&quot;, &quot;world&quot;&#93;</code> to illustrate how for-loops work. In real applications, nonetheless, manually specifying each element in a list quickly becomes impractical. Fortunately, we can streamline the process when the list follows a predictable pattern, such as a sequence of numbers: instead of listing each element individually, we can directly describe the pattern that generates the list.</p>
-<p>Building on this insight, we&#39;ll explore how to define ranges, which embody this approach by specifying a sequence of numbers. The technique not only allows us to iterate over numerical sequences, but also provides the possibility of accessing specific elements within a collection.</p>
+<p>So far, we&#39;ve considered a simple list like <code>&#91;&quot;hello&quot;, &quot;beautiful&quot;, &quot;world&quot;&#93;</code> to illustrate how for-loops work. In real applications, nonetheless, manually specifying each element in a list quickly becomes impractical. Fortunately, when a list follows a predictable pattern &#40;e.g., a sequence of numbers&#41;, we can simplify the process by describing the pattern that generates the list, rather than listing each element individually.</p>
+<p>Building on this insight, we&#39;ll explore how to define ranges, which allows the user to define a sequence of numbers. The technique not only allows us to iterate over numerical sequences, but also provides the possibility of accessing specific elements within a collection.</p>
  <h4> Ranges </h4>
 <p><span style="color: rgb(62, 121, 180);"><strong>Ranges</strong></span> in Julia are defined through the syntax <code>&lt;begin&gt;:&lt;steps&gt;:&lt;end&gt;</code>, where <code>&lt;begin&gt;</code> is the starting index and <code>&lt;end&gt;</code> is the ending index. Likewise, <code>&lt;steps&gt;</code> determines the increment between values, with a default increment of one if the term is omitted. By specifying a negative value for <code>&lt;steps&gt;</code>, you can also reverse the order of the range. All this is demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2709,8 +2709,8 @@ end</code></pre>
  5
  6</div> </div></div> </div>   </details></div>  </div>  </div>
  <h4> Iterating over Indices of an Array </h4>
-<p>Ranges can additionally be used to access elements of a collection. In combination with a for-loop, this enables us to apply the same block of code to each element of a vector.</p>
-<p>In particular, it&#39;s possible to iterate over all indices of a vector <code>x</code> through the expression <code>1:length&#40;x&#41;</code>, where <code>length&#40;x&#41;</code> returns the number of elements in <code>x</code>. The same functionality can be achieved by the function <code>eachindex&#40;x&#41;</code>. In fact, this is the recommended method for iterating over all elements, as it returns an iterator optimized for each type of array.</p>
+<p>Ranges can also be used to access elements of a collection. When combined with a for-loop, this allows us to apply the same code block to each element of a vector.</p>
+<p>Specifically, the expression <code>1:length&#40;x&#41;</code>, where <code>length&#40;x&#41;</code> returns the number of elements in <code>x</code>, enables iteration over all indices of a vector <code>x</code>. The same functionality can be achieved by the function <code>eachindex&#40;x&#41;</code>. In fact, this is the recommended method for iterating over all elements, as it returns an iterator optimized for each type of array.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2743,7 +2743,7 @@ end</code></pre>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     There are other approaches to iterating over all indices of a vector <code>x</code>. For instance, you can use <code>LinearIndices&#40;x&#41;</code>, or <code>firstindex&#40;x&#41;:lastindex&#40;x&#41;</code> to specify a range from the first to the last index of <code>x</code>.</p>
-<p>This multiplicity of methods is necessary to handle non-standard indices, such as those provided by the <code>OffsetArrays.jl</code> package. This sets Julia&#39;s arrays to have 0 as the first index, a convention commonly found in many other languages. Nevertheless, unless you&#39;re creating a package for third-party use, you don&#39;t have to worry about which approach to implement. Indeed, they can all be used interchangeably, as shown in the examples below.</p>
+<p>This multiplicity of methods exists to handle non-standard indices, such as those provided by the <code>OffsetArrays.jl</code> package. This package sets the first index of arrays to 0, a convention commonly found in many other languages. Nevertheless, unless you&#39;re creating a package for third-party use, you don&#39;t have to worry about which approach to implement. Indeed, they can all be used interchangeably, as shown in the examples below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2797,7 +2797,7 @@ end</code></pre>
 8</div></div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Among all the alternatives, I recommend sticking to <code>eachindex</code>. This automatically selects the most efficient method for each type of collection. Additionally, it employs the same syntax, regardless of the indexing approach.  </div>  </div>
+<p>Among the available alternatives, I recommend sticking to <code>eachindex</code>. This automatically selects the most efficient method for each type of collection. Additionally, it employs the same syntax regardless of the indexing convention implemented.  </div>  </div>
 <p>      </div>
     </div>
   </div>
