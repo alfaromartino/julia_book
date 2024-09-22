@@ -2558,18 +2558,18 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>The previous section has defined type stability, along with approaches to checking whether the property holds. In this section, we start the analysis of type stability for specific objects. We cover in particular the case of scalars and vectors, providing practical guidance for ensuring type stability with them.</p>
+<p>The previous section has defined type stability, along with approaches to checking whether the property holds. In this section, we start the analysis of type stability for specific objects. We cover in particular the case of scalars and vectors, providing practical guidance for their type stability.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="scalars_and_vectors" class="scrollspy section-bg-color">
+<section id="types_of_scalars_and_vectors" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Scalars and Vectors</h2></p>
-<p>The definition of type stability indicates that the compiler infers a single concrete type for each expression. The principle applied to scalars is direct, demanding operations be performed on variables with the same concrete type. In the case of vectors, type stability rather requires that the  <em>elements</em> have a concrete type, such as <code>Float64</code>, <code>Int64</code>, or <code>Bool</code>.</p>
-<p>The following table identifies scalars and vectors satisfying the property.</p>
+        <h2>Types of Scalars and Vectors</h2></p>
+<p>Recall that the formal definition of a type-stable function is that the output type can be inferred from the argument types. In practice, however, we often rely on a more stringent definition of type stability, which requires that the compiler can infer a single concrete type for each expression within the function. This property guarantees that every operation is specialized, resulting in optimal performance.  Nevertheless, demanding that the output&#39;s type can be inferred already offers benefits, as it ensures that type instability won&#39;t be propagated when the function is called in other operations.</p>
+<p>The principle applied to scalars is immediate, demanding operations be performed on variables with the same concrete type. In contrast, type stability for vectors rather requires that the  <em>elements</em> have a concrete type, such as <code>Float64</code>, <code>Int64</code>, or <code>Bool</code>. The following table identifies scalars and vectors satisfying this property.</p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -2615,7 +2615,7 @@ color: white;
 
 <p style="padding-top:1em; padding-bottom:1em; text-align:center;font-size:90%;"> <u><b>Note</b></u>: <code>Int</code> defaults to <code>Int64</code> or <code>Int32</code>, depending on your CPU's architecture.</p>
 </p>
-<p>In the following, we analyze each case separately.</p>
+<p>Next, we&#39;ll delve into type stability in scalars and vectors, considering each case separately.</p>
 <p>      </div>
     </div>
   </div>
@@ -2625,45 +2625,42 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Type Stability with Scalars</h2></p>
-<p>To turn the definition of type stability operational for scalars, let&#39;s revisit our discussion about types. Recall that only concrete types like <code>Int64</code> or <code>Float64</code> can be instantiated, while abstract types like <code>Any</code> or <code>Number</code> can&#39;t. </p>
+<p>To turn the definition of type stability for scalars operational, let&#39;s revisit some concepts about types. Recall that only concrete types like <code>Int64</code> or <code>Float64</code> can be <a href="/julia_book/PAGES/7c_TS-onTypes/#instantiate">instantiated</a>, while abstract types like <code>Any</code> or <code>Number</code> can&#39;t. </p>
 <p>Instantiation simply means that all values ultimately adopt a unique concrete type. For instance, a variable <code>x::Number &#61; 2</code> shouldn&#39;t be interpreted as <code>x</code> having the type <code>Number</code>. Instead, it means that <code>x</code> can only be reassigned to values whose concrete type is a subtype of <code>Number</code>. Ultimately, <code>x</code> must have a concrete type, which in this case is <code>Int64</code>.</p>
-<p>Despite that functions always identify a unique concrete type for scalars, some operations that mix <code>Int64</code> and <code>Float64</code> could result in type instability. Before providing examples of these cases, we show some scenarios where their mix don&#39;t pose a problem. </p>
+<p>In this context, type instability could arise if operations mix <code>Int64</code> and <code>Float64</code>, although this isn&#39;t always the case. To illustrate this, we&#39;ll start showing some scenarios where mixing these types doesn&#39;t cause issues.</p>
  <h4> Type Promotion and Conversion </h4>
-<p>Julia employs various mechanisms to handle cases combining <code>Int64</code> and <code>Float64</code>. The first one is <span style="color: rgb(62, 121, 180);"><strong>type promotion</strong></span>, which converts dissimilar types to a common one, whenever possible. Likewise, Julia also engages in <span style="color: rgb(62, 121, 180);"><strong>conversions</strong></span> when variables are type-annotated, transforming values to the respective type. </p>
+<p>Julia employs various mechanisms to handle cases combining <code>Int64</code> and <code>Float64</code>. The first one is part of a more general concept known as <span style="color: rgb(62, 121, 180);"><strong>type promotion</strong></span>, which converts dissimilar types to a common one whenever possible. Likewise, when variables are type-annotated, Julia also engages in <span style="color: rgb(62, 121, 180);"><strong>conversions</strong></span>. By transforming values to the respective type declared, this is also capable of preventing the mix of types.</p>
 <p>Both mechanisms are illustrated below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Conversion </button>
-    <button class="tablink" data-id=""> Promotion</button>
+    <button class="tablink first_tab active" data-id=""> Type Promotion </button>
+    <button class="tablink" data-id=""> Type Conversion </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">function foo&#40;&#41;
-  x1::Float64 &#61; 1          # &#96;Int64&#96; will be converted to &#96;Float64&#96;
-  x2::Int64   &#61; 2.0        # &#96;Float64&#96; will be converted to &#96;Int64&#96;
+<pre><code class="language-julia">foo&#40;x,y&#41;   &#61; x * y
 
-  return x1,x2
-end
+x          &#61; 2
+y          &#61; 0.5
 
-x1,x2 &#61; foo&#40;&#41;              # type stable</code></pre>
+z          &#61; foo&#40;x,y&#41;        # type stable: mixing &#96;Int64&#96; and &#96;Float64&#96; results in &#96;Float64&#96;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x1</code><br/><div class="akin_to_pre">1.0</div> </div></p>
-<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x2</code><br/><div class="akin_to_pre">2</div> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z</code><br/><div class="akin_to_pre">1.0</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;x,y&#41; &#61; x * y           # if mixing &#96;Int64&#96; and &#96;Float64&#96;, then &#96;Float64&#96;
+<pre><code class="language-julia">foo&#40;x,y&#41;   &#61; x * y
 
-x        &#61; 2
-y        &#61; 0.5
+x::Float64 &#61; 2               # this is converted to &#96;2.0&#96; 
+y          &#61; 0.5
 
-z        &#61; foo&#40;x,y&#41;        # type stable</code></pre>
+z          &#61; foo&#40;x,y&#41;        # type stable: &#96;x&#96; and &#96;y&#96; are &#96;Float64&#96;, so predictable type of output</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z</code><br/><div class="akin_to_pre">1.0</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In the first tab, Julia transforms the values of <code>x1</code> and <code>x2</code> to make them consistent with the type-annotations. As for the second tab, the output&#39;s type will depend on the argument&#39;s types, but in all cases they can be predicted. Specifically, the product of <code>Int64</code> or <code>Float64</code> will inherit the type, while mixing <code>Int64</code> and <code>Float64</code> results in <code>Float64</code> due to automatic type promotion.</p>
+<p>In the first tab, the output&#39;s type depends on the argument&#39;s types. However, in all cases the output&#39;s type can be predicted, since mixing <code>Int64</code> and <code>Float64</code> results in <code>Float64</code> due to automatic type promotion. As for the second tab, Julia transforms the value of <code>x</code> to make it consistent with the type-annotation declared. Consequently, <code>x * y</code> is computed as the product of two values <code>Float64</code>.</p>
  <h4> Type Instability with Scalars </h4>
-<p>While type promotion and conversion can handle certain scenarios, they don&#39;t cover all. One of these cases is when a scalar&#39;s value is conditional, with each branch returning a value with a different type. Since the compiler only observes types and not values, it can&#39;t decide which branch is relevant for the function call. Consequently, it&#39;ll generate code that accommodates both possibilities. This can be observed in the following example.</p>
+<p>While type promotion and conversion can handle certain situations, they certainly don&#39;t cover all cases. One such scenario is when a scalar&#39;s value depends on a conditional statement and each branch returns a value of a different type. In this situation, since the compiler only considers the types and not values, it can&#39;t determine which branch is relevant for the function call. As a result, it&#39;ll generate code that accommodates both possibilities, as it happens in the following example.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2691,8 +2688,8 @@ foo&#40;1, 2.5&#41;         # type UNSTABLE -&gt; &#96;a * i&#96; is either &#96
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In the example, type instability will inevitably arise when <code>x</code> and <code>y</code> have different types. Note that type promotion is of no help here. The reason is that this mechanism only ensures that <code>a * i</code> will be converted to <code>Float64</code> if <code>a</code> is <code>Float64</code>, given that <code>i</code> is <code>Int64</code>. Nonetheless, the compiler also needs to consider that <code>a</code> could be <code>Int64</code>, in which case <code>a * i</code> is <code>Int64</code>. </p>
-<p>Considering this ambiguity, the method instance created must be capable of handling both scenarios. Then, during runtime, Julia will gather more information to disambiguate the situation, thus selecting the pertinent computation implementation.</p>
+<p>In the example, type instability will inevitably arise if <code>x</code> and <code>y</code> have different types. Note that type promotion is of no help here. The reason is that this mechanism only ensures that <code>a * i</code> will be converted to <code>Float64</code> if <code>a</code> is <code>Float64</code>, considering that <code>i</code> is <code>Int64</code>. However, the compiler also needs to consider the possibility that <code>a</code> could be <code>Int64</code>, in which case <code>a * i</code> would be <code>Int64</code>.</p>
+<p>Given this ambiguity, the method instance created must be capable of handling both scenarios. Then, during runtime, Julia will gather more information to disambiguate the situation, and select the relevant computation implementation.</p>
 <p>      </div>
     </div>
   </div>
@@ -2702,12 +2699,12 @@ foo&#40;1, 2.5&#41;         # type UNSTABLE -&gt; &#96;a * i&#96; is either &#96
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Type Stability with Vectors</h2></p>
-<p>Vectors in Julia are formally defined as collections of elements with a homogenous type. Since operations based on vectors ultimately work with its individual elements, type stability is contingent on the concrete type of their elements. </p>
-<p>In this context, it&#39;s important to distinguish between the type of the vector itself and that of its elements. This is because vectors whose elements have a concrete type are themselves concrete, while elements with abstract types can still give rise to vectors with concrete types. This is clearly observed with <code>Vector&#123;Any&#125;</code>, a concrete type comprising elements with abstract type <code>Any</code>. </p>
-<p>Before beginning with the analysis of specific scenarios, we consider automatic conversion of types. This mechanism is relevant for the definition of vectors that mix types.</p>
+<p>Vectors in Julia are formally defined as collections of elements sharing a homogenous type. Since operations based on vectors ultimately handle individual elements, type stability is contingent on whether the type of their elements is concrete.</p>
+<p>In this context, it&#39;s important to distinguish between the type of the object and of its elements. This is because vectors having elements with a concrete type are themselves concrete, but elements with abstract types will still give rise to vectors with concrete types. This is clearly observed with <code>Vector&#123;Any&#125;</code>, a concrete type comprising elements with the abstract type <code>Any</code>. </p>
+<p>Before the analysis of specific scenarios, we start by considering type conversion applied to vectors. This mechanism prevents the mix of types when vectors are defined.</p>
  <h4> Type Promotion and Conversion </h4>
-<p>By definition, vectors require all their elements to share the same type. This implies that, for instance, if mix elements with disparate types such as <code>String</code> and <code>Int64</code>, Julia will identify the vector with type <code>Vector&#123;Any&#125;</code>. Nonetheless, there are some instances where elements can be converted to a common type, as when we mix <code>Float64</code> and <code>Int64</code>. </p>
-<p>In particular, this automatic conversion occurs during assignments, where all elements are converted to the most general type that can accommodate them.</p>
+<p>By definition, vectors require all their elements to share the same type. This means that if you mix elements with disparate types, such as <code>String</code> and <code>Int64</code>, Julia will infer the vector&#39;s type as <code>Vector&#123;Any&#125;</code>. Despite this, there are cases where elements can be converted to a common type, such as when mixing <code>Float64</code> and <code>Int64</code>. </p>
+<p>The following example shows this mechanism in an assignment, where the vector is not type annotated. In this case, all elements are converted to the most general type among the values included.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2731,7 +2728,7 @@ foo&#40;1, 2.5&#41;         # type UNSTABLE -&gt; &#96;a * i&#96; is either &#96
  3.0</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In both examples, the assignments are type-unannotated. When assignments are instead declared with type-annotations, Julia will attempt to perform a conversion whenever possible, ensuring that the assigned value conforms to the declared type.</p>
+<p>When assignments are instead declared with type-annotations and values are of different types, Julia will attempt to perform a conversion. If possible, this ensures that the assigned values conform to the declared type.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2771,9 +2768,9 @@ z           .&#61; 1</code></pre>
  </div></div>
 <p>  </p></details></div>
  <h4> Type Instability </h4>
-<p>When evaluating type stability in the context of vectors, there are two forms of operations that need to be considered. The first one involves operations that manipulate individual elements, such as <code>x&#91;i&#93;</code>. This scenario parallels the case of scalars, and so type stability adheres to the same rules. </p>
-<p>The second scenario involves functions operating on the entire vector. In this case, the design of function commonly ensures type stability if vectors have elements with a concrete type. Note that whether this holds ultimately depends on the package developer&#39;s implementation.</p>
-<p>For instance, let&#39;s consider the example of summing all elements of type-annotated vectors. All the following cases operate on vectors having elements with concrete types and are type stable.</p>
+<p>When evaluating type stability with vectors, two forms of operations must be considered. The first one involves operations that manipulate individual elements, such as <code>x&#91;i&#93;</code>. This scenario is analogous to the case of scalars, and therefore type stability follows the same rules.</p>
+<p>The second scenario involves functions operating on the entire vector. In this case, type stability requires that vectors have elements with a concrete type. Note that this condition isn&#39;t sufficient to guarantee type stability, which ultimately depends on how the function implements the operation executed. </p>
+<p>Nevertheless, packages tend to provide optimized versions of functions. Consequently, functions are typically type stable when users provide vectors with elements of a concrete type. For instance, this is illustrated below by the function <code>sum</code>, which adds all elements in a vector. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2799,7 +2796,7 @@ sum&#40;x3&#41;             # type stable</code></pre> </div></div>
 sum&#40;x4&#41;             # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>In contrast, the following vectors have elements with abstract types and result in type instability. </p>
+<p>In contrast, the following vectors have elements with abstract types, which result in type instability. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2837,7 +2834,7 @@ sum&#40;x6&#41;             # type UNSTABLE -&gt; &#96;sum&#96; must consider al
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 20, 2024 
+          © Martin Alfaro <br>Last Modified September 21, 2024 
       </span> 
   </div> 
 </footer>
@@ -3405,7 +3402,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#scalars_and_vectors" data-offset="-40">Scalars and Vectors</a>
+          <a href="#types_of_scalars_and_vectors" data-offset="-40">Types of Scalars and Vectors</a>
         </li>
         
         <li>
