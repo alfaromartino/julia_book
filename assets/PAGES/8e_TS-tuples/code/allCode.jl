@@ -1,4 +1,4 @@
-include(joinpath(homedir(), "JULIA_UTILS", "initial_folders.jl"))
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
@@ -11,45 +11,96 @@ using Chairmarks, BenchmarkTools
 ############################################################################
  
 ############################################################################
+#  VECTORS CONTAIN LESS INFORMATION THAN TUPLES
+############################################################################
+ 
+# from tuple to vectors
+ 
+tup = (1, 2, "hello")         # `Tuple{Int64, Int64, String}`
+
+
+function foo(tup)
+    x = Vector(tup)           # 'x' has type `Vector(Any)}`
+    sum(x)
+end
+
+@code_warntype foo(tup)       # type UNSTABLE
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+tup = (1, 2, 3)               # `Tuple{Int64, Int64, Int64}` or just `NTuple{3, Int64}`
+
+
+function foo(tup)
+    x = Vector(tup)           # 'x' has type `Vector(Int64)}`
+    sum(x)
+end
+
+@code_warntype foo(tup)       # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+tup = (1, 2, 3.5)             # `Tuple{Int64, Int64, Float64}`
+
+
+function foo(tup)
+    x = Vector(tup)           # 'x' has type `Vector(Float64)}`
+    sum(x)
+end
+
+@code_warntype foo(tup)       # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+############################################################################
 #  TUPLES ALLOWS HETEROGENEOUS TYPES OF ELEMENTS
 ############################################################################
  
-tup    = (1, 2, 3.5)                    # type is `Tuple{Int64, Int64, Float64}`
+tup    = (1, 2, 3.5)            # type is `Tuple{Int64, Int64, Float64}` 
+
+foo(x) = sum(x)
+
+@code_warntype foo(tup)         # type stable (output returned is `Int64`)
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+vector = [1, 2, 3.5]            # type is `Vector{Float64}` (type promotion)
+
+foo(x) = sum(x)
+
+@code_warntype foo(vector)      # type stable (output returned is `Float64`)
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+tup    = (1, 2, "hello")        # type is `Tuple{Int64, Int64, String}`
 
 foo(x) = sum(x[1:2])
 
-@code_warntype foo(tup)                 # type stable (output returned is `Int64`)
+@code_warntype foo(tup)         # type stable (output is `Int64`)
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-vector = [1, 2, 3.5]                    # type is `Vector{Float64}` (type promotion)
+vector = [1, 2, "hello"]        # type is `Vector{Any}`
 
 foo(x) = sum(x[1:2])
 
-@code_warntype foo(vector)              # type stable (output returned is `Float64`)
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-tup    = (1, 2, "hello")                # type is `Tuple{Int64, Int64, String}`
-
-foo(x) = sum(x[1:2])
-
-@code_warntype foo(tup)                 # type stable (output is `Int64`)
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-vector = [1, 2, "hello"]                # type is `Vector{Any}`
-
-foo(x) = sum(x[1:2])
-
-@code_warntype foo(vector)              # type UNSTABLE
+@code_warntype foo(vector)      # type UNSTABLE
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -73,44 +124,6 @@ nt     = (a = 1, b = 2, c = "hello")    # `nt` has type @NamedTuple{a::Int64, b:
 foo(x) = sum(x.a + x.b)
 
 @code_warntype foo(nt)                  # type stable (output is `Int64`)
- 
-############################################################################
-#  VECTORS CONTAIN LESS INFORMATION THAN TUPLES
-############################################################################
- 
-# from tuple to vectors
- 
-tup = (1, 2, "hello")         # `Tuple{Int64, Int64, String}`
-
-
-function foo(tup)
-    x = Vector(tup)           # 'x' has type `Vector(Any)}`
-
-    sum(x)
-end
-
-@code_warntype foo(tup)       # type UNSTABLE
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-tup = (1, 2, 3)               # `Tuple{Int64, Int64, Int64}` or just `NTuple{3, Int64}`
-
-
-function foo(tup)
-    x = Vector(tup)           # 'x' has type `Vector(Int64)}`
-
-    sum(x)
-end
-
-@code_warntype foo(tup)       # type UNSTABLE
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
  
 # from vector to tuples
  
