@@ -2561,7 +2561,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section considers various scenarios that cause type instabilities. We dub them as &quot;gotchas&quot; as they aren&#39;t immediately obvious. We also propose suggestions to address them.</p>
+<p>This section considers scenarios where type instabilities aren&#39;t immediately obvious. For this reason, we dub them as &quot;gotchas&quot;. We also provide recommendations for addressing them. To make the section self-contained, we revisit some examples of type instability that were covered previously. </p>
 <p>      </div>
     </div>
   </div>
@@ -2571,8 +2571,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 1: Integers and Floats</h2></p>
-<p>When working with scalars, keep in mind that <code>Int64</code> and <code>Float64</code> are distinct types. Mixing them may introduce type instability inadvertently. </p>
-<p>In the following example, the function <code>foo</code> takes a numeric variable <code>x</code> as its argument and performs two tasks. The first one defines a variable <code>y</code> by a transformation of <code>x</code>, where all negative values are replaced by zero. The second task runs an operation based on the resulting <code>y</code>.</p>
+<p>When working with numeric scalars, it&#39;s essential to remember that <code>Int64</code> and <code>Float64</code> are distinct types. Mixing them can inadvertently introduce type instability.</p>
+<p>To illustrate this case and how to handle it, consider a function <code>foo</code>. This takes a numeric variable <code>x</code> as its argument and performs two tasks. Firstly, it defines a variable <code>y</code> by transforming <code>x</code> in a way that all negative values are replaced with zero. Secondly, it executes an operation based on the resulting <code>y</code>. </p>
+<p>The following example illustrates two implementations of <code>foo</code>. The first one suffers from type instability, while the second provides a revised implementation that addresses this issue.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2598,9 +2599,44 @@ end
 @code_warntype foo&#40;1.&#41;     # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>As for the first tab, given that <code>0</code> has type <code>Int64</code>, no type instability arises if <code>x</code> is <code>Int64</code> too. On the contrary, if <code>x</code> is <code>Float64</code>, the compiler must contemplate the possibility that <code>y</code> could be an <code>Int64</code> or a <code>Float64</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> A similar problem would occur if we replaced <code>0</code> by <code>0.</code> and <code>x</code> is an integer.  </span></span></p>
-<p>Julia can handle combinations of <code>Int64</code> and <code>Float64</code> quite effectively. Therefore, the latter type instability wouldn&#39;t be a significant issue if the operation involving <code>y</code> calls <code>y</code> only once. Indeed, <code>@code_warntype</code> would only issue a yellow warning that therefore could be safely ignored. However, in our example, <code>foo</code> performs an operation that repeatedly uses <code>y</code>, incurring the cost of type instability multiple times. As a result, <code>@code_warntype</code> issues a red warning, indicating a more serious performance issue.</p>
-<p>The second tab proposes a <strong>solution</strong> based on a function that returns the zero element corresponding to the type of <code>x</code>. This approach isn&#39;t limited to zero, and can actually be applied to any value. This would be achieved by using either <code>convert&#40;typeof&#40;x&#41;, &lt;value&gt;&#41;</code> or <code>oftype&#40;x, &lt;value&gt;&#41;</code> to convert <code>&lt;value&gt;</code> to the same type as <code>x</code>.</p>
+<p>The first implementation uses the literal <code>0</code>, which has type <code>Int64</code>. If <code>x</code> is also <code>Int64</code>, no type instability arises. However, if <code>x</code> is <code>Float64</code>, the compiler must consider that <code>y</code> could be either <code>Int64</code> or <code>Float64</code>, thus causing type instability.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> A similar problem would occur if we replaced <code>0</code> by <code>0.</code> and <code>x</code> is an integer.  </span></span></p>
+<p>Julia can handle combinations of <code>Int64</code> and <code>Float64</code> quite effectively. Therefore, the latter type instability wouldn&#39;t be a significant issue if the operation involving <code>y</code> calls <code>y</code> only once. Indeed, <code>@code_warntype</code> would only issue a yellow warning that therefore could be safely ignored. However, <code>foo</code> in our example repeatedly performs an operation that involves <code>y</code>, incurring the cost of type instability multiple times. As a result, <code>@code_warntype</code> issues a red warning, indicating a more serious performance issue.</p>
+<p>The second tab proposes a <strong>solution</strong> based on a function that returns the zero element corresponding to the type of <code>x</code>. This approach can be extended to other values by using either the function <code>convert&#40;typeof&#40;x&#41;, &lt;value&gt;&#41;</code> or <code>oftype&#40;x, &lt;value&gt;&#41;</code>. Both convert <code>&lt;value&gt;</code> to the same type as <code>x</code>. For instance, below we reimplement <code>foo</code>, but using the value <code>5</code> instead of <code>0</code>.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Unstable </button>
+    <button class="tablink" data-id=""> Stable </button>
+    <button class="tablink" data-id=""> Stable </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;x&#41;
+    y &#61; &#40;x &lt; 0&#41; ?  5  :  x
+    
+    return &#91;y * i for i in 1:100&#93;
+end
+
+@code_warntype foo&#40;1&#41;      # type stable
+@code_warntype foo&#40;1.&#41;     # type UNSTABLE</code></pre> </div></div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;x&#41;
+    y &#61; &#40;x &lt; 0&#41; ?  convert&#40;typeof&#40;x&#41;, 5&#41;  :  x
+    
+    return &#91;y * i for i in 1:100&#93;
+end
+
+@code_warntype foo&#40;1&#41;      # type stable
+@code_warntype foo&#40;1.&#41;     # type stable</code></pre> </div></div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;x&#41;
+    y &#61; &#40;x &lt; 0&#41; ?  oftype&#40;x, 5&#41;  :  x
+    
+    return &#91;y * i for i in 1:100&#93;
+end
+
+@code_warntype foo&#40;1&#41;      # type stable
+@code_warntype foo&#40;1.&#41;     # type stable</code></pre> </div></div> 
+ </div></div>
+<p>  </p></details></div>
 <p>      </div>
     </div>
   </div>
@@ -2610,10 +2646,9 @@ end
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 2: Collections of Collections</h2></p>
-<p>When working in data analysis, collections of collections emerge naturally. An example of this data structure is given by the <code>DataFrames</code> package, which is the standard tool for handling datasets. A DataFrame defines a table where each column corresponds to a variable. As we haven&#39;t introduced this package, we&#39;ll keep matters simple and consider a vector of vectors, which replicates a similar structure.</p>
-<p>Specifically, suppose a vector <code>data</code> comprising multiple inner vectors. The issue lies in that a function taking <code>data</code> as its argument and operates on an inner vector will be type unstable. The feature of <code>data</code> determining this is that its type is <code>Vector&#123;Vector&#125;</code>. This flexibility is a desirable feature in data analysis, as it allows for holding inner vectors of different types &#40;e.g., strings, numbers&#41;. However, it also determines that <code>data</code> lacks information about the types of its inner vectors. The reason is that <code>Vector&#123;Vector&#125;</code> only indicates that its elements are vectors, without specifying the type of their elements. </p>
-<p>The simplest <strong>solution</strong> is to include a barrier function that takes the inner vector as its argument. This approach is able to correct the type instability, as the function will attempt to identify concrete types for the inner vectors passed. </p>
-<p>In the following, we illustrate the approach by supposing that the operation is based on an inner vector <code>vec2</code>. The code snippets in both tabs pass <code>data</code> as a function&#39;s argument, with the second one additionally using a barrier function with <code>vec2</code> as its argument. Note that the barrier function is defined in-place, making the value of <code>vec2</code> and hence of <code>data</code> be updated.</p>
+<p>When working in data analysis, collections of collections emerge naturally. An example of this data structure is given by the <code>DataFrames</code> package, which defines a table with each column representing a different variable. As we haven&#39;t introduced this package, we&#39;ll consider a more basic scenario involving a vector of vectors, represented by the type <code>Vector&#123;Vector&#125;</code>. This exhibits a similar structure, and also the same potential issues regarding type stability. </p>
+<p>Essentially, the issue arises because, by not constraining the types of its inner vectors, a collection of collections like <code>Vector&#123;Vector&#125;</code> offers a high degree of flexibility. This flexibility is particularly valuable in data analysis, where datasets often comprise diverse columns that may contain disparate data types &#40;e.g., <code>String</code>, <code>Float64</code>, <code>Int64</code>&#41;. However, it also comes at a cost: the type <code>Vector&#123;Vector&#125;</code> only guarantees that its elements are vectors, without providing any information about the concrete types they contain. As a result, when a function operates on one of these inner vectors, the type system is unable to infer the concrete type of the data, leading to type instability. </p>
+<p>To illustrate this scenario, suppose a vector <code>data</code> comprising multiple inner vectors. Moreover, consider a function <code>foo</code> that takes <code>data</code> as its argument, and operates on one of its inner vectors <code>vec2</code>. The first tab below shows that this case leads to type instability. The simplest <strong>solution</strong> is presented in the second tab, and consists of including a barrier function that takes the inner vector <code>vec2</code> as its argument. The technique rectifies the type instability, as the barrier function attempts to identify a concrete type for <code>vec2</code>. Note that the barrier function is defined <a href="/julia_book/PAGES/5g_inplace/#inplace_functions">in-place</a>. This implies that the value of <code>vec2</code>, and hence of <code>data</code>, is updated when <code>foo</code> is executed.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2654,8 +2689,8 @@ end
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 3: Barrier Functions</h2></p>
-<p>While barrier functions can mitigate type instabilities, it&#39;s essential to keep in mind that <strong>the parent function remains type unstable</strong>. This implies that if we fail to resolve the type instability before executing a repeated operation, the performance cost of that instability will be incurred multiple times.</p>
-<p>To illustrate this point, let&#39;s revisit the last example involving a vector of vectors. Below, we present two incorrect approaches to using a barrier function under such scenario, followed by a demonstration of its proper application.</p>
+<p>Barrier functions are an effective technique to mitigate type instabilities. However, it&#39;s essential to remember that <strong>the parent function may remain type unstable</strong>. When this is the case, if we fail to resolve the type instability before executing a repeated operation, the performance cost of the type instability will be incurred multiple times.</p>
+<p>To illustrate this point, let&#39;s revisit the last example involving a vector of vectors. Below, we present two incorrect approaches to using a barrier function, followed by a demonstration of its proper application.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2712,7 +2747,7 @@ foo&#40;data&#41; &#61; operation&#33;&#40;data&#91;2&#93;&#41;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 4: Inference is by Type, Not By Value</h2></p>
-<p>Compiler creates method instances exclusively based on types, with values not participating in the process. To explain its implications, let&#39;s consider the following concrete example.</p>
+<p>Julia&#39;s compiler generates method instances solely based on types, without considering the actual values. To demonstrate this, let&#39;s consider the following concrete example.</p>
  <div class=" code_box"> <details  open><summary> Type Inference Is Not By Value  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;condition&#41;
     y &#61; condition ?  2.5  :  1
     
@@ -2721,57 +2756,11 @@ end
 
 @code_warntype foo&#40;true&#41;         # type UNSTABLE
 @code_warntype foo&#40;false&#41;        # type UNSTABLE</code></pre> </div> </div>  </details></div>
-<p>At first glance, we might erroneously conclude that <code>foo&#40;true&#41;</code> should be type stable: the value of <code>condition</code> is <code>true</code>, so that <code>y &#61; 2.5</code> and therefore <code>y</code> will have type <code>Float64</code>. However, values don&#39;t participate in multiple dispatch, meaning that Julia&#39;s compiler ignores the value of <code>condition</code> when inferring <code>y</code>&#39;s type. Ultimately, <code>y</code> is treated as potentially being either <code>Int64</code> or <code>Float64</code>, leading to type instability.</p>
-<p>The issue in this example is reminiscent of the first &quot;gotcha&quot; we explored. Indeed, it can be resolved using similar techniques, or alternatively employing a barrier function. However, analyzing the type instability from the type-inference process reveals far-reaching consequences, extending beyond this specific example. In particular, it has deep implications for the use of <strong>tuples</strong>.</p>
-<p>Identifying a type requires having information on all the parameters that characterizes it. The type <code>Tuple</code> in particular is defined by both the type of  <em>each</em> variable and  <em>the number of elements</em>. For example, <code>x &#61; &#40;1, 2.4&#41;</code> has type <code>Tuple&#123;Int64, Float64&#125;</code>, meaning that <code>x</code> is an object with 2 elements with types <code>Int64</code> and <code>Float64</code> respectively. This type is different from the one of <code>x &#61; &#40;1, 2.4, 3&#41;</code>, which has 3 elements with types <code>Int64</code>, <code>Float64</code>, and <code>Int64</code> respectively. In comparison, the type <code>Vector</code> only identifies the same type for each element, and doesn&#39;t require information on the number of elements . For instance, both <code>x &#61; &#91;1, 2.4&#93;</code> and <code>x &#61; &#91;1, 2.4, 3&#93;</code> have the same type, given by <code>Vector&#123;Float64&#125;</code>.</p>
-<p>One consequence of this is that when we create tuples using vectors as their source, we lack sufficient information to identify a tuple&#39;s type. In particular, a tuple created from an object <code>Vector&#123;Float64&#125;</code> successfully identifies the type of each element &#40;<code>Float64</code>&#41;, but the number of elements remains unknown. Consequently, <strong>if we create a tuple inside a function based on a vector, the function will be type unstable</strong>. </p>
-<p>This can be observed in the following examples. The second tab shows that the issue won&#39;t be solved by merely passing the number of elements as an argument. The reason is that this wouldn&#39;t identify the value of the argument, only its type. This information isn&#39;t relevant to know for dispatch, as the compiler will only infer that the number of elements is an integer, not the number itself. </p>
-<p>The easiest fix is to define the tuple outside the function and then pass it as an argument. This allows the compiler to gather all the information from the <code>Tuple</code> type.</p>
- <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Unstable </button>
-    <button class="tablink" data-id=""> Unstable </button>
-    <button class="tablink" data-id=""> Stable </button>
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; &#91;1,2,3&#93;
-
-
-function foo&#40;x&#41;                         # &#39;Vector&#123;Int64&#125;&#39; has no info on the number of elements
-    tuple_x &#61; Tuple&#40;x&#41;          
-
-    2 .&#43; tuple_x
-end
-
-@code_warntype foo&#40;x&#41;                   # type UNSTABLE</code></pre> </div></div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; &#91;1,2,3&#93;
-
-
-function foo&#40;x, N&#41;                      # The value of &#39;N&#39; isn&#39;t considered, only its type
-    tuple_x &#61; NTuple&#123;N, eltype&#40;x&#41;&#125;&#40;x&#41;   
-
-    2 .&#43; tuple_x
-end
-
-@code_warntype foo&#40;x, length&#40;x&#41;&#41;        # type UNSTABLE</code></pre> </div></div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; &#91;1,2,3&#93;
-tuple_x &#61; Tuple&#40;x&#41;
-
-function foo&#40;x&#41;
-
-
-    2 .&#43; x
-end
-
-@code_warntype foo&#40;tuple_x&#41;             # type stable</code></pre> </div></div> 
- </div></div>
-<p>  </p></details></div>
-<p> <h4> Dispatch by Value </h4><a id="dispatch_by_value" class="anchor"></a></p>
-<p>An alternative solution relies on a workaround that allows Julia to dispatch by value. This is achieved by the type <code>Val</code>, which makes it possible to pass information regarding values to the compiler. Specifically, for any function <code>foo</code> and value <code>a</code> that you seek the compiler to know, you need to include <code>::Val&#123;a&#125;</code> as an argument and then use <code>Val&#40;a&#41;</code> when calling <code>foo</code>.</p>
-<p>The following example applies this approach by revisiting the cases studied above. For the implementation, you could find it useful to revisit the keyword <code>where</code> for types introduced <a href="/julia_book/PAGES/7b01_preliminaries_stability/#remarks_on_types">here</a>.</p>
-<p>In the first example, the type instability of <code>foo</code> emerged because the value of <code>condition</code> wasn&#39;t known by the compiler. Adding <code>Val</code>, along with the keyword <code>where</code>, allows passing the value of <code>condition</code> to the compiler. Note that <code>where</code> is necessary, as otherwise it won&#39;t identify the specific value of <code>condition</code>.</p>
+<p>At first glance, we might erroneously conclude that <code>foo&#40;true&#41;</code> is type stable: the value of <code>condition</code> is <code>true</code>, so that <code>y &#61; 2.5</code> and therefore <code>y</code> will have type <code>Float64</code>. However, values don&#39;t participate in multiple dispatch, meaning that Julia&#39;s compiler ignores the value of <code>condition</code> when inferring <code>y</code>&#39;s type. Ultimately, <code>y</code> is treated as potentially being either <code>Int64</code> or <code>Float64</code>, leading to type instability.</p>
+<p>The issue in this case can be easily resolved by replacing <code>1</code> by <code>1.</code>, thus ensuring that <code>y</code> is always <code>Float64</code>. More generally, we could employ similar techniques to the <a href="#gotcha_1_integers_and_floats">first &quot;gotcha&quot;</a>, where values are converted to a specific concrete type. </p>
+<p>An alternative solution relies on dispatching by value, a technique we already <a href="&#40;/PAGES/8e_TS-tuples/#addressing_variable_arguments_dispatch_by_value&#41;">explored and implemented for tuples</a>. This technique makes it possible to pass information about values to the compiler. It&#39;s based on the type <code>Val</code>, along with the keyword <code>where</code> introduced <a href="/julia_book/PAGES/7c_TS-onTypes/#keyword_where">here</a>.</p>
+<p>Specifically, for any function <code>foo</code> and value <code>a</code> that you seek the compiler to know, you need to include <code>::Val&#123;a&#125;</code> as an argument. In this way, <code>a</code> is interpreted as a type parameter, which you can identify by including the keyword <code>where</code>. Finally, we need to call <code>foo</code> by passing <code>Val&#40;a&#41;</code> as its input. </p>
+<p>Applied to our example, type instability in <code>foo</code> emerges because the value of <code>condition</code> isn&#39;t known by the compiler. Dispatching by <code>a</code> enables us to pass the value of <code>condition</code> to the compiler. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2797,57 +2786,22 @@ end
 @code_warntype foo&#40;Val&#40;false&#41;&#41;   # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Below, we apply the <code>Val</code> approach to the example with tuples.</p>
- <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Unstable </button>
-    <button class="tablink" data-id=""> Stable (Val Approach) </button>
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;1,2,3&#93;
-
-function foo&#40;x&#41;
-    tuple_x &#61; Tuple&#40;x&#41;          
-
-    2 .&#43; tuple_x
-end
-
-@code_warntype foo&#40;x&#41;                   # type UNSTABLE</code></pre> </div></div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;1,2,3&#93;
-
-function foo&#40;x, ::Val&#123;N&#125;&#41; where N
-    tuple_x &#61; NTuple&#123;N, eltype&#40;x&#41;&#125;&#40;x&#41;   
-
-    2 .&#43; tuple_x    
-end
-
-@code_warntype foo&#40;x, Val&#40;length&#40;x&#41;&#41;&#41;   # type stable</code></pre> </div></div> 
- </div></div>
-<p>  </p></details></div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="gotcha_5_variables_as_default_values_for_keyword_arguments" class="scrollspy section-bg-color">
+<section id="gotcha_5_variables_as_default_values_of_keyword_arguments" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Gotcha 5: Variables as Default Values for Keyword Arguments</h2></p>
-<p>In functions, it&#39;s possible to set variables as default values when defining keyword arguments. Nonetheless, these variables will be considered global, turning the function type unstable. </p>
-<p>As a best practice, it&#39;s recommended to avoid using variables as default values whenever possible. Instead, opt for concrete values. In cases where using a variable as a default value is necessary, there are several strategies you could deploy.</p>
-<p>The first set of solutions affect the variable to be used as a default value in its global scope. They include to type-annotate the global variable or define it as a <code>const</code>. Additionally, you could define a function storing the default value, taking advantage the identification of types when a function is called. The second set of solutions is based on a local approach. They require type-annotating either the keyword argument or the default value. All these strategies are demonstrated below.</p>
+        <h2>Gotcha 5: Variables as Default Values of Keyword Arguments</h2></p>
+<p>Functions accept <a href="/julia_book/PAGES/3b_define_func/#positional_and_keyword_arguments">positional and keyword arguments</a>. In the particular case that functions are defined with keyword arguments, it&#39;s possible to assign default values. However, when these default values are specified through variables rather than literal values, a type instability is introduced. The reason is that the variable is then treated as a global variable. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Baseline </button>    
-    <button class="tablink" data-id=""> Number as Default </button>
-    <button class="tablink" data-id=""> Variable as Default </button>    
-    <button class="tablink" data-id=""> Fix 1 </button>
-    <button class="tablink" data-id=""> Fix 2 </button>
-    <button class="tablink" data-id=""> Fix 3 </button>
-    <button class="tablink" data-id=""> Local Fix 1 </button>
-    <button class="tablink" data-id=""> Local Fix 2 </button>
+    <button class="tablink first_tab active" data-id=""> No Default Value </button>    
+    <button class="tablink" data-id=""> Literal Value as Default </button>
+    <button class="tablink" data-id=""> Variable as Default </button>        
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">foo&#40;; x&#41; &#61; x
 
@@ -2863,7 +2817,23 @@ end
 
 β &#61; 1
 @code_warntype foo&#40;&#41;            #type UNSTABLE</code></pre> </div></div> 
- </div><div data-id="" class="tabcontent">
+ </div></div>
+<p>  </p></details></div>
+<p>When setting a variable as a default value is unavoidable, there are still a few strategies you could follow to restore type stability.</p>
+<p>One set of solutions leverages the <a href="PAGES/8c_TS-globalVariables/">techniques we introduced for global variables</a>. These include type-annotating the global variable &#40;<em>Solution 1a</em>&#41; or defining it as a constant &#40;<em>Solution 1b</em>&#41;.</p>
+<p>Another strategy involves defining a function that stores the default value. By doing so, you can take advantage of type inference, where the function attempts to infer a concrete type for the default value &#40;<em>Solution 2</em>&#41;.</p>
+<p>You can also adopt a local approach, by adding type annotations to either the keyword argument &#40;<em>Solution 3a</em>&#41; or the default value itself &#40;<em>Solution 3b</em>&#41;. Finally, type instability does not arise when positional arguments are used as default values of keyword arguments &#40;<em>Solution 4</em>&#41;. </p>
+<p>All these cases are stated below.</p>
+ <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Solution 1a </button>
+    <button class="tablink" data-id=""> Solution 1b </button>
+    <button class="tablink" data-id=""> Solution 2 </button>
+    <button class="tablink" data-id=""> Solution 3a </button>
+    <button class="tablink" data-id=""> Solution 3b </button>
+    <button class="tablink" data-id=""> Solution 4 </button>
+</div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo&#40;; x &#61; β&#41; &#61; x
 
@@ -2894,15 +2864,13 @@ const β &#61; 1
 
 β &#61; 1
 @code_warntype foo&#40;&#41;            #type stable</code></pre> </div></div> 
- </div></div>
-<p>  </p></details></div>
- <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Positional Arguments as Keyword Arguments</strong>  </span>  </div>  <div class=content>     It&#39;s possible to reuse positional arguments as default values for keyword arguments without compromising type instability. </p>
-<p>Based on this, we can propose the following solution to the code above, where <code>β</code> is introduced as a positional argument.</p>
-<p> <div class=" code_box"> <details  open><summary> Type Stable  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">foo&#40;β; x &#61; β&#41; &#61; x
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">foo&#40;β; x &#61; β&#41; &#61; x
 
 β &#61; 1
-@code_warntype foo&#40;β&#41;            #type stable</code></pre> </div> </div>  </details></div>  </div>  </div>
+@code_warntype foo&#40;β&#41;           #type stable</code></pre> </div></div> 
+ </div></div>
+<p>  </p></details></div>
 <p>      </div>
     </div>
   </div>
@@ -2912,10 +2880,11 @@ const β &#61; 1
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 6: Closures can Easily Introduce Type Instabilities</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Closures</strong></span> are created when <strong>a function is nested inside another function</strong>, granting the inner function access to the outer function&#39;s scope. They show up explicitly when defining functions within a function, but also implicitly when using anonymous functions as function arguments in a function definition. </p>
-<p>The biggest downside of closures is that they can easily introduce type instabilities. And, although there have been some improvements in this area, the issues have been around for several years. This is why it&#39;s crucial to be aware of its subtle consequences and how to address them. </p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Closures</strong></span> are a fundamental concept in programming. A typical situation where they arise is when <strong>a function is defined inside another function</strong>, granting the inner function access to the outer function&#39;s scope. In Julia, closures explicitly show up when defining functions within a function, but also implicitly when using anonymous functions within a function. </p>
+<p>While closures offer a convenient way to write self-contained code, they can easily introduce type instabilities. Furthermore, although there have been some improvements in this area, their surrouding issues have been around for several years. This is why it&#39;s crucial to be aware of its subtle consequences and how to address them. </p>
  <h4> Closures Are Common in Coding </h4>
-<p>Writing code with closures emerge naturally in various contexts. The approach allows us to write self-contained code, keeping all steps of a task within a single function. One common scenario where closures are natural is when we need to prepare data &#40;e.g., defining parameters or initializing variables&#41;, and then compute an output based on that data. Below, we implement a scenario like this with and without a closure. We do it generically, so that you can easily identify the pattern. </p>
+<p>There are several scenarios where nesting functions emerges naturally. One such scenario is when you aim to keep a task within a single self-contained unit of code. For instance, this approach is particularly useful if a function needs to perform multiple interdependent steps, such as data preparation &#40;e.g., setting parameters or initializing variables&#41; and subsequent computations based on that data. By nesting a function within another, you can keep related code organized and contained within the same logical block, promoting code readability and maintainability.</p>
+<p>To illustrate the patterns involved with and without closures, we&#39;ll use generic code. This isn&#39;t intended to be executed, but rather to demonstrate the underlying structure of the code. We also suppose a task that lends itself to nested functions.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2951,19 +2920,19 @@ task&#40;&#41;</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>While the approach with closures seems natural, it can introduce type instability if we: </p>
+<p>Although the approach using closures may seem more intuitive, it can easily introduce type instability. This occurs under certain conditions, such as:</p>
 <ul>
-<li><p>redefine variables/arguments &#40;e.g., when we update a variable in an output&#41;, </p>
+<li><p>Redefining variables or arguments &#40;e.g., when updating a variable in an output&#41;</p>
 </li>
-<li><p>affect the order in which we define functions, or </p>
+<li><p>Altering the order in which functions are defined</p>
 </li>
-<li><p>use anonymous functions.</p>
+<li><p>Utilizing anonymous functions</p>
 </li>
 </ul>
-<p>We explore these cases below, where we refer to the containing function as the  <em>outer function</em> and the closure as the  <em>inner function</em>. </p>
+<p>Each of these cases is explored below, where we refer to the containing function as the  <em>outer function</em> and the closure as the  <em>inner function</em>. </p>
  <h4> When the Issue Arises </h4>
-<p>Before considering specific scenarios, let&#39;s start examining three examples. They encompass all the possible situations where closures could make type instability emerge.</p>
-<p>The first example reveals that the location of the inner function could matter.</p>
+<p>Let&#39;s start examining three examples. They cover all the possible situations where closures could result in type instability, allowing us to identify real-world scenarios where they could emerge.</p>
+<p>The first examples reveal that the placement of the inner function could matter for type stability.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3020,7 +2989,7 @@ bar&#40;x&#41; &#61; x
 @code_warntype foo&#40;&#41;      # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The second example shows that type instability arises if you use closures and simultaneously redefine variables or arguments. This holds even when you redefine a variable <code>x</code> by the same object, including a trivial expression as <code>x &#61; x</code>. The example also reveals that type annotating either the variable redefined or the closure doesn&#39;t solve the problem. </p>
+<p>The second example establishes that type instability arises when closures are combined with reassignments of variables or arguments. This issue even persists when you reassign the same object to the variable, including trivial expressions such as <code>x &#61; x</code>. The example also reveals that type annotating the redefined variable or the closure doesn&#39;t resolve the problem. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3103,7 +3072,7 @@ bar&#40;x&#41; &#61; x
 @code_warntype foo&#40;&#41;            # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Finally, the last example highlights that the order in which you define closures could matter for type stability. The third tab in particular shows that you could avoid the issue if you pass any subsequent closure as an argument. However, this approach is at odds with how Julia works in general, as we don&#39;t usually include functions as arguments of functions. </p>
+<p>Finally, the last example deals with situations involving multiple closures. It highlights that the order in which you define them could matter for type stability. The third tab in particular demonstrates that passing subsequent closures as arguments can sidestep the issue. However, such an approach is at odds with how code is generally written in Julia.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3150,8 +3119,7 @@ closure1&#40;x&#41; &#61; x
 @code_warntype foo&#40;1&#41;            # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Overall, the examples reveal a common pattern: <strong>the closure accesses variables or functions from the outer function's scope, without passing them as arguments</strong>. If we still want to employ closures, one generic solution is to specify all the arguments of the inner function,  <em>including the functions used</em>. </p>
-<p>In the following, we&#39;ll examine specific implementations of these patterns. They reveal that the issue can occur more frequently than we might expect. For each scenario, we&#39;ll also provide alternative case-dependent solutions, allowing you to employ a closure approach. Nonetheless, if you want to stay on the safe, the general guideline is to avoid closures if it&#39;s possible. </p>
+<p>In the following, we&#39;ll examine specific scenarios where these patterns emerge. The examples reveal that the issue can occur more frequently than we might expect. For each scenario, we&#39;ll also provide a solution that enables the use of a closure approach. Nonetheless, if the function captures a performance critical part of your code, it&#39;s probably wise to avoid closures.</p>
  <h4> &quot;But No One Writes Code like That&quot; </h4>
 <p> <h5><span style="color: rgb(62, 121, 180);"><strong> <em>i)</em> Transforming Variables through Conditionals</strong></span>  </h5></p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -3211,9 +3179,9 @@ end
 @code_warntype foo&#40;x, β&#41;        # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Recall that the compiler doesn&#39;t dispatch by value, and so whether the condition holds is irrelevant. For instance, the type instability would still hold if we wrote <code>1 &lt; 0</code> instead of <code>β &lt; 0</code>. Moreover, the value used to redefine <code>β</code> is unimportant for the issue to arise, with the same conclusion holding if you write <code>β &#61; β</code>. </p>
+<p>Recall that the compiler doesn&#39;t dispatch by value, and so whether the condition holds is irrelevant. For instance, the type instability would still hold if we wrote <code>1 &lt; 0</code> instead of <code>β &lt; 0</code>. Moreover, the value used to redefine <code>β</code> is also unimportant, with the same conclusion holding if you write <code>β &#61; β</code>. </p>
 <p> <h5><span style="color: rgb(62, 121, 180);"><strong> <em>ii)</em> Anonymous Functions inside a Function</strong></span>  </h5></p>
-<p>Using an anonymous function inside a function is a common type of closure. Considering this, type instability also arises in the example above if we replace the inner function <code>bar</code> for an anonymous function. To demonstrate this, we apply <code>filter</code> with an anonymous function that selects the values in <code>x</code> greater than <code>β</code>.</p>
+<p>Using an anonymous function inside a function is another common form of closure. Considering this, type instability also arises in the example above if we replace the inner function <code>bar</code> for an anonymous function. To demonstrate this, we apply <code>filter</code> with an anonymous function that keeps all the values in <code>x</code> that are greater than <code>β</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3298,7 +3266,7 @@ end
 
 @code_warntype foo&#40;x, β&#41;        # type UNSTABLE</code></pre> </div> </div>  </details></div>
 <p> <h5><span style="color: rgb(62, 121, 180);"><strong> <em>iv)</em> The Order in Which you Define Functions Could Matter Inside a Function</strong></span>  </h5></p>
-<p>To illustrate this claim, suppose you want to define a variable <code>x</code> that depends on a parameter <code>β</code>. However, there&#39;s a catch: <code>β</code> is measured in one unit &#40;e.g., meters&#41;, while <code>x</code> requires <code>β</code> to be in a different unit of measurement &#40;e.g., centimeters&#41;. This implies that we must rescale <code>β</code> to the appropriate unit, before defining <code>x</code>.</p>
+<p>To illustrate this claim, suppose you want to define a variable <code>x</code> that depends on a parameter <code>β</code>. However, <code>β</code> is measured in one unit &#40;e.g., meters&#41;, while <code>x</code> requires <code>β</code> to be expressed in a different unit &#40;e.g., centimeters&#41;. This implies that, before defining <code>x</code>, we must rescale <code>β</code> to the appropriate unit.</p>
 <p>Depending on how we implement the operation, a type instability could emerge. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3347,7 +3315,7 @@ end
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 24, 2024 
+          © Martin Alfaro <br>Last Modified September 25, 2024 
       </span> 
   </div> 
 </footer>
@@ -3931,7 +3899,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#gotcha_5_variables_as_default_values_for_keyword_arguments" data-offset="-40">Gotcha 5: Variables as Default Values for Keyword Arguments</a>
+          <a href="#gotcha_5_variables_as_default_values_of_keyword_arguments" data-offset="-40">Gotcha 5: Variables as Default Values of Keyword Arguments</a>
         </li>
         
         <li>

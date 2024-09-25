@@ -2709,7 +2709,7 @@ foo&#40;tup&#41; &#61; sum&#40;tup&#91;1:2&#93;&#41;
 
 @code_warntype foo&#40;tup&#41;         # type stable</code></pre> </div> </div>  </details></div>
 <p><strong>This approach should be your first option when transforming vectors to tuples</strong>. Nonetheless, there may be scenarios where defining the tuple inside the function is unavoidable. In such cases, there are a few alternatives that can be implemented.</p>
-<p>Note first that simply passing the vector&#39;s number of elements as an argument doesn&#39;t solve the issue. The reason is that the compiler generates method instances based on information about types, not values. This means that a function argument like <code>length&#40;x&#41;</code> merely informs that the number of elements has type <code>Int64</code>, without providing any additional insight.</p>
+<p>Note first that simply passing the vector&#39;s number of elements as an argument doesn&#39;t solve the issue. The reason is that the compiler generates method instances based on information about types, not values. Thus, a function argument like <code>length&#40;x&#41;</code> merely informs the compiler that the number of elements has type <code>Int64</code>, without providing any additional insight.</p>
 <p>Instead, one effective solution is to define the tuple&#39;s length using a literal value, as demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2825,7 +2825,7 @@ end
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 24, 2024 
+          © Martin Alfaro <br>Last Modified September 25, 2024 
       </span> 
   </div> 
 </footer>

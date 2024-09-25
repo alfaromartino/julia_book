@@ -2570,7 +2570,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Functions as Arguments: The Issue</h2></p>
-<p>For exploring type stability, a distinctive feature of functions is that  <em>each function defines its own unique concrete type</em>. In turn, this concrete type is a subtype of an abstract type called <code>Function</code>, which encompasses all possible functions defined in Julia. This type system creates challenges when specializing the computation method of higher-order functions, as it can potentially lead to a combinatorial explosion of methods, with a unique method generated for each fallback function.</p>
+<p>For exploring type stability, a distinctive feature of functions is that  <em>each function defines its own unique concrete type</em>. In turn, this concrete type is a subtype of an abstract type called <code>Function</code>, which encompasses all possible functions defined in Julia. This type system creates challenges when specializing the computation method of higher-order functions, as it can potentially lead to a combinatorial explosion of methods, with a unique method generated for each callback function.</p>
 <p>To address this issue, Julia takes a conservative approach, <strong>often choosing not to specialize the methods of high-order functions</strong>. The performance in such cases can be severely degraded, as the execution runtime would become similar to performing operations in the global scope. </p>
 <p>Taking this into account, it&#39;s important to pinpoint the scenarios where specialization is inhibited and monitor its consequences. If it occurs that performance is severely impaired, there are still ways to enforce specialization. In the following section, we explore several techniques for doing so.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
@@ -2600,7 +2600,7 @@ end</code></pre> </div> </div> <div class="img_output_in_modal output_in_modal">
     </p>
     </div> </div>   </details></div>
 <p>Although we can show that <code>foo&#40;abs,x&#41;</code> isn&#39;t specialized, <code>@code_warntype</code> <strong>fails to detect any type-stability issues</strong>. This is a consequence of <code>@code_warntype</code> evaluating type stability  <em>under the assumption that specialization is attempted</em>. In our example, this assumption doesn&#39;t hold and therefore <code>@code_warntype</code> is of no use. </p>
-<p>The specific reason for this behavior is that Julia <strong>avoids specialization when a fallback function isn't explicitly called within the function</strong>. In the example, the function <code>f</code> only enters <code>foo</code> as an argument of <code>map</code>, but there&#39;s no explicit line calling <code>f</code>. </p>
+<p>The specific reason for this behavior is that Julia <strong>avoids specialization when a callback function isn't explicitly called within the function</strong>. In the example, the function <code>f</code> only enters <code>foo</code> as an argument of <code>map</code>, but there&#39;s no explicit line calling <code>f</code>. </p>
 <p>To obtain indirect evidence regarding the lack of specialization, we can compare the runtimes of the original <code>foo</code> function with a version that explicitly calls <code>f</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2700,7 +2700,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 24, 2024 
+          © Martin Alfaro <br>Last Modified September 25, 2024 
       </span> 
   </div> 
 </footer>
