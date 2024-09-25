@@ -1,1 +1,1 @@
-print_compact(foo(f_tup, x))
+print_compact(foo(abs, x))

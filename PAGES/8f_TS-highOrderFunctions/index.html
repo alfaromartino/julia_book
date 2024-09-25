@@ -2558,9 +2558,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Recall that functions in Julia are  <em>first-class objects</em>, meaning that they can be manipulated as any other variable. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Equivalently, it&#39;s said that functions are  <em>first-class citizens</em>.  </span></span> This enables us to define vectors of functions, create functions that return other functions, and more.</p>
-<p>In particular, it enables the definition of <span style="color: rgb(62, 121, 180);"><strong>high-order functions</strong></span>: functions that take another function as an argument. We&#39;ve already worked with several examples of them, where anonymous functions were used as an input &#40;e.g., <code>map</code> and <code>filter</code>&#41;. </p>
-<p>Next, we consider the conditions under which high-order functions are type-stable.  </p>
+<p>Functions in Julia are <span style="color: rgb(62, 121, 180);"><strong>first-class objects</strong></span>, a concept also referred to as <span style="color: rgb(62, 121, 180);"><strong>first-class citizens</strong></span>. This means that functions can be treated like any other variable, thus allowing for vectors of functions, functions returning other functions, and more. </p>
+<p>In particular, the property makes it possible to define <span style="color: rgb(62, 121, 180);"><strong>higher-order functions</strong></span>, which are functions that take another function as an argument. We&#39;ve already encountered several examples of higher-order functions, often in the form of anonymous functions passed as arguments. A classic example of a higher-order function is <code>map&#40;&lt;function&gt;, &lt;collection&gt;&#41;</code>, given that <code>&lt;function&gt;</code> is one of its arguments. Throughout the explanations, we follow common terminology and refer the function passed as an argument as the  <em>callback function</em>. </p>
+<p>In this section, we&#39;ll examine conditions under which higher-order functions are type-stable. As we&#39;ll see, these functions present some challenges for specializing their computation method. </p>
 <p>      </div>
     </div>
   </div>
@@ -2570,28 +2570,28 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Functions as Arguments: The Issue</h2></p>
-<p>For the explanations, let&#39;s refer to the high-order function as  <em>the parent function</em>, and  <em>the child function</em> as the one passed as an argument. </p>
-<p><strong>Each function in Julia defines its own unique concrete type</strong>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Additionally, each function is a subtype of an abstract type called <code>Function</code>  </span></span> This feature can become problematic for specialization of high-order functions. Specifically, it may cause a combinatorial explosion of specialized methods, as each unique child function would require separate compilation.</p>
-<p>To mitigate this issue, <strong>Julia has opted for not always specializing the methods of high-order functions</strong>. In some circumstances, this may result in a degraded performance, similar to working in the global scope. Therefore, it&#39;s important to pinpoint the scenarios where specialization is inhibited and monitor its consequences. In situations where performance is significantly impaired, it&#39;s still possible to explicitly induce specialization. Next, we explore the methods for achieving this.</p>
+<p>For exploring type stability, a distinctive feature of functions is that  <em>each function defines its own unique concrete type</em>. In turn, this concrete type is a subtype of an abstract type called <code>Function</code>, which encompasses all possible functions defined in Julia. This type system creates challenges when specializing the computation method of higher-order functions, as it can potentially lead to a combinatorial explosion of methods, with a unique method generated for each fallback function.</p>
+<p>To address this issue, Julia takes a conservative approach, <strong>often choosing not to specialize the methods of high-order functions</strong>. The performance in such cases can be severely degraded, as the execution runtime would become similar to performing operations in the global scope. </p>
+<p>Taking this into account, it&#39;s important to pinpoint the scenarios where specialization is inhibited and monitor its consequences. If it occurs that performance is severely impaired, there are still ways to enforce specialization. In the following section, we explore several techniques for doing so.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Exercise caution when applying this method, as overly aggressive specialization can degrade performance severely. This explains why Julia&#39;s default approach is deliberately conservative. In particular, avoid specialization when your script calls high-order functions repeatedly with many different functions. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For discussions about specializing high-order functions, see <a href="https://docs.julialang.org/en/v1/devdocs/functions/#compiler-efficiency-issues">here</a> and <a href="https://discourse.julialang.org/t/be-less-aware-of-when-julia-avoids-specializing/109111/5">here</a>.  </span></span>  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     Exercise caution when inducing specialization. Overly aggressive specialization can degrade performance severely, explaining why Julia&#39;s default approach is deliberately conservative. In particular, you should avoid specialization when your script repeatedly calls a high-order function with many unique functions. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For discussions about the issue of excessive specialization, see <a href="https://docs.julialang.org/en/v1/devdocs/functions/#compiler-efficiency-issues">here</a> and <a href="https://discourse.julialang.org/t/be-less-aware-of-when-julia-avoids-specializing/109111/5">here</a>.  </span></span>  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="no_specialization_and_its_solutions" class="scrollspy">
+<section id="an_example_of_no_specialization" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>No Specialization and Its Solutions</h2></p>
-<p>To illustrate the scenario, suppose we want to transform a vector <code>x</code> using <code>map</code>, and then sum its transformed elements. Additionally, assume we want to keep the transforming function generic, for which the transforming function is defined as an argument <code>f</code>. The implementation of this task is shown below, where we illustrate its usage through the function <code>abs</code> as the transformed function <code>f</code>. </p>
+        <h2>An Example of No Specialization</h2></p>
+<p>To illustrate when higher-order functions don&#39;t specialize, let&#39;s consider a specific scenario where we sum the transformed elements of a vector <code>x</code>. The only requirement we impose is that the transforming function should be generic, allowing us to possibly apply different functions for the transformation. </p>
+<p>Below, we implement this operation through a higher-order function <code>foo</code>. This first uses <code>map</code> to transform <code>x</code> through some function <code>f</code>, and then applies the function <code>sum</code> to add the transformed elements. For demonstrating how <code>foo</code> works, we also call it with the function <code>abs</code> as its specific transformed function. </p>
  <div class=" code_box"> <details  open><summary> No Specialization  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
 function foo&#40;f, x&#41;
     y &#61; map&#40;f, x&#41;
     
-
     sum&#40;y&#41;    
 end</code></pre> </div> </div> <div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"><div class="julia_repl_NoFormat" style="padding-bottom:0.25em; padding-top:0.25em"><span style="padding-left:1em;"><div class="julia_line">julia&gt</div> <code>@code_warntype foo&#40;abs,x&#41;</code></span></div></div>  <div class="img_output">
     <p> <span style="padding-left:1em;"> 
@@ -2599,8 +2599,9 @@ end</code></pre> </div> </div> <div class="img_output_in_modal output_in_modal">
           </span>
     </p>
     </div> </div>   </details></div>
-<p>The situation is especially tricky because <code>@code_warntype</code> <strong>fails to detect any type-stability issues</strong>. The reason is that <code>@code_warntype</code> evaluates type stability  <em>under the assumption of specialization</em>, which doesn&#39;t hold in our example: <strong>Julia bypasses specialization in the particular case where</strong> <code>f</code> <strong>is not explicitly called</strong>. Specifically, <code>f</code> in our example only enters <code>foo</code> as an argument of <code>map</code>. </p>
-<p>To corroborate the absence of specialization, let&#39;s compare the original function with a modified version that explicitly calls <code>f</code>.</p>
+<p>Although we can show that <code>foo&#40;abs,x&#41;</code> isn&#39;t specialized, <code>@code_warntype</code> <strong>fails to detect any type-stability issues</strong>. This is a consequence of <code>@code_warntype</code> evaluating type stability  <em>under the assumption that specialization is attempted</em>. In our example, this assumption doesn&#39;t hold and therefore <code>@code_warntype</code> is of no use. </p>
+<p>The specific reason for this behavior is that Julia <strong>avoids specialization when a fallback function isn't explicitly called within the function</strong>. In the example, the function <code>f</code> only enters <code>foo</code> as an argument of <code>map</code>, but there&#39;s no explicit line calling <code>f</code>. </p>
+<p>To obtain indirect evidence regarding the lack of specialization, we can compare the runtimes of the original <code>foo</code> function with a version that explicitly calls <code>f</code>. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2616,7 +2617,8 @@ function foo&#40;f, x&#41;
     sum&#40;y&#41;    
 end</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>foo&#40;abs, x&#41;</code> <br/> <pre><code class="plaintext code-output">48.447</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;abs, &#36;x&#41;</code> <br/>  </div></div> </div> 
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;abs, &#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  195.579 ns (3 allocations: 928 bytes)
+</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
@@ -2627,31 +2629,28 @@ function foo&#40;f, x&#41;
     sum&#40;y&#41;
 end</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>foo&#40;abs, x&#41;</code> <br/> <pre><code class="plaintext code-output">48.447</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;abs, &#36;x&#41;</code> <br/>  </div></div> </div> 
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;abs, &#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  45.745 ns (1 allocation: 896 bytes)
+</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>We can observe a significant reduction in time by adding <code>f&#40;1&#41;</code>, along with a decrease in memory allocations. Excessive allocations are a common symptom of type instability, as we&#39;ll demonstrate when exploring the subject.</p>
-<p>Nonetheless, explicitly calling the function to circumvent the no-specialization issue isn&#39;t optimal, since it introduces an unnecessary computation. Fortunately, alternative solutions exist to address the problem. One approach is to type-annotate <code>f</code>, which provides Julia with a hint to specialize. Another solution is to wrap the function in a tuple and then call it. This ensures the identification of the function&#39;s type, as the information is inherent to the tuple&#39;s type.</p>
-<p>For the sake of completeness, we next outline all the approaches, including the previous method with an explicit function call.</p>
+<p>The comparison lays bare a significant reduction in time when <code>f&#40;1&#41;</code> is added. Furthermore, there&#39;s also a notable decrease in memory allocations. As we&#39;ll demonstrate when exploring the subject, excessive allocations often serve as a telltale sign of type instability.</p>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="forcing_specialization" class="scrollspy section-bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Forcing Specialization</h2></p>
+<p>Explicitly calling the function to circumvent the no-specialization issue isn&#39;t optimal, since it introduces an unnecessary computation. Fortunately, alternative solutions exist to address the problem. One approach is to type-annotate <code>f</code>, which provides Julia with a hint to specialize. Another solution is to wrap the function in a tuple and then call it. This ensures the identification of the function&#39;s type, as tuples identify a concrete type for each element. </p>
+<p>Below, we outline both approaches</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Solution 1 </button>
-    <button class="tablink" data-id=""> Solution 2 </button>
-    <button class="tablink" data-id=""> Solution 3 </button>
+    <button class="tablink first_tab active" data-id=""> Type-Annotation </button>
+    <button class="tablink" data-id=""> Tuple </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
-
-
-function foo&#40;f, x&#41;
-    y &#61; map&#40;f, x&#41;
-    f&#40;1&#41;                # irrelevant computation to force specialization
-
-    sum&#40;y&#41;
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>foo&#40;abs, x&#41;</code> <br/> <pre><code class="plaintext code-output">48.447</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;abs, &#36;x&#41;</code> <br/>  </div></div> </div> 
- </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
 
@@ -2662,7 +2661,8 @@ function foo&#40;f::F, x&#41; where F
     sum&#40;y&#41;
 end</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>foo&#40;abs, x&#41;</code> <br/> <pre><code class="plaintext code-output">48.447</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;abs, &#36;x&#41;</code> <br/>  </div></div> </div> 
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;abs, &#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  46.686 ns (1 allocation: 896 bytes)
+</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 f_tup &#61; &#40;abs,&#41;
@@ -2674,7 +2674,8 @@ function foo&#40;f_tup, x&#41;
     sum&#40;y&#41;
 end</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>foo&#40;f_tup, x&#41;</code> <br/> <pre><code class="plaintext code-output">48.447</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;f_tup, &#36;x&#41;</code> <br/>  </div></div> </div> 
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;f_tup, &#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  45.101 ns (1 allocation: 896 bytes)
+</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -2699,7 +2700,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 23, 2024 
+          © Martin Alfaro <br>Last Modified September 24, 2024 
       </span> 
   </div> 
 </footer>
@@ -3271,7 +3272,11 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#no_specialization_and_its_solutions" data-offset="-40">No Specialization and Its Solutions</a>
+          <a href="#an_example_of_no_specialization" data-offset="-40">An Example of No Specialization</a>
+        </li>
+        
+        <li>
+          <a href="#forcing_specialization" data-offset="-40">Forcing Specialization</a>
         </li>
         
       </ul>

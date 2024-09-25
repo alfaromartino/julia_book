@@ -9,4 +9,4 @@ function foo(funs, a)
     end
 end
 
-#@btime foo($funs, $a) #hide
+@btime foo($funs, $a) #hide

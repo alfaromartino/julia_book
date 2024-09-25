@@ -5,4 +5,4 @@ function foo(t::Type{T}) where T
     sum(x)
 end
 
-#@btime foo(Int64) #hide
+@btime foo(Int64) #hide

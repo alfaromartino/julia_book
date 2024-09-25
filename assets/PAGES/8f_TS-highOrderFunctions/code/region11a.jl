@@ -5,4 +5,4 @@ function foo(type)
     sum(x)
 end
 
-#@btime foo(Int64) #hide
+@btime foo(Int64) #hide

@@ -1,4 +1,4 @@
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100)
 
 function foo(f, x)
@@ -10,4 +10,4 @@ function foo(f, x)
     end
 end
 tup = (abs,)
-#@btime foo($tup, $x) #hide
+@btime foo($tup, $x) #hide

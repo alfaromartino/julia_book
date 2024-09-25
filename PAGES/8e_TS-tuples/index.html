@@ -2738,11 +2738,11 @@ end
 @code_warntype foo&#40;tup&#41;       # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The downside of this solution is that it defeats the purpose of having a generic function, as it restricts the function to tuples of a single predetermined size. In this context, to eliminate the type instability without constraining functionality, we need to introduce a more advanced solution. This is based on a technique known as <strong>dispatch by value</strong>. Since this approach is more complex to implement, textit&#123;I recommend using it only when passing the tuple as a function argument is unfeasible&#125;. </p>
+<p>The downside of this solution is that it defeats the purpose of having a generic function, as it restricts the function to tuples of a single predetermined size. To eliminate the type instability without constraining functionality, we need to introduce a more advanced solution. This is based on a technique known as <strong>dispatch by value</strong>. Since this approach is more complex to implement,  <em>I recommend using it only when passing the tuple as a function argument is unfeasible</em>. </p>
 <p>Next, we lay out the principles of dispatch by value, and then apply the technique to the specific case of tuples.</p>
  <h4> Definiting Dispatch By Value </h4>
 <p>Dispatch by value enables passing information about values to the compiler. Implementing this feature, nonetheless, requires a workaround, since the compiler only gathers information about types. The hack consists of creating a type that stores values as type parameters. In the case of tuples, this type parameter is simply the vector&#39;s number of elements. </p>
-<p>The functionality is achieved via the built-in type <code>Val</code>, whose syntax can be best explained with an example. Suppose a function <code>foo</code> and a value <code>a</code> that you wish the compiler to know. The technique requires defining <code>foo</code> with a type-annotated argument having no name, <code>::Val&#123;a&#125;</code>.  After this, you must call <code>foo</code> passing an argument <code>Val&#40;a&#41;</code>, which instantiates a type with parameter <code>a</code>.</p>
+<p>The functionality is implemented via the built-in type <code>Val</code>, whose syntax can be best explained with an example. Suppose a function <code>foo</code> and a value <code>a</code> that you wish the compiler to know. The technique requires defining <code>foo</code> with a type-annotated argument having no name, <code>::Val&#123;a&#125;</code>.  After this, you must call <code>foo</code> passing an argument <code>Val&#40;a&#41;</code>, which instantiates a type with parameter <code>a</code>.</p>
 <p>To illustrate the syntax, we revisit an example from previous sections. This considers a variable <code>y</code> that could be an <code>Int64</code> or <code>Float64</code>, contingent upon a condition. The ambiguity of <code>y</code>&#39;s type is then transmitted to any subsequent operation, leading to type instability.</p>
 <p>Dispatch by value is implemented by defining the condition as a type parameter of <code>Val</code>. In this way, the compiler will receive information about whether condition is <code>true</code> or <code>false</code>, and therefore know <code>y</code>&#39;s type. This makes it possible to specialize its operations.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2774,7 +2774,7 @@ end
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content>     The function argument <code>Val</code> must be defined with <code>&#123;&#125;</code>, but called with <code>&#40;&#41;</code>. This is because types define their parameters with <code>&#123;&#125;</code>, while instances of types require functions.  </div>  </div>
  <h4> Dispatching by Value with Tuples </h4>
-<p>Let&#39;s now revisit the conversion of vectors to tuples. As we previously discussed, type instability arises because vectors don&#39;t store their size as part of their type information, leaving the compiler without sufficient information to determine the tuple&#39;s type.</p>
+<p>Let&#39;s now revisit the conversion of vectors to tuples. As we previously discussed, type instability arises because vectors don&#39;t store the size as part of their type information, leaving the compiler without sufficient information to determine the tuple&#39;s type.</p>
 <p>Dispatch by value provides a solution to this issue: by passing the vector&#39;s length as a type parameter, the function call becomes type stable.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2825,7 +2825,7 @@ end
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 23, 2024 
+          © Martin Alfaro <br>Last Modified September 24, 2024 
       </span> 
   </div> 
 </footer>

@@ -8,4 +8,4 @@ function foo(funs, a)
         sum(y)
     end
 end
-#@btime foo($funs, $a) #hide
+@btime foo($funs, $a) #hide
