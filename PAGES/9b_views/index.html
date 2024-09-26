@@ -2558,9 +2558,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>In the section <a href="/julia_book/PAGES/6a0_slices/">Slices and Views</a>, we defined a <strong>slice</strong> as a subvector of the parent vector <code>x</code>, such as <code>x&#91;1:2&#93;</code> or <code>x&#91;x .&gt; 0&#93;</code>. Slices create a copy of the data by default and therefore allocate memory. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that the only exception is when the slice appears on the left-hand side of <code>&#61;</code>, in which case the slice refers to the original object.  </span></span></p>
-<p>Next, we consider the use of <strong>views</strong> as an alternative to avoid these allocations. Views allow the user to directly reference the parent object, instead of creating a copy. The approach is useful when the slice is <strong>indexed through ranges</strong>, although <strong>not when the slice employs Boolean indexing</strong>.</p>
-<p>Finally, we demonstrate that <strong>copying data in some occasions may be faster than using views</strong>, despite allocating. This follows because vectors create a contiguous block in memory, enabling a more efficient access to their elements.</p>
+<p>In our previous discussion on <a href="/julia_book/PAGES/5d_slices/">Slices and Views</a>, we defined the concept of a <strong>slice</strong> as a subvector of the parent vector <code>x</code>. Typical examples of slices are expressions such as <code>x&#91;1:2&#93;</code> or <code>x&#91;x .&gt; 0&#93;</code>. By default, slices create a copy of the data and therefore incurs memory allocation, with the only exception of slices consisting of a single object.</p>
+<p>Next, we present an approach to avoiding the overhead of memory allocation. This is based on the concept of <strong>views</strong>, which bypass the need for a copy by directly referencing the parent object. This method is particularly effective when slices are indexed through ranges. However, it&#39;s not suitable for slices that employ Boolean indexing, in which case allocations will still occur. </p>
+<p>Finally, we demonstrate that <strong>copying data could be faster than using views</strong>, despite the additional memory allocation involved. This seeming paradox arises because creating a vector ensures that elements are stored in a contiguous block in memory, which facilitates more efficient access to them.</p>
 <p>      </div>
     </div>
   </div>
@@ -2570,7 +2570,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Views of Slices</h2></p>
-<p>The following example shows that views don&#39;t allocate memory  <em>when the slice is indexed by a range</em>. This can lead to performance improvements compared to regular slices, which create a copy by default.</p>
+<p>We start showing that views don&#39;t allocate memory  <em>if the slice is indexed by a range</em>. This property can lead to performance improvements over regular slices, which create a copy by default.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2619,7 +2619,8 @@ foo&#40;x&#41; &#61; @views sum&#40;x&#91;x .&gt; 0.5&#93;&#41;</code></pre> </d
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Copying Data May Be Faster</h2></p>
-<p>Even with increased memory allocations, copying data can sometimes be faster than using views. The reason is that new vectors create contiguous blocks in memory, which the CPU can access more easily. In contrast, views have to access data that is dispersed in memory, thereby slowing down computations. In some scenarios, the cost of creating a copy may outweigh the cost of accessing scattered data, rendering copies the preferred approach. This point is illustrated below. </p>
+<p>Although views can reduce memory allocations, there are scenarios where copying data can be the faster approach. This is due to an inherent trade-off between memory allocation and data access patterns. On the one hand, newly created vectors store data in contiguous blocks of memory, enabling more efficient CPU access. On the other hand, while views avoid allocation, they require accessing data scattered throughout memory. </p>
+<p>In certain cases, the overhead of creating a copy may be outweighed by the benefits of contiguous memory access, making copying the more efficient choice. This possibility is illustrated below. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
