@@ -1589,8 +1589,6 @@ margin-top: 0px;
 
   
 
-  
-
 <div class="bar_top">
   <ul>
      <li>
@@ -1624,8 +1622,6 @@ margin-top: 0px;
                 <li><a href="/julia_book/PAGES/7c_TS-onTypes/"><i>d</i>. Preliminaries on Types</a></li><br>
                 
                 <li><a href="/julia_book/PAGES/7d_TS-onFunctions/"><i>e</i>. Functions: Type Inference and Multiple Dispatch</a></li><br>
-                
-                <li><a href="/julia_book/PAGES/7e_onAllocations/"><i>f</i>. Preliminaries on Memory Allocations</a></li><br>
                 
               </ul>
             </li>            
@@ -1663,19 +1659,23 @@ margin-top: 0px;
             <li>9. <u>Reducing Memory Allocations</u>
               <ul>
                 
-                <li><a href="/julia_book/PAGES/9a_objectsAllocating/"><i>a</i>. Objects Allocating Memory</a></li><br>
+                <li><a href="/julia_book/PAGES/9_overview/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/9b_views/"><i>b</i>. Slice Views to Reduce Allocations</a></li><br>
+                <li><a href="/julia_book/PAGES/9a_onAllocations/"><i>b</i>. Defining Memory Allocations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/9c_preallocations/"><i>c</i>. Pre-Allocations</a></li><br>
+                <li><a href="/julia_book/PAGES/9b_objectsAllocating/"><i>c</i>. Objects Allocating Memory</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/9d_reductions/"><i>d</i>. Reductions</a></li><br>
+                <li><a href="/julia_book/PAGES/9c_views/"><i>d</i>. Slice Views to Reduce Allocations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/9e_staticVectors/"><i>e</i>. Tuples and Static Vectors for Small Collections</a></li><br>
+                <li><a href="/julia_book/PAGES/9d_preallocations/"><i>e</i>. Pre-Allocations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/9f_lazy/"><i>f</i>. Lazy Operations</a></li><br>
+                <li><a href="/julia_book/PAGES/9e_reductions/"><i>f</i>. Reductions</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/9g_lazyBroadcasting/"><i>g</i>. Lazy Broadcasting and Loop Fusion</a></li><br>
+                <li><a href="/julia_book/PAGES/9f_staticVectors/"><i>g</i>. Tuples and Static Vectors for Small Collections</a></li><br>
+                
+                <li><a href="/julia_book/PAGES/9g_lazy/"><i>h</i>. Lazy Operations</a></li><br>
+                
+                <li><a href="/julia_book/PAGES/9h_lazyBroadcasting/"><i>i</i>. Lazy Broadcasting and Loop Fusion</a></li><br>
                 
               </ul>
             </li>            
@@ -1690,6 +1690,10 @@ margin-top: 0px;
 </div>
 
 
+
+  
+
+  
 
   
 
@@ -2758,7 +2762,7 @@ end
 @code_warntype foo&#40;false&#41;        # type UNSTABLE</code></pre> </div> </div>  </details></div>
 <p>At first glance, we might erroneously conclude that <code>foo&#40;true&#41;</code> is type stable: the value of <code>condition</code> is <code>true</code>, so that <code>y &#61; 2.5</code> and therefore <code>y</code> will have type <code>Float64</code>. However, values don&#39;t participate in multiple dispatch, meaning that Julia&#39;s compiler ignores the value of <code>condition</code> when inferring <code>y</code>&#39;s type. Ultimately, <code>y</code> is treated as potentially being either <code>Int64</code> or <code>Float64</code>, leading to type instability.</p>
 <p>The issue in this case can be easily resolved by replacing <code>1</code> by <code>1.</code>, thus ensuring that <code>y</code> is always <code>Float64</code>. More generally, we could employ similar techniques to the <a href="#gotcha_1_integers_and_floats">first &quot;gotcha&quot;</a>, where values are converted to a specific concrete type. </p>
-<p>An alternative solution relies on dispatching by value, a technique we already <a href="&#40;/PAGES/8e_TS-tuples/#addressing_variable_arguments_dispatch_by_value&#41;">explored and implemented for tuples</a>. This technique makes it possible to pass information about values to the compiler. It&#39;s based on the type <code>Val</code>, along with the keyword <code>where</code> introduced <a href="/julia_book/PAGES/7c_TS-onTypes/#keyword_where">here</a>.</p>
+<p>An alternative solution relies on dispatching by value, a technique we already <a href="/julia_book/PAGES/8e_TS-tuples/#addressing_variable_arguments_dispatch_by_value">explored and implemented for tuples</a>. This technique makes it possible to pass information about values to the compiler. It&#39;s based on the type <code>Val</code>, along with the keyword <code>where</code> introduced <a href="/julia_book/PAGES/7c_TS-onTypes/#keyword_where">here</a>.</p>
 <p>Specifically, for any function <code>foo</code> and value <code>a</code> that you seek the compiler to know, you need to include <code>::Val&#123;a&#125;</code> as an argument. In this way, <code>a</code> is interpreted as a type parameter, which you can identify by including the keyword <code>where</code>. Finally, we need to call <code>foo</code> by passing <code>Val&#40;a&#41;</code> as its input. </p>
 <p>Applied to our example, type instability in <code>foo</code> emerges because the value of <code>condition</code> isn&#39;t known by the compiler. Dispatching by <code>a</code> enables us to pass the value of <code>condition</code> to the compiler. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2820,7 +2824,7 @@ end
  </div></div>
 <p>  </p></details></div>
 <p>When setting a variable as a default value is unavoidable, there are still a few strategies you could follow to restore type stability.</p>
-<p>One set of solutions leverages the <a href="PAGES/8c_TS-globalVariables/">techniques we introduced for global variables</a>. These include type-annotating the global variable &#40;<em>Solution 1a</em>&#41; or defining it as a constant &#40;<em>Solution 1b</em>&#41;.</p>
+<p>One set of solutions leverages the <a href="/julia_book/PAGES/8c_TS-globalVariables/">techniques we introduced for global variables</a>. These include type-annotating the global variable &#40;<em>Solution 1a</em>&#41; or defining it as a constant &#40;<em>Solution 1b</em>&#41;.</p>
 <p>Another strategy involves defining a function that stores the default value. By doing so, you can take advantage of type inference, where the function attempts to infer a concrete type for the default value &#40;<em>Solution 2</em>&#41;.</p>
 <p>You can also adopt a local approach, by adding type annotations to either the keyword argument &#40;<em>Solution 3a</em>&#41; or the default value itself &#40;<em>Solution 3b</em>&#41;. Finally, type instability does not arise when positional arguments are used as default values of keyword arguments &#40;<em>Solution 4</em>&#41;. </p>
 <p>All these cases are stated below.</p>
@@ -3308,14 +3312,14 @@ end
           </a>
       </span> 
       <span class="right-text">
-          <a href="/julia_book/PAGES/9a_objectsAllocating" class="nextPage">
+          <a href="/julia_book/PAGES/9_overview" class="nextPage">
               Next Section 
               <span class="ctrl-text">( <kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_right.png" style="width:15px; height:auto;opacity:0.9;padding-bottom:2px;"> </kbd> )</span>
               <img src="/julia_book/assets/icons/next-page.png" style="width:50px; height:auto;opacity:0.9;padding-bottom:5px;">
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 25, 2024 
+          © Martin Alfaro <br>Last Modified September 27, 2024 
       </span> 
   </div> 
 </footer>

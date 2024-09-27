@@ -1742,6 +1742,8 @@ margin-top: 0px;
 
   
 
+  
+
 
 
 <style>
@@ -2700,7 +2702,7 @@ y            &#61; x&#91;condition.&#40;x&#41;&#93;</code></pre>
 </ul>
 
 <p>To select elements of a vector through logical indexing, another approach involves the use of <code>in</code> and <code>∈</code>. Each of these symbols is available as a function and an operator, and they determine whether an element belongs to a given set. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> <code>in</code> and <code>∈</code> were <a href="/julia_book/4d_vectorizing/#broadcasting_binary_operators_only_one_vector_broadcasted">introduced here</a>.  </span></span></p>
-<p>When using these functions with broadcasting, there&#39;s an important caveat to consider. As introduced in the section on <a href="/julia_book/3d_vectorizing/#broadcasting_over_one_argument_only">broadcasting over one argument only</a>, we need to be mindful of how broadcasting behaves when the function takes multiple arguments.</p>
+<p>When using these functions with broadcasting, there&#39;s an important caveat to consider. As introduced in the section on <a href="/julia_book/PAGES/3d_vectorizing/#broadcasting_over_one_argument_only">broadcasting over one argument only</a>, we need to be mindful of how broadcasting behaves when the function takes multiple arguments.</p>
 <p>To demonstrate their use, let&#39;s consider a vector <code>x</code> from which we want to select specific elements. Suppose in particular that your goal is to retain the numbers contained in <code>set_numbers</code>.  If we use either <code>in.&#40;x, set_numbers&#41;</code> or <code>x ∈. set_numbers</code>, Julia will simultaneously iterate over each pair of <code>x</code> and <code>set_numbers</code>. However, this isn&#39;t the desired operation. Rather, our goal is to check whether each element of <code>x</code> belongs to <code>set_numbers</code>. This requires us treating <code>set_numbers</code> as a single object, which can be achieved via <code>Ref&#40;set_numbers&#41;</code>. </p>
 <p>Considering this, the following example demonstrates how to properly use <code>in</code> and <code>∈</code>. The scenario supposes that the aim is to create a vector <code>y</code>, which contains the minimum and maximum of the vector <code>x</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -2883,7 +2885,7 @@ y &#61; filter&#40;a -&gt; a &gt; 7, x&#41;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 25, 2024 
+          © Martin Alfaro <br>Last Modified September 27, 2024 
       </span> 
   </div> 
 </footer>
