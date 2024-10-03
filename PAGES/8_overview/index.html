@@ -1647,7 +1647,7 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES/9_overview/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/9a_onAllocations/"><i>b</i>. Defining Memory Allocations</a></li><br>
+                <li><a href="/julia_book/PAGES/9a_onAllocations/"><i>b</i>. Stack vs Heap</a></li><br>
                 
                 <li><a href="/julia_book/PAGES/9b_objectsAllocating/"><i>c</i>. Objects Allocating Memory</a></li><br>
                 
@@ -2557,16 +2557,16 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="13633231208144796923" class="scrollspy section-bg-color">
+<section id="13633231208144796923" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2></h2></p>
-<p>In the upcoming chapters, we&#39;ll focus on two crucial aspects for performance: type stability and reductions in memory allocation. They constitute the most basic procedures to achieve high performance, thus acting as the starting point for further optimizations.</p>
+<p>In the upcoming chapters, we&#39;ll focus on two essential aspects for performance: type stability and reductions in memory allocation. These core principles represent the most basic procedures to achieve high performance, thus acting as the starting point for further optimizations.</p>
 <p><strong>This chapter in particular focuses on type stability</strong>, whose importance for Julia can&#39;t be overstated—<strong>any attempt to generate fast code without ensuring type stability is destined to fail</strong>. </p>
-<p>At the core of type stability is the way computers perform operations at a fundamental level. This entails that, regardless of the programming languages, the approach to computing operations differs depending on the inputs&#39; types. For instance, the underlying process for integers differs from the one for floating-point numbers.</p>
-<p>In light of this, high performance in Julia requires operations to be type-stable. This means that Julia must be able to identify a specific type for each variable to specialize its computation method. If this isn&#39;t possible, Julia is forced to generate code that handles multiple potential approaches, one for each possible combination of input types. This introduces additional runtime checks and type conversions, significantly degrading execution speed.</p>
-<p>The discussion of type stability will be intertwined with functions, as  <em>attaining type stability requires wrapping code in a function</em>. The reason is that Julia doesn&#39;t identify types of variables in the global scope. In contrast, functions start by identifying each local variable&#39;s type, making method specialization possible. Wrapping code in a function is only a necessary condition for type stability, and the chapter will provide additional conditions to guarantee the property.</p>
+<p>At its core, type stability is rooted in how computers execute operations at a fundamental level. Specifically, regardless of the programming language used, the approach to computing operations differs depending on the inputs&#39; types. This means, for instance, that the internal process for integer operations differs from computations based on floating-point numbers. </p>
+<p>The consequence of this feature for performance is that speed demands the identification of concrete types for each variable. With this information available, the computation method can be specialized. Instead, if concrete types can&#39;t be identified, the code generated must accommodate multiple potential approaches, one for each possible combination of input types. This introduces additional runtime checks and type conversions, significantly degrading execution speed.</p>
+<p>The discussion of type stability will be intertwined with functions, as  <em>type stability requires wrapping code in function as a prerequisite</em>. The reason for his is that Julia only attempts to infer the types of variables within a function. Wrapping code in a function is only a necessary condition for type stability, and the chapter will provide additional conditions to guarantee the property.</p>
  <div style="visibility: hidden;margin-bottom:-4em">
 this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible
 this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible
@@ -2599,7 +2599,7 @@ this is invisible this is invisible this is invisible this is invisible this is 
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 27, 2024 
+          © Martin Alfaro <br>Last Modified October 2, 2024 
       </span> 
   </div> 
 </footer>

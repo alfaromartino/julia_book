@@ -1671,7 +1671,7 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES/9_overview/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/9a_onAllocations/"><i>b</i>. Defining Memory Allocations</a></li><br>
+                <li><a href="/julia_book/PAGES/9a_onAllocations/"><i>b</i>. Stack vs Heap</a></li><br>
                 
                 <li><a href="/julia_book/PAGES/9b_objectsAllocating/"><i>c</i>. Objects Allocating Memory</a></li><br>
                 
@@ -2562,13 +2562,13 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section explores scenarios where for-loops create new vectors in each iteration, thereby leading to repeated memory allocation. Specifically, we focus on situations where vectors represent intermediate results that don&#39;t need to be stored for future use. In such cases, the issue can be addressed by a technique known as pre-allocation.</p>
+<p>This section explores scenarios where for-loops entail the creation of new vectors in each iteration, which leads to repeated memory allocation. Specifically, we focus on situations where vectors represent intermediate results that don&#39;t need to be stored for future use. In such cases, the issue can be addressed by a technique known as pre-allocation.</p>
 <p><span style="color: rgb(62, 121, 180);"><strong>Pre-allocation</strong></span> involves initializing a vector before the for-loop executes, and then reusing it to temporarily store results during each iteration. By allocating memory upfront and modifying it in place, the approach effectively bypasses the overhead of creating new vectors repeatedly.</p>
-<p>The performance gains from pre-allocation can be substantial. Remarkably, the technique isn&#39;t specific to Julia, but rather applicable across programming languages. Ultimately, its effectiveness relies on minimizing the reliance on the heap, by favoring the mutation of pre-allocated memory.</p>
-<p>The section begins by reviewing methods to initialize vectors, which constitutes a prerequisite for pre-allocation. We then present two scenarios where pre-allocation proves advantageous. One of these cases in particular highlights the benefits of pre-allocations in the context of nested for-loops.</p>
+<p>The performance gains from pre-allocation can be substantial. Remarkably, the technique isn&#39;t specific to Julia, but rather applicable across programming languages. Ultimately, its effectiveness relies on favoring the mutation of pre-allocated memory, which minimizes the reliance on the heap.</p>
+<p>The presentation begins by reviewing methods to initialize vectors, which constitutes a prerequisite for pre-allocation. We then present two scenarios where pre-allocation proves advantageous. In particular, one of them highlights the benefits of pre-allocating in the context of nested for-loops.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     The review of vector initialization will be relatively brief, and particularly focused on performance. For more details, I recommend reviewing the <a href="/julia_book/PAGES/5c_initializing/">section about vector creation</a>. The sections on <a href="/julia_book/PAGES/5f_mutating_views/">in-place assigments</a> and <a href="/julia_book/PAGES/5g_inplace/">in-place functions</a> could also come in handy.  </div>  </div>
+      <b> Remark</b> </span>  </div>  <div class=content>     The review of vector initialization will be relatively brief and focused on performance. For more details, I recommend reviewing the <a href="/julia_book/PAGES/5c_initializing/">section about vector creation</a>, as well as the sections on <a href="/julia_book/PAGES/5f_mutating_views/">in-place assigments</a> and <a href="/julia_book/PAGES/5g_inplace/">in-place functions</a>.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2578,7 +2578,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Initializing Vectors</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Vector initialization</strong></span> refers to the process of creating a vector to subsequently fill it with values. This process typically involves two steps: reserving space in memory and populating the space with some initial values. An efficient way to initialize a vector is by only performing the first step, keeping whatever content is held in the memory address at the moment of creation. Although these values will display a specific number, they are essentially arbitrary and meaningless, explaining why they&#39;re referred to as <code>undef</code>.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Vector initialization</strong></span> refers to the process of creating a vector to subsequently fill it with values. The process typically involves two steps: reserving space in memory and populating the space with some initial values. An efficient way to initialize a vector is by only performing the first step, keeping whatever content is held in the memory address at the moment of creation. Although these values will display a specific number, they are essentially arbitrary and meaningless, explaining why they&#39;re referred to as <code>undef</code>.</p>
 <p>There are two methods for initializing a vector with <code>undef</code> values. The first ones requires specifying the type and length of the array, and its syntax resembles the creation of new vectors. The second one is based on the function <code>similar&#40;y&#41;</code>, which creates a vector with the same type and dimension as another existing vector <code>y</code>.</p>
 <p>Below, we compare the performance of approaches to initializing a vector. In particular, we show that working with <code>undef</code> values is faster than setting specific values. To starkly show these differences, we create a vector with 100 elements and repeat the procedure 100,000 times.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
@@ -3075,7 +3075,7 @@ calling_foo_in_a_loop&#40;x, output, temp&#41; &#61; &#91;foo&#33;&#40;x, output
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 27, 2024 
+          © Martin Alfaro <br>Last Modified October 2, 2024 
       </span> 
   </div> 
 </footer>

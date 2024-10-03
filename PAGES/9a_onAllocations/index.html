@@ -867,7 +867,7 @@ color: white;
   
 
 
-    <h1><i>9b.</i> Defining Memory Allocations</h1>    
+    <h1><i>9b.</i> Stack vs Heap</h1>    
     <div class="lead"> </div>
     
     
@@ -1665,7 +1665,7 @@ margin-top: 0px;
                 
                 <li><a href="/julia_book/PAGES/9_overview/"><i>a</i>. Overview and Goals</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/9a_onAllocations/"><i>b</i>. Defining Memory Allocations</a></li><br>
+                <li><a href="/julia_book/PAGES/9a_onAllocations/"><i>b</i>. Stack vs Heap</a></li><br>
                 
                 <li><a href="/julia_book/PAGES/9b_objectsAllocating/"><i>c</i>. Objects Allocating Memory</a></li><br>
                 
@@ -2557,33 +2557,32 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy">
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Memory allocations are a fundamental process in computer programming, which occurs whenever a new object is created. This process involves reserving memory space to store the object&#39;s values, typically in the computer&#39;s Random Access Memory &#40;RAM&#41;.</p>
-<p>Likewise, the RAM is logically divided into two main areas: the stack and the heap. Importantly, these areas aren&#39;t physical locations in the RAM, but rather conceptual models that govern how memory is managed. </p>
-<p>The relevance of the subject lies in that memory allocations on the heap are a costly operation. They require searching for free memory, tracking memory information, and freeing unused memory &#40;a process known as garbage collection&#41;. Stack allocations, by contrast, are simpler and therefore more efficient. </p>
-<p>The performance difference between stack and heap allocations can be significant: while the cost of a single heap allocation may be negligible, repeated allocations can quickly become a major performance bottleneck. This disparity in performance explains the common convention in programming, including Julia, where <strong>memory allocations will exclusively refer to heap allocations</strong>. </p>
-<p>The current section begins the exploration of memory allocations by briefly describing the features of the stack and the heap. </p>
+<p>Memory allocations are a fundamental process in computer programming. This occurs whenever a new object is created, and involves reserving memory space to store the object&#39;s values, typically in the computer&#39;s Random Access Memory &#40;RAM&#41;. In turn, RAM is logically divided into two main areas: the stack and the heap. Importantly, these areas aren&#39;t physical locations, but rather conceptual models that govern how memory is managed. </p>
+<p>The distinction is crucial for performance since memory allocations on the heap are a costly operation. This approach to handle memory requires searching for free memory, tracking memory information, and freeing unused memory &#40;a process known as garbage collection&#41;. Stack allocations, by contrast, are simpler and therefore more efficient. </p>
+<p>The performance difference between stack and heap allocations can be significant, quickly becoming a major performance bottleneck if the operation is performed repeatedly. This disparity in performance explains the common convention in programming, including Julia, where <strong>memory allocations will exclusively refer to heap allocations</strong>. </p>
+<p>In the current section, we begin the exploration of memory allocations, by briefly comparing how the stack and the heap work.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="stack_allocations" class="scrollspy section-bg-color">
+<section id="stack_allocations" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Stack Allocations</h2></p>
-<p>In Julia, objects stored on the stack include integers, numbers, characters, and small fixed-size collections like tuples.</p>
+<p>In Julia, typical objects stored on the stack include integers, numbers, characters, and small fixed-size collections like tuples.</p>
 <p>The stack operates on a  <em>Last In, First Out (LIFO)</em> principle, where the most recently allocated memory is the first to be deallocated. Furthermore, objects on the stack are characterized by having a fixed size, precluding the possibility of dynamically growing or shrinking in size. These characteristics make allocating and deallocating memory on the stack extremely efficient.</p>
 <p>The primary limitation of the stack is its limited capacity, making it suitable only for objects with a few elements. Indeed, attempting to allocate more memory than the stack can accommodate will result in a &quot;stack overflow&quot; error, causing program termination. And, even if an object fits on the stack, allocating too many elements can significantly degrade performance. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> There&#39;s no hard and fast rule about how many elements are &quot;too many&quot;. Benchmarking is the only reliable way to determine the performance consequences for each particular case. As a rough guideline, objects with more than 100 elements will certainly suffer from poor performance, while those with fewer than 15 elements are likely to benefit from stack allocation.  </span></span></p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="heap_allocations" class="scrollspy">
+<section id="heap_allocations" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2612,7 +2611,7 @@ color: white;
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 27, 2024 
+          © Martin Alfaro <br>Last Modified October 2, 2024 
       </span> 
   </div> 
 </footer>
@@ -3170,7 +3169,7 @@ for multiple pics in a row
     <button class="nav-toggle" aria-label="Toggle navigation">
       <!-- <span class="nav-toggle-icon"></span> -->
         <img src="/julia_book/assets/icons/dropdown.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:2px;margin-left:0px;">
-      <span class="nav-title"><i>9b.</i> Defining Memory Allocations</span>
+      <span class="nav-title"><i>9b.</i> Stack vs Heap</span>
     </button>
     <div class="nav-menu">
       <ul>
