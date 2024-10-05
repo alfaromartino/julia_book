@@ -1,9 +1,16 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# for more accurate results, we perform benchmarks through functions and interpolate each variable.
-# this means that benchmarking a function `foo(x)` should be `foo($x)`
+# For more accurate results, we benchmark code through functions and interpolate each argument.
+    # this means that benchmarking a function `foo(x)` makes use of `foo($x)`
 using BenchmarkTools
+
+
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
  
 # necessary packages for this file
 using Pipe
@@ -38,7 +45,7 @@ end
 
 a = -2
 
-output = let a = a         # the 'a' on the left still refers to a local variable
+output = let a = a         # the 'a' on the left of `=` defines a local variable
    temp1 = abs(a)
    temp2 = log(temp1)
    round(temp2)
@@ -112,7 +119,7 @@ a = -2
 
 output = a |> abs |> (x -> 2 * x) |> round
 
-#equivalent, but more readable
+#equivalent and more readable
 output = a              |>
          abs            |>
          x -> 2 * x     |>
@@ -125,7 +132,7 @@ a = -2
 
 output = a |> abs |> (x -> 2 * x) |> round
 
-#equivalent, but more readable
+#equivalent and more readable
 output =       a            |>
                abs          |>
                x -> 2 * x   |>
@@ -138,7 +145,7 @@ a = -2
 
 output = @pipe a |> abs |> 2 * _ |> round
 
-#equivalent, but more readable
+#equivalent and more readable
 output = @pipe a            |>
                abs          |>
                2 * _        |>

@@ -12,9 +12,16 @@ Pkg.instantiate() #to install the packages
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# for more accurate results, we perform benchmarks through functions and interpolate each variable.
-# this means that benchmarking a function `foo(x)` should be `foo($x)`
+# For more accurate results, we benchmark code through functions and interpolate each argument.
+    # this means that benchmarking a function `foo(x)` makes use of `foo($x)`
 using BenchmarkTools
+
+
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
  
 # necessary packages for this file
 using Chairmarks, BenchmarkTools
@@ -26,39 +33,84 @@ using Chairmarks, BenchmarkTools
 ############################################################################
  
 ############################################################################
+#  VECTORS CONTAIN LESS INFORMATION THAN TUPLES
+############################################################################
+ 
+# from tuple to vectors
+ 
+tup = (1, 2, 3.5)             # `Tuple{Int64, Int64, Float64}`
+
+
+function foo(tup)
+    x = Vector(tup)           # 'x' has type `Vector(Float64)}`
+    sum(x)
+end
+
+@code_warntype foo(tup)       # type stable
+ 
+
+
+
+tup = (1, 2, 3)               # `Tuple{Int64, Int64, Int64}` or just `NTuple{3, Int64}`
+
+
+function foo(tup)
+    x = Vector(tup)           # 'x' has type `Vector(Int64)}`
+    sum(x)
+end
+
+@code_warntype foo(tup)       # type stable
+ 
+
+
+
+tup = (1, 2, "hello")         # `Tuple{Int64, Int64, String}`
+
+
+function foo(tup)
+    x = Vector(tup)           # 'x' has type `Vector(Any)}`
+    sum(x)
+end
+
+@code_warntype foo(tup)       # type UNSTABLE
+ 
+
+
+
+############################################################################
 #  TUPLES ALLOWS HETEROGENEOUS TYPES OF ELEMENTS
 ############################################################################
  
-tup    = (1, 2, 3.5)                    # type is `Tuple{Int64, Int64, Float64}`
+tup    = (1, 2, 3.5)            # type is `Tuple{Int64, Int64, Float64}` 
 
-foo(x) = sum(x[1:2])
+foo(x) = sum(x)
 
-@code_warntype foo(tup)                 # type stable (output returned is `Int64`)
+@code_warntype foo(tup)         # type stable (output returned is `Int64`)
  
 
 
-vector = [1, 2, 3.5]                    # type is `Vector{Float64}` (type promotion)
+vector = [1, 2, 3.5]            # type is `Vector{Float64}` (type promotion)
 
-foo(x) = sum(x[1:2])
+foo(x) = sum(x)
 
-@code_warntype foo(vector)              # type stable (output returned is `Float64`)
+@code_warntype foo(vector)      # type stable (output returned is `Float64`)
  
 
 
 
-tup    = (1, 2, "hello")                # type is `Tuple{Int64, Int64, String}`
+tup    = (1, 2, "hello")        # type is `Tuple{Int64, Int64, String}`
 
 foo(x) = sum(x[1:2])
 
-@code_warntype foo(tup)                 # type stable (output is `Int64`)
+@code_warntype foo(tup)         # type stable (output is `Int64`)
  
 
 
-vector = [1, 2, "hello"]                # type is `Vector{Any}`
+vector = [1, 2, "hello"]        # type is `Vector{Any}`
 
 foo(x) = sum(x[1:2])
 
-@code_warntype foo(vector)              # type UNSTABLE
+@code_warntype foo(vector)      # type UNSTABLE
  
 
 
@@ -79,40 +131,6 @@ foo(x) = sum(x.a + x.b)
 
 @code_warntype foo(nt)                  # type stable (output is `Int64`)
  
-############################################################################
-#  VECTORS CONTAIN LESS INFORMATION THAN TUPLES
-############################################################################
- 
-# from tuple to vectors
- 
-tup = (1, 2, "hello")         # `Tuple{Int64, Int64, String}`
-
-
-function foo(tup)
-    x = Vector(tup)           # 'x' has type `Vector(Any)}`
-
-    sum(x)
-end
-
-@code_warntype foo(tup)       # type UNSTABLE
- 
-
-
-
-tup = (1, 2, 3)               # `Tuple{Int64, Int64, Int64}` or just `NTuple{3, Int64}`
-
-
-function foo(tup)
-    x = Vector(tup)           # 'x' has type `Vector(Int64)}`
-
-    sum(x)
-end
-
-@code_warntype foo(tup)       # type UNSTABLE
- 
-
-
-
 # from vector to tuples
  
 x   = [1, 2, "hello"]           # 'Vector{Any}' has no info on each individual type

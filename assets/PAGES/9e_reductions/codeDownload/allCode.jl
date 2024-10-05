@@ -1,9 +1,16 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# for more accurate results, we perform benchmarks through functions and interpolate each variable.
-# this means that benchmarking a function `foo(x)` should be `foo($x)`
+# For more accurate results, we benchmark code through functions and interpolate each argument.
+    # this means that benchmarking a function `foo(x)` makes use of `foo($x)`
 using BenchmarkTools
+
+
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
  
 # necessary packages for this file
 using Random
@@ -116,13 +123,13 @@ end
 Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
-foo1(x) = sum(3 .* x)
+foo1(x) = sum(log.(x))
 
 function foo2(x)
     output = 0.
 
     for i in eachindex(x)
-        output += 3 * x[i]
+        output += log(x[i])
     end
 
     return output
@@ -137,13 +144,13 @@ end
 Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
-foo1(x) = prod(3 .* x)
+foo1(x) = prod(log.(x))
 
 function foo2(x)
     output = 1.
 
     for i in eachindex(x)
-        output *= 3 * x[i]
+        output *= log(x[i])
     end
 
     return output
@@ -158,13 +165,13 @@ end
 Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
-foo1(x) = maximum(3 .* x)
+foo1(x) = maximum(log.(x))
 
 function foo2(x)
     output = -Inf
 
     for i in eachindex(x)
-        output = max(output, 3 * x[i])
+        output = max(output, log(x[i]))
     end
 
     return output
@@ -179,13 +186,13 @@ end
 Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
-foo1(x) = minimum(3 .* x)
+foo1(x) = minimum(log.(x))
 
 function foo2(x)
     output = Inf
     
     for i in eachindex(x)
-        output = min(output, 3 * x[i])
+        output = min(output, log(x[i]))
     end
 
     return output
@@ -197,109 +204,86 @@ end
  
 
 
-Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-foo(x)                   = sum(3 .* x)
-calling_foo_in_a_loop(x) = [foo(x) for _ in 1:100]
-
-@btime calling_foo_in_a_loop($x)
- 
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-function foo(x)
-    output = 0.
-    for i in eachindex(x)
-        output = output + 3 * x[i]
-    end
-
-    return output
-end
-
-calling_foo_in_a_loop(x) = [foo(x) for _ in 1:100]
-
-@btime calling_foo_in_a_loop($x)
- 
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-function foo(x)
-    output = 0.
-    for i in eachindex(x)
-        output += 3 * x[i]
-    end
-
-    return output
-end
-
-calling_foo_in_a_loop(x) = [foo(x) for _ in 1:100]
-
-@btime calling_foo_in_a_loop($x)
+####################################################
+#	SINGLE ARGUMENT
+####################################################
  
 Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
+x      = rand(100)
 
-foo(x) = sum(a -> 3 * a, x)
-
+foo(x) = sum(log, x)        #same output as sum(log.(x))
 @btime foo($x)
  
 
 
 Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
+x      = rand(100)
 
-foo(x) = prod(a -> 3 * a, x)
-
+foo(x) = prod(log, x)       #same output as prod(log.(x))
 @btime foo($x)
  
 
 
 Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
+x      = rand(100)
 
-foo(x) = maximum(a -> 3 * a, x)
-
+foo(x) = maximum(log, x)    #same output as maximum(log.(x))
 @btime foo($x)
  
 
 
 Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
+x      = rand(100)
 
-foo(x) = minimum(a -> 3 * a, x)
+foo(x) = minimum(log, x)    #same output as minimum(log.(x))
+@btime foo($x)
+ 
 
+
+####################################################
+#	SINGLE ARGUMENT and ANONYMOUS FUNCTION
+####################################################
+ 
+Random.seed!(123)       #setting the seed for reproducibility
+x      = rand(100)
+
+foo(x) = sum(a -> 2 * a, x)       #same output as sum(2 .* x)
 @btime foo($x)
  
 
 
 Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
+x      = rand(100)
 
-foo(x) = all(a -> a > 0.5, x)
-
+foo(x) = prod(a -> 2 * a, x)      #same output as prod(2 .* x)
 @btime foo($x)
  
 
 
 Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
+x      = rand(100)
 
-foo(x) = any(a -> a > 0.5, x)
-
+foo(x) = maximum(a -> 2 * a, x)   #same output as maximum(2 .* x)
 @btime foo($x)
  
 
 
+Random.seed!(123)       #setting the seed for reproducibility
+x      = rand(100)
+
+foo(x) = minimum(a -> 2 * a, x)   #same output as minimum(2 .* x)
+@btime foo($x)
+ 
+
+
+####################################################
+#	MULTIPLE ARGUMENTS
+####################################################
+ 
 Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100); y = rand(100)
 
-foo(x,y) = sum(a -> a[1] * a[2], zip(x,y))
-
+foo(x,y) = sum(a -> a[1] * a[2], zip(x,y))         #same output as sum(x .* y)
 @btime foo($x, $y)
  
 
@@ -307,8 +291,7 @@ foo(x,y) = sum(a -> a[1] * a[2], zip(x,y))
 Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100); y = rand(100)
 
-foo(x,y) = prod(a -> a[1] * a[2], zip(x,y))
-
+foo(x,y) = prod(a -> a[1] * a[2], zip(x,y))        #same output as prod(x .* y)
 @btime foo($x, $y)
  
 
@@ -316,8 +299,7 @@ foo(x,y) = prod(a -> a[1] * a[2], zip(x,y))
 Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100); y = rand(100)
 
-foo(x,y) = maximum(a -> a[1] * a[2], zip(x,y))
-
+foo(x,y) = maximum(a -> a[1] * a[2], zip(x,y))     #same output as maximum(x .* y)
 @btime foo($x, $y)
  
 
@@ -325,15 +307,127 @@ foo(x,y) = maximum(a -> a[1] * a[2], zip(x,y))
 Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100); y = rand(100)
 
-foo(x,y) = minimum(a -> a[1] * a[2], zip(x,y))
-
+foo(x,y) = minimum(a -> a[1] * a[2], zip(x,y))     #same output as minimum(x .* y)
 @btime foo($x, $y)
  
+
+
+####################################################
+#	REDUCE
+####################################################
+ 
+Random.seed!(123)       #setting the seed for reproducibility
+x      = rand(100)
+
+foo(x) = reduce(+, x)           #same output as sum(x)
+@btime foo($x)
+ 
+
+
+Random.seed!(123)       #setting the seed for reproducibility
+x      = rand(100)
+
+foo(x) = reduce(*, x)           #same output as prod(x)
+@btime foo($x)
+ 
+
+
+Random.seed!(123)       #setting the seed for reproducibility
+x      = rand(100)
+
+foo(x) = reduce(max, x)         #same output as maximum(x)
+@btime foo($x)
+ 
+
+
+Random.seed!(123)       #setting the seed for reproducibility
+x      = rand(100)
+
+foo(x) = reduce(min, x)         #same output as minimum(x)
+@btime foo($x)
+ 
+
+
+####################################################
+#	MAP REDUCE WITH A SINGLE ARGUMENT
+####################################################
+ 
+Random.seed!(123)       #setting the seed for reproducibility
+x      = rand(100)
+
+foo(x) = mapreduce(log, +, x)       #same output as sum(log.(x))
+@btime foo($x)
+ 
+
+
+Random.seed!(123)       #setting the seed for reproducibility
+x      = rand(100)
+
+foo(x) = mapreduce(log, *, x)       #same output as prod(log.(x))
+@btime foo($x)
+ 
+
+
+Random.seed!(123)       #setting the seed for reproducibility
+x      = rand(100)
+
+foo(x) = mapreduce(log, max, x)     #same output as maximum(log.(x))
+@btime foo($x)
+ 
+
+
+Random.seed!(123)       #setting the seed for reproducibility
+x      = rand(100)
+
+foo(x) = mapreduce(log, min, x)     #same output as minimum(log.(x))
+@btime foo($x)
+ 
+
+
+####################################################
+#	MAP REDUCE WITH MULTIPLE ARGUMENTS
+####################################################
+ 
+Random.seed!(123)       #setting the seed for reproducibility
+x = rand(100); y = rand(100)
+
+foo(x,y) = mapreduce(a -> a[1] * a[2], +, zip(x,y))       #same output as sum(x .* y)
+@btime foo($x,$y)
+ 
+
+
+Random.seed!(123)       #setting the seed for reproducibility
+x = rand(100); y = rand(100)
+
+foo(x,y) = mapreduce(a -> a[1] * a[2], *, zip(x,y))       #same output as prod(x .* y)
+@btime foo($x,$y)
+ 
+
+
+Random.seed!(123)       #setting the seed for reproducibility
+x = rand(100); y = rand(100)
+
+foo(x,y) = mapreduce(a -> a[1] * a[2], max, zip(x,y))     #same output as maximum(x .* y)
+@btime foo($x,$y)
+ 
+
+
+Random.seed!(123)       #setting the seed for reproducibility
+x = rand(100); y = rand(100)
+
+foo(x,y) = mapreduce(a -> a[1] * a[2], min, zip(x,y))     #same output as minimum(x .* y)
+@btime foo($x,$y)
+ 
+
+
+####################################################
+#	REDUCE OR MAPREDUCE
+####################################################
+ 
 Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
-foo(x) = reduce(+, x)
-
+foo(x) = mapreduce(a -> 2 * a, +, x)
 @btime foo($x)
  
 
@@ -341,39 +435,6 @@ foo(x) = reduce(+, x)
 Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
-foo(x) = reduce(*, x)
-
-@btime foo($x)
- 
-Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-foo(x) = reduce(max, x)
-
-@btime foo($x)
- 
-Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-foo(x) = reduce(min, x)
-
-@btime foo($x)
- 
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-foo(x) = mapreduce(a -> 3 * a, +, x)
-
-@btime foo($x)
- 
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-foo(x) = reduce(+, map(a -> 3 * a, x))
-
+foo(x) = reduce(+, map(a -> 2 * a, x))
 @btime foo($x)
  

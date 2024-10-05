@@ -12,9 +12,16 @@ Pkg.instantiate() #to install the packages
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# for more accurate results, we perform benchmarks through functions and interpolate each variable.
-# this means that benchmarking a function `foo(x)` should be `foo($x)`
+# For more accurate results, we benchmark code through functions and interpolate each argument.
+    # this means that benchmarking a function `foo(x)` makes use of `foo($x)`
 using BenchmarkTools
+
+
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
  
 # necessary packages for this file
 # using Statistics, Distributions, Random, Pipe
@@ -168,7 +175,6 @@ dict = Dict(vector_keys_values)
  
 
 
-
 x = (a=4, b=5, c=6)
  
 
@@ -221,4 +227,85 @@ dict = Dict(:a => 10, :b => 20)
 
 
 nt = NamedTuple(vector_keys_values)
+ 
+############################################################################
+#
+#                           CREATING TUPLES
+#
+############################################################################
+ 
+a = 10
+b = 20
+
+tup = (a, b)
+ 
+
+
+values_for_tup = [10, 20]
+
+
+tup = Tuple(values_for_tup)
+ 
+
+
+values_for_tup = [10, 20]
+
+
+tup = (values_for_tup... ,)
+ 
+############################################################################
+#
+#                           APPLICATION 2: STORING OUTPUTS OF FUNCTIONS
+#
+############################################################################
+ 
+function foo()
+    out1 = 2
+    out2 = 3
+    out3 = 4
+
+    out1, out2, out3
+end
+
+x, y, z = foo()
+ 
+function foo()
+    out1 = 2
+    out2 = 3
+    out3 = 4
+
+    [out1, out2, out3]
+end
+
+x, y, z = foo()
+ 
+function foo()
+    out1 = 2
+    out2 = 3
+    out3 = 4
+
+    out1, out2, out3
+end
+
+x, _, z = foo()
+ 
+function foo()
+    out1 = 2
+    out2 = 3
+    out3 = 4
+
+    [out1, out2, out3]
+end
+
+x, _, z = foo()
+ 
+function foo()
+    out1 = 2
+    out2 = 3
+    out3 = 4
+
+    (; out1, out2, out3)
+end
+
+(; out1, out3) = foo()
  

@@ -1,9 +1,16 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# for more accurate results, we perform benchmarks through functions and interpolate each variable.
-# this means that benchmarking a function `foo(x)` should be `foo($x)`
+# For more accurate results, we benchmark code through functions and interpolate each argument.
+    # this means that benchmarking a function `foo(x)` makes use of `foo($x)`
 using BenchmarkTools
+
+
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
  
 #############################          NUMBERS           #########################################
 ####################################################
@@ -53,7 +60,7 @@ end
 function foo()
     rang = 1:3
 
-    rang[1] + rang[2] * rang[3]
+    sum(rang[1:2]) + rang[2] * rang[3]
 end
 
 @btime foo()

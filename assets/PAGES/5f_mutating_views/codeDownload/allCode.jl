@@ -1,12 +1,16 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# for more accurate results, we perform benchmarks through functions and interpolate each variable.
-# this means that benchmarking a function `foo(x)` should be `foo($x)`
+# For more accurate results, we benchmark code through functions and interpolate each argument.
+    # this means that benchmarking a function `foo(x)` makes use of `foo($x)`
 using BenchmarkTools
- 
-# necessary packages for this file
-# using StatsBase, Random
+
+
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
  
 ############################################################################
 #
@@ -14,31 +18,33 @@ using BenchmarkTools
 #
 ############################################################################
  
-x         = [1, 2, 3, 4]
+x         = [1, 2, 3]
 
 x[3]      = 30
-x[4]      = 40
  
 
 
-x         = [1, 2, 3, 4]
+x         = [1, 2, 3]
 
-
-x[x .≥ 3] = x[x .≥ 3] .* 10
+x[2:end]  = [20, 30]
  
 
 
-x         = [1, 2, 3, 4]
+x         = [1, 2, 3]
 
-
-x[3:end]  = [x[i] * 10 for i in 3:length(x)]
+x[x .≥ 2] = [2, 3] .* 10
  
 
 
-x         = [1, 2, 3, 4]
+x         = [1, 2, 3]
+
+x[x .≥ 2] = x[x .≥ 2] .* 10
+ 
 
 
-x[3:end]  = [30, 40]
+x         = [1, 2, 3]
+
+x[2:end]  = [x[i] * 10 for i in 2:length(x)]
  
 
 
@@ -48,7 +54,7 @@ x[3:end]  = [30, 40]
  
 # assignment
  
-x    = [1, 2, 3, 4]
+x    = [1, 2, 3]
 
 x    = x .* 10
  
@@ -56,7 +62,7 @@ x    = x .* 10
 
 # mutation
  
-x    = [1, 2, 3, 4]
+x    = [1, 2, 3]
 
 x[:] = x .* 10
  
@@ -70,19 +76,19 @@ x[:] = x .* 10
  
 
 
-x          = [-1, -2, 3, 4]
+x          = [-2, -1, 1]
 
 x[x .< 0] .= 0
  
 
 
-x          = [-1, -2, 3, 4]
+x          = [-2, -1, 1]
 
 x[x .< 0] .= zeros(length(x[x .< 0]))           # identical output
  
 
 
-x          = [-1, -2, 3, 4]
+x          = [-2, -1, 1]
 
 x[x .< 0]  = zeros(length(x[x .< 0]))
  
@@ -94,16 +100,16 @@ x[x .< 0]  = zeros(length(x[x .< 0]))
 #
 ############################################################################
  
-x          = [-1, -2, 1, 2]
+x          = [-2, -1, 1]
 
 
 x[x .< 0] .= 0
  
 
 
-x          = [-1, -2, 1, 2]
+x          = [-2, -1, 1]
 
-slice      = view(x, x .< 0)
+slice      = view(x, x .< 0)            # or slice = @view x[x .< 0]
 slice     .= 0
  
 
@@ -112,17 +118,17 @@ slice     .= 0
 #	same operations allowed
 ####################################################
  
-x      = [1, 2, 3, 4]
-slice  = view(x, x .≥ 3)
+x      = [1, 2, 3]
+slice  = view(x, x .≥ 2)
 
-slice .= slice .* 10              # same operation as 'x[x .≥ 3] = x[x .≥ 3] .* 10'
+slice .= slice .* 10                                  # same as 'x[x .≥ 2] = x[x .≥ 2] .* 10'
  
 
 
-x      = [1, 2, 3, 4]
-slice  = view(x, x .≥ 3)
+x      = [1, 2, 3]
+slice  = view(x, x .≥ 2)
 
-slice .= [i * 10 for i in [3,4]]  # same operation as 'x[x .≥ 3] = [i * 10 for i in [3,4]]'
+slice .= [slice[i] * 10 for i in eachindex(slice)]    # same as 'x[x .≥ 2] = [x[i] * 10 for i in eachindex(x[x .≥ 2])]'
  
 ####################################################
 #	WARNING ABOUT THE USE OF .= AND VIEW
@@ -130,7 +136,7 @@ slice .= [i * 10 for i in [3,4]]  # same operation as 'x[x .≥ 3] = [i * 10 for
  
 # correct way to mutate
  
-x      = [-1, -2, 1, 2]
+x      = [-2, -1, 1]
 
 slice  = view(x, x .< 0)
 slice .= 0
@@ -139,14 +145,14 @@ slice .= 0
 
 # incorrect ways -> no mutation
  
-x      = [-1, -2, 1, 2]
+x      = [-2, -1, 1]
 
-slice  = x[x .< 0]          # `slice` now is a new object
+slice  = x[x .< 0]          # `slice` is a copy
 slice .= 0                  # this does NOT modify `x`
  
 
 
-x      = [-1, -2, 1, 2]
+x      = [-2, -1, 1]
 
 slice  = view(x, x .< 0)
 slice  = 0                  # this creates a new object, it does not modify `x`
@@ -166,7 +172,7 @@ end
  
 
 
-y = [3, 4, 5]
+y = [1, 2, 3]
 x = similar(y)               # `x` replicates the type of `y`, which is Vector{Int64}(undef, 3)
 
 for i in eachindex(x)

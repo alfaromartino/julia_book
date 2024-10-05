@@ -12,9 +12,16 @@ Pkg.instantiate() #to install the packages
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# for more accurate results, we perform benchmarks through functions and interpolate each variable.
-# this means that benchmarking a function `foo(x)` should be `foo($x)`
+# For more accurate results, we benchmark code through functions and interpolate each argument.
+    # this means that benchmarking a function `foo(x)` makes use of `foo($x)`
 using BenchmarkTools
+
+
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
  
 ############################################################################
 #
@@ -35,6 +42,41 @@ end
 
 function foo(x)
     y = (x < 0) ?  zero(x)  :  x
+    
+    return [y * i for i in 1:100]
+end
+
+@code_warntype foo(1)      # type stable
+@code_warntype foo(1.)     # type stable
+ 
+####################################################
+#	extending the function `zero` to other VALUES
+####################################################
+ 
+function foo(x)
+    y = (x < 0) ?  5  :  x
+    
+    return [y * i for i in 1:100]
+end
+
+@code_warntype foo(1)      # type stable
+@code_warntype foo(1.)     # type UNSTABLE
+ 
+
+
+function foo(x)
+    y = (x < 0) ?  convert(typeof(x), 5)  :  x
+    
+    return [y * i for i in 1:100]
+end
+
+@code_warntype foo(1)      # type stable
+@code_warntype foo(1.)     # type stable
+ 
+
+
+function foo(x)
+    y = (x < 0) ?  oftype(x, 5)  :  x
     
     return [y * i for i in 1:100]
 end
@@ -310,7 +352,7 @@ foo(x; y = 2*x) = x * y
 foo(β; x = β) = x
 
 β = 1
-@code_warntype foo(β)            #type stable
+@code_warntype foo(β)           #type stable
  
 ############################################################################
 #

@@ -12,9 +12,16 @@ Pkg.instantiate() #to install the packages
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# for more accurate results, we perform benchmarks through functions and interpolate each variable.
-# this means that benchmarking a function `foo(x)` should be `foo($x)`
+# For more accurate results, we benchmark code through functions and interpolate each argument.
+    # this means that benchmarking a function `foo(x)` makes use of `foo($x)`
 using BenchmarkTools
+
+
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
  
 # necessary packages for this file
 using Random, LazyArrays
@@ -25,7 +32,9 @@ using Random, LazyArrays
 #
 ############################################################################
  
-# example 1
+####################################################
+#	example 1
+####################################################
  
 Random.seed!(123)       #setting the seed for reproducibility
 x      = rand(1_000)
@@ -65,7 +74,9 @@ function foo(x)
 end
 @btime foo($x)
  
-# example 2
+####################################################
+#	example 2
+####################################################
  
 Random.seed!(123)       #setting the seed for reproducibility
 x      = rand(100)
@@ -97,7 +108,9 @@ function foo(x)
 end
 @btime foo($x)
  
-# example 3
+####################################################
+#	example 3
+####################################################
  
 Random.seed!(1234) # hide
 x      = rand(1_000)
@@ -146,7 +159,9 @@ end
 #
 ############################################################################
  
-# example 1
+####################################################
+#	example 1
+####################################################
  
 x        = [1, 2, 3]
 y        = [4, 5, 6]
@@ -185,7 +200,9 @@ foo(x,y) = x .* y
  
 
 
-# example 2
+####################################################
+#	example 2
+####################################################
  
 Random.seed!(123)       #setting the seed for reproducibility
 x = [1, 2, 3]
@@ -203,7 +220,9 @@ foo(x,β) = x .* β)
  
 
 
-# example
+####################################################
+#	example 3
+####################################################
  
 Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
