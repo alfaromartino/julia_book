@@ -2562,8 +2562,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Computational approaches can be broadly classified into the categories &quot;lazy&quot; and &quot;eager&quot;. <span style="color: rgb(62, 121, 180);"><strong>Eager operations</strong></span> are executed immediately upon definition, providing instant access to the results. So far, most operations on this website have fallen under this category.</p>
-<p>In contrast, <span style="color: rgb(62, 121, 180);"><strong>Lazy operations</strong></span> represent a form of deferring computation. They define the code to be executed, but without calculating its output. The technique is particularly valuable for operations involving heavy intermediate computations, as lazy evaluation <strong>sidesteps unnecessary memory allocations</strong>: by deferring computations until needed, it&#39;s possible to make computations on the fly and fed them directly into the final calculation. </p>
+<p>Computational approaches can be broadly classified into &quot;lazy&quot; and &quot;eager&quot; categories. <span style="color: rgb(62, 121, 180);"><strong>Eager operations</strong></span> are characterized by their immediate execution upon definition, providing instant access to the results. So far, most operations on this website have fallen under this category.</p>
+<p>In contrast, <span style="color: rgb(62, 121, 180);"><strong>Lazy operations</strong></span> involve deferring computation: it defines the code to be executed, without calculating its output until it&#39;s necessary. The technique is particularly valuable for operations that involve heavy intermediate computations, as lazy evaluation is capable of <strong>sidestepping unnecessary memory allocations</strong>: by fusing operations, it&#39;s possible to make the intermediate computations on the fly and fed them directly into the final calculation. </p>
 <p>This section provides various implementations for lazy computations. The first approach presented is based on the so-called <strong>generators</strong>, which are the lazy analogous of array comprehensions. After this, we introduce several functions from the package <strong>Iterators</strong>, which provide lazy implementations of functions like <code>map</code> and <code>filter</code>. </p>
 <p>      </div>
     </div>
@@ -2574,7 +2574,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Generators</h2></p>
-<p><a href="/julia_book/PAGES/4c_forLoops/#array_comprehensions">Array comprehensions</a> offer a convenient method for creating vectors. They define their elements using a loop-like syntax, which are immediately computed and stored. For their part, <span style="color: rgb(62, 121, 180);"><strong>generators</strong></span> provide <strong>a lazy alternative</strong>, deferring the creation of elements until they&#39;re needed. </p>
+<p><a href="/julia_book/PAGES/4c_forLoops/#array_comprehensions">Array comprehensions</a> offer a convenient technique for creating vectors. They define the vector&#39;s elements using a loop-like syntax, which are immediately computed and stored. In this sense, array comprehensions represent an eager operation. <span style="color: rgb(62, 121, 180);"><strong>Generators</strong></span> provide <strong>the lazy counterpart of array comprehensions</strong>, deferring the creation of elements until they&#39;re needed. </p>
 <p>The syntax of generators is nearly identical to array comprehensions, with the exception that generators are enclosed in parentheses <code>&#40; &#41;</code> instead of square brackets <code>&#91; &#93;</code>. They also retain the same flexibility, including the ability to add conditions and iterate simultaneously over multiple collections.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2604,9 +2604,9 @@ y &#61; &#40;a for a in 1:10 if a &gt; 5&#41;</code></pre> </div></div>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">Base.Generator{UnitRange{Int64}, typeof(identity)}(identity, 1:10)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The examples show that array comprehensions compute all their elements at the moment of defining the vector, giving immediate access to it. In contrast, generators formally define an object with type <code>Base.Generator</code>, where operations are described, but no output is materialized.</p>
-<p>Generators are particularly valuable for computing reductions of transformed values. By producing values on-demand and fusing them with the reduction function, generators eliminate the materialization of temporary vectors, thereby reducing memory allocations.</p>
-<p>To illustrate the performance benefits this creates, let&#39;s compute the sum of a vector <code>y</code>&#39;s elements. In particular, <code>y</code> arises by transforming another vector <code>x</code> through doubling each element&#39;s value. One way to compute this operation is by first creating the vector <code>y</code> and then sum all its elements. Alternatively, a generator bypasses the storage of the intermediate output <code>y</code> and thus reduces memory allocations. By doing so, the transformation is fed directly into <code>sum</code>, allowing the compiler to perform the addition through a cumulative operation on scalars.</p>
+<p>The examples show that array comprehensions compute all their elements at the moment of defining the vector, giving immediate access to them. In contrast, generators formally define an object with type <code>Base.Generator</code>, where operations are described, but no output is materialized.</p>
+<p>Generators are particularly valuable for computing <a href="PAGES/9e_reductions/">reductions</a> with transformed values. By producing values on-demand and fusing them with the reduction function, generators eliminate the materialization of temporary vectors, thus reducing memory allocations.</p>
+<p>To illustrate the performance benefits this entails, let&#39;s compute the sum of all elements in a vector <code>y</code>. In particular, <code>y</code> is obtained by doubling each element of a vector <code>x</code>. One way to compute this operation is by first creating the vector <code>y</code> and then sum all its elements. Alternatively, we can describe the transformation through a generator, which bypasses the storage of the intermediate output <code>y</code> and instead feeds the transformation directly into the <code>sum</code> function. This allows the compiler to perform the addition as a cumulative operation on scalars, thereby reducing memory usage.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2642,7 +2642,7 @@ foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations<
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The last tab shows that generators can be incorporated directly as a function argument, resulting in a compact syntax. Remarkably, this syntax is applicable to  <em>any</em> function accepting a collection as its input.</p>
+<p>The last tab shows that generators can be incorporated directly as a function argument, resulting in a compact syntax. Remarkably, this syntax is applicable to  <em>any</em> function that accepts a collection as its input.</p>
 <p>      </div>
     </div>
   </div>
@@ -2652,7 +2652,7 @@ foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations<
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Iterators</h2></p>
-<p>Iterators are formally defined as lazy objects that create values on demand sequentially. Throughout the website, we&#39;ve already presented numerous scenarios involving iterators. One example is when ranges like <code>1:10</code> were employed, which represents a sequence of numbers that can be accessed one-by-one. Ranges are convenient for iterations in a for-loop, as they avoid the materialization of the collection to be iterated. Their lazy nature also explains why we must call the function <code>collect</code> to materialize ranges into vectors. Other examples of iterators are <code>eachindex</code>, <code>enumerate</code>, and <code>zip</code>.</p>
+<p>Iterators are formally defined as lazy objects that sequentially create values on demand. Throughout the website, we&#39;ve already presented numerous scenarios involving iterators. One example is given by ranges like <code>1:10</code>, which represents a sequence of numbers that can be accessed one-by-one. Ranges are convenient for iterations in a for-loop, as they avoid the materialization of the collection to be iterated. Their lazy nature also explains why the function <code>collect</code> is needed to materialize ranges into vectors. Other examples of iterators are <code>eachindex</code>, <code>enumerate</code>, and <code>zip</code>.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2671,7 +2671,7 @@ foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations<
  10</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The built-in package <code>Iterators</code>, which is &quot;imported&quot; every time we run a session in Julia, provides various functions for generating lazy sequences. Additionally, it implements lazy analogous of various functions such as <code>Iterators.filter</code> and <code>Iterators.map</code>, which are the lazy analogous of <code>filter</code> and <code>map</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The package <code>IterTools</code> extends <code>Iterators</code> further.  </span></span> </p>
+<p>The built-in package <code>Iterators</code>, which is &quot;imported&quot; in every Julia session, provides various functions for generating lazy sequences. Additionally, it provides lazy counterparts of various functions such as <code>filter</code> and <code>map</code>, which are available as <code>Iterators.filter</code> and <code>Iterators.map</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The package <code>IterTools</code> extends <code>Iterators</code> further.  </span></span> </p>
 <p>The following example focus on these functions, showcasing how they&#39;re capable of reducing memory allocations of intermediate computations.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
