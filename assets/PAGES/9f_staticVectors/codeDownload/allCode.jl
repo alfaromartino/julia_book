@@ -25,6 +25,10 @@ end
 # necessary packages for this file
 using Random, StaticArrays
  
+####################################################
+#	defining static arrays
+####################################################
+ 
 # all 'sx' define a static vector with same elements as 'x'
 x = collect(1:10)
 
@@ -81,6 +85,10 @@ slice2 = sx[:]
 
 
 
+####################################################
+#	mutable static arrays
+####################################################
+ 
 x  = [1,2,3]
 sx = SVector(x...)
 
@@ -104,6 +112,10 @@ mx = similar(sx)        # it defines an MVector with undef elements
 
 
 
+####################################################
+#	        comparison
+####################################################
+ 
 Random.seed!(123)       #setting the seed for reproducibility
 x = rand(10)
 

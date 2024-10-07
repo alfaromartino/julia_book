@@ -2565,8 +2565,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section continues the analysis of lazy and eager operations as a means of reducing memory allocations. The focus now shifts to broadcasting operations. While they strike a balance between code readability and performance, broadcasting in Julia is eager by default. This entails that outputs are immediately computed upon execution, resulting in memory allocation when working with vectors. However, when broadcasting implement intermediate computations, these memory allocations can be avoided or at least reduced. </p>
-<p>In the following, we present various approaches for doing so. We&#39;ll start highlighting the notion of <strong>loop fusion</strong>, where multiple broadcasting operations are combined into a single one. After this, we&#39;ll explore the <code>LazyArrays</code> package, which evaluates broadcasting operations in a lazy manner.</p>
+<p>This section continues the analysis of lazy and eager operations as a means of reducing memory allocations. The focus now shifts to broadcasting operations, which strike a balance between code readability and performance. Despite this, broadcasting in Julia is eager by default. Consequently, outputs are immediately computed upon execution, resulting in memory allocation when working with vectors. This results in a performance downside for intermediate computations, whose memory allocations could be avoided or at least reduced. </p>
+<p>In the following, we present various approaches that address this case. We&#39;ll start highlighting the notion of <strong>loop fusion</strong>, where multiple broadcasting operations are combined into a single one. After this, we&#39;ll explore the <code>LazyArrays</code> package, which evaluates broadcasting operations in a lazy manner. They are particularly useful for reductions requiring intermediate transformations of the vector.</p>
 <p>      </div>
     </div>
   </div>
@@ -2576,12 +2576,16 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>How Does Broadcasting Work?</h2></p>
-<p>Before exploring how to reduce memory allocations, let&#39;s briefly analyze the internal execution mechanism of broadcasting. Essentially, broadcasting represents syntactic sugar to translate code into a for-loop, sidestepping the verbosity of an explicit for-loop. The following code snippets illustrate how broadcasting &#40;roughly&#41; executes internally, establishing an equivalence with for-loops.</p>
+<p>To understand the optimizations that we&#39;ll present for broadcasting, let&#39;s briefly analyze their internal execution mechanism. Essentially, broadcasting serves as syntactic sugar, translating code into a for-loop while avoiding the verbosity of an explicit loop. </p>
+<p>Despite this equivalence, we&#39;ll commonly notice performance differences between the approaches. The reason is that the compiler adds distinct optimizations to each case before execution, based on the information it has available. </p>
+<p>It&#39;s worth remarking, though, that for-loops can always be optimized to achieve the best performance. However, given the flexibility of for-loops, this usually requires a manual implementation of the optimizations. Considering this, broadcasting in Julia is about code simplicity and readability, without significantly impacting performance.</p>
+<p>The following code snippets illustrate the internal implementation of broadcasting. Specifically, the first tab provides the operation under consideration, while the second tab provides its rough internal implementation. Likewise, the last tab makes the equivalence more starkly, by providing the exact code implemented. This adds an optimization to the for-loop through the macro <code>@inbounds</code>, which is applied automatically with broadcasting. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Broadcasting </button>
-    <button class="tablink" data-id=""> For-Loop </button>    
+    <button class="tablink" data-id=""> Rough Implementation </button>    
+    <button class="tablink" data-id=""> Actual Implementation </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;1_000&#41;
 
@@ -2602,13 +2606,31 @@ function foo&#40;x&#41;
 end</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  317.588 ns (1 allocation: 7.94 KiB)
 </code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;1_000&#41;
+
+function foo&#40;x&#41;
+    output &#61; similar&#40;x&#41;
+
+    @inbounds for i in eachindex&#40;x&#41;
+        output&#91;i&#93; &#61; 2 * x&#91;i&#93;
+    end
+
+    return output
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  233.258 ns (1 allocation: 7.94 KiB)
+</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Despite their equivalence, you&#39;ll often notice performance differences between broadcasting and for-loops. These discrepancies arise because the compiler applies distinct optimizations to each case.</p>
-<p>It&#39;s also worth remarking that broadcasting isn&#39;t faster than a for-loop, as occurs in the examples. On the contrary, for-loops in Julia are flexible enough to outperform broadcasting, although this requires manually optimizing code. Considering this, broadcasting in Julia is more about code readability, without sacrificing potential performance significantly. Beyond this, the example&#39;s key takeaway is that <strong>broadcasting ultimately executes a for-loop</strong>.</p>
+ <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Warning!</b> - About <code>@inbounds</code> </span>  </div>  <div class=content>     In the example provided, <code>@inbounds</code> was employed to achieve the same performance as broadcasting. In this context, <code>@inbounds</code> <strong>was added to illustrate the internal implementation of broadcasting, rather than a recommended practice for general use</strong>.</p>
+<p>To understand what this macro accomplishes, consider that the compiler by default performs bounds checking on array indices to prevent out-of-range access &#40;e.g., it ensures that a vector <code>x</code> with 3 elements is not accessed at index <code>x&#91;4&#93;</code>&#41;. By employing the macro <code>@inbounds</code>, we instruct Julia to bypass this check, thus speeding up computations. Note, nonetheless, that disabling bounds checking makes your code unsafe, potentially leading to severe issues.  </div>  </div>
+<p>A key implication of the example is that Julia&#39;s broadcasting is eager by default, meaning that the result is immediately computed and stored. In the example, this is reflected in <code>2 .* x</code> being computed and then stored in <code>output</code>, which explains the observed memory allocation.</p>
+<p>Importantly, <strong>memory allocations under broadcasting arise even if the result isn't explicitly stored</strong>. For example, computing <code>sum&#40;2 .* x&#41;</code> involves two sequential steps, where the intermediate result <code>2 .* x</code> is calculated and temporarily stored, before the sum is performed.</p>
  <!-- Trigger/Open The Modal -->
 <div style="text-indent:0;"> 
-  <button class="modalButton">  <strong>REMARK (OPTIONAL)</strong> Explaining Time Differences Between Broadcasting and For-Loops</button> </div>
+  <button class="modalButton">  <strong>REMARK (OPTIONAL)</strong> Differing Optimizations With Broadcasting and For-Loops</button> </div>
 
 <!-- The Modal -->
 <div class="modal">
@@ -2617,10 +2639,9 @@ end</code></pre> </div></div>
   <div class="modal-content">
     <div class="modal-header">
       <span class="modalClose">&times;</span>
-      <h2>   <strong>REMARK (OPTIONAL)</strong> Explaining Time Differences Between Broadcasting and For-Loops </h2>
+      <h2>   <strong>REMARK (OPTIONAL)</strong> Differing Optimizations With Broadcasting and For-Loops </h2>
     </div>
-    <div class="modal-body"><p> One important difference between broadcasting and for-loops is the default design of for-loops. This prioritizes safety over performance regarding bounds checking. This means that Julia verifies we&#39;re not indexing out of the range &#40;e.g., given a vector <code>x</code> with 100 elements, it ensures we don&#39;t attempt to operate with <code>x&#91;101&#93;</code>&#41;. Whether this is implemented with broadcasting is internally decided by the compiler, while this usually requires the macro <code>@inbounds</code> in for-loops.</p>
-<p>Nevertheless, the compiler skips the checking of bounds in for-loops for simple scenarios. For instance, this is the case when the iteration is over <code>eachindex&#40;x&#41;</code> and only <code>x</code> is indexed.</p>
+    <div class="modal-body"><p> We shouldn&#39;t infer from the previous example that for-loops skip automatic optimizations applied in broadcasting. In fact, regarding <code>@inbounds</code>, the compiler will apply this macro in a for-loop when it&#39;s safe to do so. This is demonstrated in the following example, where only <code>x</code> is indexed and the range is given by <code>eachindex&#40;x&#41;</code>. This scenario precludes the possibility of out-of-bounds indexing, which contrast with the example provided in the main text, where <code>output</code> was also iterated.</p>
 <p> <div style="height:23em">  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2656,8 +2677,7 @@ end</code></pre> </div> </div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>  </div></p>
-<p>Note that this case doesn&#39;t index <code>output</code>, unlike the previous example. This triggers the automatic application of <code>@inbounds</code>.</p>
-<p>There are other optimizations that broadcasting could implement, which for-loops avoid automatically applying. For example, broadcasting can recognize that some operations don&#39;t vary per iteration, in which case they&#39;d be calculated once out of the loop. This can be clearly observed in the following example, where <code>sum&#40;x&#41;</code> is computed only once under broadcasting. The for-loop version instead requires applying this explicitly.</p>
+<p>Also, the macro <code>@inbounds</code> was just one example, with broadcasting and for-loops possibly differing along other optimizations. For example, broadcasting may recognize the invariance of some operations, in which case they will be calculated out of the loop and reused in each iteration. This occurs in the following example, where broadcasting computes <code>sum&#40;x&#41;</code> only once, while the for-loop doesn&#39;t unless explicitly instructed to do so.</p>
 <p> <div style="height:24em">  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2715,9 +2735,9 @@ end</code></pre> </div> </div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting: Loop Fusion</h2></p>
-<p>In Julia, broadcasting is eager by default, which means that expressions are immediately evaluated and their results materialized. This inevitably leads to memory allocations when broadcasting vectors. In terms of the example above, the allocation in the for-loop version corresponds to the vector <code>output</code> that stores the result. Importantly, memory allocations arise regardless of whether the result is explicitly stored. Such is the case when <code>sum&#40;2 .* x&#41;</code> is run, where the intermediate calculation <code>2 .* x</code> is temporarily stored, even though only the final result is returned.</p>
-<p>Taking this into account, we must be mindful about how expressions with multiple broadcasting operations are handled—splitting them improperly can result in unnecessary allocations. Essentially, when you chain multiple broadcasting operations together, we need to ensure that Julia&#39;s compiler can fuse all operations into a single optimized loop. This allows Julia to perform all operations in a single pass over the data, avoiding the creation of intermediate vectors. A single loop additionally gives the compiler a comprehensive view of all the operations to be computed, allowing for additional optimizations.</p>
-<p>One common scenario where we could inadvertently prevent loop fusion is when scalars and vectors are combined. The issue arises because certain operations produce the same result whether they&#39;re broadcasted or not. This can be observed in the following example.</p>
+<p>Broadcasting in Julia is eager by default, entailing that results are immediately computed. The downside of this feature is that each broadcasted operation inevitably results in a memory allocation. Consequently, we must be mindful when chaining multiple broadcasting operations together, as splitting them will result in one memory allocation per operation. </p>
+<p>To mitigate this issue, it&#39;s recommended to fuse multiple operations into a single optimized loop whenever possible. This approach allows the compiler to perform all operations in a single pass over the data, eliminating the creation of multiple intermediate vectors. Additionally, a single loop gives the compiler a comprehensive view of all the operations to be computed, allowing for further optimizations.</p>
+<p>One common scenario where loop fusion is prevented occurs when scalars and vectors are combined. The issue arises because certain operations produce the same result whether they&#39;re broadcasted or not. This can be observed in the following example.</p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2955,7 +2975,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified October 4, 2024 
+          © Martin Alfaro <br>Last Modified October 6, 2024 
       </span> 
   </div> 
 </footer>

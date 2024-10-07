@@ -2565,10 +2565,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>The creation of vectors can rapidly become a performance bottleneck, due to the memory-allocation overhead involved. The issue of vector creation has far-reaching implications, as it only arises when we explicitly define a variable holding a new vector. It also occurs internally in various scenarios, such as referencing a slice such as <code>x&#91;1:2&#93;</code> or computing intermediate results on the fly &#40;e.g., <code>x .* y</code> in the operation <code>sum&#40;x .* y&#41;</code>&#41;. </p>
-<p>This section introduces a way to address this limitation, while still using vectors as a collection. The solution leverages the so-called <strong>static vectors</strong>, provided by the <code>StaticArrays</code> package. Unlike built-in vectors, which are allocated on the heap, static vectors are stack-allocated. </p>
-<p>Internally, static vectors essentially behave like tuples. This feature determines that <strong>static vectors are only suitable for collections comprising a few elements</strong>. As a rule of thumb, consider <strong>using static vectors for collections with up to 75 elements</strong>. Exceeding this threshold can lead to increased overhead during creation and access, potentially offsetting any performance benefits or even resulting in a fatal error.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The recommended number of elements I provide is actually lower than the documentation&#39;s suggested &#40;100 elements&#41;. The reason for this discrepancy is that as you approach the upper limit, the performance benefits of static vectors compared to regular vectors decrease significantly. As a result, the time spent benchmarking with collections of 100 elements will likely offset any potential advantage.  </span></span> </p>
-<p>Static vectors offer additional benefits relative to tuples. Firstly, they maintain their performance benefits even at sizes where tuples would typically lose their advantages. Secondly, static vectors are more convenient to work with, as they can be manipulated in a similar way to regular vectors and support any array type, including matrices. Finally, <code>StaticArrays</code> provides mutable variants, making them more flexible than tuples, which are only available in an immutable form. It&#39;s worth indicating tough that, while the mutable version provides performance benefits relative to regular vectors, the immutable option still offers the best performance.</p>
+<p>Due to the memory-allocation overhead involved, the creation of vectors can rapidly become a performance bottleneck. The issue has far-reaching implications, as vector creation not only occurs when we explicitly define a variable holding a new vector. It also happens internally in various scenarios, such as when referencing a slice like <code>x&#91;1:2&#93;</code> or computing intermediate results on the fly like <code>x .* y</code> in the operation <code>sum&#40;x .* y&#41;</code>.</p>
+<p>This section introduces a way to address this limitation, while still preserving the use of vectors for collections. The solution leverages the so-called <strong>static vectors</strong>, provided by the <code>StaticArrays</code> package. Unlike built-in vectors, which are allocated on the heap, static vectors are stack-allocated. </p>
+<p>Internally, static vectors are build on top of tuples. This feature determines that <strong>static vectors are only suitable for collections comprising a few elements</strong>. As a rule of thumb, consider <strong>using static vectors for collections with up to 75 elements</strong>. Exceeding this threshold can lead to increased overhead during creation and access, potentially offsetting any performance benefits or even resulting in a fatal error.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The recommended number of elements I provide is actually lower than the documentation&#39;s suggested &#40;100 elements&#41;. The reason for this discrepancy is that as you approach the upper limit, the performance benefits of static vectors compared to regular vectors decrease significantly. As a result, the time spent benchmarking with collections of 100 elements will likely offset any potential advantage.  </span></span> </p>
+<p>Static vectors offer additional benefits relative to tuples. Firstly, they maintain their performance benefits even at sizes where tuples would typically lose their advantages. Secondly, they&#39;re more convenient to work with, as they are manipulated similarly to regular vectors. In fact, they support any array type, including matrices. Finally, the <code>StaticArrays</code> package provides mutable variants. This makes static vectors more flexible than tuples, which are only available in an immutable form. It&#39;s worth indicating tough that, while the mutable version provides performance benefits relative to regular vectors, the immutable option still offers the best performance.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content>     To avoid repetition, <strong>the entire section assumes all collections are small</strong>. Taking this into account, all the benefits highlighted are contingent upon this assumption.  We also suppose that the <code>StaticArrays</code> package is already available in the workspace, so the command <code>using StaticArrays</code> is omitted from each code snippet.  </div>  </div>
@@ -2654,12 +2654,12 @@ slice2 &#61; sx&#91;&#91;1,2&#93;&#93;</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="svectors_dont_allocate_and_are_faster" class="scrollspy">
+<section id="svectors_dont_allocate_memory_and_are_faster" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>SVectors Don't Allocate and Are Faster</h2></p>
-<p>One of the key advantages of SVectors is that they&#39;re internally built on top of tuples. Consequently, SVectors typically don&#39;t allocate memory. </p>
+        <h2>SVectors Don't Allocate Memory and Are Faster</h2></p>
+<p>One of the key advantages of SVectors is that they&#39;re internally built on top of tuples. Consequently, SVectors don&#39;t allocate memory. </p>
  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3011,7 +3011,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified October 4, 2024 
+          © Martin Alfaro <br>Last Modified October 6, 2024 
       </span> 
   </div> 
 </footer>
@@ -3583,7 +3583,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#svectors_dont_allocate_and_are_faster" data-offset="-40">SVectors Don't Allocate and Are Faster</a>
+          <a href="#svectors_dont_allocate_memory_and_are_faster" data-offset="-40">SVectors Don't Allocate Memory and Are Faster</a>
         </li>
         
         <li>

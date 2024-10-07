@@ -25,6 +25,16 @@ end
 # necessary packages for this file
 using Random
  
+############################################################################
+#
+#                           PRE-ALLOCATIONS
+#
+############################################################################
+ 
+####################################################
+#	INITIALIZING VECTORS
+####################################################
+ 
 x           = collect(1:100)
 repetitions = 100_000                       # repetitions in a for-loop
 
@@ -131,6 +141,10 @@ function foo(x)
 end
 
 @btime foo($x)
+ 
+####################################################
+#	preallocations 1
+####################################################
  
 Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
@@ -252,6 +266,10 @@ calling_foo_in_a_loop(output,x) = [sum(foo!(output,x)) for _ in 1:100]
  
 
 
+####################################################
+#	preallocations 2
+####################################################
+ 
 Random.seed!(123)       #setting the seed for reproducibility
 x = rand(100)
 
