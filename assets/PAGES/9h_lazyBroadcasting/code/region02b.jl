@@ -1,12 +1,6 @@
 Random.seed!(123)       #setting the seed for reproducibility #hide
-x = rand(100) ; y = rand(100)
+x      = rand(100)
 
-function foo(x,y)    
-    @. (x^2 + 2 * x) / (y^2 + 3 * y)
+foo(x) = @. x * 2 + x * 3
 
-
-
-    
-end
-
-@btime foo($x, $y) #hide
+@btime foo($x) #hide

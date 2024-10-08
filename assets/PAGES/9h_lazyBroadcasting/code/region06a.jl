@@ -1,5 +1,5 @@
 Random.seed!(1234) # hide
-x      = rand(1_000)
+x      = rand(100)
 
 foo(x) = x ./ sum(x)
 

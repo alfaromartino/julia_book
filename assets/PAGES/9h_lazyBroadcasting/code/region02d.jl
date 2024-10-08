@@ -1,12 +1,8 @@
 Random.seed!(123)       #setting the seed for reproducibility #hide
-x = rand(100) ; y = rand(100)
+x        = rand(100)
 
-function foo(x,y) 
-    num(a)    = a^2 + 2 * a
-    den(b)    = b^2 + 3 * b
-    temp(a,b) = num(a) / den(b)
+term1(a) = a * 2
+term2(a) = a * 3
 
-    temp.(x,y)
-end
-
-@btime foo($x, $y) #hide
+foo(a)   = term1(a) + term2(a)
+@btime foo.($x) #hide

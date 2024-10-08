@@ -1,12 +1,9 @@
 Random.seed!(123)       #setting the seed for reproducibility #hide
-x = rand(100) ; y = rand(100)
+x = rand(100)
 
-function foo(x,y) 
-    term1(a)  = 2 * a + 1
-    term2(b)  = 3 * b - 1
-    temp(a,b) = term1(a) * term2(b)
-    
-    sum(Iterators.map(temp, x,y))
-end
+term1(a) = a * 2
+term2(a) = a * 3
+temp(a)  = term1(a) + term2(a)
 
-@btime foo($x, $y) #hide
+foo(x)   = sum(Iterators.map(temp, x))
+@btime foo($x) #hide
