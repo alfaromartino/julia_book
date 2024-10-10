@@ -2641,7 +2641,7 @@ end</code></pre> </div></div>
       <span class="modalClose">&times;</span>
       <h2>   <strong>REMARK (OPTIONAL)</strong> Differing Optimizations With Broadcasting and For-Loops </h2>
     </div>
-    <div class="modal-body"><p> We shouldn&#39;t infer from the previous example that for-loops always skip optimizations applied under broadcasting. In fact, the compiler may apply <code>@inbounds</code> in a for-loop when it&#39;s safe to do so. This is the case in the following example, where only <code>x</code> is indexed and the range is given by <code>eachindex&#40;x&#41;</code>. Such a scenario precludes the possibility of out-of-bounds indexing, which contrasts with the preivous example where <code>output</code> was also iterated.</p>
+    <div class="modal-body"><p> We shouldn&#39;t infer from the previous example that for-loops always skip optimizations applied under broadcasting. In fact, the compiler may apply <code>@inbounds</code> in a for-loop when it&#39;s safe to do so. This is the case in the following example, where only <code>x</code> is indexed and the range is given by <code>eachindex&#40;x&#41;</code>. Such a scenario precludes the possibility of out-of-bounds indexing, which contrasts with the previous example where <code>output</code> was also iterated.</p>
 <p> <div style="height:23em">  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2677,7 +2677,8 @@ end</code></pre> </div> </div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>  </div></p>
-<p>Broadcasting and for-loops could also differ along other optimizations, and the macro <code>@inbounds</code> just represents one possibility. For example, broadcasting could recognize the invariance of some operations, in which case they&#39;ll be calculated out of the loop and reused in each iteration. This occurs in the following example, where broadcasting computes <code>sum&#40;x&#41;</code> only once, while the for-loop doesn&#39;t, unless explicitly instructed to do so.</p>
+<p>Broadcasting and for-loops could also differ along other optimizations, and the macro <code>@inbounds</code> just represents one possibility. For example, broadcasting could recognize the invariance of some operations, in which case they&#39;ll be calculated out of the loop and reused in each iteration. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Formally, we say that the operation is  <em>hoisted out</em> of the for-loop, meaning that it&#39;s computed outside of it  </span></span>. This occurs in the following example, where broadcasting computes <code>sum&#40;x&#41;</code> only once, while the for-loop doesn&#39;t, unless explicitly instructed to do so.</p>
+<p>hoisted out of the loop &#40;i.e. calculated outside the loop&#41;,</p>
 <p> <div style="height:24em">  <div class=" hide_tab"> <details  open><summary  >  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
