@@ -1,0 +1,1 @@
+# it handles correctly local variables

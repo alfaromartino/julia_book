@@ -1,0 +1,1 @@
+# typical example where copy may be faster is polynomies (simd applied automatically without @simd here)

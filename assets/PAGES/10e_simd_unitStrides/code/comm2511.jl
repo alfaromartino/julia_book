@@ -1,0 +1,1 @@
+# simd is faster with unit strides

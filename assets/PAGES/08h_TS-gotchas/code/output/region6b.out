@@ -1,0 +1,58 @@
+MethodInstance for foo(::Val{true})
+  from foo(::Val{condition}) where condition @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region6b.jl:1
+Static Parameters
+  condition = true
+Arguments
+  #self#::Core.Const(foo)
+  _::Core.Const(Val{true}())
+Locals
+  #230::var"#230#231"{Float64}
+  y::Float64
+  @_5::Float64
+Body::Vector{Float64}
+1 ─       Core.NewvarNode(:(#230))
+│         Core.NewvarNode(:(y))
+└──       goto #3 if not $(Expr(:static_parameter, 1))
+2 ─       (@_5 = 2.5)
+└──       goto #4
+3 ─       Core.Const(:(@_5 = 1))
+4 ┄       (y = @_5::Core.Const(2.5))
+│   %8  = Main.:(var"#230#231")::Core.Const(var"#230#231")
+│   %9  = Core.typeof(y::Core.Const(2.5))::Core.Const(Float64)
+│   %10 = Core.apply_type(%8, %9)::Core.Const(var"#230#231"{Float64})
+│         (#230 = %new(%10, y::Core.Const(2.5)))
+│   %12 = #230::Core.Const(var"#230#231"{Float64}(2.5))
+│   %13 = (1:100)::Core.Const(1:100)
+│   %14 = Base.Generator(%12, %13)::Core.Const(Base.Generator{UnitRange{Int64}, var"#230#231"{Float64}}(var"#230#231"{Float64}(2.5), 1:100))
+│   %15 = Base.collect(%14)::Vector{Float64}
+└──       return %15
+
+MethodInstance for foo(::Val{false})
+  from foo(::Val{condition}) where condition @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region6b.jl:1
+Static Parameters
+  condition = false
+Arguments
+  #self#::Core.Const(foo)
+  _::Core.Const(Val{false}())
+Locals
+  #230::var"#230#231"{Int64}
+  y::Int64
+  @_5::Int64
+Body::Vector{Int64}
+1 ─       Core.NewvarNode(:(#230))
+│         Core.NewvarNode(:(y))
+└──       goto #3 if not $(Expr(:static_parameter, 1))
+2 ─       Core.Const(:(@_5 = 2.5))
+└──       Core.Const(:(goto %7))
+3 ┄       (@_5 = 1)
+│         (y = @_5::Core.Const(1))
+│   %8  = Main.:(var"#230#231")::Core.Const(var"#230#231")
+│   %9  = Core.typeof(y::Core.Const(1))::Core.Const(Int64)
+│   %10 = Core.apply_type(%8, %9)::Core.Const(var"#230#231"{Int64})
+│         (#230 = %new(%10, y::Core.Const(1)))
+│   %12 = #230::Core.Const(var"#230#231"{Int64}(1))
+│   %13 = (1:100)::Core.Const(1:100)
+│   %14 = Base.Generator(%12, %13)::Core.Const(Base.Generator{UnitRange{Int64}, var"#230#231"{Int64}}(var"#230#231"{Int64}(1), 1:100))
+│   %15 = Base.collect(%14)::Vector{Int64}
+└──       return %15
+

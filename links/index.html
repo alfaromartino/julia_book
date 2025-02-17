@@ -60,8 +60,11 @@ header .jumbotron {
 <!-- WINDOWS TAB -->
   <title>Julia Book - Martin Alfaro</title>
   <link rel="icon" type="image/png"  href="/julia_book/assets/icons/favicon.ico">
-    
 
+<!-- for LUNR -->
+  <script src="/julia_book/libs/lunr/lunr.min.js"></script>
+  <script src="/julia_book/libs/lunr/lunr_index.js"></script>
+  <script src="/julia_book/libs/lunr/lunrclient.min.js"></script>
 </head>
 
 <!-- Google tag (gtag.js) -->
@@ -290,39 +293,41 @@ h3{
   /* color:rgb(49, 77, 105); */
 }
 
+h4 a {
+  font-weight    : 800 !important;
+}
 
-h4{
+h4 {
   text-align     : left;
   color          : rgb(58, 108, 158);
   text-decoration: underline;          /*none; */
   padding-bottom : 0.0em;
   padding-top    : 0.5em;
-  font-size      : 110%;
-  font-weight    : 800;
+  font-weight    : 800 !important;
   text-transform : uppercase;
+  font-size      : 120%;
 }
 
 
 
 
-
 h5,h6{
-  text-indent:0;
-  line-height:1.2em;
-  padding-top:0.99em;
+  text-indent   : 0;
+  line-height   : 1.2em;
+  padding-top   : 0.99em;
   padding-bottom: -0.0em;
 }
 
 section {
   margin-left:0;  
   /* font-family: "Open Sans"; */  
-  padding-left: 1%;
-  padding-right: 1%;
-  padding-top: 1.5%;
+  padding-left  : 1%;
+  padding-right : 1%;
+  padding-top   : 1.5%;
   padding-bottom: 1.0%;
-  text-align: justify;
-  text-justify: inter-word;
-  line-height: 1.65;
+  text-align    : justify;
+  text-justify  : inter-word;
+  line-height   : 1.65;
   /* text-indent: 2.5%; */
   text-indent: 0;
   font-size: 100%;
@@ -673,13 +678,13 @@ section a:hover{
 
 
 
-    <style>
+    <style>        
         .left_bar .kbd_shortcuts {
-            color: black;
-            font-size: 16px;
-            line-height: 1.55;            
+            color          : black;
+            font-size      : 16px;
+            line-height    : 1.55;
             list-style-type: none;
-            position: relative;            
+            position       : relative;
         }
 
         .left_bar .kbd_shortcuts kbd {
@@ -688,41 +693,41 @@ section a:hover{
 
         /* bar topright modal (for content of the modal) */
         .left_bar .kbd_shortcuts .modal-content {
-            position: relative;
-            width: 1200px;
-            max-width: 90%;
-            height: max-content;
-            max-height: 90%;
-            margin-top:55px;            
-            background-color: rgb(207, 218, 228); /* rgb(235, 235, 235); */
-            overflow:auto;  
+            position        : relative;
+            width           : 1200px;
+            max-width       : 90%;
+            height          : max-content;
+            max-height      : 90%;
+            margin-top      : 55px;
+            background-color: rgb(207, 218, 228);  /* rgb(235, 235, 235); */
+            overflow        : auto;
         }
 
         .left_bar .kbd_shortcuts .modal-body {
-            margin-left: 8px;
-            padding-bottom: 12px; 
-            text-align: justify;
+            margin        : 0;
+            padding-bottom: 12px;
+            text-align    : justify;
             
-            padding-top: 8px;
+            padding-top   : 8px;
             padding-bottom: 2px;
-            overflow: visible;
-            height: 100%;        
+            overflow      : visible;
+            height        : 100%;
             
         }
 
         .left_bar .kbd_shortcuts .modal-header {
-            padding: 0;            
-            color: white;
-            width: 100%;            
+            padding: 0;
+            color  : white;
+            width  : 100%;
         }
 
         .left_bar .kbd_shortcuts .modal-header h2 {
-            padding-top: 8px;
-            font-size: 20px;
-            font-weight: bold;
-            width: 100%;
-            text-align: center;
-            color:white;
+            padding-top     : 8px;
+            font-size       : 20px;
+            font-weight     : bold;
+            width           : 100%;
+            text-align      : center;
+            color           : white;
             background-color: rgb(63,99,136)
         };            
         
@@ -730,25 +735,25 @@ section a:hover{
         
 
         .left_bar .kbd_shortcuts .modal-body p {
-            padding: 0px 4px;
-            text-align: justify;
-            text-justify: inter-word;            
+            padding     : 0px 4px;
+            text-align  : justify;
+            text-justify: inter-word;
         }
 
 
         /* modal button */
         .left_bar .modalButton {
-            border: none;
-            box-shadow: none;
-            width: auto;            
-            padding: 0;
+            border          : none;
+            box-shadow      : none;
+            width           : auto;
+            padding         : 0;
             background-color: transparent;
-            color: white;
-            margin: 0;            
+            color           : white;
+            margin          : 0;
         }
 
         .left_bar .brmine {
-            display: block;
+            display      : block;
             margin-bottom: 0.5em;
         }
 
@@ -764,7 +769,7 @@ section a:hover{
       </a>
     </li>
     <li>
-      <h3 style="font-weight:400; font-size: 14px; padding-top:4em; margin-bottom:-0.6em; ">Dark Mode (Experimental)</h3>
+      <h3 style="font-weight:400; font-size: 14px; padding-top:4em; margin-bottom:-0.6em; text-decoration: none;">Dark Mode</h3>
         <label class="switch">
         <input type="checkbox" id="toggleStyles">
         <span class="slider round"></span>
@@ -848,7 +853,158 @@ color: white;
 
 
 </style>  
- 
+
+ <!-- Dark Mode -->
+
+
+<style>
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display : inline-block;
+  width   : 30px;
+  height  : 17px;
+}
+
+.switch input {
+  display: none;
+}
+
+/* The slider */
+.slider {
+  position        : absolute;
+  cursor          : pointer;
+  top             : 0;
+  left            : 0;
+  right           : 0;
+  bottom          : 0;
+  background-color: #ccc;
+  transition      : .4s;
+}
+
+.slider:before {
+  position        : absolute;
+  content         : "";
+  height          : 13px;
+  width           : 13px;
+  left            : 2px;
+  bottom          : 2px;
+  background-color: white;
+  transition      : .4s;
+}
+
+input:checked + .slider {
+  /* background-color: #132433; */
+  background-color: #000000;
+}
+
+input:checked + .slider:before {
+  transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 17px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
+
+  /* =============== */
+/* DARK MODE */
+/* =============== */
+
+body.dark-mode .franklin-content, body.dark-mode .modal-body{
+    /* background-color: rgb(3, 13, 24) !important; */    
+    background-color: rgb(3, 9, 17) !important;}
+body.dark-mode .franklin-content section, body.dark-mode .index_container, body.dark-mode .modal-content  {
+    color: rgb(235, 244, 252) !important; }
+
+/* FOR LIST OF CHAPTERS */
+    body.dark-mode .index_container,  body.dark-mode .index_container h1{
+        background-color: rgb(3, 13, 24) !important;}
+    
+    body.dark-mode .index_container ul > li{
+        color: rgb(235, 244, 252) !important;}
+
+    body.dark-mode .index_container a {  
+        color: rgb(88, 140, 192);
+  }
+
+  body.dark-mode .index_container a:hover, body.dark-mode section a:hover, body.dark-mode h2:hover{
+    color          : rgb(190, 213, 236);
+}
+
+body.dark-mode .multiple_pics { background-color: rgb(75, 109, 146); }
+body.dark-mode .multiple_pics h2 { color: white !important; }
+body.dark-mode .warning, body.dark-mode .note { color: black; }
+
+
+
+body.dark-mode .code_box, body.dark-mode .code_in_modal, body.dark-mode .output_in_modal, body.dark-mode .img_output_in_modal { 
+    border-width    : 1px;
+    border-style    : solid;
+    /* border-color    :rgba(192, 215, 235, 0.75)  */
+    border-color    :rgba(0, 44, 82, 0.99)     }
+
+
+    body.dark-mode .tab_wrapper .tab_code_links .tablink.active{    background-color:rgba(94, 140, 185, 0.95); }
+    body.dark-mode .tab_wrapper .tab_code_links .tablink:hover{     background-color:rgba(94, 140, 185, 0.95); }    
+  
+    body.dark-mode nav .nav-toggle, body.dark-mode .bar_top, body.dark-mode .nav-menu.show {
+        background-image: linear-gradient(to top, rgb(18, 32, 48), rgb(18, 32, 48) 60%)   !important;}
+        body.dark-mode .bar_top .modal-body, body.dark-mode .bar_top .modal-header, body.dark-mode .bar_top .modal-content{
+            background-image: linear-gradient(to top, rgb(18, 32, 48), rgb(18, 32, 48) 60%)   !important;            }
+    body.dark-mode header .jumbotron {
+        background-image: linear-gradient(to bottom, rgb(18, 32, 48), rgb(18, 32, 48) 50%) !important;}        
+        body.dark-mode  .left_bar {         
+        background-image: linear-gradient(to left bottom, rgb(18, 32, 48), rgb(18, 32, 48) 10%); }
+    body.dark-mode  footer {
+        background-image: linear-gradient(to right, rgb(18, 32, 48), rgb(0,0,0) 10%)   !important;
+        border-top      : 1px solid rgba(0, 44, 82, 0.99)     ;
+        background-color: rgba(63, 99, 136, 0.3);
+        width           : calc(100%+10px);
+        margin-left     : 0px;
+        padding-left    : 10px;
+    }
+
+
+    /* bar topright modal (for content of the modal in notation and hotkeys) */
+    body.dark-mode .left_bar .kbd_shortcuts .modal-content {
+            background-color: black !important;            
+        }
+
+</style>
+
+
+
+
+<script>
+  document.getElementById('toggleStyles').addEventListener('change', function() {
+    if (this.checked) {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('darkMode', 'enabled');
+    } else {
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('darkMode', 'disabled');
+    }
+  });
+
+  window.addEventListener('load', function() {
+    var darkMode = localStorage.getItem('darkMode');
+
+    if (darkMode === 'enabled') {
+      document.getElementById('toggleStyles').checked = true;
+      document.body.classList.add('dark-mode');
+    } else {
+      document.getElementById('toggleStyles').checked = false;
+    }
+  });
+
+</script>
  
 <!-- CONTENT PAGES -->
 
@@ -1295,15 +1451,15 @@ section{
 /* Inline for julia_repl and franklin_output - adding margins and paddings  */
 .mixed_output_inline{
     color           : #DCDCDC;
-    font-family     : "Consolas", monospace;    
+    font-family     : "Consolas", monospace;
     background-color: rgb(1, 59,31);
-
-    padding-left  : 1em;
-    padding-top   : 0.5em;
-    padding-bottom: 1em;
     
-    margin-top   : 0;
-    margin-bottom: 0;    
+    padding-left    : 1em;
+    padding-top     : 0.5em;
+    padding-bottom  : 1em;
+
+    margin-top      : 0;
+    margin-bottom   : 0;
   }
 
   
@@ -1450,7 +1606,9 @@ section{
 }
 
 .hide_tab > details > summary {  
-  width           : 30px; max-width: 90%;
+  max-width       : 100%;  min-width: 30px ;
+  width           : fit-content;
+  /* width           : auto; */
   padding-left    : 11px;
   padding-right   : 0px;
   padding-bottom  : 0px;
@@ -1462,6 +1620,26 @@ section{
   border-width    : 1px;
   border-style    : solid;
 }
+  .hide_tab > details[open] > summary .closed_text {
+      display: none;
+    }
+
+    /* .hide_tab > details:not([open]) > summary  {      
+      min-width: 25%;
+    } */
+
+    .hide_tab > details > summary .closed_text {    
+    padding-left : 1em;
+    padding-right: 1em;
+    margin-left  : 0.25em;
+    display      : inline-block;
+    border-left  : #282c34;
+    border-width : 1px;
+    border-style : solid;
+    border-bottom: none;
+    border-top   : none;
+    border-right : none;
+    }        
 
 .hide_tab > details[open] > summary {
   position        : absolute;
@@ -1477,6 +1655,8 @@ section{
   border-style    : solid;
   border-bottom   : none;
 }
+
+
 
 
   
@@ -1529,11 +1709,11 @@ section{
 
 .code_in_modal{  
   background-color: rgb(0, 16, 41);
-  padding-left  : 1em;
-  padding-top   : 0.5em;
-  padding-bottom: 1em;
-  margin-top    : 0;
-  margin-bottom : 0;
+  padding-left    : 1em;
+  padding-top     : 0.5em;
+  padding-bottom  : 1em;
+  margin-top      : 0;
+  margin-bottom   : 0;
 }
 
 
@@ -1548,29 +1728,14 @@ section{
       ADDING IMAGES AS OUTPUTS
   ============================*/
 /* COLLAPSIBLE OUTPUT WITH IMGS */
-.img_output{
+.img_output, .img_output_in_modal{
   text-indent     : 0;
   margin          : 0;
   padding         : 0;
   background-color: rgba(24,24,24,255);
 }  
 
-.img_output_in_modal{
-  text-indent     : 0;
-  margin          : 0;
-  padding         : 0;
-  background-color: rgba(24,24,24,255);
-}  
-
-
-.img_output_old{
-  text-indent     : 0;
-  margin          : 0;
-  padding         : 0;
-  background-color: rgba(30,30,30,255);
-}  
-
-.img_output_in_modal_old{
+.img_output_old, .img_output_in_modal_old{
   text-indent     : 0;
   margin          : 0;
   padding         : 0;
@@ -1599,219 +1764,78 @@ section{
   padding: 0;
   margin : 0;
 }
-
-  
-
+</style>  
 
 
 
-/* .img_output{
-color:white;
-text-indent:0;
-margin-top:-15px;
-margin-bottom:0px;
-}
-
-.img_output details > summary {  
-width: max-content; max-width: 90%;
-height:auto;
-padding-left: 10px;  
-padding-right: 10px;  
-color: white;
-background-color:  #3f6b4b;
-border: none;  
-margin: 0;
-box-shadow: 3px 3px 4px black;
-cursor: pointer;  
-}
-
-
-.img_output details[open] > summary {
-width: max-content; max-width: 90%;
-padding-left: 10px;  
-padding-right: 10px;  
-background-color:  #3f6b4b;  
-border:#282c34; 
-border-width: 1px; 
-color:white;
-border-style:solid;
-}
-
-
-.img_output details > p {
-border-radius: 0 0 0px 0px;
-background-color: rgba(30,30,30,255);
-padding: 10px 6px 10px 6px;
-margin-bottom: 22px;
-margin-top: 0px;
-} */
-
-
-  
-/* ============================ */
-/*          COLLAPSE TABS - HIDE BUT FOR OUTPUTS    */
-/* ============================ */
-
-/* FOR ADDING A SIGN WITH OUTPUT IN TABS */
-/* 
-.hide_output  > details > summary {
-  width: 30px; max-width: 90%;  
-  padding-left: 11px; 
-  padding-right: 0px;
-  padding-bottom: 0px;
-  background-color:  #3f6b4b;
-  cursor: pointer;  
-  color: #ffffff;
-  text-indent:0;  
-  border:#282c34;  
-  border-width:1px;  
-  border-style:solid;   
-}
-
-.hide_output  > details[open] > summary {  
-  position:absolute;
-  width: 35px; max-width: 90%;      
-  height:1.94em;  
-  padding-bottom: 0px;
-  padding-top: 3px;   
-  padding-left: 12px;  
-  padding-right: 5px;   
-  background-color:  #3f6b4b;
-  border:#282c34; 
-  border-width:1px;    
-  border-style:solid;  
-  border-bottom: none;  
-}
-
-.hide_output > details > p {
-  border-radius: 0 0 0px 0px;  
-  padding: 0px 0px 0px 0px;  
-  margin-bottom: -1px;
-}
-
-.hide_output  > details[open] {
-  margin-bottom: -0.8em;  
-}
-
-.hide_output > details {
-  margin-bottom: -8px;
-}
- */
 
 
 
-/* for output in modals when there are multiple outputs */
 
-
-
-</style>    
-
-
-<!-- Dark Mode -->
-
+  <!-- ================================================================= 
+   FOR GIFS IN OUTPUT MODALS 
+   ================================================================= -->
 
 <style>
-/* The switch - the box around the slider */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 30px;
-  height: 17px;
+
+.gif_output_in_modal{
+      text-indent     : 0;
+      margin          : 0;
+      padding         : 0;
+      background-color: rgba(24,24,24,255);                
+  }  
+
+.gif_output {
+    position : relative;
+    display  : inline-block;
+    cursor   : pointer;
+    margin   : 0;
+    padding  : 0;
+    max-width: 100%;
 }
 
-.switch input {
-  display: none;
+.gif-wrapper {
+    display   : block;
+    visibility: hidden;
+    margin    : 0;
+    padding   : 0;  
+    max-width : 100%;  
 }
 
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: .4s;
+.gif-wrapper.playing {
+  visibility: visible; 
 }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 13px;
-  width: 13px;
-  left: 2px;
-  bottom: 2px;
-  background-color: white;
-  transition: .4s;
+.play-overlay {
+  position        : absolute;
+  top             : 0;
+  left            : 0;
+  right           : 0;
+  bottom          : 0;
+  background-color: rgba(24,24,24,255);
+  background-color: black;
+  display         : flex;
+  justify-content : center;
+  align-items     : center;  
 }
 
-input:checked + .slider {
-  /* background-color: #132433; */
-  background-color: #000000;
+.play-overlay.hidden {
+background: transparent;
 }
 
-input:checked + .slider:before {
-  transform: translateX(13px);
+.play-button {
+  background: none;
+  border    : none;
+  color     : white;  
+  cursor    : pointer;
+  padding   : 0;
+  transform : scale(0.5);
+  transition: background 0.3s;
 }
 
-/* Rounded sliders */
-.slider.round {
-  border-radius: 17px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-
-
-
-  /* =============== */
-/* DARK MODE */
-/* =============== */
-
-body.dark-mode .franklin-content, body.dark-mode .modal-body{
-    background-color: rgb(3, 13, 24) !important;}
-body.dark-mode .franklin-content section, body.dark-mode .index_container, body.dark-mode .modal-content  {
-    color: rgb(235, 244, 252) !important; }
-
-/* FOR LIST OF CHAPTERS */
-    body.dark-mode .index_container,  body.dark-mode .index_container h1{
-        background-color: rgb(3, 13, 24) !important;}
-    
-    body.dark-mode .index_container ul > li{
-        color: rgb(235, 244, 252) !important;}
-
-    body.dark-mode .index_container a {  
-        color: rgb(88, 140, 192);
-  }
-
-  body.dark-mode .index_container a:hover, body.dark-mode section a:hover{
-    color          : rgb(190, 213, 236);
-}
-
-body.dark-mode .multiple_pics { background-color: rgb(75, 109, 146); }
-body.dark-mode .multiple_pics h2 { color: white !important; }
-body.dark-mode .warning, body.dark-mode .note { color: black; }
-
-
-
-body.dark-mode .code_box, body.dark-mode .code_in_modal, body.dark-mode .output_in_modal, body.dark-mode .img_output_in_modal { 
-    border-width    : 1px;
-    border-style    : solid;
-    border-color    :rgb(235, 244, 252) }
-
-  
-body.dark-mode  .left_bar {
-  background-image: linear-gradient(to left bottom, rgb(0, 0, 0), rgb(0, 0, 0) 10%, rgba(63, 99, 136, 0.3) 70%, rgba(63, 99, 136, 0.3));    
-}
-
-body.dark-mode  footer {
-  background-image: linear-gradient(to right,rgb(13, 24, 35),  rgba(63, 99, 136, 0.5)  60%, rgba(63, 99, 136, 0.6) 75%, rgba(63, 99, 136, 0.7));
-  background-color: rgba(63, 99, 136, 0.3);
-  width           : calc(100%+10px);
-  margin-left     : 0px;
-  padding-left    : 10px;
+/* Hide pause button when playing */
+.play-overlay.hidden .play-button {
+  display: none;  
 }
 
 
@@ -1820,32 +1844,71 @@ body.dark-mode  footer {
 
 
 
+<!-- TO ADJUST THE HEIGHT OF GIFS
+ IN THE CODE, WE SET ONE OF THE WIDTH, AND THE REST ADJUSTS -->
 <script>
-  document.getElementById('toggleStyles').addEventListener('change', function() {
-    if (this.checked) {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('darkMode', 'enabled');
-    } else {
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('darkMode', 'disabled');
-    }
+  document.addEventListener('DOMContentLoaded', function () {
+    const gifWrappers = document.querySelectorAll('.gif_output');
+    let loadedCount = 0;
+
+    gifWrappers.forEach(wrapper => {
+      const gif = wrapper.querySelector('.gif-wrapper');
+      const overlay = wrapper.querySelector('.play-overlay');
+      let isPlaying = false;
+
+      // Wait for the GIF to load to get its proper dimensions
+      gif.onload = function () {
+        loadedCount++;
+        if (loadedCount === gifWrappers.length) {
+          // Call setMaxHeight after all GIFs have loaded
+          setMaxHeight();
+        }
+      }
+
+      wrapper.addEventListener('click', function () {
+        if (!isPlaying) {
+          // Play
+          gif.classList.add('playing');
+          overlay.classList.add('hidden');
+          isPlaying = true;
+        } else {
+          // Stop
+          gif.classList.remove('playing');
+          overlay.classList.remove('hidden');
+          isPlaying = false;
+        }
+      });
+    });
   });
 
-  window.addEventListener('load', function() {
-    var darkMode = localStorage.getItem('darkMode');
+  function setMaxHeight() {
+    // Get all elements with class gif-wrapper
+    const gifWrappers = document.querySelectorAll('.gif-wrapper');
 
-    if (darkMode === 'enabled') {
-      document.getElementById('toggleStyles').checked = true;
-      document.body.classList.add('dark-mode');
-    } else {
-      document.getElementById('toggleStyles').checked = false;
-    }
-  });
+    // Initialize max height to 0
+    let maxHeight = 0;
+
+    // Iterate over each gif-wrapper to find the maximum height
+    gifWrappers.forEach((wrapper) => {
+      const height = wrapper.offsetHeight;
+      if (height > maxHeight) {
+        maxHeight = height;
+      }
+    });
+
+    // Set the height of all gif-wrappers to the maximum height, maintaining aspect ratio
+    gifWrappers.forEach((wrapper) => {
+      wrapper.style.height = `${maxHeight}px`;
+      wrapper.style.width = `auto`;
+    });
+  }
 
 
-</script>
 
 
+
+
+</script>  
 
 
 
@@ -1866,6 +1929,8 @@ body.dark-mode  footer {
         font-size:100% !important;}
 
        .franklin-content{padding-left: 1%; padding-right:1%;}
+
+       .franklin-content .container{max-width:100% !important;}
 
       .index_container,  .index_container section{font-size: 100%;}
       
@@ -1916,6 +1981,7 @@ body.dark-mode  footer {
         font-size:90% !important;}
 
         .franklin-content{font-size:100% !important}
+        .franklin-content .container{max-width:100% !important;}
 
       .index_container,  .index_container section{font-size: 100%;}
       .index_container ul li {padding-right: 5%; padding-left: 0}
@@ -1959,15 +2025,16 @@ body.dark-mode  footer {
 }
 
 
-
 </style>
-
 <!-- <div class="left_bar_mobile" style="color:white;">
     <div style="float:center; align-items:center; justify-content: center; height:160px; width:calc(90px * 1.55165);">
         <img src="/julia_book/assets/pics_html/julia_logo-dark.svg"
         style= "position:relative; width:90%; height:auto; padding-top:45px;  padding-left:10px;">     
     </div> -->
-    
+
+
+
+
 <div class="left_bar_mobile" style="color:white;">
 
   <!-- <span>
@@ -1987,16 +2054,24 @@ body.dark-mode  footer {
   <ul>
     <li>
       <a href="/julia_book/index.html"><img src="/julia_book/assets/icons/home.png"
-          style="width:15%; height:auto;opacity:0.9;padding-bottom:5px;">
+          style="width:15%; height:auto;opacity:0.9;padding-bottom:0px;">
         HOME
       </a>
     </li>
 
     <li>
       <a href="/julia_book/list_posts/"><img src="/julia_book/assets/icons/books03.png"
-          style="width:15%; height:auto;opacity:0.9;padding-bottom:5px;">
+          style="width:15%; height:auto;opacity:0.9;padding-bottom:0px;">
         CHAPTERS
       </a>
+    </li>
+    <li>
+      <div class="dark-mode-mobile">
+        <label class="switch">
+          <input type="checkbox" class="toggleMobile">
+          <span class="slider round"></span>
+        </label>
+      </div>
     </li>
   </ul>
 
@@ -2014,7 +2089,6 @@ data-show-count="true" aria-label="Star {{title}} on GitHub">Star</a>
 
 
 
-
 <style>
 
 @media (min-width: 850px), (min-height: 600px){
@@ -2023,17 +2097,7 @@ data-show-count="true" aria-label="Star {{title}} on GitHub">Star</a>
 
 @media (max-width: 850px), (max-height: 600px){
   .left_bar_mobile{display:block}
-  .lead {display:none}
-  .bar_top, nav, .copy-button, .py-1 .container .center-text{
-      display:none !important;}
-      .jumbotron {
-        /* padding-left: 60px !important;         */
-        padding-left:80px;
-        padding-right: 0.1% !important;
-        padding-top: 0; margin-top:0;}
-}
-
-
+  
 
 .left_bar_mobile img{display:none;}
 
@@ -2042,28 +2106,38 @@ data-show-count="true" aria-label="Star {{title}} on GitHub">Star</a>
   background-image: none;
   position        : absolute;
   font-family     : "Inter";
-  height          : auto;
+  /* height          : auto; */
+  height          : 160px !important;  
   top             : 0;
   left            : 0;
   font-size       : 85%
   width           : 60px;
 }
 
-      
+    
 
-.left_bar_mobile ul{
-list-style-type: none;
-float          : left;
-font-size      : 100%;
-position       : relative;
-padding-left   : 0.4em;
-padding-top    : 0.5em;
-line-height    : 4.25em;
-height         : auto;
-top            : 0;
-width          : 60px;
-}
 
+.left_bar_mobile ul {
+        list-style-type: none;
+        float          : left;
+        font-size      : 100%;
+        position       : relative;
+        padding-left   : 0.4em;
+        padding-top    : 0.2em;
+        line-height    : 2.0em !important;
+        height         : 100%;
+        top            : 0;
+        width          : 60px;
+        display        : flex;
+        flex-direction : column;
+        justify-content: space-around;
+        }
+
+    .left_bar_mobile li {
+        flex: 1; 
+    }
+
+    
 /* .left_bar_mobile ul {padding-left:0 !important; margin-left:0}   */
       /* .left_bar_mobile ul, .left_bar_mobile ul li {margin-bottom:-0.5em !important; text-indent:0; padding-top:0.0em !important; padding-bottom:0.0em !important; height:auto;} */
       
@@ -2077,6 +2151,25 @@ color: white;
   color: rgb(160, 159, 159);  
 }
 
+
+ 
+
+    .dark-mode-mobile{
+        position  : relative;
+        bottom    : 0;
+        margin-top: auto;      /* add this */
+    }    
+    .dark-mode-mobile .switch{
+        width   : 40px;
+        height  : 20px;
+    }
+    .dark-mode-mobile .slider:before {  
+        height          : 15px;
+        width           : 15px;  
+        }
+   .dark-mode-mobile input:checked + .slider:before {
+        transform: translateX(20px);
+}
 
 
 
@@ -2126,6 +2219,60 @@ color: white;
 
 
 
+<style>
+  @media (max-width: 850px), (max-height: 600px){
+  .lead {display:none}
+  .bar_top, nav, .copy-button, .py-1 .container .center-text{
+      display:none !important;}
+      .jumbotron {
+        /* padding-left: 60px !important;         */
+        padding-left:80px;
+        padding-right: 0.1% !important;
+        padding-top: 0; margin-top:0;}
+      }
+</style>
+
+
+
+<style>
+  @media (min-width: 850px), (min-height: 600px){
+.dark-mode-mobile {visibility:hidden}
+}
+
+@media (max-width: 850px), (max-height: 600px){
+.dark-mode-mobile {visibility:visible}
+}  
+</style>
+
+<script>
+document.querySelector('.toggleMobile').addEventListener('change', function() {
+if (this.checked) {
+document.body.classList.add('dark-mode');
+localStorage.setItem('darkMode', 'enabled');
+} else {
+document.body.classList.remove('dark-mode');
+localStorage.setItem('darkMode', 'disabled');
+}
+});
+
+window.addEventListener('load', function() {
+var darkMode = localStorage.getItem('darkMode');
+
+if (darkMode === 'enabled') {
+document.querySelector('.toggleMobile').checked = true;
+document.body.classList.add('dark-mode');
+} else {
+document.querySelector('.toggleMobile').checked = false;
+}
+});
+
+</script>
+
+
+
+
+
+
 <!-- {{ispage list_posts links}}  
   {{insert /index_page/lists_header.html}}  
   {{insert /index_page/lists_FORMAT.html}}  
@@ -2143,7 +2290,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2></h2></p>
-<p><div style="font-size: 36px;text-align:center;text-indent:0"> LINKS </div> </p>
+<p><div style="font-size: 36px;text-align:center;text-indent:0;font-weight:bold; text-decoration:underline; "> LINKS </div> </p>
 <p>      </div>
     </div>
   </div>
@@ -2199,28 +2346,8 @@ color: white;
 <li><p><a href="https://stackoverflow.com/questions/tagged/julia">Julia StackOverFlow</a><br/></p>
 </li>
 </ul>
-<p> <div style="visibility:hidden; margin-bottom:-1em;"> ======================================================================================================================================== </div>       </div>
-    </div>
-  </div>
-</section>
-<section id="free_ai_tools" class="scrollspy section-bg-color">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg- mx-auto">
-        <h2>Free AI Tools</h2></p>
-<ul>
-<li><p><a href="https://poe.com/">poe.com</a>: Among others, it includes ChatGPT, Claude, and CodeLlama-34b. You can also create &quot;personas&quot; with some specific prompt.</p>
-</li>
-<li><p><a href="https://phind.com/">phind.com</a>: Search engine specialized for coding. It uses GPT-4 and has access to the internet. </p>
-</li>
-<li><p><a href="https://codeium.com/">Codeium</a>: Extension for VS Code. It&#39;s a free alternative to GitHub Copilot &#40;GitHub Copilot is also free for students and professors&#41;.</p>
-</li>
-<li><p><a href="https://huggingface.co/chat/">Hugging Face Chat</a>: It showcases several open-source chatbots, including CodeLlama-34b. </p>
-</li>
-<li><p><a href="https://chat.deepseek.com/coder">DeepSeek</a>: It includes a chatbot specialized in coding, referred to as DeepSeek Coder. </p>
-</li>
-</ul>
-<p> <div style="visibility:hidden; margin-bottom:-1em;"> ======================================================================================================================================== </div>       </div>
+ <div style="visibility:hidden; margin-bottom:-1em;"> ======================================================================================================================================== </div>
+<p>      </div>
     </div>
   </div>
 </section>
@@ -2242,14 +2369,14 @@ color: white;
 footer{font-family: "Inter";}
 
 footer .container {  
-  width: 100%;
-  margin-top:0.6em;
-  margin-bottom:0.5em;
-  overflow: hidden;
-  text-align:center;
-  align-items: center;
-  justify-content:center;
-  color:white;  
+  width          : 100%;
+  margin-top     : 0.6em;
+  margin-bottom  : 0.5em;
+  overflow       : hidden;
+  text-align     : center;
+  align-items    : center;
+  justify-content: center;
+  color          : white;
 }
 
 footer .center-text {  
@@ -2306,7 +2433,8 @@ function goToNextPage() {
 }
 
 
-</script></div><!-- CONTENT ENDS HERE -->
+</script>
+</div><!-- CONTENT ENDS HERE -->
 
 <!-- ADDED BY FRANKLIN -->
   
@@ -2359,7 +2487,7 @@ function goToNextPage() {
 <!-- FOR MODALS and TABS-->
 <script>
 
-  const btns = document.getElementsByClassName('modalButton');
+  const btns   = document.getElementsByClassName('modalButton');
   const modals = document.getElementsByClassName('modal');
 
   [...btns].forEach((btn, ind) => {
@@ -2375,13 +2503,13 @@ function goToNextPage() {
 
   // Close the modal when user clicks outside of it
   window.addEventListener('click', function (event) {
-    const modals = document.getElementsByClassName('modal');
+    const modals        = document.getElementsByClassName('modal');
     const modalContents = document.getElementsByClassName('modal-content');
-    const modalButtons = document.getElementsByClassName('modalButton');
+    const modalButtons  = document.getElementsByClassName('modalButton');
     for (let i = 0; i < modals.length; i++) {
-      const modal = modals[i];
+      const modal        = modals[i];
       const modalContent = modalContents[i];
-      const modalButton = modalButtons[i];
+      const modalButton  = modalButtons[i];
       if (modal.style.display === 'block' && !modalContent.contains(event.target) && !modalButton.contains(event.target)) {
         modal.style.display = 'none';
       }
@@ -2603,47 +2731,47 @@ window.onkeydown = function(event) {
 
 /* for collapsible pics  */
 .pic_drop_green{    
-  padding-top: 1em;
+  padding-top   : 1em;
   padding-bottom: 1em ;
   }
 
 .pic_drop_green details > summary {  
-  color:white;
-  display:inline-block;
-  width: auto;
-  cursor: pointer;
-  
-  padding: 0px 6px;
-  margin: 0;
-  
-  border-width: 1px; 
-  border-style:solid;
-  box-shadow: 3px 3px 4px black;
+  color       : white;
+  display     : inline-block;
+  width       : auto;
+  cursor      : pointer;
 
-  /* list-style: none;   */  
+  padding     : 0px 6px;
+  margin      : 0;
+
+  border-width: 1px;
+  border-style: solid;
+  box-shadow  : 3px 3px 4px black;
+
+    /* list-style: none;   */
   background-color: #3f6b4b;
 }
 
 
 .pic_drop_green details[open] > summary {
-  width: auto;
-  padding: 0px 6px;
+  width           : auto;
+  padding         : 0px 6px;
   
-  border: #a8a8a8;  
-  border-width: 1px;   
-  border-style:solid;
-
-  color:white;
+  border          : #a8a8a8;
+  border-width    : 1px;
+  border-style    : solid;
+  
+  color           : white;
   background-color: #3f6b4b;
   
   
 }
 
 .pic_drop_green details > p {
-  display:block;
-  width:auto;    
+  display: block;
+  width  : auto;
   padding: 0;
-  margin: 0;  
+  margin : 0;
 }
 
 
@@ -2766,6 +2894,167 @@ for multiple pics in a row
     
     })();
     </script>
+
+
+
+
+<!-- FOR PDF -->
+
+  <style>
+  
+@media print {
+      .franklin-content{    
+    box-sizing : border-box;}    
+
+    .jumbotron {
+        padding-right: 60px !important;
+    }
+
+    .jumbotron, .name_format, .phd_format{
+        color: black !important;
+    }
+
+
+
+    .name_format a { color: rgb(63,99,136); }
+
+          
+    
+          
+    nav, .tab_code_links, .hide_tab > details[open] > summary, .hide_tab details[open] p, .sign_output{
+        display: none !important;        }
+    
+    .footn, footer, .left_bar_mobile, .left_bar, .bar_top, nav, .navbar, .nav-item, .copy-button, .bar_top .modalButton  {
+          display: none !important;        }
+  
+    
+    .tab_wrapper {
+      display       : flex !important;
+      flex-wrap     : wrap;
+      gap           : 1cm;
+      width         : 100%;
+      padding-top   : 20px;
+      padding-bottom: 20px;
+    }
+  
+  
+    .tabcontent {
+      display          : block !important;
+      margin-bottom    : 2em;
+      page-break-inside: avoid;
+      border           : 2px solid rgb(63,99,136) !important;
+      /* border           : 2px solid black !important; */
+    }
+  
+  
+  
+    .print-tab-title {
+      font-weight : bold;
+      font-size   : 100%;
+      padding     : 0 0;
+      padding-left: 0.35cm;
+        /* border-bottom : 2px solid rgb(63,99,136);       */
+      color         : #000;
+      text-transform: uppercase;
+      display       : block !important;
+    }
+  
+    .code_in_modal, .output_in_modal {
+      width   : 100%;
+      height  : auto !important;  /* Ensure content expands naturally */
+      overflow: visible;
+      border  : none !important;
+    }
+
+    .code_NoFormat pre, .mixed_output_NoFormat pre{
+        border: none !important;}
+
+    
+
+    .code_in_modal, .code_NoFormat, .mixed_output_NoFormat, .mixed_output_inline, .julia_repl_NoFormat{
+        margin : 0em !important;
+        padding: 0em !important;
+    }
+
+    .code_NoFormat, .mixed_output_NoFormat, .julia_repl_NoFormat{
+      padding-left: 0.35cm !important;
+      padding-top:  0.15cm !important;
+    }
+
+
+
+    .output_in_modal{
+        margin-top: 12px !important;
+        border-top: 2px solid #20c679 !important;
+    }
+
+  .code_NoFormat, .code_in_modal{
+      border-top: 2px solid rgb(63,99,136);
+    }
+
+    #remarkCodeContent {
+      height    : 0.1px !important;
+      visibility: hidden !important;
+    }
+
+  }
+  </style>
+  
+  <script>
+
+function printAllTabs() {
+    const tabButtons  = document.querySelectorAll('.tablink');
+    const tabContents = document.querySelectorAll('.tabcontent');
+    
+        // First pass: Add titles
+    tabContents.forEach((tab, index) => {
+      const title = tabButtons[index].textContent.trim();
+      if (!tab.querySelector('.print-tab-title')) {
+        const titleDiv             = document.createElement('div');
+              titleDiv.className   = 'print-tab-title';
+              titleDiv.textContent = title;
+        tab.insertBefore(titleDiv, tab.firstChild);
+      }
+    });
+    
+    var links = document.getElementsByTagName('a');
+    for (var i = 0; i < links.length; i++) {
+        links[i].removeAttribute('href');
+        links[i].style.textDecoration = 'none';
+}
+
+
+}
+
+    // Run the function only when printing
+window.matchMedia('print').addListener((mql) => {
+  if (mql.matches) {
+    printAllTabs();
+  } else {
+        // Remove the added titles when not printing
+    const tabContents = document.querySelectorAll('.tabcontent');
+    tabContents.forEach((tab) => {
+      const titleDiv = tab.querySelector('.print-tab-title');
+      if (titleDiv) {
+        tab.removeChild(titleDiv);
+      }
+    });
+  }
+});
+
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

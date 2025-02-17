@@ -1,0 +1,1 @@
+@ctime foo_multithreaded!($output, $x)

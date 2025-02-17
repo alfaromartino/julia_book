@@ -1,0 +1,1 @@
+# writing on a shared variable

@@ -1,0 +1,58 @@
+MethodInstance for foo(::Int64)
+  from foo(x; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region20b.jl:1
+Arguments
+  #self#::Core.Const(foo)
+  x::Int64
+Locals
+  #224::var"#224#225"{Int64}
+  y::Int64
+  @_5::Int64
+Body::Vector{Int64}
+1 ─       Core.NewvarNode(:(#224))
+│         Core.NewvarNode(:(y))
+│   %3  = (x < 0)::Bool
+└──       goto #3 if not %3
+2 ─ %5  = Main.typeof(x)::Core.Const(Int64)
+│         (@_5 = Main.convert(%5, 5))
+└──       goto #4
+3 ─       (@_5 = x)
+4 ┄       (y = @_5)
+│   %10 = Main.:(var"#224#225")::Core.Const(var"#224#225")
+│   %11 = Core.typeof(y)::Core.Const(Int64)
+│   %12 = Core.apply_type(%10, %11)::Core.Const(var"#224#225"{Int64})
+│         (#224 = %new(%12, y))
+│   %14 = #224::var"#224#225"{Int64}
+│   %15 = (1:100)::Core.Const(1:100)
+│   %16 = Base.Generator(%14, %15)::Core.PartialStruct(Base.Generator{UnitRange{Int64}, var"#224#225"{Int64}}, Any[var"#224#225"{Int64}, Core.Const(1:100)])
+│   %17 = Base.collect(%16)::Vector{Int64}
+└──       return %17
+
+MethodInstance for foo(::Float64)
+  from foo(x; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region20b.jl:1
+Arguments
+  #self#::Core.Const(foo)
+  x::Float64
+Locals
+  #224::var"#224#225"{Float64}
+  y::Float64
+  @_5::Float64
+Body::Vector{Float64}
+1 ─       Core.NewvarNode(:(#224))
+│         Core.NewvarNode(:(y))
+│   %3  = (x < 0)::Bool
+└──       goto #3 if not %3
+2 ─ %5  = Main.typeof(x)::Core.Const(Float64)
+│         (@_5 = Main.convert(%5, 5))
+└──       goto #4
+3 ─       (@_5 = x)
+4 ┄       (y = @_5)
+│   %10 = Main.:(var"#224#225")::Core.Const(var"#224#225")
+│   %11 = Core.typeof(y)::Core.Const(Float64)
+│   %12 = Core.apply_type(%10, %11)::Core.Const(var"#224#225"{Float64})
+│         (#224 = %new(%12, y))
+│   %14 = #224::var"#224#225"{Float64}
+│   %15 = (1:100)::Core.Const(1:100)
+│   %16 = Base.Generator(%14, %15)::Core.PartialStruct(Base.Generator{UnitRange{Int64}, var"#224#225"{Float64}}, Any[var"#224#225"{Float64}, Core.Const(1:100)])
+│   %17 = Base.collect(%16)::Vector{Float64}
+└──       return %17
+

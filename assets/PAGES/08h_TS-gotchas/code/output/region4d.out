@@ -1,0 +1,28 @@
+MethodInstance for foo(::Vector{Vector})
+  from foo(data; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region4d.jl:6
+Arguments
+  #self#::Core.Const(foo)
+  data::Vector{Vector}
+Locals
+  @_3::UNION{NOTHING, TUPLE{INT64, INT64}}
+  i::Int64
+Body::Nothing
+1 ─ %1  = Base.getindex(data, 2)::VECTOR
+│   %2  = Main.eachindex(%1)::Base.OneTo{Int64}
+│         (@_3 = Base.iterate(%2))
+│   %4  = (@_3 === nothing)::Bool
+│   %5  = Base.not_int(%4)::Bool
+└──       goto #4 if not %5
+2 ┄ %7  = @_3::Tuple{Int64, Int64}
+│         (i = Core.getfield(%7, 1))
+│   %9  = Core.getfield(%7, 2)::Int64
+│   %10 = Main.operation(i)::Int64
+│   %11 = Base.getindex(data, 2)::VECTOR
+│         Base.setindex!(%11, %10, i)
+│         (@_3 = Base.iterate(%2, %9))
+│   %14 = (@_3 === nothing)::Bool
+│   %15 = Base.not_int(%14)::Bool
+└──       goto #4 if not %15
+3 ─       goto #2
+4 ┄       return nothing
+

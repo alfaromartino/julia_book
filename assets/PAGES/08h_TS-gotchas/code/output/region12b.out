@@ -1,0 +1,36 @@
+MethodInstance for foo(::Vector{Int64}, ::Int64)
+  from foo(x, β) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region12b.jl:3
+Arguments
+  #self#::Core.Const(foo)
+  x::Vector{Int64}
+  β@_3::Int64
+Locals
+  bar::var"#bar#258"
+  β@_5::Union{}
+  β@_6::Union{}
+  β@_7::UNION{INT64, CORE.BOX}
+Body::ANY
+1 ─       (β@_7 = β@_3)
+│         (β@_7 = Core.Box(β@_7::Int64))
+│         Core.NewvarNode(:(bar))
+│   %4  = Core.isdefined(β@_7::Core.Box, :contents)::Bool
+└──       goto #3 if not %4
+2 ─       goto #4
+3 ─       Core.NewvarNode(:(β@_5))
+└──       β@_5
+4 ┄ %9  = Core.getfield(β@_7::Core.Box, :contents)::ANY
+│   %10 = (%9 < 0)::ANY
+└──       goto #9 if not %10
+5 ─ %12 = Core.isdefined(β@_7::Core.Box, :contents)::Bool
+└──       goto #7 if not %12
+6 ─       goto #8
+7 ─       Core.NewvarNode(:(β@_6))
+└──       β@_6
+8 ┄ %17 = Core.getfield(β@_7::Core.Box, :contents)::ANY
+│   %18 = -%17::ANY
+│         Core.setfield!(β@_7::Core.Box, :contents, %18)
+└──       goto #9
+9 ┄       (bar = %new(Main.:(var"#bar#258"), β@_7::Core.Box))
+│   %22 = (bar)(x)::ANY
+└──       return %22
+

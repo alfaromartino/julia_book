@@ -1,0 +1,1 @@
+@ctime Folds.mapreduce(log, +, $x)

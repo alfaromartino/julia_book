@@ -1,0 +1,1 @@
+@btime foo(ref($x));

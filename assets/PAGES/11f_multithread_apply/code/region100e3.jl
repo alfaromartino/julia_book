@@ -1,0 +1,1 @@
+@ctime foo($x, nthreads() * 4)  # hide

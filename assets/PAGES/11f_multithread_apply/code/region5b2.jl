@@ -1,0 +1,1 @@
+@ctime mapreduce(log, +, $x)
