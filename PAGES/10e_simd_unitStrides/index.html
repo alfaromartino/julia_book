@@ -2792,9 +2792,9 @@ document.querySelector('.toggleMobile').checked = false;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>SIMD improves computational performance by simultaneously executing the same operation on multiple data elements. Technically, this is achieved through the use of specialized vector registers, which can hold several values &#40;e.g., 4 floating-point numbers or 8 integers&#41;. By this, operations like multiple additions or multiplications can be completed with a single instruction.</p>
+<p>SIMD improves computational performance by simultaneously executing the same operation on multiple data elements. Technically, this is achieved through the use of specialized vector registers, which can hold several values &#40;e.g., 4 floating-point numbers or 8 integers&#41;. In this way, operations like multiple additions or multiplications can be completed with a single instruction.</p>
 <p>For SIMD to fully exploit this vector-based processing, <strong>data should be organized and accessed in memory</strong> in specific ways. Two fundamental concepts for understanding this are contiguous memory layout and unit stride access.</p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Contiguous memory layout</strong></span> means that data elements reside in adjacent memory addresses, therefore not exhibiting gaps. Newly allocated arrays satisfy this condition, enabling the load of entire segments directly into vector registers. In contrast, array views reference the original data structure, and thus don&#39;t guarantee contiguity. This can potentially result in too irregular memory access patterns.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Contiguous memory layout</strong></span> means that data elements reside in adjacent memory addresses, therefore not exhibiting gaps. Newly allocated arrays satisfy this condition, enabling the load of entire segments directly into vector registers. In contrast, array views reference the original data structure, and thus don&#39;t guarantee contiguity. This can potentially result in highly irregular memory access patterns.</p>
 <p>In addition, <span style="color: rgb(62, 121, 180);"><strong>strides</strong></span> refer to the step size between consecutive memory accesses, with <span style="color: rgb(62, 121, 180);"><strong>unit strides</strong></span> in particular entailing that elements are accessed sequentially. For example, consider a freshly allocated vector <code>x</code>. Then, accessing its elements through <code>eachindex&#40;x&#41;</code> &#40;or equivalently <code>1:length&#40;x&#41;</code>&#41; ensures a unit stride, as each access moves sequentially to the next element in memory. This contrast with ranges having a non-unit stride such as <code>1:2:length&#40;x&#41;</code> or indices with no predictable pattern &#40;e.g., <code>&#91;1, 5, 3, 4&#93;</code> as an index vector&#41;. </p>
 <p>When it comes to performance, <strong>SIMD is most effectively applied when data is stored in a contiguous memory block and accessed in a unit stride pattern</strong>. This has significant practical implications for the approach to creating slices, where the options are given by copies or views. Essentially, this choice gives rise to a trade-off, as views reduce memory allocations but at the expense of hindering computational efficiency. This section explores such a decision.</p>
 <p>      </div>
@@ -2868,7 +2868,7 @@ elements  &#61; x&#91;indices&#93;</code></pre> </div></div>
       <div class="col-lg- mx-auto">
         <h2>Contiguous Blocks in Memory</h2></p>
 <p>In <a href="/julia_book/PAGES/09d_views/">the section discussing decreases in memory allocations</a>, we highlighted the benefits of using views over copies when handling slices. Specifically, views maintain references to the original data, thereby avoiding the cost of additional memory allocation. However, views can lead to irregular memory access patterns if data are too scattered. This is why that section also remarked on that <a href="/julia_book/PAGES/09d_views/#copying_data_may_be_faster">copies could outperform views in some scenarios</a>. We&#39;re now in a position to explain in more depth why this occurs.</p>
-<p>Creating copies of some data structure involves allocating the information in a new contiguous block of memory. This ensures that all elements are stored sequentially, thus offering two key advantages: a faster fetching of elements and a more effective use of SIMD instructions.</p>
+<p>Creating copies of some data structure involves allocating the information in a new contiguous block of memory. This ensures that all elements are stored sequentially, thus offering two key advantages: a quicker fetching of elements and a more effective use of SIMD instructions.</p>
 <p>To illustrate this, consider retrieving books from a library. If every book you need resides on a single shelf, collecting them is straightforward—you move once, grab the entire stack, and proceed. This mirrors contiguous memory access. Conversely, if the books are dispersed across different floors and sections, each retrieval demands additional time and effort, akin to non-contiguous access. </p>
 <p>In addition to this, our recollection of books would be even more efficient if we had a cart capable of carrying multiple books at once—SIMD operations act like this cart. Note that even without such a cart, the act of gathering contiguous books remains inherently faster, as the physical effort &#40;or computational cycles&#41; is minimized. In other words, the benefits of SIMD are on top of the faster memory access. </p>
  <h4> Vector and Boolean Indexing </h4>
@@ -3144,7 +3144,7 @@ end</code></pre> </div></div>
 <p>  </p></details></div>
 <p>A corollary of this example is that views should be employed in cases like this, as they additionally avoid memory allocations. </p>
 <p>Another remark is that  <em>storing</em> elements contiguously is only a necessary condition for contiguous memory  <em>access</em>. To demonstrate this, let&#39;s consider a scenario where we access vectors through the ranges. </p>
-<p>Specifically, consider a vector <code>x</code>. Moreover, there&#39;s another vector <code>y</code> that comprises the same elements as <code>x</code>, but with a zero added between. Formally:</p>
+<p>Specifically, consider a vector <code>x</code>. Moreover, there&#39;s another vector <code>y</code> that comprises the same elements as <code>x</code>, but with zeros placed in between. Formally:</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3212,7 +3212,7 @@ end</code></pre> </div></div>
       <div class="col-lg- mx-auto">
         <h2>Copies vs Views: Overall Effects</h2></p>
 <p>When slices are created, the choice between copies and views requires weighing in the overhead of additional memory allocations against the performance benefits of sequential memory accesses. The latter includes a more performant application of SIMD. </p>
-<p>One scenario where views always outperform copies was given above, where the view elements are accessed sequentially. Instead, a common scenario where copies tend to outperform views is when we need to perform multiple operations over the same slice. In this case, the cost of allocating more memory once is usually more than offset by the benefits of contiguous memory access. This is illlustrated below. </p>
+<p>One scenario where views always outperform copies was given above, where the view elements are accessed sequentially. Instead, a common scenario where copies tend to outperform views is when we need to perform multiple operations over the same slice. In this case, the cost of allocating more memory once is usually more than offset by the benefits of contiguous memory access. This is illustrated below. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3358,7 +3358,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 16, 2025 
+          © Martin Alfaro <br>Last Modified February 17, 2025 
       </span> 
   </div> 
 </footer>

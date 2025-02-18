@@ -2805,8 +2805,11 @@ document.querySelector('.toggleMobile').checked = false;
       <div class="col-lg- mx-auto">
         <h2>Enabling Multithreading</h2></p>
 <p>Julia initializes every session with a given pool of threads available. Each of these threads is responsible for executing a given set of instructions. Consequently, the number of threads delimits the number of instructions that the CPU can handle simultaneously.</p>
-<p>By default, Julia only operates with a single thread, requiring setting a different number of threads to enable multithreading. The procedure for doing this in VSCode is demonstrated below. I recommend you set this number to <code>&quot;auto&quot;</code>, in which case Julia will automatically identify the number of threads based on your computer&#39;s features &#40;either logical or physical threads available&#41;. <strong>Notice that the effects won't take place on the current session.</strong> </p>
-<p>XXXX </p>
+<p>By default, Julia only operates with a single thread, requiring setting an alternative number of threads to enable multithreading. You can achieve this in VSCode by going to  <em>File</em> &gt;  <em>Preferences</em> &gt;  <em>Settings</em>. Then, you should search for the keyword  <em>threads</em>, prompting the following line:</p>
+<p> <div class="multiple_pics">  
+    <img src="/julia_book/assets/PAGES/11c_multithread_tasks/pics/pic01.png" style="width:800px; height:auto; margin-top:1em;">    
+</div> <br/></p>
+<p>After pressing  <em>Edit in settings.json</em>, you should add the line <code>&quot;julia.NumThreads&quot;: &quot;auto&quot;</code>. This will automatically identify the number of threads based on your computer&#39;s features &#40;either logical or physical threads available&#41;. <strong>Notice that the effects won't take place on the current session.</strong> </p>
 <p>To check whether the effects have taken place, use the command <code>Threads.nthreads&#40;&#41;</code>. This displays the number of threads available in the session. Any number greater than one will indicate that multithreading is activated. Notice also that the changes are permanent, so that every new Julia session will start with the number of threads specified. </p>
 <p>Once we have a session with more than one thread, there are several packages for performing multithreaded computations. The focus on this section will be on the built-in package <code>Threads</code>, which is automatically imported when you start Julia.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -3016,7 +3019,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 16, 2025 
+          © Martin Alfaro <br>Last Modified February 17, 2025 
       </span> 
   </div> 
 </footer>
