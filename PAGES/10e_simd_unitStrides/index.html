@@ -3170,7 +3170,7 @@ y &#61; zeros&#40;eltype&#40;x&#41;,x_size * 2&#41;
  0.7456733811393941</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Given this, we&#39;d get the same value if we add all elements from <code>x</code> or add all elements in <code>y</code> skipping zeros. However, the results below reveal that, despite both <code>x</code> and <code>y</code> being contiguous blocks in memory, the pattern access with unit strides only holds for <code>x</code>. This explains the differences in the performance observed. </p>
+<p>Given this, we&#39;d get the same value whether we add all elements from <code>x</code> or add all elements in <code>y</code> skipping zeros. However, the results below reveal that, despite both <code>x</code> and <code>y</code> being contiguous blocks in memory, the pattern access with unit strides only holds for <code>x</code>. This explains the differences in the performance observed. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3211,8 +3211,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Copies vs Views: Overall Effects</h2></p>
-<p>When slices are created, the choice between copies and views requires weighing in the overhead of additional memory allocations against the performance benefits of sequential memory accesses. The latter includes a more performant application of SIMD. </p>
-<p>One scenario where views always outperform copies was given above, where the view elements are accessed sequentially. Instead, a common scenario where copies tend to outperform views is when we need to perform multiple operations over the same slice. In this case, the cost of allocating more memory once is usually more than offset by the benefits of contiguous memory access. This is illustrated below. </p>
+<p>When slices are created, the choice between copies and views requires weighing in the overhead of additional memory allocations against the performance benefits of sequential memory accesses &#40;including a more performant application of SIMD&#41;. </p>
+<p>One scenario where views always outperform copies was given above, where the view elements are accessed sequentially. Instead, a common scenario where copies tend to outperform views is when we need to perform multiple operations over the same slice. In this case, the cost of a single additionally memory allocation is usually outweighed by the performance benefits of contiguous memory access. This is illustrated below. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3256,7 +3256,7 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In general, though, benchmarking is the only way to decide whether copies or views are faster. For instance, the following example determines that views are faster:</p>
+<p>In general, though, benchmarking is the only way to decide whether copies or views are faster. For instance, views are faster in the following example:</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3296,7 +3296,7 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Instead, the following scenario establishes that an approach with copies outperform views.</p>
+<p>Instead, the following scenario establishes that an approach with copies outperforms views.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
