@@ -2809,10 +2809,10 @@ document.querySelector('.toggleMobile').checked = false;
 <p>In the following, we present the main higher-functions provided by the package. Before introducing them, we indicate several features that these functions share. Firstly, their names in <code>OhMyThreads</code> mirror those in <code>Base</code>, but adding a prefix of <code>t</code>. For instance, the counterpart to <code>map</code> is <code>tmap</code>. Secondly, <code>OhMyThreads</code> offers the option of customizing the parallelization process. This is achieved though an integration with <code>ChunkSplitters</code>, enabling customized work distributions among tasks via two keyword arguments: <code>nchunks</code>&#40;or equivalently <code>ntasks</code>&#41; to define the number of subsets in the partition, and <code>chunksize</code> to specify the number of elements in each subset.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     All the code snippets below assume you&#39;ve loaded the package by executing <code>using OhMyThreads</code>.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     All the code snippets below presuppose that you executed <code>using OhMyThreads</code> to load the package.  </div>  </div>
  <h4> Parallel Mapping </h4>
 <p>The <code>tmap</code> function serves as the multithreaded counterpart to <code>map</code>. Its syntax is <code>tmap&#40;foo, x&#41;</code>, where <code>foo</code> is the transforming function applied to each element of the collection <code>x</code>. Unfortunately, applying <code>tmap</code> in this form results in a performance loss. This is due to a technical matter arising by the type instability of the object <code>Task</code>. </p>
-<p>To circumvent this issue and regain the lost performance, we must then explicitly indicate the output&#39;s type. To do this, we need the function method <code>tmap&#40;foo, T , x&#41;</code>, where <code>T</code> represents the  <em>element type</em> of the output. Thus, if for instance the output is a <code>Vector&#123;Float64&#125;</code>, <code>T</code> would be <code>Float64</code>. Instead of directly declaring <code>T</code>, a more flexible alternative is to use <code>eltype&#40;x&#41;</code>, making the output&#39;s type mirror <code>x</code>&#39;s. </p>
+<p>To circumvent this issue and regain the lost performance, we must then explicitly indicate the output&#39;s type. To do this, we need the function method <code>tmap&#40;foo, T , x&#41;</code>, where <code>T</code> represents the  <em>element type</em> of the output. Thus, if for instance the output is a <code>Vector&#123;Float64&#125;</code>, <code>T</code> would be <code>Float64</code>. Instead of directly declaring <code>T</code>, a more flexible alternative is to use <code>eltype&#40;x&#41;</code>, making the output&#39;s type mirror that of <code>x</code>. </p>
 <p>The package also provides an in-place version, <code>tmap&#33;</code>. In this case, since <code>tmap&#33;</code> requires specifying the output vector, there&#39;s no need to do any extra work to avoid performance losses. </p>
 <p>Below, we illustrate the application of these functions. To provide a basis for comparison, we include results of <code>map</code> and <code>map&#33;</code> as single-threaded baselines.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -2843,7 +2843,7 @@ foo_parallel&#33;&#40;output,x&#41; &#61; tmap&#33;&#40;log, output, x&#41;</cod
  </div></div>
 <p>  </p></details></div>
 <p><code>OhMyThreads</code> additionally provides the option to control the work distribution among tasks. This is done through the keyword arguments <code>nchunks</code> and <code>chunksize</code>, which are internally implemented via the package <code>ChunkSplitters</code>. Specifically, <code>nchunks</code> controls the number of subsets in the partition, while <code>chunksize</code> sets the number of elements per task. Note that <code>nchunks</code> and <code>chunksize</code> are mutually exclusive options, so that only one of them can be used at a time.</p>
-<p> <div class="own-anchors"><a name="example_above"></a></div>To illustrate the use <code>nchunks</code>, we&#39;ll set its value equal to <code>nthreads&#40;&#41;</code>. By setting a number of chunks equal to the number of worker threads, we&#39;re adopting an even distribution among tasks, similar to how <code>@threads</code> operates. To set the same number with <code>chunksize</code>, we&#39;ll make use of the floor division operator <code>÷</code>. This is a binary operator that rounds a division to the nearest integer towards zero. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For example, <code>5 ÷ 3</code> would return <code>1</code>.  </span></span></p>
+<p> <div class="own-anchors"><a name="example_above"></a></div>To illustrate the use <code>nchunks</code>, we&#39;ll set its value equal to <code>nthreads&#40;&#41;</code>. By setting a number of chunks equal to the number of worker threads, we&#39;re adopting an even distribution among tasks, similar to how <code>@threads</code> operates. To set the same number with <code>chunksize</code>, we&#39;ll make use of the floor division operator <code>÷</code>. This is a binary operator that rounds a division down to the nearest integer towards zero. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For example, <code>5 ÷ 3</code> would return <code>1</code>.  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2895,7 +2895,7 @@ end</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>  </div>  </div>
  <h4> Array Comprehensions </h4>
-<p><code>OhMyThreads</code> also provides an alternative to <code>tmap</code> through array comprehensions. Unlike the standard implementation in <code>Base</code>, the version from <code>OhMyThreads</code> combines a multithreaded variant of <code>collect</code> with a generator. As with <code>tmap</code>, preventing performance losses requires specifying the output&#39;s element type, included as the first argument to the function.</p>
+<p><code>OhMyThreads</code> also provides an alternative to <code>tmap</code> via array comprehensions. Unlike the standard implementation in <code>Base</code>, the version from <code>OhMyThreads</code> combines a multithreaded variant of <code>collect</code> with a generator. Similarly to <code>tmap</code>, specifying the output&#39;s element type is necessary to prevent performance losses.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2914,7 +2914,7 @@ foo_parallel2&#40;x&#41; &#61; tcollect&#40;eltype&#40;x&#41;, log&#40;a&#41; fo
  </div></div>
 <p>  </p></details></div>
  <h4> Reductions and Map-Reductions </h4>
-<p><code>OhMyThreads</code> also offers multithreaded counterparts to <code>reduce</code> and <code>mapreduce</code>. They&#39;re respectively referred to as <code>treduce</code> and <code>tmapreduce</code>. These functions internally handle the race conditions inherent in reductions and address performance issues like false sharing. Notably, unlike <code>map</code>, these functions can achieve optimal performance without requiring a specified output type.</p>
+<p><code>OhMyThreads</code> also offers multithreaded versions of <code>reduce</code> and <code>mapreduce</code>. They&#39;re respectively referred to as <code>treduce</code> and <code>tmapreduce</code>. These functions internally handle the race conditions inherent in reductions and address performance issues like false sharing. Notably, unlike <code>map</code>, these functions can achieve optimal performance without requiring a specified output type.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2939,7 +2939,7 @@ foo_parallel&#40;x&#41; &#61; tmapreduce&#40;log, &#43;, x&#41;</code></pre> </d
  </div></div>
 <p>  </p></details></div>
  <h4> Foreach As A Faster Option for Mappings </h4>
-<p>The package also offers an implementation similar to for-loops through the function <code>tforeach</code>. Since we haven&#39;t covered the single-threaded version <code>foreach</code>, we begin presenting it. The function follows a syntax identical to <code>map</code>, which is usually implemented through a <a href="/julia_book/PAGES/03c_functions/#do-syntax">do-block syntax</a>, as shown below.</p>
+<p>The package also offers an implementation similar to for-loops through the function <code>tforeach</code>. Since we haven&#39;t covered the single-threaded version <code>foreach</code>, we begin by presenting it. The function follows a syntax identical to <code>map</code>, which is usually implemented through a <a href="/julia_book/PAGES/03c_functions/#do-syntax">do-block syntax</a>, as shown below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3056,7 +3056,7 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Just like <code>tmap</code>, <code>tforeach</code> offers the keyword arguments <code>nchunks</code> and <code>chunksize</code> to control the work distribution among worker threads. For the illustration, we use a distribution analogous to <a href="#example_above">the one used above</a> for <code>tmap</code>.</p>
+<p>Just like <code>tmap</code>, <code>tforeach</code> offers the keyword arguments <code>nchunks</code> and <code>chunksize</code> to control the workload distribution among worker threads. For the illustration, we use a distribution analogous to <a href="#example_above">the one used above</a> for <code>tmap</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3103,10 +3103,10 @@ end</code></pre> </div></div>
         <h2>Polyester: Parallelization for Small Objects</h2></p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     All the code snippets below assume you&#39;ve loaded the package by executing <code>using Polyester</code>.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     All the code snippets below presuppose that you executed <code>using Polyester</code> to load the package.  </div>  </div>
 <p>One key limitation of multithreading is the overhead due to the creation and scheduling of tasks. This overhead can render parallelization impractical for smaller computational tasks, as the cost of thread management would outweigh any potential performance gain. Considering this, the application of multithreading is commonly reserved for objects sufficiently large to justify the cost.</p>
 <p>The <code>Polyester</code> package addresses this limitation by significantly reducing overhead. This feature enables parallelization of objects that, otherwise, would be deemed too small to benefit from multithreading. </p>
-<p>The package requires setting the problem as a for-loop. To illustrate its benefits, let&#39;s compare its performance to traditional methods. The following example considers a for-loop with 500 iterations, a relatively low number for applying multithreading. Indeed, the first tab shows that an approach based on <code>@threads</code> is slower than its single-threaded variant. In contrast, <code>Polyester</code> achieves comparable performance to the single-threaded variant, despite the low number of iterations. To use <code>Polyseter</code>, we simply need to prefix the for-loop with the <code>@batch</code> macro. </p>
+<p>The package requires expressing the operation as a for-loop. To illustrate its benefits, let&#39;s compare its performance to traditional methods. The following example considers a for-loop with 500 iterations, a relatively low number for applying multithreading. Indeed, the first tab shows that an approach based on <code>@threads</code> is slower than its single-threaded variant. In contrast, <code>Polyester</code> achieves comparable performance to the single-threaded variant, despite the low number of iterations. To use <code>Polyseter</code>, we simply need to prefix the for-loop with the <code>@batch</code> macro. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3159,7 +3159,7 @@ end</code></pre> </div></div>
 <p>  </p></details></div>
 <p>For larger objects, it&#39;s worth noting that <code>Polyester</code> may not necessarily outperform &#40;or underperform&#41; alternative methods. In such cases, it&#39;s recommend benchmarking your particular application.</p>
  <h4> Reductions </h4>
-<p><code>Polyester</code> also supports reduction operations. They can be implemented by prepending the for-loop with the expression <code>@batch reduce&#61;&#40;&lt;tuple with operation and variable reduced&gt;&#41;</code>. Notably, Polyester&#39;s implementation is designed to avoid common pitfalls of reductions, such as data races and false sharing, ensuring both correctness and performance. </p>
+<p><code>Polyester</code> also supports reduction operations. They can be implemented by prepending the for-loop with the expression <code>@batch reduce&#61;&#40;&lt;tuple with operation and variable reduced&gt;&#41;</code>. Notably, Polyester&#39;s implementation has been designed to avoid common pitfalls of reductions, such as data races and false sharing, ensuring both correctness and performance. </p>
 <p>The following example illustrates how to compute a for-loop with one reduction operation.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3254,8 +3254,7 @@ end</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
  <h4> Local Variables </h4>
-<p><code>Polyester</code> also addresses </p>
-<p>It also interprets variables as local per iteration, unlike <code>@threads</code>.</p>
+<p><code>Polyester</code> also treats variables as local per iteration, unlike <code>@threads</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
