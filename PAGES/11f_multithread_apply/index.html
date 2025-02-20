@@ -2794,10 +2794,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>So far, we&#39;ve explored two approaches for parallelizing code, tailored to different scenarios. The first one was <code>@spawn</code>, which provides granular control over the parallelization process. This is achieved by allowing us to define the specific tasks to be processed. For its part, <code>@threads</code> represents a simplified approach to parallelizing for for-loops, where tasks are automatically defined based on the number of available threads. </p>
-<p>Additionally, we&#39;ve pointed out that not all tasks lend themselves equally to parallelization, due to inherent dependencies between computations. In particular, when tasks aren&#39;t embarrassingly parallel, a naive approach can lead to severe issues like race conditions.</p>
+<p>So far, we&#39;ve explored two approaches for parallelizing code, tailored to different scenarios. The first one was <code>@spawn</code>. By allowing us to define the specific tasks to be processed, this provides granular control over the parallelization process. For its part, <code>@threads</code> represents a simplified approach to parallelizing for-loops, where the tasks spawned are automatically handled. In particular, they&#39;re defined based on the number of available threads. </p>
+<p>Additionally, we&#39;ve pointed out that, due to inherent dependencies between computations, not all tasks lend themselves equally to parallelization. Specifically, when tasks aren&#39;t embarrassingly parallel, a naive approach can lead to severe issues like race conditions.</p>
 <p>All this implies that, to this point, our discussion has been exclusively focused on the syntax and work distribution of these approaches. Therefore, we have yet to address how to apply multithreading in real scenarios, including strategies to deal with dependencies. </p>
-<p>This section and the next one aims to bridge this gap, providing practical guidance on implementing multithreading. In particular, we begin by showing the advantages of parallelizing at a coarse level rather than at individual operations. After this, we introduce a more general method to parallelize for-loops based on <code>@spawn</code>. This makes it possible to generate tasks by partitioning iterations. Its main advantage is a flexible distribution of iterations among tasks, thus providing us with further control over task creation. The technique also enables us to manage a ubiquitous type of dependency: reductions.</p>
+<p>This section and the next one aim to bridge this gap, providing practical guidance on implementing multithreading. With this goal, we begin by showing the advantages of parallelizing at a coarse level compared to parallelization at individual operations. After this, we introduce a more general method based on <code>@spawn</code> to parallelize for-loops. This enables us to have control over the partition of iterations that define tasks. Its main advantage is the provision of a flexible distribution of iterations among tasks, thus giving us further control over task creation. The technique also makes it possible to apply multithreading under a ubiquitous type of dependency: reductions.</p>
 <p>      </div>
     </div>
   </div>
@@ -2807,10 +2807,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Better To Parallelize at The Top</h2></p>
-<p>Given the overhead costs involved in multithreading, there&#39;s an inherent trade off between creating new tasks and utilizing all our machine resources. Consequently, we must first carefully consider whether parallelizing our code is worthy when writing code. For instance with collections, multithreading is only justified if their sizes are substantial enough to make up for overhead involved. Otherwise, single-threaded approaches will consistently outperform parallelized ones.</p>
-<p>In case the code involves sufficiently large collections, so that multithreading is worthwhile, we immediately face another decision: at what level to parallelize code. In the following, we&#39;ll demonstrate that <strong>parallelism at the highest level possible is preferable to multithreading individual operations</strong>. The reason lies in that the former minimizes the overhead involved in creating tasks, thus resulting in faster execution times. </p>
-<p>Note that the level of parallelization is limited by the degree of independence between the operations, explaining why we qualify the highest level as the one that&#39;s  <em>possible</em>. For instance, in problems requiring serial computation, the best we can achieve is to parallelize each individual step.</p>
-<p>To illustrate both facts, let&#39;s consider a for-loop where each iteration needs to sequentially compute three operations. </p>
+<p>Given the overhead involved in multithreading, there&#39;s an inherent trade off between creating new tasks and utilizing all our machine resources. Consequently, we must first carefully consider whether parallelizing our code is worthy. For instance, multithreading is only justified with collections if their sizes are substantial enough to make up for overhead involved. Otherwise, single-threaded approaches will consistently outperform parallelized ones.</p>
+<p>In case multithreading is worthwhile, we immediately face another decision: at what level to parallelize code. In the following, we&#39;ll demonstrate that <strong>parallelism at the highest level possible is preferable to multithreading individual operations</strong>. The reason is that the former minimizes the overhead involved in creating tasks, thus resulting in faster execution times. </p>
+<p>Note that the level of parallelization is limited by the degree of dependence between operations, explaining why we qualify the highest level as the one that&#39;s  <em>possible</em>. For instance, in problems requiring serial computation, the best we can achieve is a parallelization at each individual step.</p>
+<p>To illustrate all this, let&#39;s consider a for-loop where each iteration needs to sequentially compute three operations. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2906,11 +2906,10 @@ x_large  &#61; rand&#40;100_000&#41;</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The example clearly illustrates the key points made earlier. Firstly, it reinforces that parallelization is only advantageous when dealing with big collections. This is evidenced by the execution times, where multithreading is only faster when <code>x_large</code> is considered. Secondly, an approach where tasks comprise the three operations is faster than multithreading each of these operations in isolation. This is reflected in the memory allocations, where the former approach reduces the overhead involved in the spawning of tasks.</p>
+<p>The example clearly illustrates that parallelization is only advantageous when dealing with big collections. This is evidenced by the execution times, where multithreading is only faster when <code>x_large</code> is considered. Secondly, an approach where tasks comprise all operations is faster than multithreading each in isolation. This is in part reflected in the reduced memory allocations when all operations are encompassed.</p>
  <h4> Implications </h4>
-<p>The strategy of parallelizing code at the top level has significant implications for writing programs, especially those that will eventually be applied to multiple objects. This approach suggests that we should start by writing code for a single object, without considering parallelization. Once the model is thoroughly tested and debugged, parallel execution can be seamlessly integrated at the highest level, distributing the model execution concurrently across the multiple objects.</p>
-<p>The approach not only improves performance, but also simplifies the coding process. For instance, it allows us to focus on the best single-thread approach possible, also streamlining the debugging and testing of code. </p>
-<p>A typical example for which the strategy arises naturally is scientific simulations, where numerous independent runs of the same model are executed. In this case, the best strategy is to focus on a single-thread codebase for the model, subsequently processing the different runs of the model in parallel. </p>
+<p>The strategy of parallelizing code at the top level has significant implications for writing programs. This is especially the case when the code will eventually be applied to multiple objects. It suggests that we should start by writing code for a single object, without considering parallelization. Once the single-case code is thoroughly optimized, parallel execution can be seamlessly integrated at the highest level. The approach not only improves performance, but also simplifies the coding process by streamlining the debugging and testing of code. </p>
+<p>A typical example where this strategy arises naturally is scientific simulations, where numerous independent runs of the same model are executed. In this case, the best strategy is to focus on a single-thread codebase for the model, subsequently processing the different runs of the model in parallel. </p>
 <p>      </div>
     </div>
   </div>
@@ -2920,8 +2919,8 @@ x_large  &#61; rand&#40;100_000&#41;</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>The Importance of Work Distribution</h2></p>
-<p>Multithreading performance is influenced by the balance of computational workload across iterations. The <code>@threads</code> macro is highly effective when each iteration requires a roughly equal processing time, as the tasks spawned will comprise an equal amount of iterations. However, scenarios with varying computational effort can pose significant challenges. In such cases, some threads may remain idle, while others are heavily loaded. This may dramatically reduce the potential performance gains of parallel processing.</p>
-<p>To address this issue, we need to have more control about how to distribute work among threads. With the tools introduced so far, we could employ <code>@spawn</code> to make each iteration represent a different task. However, this approach becomes extremely inefficient if there is a substantial number of iterations. The reason is that defining many more tasks than the number of threads available results in an unnecessary and substantial overhead. The following example reveals this feature, where the execution time of spawning one task per iteration is ridiculously slow. </p>
+<p>Multithreading performance is influenced by the balance of computational workload across iterations. The <code>@threads</code> macro is highly effective when each iteration requires a roughly equal processing time. This is because the tasks spawned will comprise an equal amount of iterations. However, scenarios with varying computational effort can pose significant challenges. In those cases, some threads may remain idle, while others will be heavily loaded. This may dramatically reduce the potential performance gains of parallel processing.</p>
+<p>To address this issue, we need to have more control about how to distribute work among threads. With the tools introduced so far, we could employ <code>@spawn</code> to make each iteration represent a different task. However, this approach becomes extremely inefficient if there is a substantial number of iterations. The reason is that defining many more tasks than the number of threads available results in an unnecessary substantial overhead. The following example reveals this feature, where the execution time of spawning one task per iteration is extremely slow. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2957,7 +2956,7 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>To have more control over the work distribution, we need to partition objects into smaller subsets that can be processed concurrently. Before explaining the implementation of the technique, we begin showing how to partition a collection and its indices. This relies on the <code>ChunkSplitters</code> package.</p>
+<p>To have more control over the work distribution, we need to partition objects into smaller subsets that can be processed concurrently. Before explaining the implementation of the technique, we begin showing how to partition a collection and its indices. The procedure relies on the <code>ChunkSplitters</code> package.</p>
  <h4> Partitioning Collections </h4>
 <p>The easiest way to partition a collection <code>x</code> and its indices <code>x</code> is through the package <code>ChunkSplitters</code>. The package provides two functions for  <em>lazily</em> partitionining called <code>chunks</code> and <code>index_chunks</code>. The functions accept <code>n</code> and <code>size</code> as keyword arguments, depending on the partition to be implemented. Specifically, <code>n</code> specifies the number of subsets in which the collection should be divided, where each subset&#39;s size attempts to distribute elements evenly. In contrast, <code>size</code> provides the number of elements that each subset should contain. Since <code>size</code> can&#39;t guarantee an even distribution across all subsets, it&#39;ll adjust the number of elements in one of the subsets.</p>
 <p>The following example considers a variable <code>x</code> that comprises the 26 letters of the alphabet. Note that the presentation of the outputs uses <code>collect</code>, since <code>chunks</code> and <code>index chunks</code> are lazy. </p>
@@ -3386,7 +3385,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 19, 2025 
+          © Martin Alfaro <br>Last Modified February 20, 2025 
       </span> 
   </div> 
 </footer>
