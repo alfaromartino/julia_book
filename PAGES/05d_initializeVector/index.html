@@ -2793,8 +2793,8 @@ color: white;
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> <code>undef</code> Values </button>
-    <button class="tablink" data-id=""> <code>similar</code> (filled with <code>undef</code> too) </button>
+    <button class="tablink first_tab active" data-id=""> 'undef' Values </button>
+    <button class="tablink" data-id=""> 'similar' (filled with 'undef' too) </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x_length &#61; 3
 
@@ -2966,7 +2966,7 @@ x                &#61; fill&#40;filling_object, length_vector&#41;</code></pre> 
 <p>  </p></details></div>
  <h4> Concatenating Vectors </h4>
 <p>Finally, we can create a vector <code>z</code> that combines all the elements of two vectors <code>x</code> and <code>y</code>. Based on material we covered, one approach for doing this is through <code>z &#61; &#91;x ; y&#93;</code>. This method is suitable if only a few vectors need to be concatenated. However, the method becomes impractical when working programmatically or when the number of vectors to concatenate is unknown.</p>
-<p>For these scenarios, we can instead employ the function <code>vcat</code>, which merges all its arguments into one vector. By use of the splat operator <code>...</code>., this function also accepts a list of vectors as its arguments.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that the operator <code>...</code> splits a collection into multiple arguments. This enables the use of a vector or tuple to denote multiple function arguments. For further details, see <a href="/julia_book/PAGES/4a1_define_func/#positional_and_keyword_arguments">here</a> under the subsection &quot;Splatting&quot;.  </span></span></p>
+<p>For these scenarios, we can instead employ the function <code>vcat</code>, which merges all its arguments into one vector. By use of the splat operator <code>...</code>., this function also accepts a list of vectors as its arguments.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that the operator <code>...</code> splits a collection into multiple arguments. This enables the use of a vector or tuple to denote multiple function arguments. For further details, see <a href="/julia_book/PAGES/03c_functions/#positional_and_keyword_arguments">here</a> under the subsection &quot;Splatting&quot;.  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3037,16 +3037,16 @@ x                &#61; repeat&#40;vector_to_repeat, nr_repetitions&#41;</code></
     </div>
   </div>
 </section>
-<section id="adding_removing_and_replacing_elements_optional" class="scrollspy section-bg-color">
+<section id="adding_removing_and_replacing_elements_i_stylecolorredoptional" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Adding, Removing, and Replacing Elements  <strong>(<i style="color:red">OPTIONAL</i>)</strong></h2></p>
+        <h2>Adding, Removing, and Replacing Elements (<strong><i style="color:red">OPTIONAL</i></strong>)</h2></p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content>     This subsection applies a couple of <strong>concepts we haven't fully discussed yet</strong>. Considering this, the subsection is labelled as optional.</p>
-<p>One concept is <strong>in-place functions</strong>, which are denoted by <code>&#33;</code> at the end of the function&#39;s name. The symbol is notation hinting that the function modifies one of its arguments, with no impact on its behavior. In our context, it&#39;ll indicate that the functions update the original vector, in which case the operation is to be said in-place. In-place functions will be explored thoroughly later, <a href="/julia_book/PAGES/5f_mutating_views/">here</a> and <a href="/julia_book/PAGES/5g_inplace/">here</a>.</p>
-<p>The other concept introduced is <strong>pairs</strong>, also studied in a <a href="/julia_book/PAGES/6a_tuples_and_namedtuples/#keys_and_values">future section</a>. For its application, you only need to know that pairs are denoted by <code>a &#61;&gt; b</code>, where <code>a</code> will refer to a value and <code>b</code> its replacement in our applications.  </div>  </div>
+<p>One concept is <strong>in-place functions</strong>, which are denoted by <code>&#33;</code> at the end of the function&#39;s name. The symbol is notation hinting that the function modifies one of its arguments, with no impact on its behavior. In our context, it&#39;ll indicate that the functions update the original vector, in which case the operation is to be said in-place. In-place functions will be explored thoroughly later <a href="/julia_book/PAGES/05h_inplace/">here</a>.</p>
+<p>The other concept introduced is <strong>pairs</strong>, also studied in a <a href="/julia_book/PAGES/06b_namedtuples/#keys_and_values">future section</a>. For its application, you only need to know that pairs are denoted by <code>a &#61;&gt; b</code>, where <code>a</code> will refer to a value and <code>b</code> its replacement in our applications.  </div>  </div>
 <p>This last part considers how to add, remove, and replace elements of a vector. In the case of adding elements, the methods are as follows.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3171,9 +3171,9 @@ keepat&#33;&#40;x, index_to_keep&#41;</code></pre> </div></div>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Replace One Value (update) </button>
-    <button class="tablink" data-id=""> Replace One Value (copy) </button>
+    <button class="tablink first_tab active" data-id=""> Replace One Value (update) </button>    
     <button class="tablink" data-id=""> Replace Multiple Values (update) </button>
+    <button class="tablink" data-id=""> Replace One Value (copy) </button>
     <button class="tablink" data-id=""> Replace Multiple Values (copy) </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;3,3,5&#93;
@@ -3186,19 +3186,19 @@ replace&#33;&#40;x, 3 &#61;&gt; 0&#41;              # in-place &#40;it updates x
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;3,3,5&#93;
 
-y &#61; replace&#40;x, 3 &#61;&gt; 0&#41;           # new copy</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>y</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
- 0
- 0
- 5</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;3,3,5&#93;
-
 replace&#33;&#40;x, 3 &#61;&gt; 0, 5 &#61;&gt; 1&#41;      # in-place &#40;it updates x&#41;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  0
  0
  1</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;3,3,5&#93;
+
+y &#61; replace&#40;x, 3 &#61;&gt; 0&#41;           # new copy</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>y</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 0
+ 0
+ 5</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;3,3,5&#93;
 
@@ -3231,7 +3231,7 @@ y &#61; replace&#40;x, 3 &#61;&gt; 0, 5 &#61;&gt; 1&#41;   # new copy</code></pr
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 25, 2025 
+          © Martin Alfaro <br>Last Modified February 26, 2025 
       </span> 
   </div> 
 </footer>
@@ -3847,7 +3847,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#adding_removing_and_replacing_elements_optional" data-offset="-40">Adding, Removing, and Replacing Elements ~~~\optional~~~</a>
+          <a href="#adding_removing_and_replacing_elements_i_stylecolorredoptional" data-offset="-40">Adding, Removing, and Replacing Elements (<strong><i style="color:red">OPTIONAL</i></strong>)</a>
         </li>
         
       </ul>

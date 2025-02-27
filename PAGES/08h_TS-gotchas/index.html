@@ -2884,7 +2884,7 @@ end
         <h2>Gotcha 2: Collections of Collections</h2></p>
 <p>When working in data analysis, collections of collections emerge naturally. An example of this data structure is given by the <code>DataFrames</code> package, which defines a table with each column representing a different variable. As we haven&#39;t introduced this package, we&#39;ll consider a more basic scenario involving a vector of vectors, represented by the type <code>Vector&#123;Vector&#125;</code>. This exhibits a similar structure, and also the same potential issues regarding type stability. </p>
 <p>Essentially, the issue arises because, by not constraining the types of its inner vectors, a collection of collections like <code>Vector&#123;Vector&#125;</code> offers a high degree of flexibility. This flexibility is particularly valuable in data analysis, where datasets often comprise diverse columns that may contain disparate data types &#40;e.g., <code>String</code>, <code>Float64</code>, <code>Int64</code>&#41;. However, it also comes at a cost: the type <code>Vector&#123;Vector&#125;</code> only guarantees that its elements are vectors, without providing any information about the concrete types they contain. As a result, when a function operates on one of these inner vectors, the type system is unable to infer the concrete type of the data, leading to type instability. </p>
-<p>To illustrate this scenario, suppose a vector <code>data</code> comprising multiple inner vectors. Moreover, consider a function <code>foo</code> that takes <code>data</code> as its argument, and operates on one of its inner vectors <code>vec2</code>. The first tab below shows that this case leads to type instability. The simplest <strong>solution</strong> is presented in the second tab, and consists of including a barrier function that takes the inner vector <code>vec2</code> as its argument. The technique rectifies the type instability, as the barrier function attempts to identify a concrete type for <code>vec2</code>. Note that the barrier function is defined <a href="/julia_book/PAGES/5g_inplace/#inplace_functions">in-place</a>. This implies that the value of <code>vec2</code>, and hence of <code>data</code>, is updated when <code>foo</code> is executed.</p>
+<p>To illustrate this scenario, suppose a vector <code>data</code> comprising multiple inner vectors. Moreover, consider a function <code>foo</code> that takes <code>data</code> as its argument, and operates on one of its inner vectors <code>vec2</code>. The first tab below shows that this case leads to type instability. The simplest <strong>solution</strong> is presented in the second tab, and consists of including a barrier function that takes the inner vector <code>vec2</code> as its argument. The technique rectifies the type instability, as the barrier function attempts to identify a concrete type for <code>vec2</code>. Note that the barrier function is defined <a href="/julia_book/PAGES/05h_inplace/">in-place</a>. This implies that the value of <code>vec2</code>, and hence of <code>data</code>, is updated when <code>foo</code> is executed.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3001,7 +3001,7 @@ end
 <p>  </p></details></div>
 <p>At first glance, we might erroneously conclude that <code>foo&#40;true&#41;</code> is type stable: the value of <code>condition</code> is <code>true</code>, so that <code>y &#61; 2.5</code> and therefore <code>y</code> will have type <code>Float64</code>. However, values don&#39;t participate in multiple dispatch, meaning that Julia&#39;s compiler ignores the value of <code>condition</code> when inferring <code>y</code>&#39;s type. Ultimately, <code>y</code> is treated as potentially being either <code>Int64</code> or <code>Float64</code>, leading to type instability.</p>
 <p>The issue in this case can be easily resolved by replacing <code>1</code> by <code>1.</code>, thus ensuring that <code>y</code> is always <code>Float64</code>. More generally, we could employ similar techniques to the <a href="#gotcha_1_integers_and_floats">first &quot;gotcha&quot;</a>, where values are converted to a specific concrete type. </p>
-<p>An alternative solution relies on dispatching by value, a technique we already <a href="/julia_book/PAGES/8e_TS-tuples/#addressing_variable_arguments_dispatch_by_value">explored and implemented for tuples</a>. This technique makes it possible to pass information about values to the compiler. It&#39;s based on the type <code>Val</code>, along with the keyword <code>where</code> introduced <a href="/julia_book/PAGES/7c_TS-onTypes/#keyword_where">here</a>.</p>
+<p>An alternative solution relies on dispatching by value, a technique we already <a href="/julia_book/PAGES/08f_TS-tuples/#addressing_variable_arguments_dispatch_by_value">explored and implemented for tuples</a>. This technique makes it possible to pass information about values to the compiler. It&#39;s based on the type <code>Val</code>, along with the keyword <code>where</code> introduced <a href="/julia_book/PAGES/07d_TS-onTypes/#sub_the_keyword_where">here</a>.</p>
 <p>Specifically, for any function <code>foo</code> and value <code>a</code> that you seek the compiler to know, you need to include <code>::Val&#123;a&#125;</code> as an argument. In this way, <code>a</code> is interpreted as a type parameter, which you can identify by including the keyword <code>where</code>. Finally, we need to call <code>foo</code> by passing <code>Val&#40;a&#41;</code> as its input. </p>
 <p>Applied to our example, type instability in <code>foo</code> emerges because the value of <code>condition</code> isn&#39;t known by the compiler. Dispatching by <code>a</code> enables us to pass the value of <code>condition</code> to the compiler. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -3038,7 +3038,7 @@ end
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Gotcha 5: Variables as Default Values of Keyword Arguments</h2></p>
-<p>Functions accept <a href="/julia_book/PAGES/3b_define_func/#positional_and_keyword_arguments">positional and keyword arguments</a>. In the particular case that functions are defined with keyword arguments, it&#39;s possible to assign default values. However, when these default values are specified through variables rather than literal values, a type instability is introduced. The reason is that the variable is then treated as a global variable. </p>
+<p>Functions accept <a href="/julia_book/PAGES/03c_functions/#positional_and_keyword_arguments">positional and keyword arguments</a>. In the particular case that functions are defined with keyword arguments, it&#39;s possible to assign default values. However, when these default values are specified through variables rather than literal values, a type instability is introduced. The reason is that the variable is then treated as a global variable. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3063,7 +3063,7 @@ end
  </div></div>
 <p>  </p></details></div>
 <p>When setting a variable as a default value is unavoidable, there are still a few strategies you could follow to restore type stability.</p>
-<p>One set of solutions leverages the <a href="/julia_book/PAGES/8c_TS-globalVariables/">techniques we introduced for global variables</a>. These include type-annotating the global variable &#40;<em>Solution 1a</em>&#41; or defining it as a constant &#40;<em>Solution 1b</em>&#41;.</p>
+<p>One set of solutions leverages the <a href="/julia_book/PAGES/08d_TS-globalVariables/">techniques we introduced for global variables</a>. These include type-annotating the global variable &#40;<em>Solution 1a</em>&#41; or defining it as a constant &#40;<em>Solution 1b</em>&#41;.</p>
 <p>Another strategy involves defining a function that stores the default value. By doing so, you can take advantage of type inference, where the function attempts to infer a concrete type for the default value &#40;<em>Solution 2</em>&#41;.</p>
 <p>You can also adopt a local approach, by adding type annotations to either the keyword argument &#40;<em>Solution 3a</em>&#41; or the default value itself &#40;<em>Solution 3b</em>&#41;. Finally, type instability does not arise when positional arguments are used as default values of keyword arguments &#40;<em>Solution 4</em>&#41;. </p>
 <p>All these cases are stated below.</p>
@@ -3565,7 +3565,7 @@ end
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 25, 2025 
+          © Martin Alfaro <br>Last Modified February 26, 2025 
       </span> 
   </div> 
 </footer>

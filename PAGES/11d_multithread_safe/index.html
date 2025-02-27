@@ -2807,7 +2807,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Unsafe Operations</h2></p>
 <p>We start by presenting some operations that aren&#39;t thread-safe. The examples highlight the need for caution when tasks exhibit some degree of dependency, either in terms of operations or shared resources.</p>
- <h4> Writing a Shared Variable </h4>
+ <h4> Writing on a Shared Variable </h4>
 <p>The following example highlights the potential pitfalls of writing to a shared variable in a concurrent environment. The scenario considered is such that a scalar variable <code>output</code> is initialized to zero. Then, this value is updated within a for-loop that iterates twice, with <code>output</code> set to <code>i</code> in the  <em>i</em>-th iteration. The script is as follows.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2983,8 +2983,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Embarrassingly Parallel Problems</h2></p>
-<p>The simplest scenario where multithreading can be applied is known as <span style="color: rgb(62, 121, 180);"><strong>embarrassingly parallel</strong></span>. This term emphasizes the simplicity to divide such problems for parallel execution. It essentially refers to programs consisting of multiple independent identical subtasks, not requiring any interaction between them to produce the final output. These characteristics allow for seamless parallelization, giving complete freedom in the order of task execution.</p>
-<p>The macro <code>@threads</code> divides the for-loop iterations among the available threads. This means that each thread will execute a subset of the for-loop iterations. Under the hood, it creates a task given by a subset of the iterations and allocates on a specific computer&#39;s thread. It decides the number of iterations attempting to find a balance load among the threads. Additionally, it schedules and wait for the tasks to finish, before performing any other operation. It&#39;s a form of thread-based parallelism.</p>
+<p>The simplest scenario in which multithreading can be applied is known as an <span style="color: rgb(62, 121, 180);"><strong>embarrassingly parallel problem</strong></span>. The term highlights the ease with which code can be divided for parallel execution. It comprises programs consisting of multiple independent and identical subtasks, not requiring interaction with one another to produce the final output. This independence allows for seamless parallelization, providing complete flexibility in the order of task execution.</p>
+<p>In for-loops, one straightforward way to parallelize these problems is given by the macro <code>@threads</code>. This is a form of thread-based parallelism, where the distribution of work is based on the number of threads available. Specifically <code>@threads</code> attempts to evenly distribute the iterations, in an effort to balance the workload. The approach contrasts with <code>@spawn</code>, which is a task-based parallelism where iterations are divided according how the user has manually defined tasks. Unlike <code>@spawn</code>, which requires a manual synchronization of the tasks, <code>@threads</code>automatically schedules the tasks and waits for their completion before proceeding with any further operations. This is demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3032,7 +3032,7 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p><code>@spawn</code> is a task-based parallelism, creating a new task for each iteration. It requires a manual synchronization of the tasks, so that it waits for the results to finish before moving forward.</p>
+<p>In the next section, we provide a thorough analysis of the differences between <code>@threads</code> and <code>@spawn</code>.</p>
 <p>      </div>
     </div>
   </div>
@@ -3055,7 +3055,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 25, 2025 
+          © Martin Alfaro <br>Last Modified February 26, 2025 
       </span> 
   </div> 
 </footer>

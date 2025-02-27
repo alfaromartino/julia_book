@@ -2829,7 +2829,7 @@ foo&#40;&#41; &#61; 3 * x</code></pre>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;&#41;</code><br/><div class="akin_to_pre">6</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Recall that an expression like <code>x &#61; 2</code> is shorthand for <code>x::Any &#61; 2</code>. This reflects that global variables default to <code>Any</code>, unless they&#39;re explicitly type-annotated. Also remember that only concrete types can be <a href="/julia_book/PAGES/7c_TS-onTypes/#instantiate">instantiated</a>, meaning that a value can only adopt a concrete type. Consequently, <code>x::Any</code> shouldn&#39;t be understood as <code>x</code> having type <code>Any</code>, but rather that <code>x</code> can take any concrete type that is a subtype of <code>Any</code>. Since <code>Any</code> is the top of the type hierarchy in Julia, this simply means that <code>x</code>&#39;s types are unrestricted.</p>
+<p>Recall that an expression like <code>x &#61; 2</code> is shorthand for <code>x::Any &#61; 2</code>. This reflects that global variables default to <code>Any</code>, unless they&#39;re explicitly type-annotated. Also remember that only concrete types can be <a href="/julia_book/PAGES/07d_TS-onTypes/#sub_only_concrete_types_can_be_instantiated_abstract_types_cant">instantiated</a>, meaning that a value can only adopt a concrete type. Consequently, <code>x::Any</code> shouldn&#39;t be understood as <code>x</code> having type <code>Any</code>, but rather that <code>x</code> can take any concrete type that is a subtype of <code>Any</code>. Since <code>Any</code> is the top of the type hierarchy in Julia, this simply means that <code>x</code>&#39;s types are unrestricted.</p>
 <p>Working with a variable like <code>x</code> prevents specialization of <code>*</code>. This is because Julia must consider multiple possible methods for the computation, one for each possible concrete type of <code>x</code>. In practice, this results in Julia generating code with multiple branches, potentially involving type checks, conversions, and object creations. The consequence is degraded performance.</p>
 <p>Even if we had type-annotated <code>x</code> with a concrete type like <code>x::Int64 &#61; 2</code>, the performance limitations wouldn&#39;t completely go away. The reason for this is that certain optimizations can only be implemented when the scope of variables is clearly delimited and values are known. Through this information, Julia gains a holistic view of all the operations to be performed, thereby enabling further optimizations.</p>
 <p>Functions address all these considerations through a series of steps, which we cover next.</p>
@@ -2950,7 +2950,7 @@ z &#61; sum&#40;log, x&#41;     # log&#40;2&#41; &#43; log&#40;3&#41; &#43; log&
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;3.0, 2&#41;</code><br/><div class="akin_to_pre">8.0</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>If we&#39;ve just started a new session, so that <code>foo&#40;1,2&#41;</code> is called for the first time, Julia won&#39;t find any method instance for <code>foo&#40;a::Int64, b::Int64&#41;</code>. Consequently, it&#39;ll have to generate a new implementation for this unique combination of types. Compiling code is the reason a function&#39;s first call is slower than the subsequent runs, a phenomenon that is dubbed <a href="/julia_book/PAGES/7b_benchmarks/#time_to_first_plot">Time To First Plot</a>. </p>
+<p>If we&#39;ve just started a new session, so that <code>foo&#40;1,2&#41;</code> is called for the first time, Julia won&#39;t find any method instance for <code>foo&#40;a::Int64, b::Int64&#41;</code>. Consequently, it&#39;ll have to generate a new implementation for this unique combination of types. Compiling code is the reason a function&#39;s first call is slower than the subsequent runs, a phenomenon that is dubbed <a href="/julia_book/PAGES/07c_benchmarks/#time_to_first_plot">Time To First Plot</a>. </p>
 <p>Note that this code is eventually stored, so that the computation of <code>foo&#40;3, 2&#41;</code> will directly invoke the method instance <code>foo&#40;a::Int64, b::Int64&#41;</code>. Nonetheless, the call <code>foo&#40;3.0, 2&#41;</code> requires compiling a new method instance <code>foo&#40;a::Float64, b::Int64&#41;</code>, resulting in a first-call latency again.</p>
  <h4> Type Inference </h4>
 <p>The compilation process follows a series of steps whose understanding is crucial for performance. To explain them, let&#39;s consider compilation for the method instance <code>foo&#40;a::Int64, b::Int64&#41;</code>. </p>
@@ -3075,7 +3075,7 @@ foo&#40;a&#41;    &#61; a * b</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 25, 2025 
+          © Martin Alfaro <br>Last Modified February 26, 2025 
       </span> 
   </div> 
 </footer>

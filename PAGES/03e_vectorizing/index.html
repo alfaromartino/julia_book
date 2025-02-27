@@ -2930,9 +2930,9 @@ z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an
     <button class="tablink" data-id=""> User-Defined Function</button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia"># &#96;log&#40;a&#41;&#96; is a function for a single element &#96;a&#96;
+<pre><code class="language-julia"># &#96;log&#40;a&#41;&#96; is a function appying to scalars &#96;a&#96;
 
-x &#61; &#91;1,2,3&#93;</code></pre>
+x         &#61; &#91;1,2,3&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>log.&#40;x&#41;</code><br/><div class="akin_to_pre">3-element Vector{Float64}:
  0.0
@@ -2946,7 +2946,7 @@ x &#61; &#91;1,2,3&#93;</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">square&#40;a&#41; &#61; a^2     #user-defined function for a single element &#39;a&#39;
 
-x &#61; &#91;1,2,3&#93;</code></pre>
+x         &#61; &#91;1,2,3&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>square.&#40;x&#41;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  1
@@ -2970,8 +2970,8 @@ x &#61; &#91;1,2,3&#93;</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia"># &#39;max&#40;a,b&#41;&#39; returns &#39;a&#39; if &#39;a&gt;b&#39;, and &#39;b&#39; otherwise
 
-x &#61; &#91;0, 4, 0&#93;
-y &#61; &#91;2, 0, 8&#93;</code></pre>
+x        &#61; &#91;0, 4, 0&#93;
+y        &#61; &#91;2, 0, 8&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>max.&#40;x,y&#41;</code><br/><div class="akin_to_pre">3-element Vector{Float64}:
  2
@@ -2985,8 +2985,8 @@ y &#61; &#91;2, 0, 8&#93;</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo&#40;a,b&#41; &#61; a &#43; b        # user-defined function for single elements &#39;a&#39; and &#39;b&#39;
 
-x &#61; &#91;-2, -4, -10&#93;
-y &#61; &#91; 2,  4,  10&#93;</code></pre>
+x        &#61; &#91;-2, -4, -10&#93;
+y        &#61; &#91; 2,  4,  10&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo.&#40;x&#41;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  0
@@ -3001,13 +3001,21 @@ y &#61; &#91; 2,  4,  10&#93;</code></pre>
 <p><a id="examp1" class="anchor"></a> <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     Broadcasting can be applied to functions with arguments of any type, not just numbers. For instance, consider the function <code>string</code>, which concatenates string arguments to form a sentence &#40;e.g., <code>string&#40;&quot;hello &quot;,&quot;world&quot;&#41;</code> returns <code>&quot;hello world&quot;</code>&#41;. </p>
-<p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">country       &#61;  &#91;&quot;France&quot;, &quot;Canada&quot;&#93;
-is_in         &#61;  &#91;&quot; is in &quot;  , &quot; is in &quot;&#93;
-region        &#61;  &#91;&quot;Europe&quot;, &quot;North America&quot;&#93;</code></pre>
-<p></div> </div><div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>string.&#40;country, is_in, region&#41;</code><br/><div class="akin_to_pre">2-element Vector{String}:
+<p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Broadcasting Strings </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">country &#61; &#91;&quot;France&quot;, &quot;Canada&quot;&#93;
+is_in   &#61; &#91;&quot; is in &quot;  , &quot; is in &quot;&#93;
+region  &#61; &#91;&quot;Europe&quot;, &quot;North America&quot;&#93;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>string.&#40;country, is_in, region&#41;</code><br/><div class="akin_to_pre">2-element Vector{String}:
  "France is in Europe"
- "Canada is in North America"</div> </div></div> </div>   </details></div>  </div>  </div></p>
+ "Canada is in North America"</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>  </div>  </div></p>
 <p>      </div>
     </div>
   </div>
@@ -3126,7 +3134,7 @@ y &#61; 1:3</code></pre>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x .&#43; y</code><br/><div class="akin_to_pre">(2, 4, 6)</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>It&#39;s also possible to simultaneously broadcast operators and functions. Given the pervasiveness of such operations, Julia provides the <a href="/julia_book/PAGES/3a_packages/#macros">macro</a> <code>@.</code> for an effortless application. The macro should be added at the beginning of the statement, and has the effect of automatically adding a &quot;dot&quot; to each operator and function found in a statement. </p>
+<p>It&#39;s also possible to simultaneously broadcast operators and functions. Given the pervasiveness of such operations, Julia provides the <a href="/julia_book/PAGES/03b_packages/#macros">macro</a> <code>@.</code> for an effortless application. The macro should be added at the beginning of the statement, and has the effect of automatically adding a &quot;dot&quot; to each operator and function found in a statement. </p>
 <p>To demonstrate its use, suppose we seek to add two vectors element-wise, and then transform the resulting elements by squaring each.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3342,9 +3350,9 @@ list &#61; &#91;1, 2, 3&#93;</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">addition&#40;x,y&#41; &#61; 2 * x &#43; y
 
-#the following are identical
-curried&#40;x&#41; &#61; &#40;y -&gt; addition&#40;x,y&#41;&#41;
-curried    &#61; x -&gt; &#40;y -&gt; addition&#40;x,y&#41;&#41;</code></pre>
+# the following are equivalent
+curried&#40;x&#41;    &#61; &#40;y -&gt; addition&#40;x,y&#41;&#41;
+curried       &#61; x -&gt; &#40;y -&gt; addition&#40;x,y&#41;&#41;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>curried&#40;2&#41;&#40;1&#41;</code><br/><div class="akin_to_pre">5</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
@@ -3352,9 +3360,9 @@ curried    &#61; x -&gt; &#40;y -&gt; addition&#40;x,y&#41;&#41;</code></pre>
 <pre><code class="language-julia">addition&#40;x,y&#41; &#61; 2 * x &#43; y
 curried&#40;x&#41;    &#61; &#40;y -&gt; addition&#40;x,y&#41;&#41;
 
-#the following are equivalent
-f    &#61; curried&#40;2&#41;     # function of &#39;y&#39;, with &#39;x&#39; fixed to 2
-g&#40;y&#41; &#61; addition&#40;2,y&#41;</code></pre>
+# the following are equivalent
+f             &#61; curried&#40;2&#41;          # function of &#39;y&#39;, with &#39;x&#39; fixed to 2
+g&#40;y&#41;          &#61; addition&#40;2,y&#41;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>f&#40;1&#41;</code><br/><div class="akin_to_pre">5</div> </div></p>
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>g&#40;1&#41;</code><br/><div class="akin_to_pre">5</div> </div></div> </div> 
@@ -3367,14 +3375,14 @@ g&#40;y&#41; &#61; addition&#40;2,y&#41;</code></pre>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Broadcasting with Currying  </button>
-    <button class="tablink" data-id=""> Broadcasting with an Argument Fixed</button>    
+    <button class="tablink" data-id=""> Broadcasting with a Fixed Argument</button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">a &#61; 2
-b &#61; &#91;1,2,3&#93;
-addition&#40;x,y&#41; &#61; 2 * x &#43; y
+<pre><code class="language-julia">a             &#61; 2
+b             &#61; &#91;1,2,3&#93;
 
-curried&#40;x&#41; &#61; &#40;y -&gt; addition&#40;x,y&#41;&#41;   # &#39;curried&#40;x&#41;&#39; is a function, and &#39;y&#39; its argument</code></pre>
+addition&#40;x,y&#41; &#61; 2 * x &#43; y
+curried&#40;x&#41;    &#61; &#40;y -&gt; addition&#40;x,y&#41;&#41;   # &#39;curried&#40;x&#41;&#39; is a function, and &#39;y&#39; its argument</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>curried&#40;a&#41;.&#40;b&#41;</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  5
@@ -3382,8 +3390,9 @@ curried&#40;x&#41; &#61; &#40;y -&gt; addition&#40;x,y&#41;&#41;   # &#39;currie
  7</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">a &#61; 2
-b &#61; &#91;1,2,3&#93;
+<pre><code class="language-julia">a             &#61; 2
+b             &#61; &#91;1,2,3&#93;
+
 addition&#40;x,y&#41; &#61; 2 * x &#43; y
 curried&#40;x&#41;    &#61; &#40;y -&gt; addition&#40;x,y&#41;&#41;
 
@@ -3461,7 +3470,7 @@ list &#61; &#91;1, 2, 3&#93;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 25, 2025 
+          © Martin Alfaro <br>Last Modified February 26, 2025 
       </span> 
   </div> 
 </footer>

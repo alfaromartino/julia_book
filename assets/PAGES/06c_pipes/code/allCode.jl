@@ -8,20 +8,16 @@ using Pipe
 #	                     EXAMPLE 1
 ####################################################
  
-a = -2
+a      = -2
 
 output = round(log(abs(a)))
 print_asis(output) #hide
  
-print_asis(temp1) #hide
- 
-print_asis(temp2) #hide
- 
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-a = -2
+a      = -2
 
 temp1  = abs(a)
 temp2  = log(temp1)
@@ -36,7 +32,7 @@ print_asis(temp2) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-a = -2
+a      = -2
 
 output = let b = a         # 'b' is a local variable having the value of 'a' 
    temp1 = abs(b)
@@ -53,7 +49,7 @@ print_asis(temp2) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-a = -2
+a      = -2
 
 output = let a = a         # the 'a' on the left of `=` defines a local variable
    temp1 = abs(a)
@@ -70,7 +66,7 @@ print_asis(temp2) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-a = -2
+a      = -2
 
 output = a |> abs |> log |> round
  
@@ -98,7 +94,7 @@ print_asis(x) #hide
 #	                     EXAMPLE 2
 ####################################################
  
-x = [-1,2,3]
+x      = [-1,2,3]
 
 output = sum(log.(abs.(x)))
  
@@ -108,7 +104,7 @@ print_asis(output) # hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x = [-1,2,3]
+x      = [-1,2,3]
 
 temp1  = abs.(x)
 temp2  = log.(temp1)
@@ -118,7 +114,7 @@ output = sum(temp2)
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x = [-1,2,3]
+x      = [-1,2,3]
 
 output = x .|> abs .|> log |> sum
  
@@ -126,7 +122,7 @@ output = x .|> abs .|> log |> sum
 #	                     EXAMPLE 3
 ####################################################
  
-a = -2
+a      = -2
 
 output = round(2 * abs(a))
 print_asis(output) #hide
@@ -135,7 +131,7 @@ print_asis(output) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-a = -2
+a      = -2
 
 temp1  = abs(a)
 temp2  = 2 * temp1
@@ -145,7 +141,7 @@ output = round(temp2)
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-a = -2
+a      = -2
 
 output = a |> abs |> (x -> 2 * x) |> round
 
@@ -160,7 +156,7 @@ output = a              |>
 # <space_to_be_deleted>
  
 #
-a = -2
+a      = -2
 
 output = a |> abs |> (x -> 2 * x) |> round
 
@@ -290,14 +286,14 @@ output = temp - log(temp) / abs(temp)
  
 variable_with_a_long_name = 2
 
-output = variable_with_a_long_name       |>
+output = variable_with_a_long_name  |>
          a -> a - log(a) / abs(a)
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-variable_with_a_long_name = 2 ; using Pipe
+variable_with_a_long_name = 2
 
 output = @pipe variable_with_a_long_name |>
                _ - log(_) / abs(_)

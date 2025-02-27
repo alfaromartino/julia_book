@@ -3016,7 +3016,7 @@ end</code></pre>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content>     The rules of variable scope we present apply generally, with one exception that arises from following bad practices. Since this case is rare, we won&#39;t cover it.</p>
-<p>Basically, the issue occurs when  <em>i)</em> the for-loop is  <em>not</em> wrapped in a function,  <em>ii)</em> a local variable shares its name with a global variable, and  <em>iii)</em> the script is run non-interactively &#40;i.e., run by using the function <code>include</code>&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that there are two methods to execute a script, as we saw <a href="/julia_book/PAGES/1b_basics/">here</a>. The first method is the one we&#39;re using, where you work interactively with Julia. This includes running commands in the REPL&#39;s prompt <code>julia&gt;</code>and the execution of a script through a code editor. The second method consists of executing a file that stores a script, through the function <code>include</code>.  </span></span> </p>
+<p>Basically, the issue occurs when  <em>i)</em> the for-loop is  <em>not</em> wrapped in a function,  <em>ii)</em> a local variable shares its name with a global variable, and  <em>iii)</em> the script is run non-interactively &#40;i.e., run by using the function <code>include</code>&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that there are two methods to execute a script, as we saw <a href="/julia_book/PAGES/01b_basics/">here</a>. The first method is the one we&#39;re using, where you work interactively with Julia. This includes running commands in the REPL&#39;s prompt <code>julia&gt;</code>and the execution of a script through a code editor. The second method consists of executing a file that stores a script, through the function <code>include</code>.  </span></span> </p>
 <p>Unless the three conditions hold simultaneously, you don&#39;t have to worry about this scenario. And even if this occurs, Julia will display a warning in the REPL indicating that there&#39;s a problem with your code.  </div>  </div>
 <p>To formalize the variable scope of for-loops, we&#39;ll refer to a variable <code>x</code>. The rules governing its scope are:</p>
 <div class="itemNoSpace"><ul>
@@ -3100,10 +3100,10 @@ end</code></pre>
     <button class="tablink" data-id=""> Comprehension Using a Function</button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;1,2,3&#93;
+<pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
 
 
-y &#61; &#91;a^2 for a in x&#93;                  # or y &#61; &#91;x&#91;i&#93;^2 for i in eachindex&#40;x&#41;&#93;</code></pre>
+y      &#61; &#91;a^2 for a in x&#93;                  # or y &#61; &#91;x&#91;i&#93;^2 for i in eachindex&#40;x&#41;&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
   1
@@ -3111,7 +3111,7 @@ y &#61; &#91;a^2 for a in x&#93;                  # or y &#61; &#91;x&#91;i&#93;
   9</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;1,2,3&#93;
+<pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
 
 foo&#40;a&#41; &#61; a^2
 y      &#61; &#91;foo&#40;a&#41; for a in x&#93;          # or y &#61; &#91;foo&#40;x&#91;i&#93;&#41; for i in eachindex&#40;x&#41;&#93;</code></pre>
@@ -3266,18 +3266,14 @@ y &#61; &#91;index * value for &#40;index,value&#41; in enumerate&#40;x&#41;&#93
     <button class="tablink first_tab active" data-id=""> Iteration over Functions </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">using Statistics    # loaded to access the function &#96;mean&#96; and &#96;median&#96;
-
-x              &#61; &#91;10, 50, 100&#93;
-list_functions &#61; &#91;maximum, minimum, mean, median&#93;
+<pre><code class="language-julia">x                        &#61; &#91;10, 50, 100&#93;
+list_functions           &#61; &#91;maximum, minimum&#93;
 
 descriptive&#40;vector,list&#41; &#61; &#91;foo&#40;vector&#41; for foo in list&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>descriptive&#40;x, list_functions&#41;</code><br/><div class="akin_to_pre">4-element Vector{Real}:
  100
-  10
-  53.333333333333336
-  50.0</div> </div></div> </div> 
+  10</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -3302,7 +3298,7 @@ descriptive&#40;vector,list&#41; &#61; &#91;foo&#40;vector&#41; for foo in list&
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 25, 2025 
+          © Martin Alfaro <br>Last Modified February 26, 2025 
       </span> 
   </div> 
 </footer>

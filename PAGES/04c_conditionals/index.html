@@ -2790,7 +2790,7 @@ color: white;
 <li><p><span style="color: rgb(62, 121, 180);"><strong>if-else-if statements</strong></span>, which consist of <strong>three or more branches</strong>. They comprise a series of conditions, with each branch executing a different code block.</p>
 </li>
 </ul></div>
-<p>Next, we cover each in depth. The presentation builds heavily on the logical operators introduced <a href="/julia_book/PAGES/4a_logical/">in the previous section</a>. If you haven&#39;t read it, I highly recommend doing so before continuing.</p>
+<p>Next, we cover each in depth. The presentation builds heavily on the logical operators introduced <a href="/julia_book/PAGES/04b_logical/">in the previous section</a>. If you haven&#39;t read it, I highly recommend doing so before continuing.</p>
 <p>      </div>
     </div>
   </div>
@@ -2805,9 +2805,9 @@ color: white;
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> <code>if</code> </button>
-    <button class="tablink" data-id=""> <code>&amp;&amp;</code> </button>
-    <button class="tablink" data-id=""> <code>||</code> </button>
+    <button class="tablink first_tab active" data-id=""> if </button>
+    <button class="tablink" data-id=""> && </button>
+    <button class="tablink" data-id=""> || </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; 5
@@ -2854,7 +2854,7 @@ end</code></pre>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> <code>if</code> and <code>else</code> Keywords </button>
+    <button class="tablink first_tab active" data-id=""> 'if' and 'else' Keywords </button>
     <button class="tablink" data-id=""> Ternary Operator </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
@@ -2876,16 +2876,16 @@ x &gt; 0 ? println&#40;&quot;x is positive&quot;&#41; : println&#40;&quot;x is n
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="akin_to_pre">"x is positive"</div></div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>An alternative for defining if-else expressions is provided by the function <code>ifelse</code>. This takes three arguments: a condition, an expression to be executed if true, and another expression to execute if false. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The function <code>ifelse</code> <strong>doesn't behave as a</strong> <a href="/julia_book/PAGES/4a_logical/#short-circuit"><strong>short-circuit operator</strong></a>. This means that all statements are evaluated, regardless of whether the condition is true.  </span></span> </p>
+<p>An alternative for defining if-else expressions is provided by the function <code>ifelse</code>. This takes three arguments: a condition, an expression to be executed if true, and another expression to execute if false. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The function <code>ifelse</code> <strong>doesn't behave as a</strong> <a href="/julia_book/PAGES/04b_logical/#sub_logical_operators_as_shortcircuit_operators"><strong>short-circuit operator</strong></a>. This means that all statements are evaluated, regardless of whether the condition is true.  </span></span> </p>
 <p>Expressing an if-else statement through a function enables broadcasting. This is particularly helpful when defining vectors with elements that depend on a condition, as demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> <code>ifelse</code> - Example 1 </button>
-    <button class="tablink" data-id=""> <code>ifelse</code> - Example 2 </button>    
+    <button class="tablink first_tab active" data-id=""> ifelse - Example 1 </button>
+    <button class="tablink" data-id=""> ifelse - Example 2 </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;4, 2, -6&#93;
+<pre><code class="language-julia">x                     &#61; &#91;4, 2, -6&#93;
 
 are_elements_positive &#61; ifelse.&#40;x .&gt; 0, true, false&#41;</code></pre>
 <p></div></div> 
@@ -2895,9 +2895,9 @@ are_elements_positive &#61; ifelse.&#40;x .&gt; 0, true, false&#41;</code></pre>
  0</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;4, 2, -6&#93;
+<pre><code class="language-julia">x                     &#61; &#91;4, 2, -6&#93;
 
-x_absolute_value &#61; ifelse.&#40;x .≥ 0, x, -x&#41;</code></pre>
+x_absolute_value      &#61; ifelse.&#40;x .≥ 0, x, -x&#41;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x_absolute_value</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  4
@@ -2973,7 +2973,7 @@ end</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 25, 2025 
+          © Martin Alfaro <br>Last Modified February 26, 2025 
       </span> 
   </div> 
 </footer>

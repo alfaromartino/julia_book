@@ -1,4 +1,4 @@
-a = -2
+a      = -2
 
 output = let a = a         # the 'a' on the left of `=` defines a local variable
    temp1 = abs(a)

@@ -2804,7 +2804,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>An Intuition</h2></p>
-<p><a href="/julia_book/PAGES/7d_TS-onFunctions/">In a previous section</a>, we&#39;ve described the process that unfolds when a function is called. To recap, let&#39;s consider a simple function <code>foo&#40;x&#41; &#61; x &#43; 2</code> and an operation <code>foo&#40;a&#41;</code> for some variable <code>a</code>. To emphasize that the process depends on types, rather than on values, we won&#39;t explicitly state <code>a</code>&#39;s value. Nonetheless, we assume that <code>a</code> has a specific value assigned, and therefore a concrete type.</p>
+<p><a href="/julia_book/PAGES/07e_TS-onFunctions/">In a previous section</a>, we&#39;ve described the process that unfolds when a function is called. To recap, let&#39;s consider a simple function <code>foo&#40;x&#41; &#61; x &#43; 2</code> and an operation <code>foo&#40;a&#41;</code> for some variable <code>a</code>. To emphasize that the process depends on types, rather than on values, we won&#39;t explicitly state <code>a</code>&#39;s value. Nonetheless, we assume that <code>a</code> has a specific value assigned, and therefore a concrete type.</p>
 <p>To understand the factors influencing performance in operations like <code>foo&#40;a&#41;</code>, it&#39;s crucial to distinguish between two different stages in a function call: compilation time and runtime. <span style="color: rgb(62, 121, 180);"><strong>Compilation time</strong></span> occurs when a method instance is created, involving the generation of machine code based on the inferred concrete types. Importantly, this process doesn&#39;t involve any computation, and only occurs during initial function calls for given concrete types. </p>
 <p>In the example, this stage occurs when you call <code>foo&#40;a&#41;</code>. This triggers Julia to compile a method instance to compute <code>a &#43; 2</code>, tailored to the concrete types inferred of <code>a</code> and <code>2</code>. The resulting machine code is then stored &#40;cached&#41;, making it readily available for subsequent calls of <code>foo&#40;b&#41;</code> when the variable <code>b</code> that has the same concrete type as <code>a</code>.</p>
 <p>In contrast, <span style="color: rgb(62, 121, 180);"><strong>runtime</strong></span> refers to the moment when the code instructions are executed. Unlike compilation time, this entails actual computation, and takes place every time the function is called. In our example, this phase takes place when <code>foo&#40;a&#41;</code> is run after compilation time. Moreover, it&#39;d be the only stage occurring during future calls of <code>foo&#40;b&#41;</code> for any variable <code>b</code> having the same concrete type as <code>a</code>.</p>
@@ -3021,7 +3021,7 @@ end</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 25, 2025 
+          © Martin Alfaro <br>Last Modified February 26, 2025 
       </span> 
   </div> 
 </footer>

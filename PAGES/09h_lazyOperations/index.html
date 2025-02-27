@@ -2806,7 +2806,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Generators</h2></p>
-<p><a href="/julia_book/PAGES/4c_forLoops/#array_comprehensions">Array comprehensions</a> offer a convenient technique for creating vectors, using a similar syntax to for-loops to define their elements. These elements are computed and stored right away, making array comprehensions an eager operation. For their part, <span style="color: rgb(62, 121, 180);"><strong>generators</strong></span> represent <strong>the lazy counterpart of array comprehensions</strong>, deferring the creation of elements until they&#39;re actually needed. </p>
+<p><a href="/julia_book/PAGES/04d_forloops/#array_comprehensions">Array comprehensions</a> offer a convenient technique for creating vectors, using a similar syntax to for-loops to define their elements. These elements are computed and stored right away, making array comprehensions an eager operation. For their part, <span style="color: rgb(62, 121, 180);"><strong>generators</strong></span> represent <strong>the lazy counterpart of array comprehensions</strong>, deferring the creation of elements until they&#39;re actually needed. </p>
 <p>In terms of syntax, generators are identical to array comprehensions, with the sole difference they&#39;re enclosed in parentheses <code>&#40; &#41;</code> instead of square brackets <code>&#91; &#93;</code>. Just like array comprehensions, generators  also retain the ability to add conditions and simultaneous iterate over multiple collections.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2837,7 +2837,7 @@ y &#61; &#40;a for a in 1:10 if a &gt; 5&#41;</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
 <p>The examples show that array comprehensions compute all their elements at the moment of defining the vector, giving immediate access to them. In contrast, generators formally define an object with type <code>Base.Generator</code>, where operations are described, but no output is materialized.</p>
-<p>This characteristic of generators makes them particularly useful for computing <a href="PAGES/9e_reductions/">reductions</a> with transformed values. By producing values on-demand and fusing them with the reduction function, generators avoid the materialization of temporary vectors, thus reducing memory allocations.</p>
+<p>This characteristic of generators makes them particularly useful for computing <a href="PAGES/09f_reductions/">reductions</a> with transformed values. By producing values on-demand and fusing them with the reduction function, generators avoid the materialization of temporary vectors, thus reducing memory allocations.</p>
 <p>To illustrate the performance benefits this entails, let&#39;s compute the sum of all elements in a vector <code>y</code>. In particular, <code>y</code> is obtained by doubling each element of a vector <code>x</code>. One way to compute this operation is by first creating the vector <code>y</code> and then sum all its elements. Alternatively, we can describe the transformation through a generator, which bypasses the storage of the intermediate output <code>y</code> and instead feeds the transformation directly into the <code>sum</code> function. This allows the compiler to perform the addition as a cumulative operation on scalars, thereby reducing memory usage.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2978,7 +2978,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 25, 2025 
+          © Martin Alfaro <br>Last Modified February 26, 2025 
       </span> 
   </div> 
 </footer>

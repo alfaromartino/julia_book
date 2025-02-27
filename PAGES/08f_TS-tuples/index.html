@@ -2837,7 +2837,7 @@ foo&#40;x&#41; &#61; sum&#40;x&#91;1:2&#93;&#41;
 @code_warntype foo&#40;vector&#41;      # type UNSTABLE</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Notice that <a href="/julia_book/PAGES/8b_TS-scalarsVectors/#typePromotion">type promotion</a> could solve this issue. Through this mechanism, Julia attempts to convert each element of the vector into a common  <em>concrete type</em>, thus avoiding the need of  <em>abstract</em> types like <code>Any</code>. This is what occurs below, where numbers of different type are combined.</p>
+<p>Notice that <a href="/julia_book/PAGES/08c_TS-scalarsVectors/#sub_type_promotion_and_conversion">type promotion</a> could solve this issue. Through this mechanism, Julia attempts to convert each element of the vector into a common  <em>concrete type</em>, thus avoiding the need of  <em>abstract</em> types like <code>Any</code>. This is what occurs below, where numbers of different type are combined.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2859,7 +2859,7 @@ foo&#40;x&#41; &#61; sum&#40;x&#41;
 <p>  </p></details></div>
  <h4> Tuples Contain More Information than Vectors </h4>
 <p>Given the differences in type information, conversions between tuples and vectors can pose several challenges for type stability. To see this, let&#39;s start with the simplest case, where a tuple is converted to a vector. The conclusions drawn from this case are straightforward, as they&#39;re essentially a corollary from the previous analysis: type stability holds when the tuple contains type-homogeneous elements or when the types are heterogeneous but can be promoted to a common type.</p>
-<p>For the examples, recall that <a href="/julia_book/PAGES/7c_TS-onTypes/#creating_variables_with_some_type">each type automatically creates a function</a> that transforms variables into that type. In particular, below we introduce the function <code>Vector</code> for this purpose.</p>
+<p>For the examples, recall that <a href="/julia_book/PAGES/07d_TS-onTypes/#creating_variables_with_some_type">each type automatically creates a function</a> that transforms variables into that type. In particular, below we introduce the function <code>Vector</code> for this purpose.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3068,7 +3068,7 @@ end
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 25, 2025 
+          © Martin Alfaro <br>Last Modified February 26, 2025 
       </span> 
   </div> 
 </footer>

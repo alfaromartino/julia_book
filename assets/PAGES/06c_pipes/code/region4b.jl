@@ -1,4 +1,4 @@
-a = -2
+a      = -2
 
 temp1  = abs(a)
 temp2  = 2 * temp1

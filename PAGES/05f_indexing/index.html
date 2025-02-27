@@ -2820,9 +2820,9 @@ y &#61; &#91;true, false, true&#93;</code></pre>
     <button class="tablink" data-id=""> Indexing through a Broadcast Function</button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;1, 2, 3, 100, 200&#93;
+<pre><code class="language-julia">x            &#61; &#91;1, 2, 3, 100, 200&#93;
 
-y &#61; x&#91;x .&lt; 10&#93;</code></pre>
+y            &#61; x&#91;x .&lt; 10&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
  1
@@ -2830,7 +2830,7 @@ y &#61; x&#91;x .&lt; 10&#93;</code></pre>
  3</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;1, 2, 3, 100, 200&#93;
+<pre><code class="language-julia">x            &#61; &#91;1, 2, 3, 100, 200&#93;
 
 condition&#40;a&#41; &#61; &#40;a &lt; 10&#41;             #function to eventually broadcast
 y            &#61; x&#91;condition.&#40;x&#41;&#93;</code></pre>
@@ -2841,7 +2841,7 @@ y            &#61; x&#91;condition.&#40;x&#41;&#93;</code></pre>
  3</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Each condition in <code>x .&lt; 10</code> is equivalent to <code>condition.&#40;x&#41;</code>, making the two methods interchangeable. However, when dealing with multiple conditions, we must combine conditions expressed through the logical operators <code>&amp;&amp;</code> and <code>||</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The logical operators <code>&amp;&amp;</code> and <code>||</code> were introduced in <a href="/julia_book/PAGES/4b_conditionals/">the section about conditional statements</a>  </span></span>. This has direct implications for readability, as the use of broadcasting operators can result in verbose code, due to the repeated dots in their syntax. This contrasts with the approach based a function, which minimizes boilerplate code, as the following example shows. </p>
+<p>Each condition in <code>x .&lt; 10</code> is equivalent to <code>condition.&#40;x&#41;</code>, making the two methods interchangeable. However, when dealing with multiple conditions, we must combine conditions expressed through the logical operators <code>&amp;&amp;</code> and <code>||</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The logical operators <code>&amp;&amp;</code> and <code>||</code> were introduced in <a href="/julia_book/PAGES/04c_conditionals/">the section about conditional statements</a>  </span></span>. This has direct implications for readability, as the use of broadcasting operators can result in verbose code, due to the repeated dots in their syntax. This contrasts with the approach based a function, which minimizes boilerplate code, as the following example shows. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2849,16 +2849,16 @@ y            &#61; x&#91;condition.&#40;x&#41;&#93;</code></pre>
     <button class="tablink" data-id=""> Indexing through a Broadcast Function</button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;3, 6, 8, 100&#93;
+<pre><code class="language-julia">x            &#61; &#91;3, 6, 8, 100&#93;
 
 # numbers greater than 5, lower than 10, but not including 8
-y &#61; x&#91;&#40;x .&gt; 5&#41; .&amp;&amp; &#40;x .&lt; 10&#41; .&amp;&amp; &#40;x .≠ 8&#41;&#93;</code></pre>
+y            &#61; x&#91;&#40;x .&gt; 5&#41; .&amp;&amp; &#40;x .&lt; 10&#41; .&amp;&amp; &#40;x .≠ 8&#41;&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">1-element Vector{Int64}:
  6</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;3, 6, 7, 8, 100&#93;
+<pre><code class="language-julia">x            &#61; &#91;3, 6, 7, 8, 100&#93;
 
 # numbers greater than 5, lower than 10, but not including 8
 condition&#40;a&#41; &#61; &#40;a &gt; 5&#41; &amp;&amp; &#40;a &lt; 10&#41; &amp;&amp; &#40;a ≠ 8&#41;           #function to eventually broadcast
@@ -2889,14 +2889,14 @@ y            &#61; x&#91;condition.&#40;x&#41;&#93;</code></pre>
 </ul>
 
 <p>To select elements of a vector through logical indexing, another approach involves the use of <code>in</code> and <code>∈</code>. Each of these symbols is available as a function and an operator, and they determine whether an element belongs to a given set. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> <code>in</code> and <code>∈</code> were <a href="/julia_book/4d_vectorizing/#broadcasting_binary_operators_only_one_vector_broadcasted">introduced here</a>.  </span></span></p>
-<p>When using these functions with broadcasting, there&#39;s an important caveat to consider. As introduced in the section on <a href="/julia_book/PAGES/3d_vectorizing/#broadcasting_over_one_argument_only">broadcasting over one argument only</a>, we need to be mindful of how broadcasting behaves when the function takes multiple arguments.</p>
+<p>When using these functions with broadcasting, there&#39;s an important caveat to consider. As introduced in the section on <a href="/julia_book/PAGES/03e_vectorizing/#broadcasting_over_one_argument_only">broadcasting over one argument only</a>, we need to be mindful of how broadcasting behaves when the function takes multiple arguments.</p>
 <p>To demonstrate their use, let&#39;s consider a vector <code>x</code> from which we want to select specific elements. Suppose in particular that your goal is to retain the numbers contained in <code>set_numbers</code>.  If we use either <code>in.&#40;x, set_numbers&#41;</code> or <code>x ∈. set_numbers</code>, Julia will simultaneously iterate over each pair of <code>x</code> and <code>set_numbers</code>. However, this isn&#39;t the desired operation. Rather, our goal is to check whether each element of <code>x</code> belongs to <code>set_numbers</code>. This requires us treating <code>set_numbers</code> as a single object, which can be achieved via <code>Ref&#40;set_numbers&#41;</code>. </p>
 <p>Considering this, the following example demonstrates how to properly use <code>in</code> and <code>∈</code>. The scenario supposes that the aim is to create a vector <code>y</code>, which contains the minimum and maximum of the vector <code>x</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id="">Function <code>in</code> and <code>∈</code> </button>
-    <button class="tablink" data-id=""> Operator <code>in</code> and <code>∈</code> </button>    
+    <button class="tablink first_tab active" data-id="">Function 'in' and '∈' </button>
+    <button class="tablink" data-id=""> Operator 'in' and '∈' </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x           &#61; &#91;-100, 2, 4, 100&#93;
@@ -2943,7 +2943,7 @@ y            &#61; x&#91;bool_indices&#93;</code></pre>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Curried <code>in</code> </button>
+    <button class="tablink first_tab active" data-id=""> Curried 'in' </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x           &#61; &#91;2, 4, 100&#93;
@@ -2970,8 +2970,8 @@ y            &#61; x&#91;bool_indices&#93;</code></pre>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id="">Function <code>&#33;in</code> and <code>∉</code> </button>
-    <button class="tablink" data-id=""> Operators <code>&#33;in</code> and <code>∉</code>    </button>    
+    <button class="tablink first_tab active" data-id="">Function '!in' and '∉' </button>
+    <button class="tablink" data-id=""> Operators '!in' and '∉'    </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x           &#61; &#91;-100, 2, 4, 100&#93;
@@ -3055,7 +3055,7 @@ z &#61; x&#91;findall&#40;x .&gt; 7&#41;&#93;</code></pre>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Function <code>filter</code> </button>
+    <button class="tablink first_tab active" data-id=""> Function 'filter' </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;5,6,7,8,9&#93;
@@ -3089,7 +3089,7 @@ y &#61; filter&#40;a -&gt; a &gt; 7, x&#41;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 25, 2025 
+          © Martin Alfaro <br>Last Modified February 26, 2025 
       </span> 
   </div> 
 </footer>
