@@ -1,1 +1,0 @@
-print_asis(vector_symbols) #hide

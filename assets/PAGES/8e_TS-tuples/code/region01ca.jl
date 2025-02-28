@@ -1,1 +1,0 @@
-print_compact(foo(f_tup, x))

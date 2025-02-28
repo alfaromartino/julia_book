@@ -1,1 +1,0 @@
-print_asis(sorted_x, 10) #hide

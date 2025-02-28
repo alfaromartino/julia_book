@@ -1,1 +1,0 @@
-vector_symbols = [Symbol("x"), Symbol("y")]

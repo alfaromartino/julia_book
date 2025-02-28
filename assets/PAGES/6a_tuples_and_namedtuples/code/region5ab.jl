@@ -1,1 +1,0 @@
-print_asis(some_pair[1]) #hide

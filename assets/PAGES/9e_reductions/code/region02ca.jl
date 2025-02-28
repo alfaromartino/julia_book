@@ -1,1 +1,0 @@
-print_compact(foo1(x))
