@@ -2816,7 +2816,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section introduces the concepts of <strong>variables</strong> and their <strong>types</strong>. We&#39;ll also present <strong>operators</strong>, focusing on their syntax. To ensure a smooth learning experience, I&#39;ve minimized the reliance on objects we haven&#39;t covered yet. The only one introduced is the syntax vectors, which are expressed by enclosing elements in brackets &#40;e.g., <code>&#91;1,2,3&#93;</code>&#41;.</p>
+<p>This section introduces the concepts of <strong>variables</strong> and their <strong>types</strong>. We&#39;ll also present the notion of <strong>operators</strong>, focusing on their syntax. To ensure a smooth learning experience, I&#39;ve minimized the reliance on objects  that we haven&#39;t covered yet. The only one introduced is that of vectors, whose elements are enclosed in brackets &#40;e.g., <code>&#91;1,2,3&#93;</code>&#41;.</p>
 <p>      </div>
     </div>
   </div>
@@ -2876,7 +2876,7 @@ x  &#61; x &#43; 3    # &#39;x&#39; now equals 5</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Julia offers a more concise syntax updating values, which is based on the so-called <span style="color: rgb(62, 121, 180);"><strong>update operators</strong></span>. This involves prefixing the assignment operator <code>&#61;</code> with the operator being applied, as demonstrated below.</p>
+<p>Julia offers a more concise syntax for updating values, based on the so-called <span style="color: rgb(62, 121, 180);"><strong>update operators</strong></span>. This involves prefixing the assignment operator <code>&#61;</code> with the operator being applied, as demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2905,13 +2905,13 @@ x -&#61; 3        # equivalent</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Types</h2></p>
-<p>To effectively work with Julia, it&#39;s essential to understand some fundamental principles related to types. At this point, we&#39;ll only cover the bare minimum for the upcoming chapters, revisiting it during Part II of this website.</p>
+<p>To effectively work with Julia, it&#39;s essential to understand the basics of types. At this point, we&#39;ll only cover the bare minimum that&#39;s necessary for the explanations of upcoming chapters. The topic will be revisited during Part II of this website.</p>
 <p>Objects can be broadly classified into <strong>single-element objects</strong> and <strong>multiple-element objects</strong>, respectively referred to as <span style="color: rgb(62, 121, 180);"><strong>scalars</strong></span> and <span style="color: rgb(62, 121, 180);"><strong>collections</strong></span>. The following lists outline the main types you can find in each category.</p>
  <div class="multiple_pics">
   <!-- <h2 style="color:rgb(63, 99,136)">Objects</h2> -->
     <img src="/julia_book/assets/PAGES/02b_variables/tikz/list_variables01.svg" style="width:700px; height:auto; margin-top:1em; margin-bottom:1em;max-width:100%;">  
 </div>
-<p>Types play a crucial role in characterizing an object&#39;s value. In some cases, they can be further specified by type parameters, which provide additional information about the value. The syntax for specifying type parameters is <code>&lt;name of type&gt;&#123;&lt;type parameters&gt;&#125;</code>, where type parameters are optional and can be omitted when not needed.</p>
+<p>Types play a crucial role in characterizing an object&#39;s value. In some cases, types can be further characterized through parameters, which provide additional information about a value. The syntax for setting type parameters is <code>&lt;name of type&gt;&#123;&lt;type parameters&gt;&#125;</code>. Note that type parameters are optional and can be omitted when not needed.</p>
 <p>In terms of scalars, common numeric types include <code>Int64</code> for integers, <code>Float64</code> for decimal numbers, and <code>Bool</code> for binary values &#40;<code>true</code> and <code>false</code> values&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The suffix <code>64</code> in these type names represents the number&#39;s precision. It determines the maximum number of significant digits or decimals that can be accurately represented.  </span></span> Likewise, the type <code>Char</code> represents individual characters, and serve as the building block for the <code>String</code> type. <code>String</code> is the standard for representing text, and is formally considered as a collection of characters. </p>
 <p>For their part, collections usually require type parameters for their description. For instance, the type <code>Vector&#123;Int64&#125;</code> indicates that the vector exclusively contains elements of type <code>Int64</code>, such as the object <code>&#91;2, 4, 6&#93;</code>. In this case, <code>Int64</code> serves as the type parameter, which can vary depending on the type of elements the collection is intended to store.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
@@ -2919,9 +2919,9 @@ x -&#61; 3        # equivalent</code></pre>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Notation for Types</strong>  </span>  </div>  <div class=content>     Julia&#39;s developers adopt the convention of using <strong>CamelCase</strong> notation for denoting types, where every first letter is capitalized &#40;e.g., <code>MyType</code>&#41;. Note that this is only a convention, not a language&#39;s requirement.  </div>  </div>
  <h4> Type Hierarchy: Concrete Types and Abstract Types </h4>
-<p>Types in Julia are organized in a hierarchical structure. This enables the definition of <strong>supersets and subsets of types</strong>, which in programming are respectively referred to as <strong>supertypes</strong> and <strong>subtypes</strong>. Likewise, this hierarchy gives rise to the notions of abstract and concrete types. </p>
-<p>An <span style="color: rgb(62, 121, 180);"><strong>abstract type</strong></span> is a set of types that serve as a parent to other types. The <code>Any</code> type in Julia is a prime example, which comprises all possible subtypes—by definition, every type in Julia is a subtype of <code>Any</code>. In contrast, a <span style="color: rgb(62, 121, 180);"><strong>concrete type</strong></span> represents an irreducible unit, therefore lacking subtypes. It covers in particular <strong>primitive types</strong>, which are the fundamental types used by computers to perform calculations. Examples of primitive types are <code>Int64</code> and <code>Float64</code>.</p>
-<p>Abstract types provide great flexibility for writing code. For example, Julia includes the abstract type <code>Number</code>, which encompasses all possible numeric types &#40;e.g., <code>Float64</code>, <code>Int64</code>, <code>Float32</code>&#41;. This allows you to declare a variable with the generic type <code>Number</code>, without the need to specify whether it&#39;s an integer, float, or its numerical precision.</p>
+<p>Types in Julia are organized in a hierarchical structure. This feature enables the definition of <strong>supersets and subsets of types</strong>, respectively referred to in programming as <strong>supertypes</strong> and <strong>subtypes</strong>. Likewise, this hierarchy gives rise to the notions of abstract and concrete types. </p>
+<p>An <span style="color: rgb(62, 121, 180);"><strong>abstract type</strong></span> is a set of types that serve as a parent to other types. The <code>Any</code> type in Julia is a prime example of abstract type, comprising all the possible subtypes available in Julia—by definition, every type in Julia is a subtype of <code>Any</code>. In contrast, a <span style="color: rgb(62, 121, 180);"><strong>concrete type</strong></span> represents an irreducible unit, therefore lacking subtypes. It covers in particular <strong>primitive types</strong>, which represent the most fundamental types used by computers to perform calculations. Examples of primitive types are <code>Int64</code> and <code>Float64</code>.</p>
+<p>Abstract types provide great flexibility for writing code. For example, Julia provides the abstract type <code>Number</code>, which encompasses all possible numeric types &#40;e.g., <code>Float64</code>, <code>Int64</code>, <code>Float32</code>&#41;. This allows you to declare a variable with the generic type <code>Number</code>, without the need to specify whether it&#39;s an integer, float, or its numerical precision.</p>
 <p>Below, we demonstrate the concept of abstract and concrete types through the type <code>Number</code>. Although <code>Number</code> encompasses a broader range of subtypes than the ones depicted in the table, the representation below has been simplified for clarity. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The subtype <code>Signed</code> from <code>Integers</code> represents integers that can be either negative or positive. Julia also offers the type <code>Unsigned</code>, which encompasses subtypes <code>UInt64</code>, <code>UInt32</code>, etc., and only accepts positive integers.  </span></span> </p>
  <div class="multiple_pics">
   <h2 style="color:rgb(63, 99,136);"><div style="text-decoration:underline;">Example of Supertype "Number"</div></h2>
@@ -2939,7 +2939,7 @@ x -&#61; 3        # equivalent</code></pre>
       <div class="col-lg- mx-auto">
         <h2>Operators</h2></p>
 <p>In programming, <span style="color: rgb(62, 121, 180);"><strong>operators</strong></span> are symbols that represent operations performed on objects. They can be thought of as syntactic sugar for functions, as we&#39;ll see in the next chapters. In fact, almost all operators in Julia can be employed as functions.</p>
-<p>For instance, the symbol <code>&#43;</code> in <code>x &#43; y</code> is an operator that performs the addition of <code>x</code> and <code>y</code>. Likewise, the symbols <code>x</code> and <code>y</code> are referred to as its <span style="color: rgb(62, 121, 180);"><strong>operands</strong></span>, which represent the operator&#39;s inputs to perform its calculation.  <em>Operators follow specific syntax rules based on the number of operands they require</em>. Understanding this syntax will prove useful for several topics covered later on the website. Next, we define and illustrate the syntax through several examples. At this point, just focus on how operators are written, even if their specific functions are not yet clear.</p>
+<p>For instance, the symbol <code>&#43;</code> in <code>x &#43; y</code> is an operator that performs the addition of <code>x</code> and <code>y</code>. Likewise, the symbols <code>x</code> and <code>y</code> are referred to as the <span style="color: rgb(62, 121, 180);"><strong>operands</strong></span>, representing the operator&#39;s inputs to perform its calculation.  <em>Operators follow specific syntax rules based on the number of operands they require</em>. Understanding this syntax will prove useful for several topics covered later on the website. Next, we define and illustrate the syntax through several examples. At this point, just focus on how operators are written, even if their specific functions are not yet clear.</p>
 <div class="itemNoSpace"><ul>
 <li><p><span style="color: rgb(62, 121, 180);"><strong>Unary operators</strong></span>: They take  <em>one operand</em>, with the operator written to the left of it.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Operators to the left of the operand are known as <strong>prefix operators</strong>. Conversely, operators written to the right of the operand are known as <strong>postfix operators</strong>. Julia has a few of them &#40;e.g., <code>&#39;</code> to transpose a vector or matrix <code>x</code>, which is written as <code>x&#39;</code>&#41;. We won&#39;t use postfix operators on this website.  </span></span>        Formally, their syntax is <code>&lt;operator&gt;x</code>, such as <code>√x</code> or <code>-x</code>.</p>
 </li>
@@ -2974,7 +2974,7 @@ x -&#61; 3        # equivalent</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 6, 2025 
+          © Martin Alfaro <br>Last Modified March 7, 2025 
       </span> 
   </div> 
 </footer>
