@@ -2824,7 +2824,8 @@ color: white;
       <b> Remark</b> </span>  </div>  <div class=content>     On this website, the terms <strong>broadcasting</strong> and <strong>vectorization</strong> will be used interchangeably. Strictly speaking, vectorization is restricted to applications with arrays of the same size, while broadcasting is an extension allowing for scalars.  </div>  </div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Later on the website, we&#39;ll explore <strong>for-loops</strong> as an alternative approach to transforming arrays. Several languages strongly recommend vectorizing operations to improve speed, highly discouraging for-loops. <br/><strong>Such advice does not apply to Julia</strong>. In fact, when it comes to optimizing code in Julia, for-loops are often the key to achieving faster performance. In this context, the main advantage of vectorization in Julia is to streamline code without sacrificing much speed.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     Later on the website, we&#39;ll explore <strong>for-loops</strong> as an alternative approach to transforming arrays. Several languages strongly recommend vectorizing operations to improve speed, instead highly discouraging for-loops. <strong>Such advice does not apply to Julia</strong>. In fact, when it comes to optimizing code in Julia, for-loops are often the key to achieving faster performance. </p>
+<p>In this context, the main advantage of vectorization in Julia is to streamline code without sacrificing much speed.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2947,9 +2948,9 @@ z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting</h2></p>
-<p>The function <code>map</code> can quickly become cumbersome when dealing with complex functions or multiple arguments. This is where broadcasting comes into play, offering a more efficient syntax for element-wise operations.</p>
-<p>The concept of broadcasting will be explored in a step-by-step manner. We&#39;ll first explore how broadcasting applies to vectors of equal size, covering both functions and operators. After this, we&#39;ll demonstrate how broadcasting can also accommodate combinations of scalars and vectors, despite not supporting vectors of different sizes in general. In these cases, the scalar is treated as a vector that matches the size of the vectors.</p>
-<p>Unlike other programming languages, <strong>broadcasting is an intrinsic feature of Julia</strong>, thereby applying to  <em>any</em> function or operator. For the particular case of functions, this entails that broadcasting even applies to user-defined functions. </p>
+<p>The function <code>map</code> can rapidly become unwieldy when dealing with complex functions or multiple arguments. This is where broadcasting comes into play, offering a more streamlined syntax for element-wise operations.</p>
+<p>The concept of broadcasting will be explored in a step-by-step manner. We&#39;ll first explore how it applies to vectors of equal size, covering both functions and operators. After this, we&#39;ll demonstrate how broadcasting is able to combine scalars and vectors, even though it typically does not support operations involving vectors of different size. In such instances, the scalar is treated as a vector that matches the size of the corresponding vectors.</p>
+<p>Unlike other programming languages, <strong>broadcasting is an intrinsic feature of Julia</strong> and thereby applicable to  <em>any</em> function or operator. In the case of functions, this entails in particular that broadcasting extends even to user-defined functions.</p>
 <p>      </div>
     </div>
   </div>
@@ -2959,8 +2960,8 @@ z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Functions</h2></p>
-<p>Broadcasting allows functions to be applied element-wise, significantly expanding their range of applications. The feature is implemented by simply appending a dot <strong> <em>after</em></strong> the name of the function, as in <code>foo.&#40;x&#41;</code>. </p>
-<p>Remarkably, <strong>any function</strong> <code>foo</code> <strong>has a broadcasting counterpart</strong> <code>foo.</code>. This implies that the functionality is automatically available for all user-defined functions. Additionally, broadcasting isn&#39;t restricted to numeric collections, applying to any iterable collection regardless of its elements. For instance, we&#39;ll show below that it can be used for string manipulation.</p>
+<p>Broadcasting expands the versatility of functions, allowing them to be applied element-wise to a collection. The feature is implemented by appending a dot <strong> <em>after</em></strong> the name of the function, as in <code>foo.&#40;x&#41;</code>. </p>
+<p>Remarkably, <strong>any function</strong> <code>foo</code> <strong>has a broadcasting counterpart</strong> <code>foo.</code>. This implies that broadcasting is automatically available for user-defined functions. Additionally, broadcasting isn&#39;t restricted to numeric collections, applying to any iterable collection regardless of its elements. For instance, we&#39;ll show below that it can be used for string manipulation.</p>
 <p>Similarly to <code>map</code>, broadcasting can be applied to both single- and multiple-argument functions. Each case warrants separate consideration. </p>
 <p>In the case of single-argument functions, broadcasting <code>foo</code> over a collection <code>x</code> returns a new collection with <code>foo&#40;x&#91;i&#93;&#41;</code> as its  <em>i</em>-th element. The following examples demonstrate its usage.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
