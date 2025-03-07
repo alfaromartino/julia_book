@@ -2816,7 +2816,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>The previous section introduced the concept of variables, distinguishing between those containing a single element &#40;scalars&#41; and collections. This section expands on scalars, exclusively focusing on those holding numberic values.</p>
+<p>The previous section introduced the concept of variables, distinguishing between those containing a single element &#40;scalars&#41; and collections. This section expands on scalars, exclusively focusing on those holding numeric values.</p>
 <p>      </div>
     </div>
   </div>
@@ -2826,8 +2826,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Numbers</h2></p>
-<p>Computers store numbers in different formats, treating integers and decimal numbers as separate entities. Even within a category, multiple representations emerge, depending on the aimed level of precision. The precision of a number is determined by the number of bits allocated in memory to store it, which in turn defines the maximum range of values supported by a data type. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For instance, the so-called 8-bit integer is limited to representing values between –128 to 127. Likewise, a 32-bit floating-point number, which is used for decimal numbers, can represent up to 7 significant digits of precision.  </span></span> These features extend well beyond Julia, and are intrinsic to how computers operate at a fundamental level. </p>
-<p>In modern computers, numeric types typically have a default precision of 64 bits. These objects are defined in Julia as:</p>
+<p>Computers store numbers in different formats, treating integers and decimal numbers as separate entities. Even within the same category of numbers, multiple representations emerge, depending on the intended level of precision. This precision is determined by the number of bits allocated in memory to store it, which in turn defines the maximum range of values supported by a data type. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For instance, the so-called 8-bit integer is limited to representing values between –128 to 127. Likewise, a 32-bit floating-point number, which is used for decimal numbers, can represent up to 7 significant digits of precision.  </span></span> The features described extend well beyond Julia, and are intrinsic to how computers operate at a fundamental level. </p>
+<p>In modern computers, numeric types typically have a default size of 64 bits. In Julia, they&#39;re defined as:</p>
 <ul>
 <li><p><code>Int64</code> for integers.</p>
 </li>
@@ -2836,8 +2836,8 @@ color: white;
 </ul>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     Julia provides the type <code>Int</code> as a more versatile option than <code>Int64</code>, as it adapts to your computer&#39;s architecture. Specifically, <code>Int</code> defaults to <code>Int64</code> on 64-bit systems and <code>Int32</code> on 32-bit systems. Since most modern machines operate on a 64-bit architecture, <code>Int</code> typically defaults to Int64. Note that there&#39;s no equivalent adaptive type <code>Float</code> for floating-point numbers. Instead, Julia takes <code>Float64</code> as the default floating-point type.  </div>  </div>
-<p>It&#39;s worth emphasizing that <code>Int64</code> and <code>Float64</code> are two different data types.  Thus, while <code>1</code> is a value with type <code>Int64</code>, the same number becomes <code>1.0</code> as a <code>Float64</code> type.</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     Julia provides the type <code>Int</code> as a more versatile option than <code>Int64</code>, which adapts to your computer&#39;s architecture: <code>Int</code> defaults to <code>Int64</code> on 64-bit systems and <code>Int32</code> on 32-bit systems. Since most modern machines operate on a 64-bit architecture, <code>Int</code> typically defaults to Int64. Note that there&#39;s no equivalent type <code>Float</code> for floating-point numbers, with Julia always defaulting to <code>Float64</code>.  </div>  </div>
+<p>It&#39;s worth emphasizing that <code>Int64</code> and <code>Float64</code> are two different data types.  Thus, while <code>1</code> is a value with type <code>Int64</code>, the same value becomes <code>1.0</code> as a <code>Float64</code> type.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2868,7 +2868,7 @@ y &#61; 1_000_000.24          # &#39;_&#39; can be used with decimal numbers</co
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
-<p>The type <code>Float64</code> encompasses not only decimal numbers, but also two special values: <code>Inf</code> for infinity, and <code>NaN</code> for indeterminate expressions such as 0/0 &#40;<code>NaN</code> stands for &quot;not a number&quot;&#41;. Considering this, all the following variables are of type <code>Float64</code>.</p>
+<p>The type <code>Float64</code> encompasses not only decimal numbers, but also two special values: <code>Inf</code> for infinity and <code>NaN</code> for indeterminate expressions such as 0/0 &#40;<code>NaN</code> stands for &quot;not a number&quot;&#41;. Considering this, all the following variables have type <code>Float64</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2895,8 +2895,8 @@ z &#61; 0/0</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Boolean Variables</h2></p>
-<p>A distinct numeric type is <code>Bool</code>, which facilitates the representation of <span style="color: rgb(62, 121, 180);"><strong>Boolean variables</strong></span>. These variables can only take on the values <code>true</code> and <code>false</code>. Internally, they&#39;re implemented as integers, with <code>true</code> and <code>false</code> respectively equivalent to <code>1</code> and <code>0</code>. Due to this property, Julia accepts <code>1</code> and <code>0</code> interchangeably with <code>true</code> and <code>false</code>.</p>
-<p>Boolean expressions arise when conditions are evaluated, such as determining whether a number exceeds a value or whether a string matches a specific pattern. These conditional evaluations yield Boolean values, which can then be employed to control the program&#39;s flow. Some examples of Boolean values are presented below.</p>
+<p>A distinct numeric type is <code>Bool</code>, which facilitates the representation of <span style="color: rgb(62, 121, 180);"><strong>Boolean variables</strong></span>. These variables can only take on the values <code>true</code> and <code>false</code>. Internally, they&#39;re implemented as integers, with <code>true</code> corresponding to <code>1</code> and <code>false</code> to <code>0</code>. Because of this implementation, Julia accepts <code>1</code> and <code>0</code> interchangeably with <code>true</code> and <code>false</code>.</p>
+<p>Boolean expressions come into play when evaluating conditions, such as checking whether a number exceeds a certain value or whether a string matches a specific pattern. These conditional evaluations yield Boolean values, and can then be employed to control the flow of the program. Some examples of Boolean values are presented below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2907,7 +2907,7 @@ z &#61; 0/0</code></pre>
 y &#61; 1
 
 z &#61; &#40;x &gt; y&#41;       # is &#96;x&#96; greater than &#96;y&#96; ?
-z &#61; x &gt; y         # alternative notation &#40;note it does not imply &#39;z &#61; x&#39;&#41;</code></pre>
+z &#61; x &gt; y         # same operation &#40;don&#39;t interpreted it as &#39;z &#61; x&#39;&#41;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z</code><br/><div class="akin_to_pre">true</div> </div></div> </div> 
  </div></div>
@@ -2989,7 +2989,7 @@ z &#61; x &gt; y         # alternative notation &#40;note it does not imply &#39
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 28, 2025 
+          © Martin Alfaro <br>Last Modified March 6, 2025 
       </span> 
   </div> 
 </footer>

@@ -2816,15 +2816,15 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Variable scope</strong></span> refers to the code block in which a variable is accessible. The concept allows us to distinguish between <span style="color: rgb(62, 121, 180);"><strong>global variables</strong></span>, which are accessible in any part of the code, and <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span>, which only exist within a specific code block. The existence of scopes determines that the same variable <code>x</code> could refer to different objects, depending on where it&#39;s called.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Variable scope</strong></span> refers to the code block in which a variable is accessible. The concept allows us to distinguish between <span style="color: rgb(62, 121, 180);"><strong>global variables</strong></span>, which are accessible in any part of the code, and <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span>, which are confined to specific blocks like functions or loops. The existence of scopes determines that the same variable <code>x</code> could refer to different objects, depending on where it&#39;s called.</p>
 <p>When it comes to functions, Julia adheres to specific rules for variable scope. Specifically, given a variable <code>x</code> defined outside a function:</p>
 <ul>
-<li><p>if a new variable <code>x</code> is defined inside a function or is passed to the function as an argument, then <code>x</code> is considered  <em>local</em> to that function. Moreover, any reference to <code>x</code> within the function refers to the local variable, without any relation to the variable <code>x</code> defined outside the function,</p>
+<li><p>if a new variable <code>x</code> is defined inside a function or is passed to a function as an argument, then <code>x</code> is considered  <em>local</em> to that function. This means that any reference to <code>x</code> within the function refers to the local variable, without any relation to the variable <code>x</code> defined outside the function,</p>
 </li>
-<li><p>if the function includes <code>x</code>, but it doesn&#39;t define a new <code>x</code> nor <code>x</code> is a function argument, then <code>x</code> refers to the variable defined outside the function &#40;i.e., the global variable&#41;.</p>
+<li><p>if a function doesn&#39;t define a new <code>x</code> nor <code>x</code> is a function argument, then <code>x</code> refers to the variable defined outside the function &#40;i.e., the global variable&#41;.</p>
 </li>
 </ul>
-<p>The rules can be more effectively understood by illustrating them, as we do next.</p>
+<p>In this section, we&#39;ll show how these rules work in practice.</p>
 <p>      </div>
     </div>
   </div>
@@ -2834,9 +2834,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Global and Local Variables</h2></p>
-<p>A variable that is local to a function only exists within the function&#39;s scope. Consequently, if we attempt to reference it outside the function, Julia will indicate that the variable doesn&#39;t exist. </p>
-<p>Variables local to a function encompass:  <em>i)</em> the function arguments, and  <em>ii)</em> variables defined in the function body. Any other variable appearing in a function necessarily refers to a global variable. </p>
-<p>Identifying local variables in a function is crucial, as a local variable may share the same name as a global variable without them being related. The distinction between global and local variables is easier to grasp through the following examples.</p>
+<p>A variable that is local to a function exists solely within that function&#39;s scope. This means that those variables cease to exist once the function finishes executing. Consequently, any attempt to reference local variables outside the function will result in an error.</p>
+<p>Variables local to a function encompass:  <em>i)</em> the function arguments, and  <em>ii)</em> variables defined in the function body. Any other variable included in a function that&#39;s not  <em>i)</em> or  <em>ii)</em> necessarily refers to a global variable. </p>
+<p>Understanding which variables are local or global is essential for predicting a program’s behavior. This is because a local variable may share the same name as a global one, without them being related. The following examples help clarify the differences between global and local variables.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2882,8 +2882,8 @@ end</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>The Role of Functions</h2></p>
-<p><strong>A function</strong> should be understood <strong>as a self-cointained mini-program to represent a specific task</strong>. Under this interpretation, local variables simply act as labels that help articulate the mechanics of the task. Indeed, variables local to a function are inaccessible outside of it.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Local variables play a similar role to integration variables in math. Formally, \(t\) in \(\int f\left(t\right)\,\mathrm{d}t\) for some function \(f\) is just a symbol indicating over which variable we&#39;re integrating. This is why the integral can be equivalently expressed through \(x\), as \(\int f\left(x\right)\,\mathrm{d}x\), or any other label for \(t\).  </span></span> </p>
-<p>To explain what this means, consider the existence of a variable <code>x</code>, and another variable <code>y</code> computed by transforming <code>x</code> through the function <code>f</code>. Formally, <code>y &#61; f&#40;x&#41;</code>, where we directly assume that the transformation doubles <code>x</code>, so that <code>y &#61; 2 * x</code>. The following are two approaches to computing <code>y</code>.</p>
+<p>In programming, <strong>functions</strong> can be understood <strong>as self-contained mini-programs to represent specific tasks</strong>. Under this interpretation, local variables simply act as labels that help articulate the mechanics of the task. Consequently, it&#39;s natural that variables local to a function are inaccessible outside it.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Local variables play a similar role to integration variables in math. Formally, \(t\) in \(\int f\left(t\right)\,\mathrm{d}t\) for some function \(f\) is just a symbol indicating over which variable we&#39;re integrating. This is why the integral can be equivalently expressed through \(x\), as \(\int f\left(x\right)\,\mathrm{d}x\), or any other label for \(t\).  </span></span> </p>
+<p>To explain what this entails, consider the existence of a variable <code>x</code>, and another variable <code>y</code> computed by transforming <code>x</code> through a function <code>f</code>. In particular, we assume that the transformation is such that it doubles <code>x</code>, so that <code>y &#61; 2 * x</code>. The following are two approaches to calculating <code>y</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2913,11 +2913,11 @@ y          &#61; double&#40;x&#41;</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The function in Approach 1 utilizes the global variable <code>x</code>. This practice is highly discouraged for several reasons. Firstly, it prevents the reusability of the function, as it&#39;s specifically designed to double the global variable <code>x</code>, rather than acting as a mini-program that doubles  <em>any</em> variable.</p>
-<p>Second, the inclusion of the global variable <code>x</code> compromises the function&#39;s self-containment, as the function&#39;s output depends on the value of <code>x</code> at the moment of execution. If you work on a long project, this feature makes the code more prone to bugs.</p>
+<p>The function in Approach 1 relies on the global variable <code>x</code>. This practice is highly discouraged for several reasons. Firstly, it prevents the reusability of the function, as it&#39;s specifically designed to double the global variable <code>x</code>, rather than acting as a mini-program that doubles  <em>any</em> variable.</p>
+<p>Second, the inclusion of the global variable <code>x</code> compromises the function&#39;s self-containment, as the function&#39;s output depends on the value of <code>x</code> at the moment of execution. If you work on a long project, this feature makes the code prone to bugs.</p>
 <p>Lastly, global variables have a detrimental impact on performance, a topic we&#39;ll study later on the website. In fact, global variables in Julia are directly a performance killer.</p>
-<p>In contrast, Approach 2 refers to <code>x</code> as a local variable. This <code>x</code> is unrelated to the global variable <code>x</code>—it simply serves as a label to identify the variable to be doubled. Indeed, we could&#39;ve replaced it with any other label, as demonstrated in Approach 3 through the monkey emoji, <code>🐒</code>.</p>
-<p>By avoiding referencing any variable outside its scope, Approach 2 makes the function self-contained. This allows users to predict the consequence of applying <code>double</code> by simply inspecting the function, eliminating the need to review the entire codebase. Thus, Approach 2 aligns with the interpretation of a function as a self-contained mini-program: the function embodies the task of doubling a variable, turning the function reusable and applicable to any variable. In this context, applying <code>double</code> to the global variable <code>x</code> is just one possible use case.</p>
+<p>In contrast, Approach 2 refers to <code>x</code> as a local variable. This <code>x</code> is unrelated to the global variable <code>x</code>—it simply serves as a label to identify the variable to be doubled. Indeed, we could&#39;ve replaced <code>x</code> with any other label, as demonstrated in Approach 3 through the monkey emoji, <code>🐒</code>.</p>
+<p>By avoiding referencing any variable outside its scope, Approach 2 makes the function self-contained. This allows users to easily anticipate the consequence of executing <code>double</code> through a simply inspection of the function, eliminating the need to review the entire codebase. Thus, Approach 2 aligns with the interpretation of a function as a self-contained mini-program: the function embodies the task of doubling a variable, turning the function reusable and applicable to any variable. In this context, applying <code>double</code> to the global variable <code>x</code> becomes just one possible application.</p>
 <p>      </div>
     </div>
   </div>
@@ -2927,7 +2927,7 @@ y          &#61; double&#40;x&#41;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Recommendations For The Use Of Functions</h2></p>
-<p>Structuring code around functions offer numerous advantages. However, to fully realize these benefits, it&#39;s essential to follow certain principles when writing code. This section outlines a few of them, and should be considered as a mere introduction to the subject. The topic will be investigated further, when we explore high performance.</p>
+<p>Structuring code around functions offers numerous advantages. However, to fully realize these benefits, users must adhere to certain principles when writing code. This section outlines a few of them and should be considered as a mere introduction to the subject. The topic will be investigated further, when we explore high performance.</p>
 <p> <h4> Avoid Global Variables in Functions </h4> Global variables are strongly discouraged. This is not only due to the reasons mentioned previously, but also because they can have a devastating impact on performance. The easiest solution to this issue is to pass global variables as function arguments. This practice will actually become second nature once you start viewing functions as self-contained mini-programs. Specifically, by adopting this perspective, you&#39;ll conceive local variables as labels to describe a task, rather than references to global variables. This shift in mindset can help you write more efficient and maintainable code.</p>
  <h4> Avoid Redefining Variables within Functions </h4>
 <p>The suggestion applies to both local variables and function arguments. Redefining these variables can have several disadvantages, including reduced code readability and potential performance degradation. Therefore, it&#39;s recommended that you define new variables instead of redefining existing ones. This approach is demonstrated in the following example.</p>
@@ -3024,7 +3024,7 @@ expenditure&#40;price, quantity, tax_paid&#41; &#61; value_before_taxes&#40;pric
 <p></div> </div>
  </div></div>
 <p>  </p></details></div>  </div></p>
-<p>Consider now a scenario where an iPhone has a price of 1,000 USD and a tax rate of 5&#37;. Then, we can apply these two mini-programs to compute the total expenditure of purchasing two iPhones. </p>
+<p>Consider now a scenario where the iPhone has a price of 1,000 USD and a tax rate of 5&#37;. Then, we can apply these two mini-programs to compute the total expenditure of purchasing two iPhones. </p>
 <p> <div style="height:30em">  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3070,8 +3070,8 @@ expenditure_iPhones &#61; expenditure&#40;gross_value, tax_paid&#41;</code></pre
  </div></div>
 <p>  </p></details></div></p>
  </div>
-<p>While approach 2 is more verbose, it&#39;s also more readable, allowing the user to quickly understand the code&#39;s purpose. In contrast, Approach 1 requires the reader to carefully examine each term of <code>expenditure</code> to decipher its meaning.</p>
-<p>Furthermore, <strong>Approach 2 is more modular</strong>, as it breaks down total expenditure into two distinct components: the money to purchase the product without taxes and the taxes paid. While the benefits of this may not be immediately apparent in such a simple example, they would be easily appreciated in a more complex scenario. There are several reasons for this.</p>
+<p>Approach 2 is more verbose, but also more readable, allowing the user to quickly grasp the code&#39;s purpose. In contrast, Approach 1 requires the reader to carefully examine each term of <code>expenditure</code> to identify its functionality.</p>
+<p>Furthermore, <strong>Approach 2 is more modular</strong>, as it breaks down total expenditure into two distinct components: the money to purchase the product without taxes and the taxes paid. While the benefits of such design may not be immediately apparent in this simple example, they&#39;d be easily appreciated in a more complex scenario. There are several reasons for this.</p>
 <p>First, Approach 2 offers greater flexibility compared to Approach 1. It can easily accommodate scenarios with multiple taxes or taxes of different forms, simply by recomputing <code>tax_paid</code>. In contrast, fitting new cases through Approach 1 would necessitate modifying the entire script, including a full redefinition of <code>expenditure</code> and its components. Second, Approach 2 is more convenient for testing code blocks separately. This feature is critical for ensuring proper code functioning, and can additionally simplify code debugging and the identification of performance bottlenecks.  </p>
     </div>    
   </div>
@@ -3099,7 +3099,7 @@ expenditure_iPhones &#61; expenditure&#40;gross_value, tax_paid&#41;</code></pre
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 28, 2025 
+          © Martin Alfaro <br>Last Modified March 6, 2025 
       </span> 
   </div> 
 </footer>

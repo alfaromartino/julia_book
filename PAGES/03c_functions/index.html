@@ -2898,13 +2898,18 @@ end</code></pre>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Functions without Arguments</strong>  </span>  </div>  <div class=content>     It&#39;s possible to define functions that don&#39;t require arguments, as we show below.</p>
- <div class=" code_box"> <details  open><summary> Functions without Arguments  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Functions without Arguments </button>
+</div><div data-id="" class="tabcontent active">
 <pre><code class="language-julia">function foo&#40;&#41;
     a &#61; 1
     b &#61; 1
     return a &#43; b
 end</code></pre>
-<p></div> </div>  </details></div>
+ </div></div>
+<p>  </p></details></div>
 <p>An example of functions without arguments is <code>Pkg.update&#40;&#41;</code>, which was introduced when we studied packages.  </div>  </div>
 <p> <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>The Order In Which Functions Are Defined is Irrelevant</strong>  </span>  </div>  <div class=content>     A function can be defined anywhere in the code. In fact, you can define a function that calls another function, even if the latter hasn&#39;t been defined yet. To illustrate this, consider the following two code snippets, which are functionally equivalent.</p>
@@ -2937,10 +2942,10 @@ foo1&#40;x&#41; &#61; 2 &#43; foo2&#40;x&#41;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Positional and Keyword Arguments</h2></p>
-<p>Up to this point, we&#39;ve been defining and calling functions using the notation <code>foo&#40;x,y&#41;</code>. The distinctive feature of this syntax is that arguments are passed in a specific order. Thus, <code>foo&#40;1,2&#41;</code> assigns the first argument to <code>x</code> and the second to <code>y</code>. Function arguments of this kind are known as <strong>positional arguments</strong>.</p>
-<p>One major drawback of positional arguments is their susceptibility to silent errors: if we accidentally swap the positions of arguments, the function may still provide an output. As the number of arguments grows, the likelihood of introducing bugs increases, making it more challenging to detect and debug errors.</p>
-<p>One way to circumvent this issue is to use <strong>keyword arguments</strong>. They require function calls to explicitly specify their arguments using a syntax like <code>foo&#40;x&#61;2,y&#61;4&#41;</code>. In this case, the order of arguments also becomes irrelevant, rendering <code>foo&#40;x&#61;2,y&#61;4&#41;</code> and <code>foo&#40;y&#61;4,x&#61;2&#41;</code> valid and equivalent.</p>
-<p>The following examples illustrate how to define and call functions using positional and keyword arguments. Additionally, we show that the approaches can be combined. Note that positional arguments necessarily require a semicolon for its definition, but accept a semicolon or a comma during calls.</p>
+<p>Up to this point, we&#39;ve been defining and calling functions using the notation <code>foo&#40;x,y&#41;</code>. A key characteristic of this syntax is that arguments are passed in a specific order. Thus, <code>foo&#40;2,4&#41;</code> assigns the first argument to <code>x</code> and the second to <code>y</code>. These types of function arguments are known as <strong>positional arguments</strong>.</p>
+<p>However, a major drawback of positional arguments is their susceptibility to silent errors: if we accidentally swap the positions of the arguments, the function may still provide an output. As the number of arguments grows, the likelihood of introducing this bug increases, making it more challenging to identify and resolve errors.</p>
+<p>To circumvent this issue, we can use <strong>keyword arguments</strong>. This approach requires function calls to explicitly specify their arguments through a syntax <code>foo&#40;x&#61;2,y&#61;4&#41;</code>. In this case, the order of arguments also becomes irrelevant, rendering <code>foo&#40;x&#61;2,y&#61;4&#41;</code> and <code>foo&#40;y&#61;4,x&#61;2&#41;</code> valid and equivalent.</p>
+<p>The following examples illustrate how to define and call functions using both positional and keyword arguments. Additionally, we&#39;ll establish that the approaches can be combined. Note that positional arguments necessarily require a semicolon during function definitions, but accept either a semicolon or a comma during function calls.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2965,7 +2970,7 @@ foo1&#40;x&#41; &#61; 2 &#43; foo2&#40;x&#41;</code></pre>
  </div></div>
 <p>  </p></details></div>
  <h4> Keyword Arguments with Default Values </h4>
-<p>An additional advantage of keyword arguments is that they allow us to set default values for their arguments.</p>
+<p>An additional advantage of keyword arguments is that they make it possible to set default values. This feature simplifies function calls by allowing users to omit certain arguments, which will then take on the predefined default values. The following examples illustrate how this feature works in practice,</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2985,7 +2990,7 @@ foo1&#40;x&#41; &#61; 2 &#43; foo2&#40;x&#41;</code></pre>
  </div></div>
 <p>  </p></details></div>
  <h4> Using Arguments as Inputs of Other Arguments </h4>
-<p>When a function is called, its arguments are evaluated sequentially from left to right. This property enables the user to define subsequent arguments in terms of previous ones. For example, given <code>foo&#40;;x,y&#41;</code>, the default value of <code>y</code> could be based on the value of <code>x</code>. </p>
+<p>When a function is called, its arguments are evaluated sequentially from left to right. This property enables users to define subsequent arguments in terms of previous ones. For example, given <code>foo&#40;;x,y&#41;</code>, the default value of <code>y</code> could be set based on the value of <code>x</code>. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2998,12 +3003,12 @@ foo1&#40;x&#41; &#61; 2 &#43; foo2&#40;x&#41;</code></pre>
  </div></div>
 <p>  </p></details></div>
 <p> <h4> Splatting </h4><div class="own-anchors"><a name="splatting"></a></div></p>
-<p>Given a function <code>foo&#40;x,y&#41;</code>, it&#39;s possible to set the values of <code>x</code> and <code>y</code> through a tuple or vector <code>z</code>. The implementation relies on the splat operator <code>...</code>, which unpacks the individual elements of a collection and passes them as separate arguments.</p>
+<p>Given a function <code>foo&#40;x,y&#41;</code>, you can set the values of <code>x</code> and <code>y</code> through a tuple or vector <code>z</code>. The implementation relies on the splat operator <code>...</code>, which unpacks the individual elements of a collection and passes them as separate arguments.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Splatting a Tuple </button>
-    <button class="tablink" data-id=""> Splatting a Vector </button>
+    <button class="tablink first_tab active" data-id=""> Tuple Splatting </button>
+    <button class="tablink" data-id=""> Vector Splatting </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo&#40;x,y&#41; &#61; x &#43; y
@@ -3029,10 +3034,10 @@ z &#61; &#91;2,3&#93;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Anonymous Functions</h2></p>
-<p>Anonymous functions represent a third way to define functions. Unlike the previous definitions of functions, they&#39;re commonly introduced with a different purpose: as inputs to other functions. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Anonymous functions are also known as  <em>lambda functions</em> in other languages.  </span></span> </p>
-<p>As the name suggests, anonymous functions aren&#39;t referenced by a name.  Their syntax resembles the arrow notation from mathematics &#40;e.g. \(x\mapsto \sqrt{x}\)&#41;. Specifically, single-argument functions are expressed as <code>x -&gt; &lt;body of the function&gt;</code>. Likewise, anonymous functions that depend on two or more arguments are expressed by <code>&#40;x,y&#41; -&gt; &lt;body of the function&gt;</code>. </p>
-<p>For the demonstration, let&#39;s consider the built-in function <code>map&#40;&lt;function&gt;, &lt;collection&gt;&#41;</code>. This function takes another function as its first argument, which is then applied element-wise to the collection passed as the second argument. For example, <code>map&#40;add_two, x&#41;</code> applies the function <code>add_two&#40;a&#41; &#61; a &#43; 2</code> to each element of <code>x &#61; &#91;1,2,3&#93;</code>, thus returning <code>&#91;3,4,5&#93;</code>. In subsequent sections, we&#39;ll explain the function <code>map</code> in detail. For now, just take it as an example for anonymous functions.</p>
-<p>The execution of <code>map&#40;add_two, x&#41;</code> requires defining <code>add_two</code> previous to calling it. The creation of temporary function not only clutters our workspace, but it&#39;s additionally inconvenient if <code>add_two</code> won&#39;t be reused. In this context, an anonymous function represents an elegant solution, eliminating the need to create a temporary function like <code>add_two</code>.</p>
+<p>Anonymous functions offer a third way to define functions. Unlike the previous methods, they&#39;re commonly introduced with a different purpose: to serve as inputs to other functions. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Anonymous functions are also known as  <em>lambda functions</em> in other languages.  </span></span> </p>
+<p>As the name suggests, anonymous functions aren&#39;t referenced by a name. Their syntax resembles the arrow notation from mathematics &#40;e.g. \(x\mapsto \sqrt{x}\)&#41;. Specifically, single-argument functions are expressed as <code>x -&gt; &lt;body of the function&gt;</code>. Likewise, functions with two or more arguments are expressed by <code>&#40;x,y&#41; -&gt; &lt;body of the function&gt;</code>. </p>
+<p>To demonstrate the syntax, let&#39;s consider the built-in function <code>map&#40;&lt;function&gt;, &lt;collection&gt;&#41;</code>. This function takes a function as its first argument, and is applied element-wise to the collection passed as a second argument. For example, <code>map&#40;add_two, x&#41;</code> applies the function <code>add_two&#40;a&#41; &#61; a &#43; 2</code> to each element of <code>x &#61; &#91;1,2,3&#93;</code>, thus returning <code>&#91;3,4,5&#93;</code>. In subsequent sections, we&#39;ll explain the function <code>map</code> in detail. At this point, <code>map</code> only should be understood as an example of anonymous functions.</p>
+<p>One drawback of executing <code>map&#40;add_two, x&#41;</code> is that it requires defining <code>add_two</code> beforehand. Creating temporary functions will clutter our workspace, which is particularly inconvenient if <code>add_two</code> won&#39;t be reused. In this context, anonymous functions provide an elegant solution, eliminating the need to create temporary functions like <code>add_two</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3062,7 +3067,7 @@ result     &#61; map&#40;a -&gt; a &#43; 2, x&#41;</code></pre>
  5</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>By using <code>map</code>, we can also demonstrate the syntax of anonymous functions having multiple arguments. For operations requiring more than one argument, its syntax is <code>map&#40;&lt;function&gt;, &lt;array1&gt;, &lt;array2&gt;&#41;</code>. For instance, <code>map&#40;&#43;, &#91;1,2&#93;, &#91;2,4&#93;&#41;</code> provides the sum of each pair of numbers, yielding <code>&#91;3,6&#93;</code>. </p>
+<p>The function <code>map</code> can also be applied to demonstrate the syntax of anonymous functions with multiple arguments. In this case, the syntax becomes <code>map&#40;&lt;function&gt;, &lt;array1&gt;, &lt;array2&gt;&#41;</code>. For instance, <code>map&#40;&#43;, &#91;1,2&#93;, &#91;2,4&#93;&#41;</code> provides the sum of each pair of numbers, yielding <code>&#91;3,6&#93;</code>. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3095,7 +3100,7 @@ result   &#61; map&#40;&#40;a,b&#41; -&gt; a &#43; b, x, y&#41;</code></pre>
  </div></div>
 <p>  </p></details></div>
 <p> <h4> The &quot;Do-Block&quot; Syntax </h4><div class="own-anchors"><a name="do-syntax"></a></div></p>
-<p>Anonymous functions can be useful to keep our code tidy. However, they aren&#39;t particularly practical if functions span over several lines. Nonetheless, the inconvenience can be mitigated by what&#39;s known as a <span style="color: rgb(62, 121, 180);"><strong>do-block</strong></span>. This allows us to insert the anonymous function separately, and then pass it as the first argument to a function call. Its syntax for a function <code>foo&#40;&lt;inner function&gt;, &lt;vector&gt;&#41;</code> is as follows.</p>
+<p>Anonymous functions can help keep our code tidy, but they may not be practical for functions that span multiple lines. This inconvenience can be addressed by what&#39;s known as a <span style="color: rgb(62, 121, 180);"><strong>do-block</strong></span>. This allows us to insert the anonymous function separately, and then pass it as the first argument to a function call. Given a function <code>foo&#40;&lt;inner function&gt;, &lt;vector&gt;&#41;</code>, its generic implementation is as follows.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3250,7 +3255,7 @@ add_three&#40;a&#41; &#61; a &#43; 3</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 28, 2025 
+          © Martin Alfaro <br>Last Modified March 6, 2025 
       </span> 
   </div> 
 </footer>

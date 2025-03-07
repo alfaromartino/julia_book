@@ -2831,7 +2831,7 @@ color: white;
 <div class="franklin-content">
  <div class="note" style="width:62%" id=remarkCodeContent>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">
-      <b> Code Script</b> </span>  </div>  <div class=content>     The scripts of this section are available <a href="https://github.com/alfaromartino/julia_book/tree/main//assets/PAGES/09f_reductions/codeDownload"><strong>here</strong></a> under the name <code>allCode.jl</code>. They&#39;ve been tested under Julia 1.10.4.  </div>  </div>  <div style="margin-bottom:-2em"></div>
+      <b> Code Script</b> </span>  </div>  <div class=content>     The scripts of this section are available <a href="https://github.com/alfaromartino/julia_book/tree/main//assets/PAGES/09f_reductions/codeDownload"><strong>here</strong></a> under the name <code>allCode.jl</code>. They&#39;ve been tested under Julia 1.11.3.  </div>  </div>  <div style="margin-bottom:-2em"></div>
 <section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
@@ -3229,7 +3229,7 @@ foo&#40;x,y&#41; &#61; minimum&#40;a -&gt; a&#91;1&#93; * a&#91;2&#93;, zip&#40;
         <h2>The "reduce" and "mapreduce" Functions</h2></p>
 <p>Beyond the specific functions we&#39;ve considered, we can also implement reductions as long as the operation satisfies the requirements for their application. This is implemented through the functions <code>reduce</code> and <code>mapreduce</code>. Their difference lies in that <code>reduce</code> applies the reduction directly, while <code>mapreduce</code> transforms the collection&#39;s elements prior to doing it. </p>
 <p>It&#39;s worth remarking that reductions with <code>sum</code>, <code>prod</code>, <code>max</code>, and <code>min</code> should still be done via the dedicated functions. The reason is that they&#39;ve been optimized for their respective tasks. In this context, our primary use case of <code>reduce</code> and <code>mapreduce</code> is for other types of reductions not covered or when packages provide their own implementations of these functions. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For instance, the package <code>Folds</code> provides a parallelized version of both <code>map</code> and <code>mapreduce</code>, enabling the utilization of all available CPU cores. Its syntax is identical to Julia&#39;s built-in functions.  </span></span> </p>
- <h4> Reductions </h4>
+ <h4> Function &quot;reduce&quot; </h4>
 <p>The function <code>reduce</code> uses the syntax <code>reduce&#40;&lt;function&gt;,x&#41;</code>, where <code>&lt;function&gt;</code> is a two-argument function. The following example demonstrates its use.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3265,7 +3265,7 @@ foo&#40;x&#41; &#61; reduce&#40;min, x&#41;         #same output as minimum&#40;
  </div></div>
 <p>  </p></details></div>
 <p>Note that all the examples provided could&#39;ve been implemented as <a href="#example_previous">we did previously</a>, where we directly applied <code>sum</code>, <code>prod</code>, <code>maximum</code> and <code>minimum</code>. </p>
- <h4> Mapreduce </h4>
+ <h4> Function &quot;mapreduce&quot; </h4>
 <p>The function <code>mapreduce</code> combines the functions <code>map</code> and <code>reduce</code>: before applying the reduction, <code>mapreduce</code> transforms vectors <a href="/julia_book/PAGES/03e_vectorizing/#the_map_function">via the function <code>map</code></a>. Recall that <code>map&#40;foo,x&#41;</code> transforms each element of the collection <code>x</code> by applying <code>foo</code> element-wise. Thus, <code>mapreduce&#40;&lt;transformation&gt;,&lt;reduction&gt;,x&#41;</code> first transforms <code>x</code>&#39;s elements through <code>map</code>, and then applies a reduction to the resulting output. </p>
 <p>To illustrate its use, we make use of a <code>log</code> transformation. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -3336,7 +3336,7 @@ foo&#40;x,y&#41; &#61; mapreduce&#40;a -&gt; a&#91;1&#93; * a&#91;2&#93;, min, z
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
- <h4> Reduce or Mapreduce </h4>
+ <h4> reduce or mapreduce? </h4>
 <p><code>reduce</code> can be considered as a special case of <code>mapreduce</code>, where the latter transforms <code>x</code> through the identity function, <code>identity&#40;x&#41;</code>. Likewise, <code>mapreduce&#40;&lt;transformation&gt;,&lt;operator&gt;,x&#41;</code> produces the same result as <code>reduce&#40;&lt;operator&gt;, map&#40;&lt;transformation&gt;,x&#41;&#41;</code>. However, <code>mapreduce</code> is more efficient, since it avoids the allocation of the transformed vector. This is demonstrated below, where we compute <code>sum&#40;2 .* x&#41;</code> through a reduction.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3379,7 +3379,7 @@ foo&#40;x&#41; &#61; reduce&#40;&#43;, map&#40;a -&gt; 2 * a, x&#41;&#41;</code>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 28, 2025 
+          © Martin Alfaro <br>Last Modified March 6, 2025 
       </span> 
   </div> 
 </footer>

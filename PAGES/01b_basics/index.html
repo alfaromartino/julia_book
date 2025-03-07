@@ -2816,7 +2816,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>In the following, we present the very basics for getting started with Julia. As we haven&#39;t introduced functions or macros yet, we&#39;ll keep the discussion to a bare minimum. Specifically, this means we&#39;ll limit ourselves to covering interactive and non-interactive modes, along with approaches for adding comments and specifying paths.</p>
+<p>In the following, we cover the basic steps for getting started with Julia. As we haven&#39;t introduced functions or macros yet, we&#39;ll keep the discussion to a bare minimum. Specifically, we&#39;ll limit ourselves to setting up Julia in VS Code and presenting methods to add comments and file paths.</p>
 <p>      </div>
     </div>
   </div>
@@ -2826,15 +2826,15 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Using Julia in VS Code</h2></p>
-<p>The REPL, short for &quot;Read-Eval-Print Loop,&quot; refers to Julia&#39;s working environment. This activates when you run <code>julia.exe</code>, allowing you to enter inputs at the prompt <code>julia&gt;</code> and receive their corresponding outputs. This usage of Julia is known as <span style="color: rgb(62, 121, 180);"><strong>interactive mode</strong></span>.</p>
+<p>The REPL &#40;Read-Eval-Print Loop&#41; is an interactive coding environment, allowing users to input commands and receive immediate outputs through a command-line interface. When you run <code>julia.exe</code>, the REPL is automatically activated, prompting you to enter commands at the <code>julia&gt;</code> prompt.</p>
 <p> <div> <details open><summary> Screenshot  </summary>
     <p> <img style="width:60%;height:60%;max-width:100%;" src="/julia_book/assets/PAGES/01b_basics/pics/01.png"/>
     </p></details></div> </p>
-<p>Throughout this website, we&#39;ll assume you&#39;re working with a code editor, rather than directly interacting with the REPL. In particular, we&#39;ll be using VS Code as our code editor of choice. To get started with Julia in VS Code, you&#39;ll need to install the Julia extension. You can find this by navigating to the Extensions tab, as indicated below with a blue circle.</p>
+<p>Throughout this website, we&#39;ll assume that you&#39;re working with a code editor, rather interacting directly with the REPL. In particular, VS Code will be our code editor of choice. To get started with Julia in VS Code, you&#39;ll need to install its Julia extension. This can be found by navigating to the Extensions tab, as indicated below by the blue circle. </p>
  <div> <details open><summary> Screenshot  </summary>
     <p> <img style="width:60%;height:60%;max-width:100%;" src="/julia_book/assets/PAGES/01b_basics/pics/extensions.png"/>
     </p></details></div>
-<p>The REPL is situated at the bottom of the screen, while the code must be written in the editor area above the REPL. Note that when starting a new file in VS Code, you&#39;ll need to specify the programming language you want to use. You can do this by clicking on the language option located at the bottom corner of the screen, or by using the keyboard shortcut  <kbd> Ctrl+k</kbd> &#43;  <kbd> M</kbd> and typing &quot;julia&quot;. </p>
+<p>The layout of VS Code displays the REPL at the bottom of the screen, where the code must be written in the area above it. To execute the code, you&#39;ll also need to specify the programming language you&#39;re using. This can be achieved by clicking on the language option located at the bottom corner of the screen, or by using the keyboard shortcut  <kbd> Ctrl+k</kbd> &#43;  <kbd> M</kbd> and typing &quot;julia&quot;.  All this is demonstrated in the screenshow below.</p>
  <div> <details open><summary> Screenshot  </summary>
     <p> <img style="width:60%;height:60%;max-width:100%;" src="/julia_book/assets/PAGES/01b_basics/pics/language.png"/>
     </p></details></div>
@@ -2847,8 +2847,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Adding Comments in a Script</h2></p>
-<p>Julia allows you to include comments in your code, just like in any programming language. Comments are lines of text that won&#39;t be executed but are useful for clarifications and explanations.</p>
-<p>To add a  <em>single-line comments</em>, simply precede the text with the <code>#</code> symbol. The <code>#</code> symbol can be placed anywhere on a line, and anything written after it will be ignored. Alternatively, you can add a  <em>multi-line comment</em> by beginning the text with <code>#&#61;</code> and end it with <code>&#61;#</code>.</p>
+<p>In Julia, just like in any other programming language, you can include comments in your code. By definition, comments are pieces of text that are ignored during execution, serving as a means to annotate and document your code.</p>
+<p>To add a  <em>single-line comment</em>, simply precede the text with the <code>#</code> symbol. This symbol can be placed anywhere on a line, with any text that follows it be disregarded by Julia. Alternatively, you can add  <em>multi-line comments</em> by delimiting the text with <code>#&#61;</code> at the beginning and <code>&#61;#</code> at the end.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2874,8 +2874,7 @@ x &#61; 2   # &#96;x&#61;2&#96; is run, but anything after &#96;#&#96; won&#39;t
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Paths of Files and Folders</h2></p>
-<p>File management systems vary across operating systems, making the syntax for specifying file paths in Julia differ depending on them. Below, we provide examples that illustrate the syntax for a folder <code>C:\user\julia</code> on Windows and <code>/user/julia</code> on Linux/macOS. Alternatively, the function <code>joinpath</code> provides a platform-agnostic approach to specifying file paths, making your code portable across systems. </p>
-<p>File management systems vary across operating systems, which affects the syntax for specifying file paths in Julia. In this respect, Julia provides two approaches. The first one involves using operating system-specific syntax, as illustrated by the examples below for a file <code>C:\user\file.jl</code> on Windows and <code>/user/file.jl</code> on Linux/macOS. A more versatile alternative is the <code>joinpath</code> function, which applies regardless of the operating system. </p>
+<p>File management systems vary across operating systems, affecting the syntax for specifying file paths in Julia. In this respect, Julia provides two approaches. The first one provides an operating system-specific syntax, as illustrated by the examples below for a file <code>C:\user\file.jl</code> on Windows and <code>/user/file.jl</code> on Linux/macOS. There&#39;s also a platform-agnostic alternative that makes your code more portable. This is provided by the <code>joinpath</code> function, which specifies file paths in a manner that is independent of the operating system.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2893,11 +2892,11 @@ joinpath&#40;&quot;/&quot;, &quot;user&quot;, &quot;file.jl&quot;&#41;</code></p
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Two special paths have a convenient shortcut:</p>
+<p>Two special paths have convenient shortcuts worth mentioning:</p>
 <div class="bullets"><ul>
-<li><p><code>@__DIR__</code>, which identifies the directory where your script is saved. <br/>For instance, if your script is in <code>C:\user\julia</code>, then <code>joinpath&#40;@__DIR__, &quot;graphs&quot;&#41;</code> refers to <code>C:/user/julia/graphs</code>.</p>
+<li><p><code>@__DIR__</code> identifies the directory where your script is saved. <br/>For instance, if your script is in <code>C:\user\julia</code>, then <code>joinpath&#40;@__DIR__, &quot;graphs&quot;&#41;</code> refers to <code>C:/user/julia/graphs</code>.</p>
 </li>
-<li><p><code>homedir&#40;&#41;</code>, which indicates the user&#39;s home directory. <br/>This refers to <code>C:\Users\username</code> on Windows &#40;where &quot;username&quot; is your actual user&#41;, and is the equivalent of <code>~</code> on Linux. For instance, you can access Google Drive&#39;s folder located on either <code>C:\Users\martin\GoogleDrive</code> or <code>\home\martin\GoogleDrive</code> by the command <code>joinpath&#40;homedir&#40;&#41;, &quot;GoogleDrive&quot;&#41;</code>.</p>
+<li><p><code>homedir&#40;&#41;</code> indicates the user&#39;s home directory. <br/>This refers to <code>C:\Users\username</code> on Windows &#40;where &quot;username&quot; is your actual user&#41;, and is the equivalent of <code>~</code> on Linux. For instance, you could access your Google Drive&#39;s folder located on either <code>C:\Users\username\GoogleDrive</code> or <code>\home\username\GoogleDrive</code> by the command <code>joinpath&#40;homedir&#40;&#41;, &quot;GoogleDrive&quot;&#41;</code>.</p>
 </li>
 </ul></div>
 <p>      </div>
@@ -2942,7 +2941,7 @@ joinpath&#40;&quot;/&quot;, &quot;user&quot;, &quot;file.jl&quot;&#41;</code></p
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 28, 2025 
+          © Martin Alfaro <br>Last Modified March 6, 2025 
       </span> 
   </div> 
 </footer>
