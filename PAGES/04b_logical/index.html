@@ -2816,8 +2816,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section lays the foundations for defining conditions. These are defined as functions and operators returning true or false as their output. A typical example of condition is <code>x &gt; y</code>.</p>
-<p>For this section, it&#39;ll be worth recalling the classification of operators discussed <a href="/julia_book/PAGES/02b_variables/#operators">here</a>. In general, operators can be categorized into two types: unary and binary. Given a generic operator <code>&lt;operator&gt;</code> and two <code>Bool</code> variables <code>x</code> and <code>y</code>, a <strong>unary operator</strong> takes a single argument and is typically written to the left of its operand, as in <code>&lt;operator&gt;x</code>. In contrast, <strong>binary operator</strong> takes two arguments and is written between them, as in <code>x &lt;operator&gt; y</code>.</p>
+<p>This section lays the foundations for defining conditions, defined as functions and operators returning true or false as their output. A typical example of condition is <code>x &gt; y</code>.</p>
+<p>To better understand this section, it&#39;s helpful to recall the classification of operators discussed <a href="/julia_book/PAGES/02b_variables/#operators">here</a>. Depending on their number of operands, operators can be categorized into two: unary and binary. Specifically, given a generic operator <code>&lt;operator&gt;</code> and two <code>Bool</code> variables <code>x</code> and <code>y</code>, a <strong>unary operator</strong> takes a single argument and is typically written to the left of its operand, as in <code>&lt;operator&gt;x</code>. In contrast, <strong>binary operators</strong> take two arguments and are written between them, as in <code>x &lt;operator&gt; y</code>.</p>
 <p>      </div>
     </div>
   </div>
@@ -2827,8 +2827,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Conditions</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Conditions</strong></span> are formally represented as values with type <code>Bool</code>, evaluating to either <code>true</code> or <code>false</code>. Internally, these values are stored as integers restricted to <code>1</code> and <code>0</code>.</p>
-<p>The representation of Boolean values in the REPL varies depending on their dimension: while <code>Bool</code> scalars are displayed as <code>true</code> and <code>false</code>, <code>Bool</code> vectors are represented as <code>1</code> and <code>0</code>. Despite the difference in appearance, both representations are equivalent, as illustrated below.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Conditions</strong></span> are formally represented as values with type <code>Bool</code>, evaluating to either <code>true</code> or <code>false</code>. These values are internally represented as integers restricted to <code>1</code> and <code>0</code>.</p>
+<p>The representation of Boolean values in the REPL varies depending on their dimension: Scalar <code>Bool</code> values are displayed as <code>true</code> and <code>false</code>, while <code>Bool</code> vectors represent their elements using <code>1</code> and <code>0</code>. This is illustrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2856,8 +2856,8 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
 <p>  </p></details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     When writing single conditions, parentheses are optional, allowing us to write <code>y &#61; x &gt; 0</code> rather than <code>y &#61; &#40;x &gt; 0&#41;</code>. However, the first syntax is ambiguous, potentially being misinterpreted as <code>&#40;y &#61; x&#41; &gt; 0</code>. To avoid confusion, it&#39;s a good practice to always include parentheses. This is especially true when working with multiple conditions, where the absence of parentheses can drastically alter the outcome.  </div>  </div>
-<p>The previous example was defining a condition based on the operator <code>&gt;</code>. More generally, conditions rely on the use of <span style="color: rgb(62, 121, 180);"><strong>comparison operators</strong></span>, which are formally defined as  <em>binary operators</em> that compare values of various types &#40;e.g., numbers and strings&#41;. The next list defines the most common comparison operators.</p>
+      <b>Warning!</b> </span>  </div>  <div class=content>     Parentheses are optional when writing single conditions, allowing us to write <code>y &#61; x &gt; 0</code> rather than <code>y &#61; &#40;x &gt; 0&#41;</code>. Nonetheless, he first syntax is subject to some potential ambiguity, with the risk of being misinterpreted as <code>&#40;y &#61; x&#41; &gt; 0</code>. To avoid confusion, a good practice is to always include parentheses. This is especially true when working with multiple conditions, where the absence of parentheses can drastically alter the outcome.  </div>  </div>
+<p>The previous example was defining a condition based on the operator <code>&gt;</code> as an example. More generally, conditions rely on the so-called <span style="color: rgb(62, 121, 180);"><strong>comparison operators</strong></span>. Formally, they&#39;re  <em>binary operators</em> that compare values of various types &#40;e.g., numbers and strings&#41;. The next list defines the most common comparison operators.</p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -2920,7 +2920,7 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
 
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     Comparison operators are also available as functions. For instance, the following are all valid:</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     Comparison operators are also available as functions. For instance, the following expressions are all valid:</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2944,8 +2944,7 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Logical Operators</h2></p>
-<p>It&#39;s possible to express conditions based on multiple conditions. This requires the use of <span style="color: rgb(62, 121, 180);"><strong>logical operators</strong></span>, which combine multiple conditions into a one. Formally, logical operators take <code>Bool</code> expressions as their operands, and return a <code>Bool</code> as their output. The following are the main logical operators used in Julia. </p>
-<p>You can also create conditions based on multiple conditions by using <span style="color: rgb(62, 121, 180);"><strong>logical operators</strong></span>. These operators combine multiple conditions into a single condition. Formally, they take <code>Bool</code> expressions as their operands and return a <code>Bool</code> as their output. The following are the main logical operators used in Julia. </p>
+<p>To express compound conditions, we can use the <span style="color: rgb(62, 121, 180);"><strong>logical operators</strong></span>, which combine multiple conditions into a single one. Formally, they take <code>Bool</code> expressions as their operands, and return a <code>Bool</code> as their output. The following are the main logical operators used in Julia. </p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -2982,7 +2981,7 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
 </tbody>
 </table>
 </p>
-<p>In terms of syntax, notice that <code>&amp;&amp;</code> and <code>||</code> follow the rules of  <em>binary</em> operators.</p>
+<p>Notice that <code>&amp;&amp;</code> and <code>||</code> follow the syntax rules of  <em>binary</em> operators.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3002,8 +3001,8 @@ z2 &#61; &#40;x &gt; 0&#41; || &#40;y &gt; 0&#41;</code></pre>
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z2</code><br/><div class="akin_to_pre">true</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In addition to logical binary operators, there&#39;s also the unary &quot;not&quot; operator, denoted by <code>&#33;</code>. This operator inverts a condition, changing <code>true</code> to <code>false</code> and vice versa. To use it, simply place <code>&#33;</code> at the start of the condition &#40;i.e., before the parenthesis&#41;. </p>
-<p>As an illustration of <code>&#33;</code>, the variables <code>y1</code> and <code>y2</code> below are equivalent.</p>
+<p>Another operator taking conditions as their operands is the &quot;not&quot; operator, represented by <code>&#33;</code>. This is a unary operator that inverts a condition&#39;s value, changing <code>true</code> to <code>false</code> and vice versa. To use it, you simply place <code>&#33;</code> at the start of the condition &#40;i.e., before the parenthesis&#41;. </p>
+<p>As an illustration, the variables <code>y1</code> and <code>y2</code> below become equivalent via <code>&#33;</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3058,8 +3057,8 @@ y2 &#61; &#33;&#40;x ≤ 0&#41;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Multiple Conditions</h2></p>
-<p>When working with only two conditions, using parentheses is not crucial. This is because expressions like <code>&#40;x &gt; 0&#41; &amp;&amp; &#40;y &gt; 0&#41;</code> and <code>&#40;x &gt; 0&#41; || &#40;y &gt; 0&#41;</code> can be safely written as <code>x &gt; 0 &amp;&amp; y &gt; 0</code> and <code>x &gt; 0 || y &gt; 0</code>, without much risk of confusion. </p>
-<p>However, when dealing with three or more conditions, the lack of parentheses can lead to ambiguity, radically changing the output returned. The following example illustrates this point.</p>
+<p>The inclusion of parentheses isn&#39;t crucial when working with only two conditions. This is because expressions like <code>&#40;x &gt; 0&#41; &amp;&amp; &#40;y &gt; 0&#41;</code> can be safely written as <code>x &gt; 0 &amp;&amp; y &gt; 0</code>, without much risk of confusion. </p>
+<p>On the contrary, when dealing with three or more conditions, the lack of parentheses can drastically impact the expected behavior of an expression. The following example illustrates this point.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3086,8 +3085,8 @@ y &#61; 0</code></pre>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>&#40;x &lt; 0 &amp;&amp; y &gt; 4&#41; || &#40;y &lt; 2&#41;</code><br/><div class="akin_to_pre">true</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In the example, the expression without parenthesis is equivalent to the last tab&#39;s, since <code>&amp;&amp;</code> <strong>has higher precedence than</strong> <code>||</code> in Julia. In other words, when both <code>&amp;&amp;</code> and <code>||</code> are used, <code>&amp;&amp;</code> is evaluated first.</p>
-<p>To avoid confusion when there are more than two conditions, <strong>we'll always add parentheses throughout the website</strong>. This improves readability and spares us the need to memorize specific rules.</p>
+<p>In the example, the expression without parenthesis is equivalent to the last tab&#39;s, since <code>&amp;&amp;</code> <strong>has higher precedence than</strong> <code>||</code> in Julia. In other words, when both <code>&amp;&amp;</code> and <code>||</code> are used, <code>&amp;&amp;</code> will be evaluated first.</p>
+<p>To avoid confusion with more than two conditions, <strong>we'll always add parentheses throughout the website</strong>. This improves readability and spares us the need to memorize specific rules.</p>
 <p>In case you want to know more about it, the next optional subsection covers Julia&#39;s precedence rules in more detail. However, if you&#39;ll consistently enclose conditions in parentheses, you can safely skip it,.</p>
  <h4> Multiple Conditions without Parentheses &#40;<strong><i style="color:red">OPTIONAL</i></strong>&#41; </h4>
 <p>To simplify the explanation, let&#39;s focus on cases with three conditions. These conditions will be represented through <code>Bool</code> variables <code>a</code>, <code>b</code>, and <code>c</code>, with each variable possibly representing expressions like <code>x &gt; 0</code>.</p>
@@ -3184,7 +3183,7 @@ is_one_positive  &#61; any&#40;i -&gt; i &gt; 0, x&#41;</code></pre>
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>is_one_positive</code><br/><div class="akin_to_pre">true</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>By passing a function as an argument, <code>all</code> and <code>any</code> can also be used <strong>to evaluate the same condition across multiple vectors</strong>. This is achieved by broadcasting <code>all</code> and <code>any</code>.</p>
+<p>By passing a function as an argument, <code>all</code> and <code>any</code> can additionally be employed <strong>to evaluate the same condition across multiple vectors</strong>. This is achieved by broadcasting <code>all</code> and <code>any</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3227,7 +3226,7 @@ is_one_positive  &#61; any.&#40;i -&gt; i &gt; 0, &#91;x,y&#93;&#41;</code></pre
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 7, 2025 
+          © Martin Alfaro <br>Last Modified March 8, 2025 
       </span> 
   </div> 
 </footer>
