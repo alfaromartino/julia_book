@@ -2816,7 +2816,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>The upcoming sections will be devoted to the concept of <strong>vector mutation</strong>. To properly cover this subject, we first need to understand some preliminary ideas, including:</p>
+<p>The upcoming sections will be devoted to <strong>vector mutation</strong>. To properly cover this subject, we first need to understand some preliminary ideas, including:</p>
 <ul>
 <li><p>the distinction between assignments and mutations</p>
 </li>
@@ -2835,7 +2835,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Some Background</h2></p>
-<p>Recall that a <strong>variable</strong> serves as a label for an <strong>object</strong>, where the object in turn holds a <strong>value</strong>. Objects can additionally be classified according to the number of <strong>elements</strong> contained, ranging from single-element objects &#40;e.g. integers and floating-point numbers&#41; to collections &#40;e.g. vectors&#41;.</p>
+<p>Recall that <strong>variables</strong> serve as labels for <strong>objects</strong>, with objects in turn holding <strong>values</strong>. Importantly, objects can be classified according to the number of <strong>elements</strong> contained, ranging from single-element objects &#40;e.g. integers and floating-point numbers&#41; to collections &#40;e.g. vectors&#41;.</p>
  <div class="multiple_pics">
 <div class="row" style="max-width:100%;">
   <div class="column2">
@@ -2853,26 +2853,14 @@ color: white;
     </div>
   </div>
 </section>
-<section id="assignments" class="scrollspy">
+<section id="assignments_vs_mutations" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Assignments</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Assignments</strong></span> associate variables with objects. The implementation relies on the operator <code>&#61;</code>, as in statements like <code>x &#61; 3</code> or <code>x &#61; &#91;1,2,3&#93;</code>. In these examples, <code>3</code> and <code>&#91;1,2,3&#93;</code> represent the objects being assigned.</p>
-<p>The concept of assignments becomes clearer when we <strong>consider an object as a memory address</strong>. From this perspective, a statement like <code>x &#61; &#91;1,2,3&#93;</code> can be viewed as a two-step process:  <em>i</em>&#41; identifying a memory location to store the object with value <code>&#91;1,2,3&#93;</code>, and  <em>ii</em>&#41; labelling that memory location <code>x</code> for convenient access.</p>
-<p>      </div>
-    </div>
-  </div>
-</section>
-<section id="mutations" class="scrollspy section-bg-color">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg- mx-auto">
-        <h2>Mutations</h2></p>
-<p>Assignments associate the name <code>x</code> to an object, regardless of whether the object is a number or a vector. However, <strong>vectors add the possibility of modifying an object's elements, without creating a new object</strong>.</p>
-<p>The distinction leads us to two applications of <code>&#61;</code>: as <span style="color: rgb(62, 121, 180);"><strong>assignments</strong></span> &#40;e.g., statements like <code>x &#61; &#91;4,5,6&#93;</code>&#41; and as <span style="color: rgb(62, 121, 180);"><strong>mutations</strong></span> &#40;e.g., statements like <code>x&#91;1&#93; &#61; 0</code>&#41;. Despite sharing the same operator <code>&#61;</code>, these operations are fundamentally different. Specifically, an assignment changes the object that <code>x</code> is bound to, so that it points to a new memory address. On the contrary, a mutation modifies the contents of the object, but without changing its memory address.</p>
-<p>As an example, suppose we run the command <code>x &#61; &#91;4,5&#93;</code>. This creates an object with value <code>&#91;4,5&#93;</code>, which is then stored in some particular memory location. If we subsequently run <code>x &#61; &#91;6,7&#93;</code>, <code>x</code> will be associated with a new object holding <code>&#91;5,6&#93;</code>, thus constituting an  <em>assignment</em>. Conversely, if we execute <code>x&#91;1&#93; &#61; 0</code>, the operation modifies the object <code>&#91;4,5&#93;</code> and transforms it into <code>&#91;0,5&#93;</code>. However, the object will still be pointing to the same memory address, thereby constituting a  <em>mutation</em>.</p>
-<br/>
+        <h2>Assignments vs Mutations</h2></p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Assignments</strong></span> associate variables with objects. The operation is implemented via the operator <code>&#61;</code>, as in statements like <code>x &#61; 3</code> or <code>x &#61; &#91;1,2,3&#93;</code>. In these examples, <code>3</code> and <code>&#91;1,2,3&#93;</code> represent the objects being assigned. <span style="color: rgb(62, 121, 180);"><strong>Mutations</strong></span>, on the other hand, <strong>allow for the modification of an object's elements, without creating a new object</strong>. Just like assignments, the operation also relies on the operator <code>&#61;</code>, as in statements like <code>x&#91;1&#93; &#61; 0</code>.</p>
+<p>Despite sharing the same operator <code>&#61;</code>, assignments and mutations are fundamentally different. This can be better understand when we <strong>think of an object as having a specific memory address</strong>. From this perspective, a statement like <code>x &#61; &#91;4,5&#93;</code> can be viewed as a two-step process:  <em>i</em>&#41; identifying a memory location to store the object with value <code>&#91;4,5&#93;</code>, and  <em>ii</em>&#41; labeling that memory location <code>x</code> for convenient access. On the contrary, a mutation modifies the contents of the object, but without changing its memory address.</p>
+<p>As an example, suppose we run the command <code>x &#61; &#91;4,5&#93;</code>. This creates an object with value <code>&#91;4,5&#93;</code>, which is then stored in some particular memory location. If we subsequently run <code>x &#61; &#91;6,7&#93;</code>, <code>x</code> will be associated with a new object holding <code>&#91;5,6&#93;</code>, thus constituting an  <em>assignment</em>. Conversely, if we now execute <code>x&#91;1&#93; &#61; 0</code>, the operation modifies the object <code>&#91;4,5&#93;</code> and transforms it into <code>&#91;0,5&#93;</code>. However, this operation constitutes  <em>mutation</em>, as the object will still point to the same memory address, <br/></p>
 <p> <div class="multiple_pics" >
 <div class="row" style="max-width:100%;">
   <div class="column2">
@@ -2887,7 +2875,7 @@ color: white;
 </div> <br/></p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     You can mutate all the elements of <code>x</code> by making reference to <code>x&#91;:&#93;</code>. Importantly, this doesn&#39;t entail a new assignment. In other words, modifying the values of <code>x&#91;:&#93;</code> does not change the object that <code>x</code> points to.</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     You can mutate all the elements of <code>x</code>, without this necessarily entailing a new assignment. For example, this occurs when we modify the values of <code>x</code> by mutating <code>x&#91;:&#93;</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2903,19 +2891,20 @@ x&#91;:&#93; &#61; &#91;0,0&#93;</code></pre>
  0</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>This becomes important when we study approaches to speeding up operations, as mutations tend to be faster than creation of new objects.  </div>  </div>
+<p>The distinction will become relevant in Part II, when we explore strategies for speeding up operations. We&#39;ll show that mutations tend to be faster than creating new objects.  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="alias_vs_copy" class="scrollspy">
+<section id="alias_vs_copy" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Alias vs Copy</h2></p>
-<p>In Julia, the statement <code>y &#61; x</code> means that <code>y</code> is an alias for the object referenced by <code>x</code>. This means both <code>y</code> and <code>x</code> serve as different labels for the same underlying object. Formally, it&#39;s said that <code>y</code> constitutes an <span style="color: rgb(62, 121, 180);"><strong>alias</strong></span> of <code>x</code>. Importantly, <code>y &#61; x</code> should  <em>not</em> be interpreted as <code>y</code> being a label for <code>x</code>. This subtle distinction carries a significant practical implication: reassignments of <code>x</code> do not affect <code>y</code>.</p>
-<p>To illustrate this, suppose we execute <code>x &#61; 2</code> and then <code>y &#61; x</code>. This makes both <code>x</code> and <code>y</code> point to the same object holding <code>2</code>. If we then execute <code>x &#61; 4</code>, <code>x</code> would point to a new object that holds the value <code>4</code>, but without changing what&#39;s stored in the original object of <code>x</code>. Consequently, <code>y</code> will still reference the object with value <code>2</code>, as <code>y</code> is still pointing to the same object. This behavior is illustrated in the example below.</p>
-<br/>
+<p>So far, we&#39;ve established the importance of distinguishing between assignments and mutations. In a context where both operations rely on the <code>&#61;</code> operator, we must then inquire when <code>&#61;</code> will entail one or the other operation. Next, we explore the implications in particular of statements like <code>y &#61; x</code>, leaving a more extensive exploration of other cases for the upcoming sections.</p>
+<p>In Julia, when we execute <code>y &#61; x</code>, <code>y</code> becomes another name for the object referenced by <code>x</code>, making <code>x</code> and <code>y</code> different labels for the same underlying object. Formally, it&#39;s said that <code>y</code> constitutes an <span style="color: rgb(62, 121, 180);"><strong>alias</strong></span> of <code>x</code>. </p>
+<p>Importantly, note that <code>y &#61; x</code> doesn&#39;t mean <code>y</code> is a label for the variable <code>x</code> itself. Rather, it means that <code>y</code> becomes a label for the object that <code>x</code> references. This subtle distinction carries a significant practical implication: reassignments of <code>x</code> will not affect <code>y</code>.</p>
+<p>To demonstrate this aspect, let&#39;s consider an example where we first execute <code>x &#61; 2</code> and then <code>y &#61; x</code>. At this point, both <code>x</code> and <code>y</code> reference the same object, which holds the value <code>2</code>. If we eventually execute <code>x &#61; 4</code>, the variable <code>x</code> will start pointing to a new object that holds the value <code>4</code>. However, this won&#39;t change the original object that <code>x</code> was referencing. As a result, <code>y</code> will still point to the original object with the value <code>2</code>. This behavior is illustrated in the example below. <br/></p>
  <div class="multiple_pics">
 <div class="row" style="max-width:100%;">
   <div class="column2">
@@ -2958,7 +2947,7 @@ x &#61; 4   #&#39;x&#39; now points to another object &#40;but &#39;y&#39; still
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     Notice that <strong>two variables could comprise identical elements and yet refer to different objects</strong>. </p>
-<p>This can be formally seen through the operators <code>&#61;&#61;</code> and <code>&#61;&#61;&#61;</code>, which assess two types of equality. Specifically, <code>x &#61;&#61; y</code> evaluates whether <code>x</code> and <code>y</code> have equal values, regardless of whether they refer to the same object. In contrast, <code>x &#61;&#61;&#61; y</code> checks whether both <code>x</code> and <code>y</code> point to the same object, interpreted as a specific memory address. By applying these operators, the following example demonstrates that identical elements are not necessarily the same objects.</p>
+<p>This can be demonstrated using the operators <code>&#61;&#61;</code> and <code>&#61;&#61;&#61;</code>, which assess two different types of equality. Specifically, <code>x &#61;&#61; y</code> checks whether <code>x</code> and <code>y</code> have equal values, regardless of whether they refer to the same object. In contrast, <code>x &#61;&#61;&#61; y</code> checks whether both <code>x</code> and <code>y</code> point to the same object, thus verifying if they share the same memory address. By applying these operators, the following example illustrates that objects with identical elements aren&#39;t necessarily referencing the same object.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2986,7 +2975,7 @@ y &#61; &#91;4,5&#93;</code></pre>
   <h2 style="color:rgb(63, 99,136)">Graphical Representation</h2>
     <img src="/julia_book/assets/PAGES/05c_mutation/tikz/interpret05.svg" style="width:450px ; height:auto; padding-right:0em;">  
 </div>  </div>  </div>
-<p>We&#39;ve indicated that the operation <code>y &#61; x</code> creates an alias of <code>x</code>, making <code>y</code> and <code>x</code> two different labels for the same object. As a result, <strong>modifying the elements of either</strong> <code>x</code> <strong>or</strong> <code>y</code> <strong>will necessarily change the elements of both</strong> <code>x</code> <strong>and</strong> <code>y</code> <strong>simultaneously</strong>. This is illustrated in the following diagram and code snippet. </p>
+<p>We&#39;ve indicated that the operation <code>y &#61; x</code> creates an alias of <code>x</code>, making <code>y</code> and <code>x</code> two different labels for the same object. Consequently, <strong>modifying the elements of either</strong> <code>x</code> <strong>or</strong> <code>y</code> <strong>will necessarily change the elements held by both</strong> <code>x</code> <strong>and</strong> <code>y</code>. This is illustrated in the following diagram and code snippet. </p>
  <div class="multiple_pics">
   <h2 style="color:rgb(63, 99,136)">Graphical Representation</h2>
     <img src="/julia_book/assets/PAGES/05c_mutation/tikz/interpret06.svg" style="width:750px ; height:auto; margin-top:-1em;">  
@@ -3010,7 +2999,7 @@ x&#91;1&#93; &#61; 0</code></pre>
  5</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>To treat <code>x</code> and <code>y</code> as separate objects, you must use the function <code>copy</code>. This generates a new object that contains the same elements as the original, ensuring that modifications to the new object don&#39;t affect the original.</p>
+<p>Instead, to treat <code>x</code> and <code>y</code> as separate objects, you must apply the function <code>copy</code>. This creates a  <em>new object</em> containing the same elements as the original. In this way, any modification to the new object won&#39;t affect the original one.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3052,7 +3041,7 @@ x&#91;1&#93; &#61; 0</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 8, 2025 
+          © Martin Alfaro <br>Last Modified March 9, 2025 
       </span> 
   </div> 
 </footer>
@@ -3664,11 +3653,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#assignments" data-offset="-40">Assignments</a>
-        </li>
-        
-        <li>
-          <a href="#mutations" data-offset="-40">Mutations</a>
+          <a href="#assignments_vs_mutations" data-offset="-40">Assignments vs Mutations</a>
         </li>
         
         <li>

@@ -2811,13 +2811,13 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy">
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>A key feature of programming is its ability to automate repetitive tasks. A standard way to implement this is via <span style="color: rgb(62, 121, 180);"><strong>for-loops</strong></span>. They allow you to execute the same block of code, treating each element of a list as a different input.</p>
-<p>For-loops are delimited with the keywords <code>for</code> and <code>end</code>. To illustrate their syntax, consider the function <code>println&#40;a&#41;</code>, which evaluates <code>a</code> and displays its output in the REPL. In case <code>a</code> is a string, <code>println&#40;a&#41;</code> will simply display the word stored in <code>a</code>. The following script repeatedly applies <code>println</code> to display each word contained in a collection. </p>
+<p>A key feature of programming is its ability to automate repetitive tasks. A standard way to implement this is via <span style="color: rgb(62, 121, 180);"><strong>for-loops</strong></span>. They let you execute the same block of code repeatedly, treating each element of a list as a different input.</p>
+<p>For-loops delimit their scope via the keywords <code>for</code> and <code>end</code>. To illustrate this syntax, consider the function <code>println&#40;a&#41;</code>, which evaluates <code>a</code> and displays its output in the REPL. In case <code>a</code> is a string, <code>println&#40;a&#41;</code> simply displays the word stored in <code>a</code>. The following script repeatedly applies <code>println</code> to display each word contained in a collection. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2835,7 +2835,7 @@ end</code></pre>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     The keyword <code>in</code> can be replaced by <code>∈</code> or <code>&#61;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that <code>∈</code> can be written through Tab Completion using the command <code>\in</code>  </span></span> Consequently, the following are all equivalent.</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     The keyword <code>in</code> can be replaced by <code>∈</code> or <code>&#61;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that <code>∈</code> can be written through tab completion using the command <code>\in</code>  </span></span>. Consequently, the following constructions are all equivalent.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2862,7 +2862,7 @@ end</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Furthermore, we can employ any character or tem to describe the iteration variable. The example below does it via <code>word</code>.</p>
+<p>Furthermore, we can employ any character or term to describe the iteration variable. For instance, we iterate below using <code>word</code>.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2884,33 +2884,33 @@ end</code></pre>
 </li>
 </ul>
 <ul>
-<li><p><strong>A list of elements</strong>: represented in the example by <code>&#91;&quot;hello&quot;,&quot;beautiful&quot;,&quot;world&quot;&#93;</code>. This specifies the elements over which we&#39;ll apply the code block, and allow for elements of any data type &#40;e.g., strings, numbers, and even functions&#41;. The only requirement is that the list must be an <span style="color: rgb(62, 121, 180);"><strong>iterable object</strong></span>, defined as a collection whose elements can be accessed individually. Examples of iterable objects are vectors, as in the example, but there are others. One important type of iterable object is ranges, which we&#39;ll explore later.</p>
+<li><p><strong>A list of elements</strong>: represented in the example by <code>&#91;&quot;hello&quot;,&quot;beautiful&quot;,&quot;world&quot;&#93;</code>. This specifies the elements over which we&#39;ll apply the code block. The list can contain elements with any data type &#40;e.g., strings, numbers, and even functions&#41;. The only requirement is that the list must be an <span style="color: rgb(62, 121, 180);"><strong>iterable object</strong></span>, defined as a collection whose elements can be accessed individually. An examples of iterable object is vectors, as in the example. However, we&#39;ll also introduce others most commonly used, such as ranges.</p>
 </li>
 </ul>
 <ul>
-<li><p><strong>An iteration variable</strong>: represented in the example by <code>x</code>. This serves as a label that takes on the value of each element in the list, one at a time, as the loop iterates. The iteration variable is a local variable, with no significance outside the for-loop. Its sole purpose is to provide a convenient way to access and manipulate the elements of the list within the loop.</p>
+<li><p><strong>An iteration variable</strong>: represented in the example by <code>x</code>. This serves as a label that takes on the value of each element in the list, one at a time, during each iteration. The iteration variable is a local variable, with no significance outside the for-loop. Its sole purpose is to provide a convenient way to access and manipulate the elements of the list within the loop.</p>
 </li>
 </ul></div>
 <br/>
-<p>The following sections will demonstrate how different objects can be employed as lists. We&#39;ll also show that for-loops can iterate over elements that may not be immediately apparent, such as functions.</p>
+<p>In the following sections, we&#39;ll explore different objects that can serve as lists. Furthermore, we&#39;ll show that lists can comprise elements that might not be immediately obvious, such as functions. This makes it possible to apply different functions to an object in each iteration.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Always Wrap For-Loops in Functions</strong>  </span>  </div>  <div class=content>     At this stage of the website, we&#39;re still introducing fundamental concepts. Thus, the subjects are presented as simple as possible. This is why for-loops in particular will be written in the global scope. </p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Always Wrap For-Loops in Functions</strong>  </span>  </div>  <div class=content>     At this stage of the website, we&#39;re still introducing fundamental concepts. Thus, we&#39;re presenting subjects in their simplest form for learning purposes. In particular, this explains why for-loops will be written in the global scope. </p>
 <p>However, <strong>you should always wrap for-loops in functions</strong>. Executing for-loops outside a function severely degrades performance, and is additionally subject to different rules regarding variable scoping. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> In fact, older versions of Julia were restricting the use of for-loops in the global scope.  </span></span>  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>About High Performance</strong>  </span>  </div>  <div class=content>     For-loops can negatively impact performance in certain languages &#40;e.g., Matlab, Python, and R&#41;. These languages recommend instead using vectorized code, which operates over the whole vector rather than its individual elements. In Part II of this website, we&#39;ll see that such a recommendation has no bearing on Julia. Indeed, <strong>for-loops are as fast as vectorized code in Julia</strong>, and speeding up operations commonly rely on them.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>About High Performance</strong>  </span>  </div>  <div class=content>     Computations via for-loops can negatively impact performance in certain languages &#40;e.g., Matlab, Python, and R&#41;. These languages recommend instead using vectorized code, which basically means operating over vectors rather than individual elements. In Part II of this website, we&#39;ll see that such a recommendation has no bearing on Julia. Indeed, <strong>for-loops are as fast as vectorized code in Julia</strong>, with speeding up operations commonly relying on them.  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="iterating_over_indices" class="scrollspy section-bg-color">
+<section id="iterating_over_indices" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Iterating over Indices</h2></p>
-<p>So far, we&#39;ve considered a simple list like <code>&#91;&quot;hello&quot;, &quot;beautiful&quot;, &quot;world&quot;&#93;</code> to illustrate how for-loops work. In real applications, nonetheless, manually specifying each element in a list quickly becomes impractical. Fortunately, when a list follows a predictable pattern &#40;e.g., a sequence of numbers&#41;, we can simplify the process by describing the pattern that generates the list, rather than listing each element individually.</p>
-<p>Building on this insight, we&#39;ll explore how to define ranges, which allows the user to define a sequence of numbers. The technique not only allows us to iterate over numerical sequences, but also provides the possibility of accessing specific elements within a collection.</p>
+<p>So far, we&#39;ve considered a simple list like <code>&#91;&quot;hello&quot;, &quot;beautiful&quot;, &quot;world&quot;&#93;</code> to illustrate how for-loops work. In real applications, however, manually specifying each element in a list is impractical. When a list follows a predictable pattern &#40;e.g., a sequence of numbers&#41;, we can simplify the process by describing the pattern used to generate those elements.</p>
+<p>Building on this insight, we&#39;ll next explore how to define ranges. They let users define a sequence of numbers, becoming particularly useful to access elements of a collection through their indices. </p>
  <h4> Ranges </h4>
-<p><span style="color: rgb(62, 121, 180);"><strong>Ranges</strong></span> in Julia are defined through the syntax <code>&lt;begin&gt;:&lt;steps&gt;:&lt;end&gt;</code>, where <code>&lt;begin&gt;</code> is the starting index and <code>&lt;end&gt;</code> is the ending index. Likewise, <code>&lt;steps&gt;</code> determines the increment between values, with a default increment of one if the term is omitted. By specifying a negative value for <code>&lt;steps&gt;</code>, you can also reverse the order of the range. All this is demonstrated below.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Ranges</strong></span> in Julia are defined using the syntax <code>&lt;begin&gt;:&lt;steps&gt;:&lt;end&gt;</code>, where <code>&lt;begin&gt;</code> represents the starting index and <code>&lt;end&gt;</code> the ending index. Likewise, <code>&lt;steps&gt;</code> sets the increment between values, defaulting to one when the term is omitted. We can also reverse the order of the sequence, by providing a negative value for <code>&lt;steps&gt;</code>. All this is demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2938,7 +2938,7 @@ end</code></pre>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     Ranges in Julia aren&#39;t limited to for-loops. For instance, they can define vectors comprising sequential values when combined with the function <code>collect</code>. </p>
+      <b> Remark</b> </span>  </div>  <div class=content>     The application of ranges isn&#39;t limited to for-loops. They can also define vectors when used in combination with the <code>collect</code> function. </p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2954,8 +2954,8 @@ end</code></pre>
  </div></div>
 <p>  </p></details></div>  </div>  </div>
  <h4> Iterating over Indices of an Array </h4>
-<p>Ranges can also be used to access elements of a collection. When combined with a for-loop, this allows us to apply the same code block to each element of a vector.</p>
-<p>Specifically, the expression <code>1:length&#40;x&#41;</code>, where <code>length&#40;x&#41;</code> returns the number of elements in <code>x</code>, enables iteration over all indices of a vector <code>x</code>. The same functionality can be achieved by the function <code>eachindex&#40;x&#41;</code>. In fact, this is the recommended method for iterating over all elements, as it returns an iterator optimized for each type of array.</p>
+<p>Ranges can be employed to access elements of a collection. When combined with a for-loop, it makes it possible to apply the same code block to each element of a vector.</p>
+<p>Specifically, the expression <code>1:length&#40;x&#41;</code>, where <code>length&#40;x&#41;</code> returns the number of elements in <code>x</code>, allows iteration over all indices of a vector <code>x</code>. The same functionality can be achieved with the function <code>eachindex&#40;x&#41;</code>. In fact, this is the recommended approach for iterating over all elements, as it returns an iterator optimized for each specific iterable object.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2988,7 +2988,7 @@ end</code></pre>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     There are other approaches to iterating over all indices of a vector <code>x</code>. For instance, you can use <code>LinearIndices&#40;x&#41;</code>, or <code>firstindex&#40;x&#41;:lastindex&#40;x&#41;</code> to specify a range from the first to the last index of <code>x</code>.</p>
-<p>This multiplicity of methods exists to handle non-standard indices, such as those provided by the <code>OffsetArrays.jl</code> package. This package sets the first index of arrays to 0, a convention commonly found in many other languages. Nevertheless, unless you&#39;re creating a package for third-party use, you don&#39;t have to worry about which approach to implement. Indeed, they can all be used interchangeably, as shown in the examples below.</p>
+<p>This multiplicity of methods exists to handle non-standard indices, such as those provided by the <code>OffsetArrays.jl</code> package. This package sets the first index of arrays to 0, a common convention in many programming languages. Nevertheless, unless you&#39;re developing a package for other users, you don&#39;t need to worry about which approach to implement. Indeed, they can all be used interchangeably, as shown below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3042,21 +3042,21 @@ end</code></pre>
 8</div></div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Among the available alternatives, I recommend sticking to <code>eachindex</code>. This automatically selects the most efficient method for each type of collection. Additionally, it employs the same syntax regardless of the indexing convention implemented.  </div>  </div>
+<p>Among the available alternatives, <code>eachindex</code> is preferable because it automatically selects the most efficient method for each type of collection. Additionally, the syntax is consistent across all indexing conventions.  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="rules_for_variable_scope_in_for-loops" class="scrollspy">
+<section id="rules_for_variable_scope_in_for-loops" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Rules for Variable Scope in For-Loops</h2><a id="scope" class="anchor"></a></p>
-<p>Similar to functions, for-loops create a new scope for variables. In fact, the scoping rules for both are similar, with one key difference: <strong>for-loops can modify global variables, whereas functions cannot</strong>.</p>
+<p>Similar to functions, for-loops create a new variable scope. In fact, the scoping rules for both are similar, with one key difference: <strong>for-loops can modify global variables, whereas functions cannot</strong>.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     The rules of variable scope we present apply generally, with one exception that arises from following bad practices. Since this case is rare, we won&#39;t cover it.</p>
-<p>Basically, the issue occurs when  <em>i)</em> the for-loop is  <em>not</em> wrapped in a function,  <em>ii)</em> a local variable shares its name with a global variable, and  <em>iii)</em> the script is run non-interactively &#40;i.e., run by using the function <code>include</code>&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that there are two methods to execute a script, as we saw <a href="/julia_book/PAGES/01b_basics/">here</a>. The first method is the one we&#39;re using, where you work interactively with Julia. This includes running commands in the REPL&#39;s prompt <code>julia&gt;</code>and the execution of a script through a code editor. The second method consists of executing a file that stores a script, through the function <code>include</code>.  </span></span> </p>
+      <b>Warning!</b> </span>  </div>  <div class=content>     The general scoping rules presented here apply universally, except in rare edge cases that result from poor coding practices. Since this scenario is uncommon, we only outline it next. </p>
+<p>Basically, the issue occurs when  <em>i)</em> the for-loop is  <em>not</em> wrapped in a function,  <em>ii)</em> a local variable shares the same name as a global variable, and  <em>iii)</em> the script is run non-interactively &#40;i.e., using the function <code>include</code> and a script file&#41;. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> There are two methods to execute a script. The first method is what we&#39;ve been using so far, where you work interactively with Julia. This includes running commands in the REPL&#39;s prompt <code>julia&gt;</code>and the execution of a script through a code editor. The second method consists of executing files that store scripts through the function <code>include</code>.  </span></span> </p>
 <p>Unless the three conditions hold simultaneously, you don&#39;t have to worry about this scenario. And even if this occurs, Julia will display a warning in the REPL indicating that there&#39;s a problem with your code.  </div>  </div>
 <p>To formalize the variable scope of for-loops, we&#39;ll refer to a variable <code>x</code>. The rules governing its scope are:</p>
 <div class="itemNoSpace"><ul>
@@ -3067,7 +3067,7 @@ end</code></pre>
 <li><p>if there&#39;s a variable named <code>x</code> outside the for-loop, <code>x</code> refers to this variable. </p>
 </li>
 </ul></div>
-<p>The following code snippets illustrate the first two rules, which exclusively refer to local variables. The second example is particularly noteworthy, as it highlights <strong>a common mistake made by beginners</strong>: running a for-loop that defines a local variable, and then trying to access this outside the for-loop. </p>
+<p>The following code snippets illustrate the first two rules, which exclusively refer to local variables. The second example is particularly noteworthy, as it highlights <strong>a common mistake made by beginners</strong>: running a for-loop that defines a local variable, and then trying to access it outside the for-loop. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3093,7 +3093,7 @@ end</code></pre>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: UndefVarError: x not defined</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Likewise, the following example demonstrates the consequences of last rule we mentioned. This refers to the consequences of variable scope for global variables. </p>
+<p>Likewise, the following example demonstrates the consequences of the last rule we mentioned. This refers to the consequences of variable scope for global variables. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3126,13 +3126,13 @@ end</code></pre>
     </div>
   </div>
 </section>
-<section id="array_comprehensions" class="scrollspy section-bg-color">
+<section id="array_comprehensions" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Array Comprehensions</h2></p>
-<p>It&#39;s possible to create arrays by applying a code block to each element of a collection. The technique is known as <span style="color: rgb(62, 121, 180);"><strong>array comprehensions</strong></span>, and has a syntax similar to a for-loop: <code>&#91;&lt;expression&gt; for... if...&#93;</code>, where <code>&lt;expression&gt;</code> can be an operation or a function. </p>
-<p>For illustration purposes, consider a vector <code>x</code>. Suppose the goal is to create a vector <code>y</code>, where each element in <code>y</code> is the square of the corresponding element in <code>x</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> This example only aims at explaining the syntax of array comprehensions—<code>y</code> could be simply created by <code>y &#61; x .* x</code> or <code>y &#61; x .^ 2</code>.  </span></span> The following code snippets show two approaches to creating <code>y</code> using array comprehensions. </p>
+<p>To seamless create arrays via for-loops, you can use <span style="color: rgb(62, 121, 180);"><strong>array comprehensions</strong></span>. Their syntax is <code>&#91;&lt;expression&gt; for... if...&#93;</code>, where <code>&lt;expression&gt;</code> denotes either an operation or a function. </p>
+<p>For illustration purposes, consider a vector <code>x</code>. Suppose that the goal is to create a vector <code>y</code> with elements equal to the square of the corresponding element in <code>x</code>. The following code snippets show two approaches to creating <code>y</code> via array comprehensions. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3162,7 +3162,7 @@ y      &#61; &#91;foo&#40;a&#41; for a in x&#93;          # or y &#61; &#91;foo&
   9</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>You can also add conditions to array comprehensions, by placing them at the end of the expression. </p>
+<p>Array comprehensions also allow for creating vectors based on conditions. In such instances, the condition must be placed at the end of the expression. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3179,7 +3179,7 @@ y      &#61; &#91;foo&#40;a&#41; for a in x&#93;          # or y &#61; &#91;foo&
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     Array comprehensions can also be used to create matrices. Regarding syntax, this involves a comma to separate the description of each dimension.</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     Array comprehensions can also create matrices. Its syntax demands a comma to separate the description of each dimension.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3197,15 +3197,15 @@ y      &#61; &#91;foo&#40;a&#41; for a in x&#93;          # or y &#61; &#91;foo&
     </div>
   </div>
 </section>
-<section id="multiple_iterations" class="scrollspy">
+<section id="multiple_iterations" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Multiple Iterations</h2></p>
-<p>Thus far, we&#39;ve considered for-loops that iterate over single values. We now extend their application to <strong>iterate over multiple values</strong>. Specifically, we&#39;ll examine two scenarios: iterating simultaneously over two lists and iterating over both the indices and values of a vector.</p>
+<p>Thus far, we&#39;ve considered for-loops that iterate over single values. We now extend their application to <strong>simultaneous iterations over multiple values</strong>. Specifically, we&#39;ll examine two scenarios: simultaneous iterations over two lists and over both the indices and values of a vector.</p>
  <h4> Iterating over Two Lists </h4>
-<p>There are two ways to simultaneously iterate over two lists <code>x</code> and <code>y</code>, depending on the combination of elements desired. First, if you seek to iterate over all the possible combinations of their elements, you need the function <code>Iterators.product&#40;x,y&#41;</code>. This is part of the package <code>Iterators</code>, which is imported by default in each Julia session.</p>
-<p>Alternatively, you can iterate over all the ordered pairs of elements from <code>x</code> and <code>y</code>. This is implemented through the function <code>zip&#40;x,y&#41;</code>. In this case, each iteration will consider the pair of  <em>i</em>-th elements from <code>x</code> and <code>y</code>, </p>
+<p>Depending on how elements should be simultaneously combined, we can define two approaches to simultaneously iterating over two lists <code>x</code> and <code>y</code>. First, the function <code>Iterators.product&#40;x,y&#41;</code> makes it possible to iterate over all the possible combinations of elements. This function is part of the package <code>Iterators</code>, which is imported by default in each Julia session.</p>
+<p>Alternatively, you can iterate over all the ordered pairs of elements from <code>x</code> and <code>y</code>. This is implemented through the function <code>zip&#40;x,y&#41;</code>, with each iteration taking the pair of  <em>i</em>-th elements from <code>x</code> and <code>y</code>, </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3237,7 +3237,7 @@ end</code></pre>
 [2,4]</div></div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>It&#39;s also possible to iterate over multiple values via array comprehensions. While iteration over pairs still requires the function <code>zip</code>, iterating over all possible combinations can be achieved with a simpler syntax. This involves the inclusion of mutiple <code>for</code> clauses within the comprehension.</p>
+<p>It&#39;s also possible to iterate over multiple values via array comprehensions. While iteration over pairs still requires the function <code>zip</code>, iterating over all possible combinations can be achieved with a simpler syntax. This involves the inclusion of multiple <code>for</code> clauses within the comprehension.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3262,7 +3262,7 @@ end</code></pre>
  </div></div>
 <p>  </p></details></div>
  <h4> Simultaneously Iterating over Indices and Values </h4>
-<p>We can also iterate over each pair of index-value of a vector. This is implemented through the function <code>enumerate</code>.</p>
+<p>We can also iterate over each pair of index-value of a vector. This is implemented via the <code>enumerate</code> function.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3294,12 +3294,12 @@ y &#61; &#91;index * value for &#40;index,value&#41; in enumerate&#40;x&#41;&#93
     </div>
   </div>
 </section>
-<section id="iterating_over_functions" class="scrollspy section-bg-color">
+<section id="iterating_over_functions" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Iterating over Functions</h2><a id="iterate_functions" class="anchor"></a></p>
-<p>Functions in Julia are <span style="color: rgb(62, 121, 180);"><strong>first-class objects</strong></span>, also referred to as <span style="color: rgb(62, 121, 180);"><strong>first-class citizens</strong></span>. This means that functions can be manipulated just like any other data type, such as strings and numbers. In particular, this property makes it possible to define a vector of functions and apply each to an object. The following example illustrates this by computing descriptive statistics of a vector <code>x</code>.</p>
+<p>Functions in Julia are <span style="color: rgb(62, 121, 180);"><strong>first-class objects</strong></span>, also referred to as <span style="color: rgb(62, 121, 180);"><strong>first-class citizens</strong></span>. This means that functions can be manipulated just like any other data type, such as strings and numbers. In particular, this property makes it possible to store functions in a vector and apply them sequentially to an object. The following example illustrates this by computing descriptive statistics of a vector <code>x</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3338,7 +3338,7 @@ descriptive&#40;vector,list&#41; &#61; &#91;foo&#40;vector&#41; for foo in list&
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 8, 2025 
+          © Martin Alfaro <br>Last Modified March 9, 2025 
       </span> 
   </div> 
 </footer>
