@@ -2829,130 +2829,6 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
- <button onclick="printAllTabs()">Export to PDF</button>
-
-<script>
-function printAllTabs() {
-// Add print titles before printing
-const tabButtons  = document.querySelectorAll('.tablink');
-const tabContents = document.querySelectorAll('.tabcontent');
-
-tabContents.forEach((tab, index) => {
-  // Get the title from the corresponding button
-  const title = tabButtons[index].textContent.trim();
-  
-  // Create and insert title element if it doesn't exist
-  if (!tab.querySelector('.print-tab-title')) {
-    const titleDiv             = document.createElement('div');
-          titleDiv.className   = 'print-tab-title';
-          titleDiv.textContent = title;
-    tab.insertBefore(titleDiv, tab.firstChild);
-  }
-});
-
-// Trigger print
-window.print();
-
-// Remove print titles after printing (optional)
-setTimeout(() => {
-  document.querySelectorAll('.print-tab-title').forEach(title => title.remove());
-}, 1000);
-}
-</script>
-
-
-<style>
-
-  
-/* Hide print-only elements when not printing */
-.print-tab-title {
-  display: none;
-}
-
-  
-  @media print {
-  @page {
-    margin-top: 2cm;
-    margin-bottom: 2cm;
-    margin-left: 1cm;
-    margin-right: 1cm;
-  }
-}
-
-@media print {  
-
-          
-     /* .franklin-content,.jumbotron {
-        font-size:80% !important;
-        width: fit-content;
-        height: auto} */
-
-     
-    .franklin-content, .jumbotron {      
-        padding-left : 0 !important;
-        padding-right: 0% !important;}
-        
-
-    nav{display:none;}
-}
-
-@media print {
-      /* Remove any unnecessary spacing */
-  
-
-.franklin_content, .tab_code_links, .tab_wrapper, .hide_tab , .hide_tab summary, .hide_tab details, .hide_tab > details > summary, .hide_tab > details[open] > summary  {
-  page-break-inside: avoid !important;
-  break-inside     : avoid !important;  
-  }
-
-  
-
-/* Hide the original tab buttons during print */
-  .footn, footer, .left_bar_mobile, .left_bar, .bar_top, nav, .navbar, .nav-item, .copy-button, .bar_top .modalButton  {
-    display: none !important;
-  }
-
-
-.tab_code_links, .hide_tab > details[open] > summary, .hide_tab details[open] p{
-  display: none !important;
-  }     
-
- 
-
-  /* Show all tab content during print */
-  .tabcontent {
-    display      : inline-block !important;
-    margin-bottom: 20px;              /* Add some space between tabs */    
-  }
-
-  /* Style for the tab titles in print */
-  .print-tab-title {
-  font-weight   : bold;
-  font-size     : 18px;              /* Adjust size as needed */
-  margin        : 20px 0 10px 0;
-  padding       : 5px 0;
-  border-bottom : 2px solid #000;    /* Optional underline */
-  color         : #000;              /* Ensure good contrast for printing */
-  text-transform: uppercase;         /* Optional - makes titles all caps */
-  display       : block !important;  /* Make sure titles show in print */  
-  }
-
-  .tab_wrapper {
-    margin : 0%;
-    padding: 0%;      
-    display: flex !important;
-  }
-
-}
-
-</style>
-
-<!-- <script>
-    let setHeight = () => {
-    if (window.matchMedia('print').matches) {
-    return;
-  }}
-    </script> -->
 <section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
@@ -3262,11 +3138,11 @@ calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x
     </div>
   </div>
 </section>
-<section id="pre-allocations_and_intermediate_steps" class="scrollspy section-bg-color">
+<section id="pre-allocations_for_intermediate_steps" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Pre-Allocations and Intermediate Steps</h2></p>
+        <h2>Pre-Allocations for Intermediate Steps</h2></p>
 <p>So far, our discussion has centered around the benefits of pre-allocating vectors in nested for-loops. However, its applicability extends beyond this specific scenario.</p>
 <p>Broadly speaking, pre-allocating proves useful when:  <span style="font-style:italic"><strong>i</strong></span>&#41; the vector serves an intermediate result that feeds into another operation, and  <span style="font-style:italic"><strong>ii</strong></span>&#41; the intermediate result is computed inside a for-loop. If these two conditions are met, reusing the same pre-allocated vector outperforms a strategy based on a new vector for each iteration.</p>
 <p>Next, we analyze a case where these conditions hold, even though <code>foo</code> isn&#39;t called in a for-loop as it&#39;d be the case in a nested for-loop. The usefulness of a pre-allocation emerges because <code>output</code> demands a complex computation, making it convenient to split the calculation in several steps. </p>
@@ -4087,7 +3963,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#pre-allocations_and_intermediate_steps" data-offset="-40">Pre-Allocations and Intermediate Steps</a>
+          <a href="#pre-allocations_for_intermediate_steps" data-offset="-40">Pre-Allocations for Intermediate Steps</a>
         </li>
         
       </ul>

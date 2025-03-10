@@ -2844,11 +2844,11 @@ color: white;
     </div>
   </div>
 </section>
-<section id="intuition_about_reductions" class="scrollspy section-bg-color">
+<section id="intuition" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Intuition about Reductions</h2></p>
+        <h2>Intuition</h2></p>
 <p>Reductions are typically implemented using a for-loop, with an operator applied to pairs of elements and the resulting output updated in each iteration. A classic example is the summation of all numeric elements in a vector. This involves applying the addition operator <code>&#43;</code> to pairs of elements, iteratively updating the accumulated sum. This is demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3019,11 +3019,11 @@ end</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="avoiding_memory_allocations_through_reductions" class="scrollspy section-bg-color">
+<section id="avoiding_memory_allocations_via_reductions" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Avoiding Memory Allocations through Reductions</h2></p>
+        <h2>Avoiding Memory Allocations via Reductions</h2></p>
 <p>One of the primary advantages of reductions is that they avoid the memory allocation of intermediate results. To illustrate this, consider the operation <code>sum&#40;log.&#40;x&#41;&#41;</code> for a vector <code>x</code>. This operation involves transforming <code>x</code> into <code>log.&#40;x&#41;</code> and then summing the transformed elements. By default, broadcasting creates a new vector to store the result of <code>log.&#40;x&#41;</code>, thereby allocating memory for it. However, we&#39;re only interested in the final sum and not the intermediate result itself. Therefore, an approach that bypasses the allocation of <code>log.&#40;x&#41;</code> is beneficial. Reductions accomplish this by defining a scalar <code>output</code>, which is iteratively updated by summing the transformed values of <code>x</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> In the section <a href="/julia_book/PAGES/09i_lazyBroadcasting/">Lazy Operations</a>, we&#39;ll explore an alternative with broadcasting that doesn&#39;t materialize intermediate results either.  </span></span> </p>
 <p> <div class="own-anchors"><a name="example_previous2"></a></div>  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3987,7 +3987,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#intuition_about_reductions" data-offset="-40">Intuition about Reductions</a>
+          <a href="#intuition" data-offset="-40">Intuition</a>
         </li>
         
         <li>
@@ -3995,7 +3995,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#avoiding_memory_allocations_through_reductions" data-offset="-40">Avoiding Memory Allocations through Reductions</a>
+          <a href="#avoiding_memory_allocations_via_reductions" data-offset="-40">Avoiding Memory Allocations via Reductions</a>
         </li>
         
         <li>
