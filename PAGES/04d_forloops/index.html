@@ -2816,8 +2816,19 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>A key feature of programming is its ability to automate repetitive tasks. A standard way to implement this is via <span style="color: rgb(62, 121, 180);"><strong>for-loops</strong></span>. They let you execute the same block of code repeatedly, treating each element of a list as a different input.</p>
-<p>For-loops delimit their scope via the keywords <code>for</code> and <code>end</code>. To illustrate this syntax, consider the function <code>println&#40;a&#41;</code>, which evaluates <code>a</code> and displays its output in the REPL. In case <code>a</code> is a string, <code>println&#40;a&#41;</code> simply displays the word stored in <code>a</code>. The following script repeatedly applies <code>println</code> to display each word contained in a collection. </p>
+<p>A key feature of programming is its ability to automate repetitive tasks, with <span style="color: rgb(62, 121, 180);"><strong>for-loops</strong></span> being a crucial tool for this purpose. They let you execute the same block of code repeatedly, treating each element of a list as a different input.</p>
+<p>While for-loops are a fundamental construct in every programming language, their importance is especially pronounced in Julia: unlike other languages &#40;e.g., Matlab, Python, and R&#41;, which often discourage for-loops in performance-critical code, Julia relies on them to achieve high performance.</p>
+<p>The role of for-loops in optimizing performance will be explored in Part II. Here, we’ll primarily introduce the tool itself, focusing on its syntax, constructions, and common iteration techniques.</p>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="syntax" class="scrollspy">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Syntax</h2></p>
+<p>For-loops delimit their scope via the keywords <code>for</code> and <code>end</code>. To illustrate their syntax, consider the function <code>println&#40;a&#41;</code>, which evaluates <code>a</code> and displays its output in the REPL. In case <code>a</code> is a string, <code>println&#40;a&#41;</code> simply displays the word stored in <code>a</code>. The following script repeatedly applies <code>println</code> to display each word contained in a collection.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2835,7 +2846,7 @@ end</code></pre>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     The keyword <code>in</code> can be replaced by <code>∈</code> or <code>&#61;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that <code>∈</code> can be written through tab completion using the command <code>\in</code>  </span></span>. Consequently, the following constructions are all equivalent.</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     The keyword <code>in</code> can be replaced by <code>∈</code> or <code>&#61;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that <code>∈</code> can be written through tab completion using the command <code>\in</code>.  </span></span> Consequently, the following constructions are all equivalent.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2892,17 +2903,15 @@ end</code></pre>
 </li>
 </ul></div>
 <br/>
-<p>In the following sections, we&#39;ll explore different objects that can serve as lists. Furthermore, we&#39;ll show that lists can comprise elements that might not be immediately obvious, such as functions. This makes it possible to apply different functions to an object in each iteration.</p>
+<p>In the following sections, we&#39;ll explore different objects that can serve as lists. Furthermore, we&#39;ll show that these lists can comprise elements not immediately obvious. A typical example is functions, making it possible to apply different functions to the same object.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Always Wrap For-Loops in Functions</strong>  </span>  </div>  <div class=content>     At this stage of the website, we&#39;re still introducing fundamental concepts. Thus, we&#39;re presenting subjects in their simplest form for learning purposes. In particular, this explains why for-loops will be written in the global scope. </p>
 <p>However, <strong>you should always wrap for-loops in functions</strong>. Executing for-loops outside a function severely degrades performance, and is additionally subject to different rules regarding variable scoping. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> In fact, older versions of Julia were restricting the use of for-loops in the global scope.  </span></span>  </div>  </div>
- <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>About High Performance</strong>  </span>  </div>  <div class=content>     Computations via for-loops can negatively impact performance in certain languages &#40;e.g., Matlab, Python, and R&#41;. These languages recommend instead using vectorized code, which basically means operating over vectors rather than individual elements. In Part II of this website, we&#39;ll see that such a recommendation has no bearing on Julia. Indeed, <strong>for-loops are as fast as vectorized code in Julia</strong>, with speeding up operations commonly relying on them.  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="iterating_over_indices" class="scrollspy">
+<section id="iterating_over_indices" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2942,7 +2951,7 @@ end</code></pre>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Alternative Name For Iteration Variable </button>
+    <button class="tablink first_tab active" data-id=""> Creating a Vector from a Range </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; collect&#40;4:6&#41;</code></pre>
@@ -3047,7 +3056,7 @@ end</code></pre>
     </div>
   </div>
 </section>
-<section id="rules_for_variable_scope_in_for-loops" class="scrollspy section-bg-color">
+<section id="rules_for_variable_scope_in_for-loops" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -3126,7 +3135,7 @@ end</code></pre>
     </div>
   </div>
 </section>
-<section id="array_comprehensions" class="scrollspy">
+<section id="array_comprehensions" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -3143,7 +3152,7 @@ end</code></pre>
 <pre><code class="language-julia">x      &#61; &#91;1,2,3&#93;
 
 
-y      &#61; &#91;a^2 for a in x&#93;                  # or y &#61; &#91;x&#91;i&#93;^2 for i in eachindex&#40;x&#41;&#93;</code></pre>
+y      &#61; &#91;a^2 for a in x&#93;             # or y &#61; &#91;x&#91;i&#93;^2 for i in eachindex&#40;x&#41;&#93;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
   1
@@ -3197,7 +3206,7 @@ y      &#61; &#91;foo&#40;a&#41; for a in x&#93;          # or y &#61; &#91;foo&
     </div>
   </div>
 </section>
-<section id="iterating_over_multiple_objects" class="scrollspy section-bg-color">
+<section id="iterating_over_multiple_objects" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -3294,7 +3303,7 @@ y &#61; &#91;index * value for &#40;index,value&#41; in enumerate&#40;x&#41;&#93
     </div>
   </div>
 </section>
-<section id="iterating_over_functions" class="scrollspy">
+<section id="iterating_over_functions" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -3338,7 +3347,7 @@ descriptive&#40;vector,list&#41; &#61; &#91;foo&#40;vector&#41; for foo in list&
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 9, 2025 
+          © Martin Alfaro <br>Last Modified March 12, 2025 
       </span> 
   </div> 
 </footer>
@@ -3943,6 +3952,10 @@ for multiple pics in a row
         
         <li>
           <a href="#introduction" data-offset="-40">Introduction</a>
+        </li>
+        
+        <li>
+          <a href="#syntax" data-offset="-40">Syntax</a>
         </li>
         
         <li>

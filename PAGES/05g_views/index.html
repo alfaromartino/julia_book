@@ -2811,7 +2811,7 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy section-bg-color">
+<section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2828,7 +2828,7 @@ color: white;
     </div>
   </div>
 </section>
-<section id="mutation_via_vectors" class="scrollspy">
+<section id="mutation_via_vectors" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2947,11 +2947,11 @@ x&#91;:&#93; &#61; x .* 10</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="mutation_via_broadcasting" class="scrollspy section-bg-color">
+<section id="mutation_via_broadcasting" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Mutation Via Broadcasting <code>&#61;</code> </h2></p>
+        <h2>Mutation Via Broadcasting '=' </h2></p>
 <p>When the goal is to replace each element of a slice with the same scalar value, the previous method can result in excessive <a href="https://en.wikipedia.org/wiki/Boilerplate_code">boilerplate code</a>. This is because the technique always requires a vector matching the number of elements to be replaced.</p>
 <p>To address this, we introduce a more convenient approach based on broadcasting the assignment operator <code>&#61;</code>. Its syntax is <code>x&#91;&lt;indices&gt;&#93; .&#61; &lt;expression&gt;</code>, whose key advantage is that <code>&lt;expression&gt;</code> can be either a  <em>vector</em> or a  <em>scalar</em>. This feature allows for a statement as simple as <code>x&#91;indices&#93; .&#61; &lt;number&gt;</code> to substitute each element of <code>x&#91;indices&#93;</code> with a scalar <code>&lt;number&gt;</code> </p>
 <p>Below, we illustrate the approach by replacing each negative value of <code>x</code> with zero. For comparison, we also implement the operation through the previous section&#39;s method.</p>
@@ -2991,11 +2991,11 @@ x&#91;x .&lt; 0&#93; .&#61; zeros&#40;length&#40;x&#91;x .&lt; 0&#93;&#41;&#41; 
     </div>
   </div>
 </section>
-<section id="combining_and_the_function_view" class="scrollspy">
+<section id="combining_and_the_function_view" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Combining <code>.&#61;</code> and The Function <code>view</code> </h2></p>
+        <h2>Combining .= and The Function 'view' </h2></p>
 <p>In some scenarios, we may need to perform various operations over the same slice. However, repeatedly referencing the same slice is inefficient, error-prone, and tedious. In such cases, a more convenient approach is to create a slice&#39;s view through the <code>view</code> function, and then operate over it. </p>
 <p>The following example shows the same operation can be applied using a <code>view</code> and without it. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -3091,7 +3091,7 @@ slice  &#61; 0                  # this creates a new object, it does not modify 
     </div>
   </div>
 </section>
-<section id="mutation_via_for-loops" class="scrollspy section-bg-color">
+<section id="mutation_via_for-loops" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -3122,7 +3122,7 @@ end</code></pre> </div></div>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Explicit Vector </button>
-    <button class="tablink" data-id=""> Approach with <code>similar</code> </button>    
+    <button class="tablink" data-id=""> Approach with 'similar' </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; Vector&#123;Int64&#125;&#40;undef, 3&#41;  # &#96;x&#96; will only accept &#96;Int64&#96; elements
@@ -3185,7 +3185,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 9, 2025 
+          © Martin Alfaro <br>Last Modified March 12, 2025 
       </span> 
   </div> 
 </footer>
@@ -3797,11 +3797,11 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#mutation_via_broadcasting" data-offset="-40">Mutation Via Broadcasting ~~~`=`~~~ </a>
+          <a href="#mutation_via_broadcasting" data-offset="-40">Mutation Via Broadcasting '=' </a>
         </li>
         
         <li>
-          <a href="#combining_and_the_function_view" data-offset="-40">Combining ~~~`.=`~~~ and The Function ~~~`view`~~~ </a>
+          <a href="#combining_and_the_function_view" data-offset="-40">Combining .= and The Function 'view' </a>
         </li>
         
         <li>
