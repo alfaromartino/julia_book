@@ -3000,7 +3000,7 @@ mean&#40;x&#41;</code></pre>
  </div></div>
 <p>  </p></details></div>
 <p>Note that this approach deems it unnecessary to add the package&#39;s name as a prefix, even when the package is loaded via <code>import</code>.</p>
-<p>Furthermore, you can assign custom names to packages or functions, which is particularly useful for substituting lengthy names. Below, we demonstrate the implementation of this feature. </p>
+<p>Furthermore, you can assign custom names to packages or functions, which is particularly useful for substituting lengthy names. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3025,7 +3025,7 @@ average&#40;x&#41;</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Notice that, again, the function&#39;s name doesn&#39;t require any prefix when it&#39;s called. This is true even when it&#39;s incorporated into the workspace with <code>import</code>.</p>
+<p>Notice that, again, the function&#39;s name doesn&#39;t require any prefix when it&#39;s called, even with <code>import</code>.</p>
 <p>      </div>
     </div>
   </div>
@@ -3038,9 +3038,9 @@ average&#40;x&#41;</code></pre>
 <p>Macros are ubiquitous in Julia. They enable the automation of tasks that otherwise would be tedious and time-consuming to perform. On this website, we&#39;ll only cover how to apply macros, without exploring approaches to defining them. The reason is that creating macros requires knowledge of Julia&#39;s metaprogramming capabilities, whose explanation would demand introducing many preliminary concepts. </p>
 <p>The usefulness of macros may not be immediately clear at this point. Hopefully, many of your questions will be cleared up once we start apply them in later sections.</p>
 <p> <h4> Applying Macros </h4><div class="own-anchors"><a name="macros"></a></div></p>
-<p>Macros and functions share similarities, as both perform operations on an input. Their main difference is that macros pass statements as their argument, while functions instead take variables as inputs. Another difference is that macros may return a statement as its output, which isn&#39;t possible with functions.</p>
-<p>Formally, macro are denoted by prefixing the symbol <code>@</code> to their name. They can take a whole expression like <code>x &#61; some_function&#40;y&#41;</code> as its argument, possibly modifying <code>x</code>, <code>&#61;</code>, and <code>some_function&#40;y&#41;</code>. In fact, macros can even add lines of code to the expression. Eventually, macros return a modified expression as their result.</p>
-<p>One of the primary purposes of macros is to transform statements. To illustrate this, let&#39;s consider the macro <code>@.</code>, which appends a dot <code>.</code> to each operator and function in a statement. At this point, don&#39;t worry about what a dot implies. Instead, focus on how macros modify an entire statement.</p>
+<p>Macros and functions share similarities, with both performing operations on inputs and producing outputs. Their key distinction lies in their handling of inputs and output: macros manipulate code syntax &#40;statements or expressions&#41;, whereas functions process data values &#40;variables or evaluated expressions&#41;.</p>
+<p>Formally, macros are denoted by prefixing the symbol <code>@</code> to their name. They take an entire code expression as their argument and transform it. For example, a macro might take <code>x &#61; some_function&#40;y&#41;</code> as input, potentially modifying each individual component &#40;<code>x</code>, <code>&#61;</code>, or <code>some_function&#40;y&#41;</code>&#41;, inserting new code, or reorganizing the code structure. The final output is a modified version of the original expression, which then is integrated into the program during execution.</p>
+<p>A key purpose of macros is to automate code transformations. For example, consider the <code>@.</code> macro in Julia, which appends a dot <code>.</code> to every operator and function call in a statement. For now, ignore the impact of adding dots to your code, which will be explained in an upcoming section. Instead, focus on how macros operate at the syntactic level to rewrite entire code blocks.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3049,7 +3049,7 @@ average&#40;x&#41;</code></pre>
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia"># both are equivalent
    z .&#61; foo.&#40;x .&#43; y&#41;
-@. z  &#61; foo&#40;x  &#43; y&#41;          # @. adds . to &#39;foo&#39;, &#39;&#61;&#39;, and &#39;&#43;&#39;</code></pre>
+@. z  &#61; foo&#40;x  &#43; y&#41;          # @. adds . to &#39;&#61;&#39;, &#39;foo&#39;, and &#39;&#43;&#39;</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
@@ -3078,7 +3078,7 @@ average&#40;x&#41;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 12, 2025 
+          © Martin Alfaro <br>Last Modified March 14, 2025 
       </span> 
   </div> 
 </footer>

@@ -2834,8 +2834,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>High performance in Julia depends critically on the notion of type stability. The definition of this concept is relatively straightforward: a function is type-stable when the types of its expressions can be inferred from the types of its arguments. If the property holds, Julia can specialize the computation method, resulting in significant performance gains.</p>
-<p>Despite its simplicity, type stability is subject to various nuances. In fact, a careful consideration requires a solid foundation in two key areas: <strong>Julia's type system and the inner workings of functions</strong>. The current section equips you with the necessary knowledge to grasp the former, deferring the internals of functions to the next section. Moreover, <strong>the explanations focus on the case of scalars and vectors</strong>, leaving more complex objects for subsequent sections.  </p>
+<p>High performance in Julia depends critically on the notion of type stability. The definition of this concept is relatively straightforward: a function is type-stable when the types of its expressions can be inferred from the types of its arguments. When the property holds, Julia can specialize the computation method, resulting in significant performance gains.</p>
+<p>Despite its simplicity, type stability is subject to various nuances. In fact, a careful consideration of this property requires a solid foundation in two key areas: <strong>Julia's type system and the inner workings of functions</strong>. The current section equips you with the necessary knowledge to grasp the former, deferring the internals of functions to the next section. <strong>The explanations will focus on the case of scalars and vectors</strong>, leaving more complex objects for subsequent sections.  </p>
 <p>Before you continue, I recommend reviewing the basics of types introduced <a href="/julia_book/PAGES/02b_variables/#types">here</a>.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
@@ -3200,7 +3200,7 @@ end</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Creating Variables with Some Type</h2></p>
-<p>To conclude this section, we present a particular approach for defining variables. This replicates the values of another variable <code>x</code>, while constructing the object with a <strong>concrete type</strong>. The approach relies on the use of special functions called <span style="color: rgb(62, 121, 180);"><strong>constructors</strong></span>, which create new instances of a concrete type. These functions are useful for transforming a variable <code>x</code> into another type, provided the transformation is possible.</p>
+<p>To conclude this section, we present a particular approach to defining variables. This replicates the values of another variable <code>x</code>, while constructing the object with a <strong>concrete type</strong>. The approach relies on the use of special functions called <span style="color: rgb(62, 121, 180);"><strong>constructors</strong></span>, which create new instances of a concrete type. These functions are useful for transforming a variable <code>x</code> into another type, provided the transformation is possible.</p>
 <p>Constructors are implemented by <code>Type&#40;x&#41;</code>, where <code>Type</code> should be replaced with the literal name of the type &#40;e.g., <code>Vector&#123;Float64&#125;</code>&#41;. Like any other function, it supports broadcasting.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3331,7 +3331,7 @@ y &#61; convert.&#40;Float64, x&#41;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 12, 2025 
+          © Martin Alfaro <br>Last Modified March 14, 2025 
       </span> 
   </div> 
 </footer>

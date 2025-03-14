@@ -2816,9 +2816,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section explores element-wise operations on <strong>iterable collections</strong>, defined as collections whose elements can be accessed sequentially. Examples include vectors, tuples, and ranges.</p>
-<p>The first approach covered is the <code>map</code> function, which applies a given function to each element of collections. This function is particularly convenient for transforming collections, without requiring more verbose approaches as explicit for-loops. </p>
-<p>After this, we&#39;ll shift our focus to a fundamental technique in Julia known as <strong>broadcasting</strong>. This allows the user to apply multiple functions and operators element-wise, while maintaining your code concise and expressive. Broadcasting is quite versatile, supporting operations on collections of equal size or combinations of scalars and same-size collections. Its distinctive syntax, which involves appending a dot <code>.</code> to the function/operator, makes it easily identifiable in code.</p>
+<p>This section explores element-wise operations on <strong>iterable collections</strong>. These are defined as collections whose elements can be accessed sequentially, including examples like vectors, tuples, and ranges.</p>
+<p>The first approach covered is the <code>map</code> function, which applies a given function to each element of a collection. This function is particularly convenient for transforming collections, without the need of employing other more verbose approaches such as for-loops. </p>
+<p>After this, we&#39;ll shift our focus to a fundamental technique in Julia known as <strong>broadcasting</strong>. This enables the application of functions and operators element-wise, while maintaining code concise and expressive. Broadcasting is quite versatile, supporting operations on collections of equal size or combinations of scalars and same-size collections. Its distinctive syntax, which involves appending a dot <code>.</code> to the function/operator, makes it easily identifiable throughout code.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     The terms <strong>broadcasting</strong> and <strong>vectorization</strong> will be used interchangeably throughout the website, although strictly speaking they&#39;re not equivalent. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Vectorization refers to applications restricted to arrays of the same size, with broadcasting being an extension of it that allows for scalars.  </span></span> Furthermore, vectorization has multiple meanings, depending on the context in which the definition is applied.  </div>  </div>
@@ -2836,7 +2836,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>The "Map" Function</h2></p>
 <p>The <code>map</code> function is available in most programming languages, enabling the creation of new collections with transformed elements. It can be applied in two ways, depending on the number of inputs passed.</p>
-<p>In its most basic form, <code>map</code> takes a single-argument function <code>foo</code> and collection <code>x</code>. Its syntax is <code>map&#40;foo,x&#41;</code>, returning a new collection with <code>foo&#40;x&#91;i&#93;&#41;</code> as  <em>i</em>-th element. Typically, <code>map</code> is applied using an anonymous function, as illustrated below.</p>
+<p>In its most basic form, <code>map</code> takes a single-argument function <code>foo</code> and a collection <code>x</code>. Its syntax is <code>map&#40;foo,x&#41;</code>, returning a new collection with <code>foo&#40;x&#91;i&#93;&#41;</code> as  <em>i</em>-th element. Typically, <code>map</code> is applied using an anonymous function, as illustrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2875,7 +2875,7 @@ z &#61; map&#40;a -&gt; 2 * a, x&#41;</code></pre>
  </div></div>
 <p>  </p></details></div>
 <p>The second way to apply <code>map</code> arises when functions take multiple arguments. The syntax for these cases is <code>map&#40;foo, x, y&#41;</code>, where <code>foo</code> is a two-argument function, returning a new collection with  <em>i</em>-th element <code>foo&#40;x&#91;i&#93;, y&#91;i&#93;&#41;</code>. When the collections <code>x</code> and <code>y</code> have different sizes, <code>foo</code> <strong>is applied element-wise until the shortest collection is exhausted</strong>. Note that this rule applies even when either <code>x</code> or <code>y</code> is a scalar, in which case <code>map</code> would return a single element.</p>
-<p>To demonstrate the application of <code>map</code> with multiple arguments, let&#39;s consider addition as an operation. As you may recall, <code>&#43;</code> defines both an operator &#40;e.g., <code>2 &#43; 3</code>&#41; and a function &#40;e.g., <code>&#43;&#40;2, 3&#41;</code>&#41;. By using <code>&#43;</code> in particular as a function, <code>map</code> can be employed to perform an element-wise addition of multiple collections.</p>
+<p>To demonstrate how <code>map</code> is applied with multiple arguments, let&#39;s consider the addition operation. As you may recall, <code>&#43;</code> denotes both an operator &#40;e.g., <code>2 &#43; 3</code>&#41; and a function &#40;e.g., <code>&#43;&#40;2, 3&#41;</code>&#41;. By using <code>&#43;</code> in particular as a function, <code>map</code> can perform element-wise additions of multiple collections.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2949,7 +2949,7 @@ z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an
       <div class="col-lg- mx-auto">
         <h2>Broadcasting</h2></p>
 <p>The function <code>map</code> can rapidly become unwieldy when dealing with complex functions or multiple arguments. This is where broadcasting comes into play, offering a more streamlined syntax.</p>
-<p>Next, we&#39;ll explore the concept of broadcasting in a step-by-step manner. First, we&#39;ll show how it applies to vectors of equal size, covering both functions and operators. After this, we&#39;ll demonstrate how broadcasting is able to combine scalars and vectors, even though it typically doesn&#39;t support operations with vectors of different sizes. In such instances, the scalar is treated as a vector that matches the size of the corresponding vectors.</p>
+<p>Next, we&#39;ll explore the concept of broadcasting in a step-by-step manner. First, we&#39;ll show how it applies to vectors of equal size, covering both functions and operators. After this, we&#39;ll demonstrate that broadcasting accepts combinations of scalars and vectors, even though it typically doesn&#39;t support operations with vectors of different sizes. In such instances, the scalar is treated as a vector that matches the size of the corresponding vectors.</p>
 <p>Unlike other programming languages, <strong>broadcasting is an intrinsic feature of Julia</strong> and thereby applicable to  <em>any</em> function or operator. In the case of functions, this entails in particular that broadcasting extends even to user-defined functions.</p>
 <p>      </div>
     </div>
@@ -2963,7 +2963,7 @@ z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an
 <p>Broadcasting expands the versatility of functions, allowing them to be applied element-wise to a collection. The feature is implemented by appending a dot <strong> <em>after</em></strong> the name of the function, as in <code>foo.&#40;x&#41;</code>. </p>
 <p>Remarkably, <strong>any function</strong> <code>foo</code> <strong>has a broadcasting counterpart</strong> <code>foo.</code>. This implies that broadcasting is automatically available for user-defined functions. Additionally, broadcasting isn&#39;t restricted to numeric collections, applying to any iterable collection regardless of its elements. For instance, we&#39;ll show below that it can be used for string manipulation.</p>
 <p>Similarly to <code>map</code>, broadcasting can be applied to both single- and multiple-argument functions. Each case warrants separate consideration. </p>
-<p>In the case of single-argument functions, broadcasting <code>foo</code> over a collection <code>x</code> returns a new collection with <code>foo&#40;x&#91;i&#93;&#41;</code> as its  <em>i</em>-th element. The following examples demonstrate its usage.</p>
+<p>As for single-argument functions, broadcasting <code>foo</code> over a collection <code>x</code> returns a new collection with <code>foo&#40;x&#91;i&#93;&#41;</code> as its  <em>i</em>-th element. The following examples demonstrate its usage.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2999,9 +2999,9 @@ x         &#61; &#91;1,2,3&#93;</code></pre>
  9</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>As for multiple-argument functions, suppose a function <code>foo</code> and collections <code>x</code> and <code>y</code>. Then, <code>foo.&#40;x,y&#41;</code> returns a new collection having <code>foo&#40;x&#91;i&#93;,y&#91;i&#93;&#41;</code> as its  <em>i</em>-th element. </p>
-<p>Importantly, <strong>collections with different sizes aren't allowed</strong>, establishing a clear contrast between broadcasting and <code>map</code>. We&#39;ll see later that the sole exception to this rule is when one of the objects is a scalar &#40;or a single-element collection&#41;.</p>
-<p>To illustrate the usage, we make use of the function <code>max</code>, which returns the maximum of its arguments &#40;e.g., <code>max&#40;1,2&#41;</code> returns <code>2</code>&#41;.</p>
+<p>As for multiple-argument functions, suppose a function <code>foo</code> and collections <code>x</code> and <code>y</code>. Then, <code>foo.&#40;x,y&#41;</code> returns a new collection with <code>foo&#40;x&#91;i&#93;,y&#91;i&#93;&#41;</code> as its  <em>i</em>-th element. </p>
+<p>Importantly, <strong>collections with different sizes aren't allowed</strong>, establishing a clear contrast between broadcasting and <code>map</code>. The sole exception to this rule is when one of the objects is a scalar, as we&#39;ll see later.</p>
+<p>To illustrate its usage, we make use of the function <code>max</code>, which returns the maximum of its arguments &#40;e.g., <code>max&#40;1,2&#41;</code> returns <code>2</code>&#41;.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3101,8 +3101,8 @@ y &#61; &#91;-1, -2, -3&#93;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Operators With Single-Element Objects</h2></p>
-<p>In all the cases covered, broadcasting was applied with inputs of the same size. This is because applications with collections of dissimilar size, such as <code>x &#61; &#91;1,2&#93;</code> and <code>y&#61;&#91;3,4,5&#93;</code>, are unfeasible.</p>
-<p>One exception to this rule occurs when functions/operations are broadcasted over vectors of equal size and scalars. In these cases, scalars are treated as objects having the same size as the vectors, with all entries equal to the scalar. For example, given <code>x &#61; &#91;1,2,3&#93;</code> and <code>y &#61; 2</code>, the expression <code>x .&#43; y</code> produces the same result as defining <code>y &#61; &#91;2,2,2&#93;</code> and then executing <code>x .&#43; y</code>. This is demonstrated below.</p>
+<p>In all the cases covered so far, broadcasting was applied with inputs of the same size. In general, collections of dissimilar size aren&#39;t allowed, such as when the inputs are <code>x &#61; &#91;1,2&#93;</code> and <code>y&#61;&#91;3,4,5&#93;</code>.</p>
+<p>One exception to this rule occurs when broadcasting applies to vectors of equal size combined with scalars. In these cases, scalars are treated as objects having the same size as the vectors, with all entries equal to the scalar. For example, given <code>x &#61; &#91;1,2,3&#93;</code> and <code>y &#61; 2</code>, the expression <code>x .&#43; y</code> produces the same result as defining <code>y &#61; &#91;2,2,2&#93;</code> and then executing <code>x .&#43; y</code>. This is demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3147,8 +3147,8 @@ region        &#61;  &#91;&quot;Europe&quot;, &quot;North America&quot;&#93;</co
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Iterable Objects</h2></p>
-<p>So far, our examples have focused on broadcasting using vectors as collections. Furthermore, we&#39;ve explored the technique by treating functions and operators separately, helping clarify the underlying mechanics of broadcasting. Next, we&#39;ll take a more comprehensive perspective, applying broadcasting to other types of collections as well as combined operations.</p>
-<p>We first show that broadcasting can be applied to any iterable object. This includes tuples and ranges, as the following examples demonstrate.</p>
+<p>So far, our examples have focused on broadcasting using vectors as collections. Furthermore, we&#39;ve explored the technique by treating functions and operators separately, helping clarify the underlying mechanics of broadcasting. Next, we&#39;ll take a more comprehensive perspective, applying broadcasting to other types of collections, as well as expressions combining functions and operators.</p>
+<p>We first show that broadcasting can be applied to any iterable object, including tuples and ranges.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3510,7 +3510,7 @@ list &#61; &#91;1, 2, 3&#93;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 12, 2025 
+          © Martin Alfaro <br>Last Modified March 14, 2025 
       </span> 
   </div> 
 </footer>

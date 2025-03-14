@@ -2816,7 +2816,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>A key feature of programming is its ability to automate repetitive tasks, with <span style="color: rgb(62, 121, 180);"><strong>for-loops</strong></span> being a crucial tool for this purpose. They let you execute the same block of code repeatedly, treating each element of a list as a different input.</p>
+<p>A key feature of programming is its ability to automate repetitive tasks, with <span style="color: rgb(62, 121, 180);"><strong>for-loops</strong></span> being crucial for this purpose. They let you execute the same block of code repeatedly, treating each element of a list as a different input.</p>
 <p>While for-loops are a fundamental construct in every programming language, their importance is especially pronounced in Julia: unlike other languages &#40;e.g., Matlab, Python, and R&#41;, which often discourage for-loops in performance-critical code, Julia relies on them to achieve high performance.</p>
 <p>The role of for-loops in optimizing performance will be explored in Part II. Here, we’ll primarily introduce the tool itself, focusing on its syntax, constructions, and common iteration techniques.</p>
 <p>      </div>
@@ -3213,8 +3213,8 @@ y      &#61; &#91;foo&#40;a&#41; for a in x&#93;          # or y &#61; &#91;foo&
         <h2>Iterating over Multiple Objects</h2></p>
 <p>Thus far, we&#39;ve considered for-loops that iterate over single values. We now extend their application to <strong>simultaneous iterations over multiple values</strong>. Specifically, we&#39;ll examine two scenarios: simultaneous iterations over two lists and over both the indices and values of a vector.</p>
  <h4> Iterating over Two Lists </h4>
-<p>Depending on how elements should be simultaneously combined, we can define two approaches to simultaneously iterating over two lists <code>x</code> and <code>y</code>. First, the function <code>Iterators.product&#40;x,y&#41;</code> makes it possible to iterate over all the possible combinations of elements. This function is part of the package <code>Iterators</code>, which is imported by default in each Julia session.</p>
-<p>Alternatively, you can iterate over all the ordered pairs of elements from <code>x</code> and <code>y</code>. This is implemented through the function <code>zip&#40;x,y&#41;</code>, with each iteration taking the pair of  <em>i</em>-th elements from <code>x</code> and <code>y</code>, </p>
+<p>Depending on how elements should be combined, we can define two approaches to simultaneously iterating over two lists <code>x</code> and <code>y</code>. First, the function <code>Iterators.product&#40;x,y&#41;</code> makes it possible to iterate over all the possible combinations of elements. This function is part of the package <code>Iterators</code>, imported by default in each Julia session.</p>
+<p>Alternatively, you can iterate over all the ordered pairs of <code>x</code> and <code>y</code>. This is implemented through the function <code>zip&#40;x,y&#41;</code>, which provides the pair of  <em>i</em>-th elements from <code>x</code> and <code>y</code> in the  <em>i</em>-th iteration.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3246,7 +3246,7 @@ end</code></pre>
 [2,4]</div></div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>It&#39;s also possible to iterate over multiple values via array comprehensions. While iteration over pairs still requires the function <code>zip</code>, iterating over all possible combinations can be achieved with a simpler syntax. This involves the inclusion of multiple <code>for</code> clauses within the comprehension.</p>
+<p>Using <code>zip</code>, we can also iterate over multiple values via array comprehensions.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3271,7 +3271,7 @@ end</code></pre>
  </div></div>
 <p>  </p></details></div>
  <h4> Simultaneously Iterating over Indices and Values </h4>
-<p>We can also iterate over each pair of index-value of a vector. This is implemented via the <code>enumerate</code> function.</p>
+<p>To iterate over each pair of index-value of a vector, we can employ the <code>enumerate</code> function.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3347,7 +3347,7 @@ descriptive&#40;vector,list&#41; &#61; &#91;foo&#40;vector&#41; for foo in list&
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 12, 2025 
+          © Martin Alfaro <br>Last Modified March 14, 2025 
       </span> 
   </div> 
 </footer>

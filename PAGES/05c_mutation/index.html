@@ -2825,7 +2825,7 @@ color: white;
 <li><p>techniques for vector indexing to select elements</p>
 </li>
 </ul>
-<p>The current section in particular focuses on <strong>distinguishing between assignments and mutations of variables</strong>. The difference between both operations can easily go unnoticed by new users, as both operations use the operator <code>&#61;</code>, despite being fundamentally different. Clearly delineating these operations is important not only for Julia, but also for other programming languages.</p>
+<p>The current section in particular focuses on <strong>distinguishing between assignments and mutations of variables</strong>. The difference between both operations can easily go unnoticed by new users, as both operations use the operator <code>&#61;</code>, despite being fundamentally different. Clearly delineating these operations is important not only for Julia, but also other programming languages.</p>
 <p>      </div>
     </div>
   </div>
@@ -2975,7 +2975,7 @@ y &#61; &#91;4,5&#93;</code></pre>
   <h2 style="color:rgb(63, 99,136)">Graphical Representation</h2>
     <img src="/julia_book/assets/PAGES/05c_mutation/tikz/interpret05.svg" style="width:450px ; height:auto; padding-right:0em;">  
 </div>  </div>  </div>
-<p>We&#39;ve indicated that the operation <code>y &#61; x</code> creates an alias of <code>x</code>, making <code>y</code> and <code>x</code> two different labels for the same object. Consequently, <strong>modifying the elements of either</strong> <code>x</code> <strong>or</strong> <code>y</code> <strong>will necessarily change the elements held by both</strong> <code>x</code> <strong>and</strong> <code>y</code>. This is illustrated in the following diagram and code snippet. </p>
+<p>We&#39;ve indicated that the operation <code>y &#61; x</code> creates an alias of <code>x</code>, making <code>y</code> and <code>x</code> two different labels for the same object. This implies that <strong>modifying the elements of either</strong> <code>x</code> <strong>or</strong> <code>y</code> <strong>will necessarily change the elements held by both</strong> <code>x</code> <strong>and</strong> <code>y</code>. The following diagram and code snippet illustrate this.</p>
  <div class="multiple_pics">
   <h2 style="color:rgb(63, 99,136)">Graphical Representation</h2>
     <img src="/julia_book/assets/PAGES/05c_mutation/tikz/interpret06.svg" style="width:750px ; height:auto; margin-top:-1em;">  
@@ -2999,7 +2999,7 @@ x&#91;1&#93; &#61; 0</code></pre>
  5</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Instead, to treat <code>x</code> and <code>y</code> as separate objects, you must apply the function <code>copy</code>. This creates a  <em>new object</em> containing the same elements as the original. In this way, any modification to the new object won&#39;t affect the original one.</p>
+<p>If you instead want to treat <code>x</code> and <code>y</code> as separate objects, you must apply the function <code>copy</code>. This creates a  <em>new object</em> containing the same elements as the original. In this way, any modification to the new object won&#39;t affect the original one.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3041,7 +3041,7 @@ x&#91;1&#93; &#61; 0</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 12, 2025 
+          © Martin Alfaro <br>Last Modified March 14, 2025 
       </span> 
   </div> 
 </footer>
