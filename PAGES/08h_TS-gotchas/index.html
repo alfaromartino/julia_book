@@ -2924,7 +2924,7 @@ end
         <h2>Gotcha 2: Collections of Collections</h2></p>
 <p>When working in data analysis, collections of collections emerge naturally. An example of this data structure is given by the <code>DataFrames</code> package, which defines a table with each column representing a different variable. As we haven&#39;t introduced this package, we&#39;ll consider a more basic scenario involving a vector of vectors, represented by the type <code>Vector&#123;Vector&#125;</code>. This exhibits a similar structure, and also the same potential issues regarding type stability. </p>
 <p>Essentially, the issue arises because, by not constraining the types of its inner vectors, a collection of collections like <code>Vector&#123;Vector&#125;</code> offers a high degree of flexibility. This flexibility is particularly valuable in data analysis, where datasets often comprise diverse columns that may contain disparate data types &#40;e.g., <code>String</code>, <code>Float64</code>, <code>Int64</code>&#41;. However, it also comes at a cost: the type <code>Vector&#123;Vector&#125;</code> only guarantees that its elements are vectors, without providing any information about the concrete types they contain. As a result, when a function operates on one of these inner vectors, the type system is unable to infer the concrete type of the data, leading to type instability. </p>
-<p>To illustrate this scenario, suppose a vector <code>data</code> comprising multiple inner vectors. Moreover, consider a function <code>foo</code> that takes <code>data</code> as its argument, and operates on one of its inner vectors <code>vec2</code>. The first tab below shows that this case leads to type instability. The simplest <strong>solution</strong> is presented in the second tab, and consists of including a barrier function that takes the inner vector <code>vec2</code> as its argument. The technique rectifies the type instability, as the barrier function attempts to identify a concrete type for <code>vec2</code>. Note that the barrier function is defined <a href="/julia_book/PAGES/05h_inplace/">in-place</a>. This implies that the value of <code>vec2</code>, and hence of <code>data</code>, is updated when <code>foo</code> is executed.</p>
+<p>To illustrate this scenario, suppose a vector <code>data</code> comprising multiple inner vectors. Moreover, consider a function <code>foo</code> that takes <code>data</code> as its argument, and operates on one of its inner vectors <code>vec2</code>. The first tab below shows that this case leads to type instability. The simplest <strong>solution</strong> is presented in the second tab, and consists of including a barrier function that takes the inner vector <code>vec2</code> as its argument. The technique rectifies the type instability, as the barrier function attempts to identify a concrete type for <code>vec2</code>. Note that the barrier function is defined <a href="/julia_book/PAGES/05g_inplace_functions/">in-place</a>&#41;. This implies that the value of <code>vec2</code>, and hence of <code>data</code>, is updated when <code>foo</code> is executed.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3605,7 +3605,7 @@ end
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 14, 2025 
+          © Martin Alfaro <br>Last Modified March 15, 2025 
       </span> 
   </div> 
 </footer>

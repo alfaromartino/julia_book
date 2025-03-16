@@ -1873,9 +1873,9 @@ background: transparent;
                 
                 <li><a href="/julia_book/PAGES/05f_indexing/"><i>f</i>. Array Indexing</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/05g_views/"><i>g</i>. In-Place Assignments</a></li><br>
+                <li><a href="/julia_book/PAGES/05g_inplace_operations/"><i>g</i>. In-Place Operations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/05h_inplace/"><i>h</i>. In-Place Functions</a></li><br>
+                <li><a href="/julia_book/PAGES/05h_inplace_functions/"><i>h</i>. In-Place Functions</a></li><br>
                 
               </ul>
             </li>
@@ -2811,7 +2811,7 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy section-bg-color">
+<section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2832,26 +2832,26 @@ color: white;
     </div>
   </div>
 </section>
-<section id="packages" class="scrollspy">
+<section id="packages" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Packages</h2></p>
 <p>When you start a new session in Julia, only a handful of very basic functions are available &#40;e.g., those for sums, products, and subtractions&#41;. This is a deliberate choice made by Julia developers, who rely on <strong>packages</strong> to incorporate functions into the workspace. In fact, both built-in and third-party functions are contained in packages—the only difference is that the former are loaded by default.</p>
 <p>The approach is not unique to Julia. However, Julia embraces this philosophy more profoundly than other programming languages. Thus, it doesn&#39;t even include standard functions such as averages or standard deviations, which are instead relegated to a package called <code>Statistics</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The extent to which Julia advocates for this principle is evident in <code>Statistics</code> itself, where functions for computing distributions are included in another package called <code>Distributions</code>.  </span></span></p>
-<p>This design philosophy is rooted on a programming principle known as <a href="https://en.wikipedia.org/wiki/Modular_programming"><strong>modularity</strong></a>. The principle promotes the development of small reusable modules, rather than large intertwined code. Its main advantage is to let packages evolve independently, without bugs and deprecations spreading across the entire Julia ecosystem. The practical implication for users of this feature is that they need to load several packages in each session, even to perform simple tasks.</p>
+<p>This design philosophy is rooted on a programming principle known as <a href="https://en.wikipedia.org/wiki/Modular_programming"><strong>modularity</strong></a>. The principle promotes the development of small reusable modules, rather than large intertwined code. Its main advantage is to let packages evolve independently, without bugs and deprecations spreading across the entire Julia ecosystem. The practical implication of this feature is that users need to load several packages in each session, even to perform simple tasks.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="loading_packages_and_calling_functions" class="scrollspy section-bg-color">
+<section id="loading_packages_and_calling_functions" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Loading Packages and Calling Functions</h2></p>
 <p>The concept of packages is tightly related to modules. Formally, <span style="color: rgb(62, 121, 180);"><strong>modules</strong></span> are independent blocks of code, each acting as a separate workspace, that export a defined set of functions. In fact, when you start Julia, you&#39;re implicitly writing your script in a module called <code>Main</code>. </p>
 <p><span style="color: rgb(62, 121, 180);"><strong>Packages</strong></span> are a special types of modules, which additionally include information about their <strong>dependencies</strong>. Dependencies are defined as the necessary packages that must be load to run the package itself. </p>
-<p>Getting access to a package&#39;s functions requires loading the package via either the keyword <code>import</code> or <code>using</code>. The difference between the two is how functions are eventually called in your code. If the package is loaded via <code>import</code>, the function&#39;s name must include a prefix with the package&#39;s name. On the contrary, no prefix is needed when the package is loaded via <code>using</code>.</p>
+<p>Getting access to a package&#39;s functions requires loading the package via either the keyword <code>import</code> or <code>using</code>. The primary difference between the two is how functions are eventually called in your code. If the package is loaded via <code>import</code>, the function&#39;s name must include a prefix with the package&#39;s name. On the contrary, no prefix is needed when the package is loaded with <code>using</code>.</p>
 <p>Below, we demonstrate each approach by calling the function <code>mean</code> from the package <code>Statistics</code>. This package isn&#39;t loaded by default, but it comes pre-installed with Julia.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2878,13 +2878,13 @@ mean&#40;x&#41;</code></pre>
     </div>
   </div>
 </section>
-<section id="built-in_functions" class="scrollspy">
+<section id="built-in_functions" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Built-in Functions</h2></p>
-<p>Julia&#39;s built-in functions are contained in two packages known as <code>Core</code> and <code>Base</code>. Both are automatically loaded in every Julia session, with theirr functions accessible as if we had executed <code>using Core</code> and <code>using Base</code>. This determines that that their functions don&#39;t require a prefix to be called. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Some built-in functions may require a prefix. For instance, this is what occurs with the function called <code>isgreater</code>, which must be called via <code>Base.isgreater</code>. Furthermore, some submodules are also loaded by default. For instance, the function <code>Base.Iterators.accumulate</code> is part of the submodule <code>Iterators</code> from <code>Base</code>. As <code>Base</code> is loaded via <code>using</code> in every session, you can directly call this function using <code>Iterators.accumulate</code>.  </span></span> </p>
-<p>Among mathematical functions, the syntax of the most common ones is as follows.</p>
+<p>Formally, Julia&#39;s built-in functions are contained in two packages known as <code>Core</code> and <code>Base</code>. Both are automatically loaded in every Julia session, with theirr functions accessible as if we had executed <code>using Core</code> and <code>using Base</code>. This determines that that their functions don&#39;t require adding a prefix to be called. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Some built-in functions may require a prefix. For instance, this is what occurs with the function called <code>isgreater</code>, which must be called via <code>Base.isgreater</code>. Furthermore, some submodules are also loaded by default. For instance, the function <code>Base.Iterators.accumulate</code> is part of the submodule <code>Iterators</code> from <code>Base</code>. As <code>Base</code> is loaded via <code>using</code> in every session, you can directly call this function using <code>Iterators.accumulate</code>.  </span></span> </p>
+<p>Among mathematical functions, the syntax of their most common ones is the following.</p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -2957,21 +2957,21 @@ mean&#40;x&#41;</code></pre>
     </div>
   </div>
 </section>
-<section id="why_using_import_if_its_more_verbose" class="scrollspy section-bg-color">
+<section id="why_using_import_if_its_more_verbose" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Why Using "Import" if It's More Verbose?</h2></p>
-<p>When a function&#39;s name is shared across multiple packages, at least one of the packages must be loaded via <code>import</code> to avoid naming conflicts. For instance, consider the package <code>Statistics</code> and another one called <code>MyPackage</code>. If the latter contains a function called <code>mean</code>, Julia will throw an error unless you load one of the packages via <code>import</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Defining a function with the same name as another package isn&#39;t necessarily a neglect from developers. For example, <code>mean</code> in <code>MyPackage</code> could be computing averages through an alternative algorithm, more efficient in certain applications.  </span></span></p>
-<p>Using <code>import</code> not only avoids naming conflicts, but also helps reduce ambiguity in the meaning of a function. For instance, consider a function called <code>rank</code>. This name could reference a wide range concepts, depending on the context &#40;e.g., the rank of a matrix, the order in a list&#41;. Explicitly indicating the package of <code>rank</code> when the function is called can shed light on its intended meaning.</p>
+<p>When a function&#39;s name is shared across multiple packages, at least one of the packages must be loaded via <code>import</code> to avoid naming conflicts. For instance, consider the package <code>Statistics</code> and another one called <code>MyPackage</code>. If the latter contains a function called <code>mean</code>, Julia will throw an error unless you load one of them with <code>import</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Defining a function with the same name as another package isn&#39;t necessarily a neglect from developers. For example, <code>mean</code> in <code>MyPackage</code> could be computing averages through an alternative algorithm, more efficient in certain applications.  </span></span></p>
+<p>Using <code>import</code> not only avoids naming conflicts, but also helps reduce ambiguity in the meaning of a function. For instance, consider a function called <code>rank</code>. This name could reference a wide range concepts, depending on the context &#40;e.g., the rank of a matrix, the order in a list&#41;. Explicitly indicating the package when the function is called can shed light on its intended meaning.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content> <code>import</code> is also useful if you have custom functions that are widely applied across your projects. For example, consider a function called <code>table_in_pdf</code>, which exports Julia tables to a PDF with some predefined format. While the name of the function makes it clear what it&#39;s doing, a user could wonder if this function comes from a standard package. You could hint that this isn&#39;t the case, by placing the function in a package called <code>userDefined</code>. In this way, you can load the package using <code>import UserDefined</code>, and then calling the function via <code>UserDefined.table_in_pdf</code>.  </div>  </div>
+      <b> Remark</b> </span>  </div>  <div class=content> <code>import</code> may also be useful if you have custom functions that are widely applied across your projects. For example, consider a function called <code>table_in_pdf</code>, which exports Julia tables to a PDF with some predefined format. While the name of the function makes it clear what it&#39;s doing, a user could wonder if this function comes from a standard package. You could hint that this isn&#39;t the case, by placing the function in a package called <code>userDefined</code>. In this way, you can load the package using <code>import UserDefined</code>, and then calling the function via <code>UserDefined.table_in_pdf</code>.  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="approaches_to_loading_packages_and_calling_functions" class="scrollspy">
+<section id="approaches_to_loading_packages_and_calling_functions" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -3030,7 +3030,7 @@ average&#40;x&#41;</code></pre>
     </div>
   </div>
 </section>
-<section id="macros" class="scrollspy section-bg-color">
+<section id="macros" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -3078,7 +3078,7 @@ average&#40;x&#41;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 14, 2025 
+          © Martin Alfaro <br>Last Modified March 15, 2025 
       </span> 
   </div> 
 </footer>
