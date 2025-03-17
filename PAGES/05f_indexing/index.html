@@ -2816,8 +2816,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>In order to mutate vectors, you first need to identify the elements you wish to modify. This process is known as <strong>vector indexing</strong>. We&#39;ve already covered several basic methods throughout the website, including techniques based on vectors and ranges &#40;e.g., <code>x&#91;&#91;1,2,3&#93;&#93;</code> or <code>x&#91;1:3&#93;</code>&#41;. While these approaches are effective for simple selections, they fall short for more complex scenarios, such as selecting elements based on conditions. </p>
-<p>This section expands our toolkit by introducing some advanced forms of indexing. The techniques presented primarily build on broadcasting Boolean operations.</p>
+<p>In order to mutate vectors, you first need to identify the elements you wish to modify. This process is known as <strong>vector indexing</strong>. We&#39;ve already covered several basic methods for indexing, including vectors and ranges &#40;e.g., <code>x&#91;&#91;1,2,3&#93;&#93;</code> or <code>x&#91;1:3&#93;</code>&#41;. While these approaches are effective for simple selections, they fall short for more complex scenarios, precluding for example selections based on conditions. </p>
+<p>This section expands our toolkit by introducing some additional forms of indexing. The techniques presented primarily build on broadcasting Boolean operations.</p>
 <p>      </div>
     </div>
   </div>
@@ -2917,7 +2917,7 @@ y            &#61; x&#91;condition.&#40;x&#41;&#93;</code></pre>
  6</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The example reveals that directly broadcasting  <em>operators</em> may result in verbose code, due to the repeated use of dots in the expression. In contrast, approaches based on functions or the macro <code>@.</code> keep the syntax simple, reducing boilerplate code.</p>
+<p>The example reveals that directly broadcasting  <em>operators</em> may result in verbose code, due to the repeated use of dots in the expression. In contrast, approaches based on functions or the macro <code>@.</code> keep the syntax simple, reducing <a href="https://en.wikipedia.org/wiki/Boilerplate_code">boilerplate code</a>.</p>
 <p>      </div>
     </div>
   </div>
@@ -3066,7 +3066,7 @@ bool_indices &#61; x .∉ Ref&#40;list&#41;</code></pre>
       <div class="col-lg- mx-auto">
         <h2>The Functions 'findall' and 'filter'</h2></p>
 <p>We close this section by presenting two additional methods for element selection. They&#39;re provided by the functions <code>filter</code> and <code>findall</code>.</p>
-<p>The function <code>filter</code> returns the  <em>elements</em> of a vector <code>x</code> satisfying a given condition. Despite what the name may suggest, <code>filter</code> retains elements rather than discard them. The condition is specified by stating a function that returns a Boolean scalar.</p>
+<p>The function <code>filter</code> returns the  <em>elements</em> of a vector <code>x</code> satisfying a given condition. Despite what the name may suggest, <code>filter</code> retains elements rather than discard them. The condition is specified by function that returns a Boolean scalar.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3082,7 +3082,7 @@ y &#61; filter&#40;a -&gt; a &lt; 7, x&#41;</code></pre>
  6</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The function <code>findall</code> does the same as <code>filter</code>, but returns the  <em>indices</em> of <code>x</code> rather than its elements. The condition can be embedded within <code>findall</code> in two ways: via a Boolean scalar function or a Boolean vector.</p>
+<p>The function <code>findall</code> does the same as <code>filter</code>, but returns the  <em>indices</em> of <code>x</code>. With <code>findall</code>, the condition can be stated in two ways: via a Boolean scalar function or a Boolean vector.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3138,7 +3138,7 @@ z &#61; x&#91;findall&#40;x .&lt; 7&#41;&#93;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 15, 2025 
+          © Martin Alfaro <br>Last Modified March 16, 2025 
       </span> 
   </div> 
 </footer>

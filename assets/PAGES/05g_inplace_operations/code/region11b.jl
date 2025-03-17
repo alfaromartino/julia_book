@@ -1,4 +1,4 @@
-x          = [-2, -1, 1]
+x       = [3, 4, 5]
 
-x[x .< 0] .= zeros(length(x[x .< 0]))           # identical output
+x[1:2] .= x[1:2] .* 10    # identical output (less performant)
 print_asis(x) #hide

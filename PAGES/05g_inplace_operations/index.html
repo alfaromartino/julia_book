@@ -2816,37 +2816,28 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section focuses on <span style="color: rgb(62, 121, 180);"><strong>in-place operations</strong></span>, defined as operations that mutate collections. The method gives rise to the expression &quot; <em>modifying values in place</em>.&quot;</p>
-<p>In the following subsections, we&#39;ll explore specific approaches to modifying vectors. The advantages of in-place assignments will become apparent in Part II, when we discuss performance. Essentially, they allow us to reuse the same vector, eliminating the need to allocate memory for a new object.</p>
+<p>This section focuses on <span style="color: rgb(62, 121, 180);"><strong>in-place operations</strong></span>, a term that encompasses any method that mutates collections. These operations are characterized by the reuse of existing objects, rather than generating new ones, giving rise to the expression &quot; <em>modifying values in place</em>.&quot; </p>
+<p>Understanding whether an operation mutates an object or generates a new one is crucial, as its outcomes may differ depending on the application. Furthermore, even when results are identical, in-place modifications commonly entail performance benefits relative to the creation of new objects. This aspect will be explored in Part II of the website, when we discuss high performance.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     Before proceeding, you should review the definitions of slices introduced <a href="/julia_book/PAGES/05e_slices/">in the previous section</a>. Recall that, given a vector <code>x</code>, a <strong>slice</strong> refers to a subset of <code>x</code>&#39;s elements created selected via <code>x&#91;&lt;indices&gt;&#93;</code>. Moreover, a slice can act as a <strong>copy</strong>, in which case we&#39;re creating a new object with its own memory address. Alternatively, the slice can behave as a <strong>view</strong>, thereby referencing the original memory address of <code>x</code>. The distinction is crucial, as it&#39;ll determine whether modifying the slice will affect the original data.  </div>  </div>
+      <b> Remark</b> </span>  </div>  <div class=content>     Before proceeding, I recommend reviewing the definitions of slices introduced <a href="/julia_book/PAGES/05e_slices/">in the previous section</a>. Recall that, given a vector <code>x</code>, a <strong>slice</strong> refers to a subset of <code>x</code>&#39;s elements selected via <code>x&#91;&lt;indices&gt;&#93;</code>. </p>
+<p>Moreover, a slice can act as a <strong>copy</strong>, in which case we&#39;re creating a new object with its own memory address. Alternatively, the slice can behave as a <strong>view</strong>, thereby referencing the original memory address of <code>x</code>. The distinction is crucial, as it&#39;ll determine whether modifying the slice will affect the original data or not.  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="mutation_via_vectors" class="scrollspy section-bg-color">
+<section id="mutations_via_collections" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Mutation Via Vectors</h2></p>
-<p>A simple way to mutate a vector is by replacing a slice with a collection, where single-element slices accept scalars. This is implemented through statements of the form <code>x&#91;&lt;indices&gt;&#93; &#61; &lt;expression&gt;</code>, where <code>&lt;expression&gt;</code> must match the length of <code>x&#91;&lt;indices&gt;&#93;</code>. The approach works since a slice on the left-hand side of <code>&#61;</code> behaves as a view, thus referencing the original object.</p>
-<p>The following examples demonstrate the method.</p>
+        <h2>Mutations Via Collections</h2></p>
+<p>A simple way to mutate a vector is to replace an entire slice with another collection. This is achieved using statements of the form <code>x&#91;&lt;indices&gt;&#93; &#61; &lt;expression&gt;</code>, where <code>&lt;expression&gt;</code> must match the length of <code>x&#91;&lt;indices&gt;&#93;</code>. The approach effectively mutates <code>x</code> because a slice on the left-hand side of <code>&#61;</code> behaves as a view, thus referencing the original object. Below, we provide a few examples of this approach. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Single-Element Slice </button>
-    <button class="tablink" data-id=""> Range Indexing</button>
-    <button class="tablink" data-id=""> Logical Indexing</button>    
+    <button class="tablink first_tab active" data-id=""> Slice via Range Indexing </button>
+    <button class="tablink" data-id=""> Slice via Logical Indexing </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x         &#61; &#91;1, 2, 3&#93;
-
-x&#91;3&#93;      &#61; 30</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
-  1
-  2
- 30</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x         &#61; &#91;1, 2, 3&#93;
 
 x&#91;2:end&#93;  &#61; &#91;20, 30&#93;</code></pre> </div></div> 
@@ -2864,48 +2855,13 @@ x&#91;x .≥ 2&#93; &#61; &#91;2, 3&#93; .* 10</code></pre> </div></div>
  30</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
- <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Vectors can only be mutated by objects of the same type </span>  </div>  <div class=content>     In the previous example, replacing elements with any type other than <code>Int64</code> will throw an error.</p>
-<p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Elements with Different Type </button>
-    <button class="tablink" data-id=""> Elements with Different Type</button>    
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x         &#61; &#91;1, 2, 3&#93;    # Vector&#123;Int64&#125;
-
-x&#91;3&#93;      &#61; 3.5          # Float64 value</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: InexactError: Int64(2.5)</div></div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x         &#61; &#91;1, 2, 3&#93;    # Vector&#123;Int64&#125;
-
-x&#91;3&#93;      &#61; 4.0          # Float64 value that allows conversion</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
- 1
- 2
- 4</div> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>  </div>  </div>
-<p>The examples below additionally showcase the flexibility of the method to reference vectors in <code>&lt;expression&gt;</code>. The first case in particular highlights that the original slice can be reused, which is a common technique.</p>
+<p>A common application of this method involves defining <code>&lt;expression&gt;</code> through elements from the original vector or from the slice being modified. This allows for self-referencing updates of the variable.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Own Slice </button>    
-    <button class="tablink" data-id=""> Comprehension </button>    
+    <button class="tablink first_tab active" data-id=""> Elements of Original Vector </button>    
+    <button class="tablink" data-id=""> Own Slice </button>    
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x         &#61; &#91;1, 2, 3&#93;
-
-x&#91;x .≥ 2&#93; &#61; x&#91;x .≥ 2&#93; .* 10</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
-  1
- 20
- 30</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x         &#61; &#91;1, 2, 3&#93;
 
 x&#91;2:end&#93;  &#61; &#91;x&#91;i&#93; * 10 for i in 2:length&#40;x&#41;&#93;</code></pre> </div></div> 
@@ -2913,19 +2869,211 @@ x&#91;2:end&#93;  &#61; &#91;x&#91;i&#93; * 10 for i in 2:length&#40;x&#41;&#93;
   1
  20
  30</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x         &#61; &#91;1, 2, 3&#93;
+
+x&#91;x .≥ 2&#93; &#61; x&#91;x .≥ 2&#93; .* 10</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+  1
+ 20
+ 30</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
- <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Mutating All Elements vs Creating a New Object</strong>  </span>  </div>  <div class=content>     When it comes to modifying  <em>all</em> elements of a vector <code>x</code>, it&#39;s essential to distinguish between mutations and reassignments of <code>x</code>. Although the two operations would ultimately yield the same result, they&#39;re implemented differently internally. Specifically, the former modifies the existing vector in place, reusing the original memory address associated with <code>x</code>. Instead, reassignments create a new object, and therefore a new memory address.</p>
+<p>Importantly for the mutations via for-loops, a scalar can be used on the right-hand side of <code>&#61;</code> for single-element slices. </p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Single-Element Slice </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x         &#61; &#91;1, 2, 3&#93;
+
+x&#91;3&#93;      &#61; 30</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+  1
+  2
+ 30</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+ <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Warning!</b> - Vectors can only be mutated by objects of the same type </span>  </div>  <div class=content>     When you define a vector, you implicitly define the type of elements that the vector can hold. Consequently, attempting to replace elements with a different type will result in an error. For instance, the following examples only admit mutations with values of type <code>Int64</code>.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> New Object (Assignment) </button>
-    <button class="tablink" data-id=""> Mutation </button>
+    <button class="tablink first_tab active" data-id=""> Not Allowed </button>
+    <button class="tablink" data-id=""> Automatic Conversion </button>    
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x         &#61; &#91;1, 2, 3&#93;    # Vector&#123;Int64&#125;
+
+x&#91;2:3&#93;    &#61; &#91;3.5, 4&#93;     # 3.5 is Float64</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: InexactError: Int64(3.5)</div></div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x         &#61; &#91;1, 2, 3&#93;    # Vector&#123;Int64&#125;
+
+x&#91;2:3&#93;    &#61; &#91;3.0, 4&#93;     # 3.0 is Float64 but accepts conversion</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 1
+ 3
+ 4</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>  </div>  </div>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="mutations_via_for-loops" class="scrollspy">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Mutations Via For-Loops</h2></p>
+<p>The ability to replace a single-element slice with a scalar value allows for mutations through for-loops. This is implemented by substituting the value of a single element during each iteration.</p>
+<p>To illustrate the procedure, let&#39;s consider a typical application of this approach: populating vectors with values. The process involves initializing a vector, and then iterating over its elements to assign the desired values.</p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Single-Element Slice </button>
+    <button class="tablink" data-id=""> Mutation via For-Loop </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x    &#61; Vector&#123;Int64&#125;&#40;undef, 3&#41;  # &#96;x&#96; is initialized with 3 undefined elements
+
+x&#91;1&#93; &#61; 0
+x&#91;2&#93; &#61; 0
+x&#91;3&#93; &#61; 0</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 0
+ 0
+ 0</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x    &#61; Vector&#123;Int64&#125;&#40;undef, 3&#41;  # &#96;x&#96; is initialized with 3 undefined elements
+
+for i in eachindex&#40;x&#41;
+    x&#91;i&#93; &#61; 0
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 0
+ 0
+ 0</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>The approach relies on that <code>x&#91;i&#93;</code> on the left-hand side of <code>&#61;</code> acts as a view. Alternatively, we could leverage the function <code>view</code> to create a variable that contains all the elements to be modified. This allows us to work with for-loops that mutate entire objects, rather than a subset of the original object. </p>
+<p>The following example demonstrates this by mutating a vector of zeros. Note that the function <code>zeros</code> defaults to zeroes with type <code>Float64</code>, explaining why <code>1</code> is automatically converted to <code>1.0</code>.</p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Mutation via For-Loop + Slice </button>
+    <button class="tablink" data-id=""> Mutation via For-Loop + 'view' </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x     &#61; zeros&#40;3&#41;
+
+
+for i in 2:3
+    x&#91;i&#93; &#61; 1
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
+ 0.0
+ 1.0
+ 1.0</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x     &#61; zeros&#40;3&#41;
+slice &#61; view&#40;x, 2:3&#41;
+
+for i in eachindex&#40;slice&#41;
+    slice&#91;i&#93; &#61; 1
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
+ 0.0
+ 1.0
+ 1.0</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+ <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Warning!</b> - For-Loops Should be Wrapped in Functions </span>  </div>  <div class=content>     Recall that for-loops should always be wrapped in functions, as failing to do so severely affects performance. In the next section, where we&#39;ll cover mutating functions, mutations via for-loops will be revisited.  </div>  </div>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="mutations_via" class="scrollspy section-bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Mutations Via .= </h2></p>
+<p>In terms of syntax, broadcasting serves as a streamlined alternative to for-loops. This principle even extends to mutations, which can be implemented by broadcasting the assignment operator <code>&#61;</code>. The syntax for this is <code>x&#91;&lt;indices&gt;&#93; .&#61; &lt;expression&gt;</code>, where <code>&lt;expression&gt;</code> can be either a  <em>vector</em> or a  <em>scalar</em>. </p>
+<p>In the specific case of <code>x&#91;&lt;indices&gt;&#93;</code> on the left-hand side and a vector for <code>&lt;expression&gt;</code>, the <code>.&#61;</code> operator produces the same outcome as using <code>&#61;</code> with a corresponding collection. In fact, using <code>&#61;</code> rather than <code>.&#61;</code> in these cases tends to be more performant. </p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Vector as Replacement </button>    
+    <button class="tablink" data-id=""> Vector as Replacement (Equivalent) </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; &#91;3, 4, 5&#93;
+
+x&#91;1:2&#93;  &#61; x&#91;1:2&#93; .* 10</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 30
+ 40
+  5</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; &#91;3, 4, 5&#93;
+
+x&#91;1:2&#93; .&#61; x&#91;1:2&#93; .* 10    # identical output &#40;less performant&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 30
+ 40
+  5</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>Considering this, the primary use cases of <code>.&#61;</code> for mutating <code>x</code> involve expressions like:</p>
+<ul>
+<li><p><code>x&#91;&lt;indices&gt;&#93; .&#61; &lt;scalar&gt;</code>, and </p>
+</li>
+<li><p><code>y .&#61; &lt;expression&gt;</code> where <code>y</code> is either a view of <code>x</code> or <code>x</code> itself.</p>
+</li>
+</ul>
+<p>Next, we analyze each case separately.</p>
+ <h4> Scalars on the Right-Hand Side of &#61; </h4>
+<p>Applying <code>&#61;</code> to replace multiple elements with the  <em>same</em> scalar value requires a collection matching the number of elements being substituted. However, with the <code>.&#61;</code> operator, you can streamline the process by simply writing <code>x&#91;&lt;indices&gt;&#93; .&#61; &lt;scalar&gt;</code>.</p>
+<p>For instance, the following code snippet uses this approach to replace every negative value in <code>x</code> with zero.</p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Scalar Replacement </button>    
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;-2, -1, 1&#93;
+
+x&#91;x .&lt; 0&#93; .&#61; 0</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 0
+ 0
+ 1</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+ <h4> Variables on the Left-Hand Side of &#61; </h4>
+<p>Since both mutations and assignments rely on <code>&#61;</code>, it&#39;s essential to <strong>distinguish between in-place operations and reassignments</strong>. In particular, the latter doesn&#39;t modify the original object, but actually creates a new one.</p>
+<p>We&#39;ve already shown that placing slices on the left-hand side of <code>&#61;</code> results in mutations. Now, let&#39;s consider cases where an entire object like <code>x</code> appears on the left-hand side. In these cases, we need to be careful, as only <code>.&#61;</code> will result in a mutation, whereas <code>&#61;</code> will perform a reassignment.</p>
+<p>For example, suppose our goal is to modify  <em>all</em> the elements of a vector <code>x</code>. All the following approaches determine that <code>x</code> holds the same values, but only the last two achieve this by mutating <code>x</code>.</p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> New Object (Assignment) </button>    
+    <button class="tablink" data-id=""> Mutation via .= </button>
+    <button class="tablink" data-id=""> Mutation via Slice </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x    &#61; &#91;1, 2, 3&#93;
 
 x    &#61; x .* 10</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 10
+ 20
+ 30</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x    &#61; &#91;1, 2, 3&#93;
+
+x   .&#61; x .* 10</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  10
  20
@@ -2939,122 +3087,76 @@ x&#91;:&#93; &#61; x .* 10</code></pre> </div></div>
  20
  30</code></pre> </div></div> </div> 
  </div></div>
-<p>  </p></details></div>  </div>  </div>
-<p>      </div>
-    </div>
-  </div>
-</section>
-<section id="mutation_via" class="scrollspy">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg- mx-auto">
-        <h2>Mutation Via .= </h2></p>
-<p>When the goal is to replace each element of a slice with the same scalar value, the previous method can result in excessive <a href="https://en.wikipedia.org/wiki/Boilerplate_code">boilerplate code</a>. This is because the technique always requires a vector matching the number of elements to be replaced.</p>
-<p>To address this, we introduce a more convenient approach based on the broadcasting of the assignment operator <code>&#61;</code>. Its syntax is <code>x&#91;&lt;indices&gt;&#93; .&#61; &lt;expression&gt;</code>, whose key advantage is that <code>&lt;expression&gt;</code> can be either a  <em>vector</em> or a  <em>scalar</em>. This feature allows for a statement as simple as <code>x&#91;indices&#93; .&#61; &lt;number&gt;</code> to substitute each element of <code>x&#91;indices&#93;</code> with a scalar <code>&lt;number&gt;</code> </p>
-<p>Below, we illustrate the approach by replacing each negative value of <code>x</code> with zero. For comparison, we also implement the operation through the previous section&#39;s method.</p>
+<p>  </p></details></div>
+<p>Notice that the difference between approaches could go unnoticed, as they all yield the same outcome. However, we&#39;ll see in Part II of the website that these approach can entail big differences in performance. In particular, reusing the original memory address of <code>x</code> tends to be more performant than creating a new memory address for <code>x</code>. </p>
+<p>This difference will also manifest when using the macro <code>@.</code> for a seamless broadcasting. Depending on where <code>@.</code> is placed relative to <code>&#61;</code>, we could end up with an assignment or a mutation. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Scalar as Replacement </button>
-    <button class="tablink" data-id=""> Vector as Replacement </button>
-    <button class="tablink" data-id=""> Vector as Replacement (Equivalent) </button>
+    <button class="tablink first_tab active" data-id=""> Mutation </button>    
+    <button class="tablink" data-id=""> Mutation</button>
+    <button class="tablink" data-id=""> New Object (Assignment) </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;-2, -1, 1&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x    &#61; &#91;1, 2, 3&#93;
 
-x&#91;x .&lt; 0&#93; .&#61; 0</code></pre> </div></div> 
+x   .&#61; x .* 10</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
- 0
- 0
- 1</code></pre> </div></div> </div> 
+ 10
+ 20
+ 30</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;-2, -1, 1&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x    &#61; &#91;1, 2, 3&#93;
 
-x&#91;x .&lt; 0&#93;  &#61; zeros&#40;length&#40;x&#91;x .&lt; 0&#93;&#41;&#41;</code></pre> </div></div> 
+@. x &#61; x  * 10</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
- 0
- 0
- 1</code></pre> </div></div> </div> 
+ 10
+ 20
+ 30</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;-2, -1, 1&#93;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x    &#61; &#91;1, 2, 3&#93;
 
-x&#91;x .&lt; 0&#93; .&#61; zeros&#40;length&#40;x&#91;x .&lt; 0&#93;&#41;&#41;           # identical output</code></pre> </div></div> 
+x    &#61; @. x * 10</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
- 0
- 0
- 1</code></pre> </div></div> </div> 
+ 10
+ 20
+ 30</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>      </div>
-    </div>
-  </div>
-</section>
-<section id="combining_and_the_function_view" class="scrollspy section-bg-color">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg- mx-auto">
-        <h2>Combining .= and The Function 'view' </h2></p>
-<p>In some scenarios, we may need to perform various operations over the same slice. However, repeatedly referencing the same slice is inefficient, error-prone, and tedious. In such cases, a more convenient approach is to create a slice&#39;s view through the <code>view</code> function, and then operate over it. </p>
-<p>The following example shows the same operation can be applied using a <code>view</code> and without it. </p>
+ <h4> View Aliases on the Left-Hand Side of &#61; </h4>
+<p>The previous case exemplified a scenario where the ultimate outcome is the same, regardless of whether we employ <code>&#61;</code> or <code>.&#61;</code>. Instead, the results will differ when view aliases are on the left-hand side. View aliases allow us to work with <code>slice &#61; view&#40;x, &lt;indices&gt;&#41;</code>, rather than <code>x&#91;&lt;indices&gt;&#93;</code>. Defining view aliases is convenient when we need to perform various operations over the same slice. This avoids repeatedly referencing the slice via <code>x&#91;&lt;indices&gt;&#93;</code>, which would be inefficient, error-prone, and tedious. </p>
+<p>In these cases, only when we use <code>.&#61;</code> is that we&#39;ll perform a mutation. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> View Function</button>
-    <button class="tablink" data-id=""> Equivalent </button>  
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;-2, -1, 1&#93;
-
-slice      &#61; view&#40;x, x .&lt; 0&#41;            # or slice &#61; @view x&#91;x .&lt; 0&#93;
-slice     .&#61; 0</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
- 0
- 0
- 1</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x          &#61; &#91;-2, -1, 1&#93;
-
-
-x&#91;x .&lt; 0&#93; .&#61; 0</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
- 0
- 0
- 1</code></pre> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>
-<p>Aside from explicitly indicating that the slice is a view, the operations that can be performed are similar to what we&#39;ve been doing so far. For instance, it&#39;s possible to substitute values by reusing the slice itself or through a vector, as shown below.</p>
- <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Own Slice </button>    
-    <button class="tablink" data-id=""> Comprehension </button>    
+    <button class="tablink first_tab active" data-id=""> Mutation</button>
+    <button class="tablink" data-id=""> Wrong Use</button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1, 2, 3&#93;
-slice  &#61; view&#40;x, x .≥ 2&#41;
 
-slice .&#61; slice .* 10                                  # same as &#39;x&#91;x .≥ 2&#93; &#61; x&#91;x .≥ 2&#93; .* 10&#39;</code></pre> </div></div> 
+slice  &#61; view&#40;x, x .≥ 2&#41;
+slice .&#61; slice .* 10            # same as &#39;x&#91;x .≥ 2&#93; &#61; x&#91;x .≥ 2&#93; .* 10&#39;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
   1
  20
  30</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1, 2, 3&#93;
-slice  &#61; view&#40;x, x .≥ 2&#41;
 
-slice .&#61; &#91;slice&#91;i&#93; * 10 for i in eachindex&#40;slice&#41;&#93;    # same as &#39;x&#91;x .≥ 2&#93; &#61; &#91;x&#91;i&#93; * 10 for i in eachindex&#40;x&#91;x .≥ 2&#93;&#41;&#93;&#39;</code></pre> </div></div> 
+slice  &#61; view&#40;x, x .≥ 2&#41;
+slice  &#61; slice .* 10            # this does NOT modify &#96;x&#96;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
-  1
- 20
- 30</code></pre> </div></div> </div> 
+ 1
+ 2
+ 3</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
- <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Wrong Uses </span>  </div>  <div class=content>     For this approach to work, you necessarily need to create a view. If instead you create a new copy of the object <code>y</code>, you&#39;ll be updating the values of <code>y</code> without any impact on <code>x</code>. Note that you&#39;re allowed to create a view and then replace its values with those from another vector. </p>
-<p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+<p>There are a few additional wrong uses that can emerge with view aliases. To demonstrate them, suppose we seek to replace all the negative values of <code>x</code> with zero. Below, only the first approach achieves the result.</p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id="">Proper Use </button>
-    <button class="tablink" data-id=""> Wrong Use (Creating a Copy)</button>
-    <button class="tablink" data-id=""> Wrong Use (Ommiting .=)</button>
+    <button class="tablink first_tab active" data-id=""> Mutation </button>
+    <button class="tablink" data-id=""> Wrong Use (Copy Creation)</button>
+    <button class="tablink" data-id=""> Wrong Use (Reassignment)</button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;-2, -1, 1&#93;
 
@@ -3067,7 +3169,7 @@ slice .&#61; 0</code></pre> </div></div>
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;-2, -1, 1&#93;
 
-slice  &#61; x&#91;x .&lt; 0&#93;          # &#96;slice&#96; is a copy
+slice  &#61; x&#91;x .&lt; 0&#93;          # &#39;slice&#39; is a copy
 slice .&#61; 0                  # this does NOT modify &#96;x&#96;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  -2
@@ -3077,87 +3179,11 @@ slice .&#61; 0                  # this does NOT modify &#96;x&#96;</code></pre> 
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;-2, -1, 1&#93;
 
 slice  &#61; view&#40;x, x .&lt; 0&#41;
-slice  &#61; 0                  # this creates a new object, it does not modify &#96;x&#96;</code></pre> </div></div> 
+slice  &#61; 0                  # this creates a new object, it does NOT modify &#96;x&#96;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  -2
  -1
   1</code></pre> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>  </div>  </div>
-<p>      </div>
-    </div>
-  </div>
-</section>
-<section id="mutation_via_for-loops" class="scrollspy">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg- mx-auto">
-        <h2>Mutation Via For-Loops</h2></p>
-<p>Mutation can also be achieved via for-loops. This option emerges naturally when the goal is to populate vectors with specific values. The process requires initializing a vector, and then using a for-loop to fill it with the desired values.</p>
-<p>Next, we only illustrate the approach. A more thorough explanation of this case is relegated to the next section, where we study functions that mutate objects. The reason for this is that mutations with for-loops should always be wrapped in functions, as failing to do so severely affects performance.</p>
- <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Mutation via For-Loops </button>    
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; Vector&#123;Int64&#125;&#40;undef, 3&#41;  # &#96;x&#96; is initialized with 3 undefined elements
-
-
-for i in eachindex&#40;x&#41;
-    x&#91;i&#93; &#61; 0
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
- 0
- 0
- 0</code></pre> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>
- <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Vectors can only be mutated by objects of the same type </span>  </div>  <div class=content>     When you initialize a vector, you implicitly determine the type of elements that the vector can hold. Consequently, attempting to replace elements with a different type will result in an error. In the example above, this means that only <code>Int64</code> values are permitted. Any other type won&#39;t be allowed, as demonstrated below.</p>
-<p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Explicit Vector </button>
-    <button class="tablink" data-id=""> Approach with 'similar' </button>    
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; Vector&#123;Int64&#125;&#40;undef, 3&#41;  # &#96;x&#96; will only accept &#96;Int64&#96; elements
-
-
-for i in eachindex&#40;x&#41;
-    x&#91;i&#93; &#61; i * 2.5           # mutation with &#96;Float64&#96; values     
-end</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: InexactError: Int64(2.5)</div></div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">y &#61; &#91;5, 6, 7&#93;
-x &#61; similar&#40;y&#41;               # &#96;x&#96; will only accept &#96;Int64&#96; elements
-
-for i in eachindex&#40;x&#41;
-    x&#91;i&#93; &#61; i * 2.5
-end</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: InexactError: Int64(2.5)</div></div></div> </div> 
- </div></div>
-<p>  </p></details></div>  </div>  </div>
-<p>Notice that we can also employ the function <code>view</code> as we did previously with <code>.&#61;</code>. The following demonstrates this by creating a vector with zeros and then replacing some of its values. Recall that the function <code>zero</code> sets values with type <code>Float64</code> by default. </p>
- <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Mutation via For-Loop and 'view' </button>    
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x     &#61; zeros&#40;3&#41;
-slice &#61; view&#40;x, 1:2&#41;
-
-for i in eachindex&#40;slice&#41;
-    slice&#91;i&#93; &#61; 1
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
- 1.0
- 1.0
- 0.0</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -3182,7 +3208,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 15, 2025 
+          © Martin Alfaro <br>Last Modified March 16, 2025 
       </span> 
   </div> 
 </footer>
@@ -3790,19 +3816,15 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#mutation_via_vectors" data-offset="-40">Mutation Via Vectors</a>
+          <a href="#mutations_via_collections" data-offset="-40">Mutations Via Collections</a>
         </li>
         
         <li>
-          <a href="#mutation_via" data-offset="-40">Mutation Via .= </a>
+          <a href="#mutations_via_for-loops" data-offset="-40">Mutations Via For-Loops</a>
         </li>
         
         <li>
-          <a href="#combining_and_the_function_view" data-offset="-40">Combining .= and The Function 'view' </a>
-        </li>
-        
-        <li>
-          <a href="#mutation_via_for-loops" data-offset="-40">Mutation Via For-Loops</a>
+          <a href="#mutations_via" data-offset="-40">Mutations Via .= </a>
         </li>
         
       </ul>

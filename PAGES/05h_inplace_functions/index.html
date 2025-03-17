@@ -2816,8 +2816,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section continues exploring <strong>approaches to mutating vectors</strong>. The emphasis is in particular on <strong>in-place functions</strong>, defined as functions that mutate at least one of their arguments. This allows users to store a function&#39;s output directly in one of its arguments, rather doing so by creating a new object. </p>
-<p>A common application of in-place functions is the execution of a for-loop to update the values of a vector. Furthermore, many built-in functions in Julia come with a corresponding in-place version. They can be easily identified by the <code>&#33;</code> appended to end of their names. </p>
+<p>This section continues exploring <strong>approaches to mutating vectors</strong>. The emphasis is in particular on <strong>in-place functions</strong>, defined as functions that mutate at least one of their arguments. This allows users to update variables and store a function&#39;s output in an argument, rather doing so by returning a new object. </p>
+<p>Many built-in functions in Julia come with a corresponding in-place version. They can be easily identified by the <code>&#33;</code> appended to end of their names. Furthermore, in-place functions are commonly employed to update a vector via a for-loop. </p>
 <p>The benefits of in-place functions will become evident in Part II, when discussing high-performance computing. By reusing existing objects, in-place functions eliminate the overhead associated with creating new objects, resulting in significant efficiency gains. </p>
 <p>      </div>
     </div>
@@ -2828,7 +2828,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>In-Place Functions</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>In-place functions</strong></span>, also known as <span style="color: rgb(62, 121, 180);"><strong>mutating functions</strong></span>, are distinguished by their effect on the arguments they operate on. Specifically, their execution updates the value of at least one of its arguments.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>In-place functions</strong></span>, also known as <span style="color: rgb(62, 121, 180);"><strong>mutating functions</strong></span>, are distinguished by their effect on their arguments. Specifically, their execution updates the value of at least one of its arguments.</p>
 <p>Given a vector <code>x</code>, the following function <code>foo&#40;x&#41;</code> is an example of in-place function, as it modifies the values of <code>x</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2972,7 +2972,7 @@ sort&#33;&#40;x&#41;</code></pre>
  3</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The example illustrates a scenario where the function argument serves as both input and output. Another possibility is to include an argument whose sole purpose is to store outputs. For instance, given a function <code>foo</code> and a vector <code>x</code>, the built-in function <code>map&#40;foo, x&#41;</code> has an in-place version <code>map&#33;&#40;foo, &lt;output vector&gt;, x&#41;</code>.</p>
+<p>The example illustrates scenarios where the function argument serves as both input and output. Another possibility is to include an argument whose sole purpose is to store outputs. For instance, given a function <code>foo</code> and a vector <code>x</code>, the built-in function <code>map&#40;foo, x&#41;</code> has an in-place version <code>map&#33;&#40;foo, &lt;output vector&gt;, x&#41;</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3032,7 +3032,7 @@ map&#33;&#40;a -&gt; a^2, output, x&#41;       # we update &#96;output&#96;</cod
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 15, 2025 
+          © Martin Alfaro <br>Last Modified March 16, 2025 
       </span> 
   </div> 
 </footer>
