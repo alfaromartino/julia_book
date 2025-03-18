@@ -2827,9 +2827,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Keys and Values</h2></p>
-<p>Most collections in Julia are characterized by <span style="color: rgb(62, 121, 180);"><strong>keys</strong></span>. They serve as unique identifiers of their elements, and have a corresponding <span style="color: rgb(62, 121, 180);"><strong>value</strong></span> associated to each. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Not all collections map keys to values. For example, the type <code>Set</code>, which represents a group of unique unordered elements, doesn&#39;t have keys.  </span></span>  For instance, the vector <code>x &#61; &#91;2, 4, 6&#93;</code> has the indices <code>1, 2, 3</code> as its keys, and <code>2, 4, 6</code> as their respective values. </p>
-<p><strong>Keys are more general than indices</strong>—they encompass all the possible identifiers of a collection&#39;s elements &#40;e.g., strings, numbers, or other objects&#41;. Instead, indices exclusively employ integers as identifiers. </p>
-<p>To identify the keys and values of a collection, Julia offers the <code>keys</code> and <code>values</code> functions. The following code snippets demonstrate their usage based on vectors and tuples, whose keys are solely represented by indices. Note that neither <code>keys</code> nor <code>values</code> inherently returns a vector, requiring the <code>collect</code> function for this purpose.</p>
+<p>Most collections in Julia are characterized by <span style="color: rgb(62, 121, 180);"><strong>keys</strong></span>. They serve as unique identifiers of their elements, and have a corresponding <span style="color: rgb(62, 121, 180);"><strong>value</strong></span> associated with each. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Not all collections map keys to values. For example, the type <code>Set</code>, which represents a group of unique unordered elements, doesn&#39;t have keys.  </span></span>  For instance, the vector <code>x &#61; &#91;2, 4, 6&#93;</code> has the indices <code>1, 2, 3</code> as its keys, and <code>2, 4, 6</code> as their respective values. </p>
+<p><strong>Keys are more general than indices</strong>—they encompass all the possible identifiers of a collection&#39;s elements &#40;e.g., strings, numbers, or other objects&#41;. Instead, indices exclusively employ integers as identifiers.</p>
+<p>To identify the keys and values of a collection, Julia offers the functions <code>keys</code> and <code>values</code>. The following code snippets demonstrate their usage based on vectors and tuples, whose keys are represented by indices. Note that neither <code>keys</code> nor <code>values</code> return a vector, requiring the <code>collect</code> function for this purpose.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2852,7 +2852,7 @@ color: white;
  </div></div>
 <p>  </p></details></div>
  <h4> The Type <code>Pair</code> </h4>
-<p>Collections of key-value pairs in Julia are represented by the type <code>Pair&#123;&lt;key type&gt;, &lt;value type&gt;&#125;</code>. Although we won&#39;t directly work with objects having this type, they form the basis for constructing other collections, in particular dictionaries and named tuples. </p>
+<p>Collections of key-value pairs in Julia are represented by the type <code>Pair&#123;&lt;key type&gt;, &lt;value type&gt;&#125;</code>. Although we won&#39;t directly work with objects of this type, they form the basis for constructing other collections such as dictionaries and named tuples. </p>
 <p><strong>A key-value pair</strong> can be created by using the operator <code>&#61;&gt;</code> as in <code>&lt;key&gt; &#61;&gt; &lt;value&gt;</code>. For instance, <code>&quot;a&quot; &#61;&gt; 1</code> represents a pair, where <code>a</code> is its key and <code>1</code> its corresponding value. In addition, we can create pairs through the function <code>Pair&#40;&lt;key&gt;, &lt;value&gt;&#41;</code>, making <code>Pair&#40;&quot;a&quot;,1&#41;</code> equivalent to the previous example. Finally, given a pair <code>x</code>, its key can be accessed by either <code>x&#91;1&#93;</code> or <code>x.first</code>, while its value can be retrieved using <code>x&#91;2&#93;</code> or <code>x.second</code>. All this is demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2876,7 +2876,7 @@ some_pair &#61; Pair&#40;&quot;a&quot;, 1&#41;    # equivalent</code></pre> </di
  </div></div>
 <p>  </p></details></div>
  <h4> The Type <code>Symbol</code> </h4>
-<p>The type used to represent keys can vary depending on the collection. One important type used as key is <code>Symbol</code>, which provides an efficient way to represent string-based keys. A symbol with name <code>x</code> is denoted <code>:x</code>, and can be created from strings using the function <code>Symbol&#40;&lt;some string&gt;&#41;</code>.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> This type also enables programmatic creation of variables. For example, it can be employed for creating new columns in the package <code>DataFrames</code>. This package provides a table representation of data, and is standard for data analysis.  </span></span> </p>
+<p>The type used to represent keys can vary depending on the collection. An important type used as a key is <code>Symbol</code>, which provides an efficient way to represent string-based keys. A symbol labeled <code>x</code> is denoted <code>:x</code>, and can be created from strings using the function <code>Symbol&#40;&lt;some string&gt;&#41;</code>.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> <code>Symbol</code> also enables the creation of variables programmatically. For example, it can be employed for defining new columns in the package <code>DataFrames</code>, which provides a table representation of data.  </span></span> </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2904,10 +2904,10 @@ some_pair &#61; Pair&#40;&quot;a&quot;, 1&#41;    # equivalent</code></pre> </di
         <h2>Named Tuples</h2></p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content> <strong>Tuples and named tuples should only be used for small collections</strong>. Using them for large collections can lead to slow operations, or directly result in an error through the so-called stack overflows. In such situations, arrays remain the preferred choice.</p>
-<p>Defining what constitutes  <em>small</em> is challenging and unfortunately there&#39;s no definitive answer. We can only indicate that collections with fewer than 10 elements are undoubtedly small, while those exceeding 100 elements violate the definition.  </div>  </div>
-<p>Named tuples share several similarities with regular tuples, including their <strong>immutability</strong>. However, they also exhibit some notable differences. One of them is that <strong>the keys of named tuples are objects of type</strong> <code>Symbol</code>, in contrast to numerical indices as in regular tuples.</p>
-<p>Named tuples also differ syntactically, in that they must always be enclosed in parentheses <code>&#40;&#41;</code>—omitting them is not possible, unlike with regular tuples. Furthermore, when creating a named tuple with a single element, the notation requires either a trailing comma <code>,</code> after the element &#40;similar to regular tuples&#41; or a leading semicolon <code>;</code> before the element. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The semicolon notation <code>;</code> may seem odd, but it actually comes from the syntax for keyword arguments in functions.  </span></span> </p>
+      <b>Warning!</b> </span>  </div>  <div class=content> <strong>Tuples and named tuples should only be used for small collections</strong>. Using them for large collections can lead to slow operations or directly result in a fatal error &#40;the so-called stack overflow&#41;. Arrays remain the preferred choice for large collections. </p>
+<p>Defining what constitutes  <em>small</em> is challenging, and unfortunately there&#39;s no definitive answer. We can only indicate that collections with fewer than 10 elements are undoubtedly small, while those exceeding 100 elements violate the definition.  </div>  </div>
+<p>Named tuples share several similarities with regular tuples, including their <strong>immutability</strong>. However, they also exhibit some notable differences. One of them is that <strong>the keys of named tuples are objects of type</strong> <code>Symbol</code>, in contrast to the numerical indices used for regular tuples.</p>
+<p>Named tuples also differ syntactically, requiring being enclosed in parentheses <code>&#40;&#41;</code>—omitting them is not possible, unlike with regular tuples. Furthermore, when creating a named tuple with a single element, the notation requires either a trailing comma <code>,</code> after the element &#40;similar to regular tuples&#41; or a leading semicolon <code>;</code> before the element. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The semicolon notation <code>;</code> may seem odd, but it actually comes from the syntax for keyword arguments in functions.  </span></span> </p>
 <p>To construct a named tuple, each element must be specified in the format <code>&lt;key&gt; &#61; &lt;value&gt;</code>, such as <code>a &#61; 10</code>. Alternatively, you can use a pair <code>&lt;key with Symbol type&gt; &#61;&gt; &lt;value&gt;</code>, as in <code>:a &#61;&gt; 10</code>. Once a named tuple <code>nt</code> is created, you can access its element <code>a</code> by using either <code>nt&#91;:a&#93;</code> or <code>nt.a</code>. </p>
 <p>The following code snippets illustrate all this. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -3002,14 +3002,14 @@ tup &#61; &#40;x, &#41;</code></pre>
         <h2>Dictionaries</h2></p>
 <p>Dictionaries are collections of key-value pairs, exhibiting three distinctive features:</p>
 <div class="itemNoSpace"><ul>
-<li><p><strong>The keys of dictionaries can be any object</strong>: strings, numbers, or other objects &#40;e.g., vectors, tuples&#41; are all possible. </p>
+<li><p><strong>The keys of dictionaries can be any object</strong>: strings, numbers, and other objects are possible. </p>
 </li>
 <li><p><strong>Dictionaries are mutable</strong>: you can modify, add, and remove elements. </p>
 </li>
 <li><p><strong>Dictionaries are unordered</strong>: keys don&#39;t have any order attached.</p>
 </li>
 </ul></div>
-<p>Dictionaries are created through the function <code>Dict</code>, with each argument denoting key-value pairs through the notation <code>&lt;key&gt; &#61;&gt; &lt;value&gt;</code>.</p>
+<p>Dictionaries are created using function <code>Dict</code>, with each argument representing key-value pairs denoted by <code>&lt;key&gt; &#61;&gt; &lt;value&gt;</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3043,7 +3043,7 @@ tup &#61; &#40;x, &#41;</code></pre>
 <p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>dict&#91;&#40;1,1&#41;&#93;</code> <br/> <pre><code class="plaintext code-output">10</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>As regular dictionaries are unordered, accessing their elements doesn&#39;t follow any pattern. The following example illustrates this, where a vector collects the keys of a dictionary. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The package <code>OrderedCollections</code> addresses this, by offering a special dictionary called <code>OrderedDict</code>. It behaves pretty similarly to regular dictionaries, including its syntax.  </span></span></p>
+<p>Note that regular dictionaries are inherently unordered, determining that access to their elements doesn&#39;t follow any pattern. The following example illustrates this, where a vector collects the keys of a dictionary. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The package <code>OrderedCollections</code> addresses this, by offering a special dictionary called <code>OrderedDict</code>. It behaves similarly to regular dictionaries, including their syntax, but endows the dictionary with an order.  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3090,7 +3090,7 @@ keys_from_dict &#61; collect&#40;keys&#40;some_dict&#41;&#41;</code></pre> </div
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Creating Tuples, Named Tuples, and Dictionaries</h2></p>
-<p>Tuples, named tuples, and dictionaries can be constructed using other collections as their source, as long as the source collection possesses a key-value structure. In the following, we show how several collections are employed to create <strong>dictionaries</strong> in particular. </p>
+<p>Tuples, named tuples, and dictionaries can be constructed from other collections, provided that the source collection possesses a key-value structure. The following examples demonstrate how various collections can be used to create <strong>dictionaries</strong> in particular. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3146,7 +3146,7 @@ dict &#61; Dict&#40;vector_keys_values&#41;</code></pre> </div></div>
   :b => 20</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Likewise, we can define a <strong>tuple</strong> using other collections as its source.</p>
+<p>Likewise, we can define a <strong>tuple</strong> from other collections, as shown below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3173,7 +3173,7 @@ tup &#61; Tuple&#40;values_for_tup&#41;</code></pre> </div></div>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>tup</code> <br/> <pre><code class="plaintext code-output">(10, 20)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Similarly, <strong>named tuple</strong> can be constructed from other collections. </p>
+<p>Finally, <strong>named tuples</strong> can be constructed from other collections. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3236,11 +3236,10 @@ nt &#61; NamedTuple&#40;vector_keys_values&#41;</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Destructuring Tuples and Named Tuples</h2></p>
-<p>Previously, we&#39;ve demonstrated how to create a tuple and a named tuple taking variables as their source. Next, we show that the reverse operation is also possible, where <strong>values are extracted from a tuple or named tuple and assigned to individual variables</strong>. This process is known as <span style="color: rgb(62, 121, 180);"><strong>destructuring</strong></span>, and allows users to &quot;unpack&quot; the values of a collection into separate variables.</p>
-<p>Destructuring requires the assignment operator <code>&#61;</code>, with a tuple or named tuple on the left-hand side. Although both objects enable the creation of variables with specific values, they serve different purposes. On one hand, uples on the left-hand side can be combined with different types of collections on the right-hand side. In contrast, named tuples on the left-hand side require another named tuple as a collection.</p>
-<p>We illustrate each case below.</p>
+<p>Previously, we&#39;ve demonstrated how to create a tuple and a named tuple from variables. Next, we show that the reverse operation is also possible, where <strong>values are extracted from a tuple or named tuple and assigned to individual variables</strong>. This process is known as <span style="color: rgb(62, 121, 180);"><strong>destructuring</strong></span>, and allows users to &quot;unpack&quot; the values of a collection into separate variables.</p>
+<p>Destructuring involves the assignment operator <code>&#61;</code>, with a tuple or named tuple on the left-hand side. The key difference between them lies in their compatibility with other collections: named tuples on the left-hand side require a matching named tuple, whereas tuples can be paired with a variety of collection types on the right-hand side. We illustrate each case below.</p>
  <h4> Destructuring Collections Through Tuples </h4>
-<p>Given a collection <code>list</code> with two elements, destructuring enables the user to create variables <code>x</code> and <code>y</code> with the values of <code>list</code>. This is implemented by the syntax <code>&lt;tuple&gt; &#61; &lt;collection&gt;</code>, which in our example means <code>x,y &#61; list</code>. The following examples illustrate this operation, according to different objects taken as <code>list</code>. </p>
+<p>Given a collection <code>list</code> with two elements, destructuring enables the user to create variables <code>x</code> and <code>y</code> with the values of <code>list</code>. This is implemented by the syntax <code>&lt;tuple&gt; &#61; &lt;collection&gt;</code>, such as <code>x,y &#61; list</code>. The following examples illustrate this operation, according to different objects taken as <code>list</code>. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3282,7 +3281,8 @@ x,y  &#61; list</code></pre>
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">4</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In addition to destructuring all elements in <code>list</code>, we can also destructure only a subset of elements. However, the values are assigned in a sequential order, without allowing any of them to be skipped. If you&#39;re not interested in a particular element, you can still indicate it so through the special variable name <code>_</code>. We illustrate the case with a vector as <code>list</code>, although the principle apply to any object. </p>
+<p>In addition to destructuring all elements in <code>list</code>, you can choose to destructure only a subset of elements. The assignment is then performed in sequential order, following the collection&#39;s inherent order, without the possibility of skipping any specific value. To explicitly disregard a value, it&#39;s common to use the special variable name <code>_</code> as a placeholder. Note that this is merely a convention, without any impact on execution. </p>
+<p>For illustration purposes, we&#39;ll use a vector as an example of <code>list</code>, but the same principle applies to any object.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3323,7 +3323,7 @@ x,_,z   &#61; list                  # _ skips the assignment of that value</code
  </div></div>
 <p>  </p></details></div>
  <h4> Destructuring with Named Tuples on Both Sides </h4>
-<p>Instead of a tuple on the left-hand side, we can alternatively rely on a named tuple. In this way, you can destructure them by specifying the names of the fields you want to extract, rather than relying on their position in the tuple. This approach allows you to assign values to variables in any order, as long as the variable names match the field names in the named tuple.</p>
+<p>An alternative to standard tuples for destructuring is given by employing named tuples on the left-hand side. This approach lets you extract values by directly referencing field names, rather than relying on their positional order. Its key advantage is that variables can be assigned values in any order, provided their names correspond to the field names in the named tuple.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3333,7 +3333,7 @@ x,_,z   &#61; list                  # _ skips the assignment of that value</code
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">nt             &#61; &#40;; key1 &#61; 10, key2 &#61; 20, key3 &#61; 30&#41;
 
-&#40;; key2, key1&#41; &#61; nt               # keys in any order</code></pre>
+&#40;; key2, key1&#41; &#61; nt            # keys in any order</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>key1</code><br/><div class="akin_to_pre">10</div> </div></p>
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>key3</code><br/><div class="akin_to_pre">30</div> </div></div> </div> 
@@ -3341,14 +3341,14 @@ x,_,z   &#61; list                  # _ skips the assignment of that value</code
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">nt             &#61; &#40;; key1 &#61; 10, key2 &#61; 20, key3 &#61; 30&#41;
 
-&#40;; key3&#41;       &#61; nt               # only one key</code></pre>
+&#40;; key3&#41;       &#61; nt            # only one key</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>key3</code><br/><div class="akin_to_pre">30</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     Be careful when you use a tuple on the left-hand side and a named tuple on the right-hand side. Tuples will always be assigned according to their position, regardless of whether the variable names are the same as the keys.</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     When destructuring with a tuple on the left-hand side and a named tuple on the right-hand side, keep in mind that tuple assignments are strictly positional. This means that variable names don&#39;t influence the assignment, which exclusively happens based on the position of values. As a result, the assignment process is unaffected by whether the variable names match the keys of the named tuple.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3397,7 +3397,7 @@ x,_,z   &#61; list                  # _ skips the assignment of that value</code
  </div></div>
 <p>  </p></details></div>  </div>  </div>
  <h4> Applications of Destructuring </h4>
-<p>Destructuring named tuples is particularly useful for models that require multiple functions and numerous parameters. By storing all relevant parameters through a named tuple, you&#39;ll be able to&#39;pass the same  <em>single</em> argument to each function. In this way, you can then simply extract the parameters needed in the first line of the body function, by destructuring the named tuple.</p>
+<p>Destructuring named tuples is especially useful in models that involve a repeated use of numerous parameters. By storing all these parameters in a named tuple, you can pass a  <em>single</em> argument to functions. Then, by destructuring the named tuple, you can extract the needed parameters at the beginning of the function body.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3444,7 +3444,7 @@ end</code></pre>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;2, parameters_list&#41;</code><br/><div class="akin_to_pre">14.695</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Another application of destructing arises when we seek to retrieve multiple outputs of a function, storing each in a variable. The following shows how to do it with a tuple, where we create variables <code>x</code>, <code>y</code>, and <code>z</code>.</p>
+<p>Another useful application of destructuring occurs when we need to retrieve multiple outputs of a function. This enables you to store each result in a separate variable. Below, we illustrate this application with a tuple and variables <code>x</code>, <code>y</code>, and <code>z</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3472,14 +3472,14 @@ end
 x, y, z &#61; foo&#40;&#41;</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>In some cases, as when we want to retrieve descriptive statistics, we could be interested in a subset of the outputs. In such a case, you can destructure either a tuple or a named tuple. Note that the case of named tuple necessarily requires that the function&#39;s output is specified through a named tuple. However, this isn&#39;t necessarily within our control, as occurs when the output is from a function&#39;s package. Considering this, a tuple is more flexible, as it could be employed for outputs coming from various types of collections.</p>
-<p>By destructuring both tuples and named tuples, the following examples extract the first and third output.</p>
+<p>Another typical application of destructuring is when we need only a subset of a function&#39;s outputs. While both tuples and named tuples can be applied for this purpose, the former offer more flexibility since they can be combined with various types of collections. Instead, named tuples are limited to another named tuple as the function&#39;s output, further requiring prior knowledge of the output&#39;s field names.</p>
+<p>The following example demonstrates this functionality by extracting the first and third output of the <code>foo</code> function.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Tuple as Output </button>
-    <button class="tablink" data-id=""> Vector as Output </button>
-    <button class="tablink" data-id=""> Named Tuples </button>
+    <button class="tablink first_tab active" data-id=""> Tuple as Output (Tuple) </button>
+    <button class="tablink" data-id=""> Vector as Output (Tuple) </button>
+    <button class="tablink" data-id=""> Named Tuple as Output (Named Tuples)</button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;&#41;
     out1 &#61; 2
@@ -3534,7 +3534,7 @@ end
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 17, 2025 
+          © Martin Alfaro <br>Last Modified March 18, 2025 
       </span> 
   </div> 
 </footer>

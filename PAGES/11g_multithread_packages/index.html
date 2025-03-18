@@ -2846,12 +2846,12 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Package "OhMyThreads" </h2></p>
-<p>As the package&#39;s documentation claims, <a href="https://github.com/JuliaFolds2/OhMyThreads.jl"><code>OhMyThreads</code></a> strives to be a user-friendly package to seamlessly apply multithreading. Consistent with its minimalist approach, the package only introduces a handful of essential functionalities that could easily be part of Julia&#39;s <code>Base</code>. The goal is to implement code parallelization, even without deep expertise in concurrent programming techniques.</p>
+<p>As the package&#39;s documentation claims, <a href="https://github.com/JuliaFolds2/OhMyThreads.jl"><code>OhMyThreads</code></a> strives to be a user-friendly package to seamlessly apply multithreading. Consistent with its minimalist approach, the package only introduces a handful of essential functionalities that could easily be part of Julia&#39;s <code>Base</code>. The goal is to allow users to implement code parallelization, even if they don&#39;t possess deep expertise in the subject.</p>
 <p>Specifically, the package provides various higher-order functions and macros that internally handle data-race conditions and performance issues like false sharing. Despite its simplicity, <code>OhMyThreads</code> still covers a significant range of scenarios, even supporting reduction operations.</p>
-<p>In the following, we present the main higher-functions provided by the package. Before introducing them, we indicate several features that these functions share. Firstly, their names in <code>OhMyThreads</code> mirror those in <code>Base</code>, but adding a prefix of <code>t</code>. For instance, the counterpart to <code>map</code> is <code>tmap</code>. Secondly, <code>OhMyThreads</code> offers the option of customizing the parallelization process. This is achieved though an integration with <code>ChunkSplitters</code>, enabling customized work distributions among tasks via two keyword arguments: <code>nchunks</code>&#40;or equivalently <code>ntasks</code>&#41; to define the number of subsets in the partition, and <code>chunksize</code> to specify the number of elements in each subset.</p>
+<p>In the following, we present the main higher-functions provided by the package. Before introducing them, let&#39;s indicate several features that these functions share. Firstly, the names of these functions in <code>OhMyThreads</code> mirror those in <code>Base</code>, but adding a prefix of <code>t</code>. For instance, the counterpart to <code>map</code> is <code>tmap</code>. Secondly, <code>OhMyThreads</code> offers the option of customizing the parallelization process. This is achieved though an integration with <code>ChunkSplitters</code>, enabling customized work distributions among tasks via two keyword arguments: <code>nchunks</code>&#40;or equivalently <code>ntasks</code>&#41; to define the number of subsets in the partition, and <code>chunksize</code> to specify the number of elements in each subset.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     All the code snippets below presuppose that you executed <code>using OhMyThreads</code> to load the package.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     All the code snippets below assume you&#39;ve already loaded the package with <code>using OhMyThreads</code>.  </div>  </div>
  <h4> Parallel Mapping </h4>
 <p>The <code>tmap</code> function serves as the multithreaded counterpart to <code>map</code>. Its syntax is <code>tmap&#40;foo, x&#41;</code>, where <code>foo</code> is the transforming function applied to each element of the collection <code>x</code>. Unfortunately, applying <code>tmap</code> in this form results in a performance loss. This is due to a technical matter arising by the type instability of the object <code>Task</code>. </p>
 <p>To circumvent this issue and regain the lost performance, we must then explicitly indicate the output&#39;s type. To do this, we need the function method <code>tmap&#40;foo, T , x&#41;</code>, where <code>T</code> represents the  <em>element type</em> of the output. Thus, if for instance the output is a <code>Vector&#123;Float64&#125;</code>, <code>T</code> would be <code>Float64</code>. Instead of directly declaring <code>T</code>, a more flexible alternative is to use <code>eltype&#40;x&#41;</code>, making the output&#39;s type mirror that of <code>x</code>. </p>
@@ -2981,7 +2981,7 @@ foo_parallel&#40;x&#41; &#61; tmapreduce&#40;log, &#43;, x&#41;</code></pre> </d
  </div></div>
 <p>  </p></details></div>
  <h4> Foreach As A Faster Option for Mappings </h4>
-<p>The package also offers an implementation similar to for-loops through the function <code>tforeach</code>. Since we haven&#39;t covered the single-threaded version <code>foreach</code>, we begin by presenting it. The function follows a syntax identical to <code>map</code>, which is usually implemented through a <a href="/julia_book/PAGES/03c_functions/#do-syntax">do-block syntax</a>, as shown below.</p>
+<p>The package also offers an implementation similar to for-loops through the function <code>tforeach</code>. Since we haven&#39;t covered the single-threaded version <code>foreach</code>, we begin by presenting it. The function follows a syntax identical to <code>map</code>, and is usually implemented using a <a href="/julia_book/PAGES/03c_functions/#do-syntax">do-block syntax</a>, as shown below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3145,10 +3145,10 @@ end</code></pre> </div></div>
         <h2>Polyester: Parallelization for Small Objects</h2></p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     All the code snippets below presuppose that you executed <code>using Polyester</code> to load the package.  </div>  </div>
-<p>One key limitation of multithreading is the overhead due to the creation and scheduling of tasks. This overhead can render parallelization impractical for smaller computational tasks, as the cost of thread management would outweigh any potential performance gain. Considering this, the application of multithreading is commonly reserved for objects sufficiently large to justify the cost.</p>
-<p>The <code>Polyester</code> package addresses this limitation by significantly reducing overhead. This feature enables parallelization of objects that, otherwise, would be deemed too small to benefit from multithreading. </p>
-<p>The package requires expressing the operation as a for-loop. To illustrate its benefits, let&#39;s compare its performance to traditional methods. The following example considers a for-loop with 500 iterations, a relatively low number for applying multithreading. Indeed, the first tab shows that an approach based on <code>@threads</code> is slower than its single-threaded variant. In contrast, <code>Polyester</code> achieves comparable performance to the single-threaded variant, despite the low number of iterations. To use <code>Polyseter</code>, we simply need to prefix the for-loop with the <code>@batch</code> macro. </p>
+      <b>Warning!</b> </span>  </div>  <div class=content>     All the code snippets below assume you executed <code>using Polyester</code> to load the package.  </div>  </div>
+<p>One key limitation of multithreading is its overhead associated, arising due to the creation and scheduling of tasks. This issue can render parallelization impractical for smaller computational tasks, as the cost of thread management would outweigh any potential performance gain. Considering this, the application of multithreading is commonly reserved for objects sufficiently large to justify the cost.</p>
+<p>The <code>Polyester</code> package addresses this limitation by implementing techniques that reduce the overhead. In this way, it becomes possible to parallelize objects that, otherwise, would be deemed too small to benefit from multithreading. Importantly, the package requires expressing the code to be parallelized as a for-loop. </p>
+<p>To illustrate the benefits of the package, let&#39;s compare its performance to traditional methods. The following example considers a for-loop with 500 iterations, a relatively low number for applying multithreading. Indeed, the first tab shows that an approach based on <code>@threads</code> is slower than its single-threaded variant. In contrast, <code>Polyester</code> achieves comparable performance to the single-threaded variant, despite the low number of iterations. To use <code>Polyseter</code>, we simply need to prefix the for-loop with the <code>@batch</code> macro. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3201,8 +3201,7 @@ end</code></pre> </div></div>
 <p>  </p></details></div>
 <p>For larger objects, it&#39;s worth noting that <code>Polyester</code> may not necessarily outperform &#40;or underperform&#41; alternative methods. In such cases, it&#39;s recommend benchmarking your particular application.</p>
  <h4> Reductions </h4>
-<p><code>Polyester</code> also supports reduction operations. They can be implemented by prepending the for-loop with the expression <code>@batch reduce&#61;&#40;&lt;tuple with operation and variable reduced&gt;&#41;</code>. Notably, Polyester&#39;s implementation has been designed to avoid common pitfalls of reductions, such as data races and false sharing, ensuring both correctness and performance. </p>
-<p>The following example illustrates how to compute a for-loop with one reduction operation.</p>
+<p><code>Polyester</code> also supports reduction operations. These can be implemented by prepending the for-loop with the expression <code>@batch reduce&#61;&#40;&lt;tuple with operation and variable reduced&gt;&#41;</code>. Notably, Polyester&#39;s implementation has been designed to avoid common pitfalls of reductions, such as data races and false sharing, ensuring both correctness and performance. The following example illustrates its application. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3238,7 +3237,7 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>We can also incorporate more than one reduction operation per iteration. This is demonstrated below.</p>
+<p>We can also incorporate more than one reduction operation per iteration, as demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3377,7 +3376,7 @@ end</code></pre> </div></div>
         <h2>SIMD + Multithreading</h2></p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     All the code snippets below assume you&#39;ve loaded the package by executing <code>using LoopVectorization</code>.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     All the code snippets below assume you&#39;ve already loaded the package with <code>using LoopVectorization</code>.  </div>  </div>
 <p>We&#39;ve already covered the package <code>LoopVectorization</code> in the <a href="/julia_book/PAGES/10c_simd">section about SIMD instructions</a>. We now revisit this package to demonstrate its ability to combine SIMD with multithreading. The feature is achieved through integration with the <code>Polyester</code> package.</p>
 <p>The primary approach to implementing the functionality involves the <code>@tturbo</code> macro, which provides a parallelized version of <code>@turbo</code>. Unlike the @<code>threads</code> macro, where the application of SIMD optimizations is left to the compiler&#39;s discretion, <code>@tturbo</code> automatically applies SIMD.</p>
 <p>To illustrate the benefits of <code>@tturbo</code>, let&#39;s consider an example scenario where SIMD isn&#39;t applied automatically by <code>@threads</code>, despite that the operation is well-suited for this purpose. </p>
@@ -3473,7 +3472,7 @@ foo&#40;x&#41; &#61; @tturbo log.&#40;x&#41; ./ x</code></pre> </div></div>
         <h2>FLoops: Parallel For-Loops (<strong><i style="color:red">OPTIONAL</i></strong>)</h2></p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     All the code snippets below assume you&#39;ve loaded the package by executing <code>using FLoops</code>.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     All the code snippets below assume you&#39;ve already loaded the package with <code>using FLoops</code>.  </div>  </div>
 <p>We conclude this section with a brief overview of the package <code>FLoops</code>. The presentation is labeled as optional since its use beyond simple applications could require <a href="https://juliafolds.github.io/FLoops.jl/stable/howto/avoid-box/">some workarounds</a>. Moreover, it appears not to be actively maintained. </p>
 <p>The primary macro provided by the package is <code>@floop</code>, exclusively designed to parallelize for-loops. An example of its usage is provided below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -3587,7 +3586,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 17, 2025 
+          © Martin Alfaro <br>Last Modified March 18, 2025 
       </span> 
   </div> 
 </footer>
