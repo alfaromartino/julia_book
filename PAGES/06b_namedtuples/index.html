@@ -2811,23 +2811,23 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy section-bg-color">
+<section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>Our previous discussions on collections have centered around vectors and tuples. The current section expands on the subject, offering a more comprehensive analysis of tuples and introducing two new types of collections: <strong>named tuples</strong> and <strong>dictionaries</strong>. </p>
-<p>The section will cover in particular three topics: how to characterize collections through keys and values, methods for the manipulation of collections, and approaches to transforming one collection into another. </p>
+<p>In particular, we&#39;ll cover how to characterize collections through keys and values, methods for the manipulation of collections, and approaches to transforming one collection into another. </p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="keys_and_values" class="scrollspy">
+<section id="keys_and_values" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Keys and Values</h2></p>
-<p>Most collections in Julia are characterized by <span style="color: rgb(62, 121, 180);"><strong>keys</strong></span>. These serve as unique identifiers of their elements, and have a corresponding <span style="color: rgb(62, 121, 180);"><strong>value</strong></span> associated to each. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Not all collections represent maps of keys to values. For example, the type <code>Set</code>, which represents a group of unique unordered elements, doesn&#39;t have keys.  </span></span>  For instance, the vector <code>x &#61; &#91;2, 4, 6&#93;</code> has the indices <code>1, 2, 3</code> as its keys, and <code>2, 4, 6</code> as their respective values. </p>
+<p>Most collections in Julia are characterized by <span style="color: rgb(62, 121, 180);"><strong>keys</strong></span>. They serve as unique identifiers of their elements, and have a corresponding <span style="color: rgb(62, 121, 180);"><strong>value</strong></span> associated to each. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Not all collections map keys to values. For example, the type <code>Set</code>, which represents a group of unique unordered elements, doesn&#39;t have keys.  </span></span>  For instance, the vector <code>x &#61; &#91;2, 4, 6&#93;</code> has the indices <code>1, 2, 3</code> as its keys, and <code>2, 4, 6</code> as their respective values. </p>
 <p><strong>Keys are more general than indices</strong>—they encompass all the possible identifiers of a collection&#39;s elements &#40;e.g., strings, numbers, or other objects&#41;. Instead, indices exclusively employ integers as identifiers. </p>
 <p>To identify the keys and values of a collection, Julia offers the <code>keys</code> and <code>values</code> functions. The following code snippets demonstrate their usage based on vectors and tuples, whose keys are solely represented by indices. Note that neither <code>keys</code> nor <code>values</code> inherently returns a vector, requiring the <code>collect</code> function for this purpose.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -2897,7 +2897,7 @@ some_pair &#61; Pair&#40;&quot;a&quot;, 1&#41;    # equivalent</code></pre> </di
     </div>
   </div>
 </section>
-<section id="named_tuples" class="scrollspy section-bg-color">
+<section id="named_tuples" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -2995,7 +2995,7 @@ tup &#61; &#40;x, &#41;</code></pre>
     </div>
   </div>
 </section>
-<section id="dictionaries" class="scrollspy">
+<section id="dictionaries" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -3085,7 +3085,7 @@ keys_from_dict &#61; collect&#40;keys&#40;some_dict&#41;&#41;</code></pre> </div
     </div>
   </div>
 </section>
-<section id="creating_tuples_named_tuples_and_dictionaries" class="scrollspy section-bg-color">
+<section id="creating_tuples_named_tuples_and_dictionaries" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -3231,13 +3231,14 @@ nt &#61; NamedTuple&#40;vector_keys_values&#41;</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="destructuring_tuples_and_named_tuples" class="scrollspy">
+<section id="destructuring_tuples_and_named_tuples" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Destructuring Tuples and Named Tuples</h2></p>
-<p>Previously, we&#39;ve demonstrated how to create a tuple and a named tuple taking variables as their source. Next, we show that the reverse operation is also possible, where you <strong>extract values from a tuple or named tuple and assign them to individual variables</strong>. This process is known as <span style="color: rgb(62, 121, 180);"><strong>destructuring</strong></span>, and allows users to &quot;unpack&quot; a collection&#39;s values into separate variables.</p>
-<p>Destructuring is based on the assignment operator <code>&#61;</code>, with a tuple or named tuple on the left-hand side. Although both cases enable the creation of variables with specific values, they serve different purposes. In fact, tuples on the left-hand side can be combined with different types of collections on the right-hand side. In contrast, named tuples on the left-hand side require another named tuple as a collection.</p>
+<p>Previously, we&#39;ve demonstrated how to create a tuple and a named tuple taking variables as their source. Next, we show that the reverse operation is also possible, where <strong>values are extracted from a tuple or named tuple and assigned to individual variables</strong>. This process is known as <span style="color: rgb(62, 121, 180);"><strong>destructuring</strong></span>, and allows users to &quot;unpack&quot; the values of a collection into separate variables.</p>
+<p>Destructuring requires the assignment operator <code>&#61;</code>, with a tuple or named tuple on the left-hand side. Although both objects enable the creation of variables with specific values, they serve different purposes. On one hand, uples on the left-hand side can be combined with different types of collections on the right-hand side. In contrast, named tuples on the left-hand side require another named tuple as a collection.</p>
+<p>We illustrate each case below.</p>
  <h4> Destructuring Collections Through Tuples </h4>
 <p>Given a collection <code>list</code> with two elements, destructuring enables the user to create variables <code>x</code> and <code>y</code> with the values of <code>list</code>. This is implemented by the syntax <code>&lt;tuple&gt; &#61; &lt;collection&gt;</code>, which in our example means <code>x,y &#61; list</code>. The following examples illustrate this operation, according to different objects taken as <code>list</code>. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -3322,7 +3323,7 @@ x,_,z   &#61; list                  # _ skips the assignment of that value</code
  </div></div>
 <p>  </p></details></div>
  <h4> Destructuring with Named Tuples on Both Sides </h4>
-<p>Instead of using a tuple on the left-hand side, we can alternatively rely on a named tuple. In this way, you can destructure them by specifying the names of the fields you want to extract, rather than relying on their position in the tuple. This approach allows you to assign values to variables in any order, as long as the variable names match the field names in the named tuple.</p>
+<p>Instead of a tuple on the left-hand side, we can alternatively rely on a named tuple. In this way, you can destructure them by specifying the names of the fields you want to extract, rather than relying on their position in the tuple. This approach allows you to assign values to variables in any order, as long as the variable names match the field names in the named tuple.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3471,7 +3472,7 @@ end
 x, y, z &#61; foo&#40;&#41;</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>In some cases, as when we want to retrieve descriptive statistics, we could be interested in a subset of the outputs. In that case, you can destructure either a tuple or a named tuple. Note that the case of named tuple necessarily requires that the function&#39;s output is specified through a named tuple. However, this isn&#39;t necessarily within our control, as occurs when the output is from a function&#39;s package. Considering this, a tuple is more flexible, as it could be employed for outputs coming from various types of collections.</p>
+<p>In some cases, as when we want to retrieve descriptive statistics, we could be interested in a subset of the outputs. In such a case, you can destructure either a tuple or a named tuple. Note that the case of named tuple necessarily requires that the function&#39;s output is specified through a named tuple. However, this isn&#39;t necessarily within our control, as occurs when the output is from a function&#39;s package. Considering this, a tuple is more flexible, as it could be employed for outputs coming from various types of collections.</p>
 <p>By destructuring both tuples and named tuples, the following examples extract the first and third output.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3533,7 +3534,7 @@ end
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 16, 2025 
+          © Martin Alfaro <br>Last Modified March 17, 2025 
       </span> 
   </div> 
 </footer>

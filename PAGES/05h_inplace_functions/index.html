@@ -2816,9 +2816,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section continues exploring <strong>approaches to mutating vectors</strong>. The emphasis is in particular on <strong>in-place functions</strong>, defined as functions that mutate at least one of their arguments. This allows users to update variables and store a function&#39;s output in an argument, rather doing so by returning a new object. </p>
-<p>Many built-in functions in Julia come with a corresponding in-place version. They can be easily identified by the <code>&#33;</code> appended to end of their names. Furthermore, in-place functions are commonly employed to update a vector via a for-loop. </p>
-<p>The benefits of in-place functions will become evident in Part II, when discussing high-performance computing. By reusing existing objects, in-place functions eliminate the overhead associated with creating new objects, resulting in significant efficiency gains. </p>
+<p>This section continues exploring <strong>approaches to mutating vectors</strong>. The emphasis is in particular on <strong>in-place functions</strong>, defined as functions that mutate at least one of their arguments. </p>
+<p>Many built-in functions in Julia have a corresponding in-place counterpart. These versions can be easily identified by the symbol <code>&#33;</code> appended to their names. In-place functions enable users to store the output in one of the function&#39;s arguments, thereby avoiding the creation of a new object. They can also be used to update the values of a variable directly. For example, given a vector <code>x</code>, <code>sort&#40;x&#41;</code> returns a new vector with ordered elements, but without altering the original <code>x</code>. In contrast, the in-place version <code>sort&#33;&#40;x&#41;</code> directly stores the result within <code>x</code> itself.</p>
+<p>The benefits of in-place functions will become evident in Part II, when discussing high-performance computing. Essentially, by reusing existing objects, in-place functions eliminate the overhead associated with creating new objects.</p>
 <p>      </div>
     </div>
   </div>
@@ -2828,8 +2828,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>In-Place Functions</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>In-place functions</strong></span>, also known as <span style="color: rgb(62, 121, 180);"><strong>mutating functions</strong></span>, are distinguished by their effect on their arguments. Specifically, their execution updates the value of at least one of its arguments.</p>
-<p>Given a vector <code>x</code>, the following function <code>foo&#40;x&#41;</code> is an example of in-place function, as it modifies the values of <code>x</code>.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>In-place functions</strong></span>, also known as <span style="color: rgb(62, 121, 180);"><strong>mutating functions</strong></span>, are characterized by their ability to modify at least one of their arguments. For example, given a vector <code>x</code>, the following function <code>foo&#40;x&#41;</code> constitutes an example of in-place function, as it modifies the content of <code>x</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2853,8 +2852,8 @@ end</code></pre>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     Functions are capable of mutating values, but they <strong>can't reassign variables</strong>. Any attempt to redefine a variable within a function is interpreted as the definition of a new local variable.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Strictly speaking, it&#39;s possible to reassign a variable by using the <code>global</code> keyword. However, its use is discouraged, explaining why we won&#39;t cover it.  </span></span> </p>
-<p>The following code illustrates this behavior by redefining a function argument and a global variable. The result reflects that, when <code>x</code> is redefined, <code>foo</code> treats <code>x</code> as a new local variable, thus only existing within <code>foo</code>&#39;s scope.</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     While functions are capable of mutating values, they <strong>can't reassign variables</strong> outside their scope. Any attempt to redefine a variable within a function will be interpreted as the creation of a new local variable.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Strictly speaking, it&#39;s possible to reassign a variable by using the <code>global</code> keyword. However, its use is typically discouraged, explaining why we won&#39;t cover it.  </span></span> </p>
+<p>The following code illustrates this behavior by redefining a function argument and a global variable. The output reflects that <code>foo</code> in each example treats the redefined <code>x</code> as a new local variable, thus only existing within <code>foo</code>&#39;s scope.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2888,45 +2887,6 @@ end</code></pre>
  2</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
-<p>The ability to mutate function arguments is crucial for the use of for-loops. Recall that for-loops should always be wrapped in functions. This not only prevents issues with variable scope, but also enhances performance, as we&#39;ll discuss in Part II. </p>
-<p>The code snippet below provides an application of in-place functions to for-loops. In particular, its consider the population of a vector.</p>
- <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> For-Loop Mutation </button>
-    <button class="tablink" data-id=""> Populating Vector With For-Loop </button>    
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;3,4,5&#93;
-
-function foo&#40;x&#41;
-    for i in 1:2
-        x&#91;i&#93; &#61; 0
-    end
-end</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="julia_line">julia&gt</div> <code>foo&#40;x&#41;</code></div></p>
-<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
- 0
- 0
- 5</div> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; Vector&#123;Float64&#125;&#40;undef, 3&#41;           # initialize a vector with 3 elements
-
-function foo&#40;x&#41;
-    for i in eachindex&#40;x&#41;
-        x&#91;i&#93; &#61; 0
-    end
-end</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="julia_line">julia&gt</div> <code>foo&#40;x&#41;</code></div></p>
-<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
- 0
- 0
- 0</div> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>
 <p>      </div>
     </div>
   </div>
@@ -2940,7 +2900,7 @@ end</code></pre>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content> <strong>Appending</strong> <code>&#33;</code> <strong>to a function has no impact on the function's behavior at all</strong>. It&#39;s simply a convention adopted by Julia&#39;s developers to emphasize the mutable nature of the operation. Its purpose is to alert users about the potential side effects of the function, thus preventing unintended modifications of objects.  </div>  </div>
-<p>To illustrate these two possible forms, let&#39;consider the built-in function <code>sort</code>. This arranges the elements of a vector in ascending order, with the option <code>rev&#61;true</code> alternatively implementing a descending order. As for the standard version, <code>sort&#40;x&#41;</code> creates a new vector containing the sorted elements, leaving the original vector <code>x</code> unchanged. In contrast, the in-place version <code>sort&#33;&#40;x&#41;</code> updates the original vector <code>x</code> directly, overwriting its values with the sorted result.</p>
+<p>To illustrate these forms, let&#39;s start considering single-argument functions In particular, we&#39;ll focus on <code>sort</code>. This arranges the elements of a vector in ascending order, with the option <code>rev&#61;true</code> implementing a descending order. In its standard form, <code>sort&#40;x&#41;</code> creates a new vector containing the sorted elements, leaving the original vector <code>x</code> unchanged. In contrast, the in-place version <code>sort&#33;&#40;x&#41;</code> updates the original vector <code>x</code> directly, overwriting its values with the sorted result.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2972,7 +2932,7 @@ sort&#33;&#40;x&#41;</code></pre>
  3</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The example illustrates scenarios where the function argument serves as both input and output. Another possibility is to include an argument whose sole purpose is to store outputs. For instance, given a function <code>foo</code> and a vector <code>x</code>, the built-in function <code>map&#40;foo, x&#41;</code> has an in-place version <code>map&#33;&#40;foo, &lt;output vector&gt;, x&#41;</code>.</p>
+<p>Regarding multiple-argument functions, it&#39;s common to include an argument whose sole purpose is to store outputs. For instance, given a function <code>foo</code> and a vector <code>x</code>, the built-in function <code>map&#40;foo, x&#41;</code> has an in-place version <code>map&#33;&#40;foo, &lt;output vector&gt;, x&#41;</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3014,6 +2974,54 @@ map&#33;&#40;a -&gt; a^2, output, x&#41;       # we update &#96;output&#96;</cod
     </div>
   </div>
 </section>
+<section id="mutations_via_for-loops" class="scrollspy section-bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Mutations via For-Loops</h2></p>
+<p>Recall that for-loops in Julia should always be wrapped in functions. This not only prevents issues with variable scope, but also enhances performance, as we&#39;ll discuss in Part II. </p>
+<p>In this context, the ability of functions to mutate its arguments is crucial. It determines that we can initialize vectors with <code>undef</code> values, pass them to a function, and fill them through a function via a for-loop. The examples below illustrate this use.</p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> For-Loop Mutation </button>
+    <button class="tablink" data-id=""> Populating Vector With For-Loop </button>    
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91;3,4,5&#93;
+
+function foo&#33;&#40;x&#41;
+    for i in 1:2
+        x&#91;i&#93; &#61; 0
+    end
+end</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="julia_line">julia&gt</div> <code>foo&#33;&#40;x&#41;</code></div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 0
+ 0
+ 5</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; Vector&#123;Float64&#125;&#40;undef, 3&#41;           # initialize a vector with 3 elements
+
+function foo&#33;&#40;x&#41;
+    for i in eachindex&#40;x&#41;
+        x&#91;i&#93; &#61; 0
+    end
+end</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="julia_line">julia&gt</div> <code>foo&#33;&#40;x&#41;</code></div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 0
+ 0
+ 0</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>      </div>
+    </div>
+  </div>
+</section>
 
 <footer class="py-1"> 
   <div class="container"> 
@@ -3032,7 +3040,7 @@ map&#33;&#40;a -&gt; a^2, output, x&#41;       # we update &#96;output&#96;</cod
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 16, 2025 
+          © Martin Alfaro <br>Last Modified March 17, 2025 
       </span> 
   </div> 
 </footer>
@@ -3645,6 +3653,10 @@ for multiple pics in a row
         
         <li>
           <a href="#built-in_in-place_functions" data-offset="-40">Built-In In-Place Functions</a>
+        </li>
+        
+        <li>
+          <a href="#mutations_via_for-loops" data-offset="-40">Mutations via For-Loops</a>
         </li>
         
       </ul>
