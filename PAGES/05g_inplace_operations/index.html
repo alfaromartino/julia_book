@@ -2817,7 +2817,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>This section focuses on <span style="color: rgb(62, 121, 180);"><strong>in-place operations</strong></span>, a term that encompasses any method that mutates collections. These operations are characterized by the reuse of existing objects, rather than generating new ones, giving rise to the expression &quot; <em>modifying values in place</em>.&quot; </p>
-<p>Understanding whether an operation mutates an object or generates a new one is crucial, as its outcomes may differ depending on the application. Furthermore, even when results are identical, in-place modifications commonly entail performance benefits relative to the creation of new objects. This aspect will be explored in Part II of the website, when we discuss high performance.</p>
+<p>Understanding whether an operation mutates an object or generates a new one is crucial, as the outcomes may differ depending on the application. Furthermore, even if results were identical, in-place modifications commonly entail performance benefits relative to the creation of new objects. This aspect will be explored in Part II of the website, when we discuss high performance.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     Before proceeding, I recommend reviewing the definitions of slices introduced <a href="/julia_book/PAGES/05e_slices/">in the previous section</a>. Recall that, given a vector <code>x</code>, a <strong>slice</strong> refers to a subset of <code>x</code>&#39;s elements selected via <code>x&#91;&lt;indices&gt;&#93;</code>. </p>
@@ -2855,7 +2855,7 @@ x&#91;x .≥ 2&#93; &#61; &#91;2, 3&#93; .* 10</code></pre> </div></div>
  30</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>A common application of this method involves defining <code>&lt;expression&gt;</code> through elements from the original vector or from the slice being modified. This allows for self-referencing updates of the variable.</p>
+<p>A common application of this method involves defining <code>&lt;expression&gt;</code> through elements from either the original vector or the slice being modified. This allows for self-referencing updates of the variable.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2879,7 +2879,7 @@ x&#91;x .≥ 2&#93; &#61; x&#91;x .≥ 2&#93; .* 10</code></pre> </div></div>
  30</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Importantly for the mutations via for-loops, a scalar can be used on the right-hand side of <code>&#61;</code> for single-element slices. </p>
+<p>Importantly the mutations via for-loops, a scalar can be used on the right-hand side of <code>&#61;</code> for single-element slices. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2896,7 +2896,7 @@ x&#91;3&#93;      &#61; 30</code></pre> </div></div>
 <p>  </p></details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Vectors can only be mutated by objects of the same type </span>  </div>  <div class=content>     When you define a vector, you implicitly define the type of elements that the vector can hold. Consequently, attempting to replace elements with a different type will result in an error. For instance, the following examples only admit mutations with values of type <code>Int64</code>.</p>
+      <b>Warning!</b> - Vectors can only be mutated by objects of the same type </span>  </div>  <div class=content>     When a vector is defined, the type of elements that the vector can hold is implicitly defined. Consequently, attempting to replace elements with a different type will result in an error. For instance, the following examples only admit mutations with values of type <code>Int64</code>.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2930,8 +2930,8 @@ x&#91;2:3&#93;    &#61; &#91;3.0, 4&#93;     # 3.0 is Float64 but accepts conver
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Mutations Via For-Loops</h2></p>
-<p>The ability to replace a single-element slice with a scalar value allows for mutations through for-loops. This is implemented by substituting the value of a single element during each iteration.</p>
-<p>To illustrate the procedure, let&#39;s consider a typical application of this approach: populating vectors with values. The process involves initializing a vector, and then iterating over its elements to assign the desired values.</p>
+<p>Replacing a single-element slice with a scalar value enables mutations through for-loops. This is implemented by substituting the value of a single element during each iteration.</p>
+<p>To illustrate the procedure, let&#39;s consider a typical application of this approach: populating vectors with values. The process involves initializing a vector, and then iterating over its elements to assign desired values.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2959,7 +2959,7 @@ end</code></pre> </div></div>
  0</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The approach relies on that <code>x&#91;i&#93;</code> on the left-hand side of <code>&#61;</code> acts as a view. Alternatively, we could leverage the function <code>view</code> to create a variable that contains all the elements to be modified. This allows us to work with for-loops that mutate entire objects, rather than a subset of the original object. </p>
+<p>The approach relies on <code>x&#91;i&#93;</code> on the left-hand side of <code>&#61;</code> acting as a view. Alternatively, we could leverage the function <code>view</code> to create a variable that contains all the elements to be modified. This allows us to work with for-loops that mutate entire objects, rather than a subset of the original object. </p>
 <p>The following example demonstrates this by mutating a vector of zeros. Note that the function <code>zeros</code> defaults to zeroes with type <code>Float64</code>, explaining why <code>1</code> is automatically converted to <code>1.0</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3150,7 +3150,7 @@ slice  &#61; slice .* 10            # this does NOT modify &#96;x&#96;</code></p
  3</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>There are a few additional wrong uses that can emerge with view aliases. To demonstrate them, suppose we seek to replace all the negative values of <code>x</code> with zero. Below, only the first approach achieves the result.</p>
+<p>There are a few additional wrong uses that can emerge with view aliases. To demonstrate them, let&#39;s consider replacing all negative values in <code>x</code> with zero. Below, only the first approach achieves the desired outcome.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
