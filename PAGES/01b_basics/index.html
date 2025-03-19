@@ -2826,7 +2826,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Using Julia in VS Code</h2></p>
-<p>The REPL &#40;Read-Eval-Print Loop&#41; is an interactive coding environment, allowing users to input commands and receive immediate outputs through a command-line interface. When you run <code>julia.exe</code>, the REPL is automatically activated, prompting you to enter commands at the <code>julia&gt;</code> prompt.</p>
+<p>The REPL &#40;Read-Eval-Print Loop&#41; is an interactive programming environment that lets users input commands and immediately obtain outputs through a command-line interface. When you run <code>julia.exe</code>, the REPL is automatically activated and displays the <code>julia&gt;</code> prompt, where you can enter commands. </p>
 <p> <div> <details open><summary> Screenshot  </summary>
     <p> <img style="width:60%;height:60%;max-width:100%;" src="/julia_book/assets/PAGES/01b_basics/pics/01.png"/>
     </p></details></div> </p>
@@ -2847,7 +2847,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Adding Comments in a Script</h2></p>
-<p>In Julia, just like in any other programming language, you can include comments in your code. By definition, comments are pieces of text that are ignored during execution, serving as a means to annotate and document your code.</p>
+<p>In Julia, like in any other programming language, you can include comments in your code. Comments are text annotations ignored during execution, serving as a means to document your code.</p>
 <p>To add a  <em>single-line comment</em>, simply precede the text with the <code>#</code> symbol. This symbol can be placed anywhere on a line, with any text that follows it be disregarded by Julia. Alternatively, you can add  <em>multi-line comments</em> by delimiting the text with <code>#&#61;</code> at the beginning and <code>&#61;#</code> at the end.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2874,7 +2874,7 @@ x &#61; 2   # &#96;x&#61;2&#96; is run, but anything after &#96;#&#96; won&#39;t
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Paths of Files and Folders</h2></p>
-<p>File management systems vary across operating systems, affecting the syntax for specifying file paths in Julia. In this respect, Julia provides two approaches. The first one provides an operating system-specific syntax, as illustrated by the examples below for a file <code>C:\user\file.jl</code> on Windows and <code>/user/file.jl</code> on Linux/macOS. There&#39;s also a platform-agnostic alternative that makes your code more portable. This is provided by the <code>joinpath</code> function, which specifies file paths in a manner that is independent of the operating system.</p>
+<p>File management systems vary across operating systems, determining that the syntax for file paths also differs. To accommodate this, Julia provides two approaches. The first one provides an operating system-specific syntax. Below, we illustrate its application for a file <code>C:\user\file.jl</code> on Windows and <code>/user/file.jl</code> on Linux/macOS. There&#39;s also a platform-agnostic alternative that makes your code more portable, provided by the <code>joinpath</code> function. This is the preferred option, as the file paths can be used with any operating system.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2892,7 +2892,7 @@ joinpath&#40;&quot;/&quot;, &quot;user&quot;, &quot;file.jl&quot;&#41;</code></p
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Two special paths have convenient shortcuts worth mentioning:</p>
+<p>Two special paths have convenient shortcuts that are worth mentioning:</p>
 <div class="bullets"><ul>
 <li><p><code>@__DIR__</code> identifies the directory where your script is saved. <br/>For instance, if your script is in <code>C:\user\julia</code>, then <code>joinpath&#40;@__DIR__, &quot;graphs&quot;&#41;</code> refers to <code>C:/user/julia/graphs</code>.</p>
 </li>
@@ -2908,7 +2908,7 @@ joinpath&#40;&quot;/&quot;, &quot;user&quot;, &quot;file.jl&quot;&#41;</code></p
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Executing Code From a File</h2></p>
-<p>You can also work <span style="color: rgb(62, 121, 180);"><strong>non-interactively</strong></span> with Julia. This requires storing a script in a file to eventually execute it. For instance, the following line executes a file at <code>C:\user\julia\graphs.jl</code> on Windows or <code>/users/julia/graphs.jl</code> on macOS/Linux systems:</p>
+<p>You can also work <span style="color: rgb(62, 121, 180);"><strong>non-interactively</strong></span> with Julia by executing code from a script stored in a file. The following example illustrates its implementation, running a file located at <code>C:\user\julia\graphs.jl</code> on Windows and at <code>/users/julia/graphs.jl</code> on macOS/Linux systems.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">

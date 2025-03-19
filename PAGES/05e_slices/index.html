@@ -2816,7 +2816,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section concludes the coverage of preliminary concepts for exploring mutations. The focus is now on the behavior of a vector&#39;s <span style="color: rgb(62, 121, 180);"><strong>slice</strong></span>, defined as a subset of a vector&#39;s elements and formally represented as <code>x&#91;&lt;indices&gt;&#93;</code>. </p>
+<p>This section concludes the coverage of preliminary concepts for studying mutations. The focus is now on the behavior of a vector&#39;s <span style="color: rgb(62, 121, 180);"><strong>slice</strong></span>. This is defined as a subset of a vector&#39;s elements, formally represented by <code>x&#91;&lt;indices&gt;&#93;</code>. </p>
 <p>Importantly, <strong>slices act differently depending on how they're included in a statement</strong>, behaving as either:</p>
 <ul>
 <li><p><span style="color: rgb(62, 121, 180);"><strong>copies</strong></span> of the original vector, thus creating a new object at a new memory address. </p>
@@ -2824,7 +2824,7 @@ color: white;
 <li><p><span style="color: rgb(62, 121, 180);"><strong>views</strong></span> of the original vector, where the original object and the slice share the same memory address.</p>
 </li>
 </ul>
-<p>In the following, we explain the distinction between copies and views in detail. Understanding it is crucial for mutating slices, as mutations can only occur when the slice references the original object. In other words, the slice must be a view. In contrast, if a slice acts as a copy, the parent object and the slice are unrelated, with changes to the slice having no impact on the original object.</p>
+<p>In the following, we explain the distinction between copies and views in detail. Understanding it is crucial for mutating slices, as mutations can only occur when the slice references the original object. In contrast, if a slice acts as a copy, the parent object and the slice are unrelated, with changes to the slice having no impact on the original object.</p>
 <p>      </div>
     </div>
   </div>
@@ -2834,7 +2834,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Slices and the Assignment Operator</h2></p>
-<p>Vector mutation requires modifying slices through the operator <code>&#61;</code>. For this to be possible, a prerequisite is that the slice references the original object. Nonetheless, the behavior of slices in assignments varies depending on their placement within the expression.</p>
+<p>Vector mutation involves modifying slices through the operator <code>&#61;</code>. For this to be possible, a prerequisite is that the slice references the original object. Nonetheless, the behavior of slices in assignments varies depending on their position within the expression.</p>
 <p>Specifically, <strong>slices on the left-hand (LHS) side of</strong> <code>&#61;</code> <strong>act as views</strong>. In this case, slices reference the original elements, thus allowing for the mutation of its parent object. In contrast, <strong>slices on the right-hand side (RHS) of</strong> <code>&#61;</code> <strong>create a copy</strong>. Since copies point to a new object, any modification to the slice won&#39;t affect the original object. </p>
 <p>The following code snippet demonstrates each behavior.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -2900,7 +2900,7 @@ x&#91;1&#93; &#61; 0        # it does NOT modify &#39;y&#39;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>The Function 'view'</h2></p>
-<p>Identifying when slices act as copies or views is relevant for high performance, since views avoid the overhead associated with memory allocations. While this topic will be explored in Part II, facts like this highlight the importance of distinguishing between copies and slices beyond assignments. </p>
+<p>Identifying when slices act as copies or views is relevant for high performance, as views eliminate the overhead associated with memory allocations. Although this topic will be explored in Part II of the website, such considerations underscore the importance of distinguishing between copies and slices, beyond their use in assignments. </p>
 <p>As a rule of thumb, <strong>slices typically default to creating copies</strong>. This is the case when, for instance, a slice is passed as a function argument or when used within an expression not involving an assignment. These scenarios are illustrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2972,7 +2972,7 @@ x&#91;1:2&#93; .&#43; 2
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>One of the most notable applications of <code>@views</code> is in functions. By placing <code>@views</code> at the beginning of a function, you automatically convert every slice within the function body or its arguments into a view.</p>
+<p>One of the most notable applications of <code>@views</code> is in functions. By placing <code>@views</code> at the beginning of a function, you automatically convert every slice within the function body and its arguments into a view.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">

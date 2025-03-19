@@ -2883,7 +2883,7 @@ mean&#40;x&#41;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Built-in Functions</h2></p>
-<p>Formally, Julia&#39;s built-in functions are contained in two packages known as <code>Core</code> and <code>Base</code>. Both are automatically loaded in every Julia session, with theirr functions accessible as if we had executed <code>using Core</code> and <code>using Base</code>. This determines that that their functions don&#39;t require adding a prefix to be called. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Some built-in functions may require a prefix. For instance, this is what occurs with the function called <code>isgreater</code>, which must be called via <code>Base.isgreater</code>. Furthermore, some submodules are also loaded by default. For instance, the function <code>Base.Iterators.accumulate</code> is part of the submodule <code>Iterators</code> from <code>Base</code>. As <code>Base</code> is loaded via <code>using</code> in every session, you can directly call this function using <code>Iterators.accumulate</code>.  </span></span> </p>
+<p>Formally, Julia&#39;s built-in functions are contained in two packages known as <code>Core</code> and <code>Base</code>. Both are automatically loaded in every Julia session, with theirr functions accessible as if we had executed <code>using Core</code> and <code>using Base</code>. This determines that that their functions don&#39;t require adding a prefix to be called. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Some built-in functions may require a prefix. For instance, this is what occurs with the function called <code>isgreater</code>, which must be called via <code>Base.isgreater</code>. Furthermore, some submodules are also loaded by default in each session. For instance, the function <code>Base.Iterators.accumulate</code> is part of the submodule <code>Iterators</code> from <code>Base</code>, and can be directly called using <code>Iterators.accumulate</code>.  </span></span> </p>
 <p>Among mathematical functions, the syntax of their most common ones is the following.</p>
 <p>
 <style type="text/css">
@@ -2962,8 +2962,8 @@ mean&#40;x&#41;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Why Using "Import" if It's More Verbose?</h2></p>
-<p>When a function&#39;s name is shared across multiple packages, at least one of the packages must be loaded via <code>import</code> to avoid naming conflicts. For instance, consider the package <code>Statistics</code> and another one called <code>MyPackage</code>. If the latter contains a function called <code>mean</code>, Julia will throw an error unless you load one of them with <code>import</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Defining a function with the same name as another package isn&#39;t necessarily a neglect from developers. For example, <code>mean</code> in <code>MyPackage</code> could be computing averages through an alternative algorithm, more efficient in certain applications.  </span></span></p>
-<p>Using <code>import</code> not only avoids naming conflicts, but also helps reduce ambiguity in the meaning of a function. For instance, consider a function called <code>rank</code>. This name could reference a wide range concepts, depending on the context &#40;e.g., the rank of a matrix, the order in a list&#41;. Explicitly indicating the package when the function is called can shed light on its intended meaning.</p>
+<p>When a function&#39;s name is shared across multiple packages, at least one of the packages must be loaded via <code>import</code> to prevent naming conflicts. For instance, given the package <code>Statistics</code> and another one called <code>MyPackage</code> containing a function called <code>mean</code>, Julia will throw an error if you don&#39;t load one of them with <code>import</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Defining a function that shares the name of another package&#39;s function isn&#39;t necessarily an oversight by developers. For instance, we could implement our own <code>mean</code> function in a package called <code>MyPackage</code>, which aims at computing averages more efficiently in certain applications.  </span></span></p>
+<p>Using <code>import</code> not only avoids naming conflicts, but may also reduce ambiguity in the meaning of a function. For instance, consider a function called <code>rank</code>. This name could reference a wide range concepts, depending on the context &#40;e.g., the rank of a matrix, the order in a list&#41;. However, explicitly identifying the package when the function is called could shed some light on its intended meaning.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content> <code>import</code> may also be useful if you have custom functions that are widely applied across your projects. For example, consider a function called <code>table_in_pdf</code>, which exports Julia tables to a PDF with some predefined format. While the name of the function makes it clear what it&#39;s doing, a user could wonder if this function comes from a standard package. You could hint that this isn&#39;t the case, by placing the function in a package called <code>userDefined</code>. In this way, you can load the package using <code>import UserDefined</code>, and then calling the function via <code>UserDefined.table_in_pdf</code>.  </div>  </div>
@@ -2976,7 +2976,7 @@ mean&#40;x&#41;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Approaches to Loading Packages and Calling Functions</h2></p>
-<p>The features we&#39;ve covered are probably all you need to use packages in Julia. However, there are some additional features worth mentioning. </p>
+<p>The concepts discussed so far will probably be all you need to use packages in Julia. However, there are a few additional features worth mentioning. </p>
 <p>First, users can load only a subset of functions from a package. This possibility is particularly relevant for heavy packages, which may take a significant time to fully load. For instance, if we only need the function <code>mean</code> from <code>Statistics</code>, the following two approaches achieve the same result.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3000,7 +3000,7 @@ mean&#40;x&#41;</code></pre>
  </div></div>
 <p>  </p></details></div>
 <p>Note that this approach deems it unnecessary to add the package&#39;s name as a prefix, even when the package is loaded via <code>import</code>.</p>
-<p>Furthermore, you can assign custom names to packages or functions, which is particularly useful for substituting lengthy names. </p>
+<p>Another handy feature is the possibility of assigning custom names to either packages or functions. This becomes particularly useful when names are lengthy. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3025,7 +3025,7 @@ average&#40;x&#41;</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Notice that, again, the function&#39;s name doesn&#39;t require any prefix when it&#39;s called, even with <code>import</code>.</p>
+<p>Again, notice that the function&#39;s name doesn&#39;t require any prefix when it&#39;s called, even with <code>import</code>.</p>
 <p>      </div>
     </div>
   </div>
@@ -3035,8 +3035,8 @@ average&#40;x&#41;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Macros</h2></p>
-<p>Macros are ubiquitous in Julia. They enable the automation of tasks that otherwise would be tedious and time-consuming to perform. On this website, we&#39;ll only cover how to apply macros, without exploring approaches to defining them. The reason is that creating macros requires knowledge of Julia&#39;s metaprogramming capabilities, whose explanation would demand introducing many preliminary concepts. </p>
-<p>The usefulness of macros may not be immediately clear at this point. Hopefully, many of your questions will be cleared up once we start apply them in later sections.</p>
+<p>Macros are ubiquitous in Julia. They enable the automation of tasks that otherwise would be tedious and time-consuming to perform. On this website, we&#39;ll only cover how to apply macros, without exploring how to define them. The reason is that creating macros requires knowledge of Julia&#39;s metaprogramming capabilities, which is beyond the scope of this website.</p>
+<p>While the utility of macros may not be immediately obvious at this point, this will become clearer once we start applying them in subsequent sections.</p>
 <p> <h4> Applying Macros </h4><div class="own-anchors"><a name="macros"></a></div></p>
 <p>Macros and functions share similarities, with both performing operations on inputs and producing outputs. Their key distinction lies in their handling of inputs and output: macros manipulate code syntax &#40;statements or expressions&#41;, whereas functions process data values &#40;variables or evaluated expressions&#41;.</p>
 <p>Formally, macros are denoted by prefixing the symbol <code>@</code> to their name. They take an entire code expression as their argument and transform it. For example, a macro might take <code>x &#61; some_function&#40;y&#41;</code> as input, potentially modifying each individual component &#40;<code>x</code>, <code>&#61;</code>, or <code>some_function&#40;y&#41;</code>&#41;, inserting new code, or reorganizing the code structure. The final output is a modified version of the original expression, which then is integrated into the program during execution.</p>

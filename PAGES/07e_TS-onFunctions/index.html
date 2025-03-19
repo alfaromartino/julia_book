@@ -2834,8 +2834,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>In Julia, functions aren&#39;t only a fundamental building block of programming, but also a key to unlocking high performance. This is by design, as Julia&#39;s functions have been engineered from the outset to generate efficient machine code. Nevertheless, to fully unlock their potential, we must understand the underlying process of function calls.</p>
-<p>Essentially, when a function is called, Julia attempts to identify concrete types for its variables. After this, it selects the most suitable method accordingly. At the heart of the process are three interconnected mechanisms: <strong>dispatch</strong>, <strong>compilation</strong>, and <strong>type inference</strong>. This section will provide a detailed explanation of each.</p>
+<p>In Julia, functions are not only a fundamental building block of programming, but also a key to unlocking high performance. This is by design, as Julia&#39;s functions have been engineered from the outset to generate efficient machine code. Nevertheless, to fully unlock their potential, we must understand the underlying process of function calls.</p>
+<p>Essentially, when a function is called, Julia attempts to identify concrete types for its variables. After this, it selects the most suitable method accordingly. At the heart of the process are three interconnected mechanisms: <strong>dispatch</strong>, <strong>compilation</strong>, and <strong>type inference</strong>. This section will provide a detailed explanation of each concept.</p>
 <p>      </div>
     </div>
   </div>
@@ -2845,7 +2845,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Relevance of Functions</h2></p>
-<p>Beyond technical details, the main takeaway from this subsection is that <strong>wrapping operations in functions is a necessary condition for high performance</strong>. To understand why this is so, this subsection starts by outlining the detrimental consequences of global variables. </p>
+<p>Beyond technical details, the main takeaway from this subsection is that <strong>wrapping operations in functions is a necessary condition for high performance</strong>. To understand why this is so, let&#39;s start by outlining the detrimental consequences of global variables. </p>
 <p><span style="color: rgb(62, 121, 180);"><strong>Global variables</strong></span> include any variable defined outside a function&#39;s scope. The reason for their low performance is that Julia treats them as potentially embodying any value and therefore any type. This decision has been adopted since, even if a variable holds some value at that moment, the user may reassign it at any part of the script. For their part, <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span> are those defined within the function, including function arguments.</p>
 <p>The use of global variables isn&#39;t limited to operations in the global scope. It also includes variable within a function that aren&#39;t passed as arguments. Considering this, our conclusions apply to both of the following cases.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>

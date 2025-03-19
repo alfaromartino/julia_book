@@ -2816,8 +2816,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section lays the foundations for introducing conditions, defined as functions and operators returning true or false as their output. Common examples of conditions include <code>x &gt; y</code> or <code>x &#61;&#61; y</code>.</p>
-<p>To get the most out of this section, keep in mind the classification of operators discussed <a href="/julia_book/PAGES/02b_variables/#operators">here</a>. This establishes that operators can be classified by the number of operands they require. Specifically, <strong>unary operators</strong> act on a single operand and precede it, as in <code>&lt;operator&gt;x</code>. Instead, <strong>binary operators</strong> take two operands and are placed between them, as in <code>x &lt;operator&gt; y</code>.</p>
+<p>This section lays the basics for incorporating conditions into our programs. Formally, conditions are defined as functions and operators that return true or false as their output. A common examples of condition is <code>x &gt; y</code>.</p>
+<p>To get the most out of this section, you should keep in mind the classification of operators discussed <a href="/julia_book/PAGES/02b_variables/#operators">here</a>. This establishes that operators can be categorized according to the number of operands they require. Specifically, <strong>unary operators</strong> act on a single operand and precede it &#40;i.e. <code>&lt;operator&gt;x</code>&#41;, whereas <strong>binary operators</strong> take two operands and are placed between them &#40;i.e. <code>x &lt;operator&gt; y</code>&#41;.</p>
 <p>      </div>
     </div>
   </div>
@@ -2827,8 +2827,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Conditions</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Conditions</strong></span> are formally represented as values with type <code>Bool</code>, evaluating to either <code>true</code> or <code>false</code>. These values are internally represented as integers restricted to <code>1</code> and <code>0</code>.</p>
-<p>The representation of Boolean values in the REPL varies depending on their dimension: Scalar <code>Bool</code> values are displayed as <code>true</code> and <code>false</code>, while <code>Bool</code> vectors represent their elements using <code>1</code> and <code>0</code>. This is illustrated below.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Conditions</strong></span> are represented as values with type <code>Bool</code>, evaluating to either <code>true</code> or <code>false</code>. These values are internally represented as integers restricted to <code>1</code> and <code>0</code>.</p>
+<p>The representation of Boolean values in the REPL varies depending on their dimension: scalar <code>Bool</code> values are displayed as <code>true</code> and <code>false</code>, while <code>Bool</code> vectors use <code>1</code> and <code>0</code>. This is illustrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2856,8 +2856,8 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
 <p>  </p></details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Parentheses are optional when writing single conditions, allowing us to write <code>y &#61; x &gt; 0</code> rather than <code>y &#61; &#40;x &gt; 0&#41;</code>. Nonetheless, he first syntax is subject to some potential ambiguity, with the risk of being misinterpreted as <code>&#40;y &#61; x&#41; &gt; 0</code>. To avoid confusion, a good practice is to always include parentheses. This is especially true when working with multiple conditions, where the absence of parentheses can drastically alter the outcome.  </div>  </div>
-<p>The condition in the previous example was defined via the operator <code>&gt;</code>. More generally, conditions accept <span style="color: rgb(62, 121, 180);"><strong>comparison operators</strong></span>, which are  <em>binary operators</em> that compare values of various types &#40;e.g., numbers and strings&#41;. The next list defines the most common comparison operators.</p>
+      <b>Warning!</b> </span>  </div>  <div class=content>     Parentheses are optional when writing single conditions, allowing us to write <code>y &#61; x &gt; 0</code> rather than <code>y &#61; &#40;x &gt; 0&#41;</code>. Nonetheless, the former syntax is somewhat ambiguous, with the risk of being potentially misinterpreted as <code>&#40;y &#61; x&#41; &gt; 0</code>. To avoid confusion, it&#39;s a good practice to always include parentheses. This is especially true when working with multiple conditions, where their can drastically alter the outcome.  </div>  </div>
+<p>The condition in the previous example was defined via the operator <code>&gt;</code>. More generally, conditions accept <span style="color: rgb(62, 121, 180);"><strong>comparison operators</strong></span>, which are  <em>binary operators</em> that compare values of various types &#40;e.g., numbers and strings&#41;. The next list defines the most common ones.</p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -2908,7 +2908,7 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
  <br/></p>
 <p> <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     The non-standard characters in the table can be written using Tab Completion:</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     The non-standard characters appearing in the table can be written using tab completion:</p>
 <ul>
 <li><p><code>≠</code> via <code>\ne</code>, which stands for &quot;not equal&quot;,</p>
 </li>
@@ -2944,7 +2944,7 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Logical Operators</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Logical operators</strong></span> allow us to combine multiple conditions into a single one. Formally, they take <code>Bool</code> expressions as their operands, and return a <code>Bool</code> as their output. The following are the main logical operators used in Julia. </p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Logical operators</strong></span> allow us to combine multiple conditions into a single one. Formally, they take <code>Bool</code> expressions as their operands, and return another <code>Bool</code> as their output. The following are the main logical operators used in Julia. </p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
