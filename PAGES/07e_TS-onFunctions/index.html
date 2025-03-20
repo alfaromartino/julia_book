@@ -2834,20 +2834,20 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>In Julia, functions are not only a fundamental building block of programming, but also a key to unlocking high performance. This is by design, as Julia&#39;s functions have been engineered from the outset to generate efficient machine code. Nevertheless, to fully unlock their potential, we must understand the underlying process of function calls.</p>
-<p>Essentially, when a function is called, Julia attempts to identify concrete types for its variables. After this, it selects the most suitable method accordingly. At the heart of the process are three interconnected mechanisms: <strong>dispatch</strong>, <strong>compilation</strong>, and <strong>type inference</strong>. This section will provide a detailed explanation of each concept.</p>
+<p>In Julia, functions are key for achieving high performance. This is by design, as functions have been engineered from the outset to generate efficient machine code. </p>
+<p>However, to fully unlock their potential, we must first understand the underlying process of function calls. Essentially, when a function is called, Julia attempts to identify concrete types for its variables, then selecting the most suitable method for the function. At the heart of the process are three interconnected mechanisms: <strong>dispatch</strong>, <strong>compilation</strong>, and <strong>type inference</strong>. This section will provide a detailed explanation of each concept.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="relevance_of_functions" class="scrollspy">
+<section id="functions_and_global_variables" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Relevance of Functions</h2></p>
-<p>Beyond technical details, the main takeaway from this subsection is that <strong>wrapping operations in functions is a necessary condition for high performance</strong>. To understand why this is so, let&#39;s start by outlining the detrimental consequences of global variables. </p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Global variables</strong></span> include any variable defined outside a function&#39;s scope. The reason for their low performance is that Julia treats them as potentially embodying any value and therefore any type. This decision has been adopted since, even if a variable holds some value at that moment, the user may reassign it at any part of the script. For their part, <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span> are those defined within the function, including function arguments.</p>
-<p>The use of global variables isn&#39;t limited to operations in the global scope. It also includes variable within a function that aren&#39;t passed as arguments. Considering this, our conclusions apply to both of the following cases.</p>
+        <h2>Functions and Global Variables</h2></p>
+<p>The main takeaway of this subsection is that <strong>wrapping operations within functions is a necessary condition for achieving high performance</strong>. To understand why, let&#39;s start by outlining the detrimental consequences of using global variables. This leads us to first distinguish between global and local variables.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Local variables</strong></span> correspond to those defined within the function, including function arguments. <span style="color: rgb(62, 121, 180);"><strong>Global variables</strong></span>, on the other hand, refer to any variable defined outside a function&#39;s scope. Their low performance arises because Julia treats global variables as potentially embodying any value and therefore any type. This decision was adopted under the logic that, even if a variable holds some value at a specific moment, the user may reassign it at any part of the program. </p>
+<p>The issue with global variables isn&#39;t confined to operations in the global scope. It also arises when a function references external variables that haven&#39;t been passed as arguments. Considering this, our conclusions apply to both of the following cases.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2869,10 +2869,10 @@ foo&#40;&#41; &#61; 3 * x</code></pre>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;&#41;</code><br/><div class="akin_to_pre">6</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Recall that an expression like <code>x &#61; 2</code> is shorthand for <code>x::Any &#61; 2</code>. This reflects that global variables default to <code>Any</code>, unless they&#39;re explicitly type-annotated. Also remember that only concrete types can be <a href="/julia_book/PAGES/07d_TS-onTypes/#sub_only_concrete_types_can_be_instantiated_abstract_types_cant">instantiated</a>, meaning that a value can only adopt a concrete type. Consequently, <code>x::Any</code> shouldn&#39;t be understood as <code>x</code> having type <code>Any</code>, but rather that <code>x</code> can take any concrete type that is a subtype of <code>Any</code>. Since <code>Any</code> is the top of the type hierarchy in Julia, this simply means that <code>x</code>&#39;s types are unrestricted.</p>
-<p>Working with a variable like <code>x</code> prevents specialization of <code>*</code>. This is because Julia must consider multiple possible methods for the computation, one for each possible concrete type of <code>x</code>. In practice, this results in Julia generating code with multiple branches, potentially involving type checks, conversions, and object creations. The consequence is degraded performance.</p>
-<p>Even if we had type-annotated <code>x</code> with a concrete type like <code>x::Int64 &#61; 2</code>, the performance limitations wouldn&#39;t completely go away. The reason for this is that certain optimizations can only be implemented when the scope of variables is clearly delimited and values are known. Through this information, Julia gains a holistic view of all the operations to be performed, thereby enabling further optimizations.</p>
-<p>Functions address all these considerations through a series of steps, which we cover next.</p>
+<p>Recall that an expression like <code>x &#61; 2</code> is shorthand for <code>x::Any &#61; 2</code>, reflecting that global variables default to <code>Any</code> unless they&#39;re explicitly type-annotated. Also remember that only concrete types can be <a href="/julia_book/PAGES/07d_TS-onTypes/#sub_only_concrete_types_can_be_instantiated_abstract_types_cant">instantiated</a>, meaning that values can only adopt a concrete type. Consequently, <code>x::Any</code> shouldn&#39;t be understood as <code>x</code> having type <code>Any</code>, but rather that <code>x</code> can take on any concrete type that is a subtype of <code>Any</code>. Since <code>Any</code> is at the top of Julia&#39;s type hierarchy, this simply means that <code>x</code>&#39;s types are unrestricted.</p>
+<p>Working with a type <code>Any</code> variable like <code>x</code> prevents specialization of <code>*</code>. The reason is that Julia must consider multiple possible methods for its computation, one for each possible concrete type of <code>x</code>. In practice, this results in Julia generating code with multiple branches, potentially involving type checks, conversions, and object creations. The consequence is degraded performance.</p>
+<p>Even if we had type-annotated <code>x</code> with a concrete type like <code>x::Int64 &#61; 2</code>, the performance limitations wouldn&#39;t completely go away. This is because certain optimizations can only be implemented when both the scope of variables is clearly delimited and their values are known. When both aspects are known, Julia can gain a comprehensive view of all the operations to be performed, creating opportunities for further optimizations.</p>
+<p>Functions were designed in Julia to address all these considerations. This is accomplished through a series of steps followed by functions, which we cover next.</p>
 <p>      </div>
     </div>
   </div>
@@ -2882,8 +2882,8 @@ foo&#40;&#41; &#61; 3 * x</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Functions and Methods</h2></p>
-<p>A <span style="color: rgb(62, 121, 180);"><strong>function</strong></span> is nothing but a name grouping an arbitrary number of methods. In turn, each <span style="color: rgb(62, 121, 180);"><strong>method</strong></span> defines a specific function body for a given number and types of arguments. The list of methods associated with a function <code>foo</code> can be retrieved in Julia by <code>methods&#40;foo&#41;</code>.</p>
-<p>To illustrate these concepts, let&#39;s consider an example where we explicitly define methods of a function <code>foo</code>. This functionality can be implemented through the operator <code>::</code>. </p>
+<p>A <span style="color: rgb(62, 121, 180);"><strong>function</strong></span> is essentially just a name that groups an arbitrary number of methods. Each <span style="color: rgb(62, 121, 180);"><strong>method</strong></span>, in turn, defines a specific function body for a given combination of number and types of arguments. The list of methods associated with a function <code>foo</code> can be retrieved by running the command <code>methods&#40;foo&#41;</code>.</p>
+<p>To illustrate these concepts, let&#39;s define several methods for some function named <code>foo</code>. To keep matters simple, let&#39;s start considering a scenario where all the methods in <code>foo</code> have the same number of arguments. Creating methods requires type-annotating <code>foo</code>&#39;s arguments with the operator <code>::</code> during its definition. Then, we can provide a distinct body function for each unique combination of these types.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2893,29 +2893,29 @@ foo&#40;&#41; &#61; 3 * x</code></pre>
 <pre><code class="language-julia">foo&#40;a,b&#41;                  &#61; a &#43; b
 foo&#40;a::String, b::String&#41; &#61; &quot;This is &#36;a and this is &#36;b&quot;</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;1,2&#41;</code><br/><div class="akin_to_pre">3</div> </div></p>
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>methods&#40;foo&#41;</code><br/><div class="akin_to_pre">2 methods for generic function "foo" from Main</div> </div></p>
+<div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;1,2&#41;</code><br/><div class="akin_to_pre">3</div> </div>
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;&quot;some text&quot;, &quot;more text&quot;&#41;</code><br/><div class="akin_to_pre">"This is some text and this is more text"</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In this code snippet, we define <code>foo</code> with distinct behaviors based on the types of arguments it receives. The initial definition of <code>foo&#40;a,b&#41;</code> applies to any combination of types for <code>a</code> and <code>b</code>, except when both have type <code>String</code>. In that case, the function body is overridden by <code>foo&#40;a::String, b::String&#41;</code>, explaining the different outputs obtained for each function call presented.</p>
-<p>The example also reveals that <strong>methods don't have to share the same functionality</strong>. Obviously, grouping drastically different operations under the same function name isn&#39;t generally recommended. However, the technique is valuable when used properly. For instance, by tailoring methods to the specific types being considered, it enables the adoption of more efficient algorithms.</p>
-<p>Another notable characteristic is that <strong>methods don't need to have the same number of arguments</strong>. For instance, it&#39;s possible to define the following methods for a function <code>bar</code>.</p>
+<p>Since <code>foo&#40;a,b&#41;</code> is equivalent to <code>foo&#40;a::Any,b::Any&#41;</code>, the first method sets the behavior of <code>foo</code> for any combination of input types. However, such behavior is overridden by the method <code>foo&#40;a::String, b::String&#41;</code>, which provides an alternative function body for <code>a</code> and <code>b</code> with type <code>String</code>. The existence of multiple methods explains the different outputs obtained: the first method of <code>foo</code> is called with <code>foo&#40;1, 2&#41;</code>, whereas <code>foo&#40;&quot;some text&quot;, &quot;more text&quot;&#41;</code> triggers the second method.</p>
+<p>The example also reveals that <strong>methods don't need to comprise similar operations</strong>. Although mixing drastically different operations under a single function name isn&#39;t recommended, allowing function bodies to differ by method creates opportunities for optimizations. In particular, it allows for computation algorithms tailored to each specific type combination, thus optimizing the overall performance of a function.</p>
+<p>Additionally, note that <strong>methods don't need to have the same number of arguments</strong>. For instance, it&#39;s possible to define all the following methods for a function <code>bar</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Methods with Different Arguments </button>    
+    <button class="tablink first_tab active" data-id=""> Methods with Different Numbers of Arguments </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">bar&#40;x&#41;       &#61; x
 bar&#40;x, y&#41;    &#61; x &#43; y
 bar&#40;x, y, z&#41; &#61; x &#43; y &#43; z</code></pre>
 <p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>bar&#40;1&#41;</code> <br/> 1 </div></p>
-<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>bar&#40;1, 2&#41;</code> <br/> 3 </div>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>bar&#40;1, 2, 3&#41;</code> <br/> 6 </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>methods&#40;bar&#41;</code><br/><div class="akin_to_pre">3 methods for generic function "bar" from Main</div> </div></p>
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>bar&#40;1&#41;</code> <br/> 1 </div> <div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>bar&#40;1, 2&#41;</code> <br/> 3 </div> <div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>bar&#40;1, 2, 3&#41;</code> <br/> 6 </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The feature is particularly relevant for extending a function&#39;s behavior. To illustrate this, consider the function <code>sum</code>. So far, we&#39;ve only used its simplest form <code>sum&#40;x&#41;</code>, which adds all the elements of a collection <code>x</code>. However, <code>sum</code> also supports additional methods. One of these is <code>sum&#40;&lt;function&gt;, x&#41;</code>, where the elements of <code>x</code> are transformed through <code>&lt;function&gt;</code> before being summed.</p>
+<p>This feature is particularly useful for extending a function&#39;s behavior. A prime application is given by the function <code>sum</code>. So far, we&#39;ve only used its simplest form <code>sum&#40;x&#41;</code>, which adds all the elements of a collection <code>x</code>. However, <code>sum</code> also supports additional methods. One of them is <code>sum&#40;&lt;function&gt;, x&#41;</code>, where the elements of <code>x</code> are first transformed via <code>&lt;function&gt;</code> before being summed.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2933,54 +2933,16 @@ z &#61; sum&#40;log, x&#41;     # log&#40;2&#41; &#43; log&#40;3&#41; &#43; log&
     </div>
   </div>
 </section>
-<section id="multiple_dispatch" class="scrollspy">
+<section id="function_call" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Multiple Dispatch</h2></p>
-<p>Given a function and its methods, let&#39;s now consider the process triggered when a function is called. To this end, suppose in particular the following function <code>foo</code>.</p>
+        <h2>Function Call</h2></p>
+<p>Given a function and its methods, we can now analyze the process triggered when a function is called. In the following, we&#39;ll base our explanations on the following function <code>foo</code>:</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Unannotated Function </button>
-    <button class="tablink" data-id=""> Unannotated Function (Equivalent) </button>    
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;a, b&#41; &#61; 2 &#43; a * b</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;1, 2&#41;</code><br/><div class="akin_to_pre">4</div> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo&#40;a::T, b::S&#41; where &#123;T,S&#125; &#61; 2 &#43; a * b</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;1, 2&#41;</code><br/><div class="akin_to_pre">4</div> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>
-<p>The first tab defines the method <code>foo&#40;a,b&#41;</code>. Since untyped variables are actually implicitly type-annotated with <code>Any</code>, this function body holds for any combination of types of <code>a</code> and <code>b</code>. Such a feature can be observed more clearly in the second tab, which defines the same function, but explicitly stating the assumptions on types: as <code>&#123;T,S&#125;</code> is equivalent to <code>&#123;T&lt;:Any, S:&lt;Any&#125;</code>, <code>a</code> and <code>b</code> accept values of any type.</p>
- <h4> Method vs Method Instances </h4>
-<p>When <code>foo&#40;1,2&#41;</code> is executed, Julia employs a mechanism known as <span style="color: rgb(62, 121, 180);"><strong>multiple dispatch</strong></span>. This selects a specific method implementation, based on the concrete types of <code>a</code> and <code>b</code>. It&#39;s worth noting that this choice is exclusively based on the arguments&#39; types, not their values.</p>
-<p>To fully understand multiple dispatch, it&#39;s essential to distinguish between  <em>methods</em> and  <em>method instances</em>. The former defines the function body to be executed, according to the number and types of the function arguments during the call. A <span style="color: rgb(62, 121, 180);"><strong>method instance</strong></span>, on the other hand, is a specific implementation of the method.</p>
-<p>The following diagram illustrates their difference, depicting the process that unfolds after running <code>foo&#40;1,2&#41;</code>.</p>
- <div class="multiple_pics" style="padding-top:1em;">
-  <h2 style="color:rgb(63, 99,136);"><div style="text-decoration:underline;">Multiple Dispatch</div></h2>
-    <img src="/julia_book/assets/PAGES/07e_TS-onFunctions/tikz/dispatch02.svg" style="width:95%; height:22em; margin-top:-1em; margin-bottom:0em;max-width:100%;">
-</div>
-<p>Specifically, <code>foo&#40;1,2&#41;</code> starts by inferring concrete types for <code>a</code> and <code>b</code>, which in this case are <code>Int64</code>. This information is then used to select the relevant function body to be called. This involves searching through all available methods of <code>foo</code> until a match for the concrete types of <code>a</code> and <code>b</code> is found. In our example, <code>foo</code> has only one method <code>foo&#40;a,b&#41; &#61; 2 &#43; a * b</code>, which applies to all combinations of <code>a</code> and <code>b</code> that are subtypes of <code>Any</code>. Consequently, the relevant function body is <code>2 &#43; a * b</code>. </p>
-<p>The operations to be performed are then forwarded to the <strong>compiler</strong>, which is charge of their implementation. This entails choosing a <strong>method instance</strong> for arguments <code>a</code> and <code>b</code> with concrete type <code>Int64</code>. If a method instance exists, Julia will directly use it to compute <code>foo&#40;1,2&#41;</code>. Otherwise, a new will be created and stored for subsequent runs. This procedure is referred to as <span style="color: rgb(62, 121, 180);"><strong>compilation</strong></span>, which we explain in detail next.</p>
-<p>      </div>
-    </div>
-  </div>
-</section>
-<section id="compilation_and_type_inference" class="scrollspy section-bg-color">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg- mx-auto">
-        <h2>Compilation and Type Inference</h2></p>
-<p>Let&#39;s continue with the same example, but adding several function calls. </p>
- <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Methods with Different Arguments </button>    
+    <button class="tablink first_tab active" data-id=""> Example Function 'foo' </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo&#40;a, b&#41; &#61; 2 &#43; a * b</code></pre>
@@ -2990,28 +2952,35 @@ z &#61; sum&#40;log, x&#41;     # log&#40;2&#41; &#43; log&#40;3&#41; &#43; log&
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;3.0, 2&#41;</code><br/><div class="akin_to_pre">8.0</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>If we&#39;ve just started a new session, so that <code>foo&#40;1,2&#41;</code> is called for the first time, Julia won&#39;t find any method instance for <code>foo&#40;a::Int64, b::Int64&#41;</code>. Consequently, it&#39;ll have to generate a new implementation for this unique combination of types. Compiling code is the reason a function&#39;s first call is slower than the subsequent runs, a phenomenon that is dubbed <a href="/julia_book/PAGES/07c_benchmarks/#time_to_first_plot">Time To First Plot</a>. </p>
-<p>Note that this code is eventually stored, so that the computation of <code>foo&#40;3, 2&#41;</code> will directly invoke the method instance <code>foo&#40;a::Int64, b::Int64&#41;</code>. Nonetheless, the call <code>foo&#40;3.0, 2&#41;</code> requires compiling a new method instance <code>foo&#40;a::Float64, b::Int64&#41;</code>, resulting in a first-call latency again.</p>
- <h4> Type Inference </h4>
-<p>The compilation process follows a series of steps whose understanding is crucial for performance. To explain them, let&#39;s consider compilation for the method instance <code>foo&#40;a::Int64, b::Int64&#41;</code>. </p>
-<p>In this case, the compiler&#39;s task is to generate computer instructions to calculate <code>2 &#43; a * b</code>. This process begins with what&#39;s known as <span style="color: rgb(62, 121, 180);"><strong>type inference</strong></span>, where the compiler attempts to identify concrete types of  <em>all</em> variables and expressions involved. In our example, this means inferring concrete types for <code>2</code>, <code>a &#61; 1</code>, and <code>b &#61; 2</code>. </p>
-<p>Type inference establishes a crucial difference between executing operations in the global scope or through functions. In the former, Julia doesn&#39;t attempt to infer concrete types when it creates to code for computing the operations, thereby preventing specialization.</p>
-<p>Since all variables are <code>Int64</code> in the example considered, the compiler is capable of creating instructions specialized to variables of type <code>Int64</code>. This is the essence of <strong>type stability</strong>, where the compiler identifies unique concrete types and specialization is possible.</p>
-<p>Type stability is far from being guaranteed, with the compiler unable to determine a single concrete type. When this is the case, it must consider multiple possibilities, generating code for each potential type. This lack of specialization can degrade performance severely. For instance, this is what occurs below.</p>
- <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Type Unstable Function </button>    
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x      &#61; &#91;1, 2, &quot;hello&quot;&#93;    # Vector&#123;Any&#125;
-
-foo&#40;x&#41; &#61; x&#91;1&#93; &#43; x&#91;2&#93;        # type unstable</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;x&#41;</code><br/><div class="akin_to_pre">3</div> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>
-<p>In the example, the compiler can&#39;t identify a unique concrete type for <code>x&#91;1&#93;</code> and <code>x&#91;2&#93;</code>. Consequently, it can&#39;t specialize the operation <code>&#43;</code>.</p>
+<p>Recall that variables with no type annotation default to <code>Any</code>. This implies that the function body <code>foo&#40;a,b&#41;</code> holds for any combination of types of <code>a</code> and <code>b</code>. </p>
+ <h4> Multiple Dispatch </h4>
+<p>When <code>foo&#40;1, 2&#41;</code> is called, Julia is instructed to evaluate the expression <code>2 &#43; a * b</code>.  This process relies on a mechanism known as <span style="color: rgb(62, 121, 180);"><strong>multiple dispatch</strong></span>, where Julia decides on the computational approach to be implemented. Importantly, this decision is based on solely on the types of the arguments, not their values.</p>
+<p>Multiple dispatch proceeds in several steps. First, the compiler determines the concrete types of the function arguments. In our example, since <code>a &#61; 1</code>, and <code>b &#61; 2</code>, both are identified as <code>Int64</code>.</p>
+<p>After this, the information on types is used to select a  <em>method</em>, which defines the function body and hence the operations to be performed. This process involves searching through all available methods of <code>foo</code> until a method that matches the concrete types of <code>a</code> and <code>b</code> is identified. In our example, <code>foo</code> has only one method <code>foo&#40;a,b&#41; &#61; 2 &#43; a * b</code>, which applies to all type combinations of <code>a</code> and <code>b</code>. Consequently, the relevant function body is <code>2 &#43; a * b</code>. </p>
+<p>The operations to be performed are then forwarded to the <strong>compiler</strong>, which is in charge of the implementation. This involves choosing a <span style="color: rgb(62, 121, 180);"><strong>method instance</strong></span>, which refers to the specific code implementation that will be used to compute the operations defined by the method. </p>
+<p>If a method instance already exists for the function signature <code>foo&#40;a::Int64, b::Int64&#41;</code>, Julia will directly employ it to compute <code>foo&#40;1,2&#41;</code>. Otherwise, a new method instance is generated and stored &#40;cached&#41; in memory. </p>
+<p>The following diagram depicts all the process unfolded when <code>foo&#40;1,2&#41;</code> is executed. <br/></p>
+ <div class="multiple_pics" style="padding-top:0em;">
+  <h2 style="color:rgb(63, 99,136);"><div style="text-decoration:underline;">Multiple Dispatch</div></h2>
+    <img src="/julia_book/assets/PAGES/07e_TS-onFunctions/tikz/dispatch02.svg" style="width:95%; height:22em; margin-top:-1em; margin-bottom:-4em;max-width:100%;">
+</div>
+<p>The process determines that the first time you call a function with particular argument types, there’s an initial compilation overhead. This phenomenon is referred to in Julia as <a href="/julia_book/PAGES/07c_benchmarks/#time_to_first_plot">Time To First Plot</a>. Instead, subsequent calls with the same argument types are able to reuse this cached code, resulting in faster execution.</p>
+<p>To illustrate this mechanism, note that the call <code>foo&#40;3, 2&#41;</code> incorporated in the example occurs after <code>foo&#40;1,2&#41;</code>. This allows Julia to compute <code>foo&#40;3, 2&#41;</code> by directly invoking the method instance <code>foo&#40;a::Int64, b::Int64&#41;</code>, without the need of compiling code. Instead, executing a function call like <code>foo&#40;3.0, 2&#41;</code> requires the compilation of a new method instance <code>foo&#40;a::Float64, b::Int64&#41;</code>, since the types of <code>3</code> and <code>3.0</code> differ. </p>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="type_inference" class="scrollspy section-bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Type Inference</h2></p>
+<p>During a function call, two different stages take place: compilation time and runtime. <span style="color: rgb(62, 121, 180);"><strong>Compilation time</strong></span> consists of the steps just described, during which Julia generates machine code to execute the function&#39;s operations. Importantly, this stage involves no computations, and is triggered only when the function is called for the first time with new concrete types.</p>
+<p>In contrast, <span style="color: rgb(62, 121, 180);"><strong>runtime</strong></span> is the stage during which code instructions are actually executed. It takes place  <em>after</em> compilation and every time a function is called. </p>
+<p><strong>Most considerations for achieving high performance are related to the compilation process</strong>. In particular, Julia employs <span style="color: rgb(62, 121, 180);"><strong>Just-In-Time Compilation (JIT)</strong></span>, a term reflecting that compilation happens on the fly during the function call.</p>
+<p>The quality of code generated during JIT critically determines performance. A key mechanism in this process is <span style="color: rgb(62, 121, 180);"><strong>type inference</strong></span>, whereby the compiler attempts to identify concrete types for  <em>all</em> variables and expressions. </p>
+<p>If the compiler succeeds in identifying concrete types, it can specialize instructions for each operation and yield fast code. This is the essence of <strong>type stability</strong>, which we&#39;ll cover extensively in the next chapter. For instance, type inference in our example involves determining concrete types for <code>2</code>, <code>a &#61; 1</code>, and <code>b &#61; 2</code>. Since all of them have type <code>Int64</code>, the compiler can specialize the computation of <code>2 &#43; a * b</code> for variables with type <code>Int64</code>. </p>
+<p>On the contrary, if the compiler is unable to identify concrete types for some expressions, the compiler must generate generic code that accommodates multiple type possibilities. This forces Julia to defer decisions on methods to runtime, significantly degrading performance.</p>
 <p>      </div>
     </div>
   </div>
@@ -3021,9 +2990,25 @@ foo&#40;x&#41; &#61; x&#91;1&#93; &#43; x&#91;2&#93;        # type unstable</cod
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Remarks on Type Inference</h2></p>
-<p>Below, we indicate various remarks about type inference that are worth keeping in mind.</p>
- <h4> Global Variables Inherit Its Global Type </h4>
-<p>Julia&#39;s attempt to identify concrete types is limited to local variables. Instead, any global variable will have its type inherited from the global scope. For instance, consider the following example.</p>
+<p>Below, we provide various remarks about type inference that are worth keeping in mind.</p>
+ <h4> Functions Do Not Guarantee Concrete Types </h4>
+<p>Notice that merely wrapping operations in a function doesn&#39;t guarantee that the compiler will identify concrete types. The following example presents a function call that&#39;s unable to do so.</p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Type-Unstable Function </button>    
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x      &#61; &#91;1, 2, &quot;hello&quot;&#93;    # Vector&#123;Any&#125;
+
+foo&#40;x&#41; &#61; x&#91;1&#93; &#43; x&#91;2&#93;        # type unstable</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;x&#41;</code><br/><div class="akin_to_pre">3</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>In the example provided, the issue arises because the compiler assigns the type <code>Any</code> to <code>x&#91;1&#93;</code> and <code>x&#91;2&#93;</code>, since they correspond to elements from an object with type <code>Vector&#123;Any&#125;</code>. Consequently, the compiler can&#39;t specialize the computation of the operation <code>&#43;</code>. The example also highlights that compilation is exclusively based on types, not values. Thus, the code is generated ignoring that actually <code>x&#91;1&#93; &#61; 1</code> and <code>x&#91;2&#93; &#61; 2</code>, and so are <code>Int64</code>.</p>
+ <h4> Global Variables Inherit Their Global Type </h4>
+<p>Julia&#39;s attempt to identify concrete types is restricted to local variables. Instead, any global variable will have its type inherited from the global scope. For instance, consider the following example.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3048,9 +3033,8 @@ foo&#40;a&#41;    &#61; a * b</code></pre>
  </div></div>
 <p>  </p></details></div>
 <p>In both examples <code>b</code> is a global variable. Consequently, <code>b</code>&#39;s type in the first tab is inferred to <code>Any</code>, while in the second tab to <code>Number</code>.</p>
- <h4> Type-Annotating Function Arguments Is Not Necessary For Performance </h4>
-<p>Given the concepts discussed so far, it&#39;s clear that identifying types is key for achieving performance. In fact, as we&#39;ll see in upcoming sections, type stability is directly related to this, as it refers to a function&#39;s capability for accurately predicting concrete types. </p>
-<p>From this, it could be wrongly inferred that type-annotating function arguments is essential for performance &#40;or that, at least, it could provide a boost&#41;. However, thanks to type inference, this would be actually redundant. Furthermore, doing so may be counterproductive, as it would unnecessarily constrain the function to specific types. To appreciate this loss of flexibility, compare the following scripts.</p>
+ <h4> Type-Annotating Function Arguments Does Not Improve Performance </h4>
+<p>Identifying concrete types is key for achieving performance. This might lead you to believe that type-annotating function arguments is essential for performance, or that at least could provide a boost. However, type-annotating arguments is actually redundant due to type inference. In fact, engaging in this practice will unnecessarily constrain the types accepted by the function, reducing the range of potential applications. To better appreciate this loss of flexibility, compare the following scripts.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3070,10 +3054,10 @@ foo&#40;a&#41;    &#61; a * b</code></pre>
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo2&#40;1, 2&#41;</code><br/><div class="akin_to_pre">2</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The function&#39;s first tab only accepts arguments with type <code>Float64</code>. Note that even integer variables are rejected, as function arguments aren&#39;t converted to a common type. On the contrary, the function&#39;s second tab entails the same process for <code>Float64</code> inputs, but additionally allows for other types. The flexibility stems from the implicit type-annotation <code>Any</code> for the function arguments. </p>
+<p>The function on the first tab only accepts arguments with type <code>Float64</code>. Note that even integer variables are disallowed, as function arguments aren&#39;t converted to a common type. On the contrary, the function&#39;s second tab entails the same process for <code>Float64</code> inputs, but additionally allows for other types. The flexibility stems from the implicit type-annotation <code>Any</code> for the function arguments. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Packages Commonly Type-Annotate Function Arguments</strong>  </span>  </div>  <div class=content>     When inspect the code of packages, you may notice that function arguments are often type-annotated. The reason for this isn&#39;t related to performance, but rather to ensure the function&#39;s intended usage, safeguarding against inadvertent type mismatches. </p>
-<p>For instance, suppose a function that computes a theater&#39;s revenues through <code>nr_tickets * price</code>. In Julia, the operator <code>*</code> multiplies numbers, but also concatenates words for expressions with type <code>String</code>. Therefore, without type-annotations, the function can be misused. This is shown in the first table, with the second tab addressing the issue by asserting types.</p>
+<p>For instance, suppose a function to the revenue of a theater via <code>nr_tickets * price</code>. Importantly, the operator <code>*</code> in Julia not only implements the product of numbers, but also concatenates words when applied to expressions with type <code>String</code>. This opens up the possibility of misusing the function if it&#39;s not type-annotated. The first tab demonstrates a potential misuse of this function, with the second tab addressing this possibility by asserting types.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3115,7 +3099,7 @@ foo&#40;a&#41;    &#61; a * b</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 18, 2025 
+          © Martin Alfaro <br>Last Modified March 20, 2025 
       </span> 
   </div> 
 </footer>
@@ -3723,7 +3707,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#relevance_of_functions" data-offset="-40">Relevance of Functions</a>
+          <a href="#functions_and_global_variables" data-offset="-40">Functions and Global Variables</a>
         </li>
         
         <li>
@@ -3731,11 +3715,11 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#multiple_dispatch" data-offset="-40">Multiple Dispatch</a>
+          <a href="#function_call" data-offset="-40">Function Call</a>
         </li>
         
         <li>
-          <a href="#compilation_and_type_inference" data-offset="-40">Compilation and Type Inference</a>
+          <a href="#type_inference" data-offset="-40">Type Inference</a>
         </li>
         
         <li>

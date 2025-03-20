@@ -2834,7 +2834,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section will formally define type stability and review tools for verifying the property. In the next section, we&#39;ll start the coverage of type stability applied to specific objects. </p>
+<p>This section formally defines type stability and reviews the tools employed for its verification. In the next section, we&#39;ll begin examining how type stability applies in specific scenarios. </p>
 <p>      </div>
     </div>
   </div>
@@ -2844,16 +2844,14 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>An Intuition</h2></p>
-<p><a href="/julia_book/PAGES/07e_TS-onFunctions/">In a previous section</a>, we&#39;ve described the process that unfolds when a function is called. To recap, let&#39;s consider a simple function <code>foo&#40;x&#41; &#61; x &#43; 2</code> and an operation <code>foo&#40;a&#41;</code> for some variable <code>a</code>. To emphasize that the process depends on types, rather than on values, we won&#39;t explicitly state <code>a</code>&#39;s value. Nonetheless, we assume that <code>a</code> has a specific value assigned, and therefore a concrete type.</p>
-<p>To understand the factors influencing performance in operations like <code>foo&#40;a&#41;</code>, it&#39;s crucial to distinguish between two different stages in a function call: compilation time and runtime. <span style="color: rgb(62, 121, 180);"><strong>Compilation time</strong></span> occurs when a method instance is created, involving the generation of machine code based on the inferred concrete types. Importantly, this process doesn&#39;t involve any computation, and only occurs during initial function calls for given concrete types. </p>
-<p>In the example, this stage occurs when you call <code>foo&#40;a&#41;</code>. This triggers Julia to compile a method instance to compute <code>a &#43; 2</code>, tailored to the concrete types inferred of <code>a</code> and <code>2</code>. The resulting machine code is then stored &#40;cached&#41;, making it readily available for subsequent calls of <code>foo&#40;b&#41;</code> when the variable <code>b</code> that has the same concrete type as <code>a</code>.</p>
-<p>In contrast, <span style="color: rgb(62, 121, 180);"><strong>runtime</strong></span> refers to the moment when the code instructions are executed. Unlike compilation time, this entails actual computation, and takes place every time the function is called. In our example, this phase takes place when <code>foo&#40;a&#41;</code> is run after compilation time. Moreover, it&#39;d be the only stage occurring during future calls of <code>foo&#40;b&#41;</code> for any variable <code>b</code> having the same concrete type as <code>a</code>.</p>
+<p><a href="/julia_book/PAGES/07e_TS-onFunctions/">In a previous section</a>, we described the process that unfolds when a function is called. To briefly review, let&#39;s consider a function <code>foo&#40;x&#41; &#61; x &#43; 2</code> and executing <code>foo&#40;a&#41;</code> for some variable <code>a</code>. We assume that <code>a</code> has a specific value assigned and therefore a concrete type, although we omit explicit stating values for <code>a</code>. In this way, we highlight that the process depends on types, rather than values.</p>
+<p>Calling <code>foo&#40;a&#41;</code> prompts Julia to identify the concrete type of <code>a</code>, which we&#39;ll denote as <code>T</code>. If a compiled method instance for <code>foo</code> with an argument of type <code>T</code> already exists, then <code>foo&#40;a&#41;</code> is executed immediately. Otherwise, Julia compiles a method instance for evaluating <code>a &#43; 2</code>. This code generation leverages type inference, wherein the compiler attempts to deduce concrete types for all involved terms. The resulting machine code is then stored &#40;cached&#41;, making it readily available for subsequent calls of <code>foo&#40;b&#41;</code> when <code>b</code> has type <code>T</code>.</p>
  <h4> Type Stability and Performance </h4>
-<p>The key to generating fast code lies in the information available to the compiler during the compilation stage. This information is primarily gathered through type inference, where Julia identifies the specific type of each variable and expression involved. When the compiler can <strong>accurately predict a single concrete type for the function's output</strong>, we say that the function call is <span style="color: rgb(62, 121, 180);"><strong>type stable</strong></span>. </p>
-<p>While this is the <a href="https://docs.julialang.org/en/v1/manual/faq/#man-type-stability">formal definition</a> of type stability, it&#39;s common to apply a more stringent definition in practice. In fact, the most common approach to detecting type instabilities, which relies on the macro <code>@code_warntype</code>, is based on it. This definition requires that the compiler can <strong>infer unique concrete types for  <em>each</em> expression involved</strong>, not just the final output. If the condition is met, the compiler can specialize the computation approach of each operation involved, resulting in fast execution. Essentially, specialization occurs because the compiler has sufficient information to determine a straight execution path, thus avoiding unnecessary type checks and dispatches at runtime.</p>
-<p>In contrast, type-unstable functions generate code that must accommodate multiple possibilities, creating instructions for each possible combination of unique concrete types. This results in additional overhead during runtime, where Julia dynamically gathers type information and performs extra calculations based on this new information. The consequence is a pronounced deterioration in performance.</p>
+<p>The key to generating fast code lies in the information available to the compiler during the compilation stage. This information is primarily gathered through type inference, where Julia identifies the specific type of each variable and expression involved. When the compiler can <strong>accurately predict a single concrete type for the function's output</strong>, the function call is said to be <span style="color: rgb(62, 121, 180);"><strong>type stable</strong></span>. </p>
+<p>While this is the <a href="https://docs.julialang.org/en/v1/manual/faq/#man-type-stability">formal definition of type stability</a>, it&#39;s common to apply a more stringent definition in practice, which is consistent with <code>@code_warntype</code>, the built-in macro to detect type instabilities. This definition requires the compiler to <strong>infer unique concrete types for  <em>each</em> expression involved</strong> in the function, not just its final output. If the condition is met, the compiler can specialize the computation approach of each operation involved, resulting in fast execution. Essentially, this determines that there&#39;s sufficient information to identify a straight execution path, thus avoiding unnecessary type checks and dispatches at runtime.</p>
+<p>In contrast, type-unstable functions generate code that must accommodate multiple possibilities, creating instructions for each possible combination of unique concrete types. This results in additional overhead during runtime, where Julia dynamically gathers type information and performs extra calculations based on the new information gathered. The consequence is a pronounced deterioration in performance.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Type Stability is an Attribute of Functional Calls</strong>  </span>  </div>  <div class=content>     It&#39;s common to describe a function as &quot;type stable&quot;. Nevertheless, it&#39;s not the function itself that&#39;s type stable, but rather the function calls for specific concrete types of its arguments. The distinction is crucial in practice, since a function may exhibit type stability for certain input types but not others.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Type Stability Characterizes Function  <em>Calls</em></strong>  </span>  </div>  <div class=content>     It&#39;s common to describe a function as &quot;type stable&quot;. Nevertheless, it&#39;s not the function itself that&#39;s type stable, but rather the function calls for specific concrete types of its arguments. The distinction is crucial in practice, since a function may exhibit type stability for certain input types but not others.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2863,8 +2861,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>An Example</h2></p>
-<p>To observe type stability in action, let&#39;s consider the following example.</p>
-<p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+<p>To see type stability in practice, let&#39;s consider the following example.</p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Type Stable  </button>
@@ -2882,9 +2880,10 @@ color: white;
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  31.938 ns (1 allocation: 64 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
-<p>  </p></details></div> The two operations may seem equivalent, as they both ultimately compute <code>1 &#43; 2</code>. However, the methods used in each case differ, with the first approach being faster because the function call is type stable.</p>
+<p>  </p></details></div>
+<p>The two operations may seem equivalent, as they both ultimately compute <code>1 &#43; 2</code>. However, the methods used in each case differ, with the first approach being faster because the function call is type stable.</p>
 <p>Specifically, the output <code>x&#91;1&#93; &#43; x&#91;2&#93;</code> in the first tab can be deduced to be <code>Int64</code>, thus satisfying the definition of type stability. This occurs because <code>x&#91;1&#93;</code> and <code>x&#91;2&#93;</code> can be identified as <code>Int64</code>, allowing the compiler to generate code specialized for this type. Note that the efficiency of the generated code isn&#39;t limited to the given operation: it applies to any call <code>sum&#40;y&#41;</code> such that <code>y</code> is a <code>Vector&#123;Float64&#125;</code>.</p>
-<p>In contrast, <strong>the second tab defines a type-unstable function call</strong>. Since <code>x</code> has type <code>Vector&#123;Any&#125;</code>, it becomes impossible to predict a unique concrete type of <code>x&#91;1&#93; &#43; x&#91;2&#93;</code> based on <code>x</code>&#39;s type. In other words, <code>x&#91;1&#93;</code> and <code>x&#91;2&#93;</code> may embody any concrete type that is a subtype of <code>Any</code>. Consequently, the compiler is forced to create code with multiple conditional statements, with each branch handling how to compute <code>x&#91;1&#93; &#43; x&#91;2&#93;</code> for a possible type &#40;<code>Int64</code>, <code>Float64</code>, <code>Float32</code>, etc.&#41;. This results in slow compiled code, as it&#39;ll require extra work during runtime. Furthermore, the degraded performance will be incurred for every call <code>sum&#40;y&#41;</code> such that <code>y</code> has type <code>Vector&#123;Any&#125;</code>.</p>
+<p>In contrast, <strong>the second tab defines a type-unstable function call</strong>. Since <code>x</code> has type <code>Vector&#123;Any&#125;</code>, it becomes impossible to predict a unique concrete type for <code>x&#91;1&#93; &#43; x&#91;2&#93;</code> solely based on <code>x</code>&#39;s type. This is because <code>x&#91;1&#93;</code> and <code>x&#91;2&#93;</code> may embody any concrete type that is a subtype of <code>Any</code>. Consequently, the compiler is forced to create code with multiple conditional statements, with each branch handling how to compute <code>x&#91;1&#93; &#43; x&#91;2&#93;</code> for a possible type &#40;<code>Int64</code>, <code>Float64</code>, <code>Float32</code>, etc.&#41;. This results in slow compiled code, as it&#39;ll require extra work during runtime. Furthermore, the degraded performance will be incurred for every call <code>sum&#40;y&#41;</code> such that <code>y</code> has type <code>Vector&#123;Any&#125;</code>.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     Julia&#39;s developers are continually refining the compiler, addressing and mitigating the effects of certain type instabilities. As a result, <strong>many operations that were once type unstable are now type stable</strong>. This means that type stability should be considered a dynamic property of the language, subject to change as the compiler evolves.  </div>  </div>
@@ -2897,7 +2896,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Checking for Type Stability</h2></p>
-<p>There are several mechanisms to determine whether a function call is type stable. One of them is based on the <code>@code_warntype</code> macro, which reports the types inferred during a function call. To illustrate its use, consider a function that defines <code>y</code> as a transformation of <code>x</code>, and then uses <code>y</code> to perform some operation.</p>
+<p>There are several mechanisms to determine whether a function call is type stable. One of them is based on the <code>@code_warntype</code> macro, which reports all the types inferred during a function call. To illustrate its use, consider a function that defines <code>y</code> as a transformation of <code>x</code>, and then uses <code>y</code> to perform some operation.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2967,8 +2966,7 @@ end</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Yellow Warnings May Turn Red</h2></p>
-<p>Not all type instabilities have the same impact on performance. In fact, their severity is ultimately indicated through a yellow or red warning. Yellow warnings are relatively minor, and typically result from isolated computations that Julia can handle effectively. However, if these operations are performed repeatedly, they may escalate into more serious performance issues. In that case, it&#39;ll trigger a red warning. </p>
-<p>The following example demonstrates a scenario like this.</p>
+<p>Not all instances of type instabilities have the same impact on performance. Their severity is ultimately reflected through a yellow or red warning. Yellow warnings denote a relatively minor impact on performance, typically resulting from isolated computations that Julia can handle effectively. However, repeated execution of these operations may escalate into more serious performance issues, triggering a red warning. The following example demonstrates a scenario like this.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3023,10 +3021,10 @@ end</code></pre>
     </div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The yellow warning reflects that <code>y * 2</code> could return either a <code>Float64</code> or <code>Int64</code> value. However, this operation is computed only once, and besides consists of two types that the compiler can handle efficiently. Instead, the second tab involves multiple computations <code>y * i</code> without knowledge of <code>y</code>&#39;s type, which results in a red warning. </p>
-<p>Despite this, it&#39;s worth remarking that not all yellow warnings will necessarily escalate to a red warning if incorporated into a for-loop. The third tab illustrates this point, reinforcing the idea that not all type instabilities are equally detrimental.</p>
+<p>The yellow warning reflects that <code>y * 2</code> could return either a <code>Float64</code> or <code>Int64</code> value. However, this operation is computed only once and based on two types that the compiler can handle efficiently. Instead, the second tab involves multiple computations <code>y * i</code> without knowledge of a unique concrete type for <code>y</code>, resulting in a red warning. </p>
+<p>Despite this, note that not all yellow warnings will necessarily escalate to a red warning when incorporated into a for-loop. The third tab illustrates this point, reinforcing the point that not all type instabilities are equally detrimental.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>For-Loops and Yellow Warnings</strong>  </span>  </div>  <div class=content>     A yellow warning will always be displayed when running a for-loop, even if the operation itself is type stable. In such cases, the warning can safely be disregarded, as it simply reflects the inherent behavior of iterators: they return either the next element to iterate, or the value <code>nothing</code> of type <code>Nothing</code> when the sequence is exhausted.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>For-Loops and Yellow Warnings</strong>  </span>  </div>  <div class=content>     A yellow warning will always be displayed when running a for-loop, even if the operation itself is type stable. In such cases, the warning can safely be disregarded, as it simply reflects the inherent behavior of iterators: they return either the next element to iterate or <code>nothing</code> with type <code>Nothing</code> when the sequence is exhausted.</p>
 <p> <div class=" code_box"> <details  open><summary> For-Loop  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">function foo&#40;&#41;
     for i in 1:100
@@ -3061,7 +3059,7 @@ end</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 18, 2025 
+          © Martin Alfaro <br>Last Modified March 20, 2025 
       </span> 
   </div> 
 </footer>
