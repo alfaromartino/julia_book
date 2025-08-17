@@ -2834,12 +2834,12 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Variables can be categorized as local or global according to the code block in which they live. Specifically, <span style="color: rgb(62, 121, 180);"><strong>global variables</strong></span> can be accessed and modified anywhere in the code, while <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span> are only accessible within a specific scope. In the context of this section, the scope of interest is a function, so local variables will exclusively refer to function arguments and variables defined within the function.</p>
-<p>The distinction is especially relevant for this chapter since <strong>global variables are a common source of type instability</strong>. The issue arises because Julia&#39;s type system doesn&#39;t assign specific concrete types to global variables. As a result, the compiler is forced to consider multiple possibilities for any computation involving these variables. This limitation prevents specialization, leading to reduced performance.</p>
-<p>The current section explores two approaches to working with global variables: type-annotations and constants. Defining global variables as constants is a natural choice when the values are truly fixed, such as in the case of <code>π &#61; 3.14159</code>. More broadly, constants can be used in any scenario where the variable remains unmodified throughout the script. Compared to type annotations, constants offer better performance, as the compiler gains knowledge of  <em>both</em> the type and value, rather than just the type. This feature allows for further optimizations, effectively making <strong>the behavior of constants within a function be indistinguishable from that of a literal value</strong>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Literal values refer to values expressed directly in the code &#40;e.g., <code>1</code>, <code>&quot;hello&quot;</code>, or <code>true</code>&#41;, in contrast to values coming from a variable input.  </span></span></p>
+<p>Variables can be categorized as local or global according to the code block in which they live: <span style="color: rgb(62, 121, 180);"><strong>global variables</strong></span> can be accessed and modified anywhere in the code, while <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span> are only accessible within a specific scope. In the context of this section, the scope of interest is a function, so local variables will exclusively refer to function arguments and variables defined within the function.</p>
+<p>The distinction between local and global variables is especially relevant for this chapter since <strong>global variables are a common source of type instability</strong>. The issue arises because Julia&#39;s type system doesn&#39;t assign specific concrete types to global variables. As a result, the compiler is forced to consider multiple possibilities for any computation involving these variables. This limitation prevents specialization, leading to reduced performance.</p>
+<p>The current section explores two approaches to working with global variables: type-annotations and constants. Defining global variables as constants is a natural choice when values are truly fixed, such as in the case of <code>π &#61; 3.14159</code>. More broadly, constants can be used in any scenario where they remain unmodified throughout the script. Compared to type annotations, constants offer better performance, as the compiler gains knowledge of  <em>both</em> the type and value, rather than just the type. This feature allows for further optimizations, effectively making <strong>the behavior of constants within a function indistinguishable from that of a literal value</strong>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Literal values refer to values expressed directly in the code &#40;e.g., <code>1</code>, <code>&quot;hello&quot;</code>, or <code>true</code>&#41;, in contrast to values coming from a variable input.  </span></span></p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - You Should Still Wrap Code in a Function </span>  </div>  <div class=content>     Even if you implement the fixes proposed for global variables, optimal performance still calls for wrapping tasks in functions. The reason is that<strong>functions implement optimizations</strong> that aren&#39;t possible in the global scope.  </div>  </div>
+      <b>Warning!</b> - You Should Still Wrap Code in a Function </span>  </div>  <div class=content>     Even if you implement the fixes proposed for global variables, optimal performance still calls for wrapping tasks in functions. The reason is that <strong>functions implement additional optimizations</strong> that aren&#39;t possible in the global scope.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2849,8 +2849,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>When Are We Using Global Variables?</h2></p>
-<p>Before exploring approaches for handling global variables, let&#39;s first identify scenarios in which global variables arise. To this end, we present two cases. The first one presents the simplest scenario possible, where operations are performed directly in the global scope. For its part, the second tab illustrates a more nuanced case, where a function accesses and operates on a global variable. </p>
-<p>The third tab serves as a counterpoint, implementing the same operations but within a self-contained function. By definition, self-contained functions exclusively operate with locally defined variables. Consequently, the comparison of the last two tabs highlights the performance lost by relying on global variables.</p>
+<p>Before exploring approaches for handling global variables, let&#39;s first identify scenarios in which global variables arise. To this end, we present two cases, each represented in a tab below. The first one considers the simplest scenario possible, where operations are performed directly in the global scope. For its part, the second one illustrates a more nuanced case, where a function accesses and operates on a global variable. </p>
+<p>The third tab serves as a counterpoint, implementing the same operations but within a self-contained function. By definition, self-contained functions exclusively operate with locally defined variables. Thus, the comparison of the last two tabs highlights the performance lost by relying on global variables.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2887,8 +2887,8 @@ end
 @code_warntype foo&#40;x&#41;  # type stable</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Self-contained functions offer advantages that extend beyond performance gains: they <strong>enhance readability, predictability, testability, and reusability</strong>. These benefits were briefly considered <a href="/julia_book/PAGES/03d_scope/#the_role_of_functions">in a previous section</a>, and come from the view of functions as embodying a specific task.</p>
-<p>Specifically, self-contained functions are easier to reason about, as understanding their logic doesn&#39;t require tracking variables across the entire script. Moreover, their output depends solely on their input parameters, without depending on the script&#39;s state regarding global variables. This makes them more predictable, also simplifying the debugging of code. Finally, by acting as a standalone program with a clear well-defined purpose, they can be reused for similar tasks, reducing code duplication and facilitating code maintainability.</p>
+<p>Self-contained functions offer advantages that extend beyond performance gains: they <strong>enhance readability, predictability, testability, and reusability</strong>. These benefits were briefly considered <a href="/julia_book/PAGES/03d_scope/#the_role_of_functions">in a previous section</a>, and come from an interpretation of functions as embodying a specific task.</p>
+<p>Among other benefits, self-contained functions are easier to reason about, as understanding their logic doesn&#39;t require tracking variables across the entire script. Moreover, a function&#39;s output depends solely on its input parameters, without any dependence on the script&#39;s state regarding global variables. This makes self-contained functions more predictable, additionally simplifying the code debugging process. Finally, by acting as a standalone program with a clear well-defined purpose, self-contained functions can be reapplied for similar tasks, reducing code duplication and facilitating code maintainability.</p>
 <p>      </div>
     </div>
   </div>
@@ -2898,9 +2898,9 @@ end
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Achieving Type Stability With Global Variables</h2></p>
-<p>The previous example emphasized the benefits of self-contained functions, providing compelling reasons to avoid global variables. Despite this, global variables can be highly convenient in certain scenarios, as when we work with truly constants. Considering this, next we present two approaches that let us work with global variables, while addressing their performance penalty. </p>
+<p>The previous subsection emphasized the benefits of self-contained functions, providing compelling reasons to avoid global variables. Nonetheless, global variables can still be highly convenient in certain scenarios. For instance, this is the case when we work with true constants. Considering this, next we present two approaches that let us work with global variables, while addressing their performance penalty. </p>
  <h4> Constant Global Variables </h4>
-<p>Declaring global variables as constants requires adding the <code>const</code> keyword before the variable&#39;s name. For instance, <code>const x &#61; 3</code>. This approach can be applied to variables of any type, including collections.</p>
+<p>Declaring global variables as constants requires adding the <code>const</code> keyword before the variable&#39;s name, such as in <code>const x &#61; 3</code>. This approach can be applied to variables of any type, including collections.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2920,8 +2920,8 @@ foo&#40;&#41;   &#61; sum&#40;b&#41;
 <p>  </p></details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content> <strong>Global variables should only be declared constants if their value will remain unchanged throughout the script</strong>. The possibility of redefining constants was introduced to facilitate testing during interactive use. In this way, users avoid the need to restart a Julia session for each new constant value. However, the practice assumes that all dependent functions are re-declared when the constant&#39;s value is modified: any function that isn&#39;t redefined will still rely on the constant&#39;s original value. Considering this, <strong>if you absolutely need to reassign the value of a constant, you should re-run the entire script</strong>.</p>
-<p>To illustrate the potential consequences of overlooking this practice, let&#39;s compare the following code snippets that execute the function <code>foo</code>. Both define a constant value of <code>x&#61;1</code>, which is subsequently redefined as <code>x&#61;2</code>. The first example runs the script without re-executing the definition of <code>foo</code>, in which case the value returned by <code>foo</code> is still based on <code>x &#61; 1</code>. Instead, the second example emulates the re-execution of the entire script. This is achieved by rerunning <code>foo</code>&#39;s definition, ensuring that <code>foo</code> uses the updated value of <code>x</code>.</p>
+      <b>Warning!</b> </span>  </div>  <div class=content> <strong>Global variables should only be declared constants if their value will remain unchanged throughout the script</strong>. Although it&#39;s possible to redefine constants, this option was only introduced to facilitate testing during interactive use, thereby avoiding the need to restart a Julia session for each new constant value. Importantly, the use of this option assumes that all dependent functions are re-declared when the constant&#39;s value is modified: any function that isn&#39;t redefined will still rely on the constant&#39;s original value. This is why you should re-run the entire script <strong>if you absolutely need to reassign the value of a constant</strong>.</p>
+<p>To illustrate the potential consequences of overlooking this practice, let&#39;s compare the following code snippets that execute the function <code>foo</code>. Both define a constant value of <code>x&#61;1</code>, which is subsequently redefined as <code>x&#61;2</code>. The first example runs the script without re-executing the definition of <code>foo</code>, in which case the value returned by <code>foo</code> is still based on <code>x &#61; 1</code>. In contrast, the second example emulates the re-execution of the entire script. This is achieved by rerunning <code>foo</code>&#39;s definition, thus ensuring that <code>foo</code> relies on the updated value of <code>x</code>.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2989,9 +2989,9 @@ foo&#40;&#41;              &#61; sum&#40;z&#41;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Differences Between Approaches</h2></p>
-<p>The two approaches explored have distinct implications for both code behavior and performance. The key to these differences lies in that <strong>type-annotations assert a variable's type, while constants additionally declare its value</strong>. Next, we analyze each consequence.</p>
+<p>The two approaches presented for handling global variables have distinct implications for both code behavior and performance. The key to these differences lies in that <strong>type-annotations assert a variable's type, while constants additionally declare its value</strong>. Next, we analyze each consequence.</p>
  <h4> Differences in Code </h4>
-<p>Unlike the case of constants, type-annotations allow you to reassign global variable without unexpected consequences. This means you don&#39;t need to re-run the entire script when redefining the variable.</p>
+<p>Unlike the case of constants, type-annotations allow you to reassign a global variable without unexpected consequences. This means you don&#39;t need to re-run the entire script when redefining the variable.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3009,8 +3009,8 @@ foo&#40;&#41;               # output is 4</code></pre>
  </div></div>
 <p>  </p></details></div>
  <h4> Differences in Performance </h4>
-<p>Type-annotated global variables are more flexible, as we only need to declare their types without committing to a specific value. However, this flexibility comes at the cost of performance, since they prevent certain optimizations that are feasible with constants. This possibility arises because not only information about their types, but also indicate that their value is fixed. Within a function, this allows constants to behave like literal values, embedded directly in the code. Consequently, the compiler can potentially substitute certain expressions for their resulting outcome. </p>
-<p>The following code demonstrates a scenario where this occurs. It consists of an operation that can be pre-calculated if the global variable&#39;s value is known. Given this feature, declaring the global variable as a constant enables the compiler to replace this operation by its result, making it equivalent to a hard-coded value. On the contrary, merely type-annotating the global variable only allows specializing code for the type provided. To starkly reveal the effect, we call this operation in a for-loop. </p>
+<p>Type-annotated global variables are more flexible, as we only need to declare their types without committing to a specific value. However, this flexibility comes at the cost of performance, since they prevent certain optimizations that hold with constants. Such optimizations are feasible because constants not only provide information about their types, but also act as a promise that their value will remain fixed throughout the code. Within a function, this feature allows constants to behave like literal values embedded directly in the code. Consequently, the compiler can potentially replace certain expressions with their resulting outcome. </p>
+<p>The following code demonstrates a scenario where this occurs. It consists of an operation that can be pre-calculated if the global variable&#39;s value is known. Thus, declaring the global variable as a constant enables the compiler to replace this operation by its result, making it equivalent to a hard-coded value. On the contrary, merely type-annotating the global variable only specializes code for the type provided. To starkly reveal the effect, we&#39;ll call this operation in a for-loop. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3040,7 +3040,7 @@ end</code></pre> </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     Even without declaring a variable as a constant, the compiler could still recognize the invariance of some operations and perform optimizations accordingly. To illustrate this, suppose we want to compute each element of <code>x</code> relative to the sum of the elements. A naive approach would involve a for-loop with <code>sum&#40;x&#41;</code> incorporated into the for-loop body, resulting in the repeated computation of <code>sum&#40;x&#41;</code>. If, on the contrary, we calculate shares through <code>x ./ sum&#40;x&#41;</code>, the compiler is smart enough to recognize the invariance of <code>sum&#40;x&#41;</code> across iterations and proceeds to its pre-computation.</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     Even without declaring a variable as a constant, the compiler could still recognize the invariance of some operations and perform optimizations accordingly. To illustrate this, suppose we want to reexpress each element of <code>x</code> as a proportion relative to the sum of the elements. A naive approach would involve a for-loop with <code>sum&#40;x&#41;</code> incorporated into the for-loop body, resulting in the repeated computation of <code>sum&#40;x&#41;</code>. If, on the contrary, we calculate shares through <code>x ./ sum&#40;x&#41;</code>, the compiler is smart enough to recognize the invariance of <code>sum&#40;x&#41;</code> across iterations, therefore proceeding to its pre-computation.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3100,7 +3100,7 @@ foo&#40;x&#41; &#61; x ./ sum_x</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 20, 2025 
+          © Martin Alfaro <br>Last Modified August 16, 2025 
       </span> 
   </div> 
 </footer>

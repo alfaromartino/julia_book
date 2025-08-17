@@ -2844,7 +2844,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>An Intuition</h2></p>
-<p><a href="/julia_book/PAGES/07e_TS-onFunctions/">In a previous section</a>, we described the process that unfolds when a function is called. To briefly review, let&#39;s consider a function <code>foo&#40;x&#41; &#61; x &#43; 2</code> and executing <code>foo&#40;a&#41;</code> for some variable <code>a</code>. We assume that <code>a</code> has a specific value assigned and therefore a concrete type, although we omit explicit stating values for <code>a</code>. In this way, we highlight that the process depends on types, rather than values.</p>
+<p><a href="/julia_book/PAGES/07e_TS-onFunctions/">In a previous section</a>, we described the process that unfolds when a function is called. To briefly review, let&#39;s consider a function <code>foo&#40;x&#41; &#61; x &#43; 2</code> and executing <code>foo&#40;a&#41;</code> for some variable <code>a</code>. We assume that <code>a</code> has a specific value assigned and therefore a concrete type, although we omit explicitly stating values for <code>a</code>. In this way, we highlight that the process depends on types, rather than values.</p>
 <p>Calling <code>foo&#40;a&#41;</code> prompts Julia to identify the concrete type of <code>a</code>, which we&#39;ll denote as <code>T</code>. If a compiled method instance for <code>foo</code> with an argument of type <code>T</code> already exists, then <code>foo&#40;a&#41;</code> is executed immediately. Otherwise, Julia compiles a method instance for evaluating <code>a &#43; 2</code>. This code generation leverages type inference, wherein the compiler attempts to deduce concrete types for all involved terms. The resulting machine code is then stored &#40;cached&#41;, making it readily available for subsequent calls of <code>foo&#40;b&#41;</code> when <code>b</code> has type <code>T</code>.</p>
  <h4> Type Stability and Performance </h4>
 <p>The key to generating fast code lies in the information available to the compiler during the compilation stage. This information is primarily gathered through type inference, where Julia identifies the specific type of each variable and expression involved. When the compiler can <strong>accurately predict a single concrete type for the function's output</strong>, the function call is said to be <span style="color: rgb(62, 121, 180);"><strong>type stable</strong></span>. </p>
@@ -2967,7 +2967,7 @@ end</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Yellow Warnings May Turn Red</h2></p>
-<p>Not all instances of type instabilities have the same impact on performance. Their severity is ultimately reflected through a yellow or red warning. Yellow warnings denote a relatively minor impact on performance, typically resulting from isolated computations that Julia can handle effectively. However, repeated execution of these operations may escalate into more serious performance issues, triggering a red warning. The following example demonstrates a scenario like this.</p>
+<p>Not all instances of type instabilities have the same impact on performance. Their severity is ultimately indicated through a yellow or red warning. Yellow warnings denote a relatively minor impact on performance, typically resulting from isolated computations that Julia can handle effectively. However, repeated execution of these operations may escalate into more serious performance issues, triggering a red warning. The following example demonstrates a scenario like this.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3023,9 +3023,9 @@ end</code></pre>
  </div></div>
 <p>  </p></details></div>
 <p>The yellow warning reflects that <code>y * 2</code> could return either a <code>Float64</code> or <code>Int64</code> value. However, this operation is computed only once and based on two types that the compiler can handle efficiently. Instead, the second tab involves multiple computations <code>y * i</code> without knowledge of a unique concrete type for <code>y</code>, resulting in a red warning. </p>
-<p>Despite this, note that not all yellow warnings will necessarily escalate to a red warning when incorporated into a for-loop. The third tab illustrates this point, reinforcing the point that not all type instabilities are equally detrimental.</p>
+<p>Despite this, note that not all yellow warnings will necessarily escalate to a red warning when incorporated into a for-loop. The third tab illustrates this point, reinforcing that not all type instabilities are equally detrimental.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>For-Loops and Yellow Warnings</strong>  </span>  </div>  <div class=content>     A yellow warning will always be displayed when running a for-loop, even if the operation itself is type stable. In such cases, the warning can safely be disregarded, as it simply reflects the inherent behavior of iterators: they return either the next element to iterate or <code>nothing</code> with type <code>Nothing</code> when the sequence is exhausted.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>For-Loops and Yellow Warnings</strong>  </span>  </div>  <div class=content>     A yellow warning will always be displayed when running a for-loop, even if the operation itself is type stable. In such cases, the warning can safely be disregarded, as it simply reflects the inherent behavior of iterators: they return either the next element to iterate over or <code>nothing</code> with type <code>Nothing</code> when the sequence is exhausted.</p>
 <p> <div class=" code_box"> <details  open><summary> For-Loop  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">function foo&#40;&#41;
     for i in 1:100
@@ -3060,7 +3060,7 @@ end</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 20, 2025 
+          © Martin Alfaro <br>Last Modified August 16, 2025 
       </span> 
   </div> 
 </footer>

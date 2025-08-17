@@ -2834,9 +2834,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Branches</h2></p>
-<p>SIMD relies on the ability to implement the same set of instructions on multiple data. This parallel processing allows operations like scalar additions to be performed on several elements at once, significantly boosting performance. However, conditional statements pose a particular challenge for SIMD execution. When code branches into different paths and each requires distinct instructions, it becomes difficult to maintain the &quot;same instruction&quot; requirement that SIMD depends on. And, although compilers can sometimes transform such code to make it SIMD-compatible, these adaptations often come at the cost of reduced efficiency.</p>
-<p>This section will focus on the handle of conditional operations. Firstly, some conditional statements could be inherent to the nature of our program, and hence unavoidable. This occurs when different operations are executed based on the state of the program. In these cases, we&#39;ll show that the approaches to implementing conditionals are dealt different internally. Depending on the workflow at hand, this results in advantages and disadvantages for each approach, with some being more SIMD-friendly than others.</p>
-<p>Secondly, we&#39;ll consider cases where conditional statements can be eliminated entirely. This reflects scenarios where our code introduces conditions implicitly, which can be bypassed by writing code in an alternative way. In other scenarios, we can avoid conditional statements by transforming a conditional statement into an algebraic operation. </p>
+<p>SIMD implements the same set of instructions on multiple data. This parallel processing allows operations to be performed on several elements at once, significantly boosting performance. Yet, SIMD faces particular challenges when confronted with conditional statements: code that branches into paths with different instructions violates SIMD&#39;s core requirement of uniform instruction execution. Although compilers attempt to mitigate this issue by transforming code into SIMD-compatible forms, these adaptations often come at the cost of reduced efficiency.</p>
+<p>This section explores strategies for efficiently applying SIMD with conditional operations. Firstly, we address conditional statements that are intrinsic to program logic and therefore unavoidable. These conditionals primarily occur when different operations must execute based on the state of the program. Specifically, we&#39;ll present approaches that handle these conditionals differently at an internal level, discussing their relative strengths and limitations for SIMD.</p>
+<p>Secondly, we&#39;ll explore scenarios where conditional statements can be eliminated entirely. This handles specific operations that internally introduce conditional statements as a byproduct of their implementation. By employing alternative coding strategies, these conditional statements can be bypassed. We also show that conditional statements can be equivalently recast as algebraic operations. By removing the branching logic, this transformation allows SIMD to be applied seamlessly.</p>
 <p>      </div>
     </div>
   </div>
@@ -2846,10 +2846,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Type Stability and Bounds Checking as Avoidable Conditions</h2></p>
-<p>We start by covering two scenarios that internally result in conditional statements. These conditions are implicit, making their connection to conditionals not apparent. </p>
-<p>The first one arises when functions are type unstable. Internally, this gives rise to multiple branches, one for each possible type. Recall that type instability is a major performance bottleneck. In fact, achieving high performance is nearly impossible without addressing type stability, which makes any concerns about SIMD optimizations secondary. Ultimately, we should strive for type stability, regardless of any SIMD consideration.</p>
-<p>Another form of conditional computation arises in for-loops, which perform bounds checking by default. This operation represents a form of conditional execution, as each iteration is executed as long as the indices are within bounds. </p>
-<p>The following example shows that the compiler already finds the implementation of SIMD instructions beneficial by merely adding <code>@inbounds</code>. This explains why adding <code>@simd</code> on top of <code>@inbounds</code> has no impact on the execution times. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that the compiler may disable bounds checking in some cases, especially in straightforward cases. For instance, this would be the case in our example if only <code>x</code> had been indexed and <code>eachindex&#40;x&#41;</code> were employed as the iteration range. This is contrast to the case considered below, where we&#39;re also indexing the vector <code>output</code>.  </span></span> Furthermore, it also demonstrates the converse: <strong>adding `@inbounds` tends to be a necessary condition for the application of SIMD</strong>. In the example, only adding <code>@simd</code> doesn&#39;t trigger SIMD instructions.</p>
+<p>We start by covering two scenarios that inadvertently result in conditional statements, making their connection to conditionals not apparent. The issue arises with certain operations that are internally computed by introducing conditions.</p>
+<p>The first one arises when functions are type unstable. Internally, such functions create multiple execution branches, one for each type. Recall that type instability is a major performance bottleneck. In fact, achieving high performance is nearly impossible without addressing type stability, rendering any concern about SIMD optimizations secondary. Considering this, we should strive for type stability, regardless of any SIMD consideration. Accordingly, the remedies of this scenario are the same as those for fixing type instabilities.</p>
+<p>The second scenario refers to for-loops, given that they inherently perform bounds checking by default. This operation represents a subtle form of conditional execution, where each iteration is executed only when indices remain within bounds. </p>
+<p>The following example shows that, by merely adding <code>@inbounds</code>, the compiler may already find SIMD instructions beneficial. This explains why adding <code>@simd</code> on top of <code>@inbounds</code> could not have any impact on the execution times. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that the compiler may disable bounds checking in some cases, especially in straightforward cases. For instance, this would be the case in our example if only <code>x</code> had been indexed and <code>eachindex&#40;x&#41;</code> were employed as the iteration range. This is in contrast to the case considered below, where we&#39;re also indexing the vector <code>output</code>.  </span></span> Furthermore, the example also highlights that <strong>adding `@inbounds` tends to be a necessary condition for the application of SIMD</strong>. Indeed, only adding <code>@simd</code> doesn&#39;t trigger the implementation of SIMD instructions.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2917,10 +2917,10 @@ end</code></pre> </div></div>
 <p>  </p></details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - SIMD and `@inbounds` </span>  </div>  <div class=content>     Disabling bound checking commonly acts as a necessary condition for the application of SIMD. Therefore, all for-loops that aim to employ SIMD should be implemented prepending both <code>@inbounds</code> and <code>@simd</code>.  </div>  </div>
+      <b>Warning!</b> - SIMD and `@inbounds` </span>  </div>  <div class=content>     Disabling bounds checking commonly acts as a necessary condition for the application of SIMD. Therefore, if we aim to apply SIMD in a for-loop, we should prepend it with both <code>@inbounds</code> and <code>@simd</code>.  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Broadcasting and For-Loops</strong>  </span>  </div>  <div class=content>     Broadcasting disables inbounds checking and strongly favors SIMD. This is why it can sometimes appear more performant than a simple for-loop. However, broadcasting essentially implements a for-loop, but offering a concise notation. Considering this, applying targeted optimizations to a for-loop can always match and possibly surpass the performance of broadcasting.</p>
-<p>Indeed, the example below shows that a for-loop exhibits roughly the same performance as broadcasting when <code>@inbounds</code> and <code>@simd</code> are applied.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Broadcasting and For-Loops</strong>  </span>  </div>  <div class=content>     Broadcasting disables bounds checking and strongly favors SIMD, often making it seem more performant than a simple for-loop. However, broadcasting essentially implements a for-loop through concise notation. Considering this, we can always apply targeted optimizations to a for-loop, allowing it to match or even surpass the performance of broadcasting.</p>
+<p>Indeed, the example below shows that for-loops with <code>@inbounds</code> and <code>@simd</code> prepended commonly exhibit roughly the same performance as broadcasting.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2971,9 +2971,9 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Approaches to Conditional Statements</h2></p>
-<p>Conditional statements can be evaluated eagerly or lazily. To illustrate this distinction, let&#39;s consider a simple example where we need to compute the result <code>1 &#43; 1</code>, but only if some condition <code>C</code> is met. A lazy approach first evaluates whether <code>C</code> holds true, before proceeding with the computation of <code>1 &#43; 1</code>. Thus, the operation is deferred until it&#39;s confirmed that <code>C</code> is satisfied. In contrast, an eager approach computes <code>1 &#43; 1</code>, regardless of whether <code>C</code> is satisfied or not. After this, if <code>C</code> turns out to be false, the computation remains unused.</p>
-<p>When the conditional statement is applied only once, a lazy approach is always more performant as avoids unnecessary computations. However, neither approach consistently outperforms the other when the conditional statement is part of a for-loop. This is largely due the way modern CPUs handle simultaneous computations through SIMD. If the CPU can compute multiple operations simultaneously, it&#39;s possible that computing all conditions and branches upfront, selecting the relevant branches only afterwards, could actually result in performance gains. This is especially true when the branches consist of simple operations.</p>
-<p>In Julia, whether a conditional statement is evaluated lazily or eagerly depends on the method used to compute it. Next, we explore this topic in more detail.</p>
+<p>Conditional statements can be evaluated either eagerly or lazily. To illustrate this distinction, let&#39;s consider a simple example where we need to compute the result <code>1 &#43; 1</code>, but only if certain condition <code>C</code> is met. A lazy approach first evaluates whether <code>C</code> holds true, before proceeding with the computation of <code>1 &#43; 1</code>. Thus, the operation is deferred until it&#39;s confirmed that <code>C</code> holds. In contrast, an eager approach computes <code>1 &#43; 1</code>, regardless of whether <code>C</code> is satisfied. If <code>C</code> turns out to be false, the computation remains unused.</p>
+<p>When conditional statements are applied only once, a lazy approach is always more performant as it avoids unnecessary computations. However, neither approach consistently outperforms the other when conditional statements are part of a for-loop. This is largely due to the way modern CPUs handle simultaneous computations through SIMD. If the CPU can compute multiple operations simultaneously, it may be beneficial to compute all conditions and branches upfront, selecting the relevant branches afterward. This is especially true when branches involve simple operations.</p>
+<p>In Julia, whether a conditional statement is evaluated lazily or eagerly depends on how it&#39;s implemented. Next, we explore this topic in more detail.</p>
 <p>      </div>
     </div>
   </div>
@@ -2983,7 +2983,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>ifelse vs if</h2></p>
-<p>The <code>ifelse</code> function in Julia follows an eager approach, where both the condition and the possible outcomes are evaluated before the result is determined. In contrast, expressions using <code>if</code> or <code>&amp;&amp;</code> favor lazy computations, where only the necessary parts are evaluated. The following example demonstrates this difference in behavior, through a reduction operation subject to a condition. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Note that <code>ifelse</code> requires specifying an operation when the condition is true and when it&#39;s not. For a sum reduction, we can handle this by returning zero when the condition isn&#39;t met.  </span></span></p>
+<p>The <code>ifelse</code> function in Julia follows an eager evaluation strategy, where both the condition and possible outcomes are computed before deciding which result to return. In contrast, <code>if</code> and <code>&amp;&amp;</code> favor lazy computations, only evaluating the necessary components based on the truth value of the condition. </p>
+<p>The following example demonstrates this computational difference through a reduction operation that&#39;s contingent on a condition. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Note that <code>ifelse</code> requires specifying an operation for when the condition is true and another when it&#39;s not. For a sum reduction, this is handled by returning zero when the condition isn&#39;t met.  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3053,8 +3054,8 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>As the example reveals, note that an eager computation doesn&#39;t automatically imply the application of SIMD. This explains why the macro <code>@simd</code> is included, which hints the compiler that vectorizing the operation is worth considering. In fact, we&#39;ll see that when conditions comprise multiple statements, adding <code>@simd</code> could prompt the compiler to vectorize conditions, while still relying on a lazy evaluation for executing operations.</p>
-<p>Furthermore, it&#39;s worth remarking that applying SIMD instructions doesn&#39;t necessarily increase performance. The example below demonstrates this point, where the compiler adopts a SIMD approach through <code>ifelse</code>.</p>
+<p>As the example reveals, an eager computation doesn&#39;t automatically imply the application of SIMD. This is precisely why <code>@simd</code> is included, which provides a hint to the compiler that vectorizing the operation might be beneficial. In fact, we&#39;ll show later that adding <code>@simd</code> when conditions comprise multiple statements could prompt the compiler to vectorize conditions, while still relying on a lazy evaluation.</p>
+<p>It&#39;s also worth remarking that applying SIMD instructions doesn&#39;t necessarily increase performance. The example below demonstrates this point, where the compiler adopts a SIMD approach through <code>ifelse</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3105,8 +3106,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Ternary Operators</h2></p>
-<p>Ternary operators are an alternative approach for conditional statements, consisting of the form <code>&lt;condition&gt; ? &lt;action if true&gt; : &lt;action if false&gt;</code>. Unlike the previous methods, this form relies on heuristics to determine whether an eager or lazy approach should be used, depending on which would more likely be faster in the application considered.</p>
-<p>For the illustrations, we&#39;ll consider examples where we directly add <code>@inbounds</code> and <code>@simd</code> to each approach. </p>
+<p>Ternary operators are an alternative approach for conditional statements, consisting of the form <code>&lt;condition&gt; ? &lt;action if true&gt; : &lt;action if false&gt;</code>. Unlike the previous methods, this form relies on heuristics to determine whether an eager or lazy approach should be used. The decision depends on which strategy would more likely be faster in the application considered.</p>
+<p>For the illustrations, we&#39;ll consider examples where we directly add <code>@inbounds</code> and <code>@simd</code> in each approach. </p>
  <h4> Different Choices </h4>
 <p>Starting with the same example as above, we show that the ternary operator could choose an eager approach. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -3396,8 +3397,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Vector of Conditions</h2></p>
-<p>Next, we consider scenarios where you already have a vector holding conditions. This could occur either because the vector is already part of your dataset, or because the conditions will be reused multiple times over you code, in which case storing the conditions is worthy. </p>
-<p>Storing conditions in a vector could be done through an object with type <code>Vector&#123;Bool&#125;</code> or <code>BitVector</code>. The latter is the default type returned by Julia, as when you define objects like <code>x .&gt; 0</code>. Although this type offer certain performance advantages, it can also hinder the application of SIMD. In cases like this, transforming <code>BitVector</code> to <code>Vector&#123;Bool&#125;</code> could speed up computations. </p>
+<p>Next, we consider scenarios where you already have a vector holding conditions. This could occur either because the vector is already part of your dataset, or because the conditions will be reused multiple times over your code, in which case storing the conditions is worthy. </p>
+<p>Storing conditions in a vector could be done through an object with type <code>Vector&#123;Bool&#125;</code> or <code>BitVector</code>. The latter is the default type returned by Julia, as when you define objects like <code>x .&gt; 0</code>. Although this type offers certain performance advantages, it can also hinder the application of SIMD. In cases like this, transforming <code>BitVector</code> to <code>Vector&#123;Bool&#125;</code> could speed up computations.</p>
 <p>The following example demonstrates this, where the execution time is faster even considering the vector transformation. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3672,7 +3673,7 @@ foo&#40;x,y&#41;       &#61; @. ifelse&#40;Bool&#40;1 - &#33;&#40;x&gt;0.3&#41; 
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 20, 2025 
+          © Martin Alfaro <br>Last Modified August 16, 2025 
       </span> 
   </div> 
 </footer>

@@ -2834,8 +2834,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>So far, we&#39;ve been using the built-in macro <code>@simd</code> to apply SIMD instructions. This approach merely suggests the potential advantages of SIMD, leaving the final decision on its implementation to the compiler. Moreover, the <code>@simd</code> macro only implements basic features of SIMD, and prioritizes code safety over performance. </p>
-<p>Next, we consider the macro <code>@turbo</code> from the package <code>LoopVectorization</code>. This macro consistently implements SIMD optimizations when invoked, and applies more aggressive optimizations compared to <code>@simd</code>. Additionally, unlike <code>@simd</code>, <code>@turbo</code> can be utilized in both for-loops and broadcasting operations.</p>
+<p>So far, we&#39;ve been using the built-in macro <code>@simd</code> to apply SIMD instructions. This macro is relatively limited in certain respect. For one, it only hints the potential advantages of applying SIMD, leaving the final decision implementation to the compiler&#39;s discretion. Moreover, it only provides basic features of SIMD, prioritizing code safety over performance. </p>
+<p>Next, we introduce the macro <code>@turbo</code> from the package <code>LoopVectorization</code>, which offers several distinct advantages. First, it enforces SIMD optimizations when invoked, rather than merely suggesting them. Furthermore, it applies more aggressive optimizations compared to <code>@simd</code>. Finally, <code>@turbo</code> support both for-loops and broadcasting operations, contrasting with <code>@simd</code>&#39;s exclusive applicability to for-loops.</p>
 <p>      </div>
     </div>
   </div>
@@ -2845,14 +2845,14 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Caveats About Improper Use of @turbo</h2></p>
-<p>Unlike <code>@simd</code>, <code>@turbo</code> could return wrong results if used for certain operations. This is because the package makes some additional assumptions about operations with the goal of applying optimizations more aggressively. In particular, <code>@turbo</code></p>
+<p>In contrast to <code>@simd</code>, applying <code>@turbo</code> requires some caution, as it may lead to incorrect results if misapplied. This issue arises because the macro makes additional assumptions about the operations being performed, with the goal of applying optimizations more aggressively. In particular:</p>
 <ul>
-<li><p>never checks index bounds </p>
+<li><p><code>@turbo</code> never checks index bounds, potentially leading to out-of-bounds memory access.</p>
 </li>
-<li><p>may provide wrong results if the outcome depends on a specific execution order of the iterations &#40;except for reductions&#41;.</p>
+<li><p><code>@turbo</code> assumes the outcome is independent of the iteration order &#40;except for reduction operations&#41;.</p>
 </li>
 </ul>
-<p>Regarding the latter, computing a vector with cumulative sums of a vector will return incorrect results. This can be observed below, where we check the resulting vector by summing all its values.</p>
+<p>An example of the latter is when computing a vector holding cumulative sums of another vector. This can be observed below, where we verify the final result by summing all values in the output vector.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2909,8 +2909,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Cases Covered</h2></p>
-<p>Considering that <code>@turbo</code> isn&#39;t suitable for all operations, let&#39;s present two of its primary applications. The first one arises <strong>when iterations are completely independent of each other</strong>, making the execution order of iterations irrelevant.</p>
-<p>For instance, the following code snippet transforms each element of a vector via a polynomial function. </p>
+<p>Considering that <code>@turbo</code> isn&#39;t suitable for all operations, let&#39;s present two of its primary applications. The first one arises <strong>when iterations are completely independent</strong>, making their execution order irrelevant.</p>
+<p>For instance, the following code snippet applies a polynomial transformation to each element of a vector.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2972,7 +2972,7 @@ foo&#40;x&#41;         &#61; @turbo calculation.&#40;x&#41;</code></pre> </div><
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The second application is <strong>reductions</strong>. Although they make iterations dependent, reductions represent an exception that <code>@turbo</code> can handle properly. </p>
+<p>The second application is <strong>reductions</strong>. Although reductions inherently involve dependent iterations, they represent a special case that <code>@turbo</code> handles properly. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3035,8 +3035,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Special Functions</h2></p>
-<p>The package <code>LoopVectorization</code> leverages the library  <em>SLEEF</em>, acronym for &quot;SIMD Library for Evaluating Elementary Functions&quot;. This is available in Julia through the package <code>SLEEFPirates</code>, and is designed to boost the performance of some functions by utilizing SIMD instructions. In particular, it speeds up the computations of the exponential, logarithmic, power, and trigonometric functions. </p>
-<p>Below, we illustrate each. See <a href="https://juliasimd.github.io/SLEEFPirates.jl/stable/">here</a> for a list of all the functions supported.</p>
+<p>The package <code>LoopVectorization</code> leverages the library  <em>SLEEF</em>, which is an acronym for &quot;SIMD Library for Evaluating Elementary Functions&quot;. SLEEF is available in Julia through the package <code>SLEEFPirates</code> and it&#39;s designed to boost the mathematical computations of some functions by utilizing SIMD instructions. In particular, it speeds up the computations of the exponential, logarithmic, power, and trigonometric functions. </p>
+<p>Below, we illustrate the use of <code>@turbo</code> for each type of function. See <a href="https://juliasimd.github.io/SLEEFPirates.jl/stable/">here</a> for a list of all the functions supported.</p>
  <h4> Logarithm </h4>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3285,7 +3285,7 @@ foo&#40;x&#41; &#61; @turbo calculation.&#40;x&#41;</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p> <h4> Trigonometric Functions </h4> Among others, it includes <code>sin</code>, <code>cos</code>, and <code>tan</code>. Below, we demonstrate it by <code>sin</code>. </p>
+<p> <h4> Trigonometric Functions </h4> Among others, <code>@turbo</code> can handle the functions <code>sin</code>, <code>cos</code>, and <code>tan</code>. Below, we demonstrate its use with <code>sin</code>. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3369,7 +3369,7 @@ foo&#40;x&#41; &#61; @turbo calculation.&#40;x&#41;</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 20, 2025 
+          © Martin Alfaro <br>Last Modified August 16, 2025 
       </span> 
   </div> 
 </footer>
