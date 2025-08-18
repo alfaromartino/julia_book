@@ -2885,7 +2885,7 @@ x&#91;x .≥ 2&#93; &#61; x&#91;x .≥ 2&#93; .* 10</code></pre> </div></div>
  30</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Importantly the mutations via for-loops, a scalar can be used on the right-hand side of <code>&#61;</code> for single-element slices. </p>
+<p>Importantly for the mutations via for-loops, a scalar can be used on the right-hand side of <code>&#61;</code> for single-element slices. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2966,7 +2966,7 @@ end</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
 <p>The approach relies on <code>x&#91;i&#93;</code> on the left-hand side of <code>&#61;</code> acting as a view. Alternatively, we could leverage the function <code>view</code> to create a variable that contains all the elements to be modified. This allows us to work with for-loops that mutate entire objects, rather than a subset of the original object. </p>
-<p>The following example demonstrates this by mutating a vector of zeros. Note that the function <code>zeros</code> defaults to zeroes with type <code>Float64</code>, explaining why <code>1</code> is automatically converted to <code>1.0</code>.</p>
+<p>The following example demonstrates this by mutating a vector of zeros. Note that the function <code>zeros</code> defaults to zeros with type <code>Float64</code>, explaining why <code>1</code> is automatically converted to <code>1.0</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3094,7 +3094,7 @@ x&#91;:&#93; &#61; x .* 10</code></pre> </div></div>
  30</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Notice that the difference between approaches could go unnoticed, as they all yield the same outcome. However, we&#39;ll see in Part II of the website that these approach can entail big differences in performance. In particular, reusing the original memory address of <code>x</code> tends to be more performant than creating a new memory address for <code>x</code>. </p>
+<p>Notice that the difference between approaches could go unnoticed, as they all yield the same outcome. However, we&#39;ll see in Part II of the website that these approaches can entail big differences in performance. In particular, reusing the original memory address of <code>x</code> tends to be more performant than creating a new memory address for <code>x</code>. </p>
 <p>This difference will also manifest when using the macro <code>@.</code> for a seamless broadcasting. Depending on where <code>@.</code> is placed relative to <code>&#61;</code>, we could end up with an assignment or a mutation. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3130,7 +3130,7 @@ x    &#61; @. x * 10</code></pre> </div></div>
 <p>  </p></details></div>
  <h4> View Aliases on the Left-Hand Side of &#61; </h4>
 <p>The previous case exemplified a scenario where the ultimate outcome is the same, regardless of whether we employ <code>&#61;</code> or <code>.&#61;</code>. Instead, the results will differ when view aliases are on the left-hand side. View aliases allow us to work with <code>slice &#61; view&#40;x, &lt;indices&gt;&#41;</code>, rather than <code>x&#91;&lt;indices&gt;&#93;</code>. Defining view aliases is convenient when we need to perform various operations over the same slice. This avoids repeatedly referencing the slice via <code>x&#91;&lt;indices&gt;&#93;</code>, which would be inefficient, error-prone, and tedious. </p>
-<p>In these cases, only when we use <code>.&#61;</code> is that we&#39;ll perform a mutation. </p>
+<p>In these cases, it&#39;s only when we use <code>.&#61;</code> that we&#39;ll perform a mutation. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3156,7 +3156,7 @@ slice  &#61; slice .* 10            # this does NOT modify &#96;x&#96;</code></p
  3</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>There are a few additional wrong uses that can emerge with view aliases. To demonstrate them, let&#39;s consider replacing all negative values in <code>x</code> with zero. Below, only the first approach achieves the desired outcome.</p>
+<p>There are a few additional incorrect uses that can emerge with view aliases. To demonstrate them, let&#39;s consider replacing all negative values in <code>x</code> with zero. Below, only the first approach achieves the desired outcome.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3214,7 +3214,7 @@ slice  &#61; 0                  # this creates a new object, it does NOT modify 
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 17, 2025 
+          © Martin Alfaro <br>Last Modified August 18, 2025 
       </span> 
   </div> 
 </footer>

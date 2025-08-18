@@ -2912,7 +2912,7 @@ x&#91;:&#93; &#61; &#91;0,0&#93;</code></pre>
 <p>So far, we&#39;ve emphasized the critical distinction between assignments and mutations. Since both operations rely on the <code>&#61;</code> operator, we must then inquire when <code>&#61;</code> will entail one or the other operation. Next, we explore in particular cases like <code>y &#61; x</code>, characterized by entire objects on each side of <code>&#61;</code>. Other cases are left for the upcoming sections, after we introduce the concept of slices &#40;i.e, subsets of elements from a vector&#41;.</p>
 <p>In Julia, executing <code>y &#61; x</code> makes <code>y</code> another name for the object referenced by <code>x</code>. This means that <code>x</code> and <code>y</code> become different labels for the same underlying object. Formally, it&#39;s said that <code>y</code> constitutes an <span style="color: rgb(62, 121, 180);"><strong>alias</strong></span> of <code>x</code>. </p>
 <p>Note that <code>y &#61; x</code> shouldn&#39;t be understood as binding <code>y</code> to <code>x</code> itself. Rather, it means that <code>y</code> becomes another label for the object that <code>x</code> references. This subtle distinction carries a significant practical implication: reassigning <code>x</code> to a new object won&#39;t affect <code>y</code>&#39;s reference.  </p>
-<p>To clarify this further, let&#39;s consider an example were we first execute <code>x &#61; 2</code> and then <code>y &#61; x</code>. At this point, both <code>x</code> and <code>y</code> reference the same object, which holds the value <code>2</code>. If we eventually execute <code>x &#61; 4</code>, the variable <code>x</code> will start pointing to a new object that holds the value <code>4</code>. However, this won&#39;t affect the original object that <code>x</code> was referencing. As a result, <code>y</code> will still point to the original object with value <code>2</code>. This behavior is illustrated below. <br/></p>
+<p>To clarify this further, let&#39;s consider an example where we first execute <code>x &#61; 2</code> and then <code>y &#61; x</code>. At this point, both <code>x</code> and <code>y</code> reference the same object, which holds the value <code>2</code>. If we eventually execute <code>x &#61; 4</code>, the variable <code>x</code> will start pointing to a new object that holds the value <code>4</code>. However, this won&#39;t affect the original object that <code>x</code> was referencing. As a result, <code>y</code> will still point to the original object with value <code>2</code>. This behavior is illustrated below. <br/></p>
  <div class="multiple_pics">
 <div class="row" style="max-width:100%;">
   <div class="column2">
@@ -3049,7 +3049,7 @@ x&#91;1&#93; &#61; 0</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 17, 2025 
+          © Martin Alfaro <br>Last Modified August 18, 2025 
       </span> 
   </div> 
 </footer>

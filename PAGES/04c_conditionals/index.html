@@ -2890,7 +2890,7 @@ end</code></pre>
 <p>  </p></details></div>
 <p>Note that if-then statements imply that no action would&#39;ve been taken if, for instance, we had used <code>x &#61; -1</code> as a condition—it&#39;s only when <code>x &gt; 0</code> that <code>println</code> is executed. </p>
 <p>The <code>if</code> approach offers the most flexibility, making it ideal for complex conditional statements. However, it&#39;s somewhat verbose for simple conditional statements. For these cases, <code>&amp;&amp;</code> and <code>||</code> are preferred, as they help us keep the code streamlined.</p>
-<p>A common application of <code>||</code> is is in conjunction with the function <code>error</code> to handle errors. This construct immediately interrupts the script&#39;s execution when the condition isn&#39;t satisfied, displaying the provided message as the argument of <code>error</code>. For instance, consider a function <code>foo&#40;x&#41;</code> that requires non-negative values for <code>x</code>. To enforce this, you could include <code>x &gt; 0 || error&#40;&quot;x must be positive&quot;&#41;</code> at the beginning of the function. If <code>foo&#40;x&#41;</code> is then called with a non-positive <code>x</code>, it&#39;ll immediately halt its execution and print the error message &quot;x must be positive&quot; in the REPL.</p>
+<p>A common application of <code>||</code> is in conjunction with the function <code>error</code> to handle errors. This construct immediately interrupts the script&#39;s execution when the condition isn&#39;t satisfied, displaying the provided message as the argument of <code>error</code>. For instance, consider a function <code>foo&#40;x&#41;</code> that requires non-negative values for <code>x</code>. To enforce this, you could include <code>x &gt; 0 || error&#40;&quot;x must be positive&quot;&#41;</code> at the beginning of the function. If <code>foo&#40;x&#41;</code> is then called with a non-positive <code>x</code>, it&#39;ll immediately halt its execution and print the error message &quot;x must be positive&quot; in the REPL.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     Note that <code>&amp;&amp;</code> and <code>||</code>  behave like if-then statements when they combine a condition with an operation. This is different from using them exclusively with conditions, where all operands would be <code>Bool</code> values.  </div>  </div>
@@ -2904,7 +2904,7 @@ end</code></pre>
       <div class="col-lg- mx-auto">
         <h2>If-Else Statements</h2></p>
 <p>If-else statements execute an operation when a condition is true and another operation when the condition is false. There are two forms to write these statements.</p>
-<p>The first one is the most flexible and uses the <code>if</code> keyword in combination with <code>else</code>. The second method relies on the so-called <span style="color: rgb(62, 121, 180);"><strong>ternary operator</strong></span>, which requires the keywords <code>?</code> and <code>:</code> via the syntax <code>&lt;condition&gt; ? &lt;operation if true&gt; : &lt;operation if false&gt;</code>. This is referred to as  <em>the</em> ternary operator because it&#39;s the only operator in most programming languges that takes three arguments.</p>
+<p>The first one is the most flexible and uses the <code>if</code> keyword in combination with <code>else</code>. The second method relies on the so-called <span style="color: rgb(62, 121, 180);"><strong>ternary operator</strong></span>, which requires the keywords <code>?</code> and <code>:</code> via the syntax <code>&lt;condition&gt; ? &lt;operation if true&gt; : &lt;operation if false&gt;</code>. This is referred to as  <em>the</em> ternary operator because it&#39;s the only operator in most programming languages that takes three arguments.</p>
 <p>We illustrate the syntax of both approaches below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2931,7 +2931,7 @@ x &gt; 0 ? println&#40;&quot;x is positive&quot;&#41; : println&#40;&quot;x is n
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="akin_to_pre">"x is positive"</div></div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The function <code>ifelse</code> offers an alternative for constructing if-else expressions. This function takes three arguments: a condition, an expression to be evaluated if the conditoin true, and another one if false. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The function <code>ifelse</code> does  <em>not</em> behave as a <a href="/julia_book/PAGES/04b_logical/#sub_logical_operators_as_shortcircuit_operators"><strong>short-circuit operator</strong></a>. This means that all the operations are computed, despite that only one of them will ultimately be returned as output.  </span></span> </p>
+<p>The function <code>ifelse</code> offers an alternative for constructing if-else expressions. This function takes three arguments: a condition, an expression to be evaluated if the condition is true, and another one if false. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The function <code>ifelse</code> does  <em>not</em> behave as a <a href="/julia_book/PAGES/04b_logical/#sub_logical_operators_as_shortcircuit_operators"><strong>short-circuit operator</strong></a>. This means that all the operations are computed, despite that only one of them will ultimately be returned as output.  </span></span> </p>
 <p>One advantage of using a function for an if-else statement is that it supports broadcasting. This is particularly helpful when creating vectors whose elements vary according to a condition, as demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2962,7 +2962,7 @@ x_absolute_value      &#61; ifelse.&#40;x .≥ 0, x, -x&#41;</code></pre>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     Broadcasting <code>ifelse</code> <strong>requires broadcasting both</strong> <code>ifelse</code> <strong>and the condition</strong>. The first example, for case, would throw an error if we execute <code>ifelse.&#40;x&gt;0, true, false&#41;</code>. This is because <code>x &gt; 0</code> would attempt to check if the  <em>entire vector</em> is positive, which is an operation undefined in Julia.  </div>  </div>
+      <b> Remark</b> </span>  </div>  <div class=content>     Broadcasting <code>ifelse</code> <strong>requires broadcasting both</strong> <code>ifelse</code> <strong>and the condition</strong>. The first example, for instance, would throw an error if we execute <code>ifelse.&#40;x&gt;0, true, false&#41;</code>. This is because <code>x &gt; 0</code> would attempt to check if the  <em>entire vector</em> is positive, which is an operation undefined in Julia.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -3029,7 +3029,7 @@ end</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 17, 2025 
+          © Martin Alfaro <br>Last Modified August 18, 2025 
       </span> 
   </div> 
 </footer>

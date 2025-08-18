@@ -1,4 +1,4 @@
-include(joinpath(homedir(),"JULIA_UTILS", "initial_folders.jl"))
+include(joinpath(homedir(),"JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
@@ -14,6 +14,10 @@ x = 1:100
 
 @time sum(x)         # first run                     -> it incorporates compilation time 
 @time sum(x)         # time without compilation time -> relevant for each subsequent run
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ############################################################################
 #

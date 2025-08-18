@@ -2822,7 +2822,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section concludes the coverage of preliminary concepts for studying mutations by focusing on the behavior of a vector&#39;s <span style="color: rgb(62, 121, 180);"><strong>slice</strong></span>. This is defined as a subset of a vector&#39;s elements, formally represented by <code>x&#91;&lt;indices&gt;&#93;</code>. </p>
+<p>This section concludes the coverage of preliminary concepts for studying mutations by focusing on the behavior of a vector&#39;s <span style="color: rgb(62, 121, 180);"><strong>slice</strong></span>. This is defined as a subset of a vector&#39;s elements, formally represented as <code>x&#91;&lt;indices&gt;&#93;</code>. </p>
 <p>Importantly, <strong>slices act differently depending on how they're included in a statement</strong>, functioning as either:</p>
 <ul>
 <li><p><span style="color: rgb(62, 121, 180);"><strong>copies</strong></span> of the original vector, thus creating a new object at a new memory address. </p>
@@ -2842,7 +2842,7 @@ color: white;
         <h2>Slices and the Assignment Operator</h2></p>
 <p>Vector mutation involves modifying slices through the operator <code>&#61;</code>. For this to be possible, a prerequisite is that the slice references the original object. Nonetheless, the behavior of slices in assignments varies depending on their position within the expression.</p>
 <p>Specifically, <strong>slices on the left-hand (LHS) side of</strong> <code>&#61;</code> <strong>act as views</strong>. In this case, slices reference the original elements, thus allowing for the mutation of its parent object. In contrast, <strong>slices on the right-hand side (RHS) of</strong> <code>&#61;</code> <strong>create a copy</strong>. Since copies point to a new object, any modification to the slice won&#39;t affect the original object. </p>
-<p>The following code snippet demonstrates each behavior.</p>
+<p>The following code snippet demonstrates both behaviors.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2869,7 +2869,7 @@ x&#91;1&#93; &#61; 0        # it mutates &#39;x&#39; but does NOT modify &#39;y&
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Aliasing vs Copy</strong>  </span>  </div>  <div class=content>     Objects on the RHS of <code>&#61;</code> are only treated as copies when it comes to <strong>slices</strong>, such as in statements <code>y &#61; x&#91;&lt;indices&gt;&#93;</code>.  Instead, if we insert the whole object <code>x</code> on the RHS of <code>&#61;</code>, as in <code>y &#61; x</code>, the operation creates an alias. In this case, <code>y</code> and <code>x</code> will reference the same object, and so any modification made to <code>y</code> will also be reflected in <code>x</code>.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Aliasing vs Copy</strong>  </span>  </div>  <div class=content>     Objects on the RHS of <code>&#61;</code> are only treated as copies when it comes to <strong>slices</strong>, such as in statements <code>y &#61; x&#91;&lt;indices&gt;&#93;</code>. Instead, if we insert the whole object <code>x</code> on the RHS of <code>&#61;</code>, as in <code>y &#61; x</code>, the operation creates an alias. In this case, <code>y</code> and <code>x</code> will reference the same object, and so any modification made to <code>y</code> will also be reflected in <code>x</code>.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2961,8 +2961,8 @@ x&#91;1:2&#93; .&#43; 2
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>These examples reveal the potential verbosity involved when <code>view</code> isn&#39;t sparsely used. To address this issue, Julia provides the macros <code>@view</code> and <code>@views</code>.</p>
-<p>The <code>@view</code> macro is equivalent to <code>view</code>, allowing you to write <code>@view x&#91;1:2&#93;</code> instead <code>view&#40;x, 1:2&#41;</code>. However, its advantages are somewhat limited: it saves only a few characters, and additionally necessarily requires parentheses when multiple slices are used &#40;e.g., <code>@view&#40;x&#91;1:2&#93;&#41; .&#43; @view&#40;x&#91;2:3&#93;&#41;</code>&#41;. In contrast, the <code>@views</code> macro significantly streamlines notation, by automatically converting  <em>every</em> slice within an expression into a view.</p>
+<p>These examples reveal the potential verbosity involved when <code>view</code> isn&#39;t used sparingly. To address this issue, Julia provides the macros <code>@view</code> and <code>@views</code>.</p>
+<p>The <code>@view</code> macro is equivalent to <code>view</code>, allowing you to write <code>@view x&#91;1:2&#93;</code> instead of <code>view&#40;x, 1:2&#41;</code>. However, its advantages are somewhat limited: it saves only a few characters, and additionally necessarily requires parentheses when multiple slices are used &#40;e.g., <code>@view&#40;x&#91;1:2&#93;&#41; .&#43; @view&#40;x&#91;2:3&#93;&#41;</code>&#41;. In contrast, the <code>@views</code> macro significantly streamlines notation, by automatically converting  <em>every</em> slice within an expression into a view.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3026,7 +3026,7 @@ end</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 17, 2025 
+          © Martin Alfaro <br>Last Modified August 18, 2025 
       </span> 
   </div> 
 </footer>

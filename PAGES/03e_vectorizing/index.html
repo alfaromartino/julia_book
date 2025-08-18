@@ -2824,7 +2824,7 @@ color: white;
         <h2>Introduction</h2></p>
 <p>This section explores element-wise operations on <strong>iterable collections</strong>. These are defined as collections whose elements can be accessed sequentially, including examples like vectors, tuples, and ranges.</p>
 <p>The first approach covered is the <code>map</code> function, which applies a given function to each element of a collection. This function is particularly convenient for transforming collections while avoiding for-loops. </p>
-<p>After this, we&#39;ll shift our focus to a fundamental technique in Julia known as <strong>broadcasting</strong>. This enables the application of functions and operators element-wise, while maintaining code concise and expressive. Broadcasting is quite versatile, supporting operations on collections of equal size or combinations of scalars and same-size collections. Its distinctive syntax, which involves appending a dot <code>.</code> to the function/operator, makes it easily identifiable throughout the code.</p>
+<p>After this, we&#39;ll shift our focus to a fundamental technique in Julia known as <strong>broadcasting</strong>. This enables the application of functions and operators element-wise, while maintaining concise and expressive code. Broadcasting is quite versatile, supporting operations on collections of equal size or combinations of scalars and same-size collections. Its distinctive syntax, which involves appending a dot <code>.</code> to the function/operator, makes it easily identifiable throughout the code.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     The terms <strong>broadcasting</strong> and <strong>vectorization</strong> will be used interchangeably throughout the website, although strictly speaking they&#39;re not equivalent. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Vectorization refers to applications restricted to arrays of the same size, with broadcasting being an extension of it that allows for scalars.  </span></span> Furthermore, vectorization has multiple meanings, depending on the context in which the definition is applied.  </div>  </div>
@@ -2967,7 +2967,7 @@ z &#61; map&#40;&#43;, x, y&#41;        # recall that &#96;&#43;&#96; is both an
       <div class="col-lg- mx-auto">
         <h2>Broadcasting Functions</h2></p>
 <p>Broadcasting expands the versatility of functions, allowing them to be applied element-wise to a collection. This feature is implemented by appending a dot <strong> <em>after</em></strong> the name of the function, as in <code>foo.&#40;x&#41;</code>. </p>
-<p>Remarkably, <strong>any function</strong> <code>foo</code> <strong>has a broadcasting counterpart</strong> <code>foo.</code>. This etanils that broadcasting is automatically available for user-defined functions. Furthermore, it determines that broadcasting isn&#39;t restricted to numeric collections, but to any type of collection.</p>
+<p>Remarkably, <strong>any function</strong> <code>foo</code> <strong>has a broadcasting counterpart</strong> <code>foo.</code>. This entails that broadcasting is automatically available for user-defined functions. Furthermore, it determines that broadcasting isn&#39;t restricted to numeric collections, but to any type of collection.</p>
 <p>Similarly to <code>map</code>, broadcasting can be applied to both single- and multiple-argument functions. Each case warrants separate consideration. </p>
 <p>As for single-argument functions, broadcasting <code>foo</code> over a collection <code>x</code> returns a new collection with <code>foo&#40;x&#91;i&#93;&#41;</code> as its  <em>i</em>-th element. The following examples demonstrate this.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -3007,7 +3007,7 @@ x         &#61; &#91;1,2,3&#93;</code></pre>
 <p>  </p></details></div>
 <p>As for multiple-argument functions, suppose a function <code>foo</code> and collections <code>x</code> and <code>y</code>. Then, <code>foo.&#40;x,y&#41;</code> returns a new collection with <code>foo&#40;x&#91;i&#93;,y&#91;i&#93;&#41;</code> as its  <em>i</em>-th element. </p>
 <p>Importantly, <strong>collections with different sizes aren't allowed</strong>, establishing a clear contrast between broadcasting and <code>map</code>. The sole exception to this rule is when one of the objects is a scalar, as we&#39;ll see later. </p>
-<p>Below, we provide several examples. The first example in particular makes use of the built-in function <code>max</code>, which provides the maximu value among its scalar arguments. </p>
+<p>Below, we provide several examples. The first example in particular makes use of the built-in function <code>max</code>, which provides the maximum value among its scalar arguments. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3153,7 +3153,7 @@ region        &#61;  &#91;&quot;Europe&quot;, &quot;North America&quot;&#93;</co
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Iterable Objects</h2></p>
-<p>So far, our examples have focused on broadcasting using vectors as collections. Furthermore, we&#39;ve explored the technique by treating functions and operators separately, which shed light on the underlying mechanics of broadcasting. Next, we&#39;ll take a more comprehensive perspective, applying broadcasting to other types of collections and to expressions combining functions and operators.</p>
+<p>So far, our examples have focused on broadcasting using vectors as collections. Furthermore, we&#39;ve explored the technique by treating functions and operators separately, which sheds light on the underlying mechanics of broadcasting. Next, we&#39;ll take a more comprehensive perspective, applying broadcasting to other types of collections and to expressions combining functions and operators.</p>
 <p>We first show that broadcasting can be applied to any iterable object, including tuples and ranges.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3516,7 +3516,7 @@ list &#61; &#91;1, 2, 3&#93;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 17, 2025 
+          © Martin Alfaro <br>Last Modified August 18, 2025 
       </span> 
   </div> 
 </footer>

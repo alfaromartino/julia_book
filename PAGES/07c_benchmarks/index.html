@@ -2840,7 +2840,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section presents standard tools for benchmarking code. In particular, our website will provide results based on the package <code>BenchmarkTools</code>, which is currently the most mature and reliable option. Nonetheless, the newer <code>Chairmarks</code> package has shown impressive speed gains. Once it&#39;s been around enough to fix any potential bugs, I&#39;d recommend it as the default option.</p>
+<p>This section introduces standard tools for benchmarking code performance. In particular, our website currently reports results based on the <code>BenchmarkTools</code> package, which is currently the most mature and reliable option in the Julia ecosystem. That said, the newer <code>Chairmarks</code> package has demonstrated notable improvements in execution speed when compared to <code>BenchmarkTools</code>. I recommend adopting <code>Chairmarks</code> as the default benchmarking tool once it has achieved sufficient stability and adoption within the community.</p>
 <p>      </div>
     </div>
   </div>
@@ -2850,7 +2850,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Time Metrics</h2></p>
-<p>Regardless of the package employed, Julia uses the same time metrics described below. These metrics can be accessed at any time <strong>in the left bar</strong>, under &quot;<strong>Notation & Hotkeys</strong>&quot;. </p>
+<p>Julia uses the same time metrics described below, regardless of whether you use <code>BenchmarkTools</code> or <code>Chairmarks</code>. For quick reference, these metrics can be accessed at any point <strong>in the left bar</strong> under &quot;<strong>Notation & Hotkeys</strong>&quot;. </p>
 <p>
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -2896,7 +2896,7 @@ color: white;
 </tbody>
 </table>
  <br/></p>
-<p>In addition to execution times, all packages provide information about <strong>memory allocations on the heap</strong>, commonly referred to as <strong>allocations</strong>. These allocations can have a significant impact on performance and potentially indicate suboptimal coding practices. Their relevance will become clearer in the upcoming sections. </p>
+<p>In addition to execution times, all packages report information about <strong>memory allocations on the heap</strong>, commonly referred to as just <strong>allocations</strong>. They can have a significant impact on performance and potentially indicate suboptimal coding practices. As we’ll see in later sections, keeping track of allocations is crucial for high performance.</p>
 <p>      </div>
     </div>
   </div>
@@ -2906,12 +2906,12 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>"Time to First Plot"</h2></p>
-<p>The expression &quot;Time to First Plot&quot; refers to a side effect of how the Julia language works: in each session, <strong>the first function call is slower than the subsequent ones</strong>. This occurs because Julia compiles code during its initial run, as we&#39;ll explain more thoroughly in the next sections.</p>
-<p>Since the penalty will be incurred only once, this overhead isn&#39;t a major hindrance when working on a large project. However, it determines that Julia may not be the best option when you simply aim to perform a rapid analysis &#40;e.g., run one regression or draw a graph to quickly unveil a relation&#41;.</p>
-<p>The speed of the first run varies significantly. While it may be imperceptible in some cases, it can be noticeable in others. For instance, I bet you didn&#39;t notice that running <code>sum&#40;x&#41;</code> for the first time in your code was slower than the subsequent runs&#33; On the contrary, drawing high-quality plots can take up to 15 seconds, explaining where the term &quot;Time to First Plot&quot; comes from. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The time indicated is for <code>Plots</code>, the standard package for the task. This is a metapackage bundling several plotting libraries. Some of these libraries are relatively fast, requiring less than 5 seconds for rendering the first figure.  </span></span></p>
+<p>The expression &quot;Time to First Plot&quot; refers to a side effect of how the Julia language works: <strong>the first function call in each session is slower than subsequent ones</strong>. This occurs because Julia compiles code during its first run, a process we&#39;ll cover in upcoming sections.</p>
+<p>Since the penalty is incurred only once per session, this overhead isn&#39;t a major hindrance for large projects, where startup costs are quickly amortized. However, it implies that Julia may not be the best option for quick one-off analyses &#40;e.g., running a regression or drawing a graph to get a sense of data&#41;.</p>
+<p>It&#39;s hard to provide general statements about the inconvenience caused by this feature, since the time of the first run varies significantly across functions—while it may be imperceptible in some cases, it can be noticeable in others. For instance, the impact for simple operations like <code>sum&#40;x&#41;</code> won&#39;t be noticeable at all. Instead, rendering a high-quality plot for the first time can take up to fifteen seconds, explaining the origin of the term &quot;Time to First Plot&quot;.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     The time-to-first-plot issue has been reduced significantly since <code>Julia 1.9</code>, and each new version is reducing this overhead even further.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     The Time-to-First-Plot issue has been significantly mitigated since <code>Julia 1.9</code>, thanks to improvements in precompilation. Each new version is reducing this overhead even further.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2921,8 +2921,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>@time</h2></p>
-<p>Julia comes with a built-in macro called <code>@time</code> to measure the execution time of a single run. The results provided by this macro, nonetheless, suffer from two significant limitations. First, the time provided is volatile and unreliable, as it only considers a single execution. Furthermore, considering the time-to-first-plot issue, the initial time will incorporate the compilation overhead, and hence it&#39;s unrepresentative of the subsequent calls. Taking this into account, you should always execute <code>@time</code> at least twice. </p>
-<p>The following example illustrates its use, making it clear that first runs include compilation time.</p>
+<p>Julia comes with a built-in macro called <code>@time</code> for measuring the execution time of a single run. The results provided by this macro, nonetheless, suffer from two significant limitations. First, the time provided is based on just a single run, which can be highly variable and therefore unreliable. Additionally, considering the time-to-first-plot issue, the first measurement will always incorporate compilation overhead, making it unrepresentative of subsequent calls. This is why you should always execute <code>@time</code> at least twice. </p>
+<p>The following example illustrates the use of <code>@time</code>, which also demonstrates the time difference between the first and subsequent runs.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2932,8 +2932,8 @@ color: white;
 
 @time sum&#40;x&#41;         # first run                     -&gt; it incorporates compilation time 
 @time sum&#40;x&#41;         # time without compilation time -&gt; relevant for each subsequent run</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  0.003763 seconds (2.37 k allocations: 145.109 KiB, 99.11% compilation time)
-  0.000005 seconds (1 allocation: 16 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  0.002747 seconds (3.56 k allocations: 157.859 KiB, 99.36% compilation time)
+  0.000003 seconds (1 allocation: 16 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2946,8 +2946,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Package "BenchmarkTools" </h2></p>
-<p>A more accurate alternative for measuring execution time is provided by the <code>BenchmarkTools</code> package. By performing repeated computations of the operation, this reports more reliable timing results.</p>
-<p>The package can be used through either the macro <code>@btime</code>, which only reports the minimum time, or through the macro <code>@benchmark</code>, which provides a more detailed analysis. Both macros discard the time of the first call, thus excluding compilation time from the results.</p>
+<p>A more reliable alternative for measuring execution time is provided by <code>BenchmarkTools</code>. This package improves its accuracy by performing repeated computations of an operation. It then generates summary statistics based on these runs. Depending on the level of detailed required, the package offers two macros: <code>@btime</code>, which only reports the minimum time, and <code>@benchmark</code>, which provides detailed statistics. Both macros discard the time of the first call, thus excluding compilation time from the results.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2958,7 +2957,7 @@ color: white;
 
 x &#61; 1:100
 @btime sum&#40;&#36;x&#41;        # provides minimum time only</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  1.500 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  2.314 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using BenchmarkTools
@@ -2983,14 +2982,14 @@ x &#61; 1:100
 x &#61; rand&#40;100&#41;
 
 @btime sum&#40;x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  16.132 ns (1 allocation: 16 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  14.465 ns (1 allocation: 16 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using BenchmarkTools
 x &#61; rand&#40;100&#41;
 
 @btime sum&#40;&#36;x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  6.600 ns (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  6.546 ns (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -3014,17 +3013,17 @@ x &#61; rand&#40;100&#41;
 x &#61; rand&#40;100&#41;
 
 display&#40;@b sum&#40;&#36;x&#41;&#41;        # provides minimum time only</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">6.704 ns</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">6.550 ns</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using Chairmarks
 x &#61; rand&#40;100&#41;
 
 display&#40;@be sum&#40;&#36;x&#41;&#41;       # analogous to &#96;@benchmark&#96; in BenchmarkTools</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">Benchmark: 3638 samples with 3720 evaluations
-min    6.694 ns
-median 6.855 ns
-mean   6.990 ns
-max    34.462 ns</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">Benchmark: 3856 samples with 3661 evaluations
+ min    6.679 ns
+ median 6.815 ns
+ mean   6.785 ns
+ max    14.539 ns</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -3109,13 +3108,13 @@ y &#61; sum&#40;x&#41;</code></pre> </div></div>
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100_000&#41;
 
 foo&#40;&#41;  &#61; sum&#40;2 .* x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  65.900 μs (4 allocations: 781.34 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  35.519 μs (5 allocations: 781.37 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100_000&#41;
 
 foo&#40;x&#41; &#61; sum&#40;a -&gt; 2 * a, x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  6.060 μs (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  6.393 μs (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -3136,7 +3135,7 @@ function replicate&#40;&#41;
       foo&#40;&#41;
    end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  22.221 s (400000 allocations: 74.51 GiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  5.697 s (500000 allocations: 74.52 GiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100_000&#41;
@@ -3147,7 +3146,7 @@ function replicate&#40;x&#41;
       foo&#40;x&#41;
    end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  650.441 ms (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">  677.130 ms (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -3175,7 +3174,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 17, 2025 
+          © Martin Alfaro <br>Last Modified August 18, 2025 
       </span> 
   </div> 
 </footer>

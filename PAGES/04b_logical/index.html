@@ -2822,7 +2822,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section lays the basics for incorporating conditions into our programs. Formally, conditions are defined as functions and operators that return true or false as their output. A common example of condition is <code>x &gt; y</code>.</p>
+<p>This section lays the basics for incorporating conditions into our programs. Formally, conditions are defined as functions and operators that return true or false as their output. A common example of a condition is <code>x &gt; y</code>.</p>
 <p>To get the most out of this section, you should keep in mind the classification of operators discussed <a href="/julia_book/PAGES/02b_variables/#operators">here</a>. This establishes that operators can be categorized according to their number of operands. Specifically, <strong>unary operators</strong> act on a single operand and precede it &#40;i.e. <code>&lt;operator&gt;x</code>&#41;, whereas <strong>binary operators</strong> take two operands and are placed between them &#40;i.e. <code>x &lt;operator&gt; y</code>&#41;.</p>
 <p>      </div>
     </div>
@@ -2862,7 +2862,7 @@ z &#61; &#91;x &gt; 0, x &lt; 0&#93;</code></pre>
 <p>  </p></details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Parentheses are optional when writing single conditions, allowing us to write <code>y &#61; x &gt; 0</code> rather than <code>y &#61; &#40;x &gt; 0&#41;</code>. Nonetheless, the former syntax is somewhat ambiguous, with the risk of being potentially misinterpreted as <code>&#40;y &#61; x&#41; &gt; 0</code>. To avoid confusion, it&#39;s a good practice to always include parentheses. This is especially true when working with multiple conditions, where their can drastically alter the outcome.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     Parentheses are optional when writing single conditions, allowing us to write <code>y &#61; x &gt; 0</code> rather than <code>y &#61; &#40;x &gt; 0&#41;</code>. Nonetheless, the former syntax is somewhat ambiguous, with the risk of being potentially misinterpreted as <code>&#40;y &#61; x&#41; &gt; 0</code>. To avoid confusion, it&#39;s a good practice to always include parentheses. This is especially true when working with multiple conditions, where outcomes can be drastically altered.  </div>  </div>
 <p>The condition in the previous example was defined via the operator <code>&gt;</code>. More generally, conditions accept <span style="color: rgb(62, 121, 180);"><strong>comparison operators</strong></span>, which are  <em>binary operators</em> that compare values of various types &#40;e.g., numbers and strings&#41;. The next list defines the most common ones.</p>
 <p>
 <style type="text/css">
@@ -3007,7 +3007,7 @@ z2 &#61; &#40;x &gt; 0&#41; || &#40;y &gt; 0&#41;</code></pre>
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z2</code><br/><div class="akin_to_pre">true</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Another operator taking conditions as their operands is the &quot;not&quot; operator, represented by <code>&#33;</code>. This is a unary operator that inverts a condition&#39;s value, changing <code>true</code> to <code>false</code> and vice versa. To use it, you simply place <code>&#33;</code> at the start of the condition &#40;i.e., before the parenthesis&#41;. </p>
+<p>Another operator taking conditions as their operands is the &quot;not&quot; operator, represented by <code>&#33;</code>. This is a unary operator that inverts a condition&#39;s value, changing <code>true</code> to <code>false</code> and vice versa. To use it, you simply place <code>&#33;</code> at the start of the condition &#40;i.e., before the parentheses&#41;. </p>
 <p>As an illustration, the variables <code>y1</code> and <code>y2</code> below become equivalent via <code>&#33;</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3132,7 +3132,7 @@ y &#61; 0</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Functions to Check Conditions on Vectors: "all" and "any" </h2></p>
-<p>Julia provides two built-in functions called <code>all</code> and <code>any</code> to evaluate multiple conditions in a collection. The function <code>all</code> returns <code>true</code> if  <em>every condition</em> is true, whereas <code>any</code> returns <code>true</code> if  <em>at least one condition</em> is true. The functions <strong>require directly specifying the conditions through a Boolean vector or define the condition to check through a function</strong>. Next, we cover each case separately.</p>
+<p>Julia provides two built-in functions called <code>all</code> and <code>any</code> to evaluate multiple conditions in a collection. The function <code>all</code> returns <code>true</code> if  <em>every condition</em> is true, whereas <code>any</code> returns <code>true</code> if  <em>at least one condition</em> is true. The functions <strong>require either directly specifying the conditions through a Boolean vector or defining the condition to check through a function</strong>. Next, we cover each case separately.</p>
  <h4> Vectors for Representing Multiple Conditions </h4>
 <p>In the following, we demonstrate the syntax of <code>all</code> and <code>any</code> when they take a Boolean vector as their argument. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -3154,7 +3154,7 @@ is_one_positive  &#61; any&#40;&#91;a &gt; 0, b &gt; 0&#93;&#41;</code></pre>
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>is_one_positive</code><br/><div class="akin_to_pre">true</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The function <code>all</code> returns <code>true</code> only when all the conditions are satisfied, thus requiring that each vector&#39;s entry is positive. This doesn&#39;t hold in the example, since <code>b &#61; -1</code>. Conversely, <code>any</code> returns <code>true</code> when at least one of the conditions holds, thus requiring at least one of the element&#39;s vector to be positive. This is satisfied in the example, since <code>a &#61; 1</code>.</p>
+<p>The function <code>all</code> returns <code>true</code> only when all the conditions are satisfied, thus requiring that each vector&#39;s entry is positive. This doesn&#39;t hold in the example, since <code>b &#61; -1</code>. Conversely, <code>any</code> returns <code>true</code> when at least one of the conditions holds, thus requiring at least one element in the vector to be positive. This is satisfied in the example, since <code>a &#61; 1</code>.</p>
 <p>As we indicated, <code>all</code> and <code>any</code> do not support passing multiple conditions as separate arguments. This entails that expressions like <code>all&#40;a &gt; 0, b &gt; 0&#41;</code> aren&#39;t allowed. Nevertheless, this restriction actually makes the functions more flexible, as they <strong>enable the use of broadcasting operations for checking multiple conditions</strong>. For example, the following code snippet implements the same operations as above, but through a vector <code>x</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3172,7 +3172,7 @@ is_one_positive  &#61; any&#40;x .&gt; 0&#41;</code></pre>
  </div></div>
 <p>  </p></details></div>
  <h4> Functions for Representing Multiple Conditions </h4>
-<p>In addition to expressing conditions through vectors, <code>all</code> and <code>any</code> accept <strong>passing a function to represent the condition to check</strong>. The syntax for this is <code>all&#40;&lt;function&gt;, &lt;array&gt;&#41;</code> and <code>any&#40;&lt;function&gt;, &lt;array&gt;&#41;</code>, where <code>&lt;function&gt;</code> can be an anonymous function. The following examples demonstrate how to implement <code>all&#40;x .&gt; 0&#41;</code> and <code>any&#40;x .&gt; 0&#41;</code> using this approach.</p>
+<p>In addition to expressing conditions through vectors, <code>all</code> and <code>any</code> allow <strong>passing a function to represent the condition to check</strong>. The syntax for this is <code>all&#40;&lt;function&gt;, &lt;array&gt;&#41;</code> and <code>any&#40;&lt;function&gt;, &lt;array&gt;&#41;</code>, where <code>&lt;function&gt;</code> can be an anonymous function. The following examples demonstrate how to implement <code>all&#40;x .&gt; 0&#41;</code> and <code>any&#40;x .&gt; 0&#41;</code> using this approach.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3231,7 +3231,7 @@ is_one_positive  &#61; any.&#40;i -&gt; i &gt; 0, &#91;x,y&#93;&#41;</code></pre
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 17, 2025 
+          © Martin Alfaro <br>Last Modified August 18, 2025 
       </span> 
   </div> 
 </footer>

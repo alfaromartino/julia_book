@@ -2835,7 +2835,7 @@ color: white;
         <h2>Initializing Vectors</h2></p>
 <p>Creating an array involves two steps: reserving memory for holding its content and assigning initial values to its elements. However, if you don&#39;t intend to populate the array with values right away, it&#39;s more efficient to only initialize the array. This means reserving memory space, but without setting any initial values.</p>
 <p>Technically, initializing an array entails creating an array filled with <code>undef</code> values. These values represent arbitrary content in memory at the moment of allocation. Importantly, while <code>undef</code> displays concrete numbers when you output the array&#39;s content, they&#39;re meaningless and vary every time you initialize a new array.</p>
-<p>There are two methods for creating vectors with <code>undef</code> values. The first one requires you to explicit specify the type and length of the array, which is accomplished via <code>Vector&#123;&lt;elements&#39; type&gt;&#125;&#40;undef, &lt;length&gt;&#41;</code>. The second approach is based on the function <code>similar&#40;x&#41;</code>, which creates a vector with the same type and dimensions as an existing vector <code>x</code>.</p>
+<p>There are two methods for creating vectors with <code>undef</code> values. The first one requires you to explicitly specify the type and length of the array, which is accomplished via <code>Vector&#123;&lt;elements&#39; type&gt;&#125;&#40;undef, &lt;length&gt;&#41;</code>. The second approach is based on the function <code>similar&#40;x&#41;</code>, which creates a vector with the same type and dimensions as an existing vector <code>x</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2887,7 +2887,7 @@ x          &#61; collect&#40;some_range&#41;</code></pre> </div></div>
  5</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Notice that when a range is created, <code>&lt;steps&gt;</code> implicitly dictates the number of elements to be generated. Alternatively, you could specify the number of elements to be stored, letting <code>&lt;steps&gt;</code> be implicitly determined. This is achieved by the function <code>range</code>, whose syntax is <code>range&#40;&lt;start&gt;, &lt;end&gt;, &lt;number elements&gt;&#41;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Note that <code>range</code> represents a convenient syntax for <code>&lt;start&gt; : 1 / &lt;number elements&gt; : &lt;end&gt;</code>.  </span></span> </p>
+<p>Notice that when a range is created, <code>&lt;steps&gt;</code> implicitly dictates the number of elements to be generated. Alternatively, you could specify the number of elements to be stored, letting <code>&lt;steps&gt;</code> be implicitly determined. This is achieved by the function <code>range</code>, whose syntax is <code>range&#40;&lt;start&gt;, &lt;end&gt;, &lt;number of elements&gt;&#41;</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Note that <code>range</code> represents a convenient syntax for <code>&lt;start&gt; : 1 / &lt;number of elements&gt; : &lt;end&gt;</code>.  </span></span> </p>
 <p>The following code snippet demonstrates the use of <code>range</code>, by generating five evenly spaced elements between 0 and 1.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3044,7 +3044,7 @@ z &#61; vcat&#40;A...&#41;</code></pre> </div></div>
  8</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Closely related to vector concatenation is the <code>repeat</code> function, which defines a vector containing the same object multiple times. Importantly, unlike <code>fill</code>, <code>repeat</code> <strong>requires an array as its input</strong>, throwing an error if a scalar in particular is passed.</p>
+<p>Closely related to vector concatenation is the <code>repeat</code> function, which defines a vector containing the same object multiple times. Importantly, unlike <code>fill</code>, <code>repeat</code> <strong>requires an array as its input</strong>, throwing an error if a scalar is passed in particular.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3091,8 +3091,8 @@ x                &#61; repeat&#40;vector_to_repeat, nr_repetitions&#41;</code></
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content>     This subsection requires knowledge of a few <strong>concepts that we haven't discussed yet</strong>. As such, it&#39;s marked as optional.</p>
-<p>One such concept is <strong>in-place functions</strong>, identified by the symbol <code>&#33;</code> appended to the function&#39;s name. The symbol is simply notation added by developers, hinting that the function modifies the value of at least one of its arguments. In-place functions will be explored thoroughly <a href="/julia_book/PAGES/05g_inplace_functions/">later</a>&#41;.</p>
-<p>Another concept introduced is <strong>pairs</strong>, which will also be examined comprehensively in <a href="/julia_book/PAGES/06b_namedtuples/#keys_and_values">a future section</a>. For the purposes of this subsection, it&#39;s sufficient to know that pairs are denoted by <code>a &#61;&gt; b</code>, where <code>a</code> in our application will refer to some value and <code>b</code> represent its corresponding replacement value.  </div>  </div>
+<p>One such concept is <strong>in-place functions</strong>, identified by the symbol <code>&#33;</code> appended to the function&#39;s name. The symbol is simply a notation added by developers, hinting that the function modifies the value of at least one of its arguments. In-place functions will be explored thoroughly <a href="/julia_book/PAGES/05g_inplace_functions/">later</a>&#41;.</p>
+<p>Another concept introduced is <strong>pairs</strong>, which will also be examined comprehensively in <a href="/julia_book/PAGES/06b_namedtuples/#keys_and_values">a future section</a>. For the purposes of this subsection, it&#39;s sufficient to know that pairs are denoted by <code>a &#61;&gt; b</code>, where <code>a</code> in our application refers to some value and <code>b</code> represents its corresponding replacement value.  </div>  </div>
 <p>Next, we show how to add, remove, and replace elements of a vector. To add a single element in particular, the methods are as follows.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3148,7 +3148,7 @@ append&#33;&#40;x, vector_to_insert&#41;                # add 6 and 7 at the end
  7</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The function <code>push&#33;</code> is particularly helpful to collect results in a vector. This is because, as it doesn&#39;t require any prior knowledge about the number of elements to be stored, we can dynamically grow the vector by adding more results. Notice that adding elements at the end via <code>push&#33;</code> is faster than doing it at the beginning via <code>pushfirst&#33;</code>. </p>
+<p>The function <code>push&#33;</code> is particularly helpful to collect results in a vector. This is because, as it doesn&#39;t require any prior knowledge about the number of elements to be stored, we can dynamically grow the vector by adding more results. Notice that adding elements at the end via <code>push&#33;</code> is faster than doing so at the beginning via <code>pushfirst&#33;</code>. </p>
 <p>Analogous functions exist to remove elements, as shown below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3277,7 +3277,7 @@ y &#61; replace&#40;x, 3 &#61;&gt; 0, 5 &#61;&gt; 1&#41;   # new copy</code></pr
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 17, 2025 
+          © Martin Alfaro <br>Last Modified August 18, 2025 
       </span> 
   </div> 
 </footer>
