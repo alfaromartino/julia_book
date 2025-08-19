@@ -2851,9 +2851,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Functions and Global Variables</h2></p>
-<p>The main takeaway of this subsection is that <strong>wrapping operations within functions is a necessary condition for achieving high performance</strong>. To understand why, let&#39;s start by outlining the detrimental consequences of using global variables. This leads us to first distinguish between global and local variables.</p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Local variables</strong></span> correspond to those defined within the function, including function arguments. <span style="color: rgb(62, 121, 180);"><strong>Global variables</strong></span>, on the other hand, refer to any variable defined outside a function&#39;s scope. Their low performance arises because Julia treats global variables as potentially embodying any value and therefore any type. This decision was adopted under the logic that, even if a variable holds some value at a specific moment, the user may reassign it at any part of the program. </p>
-<p>The issue with global variables isn&#39;t confined to operations in the global scope. It also arises when a function references external variables that haven&#39;t been passed as arguments. Considering this, our conclusions apply to both of the following cases.</p>
+<p>To fully grasp how functions enhance performance in Julia, it’s essential to examine their relationship with variable scope. <span style="color: rgb(62, 121, 180);"><strong>Local variables</strong></span> encompass all variables defined within a function&#39;s scope, including function arguments and variables declared inside the function body. These variables exist only during the function&#39;s execution and are inaccessible from outside the function. <span style="color: rgb(62, 121, 180);"><strong>Global variables</strong></span>, on the other hand, refer to any variable defined outside a function&#39;s scope and  and remain accessible throughout the program&#39;s execution.</p>
+<p>The main takeaway of this subsection is that <strong>wrapping operations within functions instead of relying on global variables is crucial for achieving high performance in Julia</strong>. The low performance of global variables arises because Julia treats them as potentially embodying any value and therefore any type. This decision was adopted under the logic that, even if a variable holds some value at a specific moment, the user may reassign it at any part of the program. </p>
+<p>The detrimental effect of global variables isn&#39;t confined to operations in the global scope. It also arises when a function references external variables that haven&#39;t been passed as arguments. Considering this, our conclusions apply to all the following cases.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2888,7 +2888,7 @@ foo&#40;&#41; &#61; 3 * x</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Functions and Methods</h2></p>
-<p>A <span style="color: rgb(62, 121, 180);"><strong>function</strong></span> is essentially just a name that groups an arbitrary number of methods. Each <span style="color: rgb(62, 121, 180);"><strong>method</strong></span>, in turn, defines a specific function body for a given combination of number and types of arguments. The list of methods associated with a function <code>foo</code> can be retrieved by running the command <code>methods&#40;foo&#41;</code>.</p>
+<p>A <span style="color: rgb(62, 121, 180);"><strong>function</strong></span> is just a name that groups an arbitrary number of methods. Each <span style="color: rgb(62, 121, 180);"><strong>method</strong></span>, in turn, defines a specific function body for a given combination of number and types of arguments. The list of methods associated with a function <code>foo</code> can be retrieved by running the command <code>methods&#40;foo&#41;</code>.</p>
 <p>To illustrate these concepts, let&#39;s define several methods for some function named <code>foo</code>. To keep matters simple, let&#39;s start considering a scenario where all the methods in <code>foo</code> have the same number of arguments. Creating methods requires type-annotating <code>foo</code>&#39;s arguments with the operator <code>::</code> during its definition. Then, we can provide a distinct body function for each unique combination of these types.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3105,7 +3105,7 @@ foo&#40;a&#41;    &#61; a * b</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 18, 2025 
+          © Martin Alfaro <br>Last Modified August 19, 2025 
       </span> 
   </div> 
 </footer>
