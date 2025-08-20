@@ -2857,7 +2857,7 @@ this is invisible this is invisible this is invisible this is invisible this is 
 <li><p><code>payrates</code>: Dollars paid per video for 1,000 visits, ranging from &#36;2 to &#36;6. The fluctuation is consistent with YouTube&#39;s payment model, which depends on a video&#39;s feature &#40;e.g., content, duration, retention&#41;.</p>
 </li>
 </ul></div>
-<p>The scenario is modeled by some mock data. The details of how data are generated are unimportant, but added below for the sake of completeness. What matters is that the mock data creates the following two variables.</p>
+<p>The scenario is modeled by some mock data. The details of how data are generated are unimportant, but they were added below for the sake of completeness. What matters is that the mock data creates the following two variables.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2942,7 +2942,7 @@ occurrences_payrates &#61; countmap&#40;payrates&#41; |&gt; sort</code></pre> </
   6 => 8</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>We can also provide some insights into Johnny&#39;s most profitable videos. By applying the <code>sort</code> function and isolating the top 3 videos, we can obtain information on the highest earnings videos. Moreover, we can apply the <code>sortperm</code> function to identify the indices of these videos, allowing us to extract the payment per view and total Visits associated with each one.</p>
+<p>We can also provide some insights into Johnny&#39;s most profitable videos. By applying the <code>sort</code> function and isolating the top 3 videos, we can obtain information on the highest earnings videos. Moreover, we can apply the <code>sortperm</code> function to identify the indices of these videos, allowing us to extract the payment per view and total visits associated with each one.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3154,7 +3154,7 @@ targetNonViral  &#61; stats_subset&#40;new_visits, payrates, allvideos&#41;</cod
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Be Careful with Miuses of 'view'</strong>  </span>  </div>  <div class=content>     Updating <code>temp</code> requires an in-place operation to mutate the parent object. In our case, this was achieved via the broadcasted operator <code>.&#61;</code>. Below, we state some implementations that fail to produce the desired result. </p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Be Careful with Misusing 'view'</strong>  </span>  </div>  <div class=content>     Updating <code>temp</code> requires an in-place operation to mutate the parent object. In our case, this was achieved via the broadcasted operator <code>.&#61;</code>. Below, we state some implementations that fail to produce the desired result. </p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3182,7 +3182,8 @@ temp  &#61; temp .* 1.2     # it creates a new variable &#39;temp&#39;, it does 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Use of "Let Blocks" To Avoid Bugs</strong>  </span>  </div>  <div class=content>     The code for &quot;Target Virals&quot; and &quot;Target Non-Virals&quot; referred to each variable by an identical name. This increases the risk of accidentally referring to a variable from a different scenario. The likelihood of incurring this issue can be alleviated by employing &quot;let blocks&quot;. By defining their own scope, they help maintain a clean namespace.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Use of "Let Blocks" To Avoid Bugs</strong>  </span>  </div>  <div class=content>     The code above for &quot;Target Viral&quot; and &quot;Target Non-Viral&quot; refers to each variable by an identical name. This increases the risk of accidentally referring to a variable from a different scenario. </p>
+<p>The likelihood of incurring this issue can be alleviated by employing &quot;let blocks&quot;. By defining their own scope, they help maintain a clean namespace.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3289,7 +3290,7 @@ stats_visits     &#61; NamedTuple&#40;vector_of_tuples&#41;</code></pre> </div><
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 19, 2025 
+          © Martin Alfaro <br>Last Modified August 20, 2025 
       </span> 
   </div> 
 </footer>
