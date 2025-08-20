@@ -2840,7 +2840,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>The previous section has defined type stability, along with approaches to checking whether the property holds. In this section, we start the analysis of type stability for specific objects. We cover in particular the case of scalars and vectors, providing practical guidance for their type stability.</p>
+<p>The previous section has defined type stability, along with approaches to checking whether the property holds. In this section, we start the analysis of type stability for specific objects. We cover in particular the case of scalars and vectors, providing practical guidance for achieving type stability with them.</p>
 <p>      </div>
     </div>
   </div>
@@ -2850,7 +2850,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Types of Scalars and Vectors</h2></p>
-<p>Recall that the formal definition of a type-stable function is that the output type of the function can be inferred from its argument types. In practice, however, we often rely on a more stringent definition of type stability, which requires that the compiler can infer a single concrete type for each expression within the function. This property guarantees that every operation is specialized, resulting in optimal performance.  Nevertheless, simply demanding that the output&#39;s type can be inferred already offers benefits, by ensuring that type instability won&#39;t be propagated when the function is called in other operations.</p>
+<p>Recall that the formal definition of a type-stable function is that the function&#39;s output type can be inferred from its argument types. In practice, however, we often rely on a more stringent definition, which requires that the compiler can infer a single concrete type for each expression within the function body. This property guarantees that every operation is specialized, resulting in optimal performance. Nevertheless, simply demanding that the output&#39;s type can be inferred already offers benefits, as it ensures that type instability won&#39;t be propagated when the function is called in other operations.</p>
 <p>The principle applied to scalars is straightforward, demanding operations be performed on variables with the same concrete type &#40;e.g., <code>Float64</code>, <code>Int64</code>, <code>Bool</code>&#41;. In contrast, type stability for vectors rather requires that the  <em>elements</em> have a concrete type. The following table identifies scalars and vectors satisfying this property.</p>
 <p>
 <style type="text/css">
