@@ -2841,10 +2841,10 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>This section presents an approach to mitigating type instability based on the so-called <span style="color: rgb(62, 121, 180);"><strong>barrier functions</strong></span>. These are defined as type-stable functions embedded within a type-unstable function, where variables having uncertain types are passed as arguments. By doing so, the compiler is prompted to infer a concrete type for the variables, effectively creating a &quot;barrier&quot; that prevents the spread of type instability to subsequent operations.</p>
-<p>A key benefit of this approach is that <strong>barrier functions are agnostic to the underlying cause of type instability, making them widely applicable</strong>.</p>
+<p>A key benefit of this approach is that <strong>barrier functions are agnostic to the underlying cause of type instability</strong>, making them widely applicable.</p>
 <p> <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Barrier Functions Should Be Considered as a Second Option </span>  </div>  <div class=content>     Typically, barrier functions should be reserved for situations where type instability is either difficult to fix or inherent to the operations performed. This is because the original function will still be type unstable, with different consequences depending on the instability nature. Considering this, it&#39;s best to aim for type-stable code from the outset, whenever possible.  </div>  </div> </p>
+      <b>Warning!</b> - Barrier Functions Should Be Considered as a Second Option </span>  </div>  <div class=content>     Typically, barrier functions should be reserved for situations where type instability is either difficult to fix or inherent to the operations performed. This is because the original function will still remain type unstable, entailing different consequences depending on the instability nature. Considering this, it&#39;s best to aim for type-stable code from the outset, whenever possible.  </div>  </div> </p>
 <p>      </div>
     </div>
   </div>
@@ -2923,7 +2923,7 @@ end
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Remarks on @code_warntype</h2></p>
-<p>Functions introducing barrier functions hinder the interpretation of <code>@code_warntype</code>. This is because barrier functions typically mitigate type instability, rather than completely eliminating it. And even if the barrier function successfully eliminates the type instability, we could still receive a red warning.</p>
+<p>Functions introducing barrier functions hinder the interpretation of <code>@code_warntype</code>. This is because barrier functions typically mitigate type instability, rather than completely eliminating it. And even if the barrier function successfully eliminates the type instability, a red warning may still be triggered.</p>
 <p>To illustrate this, let&#39;s start presenting a scenario where the barrier function completely eliminates the type instability. Yet, a red warning shows up. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2964,7 +2964,7 @@ end</code></pre> </div></div>
     </div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In this example, <code>y</code> is defined from an object with type <code>Vector&#123;Any&#125;</code>. This leads to a red warning, as <code>x&#91;2&#93;</code> has type <code>Any</code> and therefore the compiler can&#39;t infer a concrete type for <code>y</code>. However, no operation is involved at that point, as we&#39;re only performing an assignment. Since the only operation performed uses a barrier function, the lack of type information is inconsequential. Therefore, type instability is never impacting performance after introducing a barrier function.</p>
+<p>In this example, <code>y</code> is defined from an object with type <code>Vector&#123;Any&#125;</code>. This leads to a red warning, as <code>x&#91;2&#93;</code> has type <code>Any</code> and therefore the compiler can&#39;t infer a concrete type for <code>y</code>. However, no operation is involved at that point, as we&#39;re only performing an assignment. Since the only operation performed uses a barrier function, the lack of type information is inconsequential. Overall, type instability is never impacting performance after introducing a barrier function.</p>
 <p>In contrast, the example below demonstrates that a barrier function may only alleviate type instability, rather than eliminate it entirely. In this scenario, the operation <code>2 * x&#91;2&#93;</code> is type unstable, forcing the compiler to generate code for each possible concrete type of <code>x&#91;2&#93;</code>.  Nonetheless, this operation has a negligible performance impact on <code>foo</code>, justifying why the barrier function only targets the more demanding operation. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3022,7 +3022,7 @@ end</code></pre> </div></div>
     </div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Notice that whether a barrier function is effective in solving performance issues ultimately depends on how the function is applied. In the given example, the barrier-function solution would be sufficient if <code>foo</code> is called only once. Instead, if <code>foo</code> is eventually called in a tight loop, the type instability of <code>2 * x&#91;2&#93;</code> would be incurred multiple times. In such cases, additionally addressing the type instability of <code>2 * x&#91;2&#93;</code> could lead to substantial performance benefits.</p>
+<p>The effectiveness of a barrier function ultimately depends on how the function <code>foo</code> will be applied. In the given example, the barrier-function solution would be sufficient if <code>foo</code> is called only once. Instead, if <code>foo</code> is eventually called in a tight loop, the type instability of <code>2 * x&#91;2&#93;</code> would be incurred multiple times. In such cases, simultaneously addressing the type instability in <code>2 * x&#91;2&#93;</code> could lead to substantial performance benefits.</p>
 <p>      </div>
     </div>
   </div>
@@ -3045,7 +3045,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 22, 2025 
+          © Martin Alfaro <br>Last Modified August 27, 2025 
       </span> 
   </div> 
 </footer>

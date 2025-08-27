@@ -2822,8 +2822,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Our previous discussions on collections have centered around vectors and tuples. The current section expands on the subject, offering a more comprehensive analysis of tuples and introducing two new types of collections: <strong>named tuples</strong> and <strong>dictionaries</strong>. </p>
-<p>In particular, we&#39;ll cover how to characterize collections through keys and values, methods for the manipulation of collections, and approaches to transforming one collection into another. </p>
+<p>Our previous discussions on collections have centered around vectors and tuples. The current section expands on the subject by offering a more comprehensive analysis of tuples. Additionally, we introduce two new types of collections: <strong>named tuples</strong> and <strong>dictionaries</strong>. </p>
+<p>We&#39;ll also cover how to characterize collections through keys and values, methods for the manipulation of collections, and approaches to transforming one collection into another.</p>
 <p>      </div>
     </div>
   </div>
@@ -3179,7 +3179,7 @@ tup &#61; Tuple&#40;values_for_tup&#41;</code></pre> </div></div>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>tup</code> <br/> <pre><code class="plaintext code-output">(10, 20)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Finally, <strong>named tuples</strong> can be constructed from other collections. </p>
+<p>Finally, <strong>named tuples</strong> can also be constructed from other collections. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3243,9 +3243,9 @@ nt &#61; NamedTuple&#40;vector_keys_values&#41;</code></pre> </div></div>
       <div class="col-lg- mx-auto">
         <h2>Destructuring Tuples and Named Tuples</h2></p>
 <p>Previously, we&#39;ve demonstrated how to create a tuple and a named tuple from variables. Next, we show that the reverse operation is also possible, where <strong>values are extracted from a tuple or named tuple and assigned to individual variables</strong>. This process is known as <span style="color: rgb(62, 121, 180);"><strong>destructuring</strong></span>, and allows users to &quot;unpack&quot; the values of a collection into separate variables.</p>
-<p>Destructuring involves the assignment operator <code>&#61;</code>, with a tuple or named tuple on the left-hand side. The key difference between them lies in their compatibility with other collections: named tuples on the left-hand side require a matching named tuple, whereas tuples can be paired with a variety of collection types on the right-hand side. We illustrate each case below.</p>
+<p>Destructuring involves the assignment operator <code>&#61;</code>, with a tuple or named tuple on the left-hand side. The key difference between using or the other lies in their compatibility with other collections: named tuples on the left-hand side require a matching named tuple on the right-hand side, whereas tuples can be paired with several forms of collection. We illustrate each case below.</p>
  <h4> Destructuring Collections Through Tuples </h4>
-<p>Given a collection <code>list</code> with two elements, destructuring enables the user to create variables <code>x</code> and <code>y</code> with the values of <code>list</code>. This is implemented by the syntax <code>&lt;tuple&gt; &#61; &lt;collection&gt;</code>, such as <code>x,y &#61; list</code>. The following examples illustrate this operation, according to different objects taken as <code>list</code>. </p>
+<p>Given a collection <code>list</code> with two elements, destructuring enables the creation of variables <code>x</code> and <code>y</code> with the values of <code>list</code>. This is implemented by the syntax <code>&lt;tuple&gt; &#61; &lt;collection&gt;</code>, such as <code>x,y &#61; list</code>. The following illustrates this by considering different objects as <code>list</code>. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3287,7 +3287,8 @@ x,y  &#61; list</code></pre>
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>y</code><br/><div class="akin_to_pre">4</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In addition to destructuring all elements in <code>list</code>, you can choose to destructure only a subset of elements. The assignment is then performed in sequential order, following the collection&#39;s inherent order, without the possibility of skipping any specific value. To explicitly disregard a value, it&#39;s common to use the special variable name <code>_</code> as a placeholder. Note that this is merely a convention, without any impact on execution. </p>
+<p>In addition to destructuring all elements in <code>list</code>, it&#39;s possible to destructure only a subset of elements. The assignment is then performed in sequential order, following the collection&#39;s inherent order. </p>
+<p>Importantly, this method excludes the possibility of skipping any specific value. If you still need to disregard a value, it&#39;s common to use the special variable name <code>_</code> as a placeholder. This is merely a convention to indicate that the value is unimportant, without any impact on execution. </p>
 <p>For illustration purposes, we&#39;ll use a vector as an example of <code>list</code>, but the same principle applies to any object.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3329,7 +3330,7 @@ x,_,z   &#61; list                  # _ skips the assignment of that value</code
  </div></div>
 <p>  </p></details></div>
  <h4> Destructuring with Named Tuples on Both Sides </h4>
-<p>An alternative to standard tuples for destructuring is given by employing named tuples on the left-hand side. This approach lets you extract values by directly referencing field names, rather than relying on their positional order. Its key advantage is that variables can be assigned values in any order, provided their names correspond to the field names in the named tuple.</p>
+<p>Destructuring also allows for named tuples on the left-hand side. This approach extracts values by directly referencing field names, rather than relying on their positional order. Its key advantage is that values can be assigned to variables in any order, provided their names correspond to some field name of the named tuple.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3354,7 +3355,7 @@ x,_,z   &#61; list                  # _ skips the assignment of that value</code
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     When destructuring with a tuple on the left-hand side and a named tuple on the right-hand side, keep in mind that tuple assignments are strictly positional. This means that variable names don&#39;t influence the assignment, which exclusively happens based on the position of values. As a result, the assignment process is unaffected by whether the variable names match the keys of the named tuple.</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     When destructuring with a tuple on the left-hand side and a named tuple on the right-hand side, keep in mind that tuple assignments are strictly positional. This means that variable names don&#39;t influence the assignment operation, and therefore completely ignores whether the variable names match the keys of the named tuple.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3403,7 +3404,7 @@ x,_,z   &#61; list                  # _ skips the assignment of that value</code
  </div></div>
 <p>  </p></details></div>  </div>  </div>
  <h4> Applications of Destructuring </h4>
-<p>Destructuring named tuples is especially useful in models that involve a repeated use of numerous parameters. By storing all these parameters in a named tuple, you can pass a  <em>single</em> argument to functions. Then, by destructuring the named tuple, you can extract the needed parameters at the beginning of the function body.</p>
+<p>Destructuring named tuples is especially useful in scientific models, where numerous parameters may be used repeatedly. By storing all these parameters in a named tuple, you can pass a  <em>single</em> argument to functions. Then, destructuring the named tuple at the beginning of the function body enables the extraction of the needed parameters.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3450,7 +3451,7 @@ end</code></pre>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;2, parameters_list&#41;</code><br/><div class="akin_to_pre">14.695</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Another useful application of destructuring occurs when we need to retrieve multiple outputs of a function. This enables you to store each result in a separate variable. Below, we illustrate this application with a tuple and variables <code>x</code>, <code>y</code>, and <code>z</code>.</p>
+<p>Another useful application of destructuring occurs when retrieving multiple outputs from a function. In this way, you can store each result in a separate variable. Below, we illustrate this application using a tuple and variables <code>x</code>, <code>y</code>, and <code>z</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3478,7 +3479,7 @@ end
 x, y, z &#61; foo&#40;&#41;</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Another typical application of destructuring is when we need only a subset of a function&#39;s outputs. While both tuples and named tuples can be applied for this purpose, the former offers more flexibility since they can be combined with various types of collections. Instead, named tuples are limited to another named tuple as the function&#39;s output, further requiring prior knowledge of the output&#39;s field names.</p>
+<p>Another common application of destructuring is when only a subset of a function&#39;s outputs is needed. While both tuples and named tuples can be applied for this purpose,  tuples offer greater flexibility as they can be combined with various types of collections. In contrast, named tuples are restricted to returning another named tuple as the function&#39;s output, thus requiring prior knowledge of the output&#39;s field names.</p>
 <p>The following example demonstrates this functionality by extracting the first and third output of the <code>foo</code> function.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3540,7 +3541,7 @@ end
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 22, 2025 
+          © Martin Alfaro <br>Last Modified August 27, 2025 
       </span> 
   </div> 
 </footer>

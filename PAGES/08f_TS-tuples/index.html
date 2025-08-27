@@ -2841,7 +2841,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>A function is considered type stable when, given the types of its arguments, the compiler can accurately predict single concrete types for its expressions. This definition, while universal, takes on different forms when applied to specific objects. So far, we&#39;ve exclusively concentrated on scalars and vectors, whose conditions for type stability are relatively straightforward. </p>
-<p>In this section, we begin the analysis of type stability for other data structures. This is done by covering tuples. Guaranteeing type stability with tuples is more nuanced compared to vectors, as their type characterization demands more information. Its exploration will challenge our understanding of type stability, demanding a clear grasp of its definition and subtleties.</p>
+<p>In this section, we begin the analysis of type stability for other data structures by covering tuples. Guaranteeing type stability with tuples is more nuanced compared to vectors, as their type characterization demands more information. Its exploration will challenge our understanding of type stability, demanding a clear grasp of its definition and subtleties.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> - Tuples Are Only Suitable For Small Collections </span>  </div>  <div class=content>     Remember that tuples should only be used for collections that comprise a few elements. Using them for large collections will result in significant performance degradation or directly trigger fatal errors.  </div>  </div>
@@ -2861,8 +2861,8 @@ color: white;
 <p>The fact that the number of elements is part of the type becomes clear when tuples contain <code>N</code> elements of the same type <code>T</code>. For this case, Julia provides the convenient alias <code>Ntuple&#123;N, Float64&#125;</code>, which is just syntactic sugar for <code>Tuple&#123;T, T,...,T&#125;</code> where <code>T</code> appears <code>N</code> times. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Don&#39;t confuse <code>NTuple</code> as an abbreviation for the type <code>NamedTuples</code>. The &quot;N&quot; in the former case is referring to a number &quot;N&quot; of elements.  </span></span></p>
 <p>In the following, we show that the choice between tuples and vectors may have different implications for type stability. </p>
  <h4> Slices of Heterogeneous Tuples Can Still Be Type Stable </h4>
-<p>The type <code>Tuple</code> provides explicit information about each element&#39;s type. In contrast, vectors necessarily hold elements with a uniform type, entailing that mixing concrete types leads Julia to choose the smallest type that can encompass all of them.</p>
-<p>In particular, vectors whose elements&#39; types are extremely different require an abstract type to characterize all of them. In the worst case scenario, Julia could define <code>Vector&#123;Any&#125;</code> as the type. Defining this type propagates to slices, which will inherit the type of the parente vector. Consequenly, operations on these slices will result in type instability. Such a feature constrasts with <strong>operations on slices of tuples, which identify a specific type for each element</strong>. </p>
+<p>The type <code>Tuple</code> provides explicit information about each element&#39;s type. In contrast, vectors must necessarily hold elements with a uniform type, implying that the mixture of concrete types in a vector leads Julia to choose the smallest type that can encompass all of them.</p>
+<p>In particular, vectors whose elements&#39; types are extremely different require an abstract type to characterize all of them. In the worst case scenario, Julia could define <code>Vector&#123;Any&#125;</code> as the type. Note slices inherit the type of the parent vector, determining that operations on slices will result in type instability. Such a feature constrasts with <strong>operations on slices of tuples, which identify a specific type for each element</strong>. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3113,7 +3113,7 @@ end
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 22, 2025 
+          © Martin Alfaro <br>Last Modified August 27, 2025 
       </span> 
   </div> 
 </footer>

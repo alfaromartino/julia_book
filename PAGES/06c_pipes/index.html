@@ -2822,8 +2822,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section introduces two approaches to computing outputs that involve multiple intermediate steps. First, we introduce the so-called <span style="color: rgb(62, 121, 180);"><strong>let blocks</strong></span>, which create a new scope that returns the last line as its output. Let blocks offer a concise way to wrap a sequence of operations, making them similar to functions but with less syntactic clutter. They also help maintain a tidy namespace, as all intermediate variables will be local and therefore inaccessible outside the block.</p>
-<p>The second approach is based on <span style="color: rgb(62, 121, 180);"><strong>pipes</strong></span>, which chain a series of operations and return the final result as its output. As the built-in pipe can become unwieldy beyond single-argument functions, we also present an alternative based on the <code>Pipe</code> package.</p>
+<p>This section introduces two approaches to computing outputs involving multiple intermediate steps. First, we introduce the so-called <span style="color: rgb(62, 121, 180);"><strong>let blocks</strong></span>, which create a new scope that returns the last line as its output. Let blocks offer a concise way to wrap a sequence of operations, making them similar to functions but with less syntactic clutter. They also help maintain a tidy namespace, as all intermediate variables will be local and therefore inaccessible outside the block.</p>
+<p>The second approach is based on <span style="color: rgb(62, 121, 180);"><strong>pipes</strong></span>, which chain a series of operations and return the final output. As the built-in pipe can become unwieldy beyond single-argument functions, we also present an alternative based on the <code>Pipe</code> package.</p>
 <p>      </div>
     </div>
   </div>
@@ -2833,10 +2833,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Let Blocks</h2></p>
-<p>Let blocks are particularly helpful when we need to perform a series of operations, but only care about the ultimate result. To illustrate their utility, suppose we want to compute the rounded logarithm of <code>a</code>&#39;s absolute value, formally expressed as \(\mathrm{round}\left(\ln\left(\left|a\right|\right)\right)\). </p>
-<p>In Julia, this operation can be implemented using the expression <code>round&#40;log&#40;abs&#40;a&#41;&#41;&#41;</code>, where <code>round&#40;a&#41;</code> returns the nearest integer to <code>a</code>. However, the readability of this expression is less than ideal due to the multiple parentheses, with the issue potentially exacerbated if variables and functions had long names. </p>
-<p>To improve clarity, we could break the whole operation into multiple smaller steps:  <em>i)</em> compute the absolute value of <code>a</code>,  <em>ii)</em> compute the logarithm of the result, and  <em>iii)</em> round the resulting output. An easy way to implement this is to create three intermediate variables to store the output in each step. Nonetheless, this approach would clutter our namespace and potentially obscure the nested nature of the operations. </p>
-<p>A more elegant solution is to introduce a <strong>let-block</strong>, which resembles functions in several respects. This construct creates a new scope delimited by the <code>let</code> and <code>end</code> keywords, enabling multiple calculations to be performed within it. The result of the last calculation is then returned as the output of the let-block. Like functions, let-blocks also allow arguments to be passed by specifying them after the <code>let</code> keyword.</p>
+<p>Let blocks are particularly convenient when performing a series of operations, but only the final result is of interest. To illustrate their utility, consider the task of computing the rounded logarithm of <code>a</code>&#39;s absolute value, formally expressed as \(\mathrm{round}\left(\ln\left(\left|a\right|\right)\right)\). </p>
+<p>In Julia, this operation can be implemented using the expression <code>round&#40;log&#40;abs&#40;a&#41;&#41;&#41;</code>, where <code>round&#40;a&#41;</code> returns the nearest integer to <code>a</code>. However, the expression is dense and hard to read because of the nested parentheses, with the issue potentially exacerbated if variables or functions had long names. </p>
+<p>One straightforward way to improve clarity is to break the whole operation into multiple steps:  <em>i)</em> compute the absolute value of <code>a</code>,  <em>ii)</em> compute the logarithm of the result, and  <em>iii)</em> round the resulting output. While this can be implemented through three intermediate variables that store the output in each step, this approach would clutter our namespace and potentially obscure the nested nature of the operations. </p>
+<p>A more refined solution is to introduce a <strong>let-block</strong>. This construct resembles functions in several respects. It delineates a new scope by the <code>let</code> and <code>end</code> keywords, enabling multiple calculations to be performed locally. The result of the last calculation is then returned as the output of the let-block. Like functions, let-blocks also allow arguments to be passed by specifying them after the <code>let</code> keyword.</p>
 <p>To highlight the benefits of let-blocks, the following examples compare various approaches to computing <code>round&#40;log&#40;abs&#40;a&#41;&#41;&#41;</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2912,7 +2912,7 @@ end</code></pre> </div></div>
  2</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Since mutations are possible within let-blocks, exercise caution to prevent unintended side effects in the global scope.  </div>  </div>
+<p>Because mutations can occur within let-blocks, you should exercise caution to prevent unintended consequences in the global scope.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2922,8 +2922,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Pipes</h2></p>
-<p>Pipes provide an alternative to let-blocks for operations with multiple intermediate steps. Unlike let-blocks, they&#39;re specifically designed to chain operations together, with each step taking the output of the previous step as its input. These steps are separated through the <code>|&gt;</code> keyword.</p>
-<p>Pipes are particularly well-suited for sequential applications of single-argument functions. To illustrate this, let&#39;s revisit the example presented above for let blocks.</p>
+<p>For operations consisting of multiple intermediate step, pipes constitutes an alternative to let-blocks. Unlike let-blocks, they&#39;re specifically designed to chain operations together, with each step taking the output of the previous step as its input. These steps are separated with the <code>|&gt;</code> keyword.</p>
+<p>Pipes are particularly well-suited for sequential applications of single-argument functions. To illustrate, let&#39;s revisit the example presented above for let blocks.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2942,7 +2942,7 @@ output &#61; a |&gt; abs |&gt; log |&gt; round</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Let Blocks and Pipes For Long Names</strong>  </span>  </div>  <div class=content>     Both approaches facilitate the creation of temporary aliases for variables with lengthy names. In this way, users can assign meaningful names to variables, while preserving code readability.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Let Blocks and Pipes For Long Names</strong>  </span>  </div>  <div class=content>     Both approaches are useful to create temporary aliases for variables with lengthy names. This allows users to assign meaningful names to variables, while preserving code readability.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2978,7 +2978,7 @@ end</code></pre> </div></div>
 <p>  </p></details></div>  </div>  </div>
  <h4> Broadcasting Pipes </h4>
 <p>Just like any other operator, pipes can be broadcasted by prefixing them with a dot <code>.</code>. Thus, <code>.|&gt;</code> indicates that the subsequent operation must be applied element-wise to the preceding output. For example, the expression <code>x .|&gt; abs</code> is equivalent to <code>abs.&#40;x&#41;</code>.</p>
-<p>To demonstrate its use, suppose we want to transform <code>x</code> by taking the logarithm of its absolute values, and then sum the results.</p>
+<p>To demonstrate this use, suppose we want to transform each element of <code>x</code> with the logarithm of its absolute values, and then sum the results.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3005,8 +3005,8 @@ output &#61; x .|&gt; abs .|&gt; log |&gt; sum</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
  <h4> Pipes with More Complex Operations </h4>
-<p>Our examples of pipes so far have followed a simple pattern, with each step consisting of a single-argument function. However, pipes applied in the current form preclude their application to multiple-argument functions or even operations. For example, it prevents the incorporation of expressions like <code>foo&#40;x,y&#41;</code> or <code>2 * x</code>.</p>
-<p>To incorporate such cases, we can <strong>combine pipes with anonymous functions</strong>. In this way, the user can specify how the output of the previous step is incorporated into the subsequent operation. As shown below, the technique greatly expands the utility of pipes.</p>
+<p>So far, our examples of pipes have followed a simple pattern, with each step consisting of a single-argument function. However, this form precludes the application of pipes to multiple-argument functions or even operations. For example, it prevents the inclusion of expressions like <code>foo&#40;x,y&#41;</code> or <code>2 * x</code>.</p>
+<p>To address this limitation, we can <strong>combine pipes with anonymous functions</strong>. This enables users to specify how the output of the previous step is integrated into the subsequent operation. By doing so, the utility of pipes is significantly expanded, as demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3036,9 +3036,9 @@ output &#61; a              |&gt;
  </div></div>
 <p>  </p></details></div>
  <h4> Package Pipe </h4>
-<p>Combining pipes and anonymous functions can result in cumbersome code, defeating the very own purpose of using pipes to write clean and readable code.</p>
-<p>The <code>Pipe</code> package provides a convenient solution, eliminating the need for anonymous functions. By prefixing the operation chain with the <code>@pipe</code> macro, you can reference the output of the previous step by the symbol <code>_</code>. Furthermore, for simple operations that don&#39;t require anonymous functions, and therefore don&#39;t need <code>_</code>, <code>@pipe</code> has the same syntax as built-in pipes. </p>
-<p>To demonstrate its use, we revisit the last example.</p>
+<p>Combining pipes and anonymous functions can result in cumbersome code, defeating the very own purpose of using pipes in the first place.</p>
+<p>The <code>Pipe</code> package provides a convenient solution, eliminating the need for anonymous functions. By prefixing the operation chain with the <code>@pipe</code> macro, you can reference the output of the previous step by the symbol <code>_</code>. Additionally, for single-argument operations that don&#39;t require anonymous functions, <code>@pipe</code> maintains the same syntax as built-in pipes. </p>
+<p>To illustrate its convenience, below we reimplement the last code snippet.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3077,7 +3077,7 @@ output &#61; @pipe a            |&gt;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Function Composition  <strong>(<i style="color:red">OPTIONAL</i>)</strong></h2></p>
-<p>An alternative approach to nest functions is through the composition operator <code>∘</code>. This symbol can be inserted by tab completion through <code>\circ</code>, and its functionality is the same as in Mathematics. Specifically, for some functions <code>f</code> and <code>g</code>, <code>&#40;f ∘ g&#41;&#40;x&#41;</code> is equivalent to <code>f&#40;g&#40;x&#41;&#41;</code>.</p>
+<p>An alternative approach to nesting functions is through the composition operator <code>∘</code>. This symbol can be inserted by tab completion through <code>\circ</code>, and its functionality is the same as in Mathematics. Specifically, for some functions <code>f</code> and <code>g</code>, <code>&#40;f ∘ g&#41;&#40;x&#41;</code> is equivalent to <code>f&#40;g&#40;x&#41;&#41;</code>.</p>
 <p>The operator <code>∘</code> can be considered as an alternative to piping, as it provides the same output as <code>x |&gt; f |&gt; g</code>. Moreover, <code>∘</code> is also available as a function, where <code>∘&#40;f,g&#41;&#40;x&#41;</code> is equivalent to <code>&#40;f ∘ g&#41;&#40;x&#41;</code>. The following examples demonstrate its use.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3109,7 +3109,7 @@ output   &#61; ∘&#40;outer, inner&#41;&#40;a&#41;</code></pre> </div></div>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>output</code> <br/> <pre><code class="plaintext code-output">3.0</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The resulting function of the function composition can be broadcasted. The notation for implementing this is easier to understand by thinking of compositions as a new function \(h:=f\circ g\). This entails that \(h\left(x\right):=\left(f\circ g\right)\left(x\right)\) and therefore \(h\left(x\right):=\left(f\circ g\right)\left(x\right)=f\left[g\left(x\right)\right]\). Considering this, broadcasting <code>h</code> would require <code>h.&#40;x&#41;</code>, which is equivalent to <code>&#40;f ∘ g&#41;.&#40;x&#41;</code> or <code>∘&#40;f,g&#41;.&#40;x&#41;</code>.</p>
+<p>Importantly, the resulting function from function composition can be broadcasted. To understand this notation more clearly, you should think of compositions as defining a new function: \(h:=f\circ g\). This entails that \(h\left(x\right):=\left(f\circ g\right)\left(x\right)\), and therefore \(h\left(x\right):=\left(f\circ g\right)\left(x\right)=f\left[g\left(x\right)\right]\). Given this, broadcasting <code>h</code> requires <code>h.&#40;x&#41;</code>, which is equivalent to <code>&#40;f ∘ g&#41;.&#40;x&#41;</code> or <code>∘&#40;f,g&#41;.&#40;x&#41;</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3146,7 +3146,7 @@ output   &#61; ∘&#40;outer, inner&#41;.&#40;x&#41;</code></pre> </div></div>
  3.5</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Lastly, we can broadcast the composition operator <code>∘</code> itself, allowing us to apply multiple functions to the same object. For instance, the following example ensures that each function takes the absolute value of its argument.</p>
+<p>We can also broadcast the composition operator <code>∘</code> itself, enabling the simultaneous application of multiple functions to the same object. For instance, the following implementation ensures that each function takes the absolute value of its argument.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3191,7 +3191,7 @@ output       &#61; &#91;foo&#40;a&#41; for foo in compositions&#93;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 22, 2025 
+          © Martin Alfaro <br>Last Modified August 27, 2025 
       </span> 
   </div> 
 </footer>

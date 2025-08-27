@@ -3272,13 +3272,13 @@ vector_squared&#40;x&#41; &#61; x .^ 2         # function for a vector &#39;x&#3
     </div>
   </div>
 </section>
-<section id="broadcasting_over_one_argument_only" class="scrollspy section-bg-color">
+<section id="broadcasting_over_only_one_argument" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Broadcasting Over One Argument Only</h2></p>
-<p>When we broadcast a function or operator over some vectors <code>x</code> and <code>y</code>, both objects are simultaneously iterated. However, there are instances where we only want to iterate over one argument, keeping the other argument fixed. A typical scenario is when we need to check whether elements from <code>x</code> match any values in a predefined list <code>y</code>.</p>
-<p>To illustrate how this can be achieved via broadcasting, we first introduce the function <code>in&#40;a, list&#41;</code>. This assesses whether the scalar <code>a</code> equals some element in the vector <code>list</code>. For instance, executing <code>in&#40;2, &#91;1,2,3&#93;&#41;</code> returns <code>true</code>, because <code>2</code> belongs to <code>&#91;1,2,3&#93;</code>. </p>
+        <h2>Broadcasting Over Only One Argument</h2></p>
+<p>When we broadcast a function or operator over some vectors <code>x</code> and <code>y</code>, both objects are simultaneously iterated. However, there are instances where we only want to iterate over one argument, keeping the other argument fixed. </p>
+<p>A typical scenario is when we need to check whether elements from <code>x</code> match any values in a predefined list <code>y</code>. To illustrate this, we first introduce the function <code>in&#40;a, list&#41;</code>. This assesses whether the scalar <code>a</code> equals some element in the vector <code>list</code>. For instance, executing <code>in&#40;2, &#91;1,2,3&#93;&#41;</code> returns <code>true</code>, because <code>2</code> belongs to <code>&#91;1,2,3&#93;</code>. </p>
 <p>Suppose now that, instead of a scalar <code>a</code>, we have a vector <code>x</code>. The goal then is to verify whether  <em>each</em> of the elements in <code>x</code> is present in <code>list &#61; &#91;1,2,3&#93;</code>. Below, we show that this operation can&#39;t be directly implemented by broadcasting <code>in</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3304,7 +3304,7 @@ list &#61; &#91;1, 2, 3&#93;</code></pre>
 <p>  </p></details></div>
 <p>In the first example, <code>in.&#40;x, list&#41;</code> errors because <code>x</code> and <code>list</code> should either have the same size or one of them be a scalar. The second example does produce an output, but not the one we&#39;re looking for: it checks whether <code>1&#61;&#61;1</code>, <code>2&#61;&#61;2</code>, and <code>4&#61;&#61;3</code>. Instead, our goal is to determine if <code>1</code> is in <code>&#91;1,2,3&#93;</code>, if <code>2</code> is in <code>&#91;1,2,3&#93;</code>, and if <code>3</code> is in <code>&#91;1,2,3&#93;</code>.</p>
 <p>Intuitively, we need a mechanism to inform Julia that <code>list</code> should be treated as a single element while iterating over <code>x</code>. This can be accomplished in two different ways: either by enclosing <code>list</code> in a collection &#40;e.g., a vector or tuple&#41; or by using the <code>Ref</code> function.</p>
-<p>As for the first approach, let&#39;s consider a tuple as the wrapping collection. Then, the implementation would be by writing <code>&#40;list,&#41;</code>, which converts the variable into a tuple whose only element is the tuple itself.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that tuples with a single element must be written with a trailing comma, as in <code>&#40;list,&#41;</code>. The expression <code>&#40;list&#41;</code> instead would be interpreted as <code>list</code>, and hence treated as a vector.  </span></span>  While explaining the specifics of <code>Ref</code> is beyond our current scope, Nonetheless, what matters for practical purposes is that <code>Ref&#40;list&#41;</code> makes <code>list</code> be treated as a singe element. Below, we demonstrate each approach.</p>
+<p>As for the first approach, let&#39;s consider a tuple as the wrapping collection. Then, the implementation would require <code>&#40;list,&#41;</code>, which converts the variable into a tuple whose only element is the tuple itself.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that tuples with a single element must be written with a trailing comma, as in <code>&#40;list,&#41;</code>. Instead, <code>&#40;list&#41;</code> is interpreted as <code>list</code>, and hence treated as a vector.  </span></span>  Explaining the specifics of <code>Ref</code> is beyond our current scope. What matters for practical purposes is that <code>Ref&#40;list&#41;</code> makes <code>list</code> be treated as a singe element. Below, we demonstrate each approach.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3516,7 +3516,7 @@ list &#61; &#91;1, 2, 3&#93;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 22, 2025 
+          © Martin Alfaro <br>Last Modified August 27, 2025 
       </span> 
   </div> 
 </footer>
@@ -4152,7 +4152,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#broadcasting_over_one_argument_only" data-offset="-40">Broadcasting Over One Argument Only</a>
+          <a href="#broadcasting_over_only_one_argument" data-offset="-40">Broadcasting Over Only One Argument</a>
         </li>
         
         <li>
