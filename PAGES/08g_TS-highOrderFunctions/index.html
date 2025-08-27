@@ -2840,9 +2840,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Functions in Julia are <span style="color: rgb(62, 121, 180);"><strong>first-class objects</strong></span>, a concept also referred to as <span style="color: rgb(62, 121, 180);"><strong>first-class citizens</strong></span>. This means that functions can be treated like any other variable, thus allowing for vectors of functions, functions returning other functions, and more. </p>
-<p>In particular, the property makes it possible to define <span style="color: rgb(62, 121, 180);"><strong>higher-order functions</strong></span>, which are functions that take another function as an argument. We&#39;ve already encountered several examples of higher-order functions, often in the form of anonymous functions passed as arguments. A classic example of a higher-order function is <code>map&#40;&lt;function&gt;, &lt;collection&gt;&#41;</code>, given that <code>&lt;function&gt;</code> is one of its arguments. Throughout the explanations, we follow common terminology and refer the function passed as an argument as the  <em>callback function</em>. </p>
-<p>In this section, we&#39;ll examine conditions under which higher-order functions are type-stable. As we&#39;ll see, these functions present some challenges for specializing their computation method. </p>
+<p>Functions in Julia are <span style="color: rgb(62, 121, 180);"><strong>first-class objects</strong></span>, a concept also referred to as <span style="color: rgb(62, 121, 180);"><strong>first-class citizens</strong></span>. This means that functions can be handled just like any other variable. In this way, we can define vectors of functions, have functions whose outputs are other functions, and do many more sophisticated things that would be impossible if functions were treated as a special case.</p>
+<p>In particular, this property makes it possible to define <span style="color: rgb(62, 121, 180);"><strong>higher-order functions</strong></span>, which are functions that take another function as an argument. Throughout the explanations, we&#39;ll refer to the function passed as an argument as the  <em>callback function</em>. </p>
+<p>We&#39;ve already encountered several examples of higher-order functions, often in the form of anonymous functions passed as function arguments. A familiar example is <code>map&#40;&lt;function&gt;, &lt;collection&gt;&#41;</code>, which applies <code>&lt;function&gt;</code> to every element of <code>&lt;collection&gt;</code>. </p>
+<p>In this section, the focus will be on conditions under which higher-order functions are type-stable. As we&#39;ll discover, these functions present some challenges in this regard.</p>
 <p>      </div>
     </div>
   </div>
@@ -2852,12 +2853,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Functions as Arguments: The Issue</h2></p>
-<p>For exploring type stability, a distinctive feature of functions is that  <em>each function defines its own unique concrete type</em>. In turn, this concrete type is a subtype of an abstract type called <code>Function</code>, which encompasses all possible functions defined in Julia. This type system creates challenges when specializing the computation method of higher-order functions, as it can potentially lead to a combinatorial explosion of methods, with a unique method generated for each callback function.</p>
-<p>To address this issue, Julia takes a conservative approach, <strong>often choosing not to specialize the methods of high-order functions</strong>. The performance in such cases can be severely degraded, as the execution runtime would become similar to performing operations in the global scope. </p>
-<p>Taking this into account, it&#39;s important to pinpoint the scenarios where specialization is inhibited and monitor its consequences. If it occurs that performance is severely impaired, there are still ways to enforce specialization. In the following section, we explore several techniques for doing so.</p>
- <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Exercise caution when inducing specialization. Overly aggressive specialization can degrade performance severely, explaining why Julia&#39;s default approach is deliberately conservative. In particular, you should avoid specialization when your script repeatedly calls a high-order function with many unique functions. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For discussions about the issue of excessive specialization, see <a href="https://docs.julialang.org/en/v1/devdocs/functions/#compiler-efficiency-issues">here</a> and <a href="https://discourse.julialang.org/t/be-less-aware-of-when-julia-avoids-specializing/109111/5">here</a>.  </span></span>  </div>  </div>
+<p>In Julia,  <em>each function defines its own unique concrete type</em>. In turn, this concrete type is a subtype of an abstract type called <code>Function</code>, which encompasses all possible functions defined in Julia. This type system creates challenges when specializing the computation method of higher-order functions, as it can potentially lead to a combinatorial explosion of methods, where a unique method is generated for each callback function.</p>
+<p>To address this issue, Julia takes a conservative stance, <strong>often choosing not to specialize the methods of high-order functions</strong>. In particular, we&#39;ll see that Julia avoids specialization if the callback function isn&#39;t explicitly called. The performance in such cases can drop sharply, as the execution runtime would become similar to performing operations in the global scope. </p>
+<p>Given this, it&#39;s important to pinpoint the scenarios where specialization is inhibited and monitor its consequences. If you notice that performance is severely impaired, there are still ways to enforce specialization. In the following section, we explore them.</p>
 <p>      </div>
     </div>
   </div>
@@ -2867,8 +2865,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>An Example of No Specialization</h2></p>
-<p>To illustrate when higher-order functions don&#39;t specialize, let&#39;s consider a specific scenario where we sum the transformed elements of a vector <code>x</code>. The only requirement we impose is that the transforming function should be generic, allowing us to possibly apply different functions for the transformation. </p>
-<p>Below, we implement this operation through a higher-order function <code>foo</code>. This first uses <code>map</code> to transform <code>x</code> through some function <code>f</code>, and then applies the function <code>sum</code> to add the transformed elements. For demonstrating how <code>foo</code> works, we also call it with the function <code>abs</code> as its specific transformed function. </p>
+<p>Let&#39;s illustrate the conditions under which higher-order functions fail to specialize. Consider a scenario where we want to sum the transformed elements of a vector <code>x</code>. The only requirement we impose is that the transforming function should be generic, allowing us to possibly apply different functions for the transformation. </p>
+<p>We implement this via a higher-order function <code>foo</code>. This function first uses <code>map</code> to transform <code>x</code> through some function <code>f</code>, and then applies the function <code>sum</code> to add the transformed elements. To demonstrate how <code>foo</code> works, we call it with the function <code>abs</code> as the transformation function. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2889,9 +2887,9 @@ end</code></pre> </div></div>
     </div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Although we can show that <code>foo&#40;abs,x&#41;</code> isn&#39;t specialized, <code>@code_warntype</code> <strong>fails to detect any type-stability issues</strong>. This is a consequence of <code>@code_warntype</code> evaluating type stability  <em>under the assumption that specialization is attempted</em>. In our example, this assumption doesn&#39;t hold and therefore <code>@code_warntype</code> is of no use. </p>
-<p>The specific reason for this behavior is that Julia <strong>avoids specialization when a callback function isn't explicitly called within the function</strong>. In the example, the function <code>f</code> only enters <code>foo</code> as an argument of <code>map</code>, but there&#39;s no explicit line calling <code>f</code>. </p>
-<p>To obtain indirect evidence regarding the lack of specialization, we can compare the runtimes of the original <code>foo</code> function with a version that explicitly calls <code>f</code>. </p>
+<p>Even when <code>foo&#40;abs,x&#41;</code> isn&#39;t specialized, <code>@code_warntype</code> <strong>fails to detect any type-stability issues</strong>. This is a consequence of <code>@code_warntype</code> evaluating type stability  <em>under the assumption that specialization is attempted</em>. In our example, this assumption doesn&#39;t hold and therefore <code>@code_warntype</code> is of no use. </p>
+<p>Type instability arises because Julia <strong>avoids specialization when a callback function isn't explicitly called within the function</strong>. In the example, the function <code>f</code> only enters <code>foo</code> as an argument of <code>map</code>, but there&#39;s no explicit line calling <code>f</code>. </p>
+<p>To obtain indirect evidence about the lack of specialization, we can compare the execution times of the original <code>foo</code> function with a version that explicitly calls <code>f</code>. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2923,7 +2921,7 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The comparison lays bare a significant reduction in time when <code>f&#40;1&#41;</code> is added. Furthermore, there&#39;s also a notable decrease in memory allocations. As we&#39;ll demonstrate when exploring the subject, excessive allocations often serve as a telltale sign of type instability.</p>
+<p>The comparison reveals a significant reduction in execution time when <code>f&#40;1&#41;</code> is added, along with a notable decrease in memory allocations. As we&#39;ll demonstrate in future sections, excessive allocations are often indicative of type instability.</p>
 <p>      </div>
     </div>
   </div>
@@ -2933,7 +2931,11 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Forcing Specialization</h2></p>
-<p>Explicitly calling the function to circumvent the no-specialization issue isn&#39;t optimal, since it introduces an unnecessary computation. Fortunately, alternative solutions exist to address the problem. One approach is to type-annotate <code>f</code>, which provides Julia with a hint to specialize. Another solution is to wrap the function in a tuple and then call it. This ensures the identification of the function&#39;s type, as tuples identify a concrete type for each element. </p>
+ <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Warning!</b> </span>  </div>  <div class=content>     Exercise caution when forcing specialization. Overly aggressive specialization can degrade performance severely, explaining why Julia&#39;s default approach is deliberately conservative. In particular, you should avoid specialization when your script repeatedly calls a high-order function with many unique functions. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For discussions about the issue of excessive specialization, see <a href="https://docs.julialang.org/en/v1/devdocs/functions/#compiler-efficiency-issues">here</a> and <a href="https://discourse.julialang.org/t/be-less-aware-of-when-julia-avoids-specializing/109111/5">here</a>.  </span></span>  </div>  </div>
+<p>Explicitly calling the callback function to circumvent the no-specialization issue isn&#39;t ideal, as it introduces an unnecessary computation. Fortunately, alternative solutions exist. One of them is to type-annotate <code>f</code>, which provides Julia with a hint to specialize the code for that type of function. </p>
+<p>Another solution involves wrapping the function in a tuple before passing it as an argument. This ensures the identification of the function&#39;s type, as tuples define a concrete type for each of their elements. </p>
 <p>Below, we outline both approaches.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">

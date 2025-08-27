@@ -2841,7 +2841,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>A function is considered type stable when, given the types of its arguments, the compiler can accurately predict single concrete types for its expressions. This definition, while universal, takes on different forms when applied to specific objects. So far, we&#39;ve exclusively concentrated on scalars and vectors, whose conditions for type stability are relatively straightforward. </p>
-<p>In this section, we begin the analysis of type stability for other data structures by covering tuples. Guaranteeing type stability with tuples is more nuanced compared to vectors, as their type characterization demands more information. Its exploration will challenge our understanding of type stability, demanding a clear grasp of its definition and subtleties.</p>
+<p>In this section, we begin our analysis of type stability for other data structures by exploring tuples. Guaranteeing type stability with tuples is more nuanced compared to vectors, as their type characterization demands more information. Its exploration will challenge our understanding of type stability, demanding a clear grasp of its definition and subtleties.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> - Tuples Are Only Suitable For Small Collections </span>  </div>  <div class=content>     Remember that tuples should only be used for collections that comprise a few elements. Using them for large collections will result in significant performance degradation or directly trigger fatal errors.  </div>  </div>
@@ -2854,15 +2854,17 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Comparing Tuples and Vectors</h2></p>
-<p>Tuples and vectors are the most ubiquitous forms of collections in Julia, with tuples playing a vital role for two reasons. Firstly, tuples are more performant for small objects, as they avoid the overhead of memory allocation. This feature will be expanded on when we explore  <em>static vectors</em>, which are essentially tuples that can be handled as vectors. The second reason is that tuples automatically encompass the case of <strong>named tuples</strong>, which are merely tuples having symbols as keys instead of indices.</p>
-<p>In comparison to vectors, tuples possess a more intricate type system. To appreciate this, let&#39;s compare the information needed for each type description.</p>
-<p>Vectors represent collections of elements sharing a  <em>homogeneous</em> type, additionally allowing for varying number of elements. Thus, the information needed to describe the types of vectors is relatively minor. For instance, a type like <code>Vector&#123;Float64&#125;</code> establishes that  <em>all</em> elements must have type <code>Float64</code>, without any restriction on number of elements to be contained. </p>
-<p>For their part, tuples are fixed-size collections that can accommodate  <em>heterogeneous</em> types. This makes the characterization of a tuple&#39;s type more demanding, requiring both the number of elements and the type of  <em>each</em> element. For instance, the variable <code>tup &#61; &#40;&quot;hello&quot;, 1&#41;</code> has type <code>Tuple&#123;String, Int64&#125;</code>, indicating that the first element has type <code>String</code> and the second one <code>Int64</code>.  Furthermore, it implicitly sets the number of elements to two, as there&#39;s no possibility of appending or removing elements.</p>
-<p>The fact that the number of elements is part of the type becomes clear when tuples contain <code>N</code> elements of the same type <code>T</code>. For this case, Julia provides the convenient alias <code>Ntuple&#123;N, Float64&#125;</code>, which is just syntactic sugar for <code>Tuple&#123;T, T,...,T&#125;</code> where <code>T</code> appears <code>N</code> times. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Don&#39;t confuse <code>NTuple</code> as an abbreviation for the type <code>NamedTuples</code>. The &quot;N&quot; in the former case is referring to a number &quot;N&quot; of elements.  </span></span></p>
+<p>Tuples and vectors are the most ubiquitous forms of collections in Julia, with tuples playing a vital role for two reasons. Firstly, tuples are more performant than vectors for small objects, as they avoid the overhead of memory allocation. This feature will be expanded on when we explore  <em>static vectors</em>, which are essentially tuples that can be handled as vectors. The second reason is that tuples automatically encompass the case of <strong>named tuples</strong>, which are merely tuples having symbols as keys.</p>
+<p>Tuples possess a more intricate type system in comparison to vectors. To observe this, let&#39;s compare the information needed for the description of each type.</p>
+<p>Vectors represent collections of elements sharing a  <em>homogeneous</em> type and exhibiting a variable size. Thus, the information needed to describe the types of vectors is relatively minor. For instance, a type like <code>Vector&#123;Float64&#125;</code> establishes that  <em>all</em> elements must have type <code>Float64</code>, without any restriction on the number of elements to be contained. </p>
+<p>For their part, tuples are fixed-size collections that can accommodate  <em>heterogeneous</em> types. This makes the characterization of a tuple&#39;s type more demanding, which requires both the number of elements and the type of  <em>each</em> element. For instance, the variable <code>tup &#61; &#40;&quot;hello&quot;, 1&#41;</code> has type <code>Tuple&#123;String, Int64&#125;</code>, indicating that the first element has type <code>String</code> and the second one <code>Int64</code>.  Furthermore, it implicitly sets the number of elements to two, as there&#39;s no possibility of appending or removing elements.</p>
+<p>The fact that the number of elements is part of the type becomes clear when tuples contain <code>N</code> elements of the same type <code>T</code>. For this case, Julia provides the convenient alias <code>Ntuple&#123;N, Float64&#125;</code>, which is just syntactic sugar for <code>Tuple&#123;T, T,...,T&#125;</code> where <code>T</code> appears <code>N</code> times. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Don&#39;t confuse <code>NTuple</code> as an abbreviation for the type <code>NamedTuples</code>. The &quot;N&quot; in the former case refers to a number &quot;N&quot; of elements.  </span></span></p>
 <p>In the following, we show that the choice between tuples and vectors may have different implications for type stability. </p>
  <h4> Slices of Heterogeneous Tuples Can Still Be Type Stable </h4>
-<p>The type <code>Tuple</code> provides explicit information about each element&#39;s type. In contrast, vectors must necessarily hold elements with a uniform type, implying that the mixture of concrete types in a vector leads Julia to choose the smallest type that can encompass all of them.</p>
-<p>In particular, vectors whose elements&#39; types are extremely different require an abstract type to characterize all of them. In the worst case scenario, Julia could define <code>Vector&#123;Any&#125;</code> as the type. Note slices inherit the type of the parent vector, determining that operations on slices will result in type instability. Such a feature constrasts with <strong>operations on slices of tuples, which identify a specific type for each element</strong>. </p>
+<p>One key difference between <code>Tuple</code>s and vectors in Julia lies in how they handle type information. While <code>Tuple</code>s explicitly define the type of each individual element, vectors require all elements to be of a uniform type. </p>
+<p>Because vectors must maintain a consistent type throughout, attempting to store mixed concrete types within a single vector compels Julia to determine a common supertype that accommodates them all. For example, if you create a vector containing both <code>Int64</code> and <code>Float64</code>, Julia will infer the type of the vector as <code>Vector&#123;Float64&#125;</code>, the most general type encompassing both integer and float types. </p>
+<p>However, when dealing with highly diverse element types within a vector, this process can lead to less efficient behavior. In extreme cases, Julia might resort to using the abstract type <code>Any</code>, resulting in a <code>Vector&#123;Any&#125;</code>. This is generally undesirable because operations on vectors of type <code>Any</code> lose much of their performance benefit.</p>
+<p>This issue particularly affects vector slices. Slices inherit the type information from their parent vector. Consequently, if the parent vector has been widened to a more general type like <code>Vector&#123;Any&#125;</code>, operations performed on those slices will also be subject to that same type instability. This contrasts sharply with <strong>slices of tuples, where each element within the slice retains its concrete type.</strong></p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2882,7 +2884,7 @@ foo&#40;x&#41; &#61; sum&#40;x&#91;1:2&#93;&#41;
 @code_warntype foo&#40;vector&#41;      # type UNSTABLE</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Notice that <a href="/julia_book/PAGES/08c_TS-scalarsVectors/#sub_type_promotion_and_conversion">type promotion</a> could solve this issue. Through this mechanism, Julia attempts to convert each element of a vector into a common  <em>concrete type</em>, thus avoiding the need of  <em>abstract</em> types like <code>Any</code>. This is what occurs below, where numbers holding different types are converted to the most general concrete type.</p>
+<p>Notice that forcing a common supertype on a vector isn&#39;t necessarily problematic. In particular, <a href="/julia_book/PAGES/08c_TS-scalarsVectors/#sub_type_promotion_and_conversion">type promotion</a> could convert each element of a vector into a common  <em>concrete type</em>, thus avoiding the need for  <em>abstract</em> types like <code>Any</code>. This is what occurs below, where numbers holding different types are converted to the most general concrete type.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2903,8 +2905,9 @@ foo&#40;x&#41; &#61; sum&#40;x&#41;
  </div></div>
 <p>  </p></details></div>
  <h4> Tuples Contain More Information than Vectors </h4>
-<p>Given the differences in type information, conversions between tuples and vectors can pose several challenges for type stability. To see this, let&#39;s start with the simplest case, where a tuple is converted into a vector. The conclusions drawn from this case are straightforward, as they&#39;re essentially a corollary from the previous analysis: type stability will hold when the tuple contains type-homogeneous elements or when the types are heterogeneous but can be promoted to a common type.</p>
-<p>For the examples, recall that <a href="/julia_book/PAGES/07d_TS-onTypes/#creating_variables_with_some_type">each type automatically creates a function</a> that transforms variables into that type. In particular, below we introduce the function <code>Vector</code> with the purpose of converting variables.</p>
+<p>Given the differences in type information, conversions between tuples and vectors can pose several challenges for type stability. </p>
+<p>To see this, let&#39;s start with the simplest case, where a tuple is converted into a vector. The outcome of this conversion is predictable, stemming directly from our previous analysis: type stability will be preserved when the tuple contains all elements having the same type or when heterogeneous types can be promoted to a common concrete type.</p>
+<p>For the examples, recall that <a href="/julia_book/PAGES/07d_TS-onTypes/#creating_variables_with_some_type">each type automatically generates a function</a> to transform variables into the corresponding type. For instance, the function <code>Vector</code> converts variables to this type.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2943,7 +2946,7 @@ end
 @code_warntype foo&#40;tup&#41;       # type UNSTABLE</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>For its part, <strong>creating a tuple from a vector will inevitably cause type instability</strong>, regardless of the vector&#39;s characteristics. The reason is that vectors don&#39;t store information about the number of elements they contain. Consequently, the compiler must treat tuples as having a variable number of arguments, with each possible number corresponding to a different concrete type.</p>
+<p>Likewise, <strong>creating a tuple from a vector will inevitably cause type instability</strong>, regardless of the vector&#39;s characteristics. The reason is that vectors don&#39;t store information about the number of elements they contain. Consequently, when attempting to construct a tuple from a vector, the compiler must account for the possibility of varying numbers of arguments. The result is that each potential number of elements corresponds to a distinct concrete type for the tuple. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2982,7 +2985,7 @@ end
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Addressing Variable Arguments: Dispatch By Value</h2></p>
-<p>A key takeaway from the previous subsection is that defining tuples from vectors invariably introduce type instability. A simple remedy for this is to convert tuples outside the function, which we then pass as function arguments. This is demonstrated in the code snippet below.</p>
+<p>A key takeaway from the previous subsection is that defining tuples from vectors invariably introduces type instability. A simple remedy for this is to convert tuples outside the function, which we then pass as function arguments. This is demonstrated in the code snippet below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2997,7 +3000,7 @@ foo&#40;tup&#41; &#61; sum&#40;tup&#91;1:2&#93;&#41;
  </div></div>
 <p>  </p></details></div>
 <p><strong>The approach presented should be your first option when transforming vectors to tuples</strong>. Nonetheless, there may be scenarios where defining the tuple inside the function is unavoidable. In such cases, there are a few alternatives that can be implemented.</p>
-<p>Note first that simply passing the vector&#39;s number of elements as a functoin argument doesn&#39;t solve the issue. The reason is that the compiler generates method instances based on information about types, not values. This means that a function argument like <code>length&#40;x&#41;</code> merely informs the compiler that the number of elements can be described as an object with type <code>Int64</code>, without providing any additional insight.</p>
+<p>Note first that simply passing the vector&#39;s number of elements as a function argument doesn&#39;t solve the issue. The reason is that the compiler generates method instances based on information about types, not values. This means that a function argument like <code>length&#40;x&#41;</code> merely informs the compiler that the number of elements can be described as an object with type <code>Int64</code>, without providing any additional insight.</p>
 <p>Instead, one effective solution is to define the tuple&#39;s length using a literal value, as demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3028,11 +3031,11 @@ end
 <p>  </p></details></div>
 <p>The downside of this solution is that it defeats the purpose of having generic code, as it restricts the function to tuples of a single predetermined size. To eliminate the type instability without constraining functionality, we need to introduce a more advanced solution. This is based on a technique known as <strong>dispatch by value</strong>. Since this approach is more complex to implement,  <em>I recommend using it only when passing the tuple as a function argument is unfeasible</em>. </p>
 <p>Next, we lay out the principles of dispatch by value, and then apply the technique to the specific case of tuples.</p>
- <h4> Definiting Dispatch By Value </h4>
-<p>Dispatch by value enables passing information about values to the compiler. Implementing this feature, nonetheless, requires a workaround, since the compiler only gathers information about types. The hack consists of creating a type that stores values as type parameters. In the case of tuples, this type parameter is simply the vector&#39;s number of elements. </p>
+ <h4> Defining Dispatch By Value </h4>
+<p>Dispatch by value enables passing information about values to the compiler. Nonetheless, implementing this feature requires a workaround, since the compiler only gathers information about types. The hack consists of creating a type that stores values as type parameters. In the case of tuples, this type parameter is simply the vector&#39;s number of elements. </p>
 <p>The functionality is implemented via the built-in type <code>Val</code>, whose use is best explained through an example. Suppose a function <code>foo</code> and a value <code>a</code> that you wish the compiler to know. The technique requires defining <code>foo</code> with a type-annotated argument having no name, <code>::Val&#123;a&#125;</code>.  After this, you must call <code>foo</code> passing an argument <code>Val&#40;a&#41;</code>, which instantiates a type with parameter <code>a</code>.</p>
 <p>To illustrate the use of <code>Val</code>, we revisit an example included in previous sections. This considers a variable <code>y</code> that could be an <code>Int64</code> or <code>Float64</code>, contingent upon a condition. The ambiguity of <code>y</code>&#39;s type is then transmitted to any subsequent operation, leading to type instability.</p>
-<p>Dispatch by value is implemented by defining the condition as a type parameter of <code>Val</code>. In this way, the compiler will receive information about whether condition is <code>true</code> or <code>false</code>, and therefore know <code>y</code>&#39;s type. This makes it possible to specialize its operations.</p>
+<p>Dispatch by value is implemented by defining the condition as a type parameter of <code>Val</code>. In this way, the compiler will receive information about whether the condition is <code>true</code> or <code>false</code>, and therefore have knowledge about <code>y</code>&#39;s type. This makes it possible to specialize its operations.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3060,7 +3063,7 @@ end
 <p>  </p></details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     The function argument <code>Val</code> must be defined with <code>&#123;&#125;</code>, but called with <code>&#40;&#41;</code>. This is because types define their parameters with <code>&#123;&#125;</code>, while instances of types require functions.  </div>  </div>
+      <b>Warning!</b> </span>  </div>  <div class=content>     The function argument <code>Val</code> must be defined with <code>&#123;&#125;</code>, as types define their parameters with <code>&#123;&#125;</code>. Instead, <code>Val</code> must be called with <code>&#40;&#41;</code> as it has to be called as any other function.  </div>  </div>
  <h4> Dispatching by Value with Tuples </h4>
 <p>Let&#39;s now revisit the conversion of vectors to tuples. As we previously discussed, type instability arises because vectors don&#39;t store the size as part of their type information, leaving the compiler without sufficient information to determine the tuple&#39;s type.</p>
 <p>Dispatch by value provides a solution to this issue: by passing the vector&#39;s length as a type parameter, the function call becomes type stable.</p>
