@@ -2840,10 +2840,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Memory allocations are a fundamental process in computer programming. This occurs whenever a new object is created, and involves reserving memory space to store the object&#39;s values, typically in the computer&#39;s Random Access Memory &#40;RAM&#41;. In turn, RAM is logically divided into two main areas: the stack and the heap. Importantly, these areas aren&#39;t physical locations, but rather conceptual models that govern how memory is managed. </p>
-<p>The distinction is crucial for performance since memory allocations on the heap are a costly operation. This approach to handle memory requires searching for free memory, tracking memory information, and freeing unused memory &#40;a process known as garbage collection&#41;. Stack allocations, by contrast, are simpler and therefore more efficient. </p>
-<p>The performance difference between stack and heap allocations can be significant, quickly becoming a major performance bottleneck if the operation is performed repeatedly. This disparity in performance explains the common convention in programming, including Julia, where <strong>memory allocations will exclusively refer to heap allocations</strong>. </p>
-<p>In the current section, we begin the exploration of memory allocations, by briefly comparing how the stack and the heap work.</p>
+<p>Memory allocations are a fundamental process in computer programming that occurs whenever a new object is created.  It involves setting aside a portion of the computer&#39;s Random Access Memory &#40;RAM&#41; to store the object&#39;s data. Conceptually, RAM is logically divided into two main areas: the stack and the heap. Importantly, these areas aren&#39;t physical locations, but rather conceptual models that govern how memory is managed. </p>
+<p>The choice between stack and heap allocation has profound implications for performance. Allocating memory on the heap is a comparatively expensive operation. It requires a systematic search for an available block of memory, bookkeeping to track its status, and an eventual deallocation process to reclaim the space once it&#39;s no longer needed. This deallocation process is often handled by a system known as a garbage collector. Stack allocations, by contrast, are simpler and therefore more efficient. </p>
+<p>The performance gap between stack and heap allocations can easily become a critical bottleneck if the operation is performed repeatedly. This disparity in performance explains the common convention in programming, including Julia, where <strong>memory allocations will exclusively refer to heap allocations</strong>. While stack allocations are technically a form of memory allocation, their speed and simplicity mean they rarely warrant the same level of scrutiny.</p>
+<p>With this distinction in mind, the current section begins our exploration of memory allocations by taking a closer look at the mechanics of the stack and the heap.</p>
 <p>      </div>
     </div>
   </div>
@@ -2889,7 +2889,7 @@ color: white;
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 27, 2025 
+          © Martin Alfaro <br>Last Modified August 28, 2025 
       </span> 
   </div> 
 </footer>

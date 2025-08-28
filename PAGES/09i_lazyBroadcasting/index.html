@@ -2845,7 +2845,7 @@ color: white;
         <h2>Introduction</h2></p>
 <p>This section continues the analysis of lazy and eager operations as a means of reducing memory allocations. The focus now shifts to broadcasting operations, which strike a balance between code readability and performance. </p>
 <p>Central to the upcoming discussion is the eager default behavior of broadcasting in Julia. This means that broadcasted operations compute their outputs immediately upon execution, thereby inevitably leading to memory allocation when applied to allocating-objects like vectors. This characteristic is particularly relevant in scenarios involving multiple intermediate broadcasted operations, resulting in multiple temporary, and therefore avoidable, memory allocations.</p>
-<p>Next, we present various approaches to reduce allocations in such scenarios. We&#39;ll start highlighting the notion of <strong>loop fusion</strong>, which allows multiple broadcasting operations to be combined into a more efficient single operation. After this, we&#39;ll explore the <code>LazyArrays</code> package, which evaluates broadcasting operations in a lazy manner. The technique is particularly useful for reductions requiring intermediate transformations, entirely circumventing memory allocations for these intermediates.</p>
+<p>Next, we present various approaches to reduce allocations with intermediate broadcasted operations. We&#39;ll start highlighting the notion of <strong>loop fusion</strong>, which allows multiple broadcasting operations to be combined into a more efficient single operation. After this, we&#39;ll explore the <code>LazyArrays</code> package, which evaluates broadcasting operations in a lazy manner. The technique is particularly useful for reductions requiring intermediate transformations, entirely circumventing memory allocations for these intermediates.</p>
 <p>      </div>
     </div>
   </div>
@@ -3354,7 +3354,7 @@ foo&#40;x&#41;   &#61; sum&#40;Iterators.map&#40;temp, x&#41;&#41;</code></pre> 
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 27, 2025 
+          © Martin Alfaro <br>Last Modified August 28, 2025 
       </span> 
   </div> 
 </footer>
