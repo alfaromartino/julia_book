@@ -58,7 +58,7 @@ header .jumbotron {
 
     
 <!-- WINDOWS TAB -->
-  <title>11f. Applying Parallelization - Julia Book - Martin Alfaro</title>
+  <title>11f. Parallelization in Practice - Julia Book - Martin Alfaro</title>
   <link rel="icon" type="image/png"  href="/julia_book/assets/icons/favicon.ico">
 
 <!-- for LUNR -->
@@ -1074,7 +1074,7 @@ color: white;
   
 
 
-    <h1><i>11f.</i> Applying Parallelization</h1>    
+    <h1><i>11f.</i> Parallelization in Practice</h1>    
     <div class="lead"> </div>
     
     
@@ -2024,7 +2024,7 @@ background: transparent;
                 
                 <li><a href="/julia_book/PAGES/11e_multithread_loops/"><i>e</i>. Parallel For-Loops: @threads</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/11f_multithread_apply/"><i>f</i>. Applying Parallelization</a></li><br>
+                <li><a href="/julia_book/PAGES/11f_multithread_apply/"><i>f</i>. Parallelization in Practice</a></li><br>
                 
                 <li><a href="/julia_book/PAGES/11g_multithread_packages/"><i>g</i>. Packages for Multithreading</a></li><br>
                 
@@ -2840,10 +2840,11 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>So far, we&#39;ve explored two approaches for parallelizing code, tailored to different scenarios. The first one was <code>@spawn</code>. By allowing us to define the specific tasks to be processed, this provides granular control over the parallelization process. For its part, <code>@threads</code> represents a simplified approach to parallelizing for-loops, where the tasks spawned are automatically handled. In particular, they&#39;re defined based on the number of available threads. </p>
-<p>Additionally, we&#39;ve pointed out that, due to inherent dependencies between computations, not all tasks lend themselves equally to parallelization. Specifically, when tasks aren&#39;t embarrassingly parallel, a naive approach can lead to severe issues like race conditions.</p>
-<p>All this implies that, to this point, our discussion has been exclusively focused on the syntax and work distribution of these approaches. Therefore, we have yet to address how to apply multithreading in real scenarios, including strategies to deal with dependencies. </p>
-<p>This section and the next one aim to bridge this gap, providing practical guidance on implementing multithreading. With this goal, we begin by showing the advantages of parallelizing at a coarse level compared to parallelization at individual operations. After this, we introduce a more general method based on <code>@spawn</code> to parallelize for-loops. This enables us to have control over the partition of iterations that define tasks. Its main advantage is the provision of a flexible distribution of iterations among tasks, thus giving us further control over task creation. The technique also makes it possible to apply multithreading under a ubiquitous type of dependency: reductions.</p>
+<p>So far, we&#39;ve explored two macros for parallelization: <code>@spawn</code> and <code>@threads</code>. The macro <code>@spawn</code> provides granular control over the parallelization process, letting users explicitly define the tasks to be executed concurrently. In contrast, <code>@threads</code> offers a simpler approach for parallelizing for-loops, where iterations are automatically partitioned into tasks according to the number of available threads. </p>
+<p>Furthermore, we&#39;ve pointed out that, due to inherent dependencies between computations, not all workloads are equally amenable to parallelization. Focusing on programs that aren&#39;t embarrassingly parallel, we&#39;ve demonstrated that a naive approach to parallelization can lead to severe issues.</p>
+<p>Overall, our discussions to this point have largely focused on the  <em>syntax</em> and  <em>work distribution</em> of these approaches. Therefore, we have yet to address how to apply multithreading in real scenarios. Furthermore, given the possibility of dependencies between computations,  <em>how</em> to parallelize is only part of the challenge: knowing  <em>when</em> to parallelize is equally important.</p>
+<p>This section and the next one aim to bridge this gap, providing practical guidance on implementing multithreading. We begin by highlighting the advantages of coarse‑grained parallelization over fine-grained parallelization. By dividing the workload into a small number of large tasks, coarse‑grained parallelization reduces the scheduling overhead from managing numerous lightweight tasks.</p>
+<p>After this, we revisit the parallelization of for-loops, this time using <code>@spawn</code>. In particular, leveraging the additional control that <code>@spawn</code> provides over task creation, we&#39;ll demonstrate how to apply multithreading in the presence of a ubiquitous type of dependency: reductions.</p>
 <p>      </div>
     </div>
   </div>
@@ -2853,10 +2854,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Better To Parallelize at The Top</h2></p>
-<p>Given the overhead involved in multithreading, there&#39;s an inherent trade off between creating new tasks and utilizing all our machine resources. Consequently, we must first carefully consider whether parallelizing our code is worthy. For instance, multithreading is only justified with collections if their sizes are substantial enough to make up for overhead involved. Otherwise, single-threaded approaches will consistently outperform parallelized ones.</p>
-<p>In case multithreading is worthwhile, we immediately face another decision: at what level to parallelize code. In the following, we&#39;ll demonstrate that <strong>parallelism at the highest level possible is preferable to multithreading individual operations</strong>. The reason is that the former minimizes the overhead involved in creating tasks, thus resulting in faster execution times. </p>
-<p>Note that the level of parallelization is limited by the degree of dependence between operations, explaining why we qualify the highest level as the one that&#39;s  <em>possible</em>. For instance, in problems requiring serial computation, the best we can achieve is a parallelization at each individual step.</p>
-<p>To illustrate all this, let&#39;s consider a for-loop where each iteration needs to sequentially compute three operations. </p>
+<p>Given the overhead involved in multithreading, there&#39;s an inherent trade-off between creating new tasks and fully utilizing machine resources. This is why we must always consider whether parallelizing our code is worthwhile in the first place. For instance, when it comes to operations over collections, multithreading is only justified if the collections are large enough to offset the associated overhead. Otherwise, single-threaded approaches will consistently outperform parallelized ones.</p>
+<p>In case multithreading is deemed beneficial, we immediately face another decision: at what level code should be parallelized. Next, we&#39;ll demonstrate that <strong>parallelism at the highest possible level is preferable to multithreading individual operations</strong>. In this way, we minimize the overhead of task creation.</p>
+<p>Note that the level of parallelization is always constrained by the degree of dependency between operations. Hence, our qualification of highest <strong>possible</strong> level. For instance, in problems requiring strictly serial computation, the best we can achieve is parallelization within each individual step.</p>
+<p>To illustrate this, let&#39;s consider a for-loop where each iteration needs to sequentially compute three operations. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2888,9 +2889,9 @@ end
 
 x_small  &#61; rand&#40;  1_000&#41;
 x_large  &#61; rand&#40;100_000&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x_small&#41;</code> <br/> <pre><code class="plaintext code-output">  4.923 μs (1 allocations: 7.938 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x_small&#41;</code> <br/> <pre><code class="plaintext code-output">  5.000 μs (3 allocations: 7.883 KiB)
 </code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x_large&#41;</code> <br/> <pre><code class="plaintext code-output">  507.797 μs (2 allocations: 781.297 KiB)
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x_large&#41;</code> <br/> <pre><code class="plaintext code-output">  527.133 μs (3 allocations: 781.320 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">step1&#40;a&#41; &#61; a ^ 2
@@ -2917,9 +2918,9 @@ end
 
 x_small  &#61; rand&#40;  1_000&#41;
 x_large  &#61; rand&#40;100_000&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x_small&#41;</code> <br/> <pre><code class="plaintext code-output">  9.963 μs (122 allocations: 20.547 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x_small&#41;</code> <br/> <pre><code class="plaintext code-output">  11.289 μs (125 allocations: 20.508 KiB)
 </code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x_large&#41;</code> <br/> <pre><code class="plaintext code-output">  59.551 μs (123 allocations: 793.906 KiB)
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x_large&#41;</code> <br/> <pre><code class="plaintext code-output">  54.258 μs (125 allocations: 793.945 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">step1&#40;a&#41; &#61; a ^ 2
@@ -2946,16 +2947,16 @@ end
 
 x_small  &#61; rand&#40;  1_000&#41;
 x_large  &#61; rand&#40;100_000&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x_small&#41;</code> <br/> <pre><code class="plaintext code-output">  35.938 μs (366 allocations: 61.641 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x_small&#41;</code> <br/> <pre><code class="plaintext code-output">  33.472 μs (375 allocations: 61.523 KiB)
 </code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x_big&#41;</code> <br/> <pre><code class="plaintext code-output">  87.746 μs (369 allocations: 2.326 MiB)
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x_big&#41;</code> <br/> <pre><code class="plaintext code-output">  91.834 μs (375 allocations: 2.326 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The example clearly illustrates that parallelization is only advantageous when dealing with big collections. This is evidenced by the execution times, where multithreading is only faster when <code>x_large</code> is considered. Secondly, an approach where tasks comprise all operations is faster than multithreading each in isolation. This is in part reflected in the reduced memory allocations when all operations are encompassed.</p>
+<p>The examples illustrate the two-step process outlined. First, it shows that parallelization is advantageous only with large collections. Otherwise, the question of whether to parallelize shouldn&#39;t even arise. Second, once multithreading is deemed beneficial, it demonstrates that grouping all operations into a single task is faster than parallelizing each operation individually.</p>
  <h4> Implications </h4>
-<p>The strategy of parallelizing code at the top level has significant implications for writing programs. This is especially the case when the code will eventually be applied to multiple objects. It suggests that we should start by writing code for a single object, without considering parallelization. Once the single-case code is thoroughly optimized, parallel execution can be seamlessly integrated at the highest level. The approach not only improves performance, but also simplifies the coding process by streamlining the debugging and testing of code. </p>
-<p>A typical example where this strategy arises naturally is scientific simulations, where numerous independent runs of the same model are executed. In this case, the best strategy is to focus on a single-thread codebase for the model, subsequently processing the different runs of the model in parallel. </p>
+<p>The strategy of parallelizing code at the highest possible level has significant implications for program design, particularly when the program will eventually be applied to multiple independent objects. It suggests a practical guideline: start by implementing the code for a single object, without introducing parallelism. After thoroughly optimizing the single-case code, parallel execution can then be seamlessly integrated at the top level. The approach not only improves performance, but also simplifies the development by making debugging and testing more straightforward.</p>
+<p>A common example of this strategy appears in scientific simulations, where many independent runs of the same model must be executed. In such cases, the most effective method is to maintain a single‑threaded codebase for the model itself, and then run multiple instances of that model in parallel. This ensures that each run is as efficient as possible, while still taking full advantage of available computing resources.</p>
 <p>      </div>
     </div>
   </div>
@@ -2965,8 +2966,9 @@ x_large  &#61; rand&#40;100_000&#41;</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>The Importance of Work Distribution</h2></p>
-<p>Multithreading performance is influenced by the balance of computational workload across iterations. The <code>@threads</code> macro is highly effective when each iteration requires a roughly equal processing time. This is because the tasks spawned will comprise an equal amount of iterations. However, scenarios with varying computational effort can pose significant challenges. In those cases, some threads may remain idle, while others will be heavily loaded. This may dramatically reduce the potential performance gains of parallel processing.</p>
-<p>To address this issue, we need to have more control over how to distribute work among threads. With the tools introduced so far, we could employ <code>@spawn</code> to make each iteration represent a different task. However, this approach becomes extremely inefficient if there is a substantial number of iterations. The reason is that defining many more tasks than the number of threads available results in an unnecessary substantial overhead. The following example reveals this feature, where the execution time of spawning one task per iteration is extremely slow. </p>
+<p>Multithreading performance is heavily influenced by how evenly the computational workload is distributed across iterations. The <code>@threads</code> macro is highly effective when each iteration requires roughly equal processing time, since the tasks it spawns will contain an equal amount of iterations. However, scenarios with uneven computational effort can pose significant challenges. In such cases, some threads may remain idle while others are heavily loaded, dramatically reducing the potential performance gains of parallel processing.</p>
+<p>To address this issue, we need greater control over how work is distributed among threads. This calls for the use of <code>@spawn</code>. </p>
+<p>One strategy is to make each iteration a separate task. However, this approach becomes extremely inefficient if there&#39;s a large number of iterations: creating far more tasks than there are threads introduces substantial and unnecessary overhead. The following example illustrates this effect, showing that spawning one task per iteration can result in extremely slow execution times.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2984,7 +2986,7 @@ function foo&#40;x&#41;
     
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  4.942 ms (123 allocations: 76.306 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  4.907 ms (125 allocations: 76.309 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;10_000_000&#41;
@@ -2998,14 +3000,14 @@ function foo&#40;x&#41;
     
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  9.983 s (60001697 allocations: 5.136 GiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  11.284 s (60005935 allocations: 5.277 GiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>To have more control over the work distribution, we need to partition objects into smaller subsets that can be processed concurrently. Before explaining the implementation of the technique, we begin showing how to partition a collection and its indices. The procedure relies on the <code>ChunkSplitters</code> package.</p>
+<p>An alternative strategy, which lets users fine-tune the workload of each task, is to partition iterations into smaller subsets that can be processed in parallel. Before detailing the implementation, we&#39;ll first explore how to partition a collection and its indices. This step makes use of the <code>ChunkSplitters</code> package.</p>
  <h4> Partitioning Collections </h4>
-<p>The easiest way to partition a collection <code>x</code> and its indices <code>x</code> is through the package <code>ChunkSplitters</code>. The package provides two functions for  <em>lazily</em> partitioning called <code>chunks</code> and <code>index_chunks</code>. The functions accept <code>n</code> and <code>size</code> as keyword arguments, depending on the partition to be implemented. Specifically, <code>n</code> specifies the number of subsets in which the collection should be divided, where each subset&#39;s size attempts to distribute elements evenly. In contrast, <code>size</code> provides the number of elements that each subset should contain. Since <code>size</code> can&#39;t guarantee an even distribution across all subsets, it&#39;ll adjust the number of elements in one of the subsets.</p>
-<p>The following example considers a variable <code>x</code> that comprises the 26 letters of the alphabet. Note that the presentation of the outputs uses <code>collect</code>, since <code>chunks</code> and <code>index chunks</code> are lazy. </p>
+<p>The package <code>ChunkSplitters</code> makes it possible to partition a collection <code>x</code> and its indices. It provides two functions for  <em>lazy</em> partitioning: <code>chunks</code> and <code>index_chunks</code>. These functions support <code>n</code> and <code>size</code> as keyword arguments, depending on the type of partition desired. Specifically, <code>n</code> sets the number of subsets to create, with each subset sized to distribute elements evenly. In contrast, <code>size</code> specifies the number of elements to be contained in each subset. Since an even distribution across all subsets can&#39;t be guaranteed, the package adjusts the number of elements in one of the subsets if necessary.</p>
+<p>Below, we apply these functions to a variable <code>x</code> containing the 26 letters of the alphabet. Note that outputs require the use of <code>collect</code>, since <code>chunks</code> and <code>index_chunks</code> are lazy. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3047,12 +3049,33 @@ chunk_values  &#61; chunks&#40;x, size &#61; chunk_length&#41;</code></pre> </di
  ["u", "v", "w", "x", "y", "z"]</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>One common way to apply partitions for multithreading is by considering a number of chunks that are proportional to the number of worker threads. Moreover, iterations can be based on <code>enumerate</code> to get pairs of chunk index and either the subcollection or subindices.</p>
+<p>A relevant type of partition for multithreading is given by a number of chunks proportional to the number of worker threads. The example below implements this partition. It generates both chunk indices and chunk values. </p>
+<p>Since this partition approach will eventually be used with for-loops, we also show how to use <code>enumerate</code> to pair each chunk with the values or subindices of its corresponding subset.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Partition By Number of Threads </button>    
+    <button class="tablink first_tab active" data-id=""> Partition By Number of Threads </button>
+    <button class="tablink" data-id=""> Partition By Number of Threads - Enumerate </button>    
 </div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x             &#61; string.&#40;&#39;a&#39;:&#39;z&#39;&#41;            # all letters from &quot;a&quot; to &quot;z&quot;
+
+nr_chunks     &#61; nthreads&#40;&#41;
+
+chunk_indices &#61; index_chunks&#40;x, n &#61; nr_chunks&#41;
+chunk_values  &#61; chunks&#40;x, n &#61; nr_chunks&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>collect&#40;chunk_indices&#41;</code> <br/> <pre><code class="plaintext code-output">24-element Vector{UnitRange{Int64}}:
+ 1:2
+ 3:4
+ ⋮
+ 25:25
+ 26:26</code></pre> </div></p>
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>collect&#40;chunk_values&#41;</code> <br/> <pre><code class="plaintext code-output">24-element Vector{SubArray{String, 1, Vector{String}, Tuple{UnitRange{Int64}}, true}}:
+ ["a", "b"]
+ ["c", "d"]
+ ⋮
+ ["y"]
+ ["z"]</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x             &#61; string.&#40;&#39;a&#39;:&#39;z&#39;&#41;            # all letters from &quot;a&quot; to &quot;z&quot;
 
 nr_chunks     &#61; nthreads&#40;&#41;
@@ -3060,25 +3083,20 @@ nr_chunks     &#61; nthreads&#40;&#41;
 chunk_indices &#61; index_chunks&#40;x, n &#61; nr_chunks&#41;
 chunk_values  &#61; chunks&#40;x, n &#61; nr_chunks&#41;
 
-chunk_iter    &#61; enumerate&#40;chunk_indices&#41;    # pairs &#40;i_chunk, chunk_index&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>collect&#40;chunk_indices&#41;</code> <br/> <pre><code class="plaintext code-output">24-element Vector{UnitRange{Int64}}:
- 1:2
- 3:4
- ⋮
- 25:25
- 26:26</code></pre> </div></p>
-<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>collect&#40;chunk_iter&#41;</code> <br/> <pre><code class="plaintext code-output">24-element Vector{Tuple{Int64, UnitRange{Int64}}}:
+chunk_iter1   &#61; enumerate&#40;chunk_indices&#41;    # pairs &#40;i_chunk, chunk_index&#41;
+chunk_iter2   &#61; enumerate&#40;chunk_values&#41;     # pairs &#40;i_chunk, chunk_value&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>collect&#40;chunk_iter1&#41;</code> <br/> <pre><code class="plaintext code-output">24-element Vector{Tuple{Int64, UnitRange{Int64}}}:
  (1, 1:2)
  (2, 3:4)
  ⋮
  (23, 25:25)
- (24, 26:26)</code></pre> </div>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>collect&#40;chunk_values&#41;</code> <br/> <pre><code class="plaintext code-output">24-element Vector{SubArray{String, 1, Vector{String}, Tuple{UnitRange{Int64}}, true}}:
- ["a", "b"]
- ["c", "d"]
+ (24, 26:26)</code></pre> </div></p>
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>collect&#40;chunk_iter2&#41;</code> <br/> <pre><code class="plaintext code-output">24-element Vector{Tuple{Int64, SubArray{String, 1, Vector{String}, Tuple{UnitRange{Int64}}, true}}}:
+ (1, ["a", "b"])
+ (2, ["c", "d"])
  ⋮
- ["y"]
- ["z"]</code></pre> </div></div> </div> 
+ (23, ["y"])
+ (24, ["z"])</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -3090,8 +3108,8 @@ chunk_iter    &#61; enumerate&#40;chunk_indices&#41;    # pairs &#40;i_chunk, ch
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Work Distribution: Defining Tasks Through Chunks</h2></p>
-<p>To define tasks through chunks, we need to partition the collection into smaller subsets that can be processed concurrently. We&#39;ve already discussed how to apply these techniques using the <code>ChunkSplitters</code> package.</p>
-<p>Let&#39;s consider a simple example where we want to parallelize a for-loop:</p>
+<p>After covering how to partition datasets with the <code>ChunkSplitters</code> package, we can now turn to its role in multithreading. By dividing iterations into well-balanced chunks, we can assign each subset as an independent task to be processed concurrently.</p>
+<p>Below, we parallelize a for-loop with <code>@threads</code>. Then, we present an equivalent implementation with <code>@spawn</code>. This requires defining a number of chunks that equals the number of worker threads. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3110,7 +3128,7 @@ function foo&#40;x&#41;
     
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  4.942 ms (123 allocations: 76.306 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  4.907 ms (125 allocations: 76.309 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;10_000_000&#41;
@@ -3125,7 +3143,7 @@ function foo&#40;x, nr_chunks&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  5.301 ms (156 allocations: 76.308 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, nthreads&#40;&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  5.143 ms (157 allocations: 76.311 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;10_000_000&#41;
@@ -3141,11 +3159,11 @@ function foo&#40;x, nr_chunks&#41;
 
     return wait.&#40;task_indices&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  4.893 ms (148 allocations: 76.307 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, nthreads&#40;&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  4.816 ms (151 allocations: 76.310 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The approach provides more control over the allocation of tasks to threads. For instance, we could define the number of chunks as proportional to the number of worker threads. </p>
+<p>Unlike <code>@threads</code>, the <code>@spawn</code> macro offers finer control over how tasks are allocated to threads. This flexibility means we&#39;re not constrained to replicate the <code>@threads</code>&#39;s behavior. For example, we could adopt different partitioning strategies where the number of chunks is proportional to the number of worker threads, as shown in the following examples.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3164,11 +3182,11 @@ function foo&#40;x, nr_chunks&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, 1 * nthreads&#40;&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  4.923 ms (156 allocations: 76.308 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, 1 * nthreads&#40;&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  5.477 ms (157 allocations: 76.311 MiB)
 </code></pre> </div></p>
-<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, 2 * nthreads&#40;&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  4.898 ms (301 allocations: 76.323 MiB)
+<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, 2 * nthreads&#40;&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  8.792 ms (302 allocations: 76.325 MiB)
 </code></pre> </div>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, 4 * nthreads&#40;&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  4.462 ms (589 allocations: 76.349 MiB)
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, 4 * nthreads&#40;&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  6.885 ms (590 allocations: 76.352 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;10_000_000&#41;
@@ -3189,11 +3207,11 @@ function foo&#40;x, nr_chunks&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, 1 * nthreads&#40;&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  4.418 ms (132 allocations: 76.307 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, 1 * nthreads&#40;&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  5.040 ms (133 allocations: 76.310 MiB)
 </code></pre> </div></p>
-<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, 2 * nthreads&#40;&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  4.546 ms (253 allocations: 76.320 MiB)
+<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, 2 * nthreads&#40;&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  8.314 ms (254 allocations: 76.323 MiB)
 </code></pre> </div>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, 4 * nthreads&#40;&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  3.659 ms (493 allocations: 76.344 MiB)
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, 4 * nthreads&#40;&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">  4.049 ms (494 allocations: 76.347 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -3201,14 +3219,26 @@ end</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="parallel_reductions" class="scrollspy section-bg-color">
+<section id="handling_dependencies" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Parallel Reductions</h2></p>
-<p>So far, our exploration of parallelization has focused on cases with independent tasks. In particular, the iterations in for-loops were independent, thereby defining an embarrassingly parallel program. This was a deliberate choice, as not all tasks lend themselves to parallelization, due to inherent dependencies between computations. In particular, when tasks aren&#39;t embarrassingly parallel, a naive approach for their computation can not only lead to inefficiencies, but actually introduce critical issues, including incorrect results. </p>
-<p>Nonetheless, depending on the nature of the dependency, we can adapt our parallelization strategy to still benefit from parallelization. One strategy involves dividing a large task into  <em>smaller independent sub-tasks</em> that can be executed concurrently. By doing so, we can execute the subtasks in parallel without compromising the correctness of the results, as each sub-task remains independent of the others. Once all sub-tasks complete, their results are combined to generate the final output. </p>
-<p>The approach is particularly suitable for reduction operations. Moreover, its technical implementation is a variant of the partition techniques previously presented. To illustrate it, we consider the simplest scenario possible, where we simply compute the sum of elements of a vector <code>x</code>. </p>
+        <h2>Handling Dependencies</h2></p>
+<p>So far, our discussion of parallelization has focused on embarrassingly parallel for-loops, where iterations are completely independent. In such cases, each iteration can be executed in isolation, making parallelization straightforward.</p>
+<p>In contrast, when operations exhibit dependencies, the situation becomes more complex. Attempting to parallelize without first addressing these dependencies can lead not only to inefficiencies and wasted resources, but most critically to incorrect results. </p>
+<p>The issue occurs because there’s no one‑size‑fits‑all method for handling dependencies. The appropriate strategy depends on the structure of the specific program. In all cases, though, the approach will require adapting the parallelization technique to work on a reformulated version of the problem. This reformulation must ensure that the tasks to be parallelized are independent—ultimately, parallelization is only possible if independence of operations can be achieved. </p>
+<p>Note that, once dependencies are present, some portion of the work will inevitably be non-parallelizable. In fact, in certain cases no subset of independent tasks exists at all, as in computations that are inherently sequential.</p>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="handling_reductions" class="scrollspy">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Handling Reductions</h2></p>
+<p>A prominent example where dependencies between iterations arise is in reductions. To address these dependencies and still benefit from parallelization, the computation must be restructured. The standard approach is to divide the data into chunks, perform partial reductions on each chunk in parallel, and then combine the partial results in a final reduction step. This transformation removes the original dependency between iterations, because each partial reduction operates on a disjoint subset of the data.</p>
+<p>To illustrate, let&#39;s compute the sum of elements of a vector <code>x</code>. The implementation follows a variant of the partitioning techniques discussed earlier, using <code>ChunkSplitters</code> to divide the data into independent segments.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3227,7 +3257,7 @@ function foo&#40;x&#41;
 
     output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  4.909 ms (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  5.108 ms (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;10_000_000&#41;
@@ -3242,7 +3272,7 @@ function foo&#40;x&#41;
     
     return sum&#40;partial_outputs&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.163 ms (122 allocations: 13.234 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.194 ms (124 allocations: 13.250 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;10_000_000&#41;
@@ -3257,7 +3287,7 @@ function foo&#40;x&#41;
         
     return sum&#40;partial_outputs&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.163 ms (155 allocations: 13.750 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.169 ms (156 allocations: 13.781 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -3265,16 +3295,16 @@ end</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="false_sharing_in_reductions" class="scrollspy">
+<section id="false_sharing" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>False Sharing in Reductions</h2></p>
-<p>Cache contention represents a performance challenge where multiple processor cores compete for shared cache resources. A particular manifestation of this issue known as <span style="color: rgb(62, 121, 180);"><strong>false sharing</strong></span> arises when multiple cores access data stored in the same cache line. To understand this issue, it&#39;s essential to grasp how CPU caches function. </p>
+        <h2>False Sharing</h2></p>
+<p>So far, we’ve focused on constraints on parallelization due to dependencies between operations. But even when those dependencies are eliminated and the parallelized units are logically independent, performance can still be limited by hardware-level effects. One common culprit is cache contention, where multiple processor cores compete for shared cache resources. A particular manifestation of this issue, known as <span style="color: rgb(62, 121, 180);"><strong>false sharing</strong></span>, occurs when multiple cores access data stored in the same cache line. Understanding this issue requires grasping how CPU caches function. </p>
 <p>Processors use caches to store copies of frequently accessed data. They represent a smaller and faster memory unit than RAM, and are organized into fixed-size blocks called cache lines &#40;typically 64 bytes&#41;. When data is needed, the processor first checks the cache. If the data isn&#39;t found, this must be retrieved from RAM and store a copy in the cache, a process that&#39;s significantly slower. </p>
 <p>When multiple cores access data within the same cache line, the transfer of data follows a cache coherency protocol. This is designed to maintain data consistency across cores. This protocol can lead to situations where one core accesses data that isn&#39;t modified by another core, yet shares a cache block with altered data. In such cases, the entire cache line may be invalidated, forcing the cores to reload the entire cache block, despite there being no logical necessity to do so. This phenomenon is known as false sharing, and can cause unnecessary cache invalidations and refetches. The consequence is a significant degradation of the program&#39;s performance, particularly if threads frequently modify their variables.</p>
 <p>While false sharing can occur in various multithreading scenarios, it&#39;s particularly prevalent in reduction operations. This case will be our focus next.</p>
- <h4> An Illustration and Solutions for Reductions </h4>
+ <h4> False Sharing In Reductions: An Illustration and Solutions </h4>
 <p>Let&#39;s consider a simple scenario where the elements of a vector are summed after applying a logarithmic transformation. We&#39;ll present two multithreaded implementations to illustrate the impact of false sharing on performance.</p>
 <p>The first implementation is a naive approach that closely resembles a typical sequential implementation. Its goal is to illustrate false sharing. The issue arises because multiple threads are repeatedly reading and writing adjacent memory locations in the <code>partial_outputs</code> vector. Since CPU cache lines typically span several vector elements, this leads to cache invalidation and forced synchronization between cores.</p>
 <p>In contrast, the second implementation avoids false sharing, and we&#39;ll analyze why this is so after presenting the code snippets.</p>
@@ -3297,7 +3327,7 @@ function foo&#40;x&#41;
 
     output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  33.629 ms (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  35.349 ms (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;10_000_000&#41;
@@ -3314,7 +3344,7 @@ function foo&#40;x&#41;
     
     return sum&#40;partial_outputs&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  12.579 ms (122 allocations: 13.234 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  14.018 ms (124 allocations: 13.250 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;10_000_000&#41;
@@ -3333,7 +3363,7 @@ function foo&#40;x&#41;
     
     return sum&#40;partial_outputs&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.579 ms (122 allocations: 13.234 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.621 ms (124 allocations: 13.250 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;10_000_000&#41;
@@ -3354,13 +3384,13 @@ function foo&#40;x&#41;
     
     return sum&#40;partial_outputs&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.379 ms (155 allocations: 13.750 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.407 ms (156 allocations: 13.781 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>To address false sharing in parallel reductions, there are several strategies that can be employed. All of them aim to prevent threads from repeatedly accessing the same cache line. </p>
 <p>The previous example already presented one solution. It involves introducing a thread-local variable called <code>temp</code> to accumulate results. In this way, each thread maintains its own accumulator, writing to the shared array only once at the end. </p>
-<p>Two additional solutions are presented below. The first one entails computing the reduction through a separate function. This address false sharing by the same logic as before, where the accumulation is done through a variable local to a function. The second solution involves defining <code>partial_outputs</code> as a matrix with extra rows &#40;seven in particular&#41;, a technique known as vector padding. This approach guarantees that each thread&#39;s accumulator is allocated on a different cache line, so that that concurrent updates don&#39;t interfere with each other at the cache level.</p>
+<p>Two additional solutions are presented below. The first one entails computing the reduction through a separate function. This addresses false sharing by the same logic as before, where the accumulation is done through a variable local to a function. The second solution involves defining <code>partial_outputs</code> as a matrix with extra rows &#40;seven in particular&#41;, a technique known as vector padding. This approach guarantees that each thread&#39;s accumulator is allocated on a different cache line, so that concurrent updates don&#39;t interfere with each other at the cache level.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3389,7 +3419,7 @@ function foo&#40;x&#41;
     
     return sum&#40;partial_outputs&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.504 ms (122 allocations: 13.234 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.623 ms (124 allocations: 13.250 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;10_000_000&#41;
@@ -3406,7 +3436,7 @@ function foo&#40;x&#41;
     
     return sum&#40;@view&#40;partial_outputs&#91;:,1&#93;&#41;&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.729 ms (122 allocations: 14.438 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.843 ms (124 allocations: 14.500 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>       </div>
@@ -4029,7 +4059,7 @@ for multiple pics in a row
     <button class="nav-toggle" aria-label="Toggle navigation">
       <!-- <span class="nav-toggle-icon"></span> -->
         <img src="/julia_book/assets/icons/dropdown.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:2px;margin-left:0px;">
-      <span class="nav-title"><i>11f.</i> Applying Parallelization</span>
+      <span class="nav-title"><i>11f.</i> Parallelization in Practice</span>
     </button>
     <div class="nav-menu">
       <ul>
@@ -4051,11 +4081,15 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#parallel_reductions" data-offset="-40">Parallel Reductions</a>
+          <a href="#handling_dependencies" data-offset="-40">Handling Dependencies</a>
         </li>
         
         <li>
-          <a href="#false_sharing_in_reductions" data-offset="-40">False Sharing in Reductions</a>
+          <a href="#handling_reductions" data-offset="-40">Handling Reductions</a>
+        </li>
+        
+        <li>
+          <a href="#false_sharing" data-offset="-40">False Sharing</a>
         </li>
         
       </ul>

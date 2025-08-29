@@ -2,7 +2,7 @@ include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
-using Random, Base.Threads, ChunkSplitters, OhMyThreads, LoopVectorization, Polyester, Folds, FLoops, LazyArrays, StrideArrays
+using Random, Base.Threads, ChunkSplitters, OhMyThreads, LoopVectorization, Polyester, LazyArrays
  
 ############################################################################
 #
@@ -158,6 +158,46 @@ x_large  = rand(100_000)
  
 ############################################################################
 #
+#			TASKS ARE TYPE UNSTABLE
+#
+############################################################################
+ 
+x = rand(10); y = rand(10)
+
+function foo(x)
+    a = x .* -2
+    b = x .*  2
+
+    a,b
+end
+ 
+x = rand(10); y = rand(10)
+
+function foo(x)
+    task_a = @spawn x .* -2
+    task_b = @spawn x .*  2
+
+    a,b = fetch.((task_a, task_b))
+end
+ 
+x = rand(10); y = rand(10)
+
+function foo!(x,y)
+    @. x = -x
+    @. y = -y
+end
+ 
+x = rand(10); y = rand(10)
+
+function foo!(x,y)
+    task_a = @spawn (@. x = -x)
+    task_b = @spawn (@. y = -y)
+
+    wait.((task_a, task_b))
+end
+ 
+############################################################################
+#
 #			@spawn vs @threads
 #
 ############################################################################
@@ -276,14 +316,32 @@ nr_chunks     = nthreads()
 
 chunk_indices = index_chunks(x, n = nr_chunks)
 chunk_values  = chunks(x, n = nr_chunks)
-
-chunk_iter    = enumerate(chunk_indices)    # pairs (i_chunk, chunk_index)
  
 print_asis(collect(chunk_indices))
  
 print_asis(collect(chunk_values))
  
-print_asis(collect(chunk_iter))
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x             = string.('a':'z')            # all letters from "a" to "z"
+
+nr_chunks     = nthreads()
+
+chunk_indices = index_chunks(x, n = nr_chunks)
+chunk_values  = chunks(x, n = nr_chunks)
+
+chunk_iter1   = enumerate(chunk_indices)    # pairs (i_chunk, chunk_index)
+chunk_iter2   = enumerate(chunk_values)     # pairs (i_chunk, chunk_value)
+ 
+print_asis(collect(chunk_indices))
+ 
+print_asis(collect(chunk_values))
+ 
+print_asis(collect(chunk_iter1))
+ 
+print_asis(collect(chunk_iter2))
  
 ############################################################################
 #
