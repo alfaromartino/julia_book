@@ -2840,9 +2840,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Multithreading allows running multiple threads simultaneously in a single process, enabling operations to be executed in parallel within the same computer. Unlike other forms of parallelization such as multiprocessing, multithreading is distinguished by <strong>the sharing of a common memory space among all tasks</strong>. </p>
-<p>This shared memory environment introduces several complexities, determining that <strong>running code in parallel may create side effects if handled improperly</strong>. Basically, the issue arises when multiple threads access and modify shared data, potentially causing unintended consequences in other threads. These potential issues have led to the concept of <span style="color: rgb(62, 121, 180);"><strong>thread-safe operations</strong></span>. They&#39;re characterized by the possibility of being executed in parallel without causing any issues &#40;e.g., data corruption, inconsistencies, or crashes&#41;. </p>
-<p>The section starts by identifying features that make operations unsafe. They&#39;ll reveal that common operations such as reductions aren&#39;t thread safe, giving rise to incorrect results if multithreading is applied naively. We&#39;ll also explore the concept of embarrassingly parallel problems, which are a prime example of thread-safe operations. As the name suggests, these problems can be parallelized directly, without requiring significant program adaptations.</p>
+<p>Multithreading allows multiple threads to run simultaneously in a single process, enabling parallel execution of operations within the same computer. Unlike other forms of parallelization &#40;e.g., multiprocessing&#41;, multithreading is distinguished by <strong>the sharing of a common memory space among all tasks</strong>. </p>
+<p>This shared memory environment introduces several complexities, implying that <strong>running code in parallel may create side effects if handled improperly</strong>. Essentially, the issue arises when multiple threads access and modify shared data simultaneously, potentially causing unintended consequences in other threads. </p>
+<p>These potential problems have led to the distinguish between <span style="color: rgb(62, 121, 180);"><strong>thread-safe and thread-unsafe operations</strong></span>. Characterizing operations in one or the other way depends on their ability to be executed in parallel without causing any issues &#40;e.g., data corruption, inconsistencies, or crashes&#41;. </p>
+<p>The section will be centered on identifying some key features that render operations unsafe. They&#39;ll reveal that common operations like reductions aren&#39;t thread safe, leading to incorrect results if multithreading is applied naively. We&#39;ll conclude the section by exploring the concept of embarrassingly parallel problems, which are a prime example of thread-safe operations. As the name suggests, these problems can be parallelized directly, without requiring significant program adaptations.</p>
 <p>      </div>
     </div>
   </div>
@@ -2852,9 +2853,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Unsafe Operations</h2></p>
-<p>We start by presenting some operations that aren&#39;t thread-safe. The examples highlight the need for caution when tasks exhibit some degree of dependency, either in terms of operations or shared resources.</p>
+<p>Unsafe operations in multithreaded environments are those that can lead to incorrect behavior, data corruption, or program crashes when executed concurrently. The following examples we present will highlight their potential emergence when tasks exhibit some degree of dependency, either in terms of operations or shared resources.</p>
  <h4> Writing on a Shared Variable </h4>
-<p>The following example highlights the potential pitfalls of writing to a shared variable in a concurrent environment. The scenario considered is such that a scalar variable <code>output</code> is initialized to zero. Then, this value is updated within a for-loop that iterates twice, with <code>output</code> set to <code>i</code> in the  <em>i</em>-th iteration. The script is as follows.</p>
+<p>One of the most basic examples of an unsafe operation is writing to a shared variable. To illustrate this, consider a scenario where a scalar variable <code>output</code> is initialized to zero. This value is then updated within a for-loop that iterates twice, with <code>output</code> set to <code>i</code> in the  <em>i</em>-th iteration. The script is as follows.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2886,12 +2887,14 @@ end</code></pre> </div></div>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>foo&#40;&#41;</code> <br/> <pre><code class="plaintext code-output">1</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>To illustrate the challenges of concurrent execution, we&#39;ve deliberately introduced a decreasing delay before updating <code>output</code>. This delay is implemented using <code>sleep&#40;1/i&#41;</code>, causing the first iteration to pause for 1 second and the second iteration to pause for half a second. Although this delay is artificially introduced through <code>sleep</code>, it represents the potential delays caused by intermediate computations, which could prevent an immediate update of <code>output</code>.</p>
-<p>The delay is inconsequential for a sequential procedure, with <code>output</code> taking on the values 0, 1, and 2 as the program progresses. However, when executed concurrently, the first iteration completes only after the second iteration has finished. As a result, the sequence of values for <code>output</code> is 0, 2, and 1. </p>
-<p>While the problem may seem apparent, it can manifest in more complex and subtle ways. In fact, the issue can be exacerbated when each iteration additionally involves reading a shared variable. Next, we consider a scenario like this.</p>
+<p>To illustrate the challenges of concurrent execution, we&#39;ve deliberately introduced a decreasing delay before updating <code>output</code>. This is implemented using <code>sleep&#40;1/i&#41;</code>, causing the first iteration to pause for 1 second and the second iteration to pause for half a second. Although this delay is artificially introduced via <code>sleep</code>, it represents the potential gap in time caused by intermediate computations, which could preclude an immediate update of <code>output</code>.</p>
+<p>The delay is inconsequential for a sequential procedure, where <code>output</code> takes on the values 0, 1, and 2 as the program progresses. However, when executed concurrently, the first iteration completes after the second iteration has finished. As a result, the sequence of values for <code>output</code> is 0, 2, and 1. </p>
+<p>While the problem may seem apparent in this simple example, it can manifest in more complex and subtle ways in real-world applications. The core issue is that the order of execution is not guaranteed in a multithreaded environment. Thus, when multiple threads modify the same shared variable, the final value depends on which thread executes last.</p>
+<p>In fact, the issue can be exacerbated when each iteration additionally involves reading a shared variable. Next, we consider a scenario like this.</p>
  <h4> Reading and Writing a Shared Variable </h4>
-<p>Reading and writing shared data doesn&#39;t necessarily cause problems. For instance, we&#39;ll demonstrate that a parallel for-loop can safely mutate a vector, even though multiple threads are simultaneously modifying a shared object &#40;the vector&#41;. However, in scenarios where <strong>reading and writing shared data is sensitive to the specific order of thread execution</strong>, it can give rise to a <span style="color: rgb(62, 121, 180);"><strong>data race</strong></span> &#40;also known as <span style="color: rgb(62, 121, 180);"><strong>race condition</strong></span>&#41;. The name reflects that the final output will change in each execution, depending on which thread finishes and modifies the data last. </p>
-<p>To illustrate the issue, let&#39;s keep using an example similar to the outlined above. We modify the example by introducing the variable <code>temp</code>, whose value is updated in each iteration. Moreover, this is a variable shared across threads, and is used to mutate the  <em>i</em>-th entry of a vector <code>output</code>. By introducing a delay before writing each entry of <code>output</code>, the example shows that all threads end up using the last value of <code>temp</code>, which is 2. </p>
+<p>Reading and writing shared data doesn&#39;t necessarily cause problems. For instance, a parallel for-loop could safely mutate a vector, even though multiple threads are simultaneously modifying a shared object &#40;the vector&#41;. This is the case as long as each thread operates on distinct elements of the vector.</p>
+<p>However, when <strong>reading and writing shared data is sensitive to the specific order of thread execution</strong>, we can end up with a <span style="color: rgb(62, 121, 180);"><strong>data race</strong></span> &#40;also known as <span style="color: rgb(62, 121, 180);"><strong>race condition</strong></span>&#41;. The name reflects that the final output will change every time we execute the operation, depending on which thread finishes and modifies the data last. </p>
+<p>To illustrate the issue, let&#39;s modify our previous example by introducing a variable <code>temp</code>, whose value is updated in each iteration. This variable will additionally be shared across threads and used to mutate the  <em>i</em>-th entry of a vector <code>output</code>. By introducing a delay before writing each entry of <code>output</code>, the example shows that all threads end up using the last value of <code>temp</code>, which is 2. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2945,7 +2948,7 @@ end</code></pre> </div></div>
  2</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>As the last tab shows, the issue can be easily circumvented in this case. The solution simply requires defining <code>temp</code> as a local variable, which is achieved by avoiding its initialization out of the for-loop.  By doing so, each thread will refer to its own local copy of <code>temp</code>.</p>
+<p>The issue can be easily circumvented in this case by defining <code>temp</code> as a variable local to the for-loop. This can be achieved by avoiding its initialization outside the for-loop. By doing so, each thread would refer to its own local copy of <code>temp</code>, eliminating the data race.</p>
 <p>Beyond this specific solution, the example aims to highlight the subtleties of parallelizing operations. To further illustrate it, we next examine a more common scenario where data races occur: reductions.</p>
 <p>      </div>
     </div>
@@ -2956,7 +2959,7 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Race Conditions with Reductions</h2></p>
-<p>To illustrate the issue with reductions, let&#39;s consider the sum operation. The gist of the problem lies in that the variable accumulating the sum is accessed and modified by all threads in each iteration.</p>
+<p>Reductions are a prime example when it comes to thread-unsafe operations. To demonstrate this, let&#39;s consider the sum operation. The gist of the problem lies in that the variable accumulating the sum is accessed and modified by all threads in each iteration.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3018,8 +3021,7 @@ end</code></pre> </div></div>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>foo&#40;x&#41;</code> <br/> <pre><code class="plaintext code-output">21664.133622716112</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The key insight from this example isn&#39;t that reductions are incompatible with multithreading. Rather, that the strategy to apply multithreading needs to be adapted accordingly.</p>
-<p>In the following, we&#39;ll consider the simplest case to apply multithreading, which is referred to as embarrassingly parallel. Its distinctive feature is that multithreading can be applied without any transformation of the data. After that, we&#39;ll show scenarios that can handle dependent operations like reductions.</p>
+<p>The key insight from this example isn&#39;t that reductions are incompatible with multithreading. Rather, that the strategy to apply multithreading needs to be adapted accordingly. The following sections will present these strategies.</p>
 <p>      </div>
     </div>
   </div>
@@ -3029,7 +3031,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Embarrassingly Parallel Problems</h2></p>
-<p>The simplest scenario in which multithreading can be applied is known as an <span style="color: rgb(62, 121, 180);"><strong>embarrassingly parallel problem</strong></span>. The term highlights the ease with which code can be divided for parallel execution. It comprises programs consisting of multiple independent and identical subtasks, not requiring interaction with one another to produce the final output. This independence allows for seamless parallelization, providing complete flexibility in the order of task execution.</p>
+<p>We close this section by considering the opposite end of the spectrum: problems that naturally lend themselves to parallel execution without these complications. They&#39;re referred to as <span style="color: rgb(62, 121, 180);"><strong>embarrassingly parallel problems</strong></span>.</p>
+<p>The term highlights the ease with which code can be divided for parallel execution. It comprises programs consisting of multiple independent and identical subtasks, not requiring interaction with one another to produce the final output. This independence allows for seamless parallelization, providing complete flexibility in the order of task execution.</p>
 <p>In for-loops, one straightforward way to parallelize these problems is given by the macro <code>@threads</code>. This is a form of thread-based parallelism, where the distribution of work is based on the number of threads available. Specifically, <code>@threads</code> attempts to evenly distribute the iterations, in an effort to balance the workload. The approach contrasts with <code>@spawn</code>, which is a task-based parallelism where iterations are divided according how the user has manually defined tasks. Unlike <code>@spawn</code>, which requires a manual synchronization of the tasks, <code>@threads</code>automatically schedules the tasks and waits for their completion before proceeding with any further operations. This is demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3101,7 +3104,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 28, 2025 
+          © Martin Alfaro <br>Last Modified August 29, 2025 
       </span> 
   </div> 
 </footer>

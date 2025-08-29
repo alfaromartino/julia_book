@@ -2843,9 +2843,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Reductions</strong></span> are a powerful technique for <strong>operations that take collections as inputs and return a single element</strong>. They arise naturally when we need to compute summary statistics such as an average, variance, or maximum of a collection. </p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Reductions</strong></span> are a powerful technique for <strong>operations that take collections as input and return a single element</strong>. They naturally arise in a wide range of contexts, such as when computing summary statistics &#40;e.g., averages, variances, or maxima of collections&#41;.</p>
 <p>The reduction process works by iteratively applying an operation to pairs of elements, accumulating the results at each step until the final output is obtained. For example, to compute <code>sum&#40;x&#41;</code> for a vector <code>x</code>, a reduction would start by adding the first two elements, then add the third element to the total, and continue this cumulative process until all elements have been summed.</p>
-<p>The method is particularly convenient when we need to transform a vector&#39;s elements prior to computing a summary statistic. By operating on scalars, <strong>reductions sidestep the need to materialize intermediate outputs</strong>, thereby reducing memory allocations. This means that, if for example you have to compute <code>sum&#40;log.&#40;x&#41;&#41;</code>, a reduction would avoid the creation of the intermediate vector <code>log.&#40;x&#41;</code>.</p>
+<p>The method is particularly convenient when we need to transform a vector&#39;s elements prior to aggregating the result. By operating on scalars, <strong>reductions sidestep the need to materialize intermediate outputs</strong>, thus reducing memory allocations. This means that, if for example you have to compute <code>sum&#40;log.&#40;x&#41;&#41;</code>, a reduction would avoid the creation of the intermediate vector <code>log.&#40;x&#41;</code>.</p>
 <p>      </div>
     </div>
   </div>
@@ -2855,7 +2855,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Intuition</h2></p>
-<p>Reductions are typically implemented using a for-loop, with an operator applied to pairs of elements and the resulting output updated in each iteration. A classic example is the summation of all numeric elements in a vector. This involves applying the addition operator <code>&#43;</code> to pairs of elements, iteratively updating the accumulated sum. This is demonstrated below.</p>
+<p>Reductions are typically implemented using a for-loop, with an operator applied to pairs of elements and the resulting output updated in each iteration. A classic example is the summation of all numeric elements in a vector. This involves applying the addition operator <code>&#43;</code> to pairs of elements, iteratively updating the accumulated sum. This process is demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2895,7 +2895,7 @@ end</code></pre> </div></div>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>foo&#40;x&#41;</code> <br/> <pre><code class="plaintext code-output">48.447</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In reductions, it&#39;s common to see implementations like the last tab, which are based on <a href="/julia_book/PAGES/02b_variables/#sub_updating_variables">update operators</a>. This entails that an expression like <code>x &#43;&#61; a</code> is equivalent to <code>x &#61; x &#43; a</code>. </p>
+<p>In reductions, it&#39;s common to see implementations like the last tab, which are based on <a href="/julia_book/PAGES/02b_variables/#sub_updating_variables">update operators</a>. Recall that they turn an expression like <code>x &#61; x &#43; a</code> into <code>x &#43;&#61; a</code>. </p>
 <p>      </div>
     </div>
   </div>
@@ -2905,12 +2905,13 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Implementing Reductions</h2></p>
-<p>Reductions are implemented by applying either a <a href="/julia_book/PAGES/02b_variables/#operators">binary operator</a> or a two-argument function during each iteration. An example of a binary operator is <code>&#43;</code>, as we used above. However, we could have also used <code>&#43;</code> as a two-argument function, replacing <code>output &#61; output &#43; x&#91;i&#93;</code> with <code>output &#61; &#43;&#40;output, x&#91;i&#93;&#41;</code>. The possibility of using functions broadens the scope of reductions. For instance, it allows us to compute the maximum value of a vector <code>x</code> by the function <code>max</code>, where <code>max&#40;a,b&#41;</code> returns the maximum of the scalars <code>a</code> and <code>b</code>.</p>
-<p>Formally, a reduction requires the binary operation to satisfy <strong>two mathematical requirements</strong>:</p>
+<p>Reductions are implemented by applying either a <a href="/julia_book/PAGES/02b_variables/#operators">binary operator</a> or a two-argument function during each iteration. An example of a binary operator is <code>&#43;</code>, which we used above. However, we could&#39;ve also used its two-argument function form, replacing <code>output &#61; output &#43; x&#91;i&#93;</code> with <code>output &#61; &#43;&#40;output, x&#91;i&#93;&#41;</code>. </p>
+<p>The use of two-argument functions expands the scope of reductions, enabling us to compute more complex operations. For instance, it allows us to compute the maximum value of a vector <code>x</code>. This requires the function <code>max</code>, where <code>max&#40;a,b&#41;</code> returns the maximum of the scalars <code>a</code> and <code>b</code>.</p>
+<p>Formally, a reduction requires the binary operation to satisfy <strong>two mathematical properties</strong>:</p>
 <ul>
-<li><p><strong>Associativity</strong>: the way in which operations are grouped does not change the result. For example, addition is associative because <code>&#40;a &#43; b&#41; &#43; c &#61; a &#43; &#40;b &#43; c&#41;</code>.</p>
+<li><p><strong>Associativity</strong>: the way in which operations are grouped must not change the result. For example, addition is associative because <code>&#40;a &#43; b&#41; &#43; c &#61; a &#43; &#40;b &#43; c&#41;</code>.</p>
 </li>
-<li><p><strong>Existence of an identity element</strong>: there exists an element that leaves any other element unchanged when the binary operation is applied. For example, the identity element of addition is 0 because <code>a &#43; 0 &#61; a</code>.</p>
+<li><p><strong>Existence of an identity element</strong>: there exists an element that, when combined with any other element through a binary operation, leaves that element unchanged. For example, the identity element of addition is 0 because <code>a &#43; 0 &#61; a</code>.</p>
 </li>
 </ul>
 <p>The following list indicates the identity elements of each operation.</p>
@@ -3030,7 +3031,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Avoiding Memory Allocations via Reductions</h2></p>
-<p>One of the primary advantages of reductions is that they avoid the memory allocation of intermediate results. To illustrate this, consider the operation <code>sum&#40;log.&#40;x&#41;&#41;</code> for a vector <code>x</code>. This operation involves transforming <code>x</code> into <code>log.&#40;x&#41;</code> and then summing the transformed elements. By default, broadcasting creates a new vector to store the result of <code>log.&#40;x&#41;</code>, thereby allocating memory for it. However, we&#39;re only interested in the final sum and not the intermediate result itself. Therefore, an approach that bypasses the allocation of <code>log.&#40;x&#41;</code> is beneficial. Reductions accomplish this by defining a scalar <code>output</code>, which is iteratively updated by summing the transformed values of <code>x</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> In the section <a href="/julia_book/PAGES/09i_lazyBroadcasting/">Lazy Operations</a>, we&#39;ll explore an alternative with broadcasting that doesn&#39;t materialize intermediate results either.  </span></span> </p>
+<p>One of the primary advantages of reductions is that they avoid the memory allocation of intermediate results. </p>
+<p>To illustrate this, consider the operation <code>sum&#40;log.&#40;x&#41;&#41;</code> for a vector <code>x</code>. Its computation involves transforming <code>x</code> into <code>log.&#40;x&#41;</code>, and then summing the transformed elements. By default, broadcasting creates a new vector to store the result of <code>log.&#40;x&#41;</code>, thereby allocating memory. However, in many cases like this one, we&#39;re only interested in the final sum, not the intermediate result. Therefore, an approach that bypasses the allocation of <code>log.&#40;x&#41;</code> is beneficial. Reductions accomplish this by defining a scalar <code>output</code>, which is iteratively updated by summing the transformed values of <code>x</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> In the section <a href="/julia_book/PAGES/09i_lazyBroadcasting/">Lazy Operations</a>, we&#39;ll explore an alternative with broadcasting that doesn&#39;t materialize intermediate results either.  </span></span> </p>
 <p> <div class="own-anchors"><a name="example_previous2"></a></div>  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3121,8 +3123,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Reductions via Built-in Functions</h2></p>
-<p>The previous examples implemented reductions through explicit for-loops. Unfortunately, this approach can compromise readability due to the verbosity of for-loops. To address the issue, Julia offers several streamline alternatives to implement reductions.</p>
-<p>For common operations, Julia also implements <code>mapreduce</code> as additional methods of the functions <code>sum</code>, <code>prod</code>, <code>maximum</code>, and <code>minimum</code>. These built-in implementations are more efficient than <code>mapreduce</code>, as they&#39;ve been optimized for each respective case. Their syntax is given by <code>foo&#40;&lt;transforming function&gt;, x&#41;</code>, where <code>foo</code> is one of the functions mentioned and <code>x</code> is the vector to be transformed. For instance, the following examples consider reductions for the transformed vector <code>2 .* x</code>.</p>
+<p>The previous examples implemented reductions through explicit for-loops. Unfortunately, this approach can compromise readability due to the verbosity of for-loops. To address the issue, Julia offers several streamlined alternatives to implement reductions.</p>
+<p>In particular, several common operations come with additional methods that transform a vector and then apply a reduction. This is the case of functions like <code>sum</code>, <code>prod</code>, <code>maximum</code>, and <code>minimum</code>. Their syntax is given by <code>foo&#40;&lt;transforming function&gt;, x&#41;</code>, where <code>foo</code> is one of the functions mentioned and <code>x</code> is the vector to be transformed. For instance, the following examples consider reductions for the transformed vector <code>2 .* x</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3156,7 +3158,7 @@ foo&#40;x&#41; &#61; minimum&#40;log, x&#41;    #same output as minimum&#40;log.
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>While we&#39;ve used the built-in function <code>log</code> for transforming <code>x</code>, the approach can be employed through anonymous functions. </p>
+<p>To keep matters simple, we&#39;ve used the built-in function <code>log</code> for transforming <code>x</code>. However, the approach supports any form of function, including anonymous ones. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3190,7 +3192,7 @@ foo&#40;x&#41; &#61; minimum&#40;a -&gt; 2 * a, x&#41;   #same output as minimum
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Finally, all these functions accept transforming functions that require multiple arguments. To incorporate this possibility, it&#39;s necessary to enclose the multiple variables using <code>zip</code>, and referring to each variable through indexes. We illustrate this below, where the transforming function is <code>x .* y</code>. </p>
+<p>Finally, all these functions accept transforming functions that require multiple arguments. To incorporate this possibility, it&#39;s necessary to call the multiple variables using <code>zip</code>, and referring to each variable through indexes. We illustrate this below, where the transforming function is <code>x .* y</code>. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3233,7 +3235,7 @@ foo&#40;x,y&#41; &#61; minimum&#40;a -&gt; a&#91;1&#93; * a&#91;2&#93;, zip&#40;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>The "reduce" and "mapreduce" Functions</h2></p>
-<p>Beyond the specific functions we&#39;ve considered, we can also implement reductions as long as the operation satisfies the requirements for their application. This is implemented through the functions <code>reduce</code> and <code>mapreduce</code>. Their difference lies in that <code>reduce</code> applies the reduction directly, while <code>mapreduce</code> transforms the collection&#39;s elements prior to doing it. </p>
+<p>Beyond the specific functions we&#39;ve discussed, reductions can be applied to any operation that meets the requirements for a valid reduction. In Julia, this is implemented through the functions <code>reduce</code> and <code>mapreduce</code>, where <code>reduce</code> applies the reduction directly, while <code>mapreduce</code> transforms the collection&#39;s elements prior to reducing it. </p>
 <p>It&#39;s worth remarking that reductions with <code>sum</code>, <code>prod</code>, <code>max</code>, and <code>min</code> should still be done via the dedicated functions. The reason is that they&#39;ve been optimized for their respective tasks. In this context, our primary use case of <code>reduce</code> and <code>mapreduce</code> is for other types of reductions not covered or when packages provide their own implementations of these functions. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> For instance, the package <code>Folds</code> provides a parallelized version of both <code>map</code> and <code>mapreduce</code>, enabling the utilization of all available CPU cores. Its syntax is identical to Julia&#39;s built-in functions.  </span></span> </p>
  <h4> Function &quot;reduce&quot; </h4>
 <p>The function <code>reduce</code> uses the syntax <code>reduce&#40;&lt;function&gt;,x&#41;</code>, where <code>&lt;function&gt;</code> is a two-argument function. The following example demonstrates its use.</p>
@@ -3270,7 +3272,7 @@ foo&#40;x&#41; &#61; reduce&#40;min, x&#41;         #same output as minimum&#40;
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Note that all the examples provided could&#39;ve been implemented as <a href="#example_previous">we did previously</a>, where we directly applied <code>sum</code>, <code>prod</code>, <code>maximum</code> and <code>minimum</code>. </p>
+<p>Note all the examples presented could&#39;ve been implemented as <a href="#example_previous">we did previously</a>, where we directly applied <code>sum</code>, <code>prod</code>, <code>maximum</code> and <code>minimum</code>. </p>
  <h4> Function &quot;mapreduce&quot; </h4>
 <p>The function <code>mapreduce</code> combines the functions <code>map</code> and <code>reduce</code>: before applying the reduction, <code>mapreduce</code> transforms vectors <a href="/julia_book/PAGES/03e_vectorizing/#the_map_function">via the function <code>map</code></a>. Recall that <code>map&#40;foo,x&#41;</code> transforms each element of the collection <code>x</code> by applying <code>foo</code> element-wise. Thus, <code>mapreduce&#40;&lt;transformation&gt;,&lt;reduction&gt;,x&#41;</code> first transforms <code>x</code>&#39;s elements through <code>map</code>, and then applies a reduction to the resulting output. </p>
 <p>To illustrate its use, we make use of a <code>log</code> transformation. </p>
@@ -3308,7 +3310,7 @@ foo&#40;x&#41; &#61; mapreduce&#40;log, min, x&#41;     #same output as minimum&
  </div></div>
 <p>  </p></details></div>
 <p>Just like with <code>reduce</code>, note that the examples could&#39;ve been implemented directly as <a href="#example_previous2">we did previously</a>, through the functions <code>sum</code>, <code>prod</code>, <code>maximum</code>, and <code>minimum</code>.</p>
-<p><code>mapreduce</code> can also be used with anonymous functions and transformations requiring multiple arguments. Below, we illustrate both, whose implementation is the same as with <code>sum</code>, <code>prod</code>, <code>maximum</code>, and <code>minimum</code>.</p>
+<p><code>mapreduce</code> can also be used with anonymous functions and transformations requiring multiple arguments. Below, we illustrate both, whose implementations are the same as with <code>sum</code>, <code>prod</code>, <code>maximum</code>, and <code>minimum</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3385,7 +3387,7 @@ foo&#40;x&#41; &#61; reduce&#40;&#43;, map&#40;a -&gt; 2 * a, x&#41;&#41;</code>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 28, 2025 
+          © Martin Alfaro <br>Last Modified August 29, 2025 
       </span> 
   </div> 
 </footer>

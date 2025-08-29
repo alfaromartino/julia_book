@@ -2911,7 +2911,7 @@ color: white;
 <p>Instantiation simply means that all values ultimately adopt a unique concrete type. For instance, a variable <code>x::Number &#61; 2</code> shouldn&#39;t be interpreted as <code>x</code> having the type <code>Number</code>. Instead, it means that <code>x</code> can only be reassigned to values whose concrete type is a subtype of <code>Number</code>. Ultimately, <code>x</code> must have a concrete type, which in this case is <code>Int64</code>.</p>
 <p>In this context, type instability may arise when operations mix <code>Int64</code> and <code>Float64</code>, although this isn&#39;t always the case. To illustrate this, we&#39;ll start showing some scenarios where mixing these types doesn&#39;t cause issues.</p>
  <h4> Type Promotion and Conversion </h4>
-<p>Julia employs various mechanisms to handle cases combining <code>Int64</code> and <code>Float64</code>. The first one is part of a concept known as <span style="color: rgb(62, 121, 180);"><strong>type promotion</strong></span>, which converts dissimilar types to a common one whenever possible. The second one emerges when variables are type-annotated, in which case Julia engages in <span style="color: rgb(62, 121, 180);"><strong>type conversions</strong></span>. By transforming values to the respective type declared, this feature could also prevent the mix of types.</p>
+<p>Julia employs various mechanisms to handle cases combining <code>Int64</code> and <code>Float64</code>. The first one is part of a concept known as <span style="color: rgb(62, 121, 180);"><strong>type promotion</strong></span>, which converts dissimilar types to a common one whenever possible. The second one emerges when variables are type-annotated, in which case Julia engages in <span style="color: rgb(62, 121, 180);"><strong>type conversion</strong></span>. By transforming values to the respective type declared, this feature also prevents the mix of types.</p>
 <p>Both mechanisms are illustrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3116,7 +3116,7 @@ sum&#40;x6&#41;             # type UNSTABLE -&gt; &#96;sum&#96; must consider al
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 28, 2025 
+          © Martin Alfaro <br>Last Modified August 29, 2025 
       </span> 
   </div> 
 </footer>

@@ -2841,8 +2841,8 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>Computational approaches can be broadly classified into &quot;lazy&quot; and &quot;eager&quot; categories. <span style="color: rgb(62, 121, 180);"><strong>Eager operations</strong></span> are characterized by their immediate execution upon definition, providing instant access to the results. So far, most operations on this website have fallen under this category.</p>
-<p>In contrast, <span style="color: rgb(62, 121, 180);"><strong>lazy operations</strong></span> define the code to be executed, deferring computation until the results are actually needed. The approach is particularly valuable for operations involving heavy intermediate computations, as lazy evaluation can <strong>sidestep unnecessary memory allocations</strong>: by fusing operations, it becomes possible to perform intermediate calculations on the fly and fed them directly into the final calculation. </p>
-<p>This section provides various implementations for lazy computations. The first approach presented is based on the so-called <strong>generators</strong>, which are the lazy analogous of array comprehensions. After this, we&#39;ll introduce several functions from the package <strong>Iterators</strong>, which provides lazy implementations of functions like <code>map</code> and <code>filter</code>. </p>
+<p>In contrast, <span style="color: rgb(62, 121, 180);"><strong>lazy operations</strong></span> define the code to be executed, deferring computation until the results are actually needed. The approach is particularly valuable for operations involving heavy intermediate computations, as lazy evaluation can <strong>sidestep unnecessary memory allocations</strong>: by fusing operations, it becomes possible to perform intermediate calculations on the fly and feed them directly into the final calculation. </p>
+<p>This section provides various implementations for lazy computations. The first approach presented is based on the so-called <strong>generators</strong>, which are the lazy analogue of array comprehensions. After this, we&#39;ll introduce several functions from the package <strong>Iterators</strong>, which provides lazy implementations of functions like <code>map</code> and <code>filter</code>. </p>
 <p>      </div>
     </div>
   </div>
@@ -2853,7 +2853,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Generators</h2></p>
 <p><a href="/julia_book/PAGES/04d_forloops/#array_comprehensions">Array comprehensions</a> offer a convenient technique for creating vectors, using a similar syntax to for-loops to define their elements. These elements are computed and stored right away, making array comprehensions an eager operation. For their part, <span style="color: rgb(62, 121, 180);"><strong>generators</strong></span> represent <strong>the lazy counterpart of array comprehensions</strong>, deferring the creation of elements until they&#39;re actually needed. </p>
-<p>In terms of syntax, generators are identical to array comprehensions, with the sole difference they&#39;re enclosed in parentheses <code>&#40; &#41;</code> instead of square brackets <code>&#91; &#93;</code>. Just like array comprehensions, generators  also retain the ability to add conditions and simultaneous iterate over multiple collections.</p>
+<p>In terms of syntax, generators are identical to array comprehensions, with the sole difference that they&#39;re enclosed in parentheses <code>&#40; &#41;</code> instead of square brackets <code>&#91; &#93;</code>. Just like array comprehensions, generators also retain the ability to add conditions and simultaneously iterate over multiple collections.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2931,7 +2931,7 @@ foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations<
       <div class="col-lg- mx-auto">
         <h2>Iterators</h2></p>
 <p>Iterators are formally defined as lazy objects that create sequential values on demand, rather than storing them all in memory upfront. Throughout the website, we&#39;ve already encountered numerous scenarios involving iterators. A typical example of an iterator is a range, such as <code>1:length&#40;x&#41;</code>, which defines a sequence of numbers to be generated on the fly. Their lazy evaluation explains why the function <code>collect</code> is needed when we want to materialize the entire sequence into a vector. Without <code>collect</code>, iterators merely describe the numbers to be created, without actually creating and storing them in memory.</p>
-<p>Beyond simple ranges, we&#39;ve also covered other types of iterators hat offer more specialized functionality. They included <code>eachindex</code> for accessing array indices, <code>enumerate</code> for pairing elements with their positions, and <code>zip</code> for combining multiple sequences.</p>
+<p>Beyond simple ranges, we&#39;ve also covered other types of iterators that offer more specialized functionality. They included <code>eachindex</code> for accessing array indices, <code>enumerate</code> for pairing elements with their positions, and <code>zip</code> for combining multiple sequences.</p>
 <p>The lazy nature of iterators makes them particularly efficient in for-loops: by generating each value as the for-loop progresses, we eliminate unnecessary memory allocations that would arise from materializing the list being iterated over.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2951,7 +2951,7 @@ foo&#40;x&#41; &#61; sum&#40;a * 2 for a in x&#41;              # 0 allocations<
  10</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The built-in package <code>Iterators</code>, which is automatically &quot;imported&quot; in every Julia session, provides multiple functions for generating lazy sequences. Additionally, it offers lazy counterparts of various functions such as <code>filter</code> and <code>map</code>, which can be accesed as <code>Iterators.filter</code> and <code>Iterators.map</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The <code>IterTools</code> package further extends the functionality of <code>Iterators</code>, offering even more tools for working with lazy sequences.  </span></span> </p>
+<p>The built-in package <code>Iterators</code>, which is automatically &quot;imported&quot; in every Julia session, provides multiple functions for generating lazy sequences. Additionally, it offers lazy counterparts of various functions such as <code>filter</code> and <code>map</code>, which can be accessed as <code>Iterators.filter</code> and <code>Iterators.map</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The <code>IterTools</code> package further extends the functionality of <code>Iterators</code>, offering even more tools for working with lazy sequences.  </span></span> </p>
 <p>The following example demonstrates the use of these functions to avoid memory allocations of intermediate computations.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3024,7 +3024,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 28, 2025 
+          © Martin Alfaro <br>Last Modified August 29, 2025 
       </span> 
   </div> 
 </footer>

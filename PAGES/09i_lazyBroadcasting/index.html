@@ -2844,8 +2844,8 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
 <p>This section continues the analysis of lazy and eager operations as a means of reducing memory allocations. The focus now shifts to broadcasting operations, which strike a balance between code readability and performance. </p>
-<p>Central to the upcoming discussion is the eager default behavior of broadcasting in Julia. This means that broadcasted operations compute their outputs immediately upon execution, thereby inevitably leading to memory allocation when applied to allocating-objects like vectors. This characteristic is particularly relevant in scenarios involving multiple intermediate broadcasted operations, resulting in multiple temporary, and therefore avoidable, memory allocations.</p>
-<p>Next, we present various approaches to reduce allocations with intermediate broadcasted operations. We&#39;ll start highlighting the notion of <strong>loop fusion</strong>, which allows multiple broadcasting operations to be combined into a more efficient single operation. After this, we&#39;ll explore the <code>LazyArrays</code> package, which evaluates broadcasting operations in a lazy manner. The technique is particularly useful for reductions requiring intermediate transformations, entirely circumventing memory allocations for these intermediates.</p>
+<p>A key aspect of broadcasting operations in Julia is their eager default behavior. This means that broadcasted operations compute their outputs immediately upon execution, inevitably leading to memory allocation when applied to objects such as vectors. This feature becomes especially relevant in scenarios with intermediate broadcasted operations, which result in multiple potentially avoidable allocations.</p>
+<p>To mitigate this issue, we&#39;ll present various strategies for reducing allocations with intermediate broadcasted operations. One approach highlights the notion of <strong>loop fusion</strong>, which allows multiple broadcasting operations to be combined into a single more efficient operation. After this, we&#39;ll explore the <code>LazyArrays</code> package, which evaluates broadcasting operations in a lazy manner.</p>
 <p>      </div>
     </div>
   </div>
@@ -2855,9 +2855,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>How Does Broadcasting Work?</h2></p>
-<p>To gain a deeper understanding of the optimizations we&#39;ll be discussing, let&#39;s first examine the internal mechanics of broadcasting. Under the hood, broadcasting operations are converted into optimized for-loops during compilation, rendering the two approaches computationally equivalent. In this context, broadcasting serves as syntactic sugar, eliminating the need for explicit for-loops. This allows developers to write more concise and expressive code, without compromising performance. </p>
-<p>Despite the equivalence between broadcasting and for-loops, you&#39;ll often notice performance differences in practice. These discrepancies are largely driven by compiler optimizations, rather than inherent differences between the two approaches. Essentially, the fact that an operation supports a broadcasted form reveals further information about its underlying structure, allowing the compiler to automatically apply certain optimizations. In contrast, the generality of for-loops precludes this possibility, as the same assumptions can&#39;t be taken for granted. Nevertheless, with careful manual optimization, for-loops can always match or surpass the performance of broadcasting, thanks to their greater flexibility and potential for fine-tuning.</p>
-<p>The following code snippets demonstrate the equivalence between the two approaches. The first tab describes the operation being performed, while the second tab provides a rough translation of broadcasting&#39;s internal implementation. The third tab further highlights this equivalence, by providing the exact code used. This requires including the <code>@inbounds</code> macro in the for-loop, which is automatically applied with broadcasting. The specific effect of this macro on computations can be disregarded, as it&#39;ll be discussed in a later section. Its sole purpose here is to illustrate the equivalence between the two approaches.</p>
+<p>Let&#39;s first examine the internal mechanics of broadcasting. Under the hood, broadcasting operations are converted into optimized for-loops during compilation, rendering the two approaches computationally equivalent. Essentially, broadcasting serves as syntactic sugar, eliminating the need for explicit for-loops. This allows users to write more concise and expressive code, without compromising performance. </p>
+<p>Despite this equivalence, you&#39;ll often notice performance differences in practice. These discrepancies are largely driven by compiler optimizations, rather than inherent differences between the two approaches. The reason for this is that an operation supporting a broadcasted form reveals further information to the compiler about its underlying structure. In this way, the compiler is allowed to apply further optimizations. In contrast, for-loops are conceived as a more general construct, so that these additional assumptions shouldn&#39;t be taken for granted. </p>
+<p>Note, though, that with careful manual optimization, for-loops can always match or surpass the performance of broadcasting. The following code snippets demonstrate this point. </p>
+<p>The first tab describes the operation being performed, while the second tab provides a rough translation of broadcasting&#39;s internal implementation. The third tab demonstrates the equivalence by writing a for-loop mirroring the exact code used in broadcasting. This is achieved by adding the <code>@inbounds</code> macro, which is automatically applied with broadcasting. The specific role of <code>@inbounds</code> will be discussed in a later section. Its sole inclusion here is to illustrate the equivalence between the two approaches once we account for it. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2902,10 +2903,10 @@ end</code></pre> </div></div>
 <p>  </p></details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - About <code>@inbounds</code> </span>  </div>  <div class=content>     In the example provided, <code>@inbounds</code> <strong>was added to illustrate the internal implementation of broadcasting, rather than a recommended practice for general use</strong>. In fact, <code>@inbounds</code> used incorrectly <strong>can lead to severe issues</strong>.</p>
-<p>To understand what this macro does, Julia by default enforces bounds checking on array indices to prevent out-of-range access &#40;e.g., it checks that a vector <code>x</code> with 3 elements isn&#39;t accessed at index <code>x&#91;4&#93;</code>&#41;. Adding <code>@inbounds</code> to a for-loop instructs Julia to bypass this check, thus speeding up computations. However, it simultaneously makes our code unsafe, including the possibility of returning incorrect results and other more pronounced issues.  </div>  </div>
-<p>A key implication of the example is that Julia&#39;s broadcasting is eager by default, meaning that the result is immediately computed and stored. In the example, this is reflected in <code>2 .* x</code> being computed and stored in <code>output</code>, which also explains the observed memory allocation.</p>
-<p>Importantly, <strong>memory allocations under broadcasting arise even if the result isn't explicitly stored</strong>. For example, computing <code>sum&#40;2 .* x&#41;</code> involves the computation and temporary storage of <code>2 .* x</code>, before the sum is performed.</p>
+      <b>Warning!</b> - About <code>@inbounds</code> </span>  </div>  <div class=content>     In the example provided, <code>@inbounds</code> <strong>was added to illustrate the internal implementation of broadcasting, not as a general recommended practice</strong>. In fact, used incorrectly, <code>@inbounds</code> <strong>can cause serious issues</strong>.</p>
+<p>To understand what this macro does, Julia by default enforces bounds checks on array indices. For instance, it checks that a vector <code>x</code> with 3 elements isn&#39;t accessed at index <code>x&#91;4&#93;</code>. In this way, out-of-range access is prevented. Placing <code>@inbounds</code> on a for-loop instructs Julia to disable these checks to improve performance. That speed gain, though, comes at the cost of safety: an out-of-range access can silently produce incorrect results or lead to other issues.  </div>  </div>
+<p>A key implication of the example is that Julia&#39;s broadcasting is eager by default. In the example, this means that <code>2 .* x</code> is immediately computed and then stored in <code>output</code>. This also explains the observed memory allocation.</p>
+<p>Importantly, <strong>memory allocations under broadcasting arise even if the result isn't explicitly stored</strong>. For example, computing <code>sum&#40;2 .* x&#41;</code> involves the internal computation and temporary storage of <code>2 .* x</code>.</p>
  <!-- Trigger/Open The Modal -->
 <div style="text-indent:0;"> 
   <button class="modalButton">  <strong>REMARK (OPTIONAL)</strong> Differing Optimizations With Broadcasting and For-Loops</button> </div>
@@ -2955,7 +2956,8 @@ end</code></pre> </div> </div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>  </div></p>
-<p>Broadcasting and for-loops could also differ regarding other optimizations, with <code>@inbounds</code> representing just one example. For instance, broadcasting identify certain operations that remain invariant across iterations. In such cases, broadcasting will &quot;hoist&quot; the operation out of the for-loop, computing it only once and reusing the same result. This is in contrast to for-loops, which will recompute the operation in each iteration, unless explicitly instructed otherwise. The pattern arises in the example below, where broadcasting computes <code>sum&#40;x&#41;</code> only once, but the for-loop does it multiple times.</p>
+<p><code>@inbounds</code> represents just one example of how broadcasting and for-loops could differ. In fact, there are several techniques that broadcasting automatically applies to optimize performance, relative to a standard for-loop. </p>
+<p>For instance, broadcasting identify certain operations that remain invariant across iterations. In such cases, broadcasting will &quot;hoist&quot; the operation out of the for-loop, computing it only once and reusing the same result. This is in contrast to for-loops, which will recompute the operation in each iteration, unless explicitly instructed otherwise. A typical example is given below, where broadcasting computes <code>sum&#40;x&#41;</code> only once, but the for-loop recomputes it multiple times.</p>
 <p> <div style="height:24em">  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3013,9 +3015,9 @@ end</code></pre> </div> </div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting: Loop Fusion</h2></p>
-<p>While eager broadcasting makes results readily available, their outputs may not be important in themselves. Instead, they could represent intermediate steps in a larger computation, with these outputs eventually being passed as inputs to subsequent operations.</p>
-<p>In the following, we address scenarios like this, where broadcasting is employed for intermediate results. The first approach we explore leverages a technique called <span style="color: rgb(62, 121, 180);"><strong>loop fusion</strong></span>, which combines multiple broadcasting operations into a single loop. By doing so, the compiler can perform all operations in a single pass over the data. This not only eliminates the creation of multiple intermediate vectors, but also provides the compiler with a holistic view of the operations, thus allowing for further optimizations.</p>
-<p>Remarkably, when all broadcasting operations are nested within a single operation, the compiler automatically implements loop fusion. However, for complex expressions, writing a single lengthy expression can be impractical. To overcome this limitation, we&#39;ll show a method that enables us to break down operations into partial calculations, while still preserving loop fusion. This approach is based on the lazy design of functions definitions, making it possible to delay operations until their eventual combination.</p>
+<p>While eager broadcasting makes results readily available, their outputs may not be important by themselves. Instead, they could represent intermediate steps in a larger computation, eventually passed as inputs to subsequent operations.</p>
+<p>In the following, we address scenarios like this, where broadcasting is employed for intermediate results. The first approach leverages a technique called <span style="color: rgb(62, 121, 180);"><strong>loop fusion</strong></span>, which combines multiple broadcasting operations into a single loop. By doing so, the compiler can perform all operations in a single pass over the data. This not only eliminates the creation of multiple intermediate vectors, but also provides the compiler with a holistic view of the operations, thus enabling further optimizations.</p>
+<p>When all broadcasting operations are nested within a single operation, the compiler automatically implements loop fusion. For complex expressions, however, writing a single lengthy expression can be impractical. To overcome this limitation, we&#39;ll show how to break down an operation into partial calculations, while still preserving loop fusion. The method relieson the lazy design of functions definitions, allowing operations to be delayed until their final combination.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3051,7 +3053,7 @@ foo&#40;a&#41;   &#61; term1&#40;a&#41; &#43; term2&#40;a&#41;</code></pre> </di
  </div></div>
 <p>  </p></details></div>
  <h4> Vector Operations Allocate and Break Loop Fusion </h4>
-<p>A common scenario where loop fusion is prevented is when a single expression combines broadcasting and vector operations. This possibility arises because <strong>some vector operations yield similar results to their broadcasting equivalents</strong>, making it possible to combine these operations without dimensional mismatches. For instance, we show below that adding two vectors using <code>&#43;</code> produces the same result as summing them element-wise by employing <code>.&#43;</code>.</p>
+<p>A common situation that prevents loop fusion is when a single expression mixes broadcasting with vector operations. This occurs because <strong>some vector operations produce the same results as their broadcasting equivalents</strong>, thus precluding dimensional mismatches. For instance, adding two vectors with <code>&#43;</code> yields the same result as summing them element-wise with <code>.&#43;</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3077,7 +3079,7 @@ foo&#40;x,y&#41; &#61; x &#43; y</code></pre> </div></div>
  9</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The same occurs with a vector product when one of the operands is a scalar.</p>
+<p>The same issue arises with vector-scalar multiplication. When one operand is a scalar, the vector product produces the same element-wise result as its broadcasting form.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3104,17 +3106,17 @@ foo&#40;x,β&#41; &#61; x * β</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
  <h4> Omitting Dots Avoids Loop Fusion </h4>
-<p>Mixing vector operations and broadcasting is problematic for performance. The reason is that each vector operation will allocate memory, in a context that operations aren&#39;t fused. In particular, the issue arises when the following conditions are met:</p>
+<p>Mixing vector operations and broadcasting is problematic for performance, since prevents loop fusion and forces memory allocations. Going beyond the examples presented before, you can identify this issue when when the following conditions are met:</p>
 <ul>
 <li><p>The final output requires combining multiple operations</p>
 </li>
-<li><p>The operations yield the same result whether implemented through broadcasting or a vector operation</p>
+<li><p>Broadcasting and vector operations would yield the same result</p>
 </li>
-<li><p>We mix broadcasting and vector implementations, by omitting the inclusion of some dots</p>
+<li><p>Broadcasting and vector operations are effectively mixed, due to the omission of some broadcasting dots</p>
 </li>
 </ul>
-<p>If all these conditions are satisfied, Julia will partition the operations and compute each separately. The consequence of this is the emergence of multiple temporary vectors, with each separately allocating memory.</p>
-<p>The following example illustrates this possibility in the extreme case where  <em>all</em> broadcasting dots <code>.</code> are omitted. It demonstrates that vector operations aren&#39;t fused, even when expressed in a single operation. Moreover, it establishes that vector operations are similar to obtaining the final result by separately calculating each operation. </p>
+<p>If those conditions hold, Julia partitions the work and computes each part separately, producing multiple temporary vectors and extra allocations.</p>
+<p>The following example illustrates this possibility in the extreme case where  <em>all</em> broadcasting dots <code>.</code> are omitted. The example demonstrates that, since vector operations aren&#39;t fused, the final output is obtained by separately calculating each intermediate operation. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3139,7 +3141,7 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>While the previous example exclusively consists of vector operations, the same principle applies when mixing broadcasting and non-broadcasting operations. In such cases, loop fusion is partially achieved, with only a subset of operations being internally computed through a single for-loop.</p>
+<p>While the previous example exclusively consists of vector operations, the same principle applies when we broadcast some operations and not others. In such cases, loop fusion is partially achieved, with only a subset of operations being internally computed through a single for-loop.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3164,7 +3166,7 @@ end</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
 <p>Overall, the key takeaway from these examples is that <strong>guaranteeing loop fusion requires appending a dot to every operator and function to be broadcasted</strong>. Note that this can be error-prone, especially in large expressions where a single missing dot can be easily overlooked. Fortunately, there are two alternatives that mitigate this risk. </p>
-<p>One option is to prefix the expression with <code>@.</code>, as shown in the tab <code>Equivalent 1</code> below. This ensures that  <em>all</em> operators and functions are broadcasted. Alternatively, all operations could be combined into a  <em>scalar</em> function, which you eventually broadcast. This is presented in the tab <code>Equivalent 2</code> below.</p>
+<p>One option is to prefix the expression with the macro <code>@.</code>, as shown below in tab &quot;Equivalent 1&quot;. This ensures that  <em>all</em> operators and functions are broadcasted. An alternative solution is to combine all operations into a  <em>scalar</em> function, which you eventually broadcast. This is presented below in the tab &quot;Equivalent 2&quot;.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3191,7 +3193,7 @@ foo&#40;a&#41; &#61; a * 2 &#43; a * 3</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>When multiple long operations are combined, the need to split operations is inevitable. In this case, we can apply a similar trick as we did before, where we leverage that function definitions are inherently lazy. Specifically, this allows us to achieve loop fusion by defining each operation as a separate scalar function. </p>
+<p>When several lengthy operations must be combined, the need to split them becomes inevitable. In such cases, we can still leverage the inherent laziness of function definitions. Loop fusion would then be achieved by defining each operation as a separate scalar function. </p>
  <div class=" code_box"> <details  open><summary> Loop Fusion Splitting Operations  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">x        &#61; rand&#40;100&#41;
 
 term1&#40;a&#41; &#61; a * 2
@@ -3208,7 +3210,8 @@ foo&#40;a&#41;   &#61; term1&#40;a&#41; &#43; term2&#40;a&#41;</code></pre> </di
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Lazy Broadcasting</h2></p>
-<p>To handle intermediate computations, we can also transform broadcasting into a lazy operation. Such functionality is provided by the <code>LazyArrays</code> package, whose use requires prepending the <code>@~</code> macro to the broadcasting operation. Similar to a function definition, lazy broadcasting defers the actual computation of the operation until it&#39;s needed.</p>
+<p>To handle intermediate computations efficiently, another possibility is to transform broadcasting into a lazy operation. Similar to a function definition, lazy broadcasting defers computations until their results are explicitly required.</p>
+<p>The functionality is provided by the <code>LazyArrays</code> package, whose use requires prepending the <code>@~</code> macro to the broadcasting operation. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3238,8 +3241,8 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Note that, up to this point, all the cases considered had a vector as its end result. In this context, our goal becomes to reduce memory allocations to the single unavoidable allocation, which is given by storage of the final result.</p>
-<p>Instead, when scalar values are the final output, lazy broadcasting offers a significant advantage: it enables us to completely remove memory allocations. This is because lazy broadcasting fuses broadcasting and reduction operations, allowing the former to be computed on-the-fly. This is illustrated in the example provided below.</p>
+<p>All cases considered thus far have resulted in a  <em>vector</em> output. In those cases, memory allocations could at best be reduced to a single unavoidable allocation, necessary for storing the final output.</p>
+<p>When the final output is instead given by a scalar, as occurs with reductions, lazy broadcasting enables the complete elimination of memory allocations. This is achieved because nesting lazy broadcasted operations implements loop fusion, as illustrated in the example below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3261,7 +3264,7 @@ foo&#40;x&#41; &#61; sum&#40;@~ 2 .* x&#41;</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Note that completely eliminating allocations can&#39;t be accomplished simply by using functions. This is because functions enable the splitting of broadcasting operations, but do not fuse them with reduction operations.</p>
+<p>Note that simply using functions isn&#39;t sufficient to completely eliminate allocations. Functions allow for the splitting of broadcasting operations, but don&#39;t fuse them with reduction operations.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3304,7 +3307,7 @@ end</code></pre> </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     An additional advantage of <code>@~</code> is that it performs additional optimizations when possible. As a result, you&#39;ll typically observe that <code>@~</code> is faster than alternatives like a lazy map, despite that neither allocates memory. This performance benefit can be appreciated in the following comparison.</p>
+      <b> Remark</b> </span>  </div>  <div class=content>     An additional advantage of <code>@~</code> is the extra optimizations that implements when possible. As a result, <code>@~</code> tends to be faster than alternatives like a lazy map, despite that neither allocates memory. This performance benefit can be appreciated in the following comparison.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3354,7 +3357,7 @@ foo&#40;x&#41;   &#61; sum&#40;Iterators.map&#40;temp, x&#41;&#41;</code></pre> 
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 28, 2025 
+          © Martin Alfaro <br>Last Modified August 29, 2025 
       </span> 
   </div> 
 </footer>

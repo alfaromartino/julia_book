@@ -2967,10 +2967,10 @@ z &#61; sum&#40;log, x&#41;     # log&#40;2&#41; &#43; log&#40;3&#41; &#43; log&
 <p>The operations to be performed are then forwarded to the <strong>compiler</strong>, which is in charge of the implementation. This involves choosing a <span style="color: rgb(62, 121, 180);"><strong>method instance</strong></span>, which refers to the specific code implementation that will be used to compute the operations defined by the method. </p>
 <p>If a method instance already exists for the function signature <code>foo&#40;a::Int64, b::Int64&#41;</code>, Julia will directly employ it to compute <code>foo&#40;1,2&#41;</code>. Otherwise, a new method instance is generated and stored &#40;cached&#41; in memory. </p>
 <p>The following diagram depicts all the process unfolded when <code>foo&#40;1,2&#41;</code> is executed. <br/></p>
- <div class="multiple_pics" style="padding-top:0em;">
+<p> <div class="multiple_pics" style="padding-top:0em;">
   <h2 style="color:rgb(63, 99,136);"><div style="text-decoration:underline;">Multiple Dispatch</div></h2>
     <img src="/julia_book/assets/PAGES/07e_TS-onFunctions/tikz/dispatch02.svg" style="width:95%; height:22em; margin-top:-1em; margin-bottom:-4em;max-width:100%;">
-</div>
+</div> <br/></p>
 <p>The process determines that the first time you call a function with particular argument types, there’s an initial compilation overhead. This phenomenon is referred to in Julia as <a href="/julia_book/PAGES/07c_benchmarks/#time_to_first_plot">Time To First Plot</a>. Instead, subsequent calls with the same argument types can reuse this cached code, resulting in faster execution.</p>
 <p>To illustrate this mechanism, note that the call <code>foo&#40;3, 2&#41;</code> incorporated in the example occurs after <code>foo&#40;1,2&#41;</code>. This allows Julia to compute <code>foo&#40;3, 2&#41;</code> by directly invoking the method instance <code>foo&#40;a::Int64, b::Int64&#41;</code>, without the need of compiling code. Instead, executing a function call like <code>foo&#40;3.0, 2&#41;</code> requires the compilation of a new method instance <code>foo&#40;a::Float64, b::Int64&#41;</code>, since the types of <code>3</code> and <code>3.0</code> differ. </p>
 <p>      </div>
@@ -3061,7 +3061,7 @@ foo&#40;a&#41;    &#61; a * b</code></pre>
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo2&#40;1, 2&#41;</code><br/><div class="akin_to_pre">2</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The function on the first tab only accepts arguments with type <code>Float64</code>. Note that even integer variables are disallowed, as function arguments aren&#39;t converted to a common type. On the contrary, the function&#39;s second tab entails the same process for <code>Float64</code> inputs, but additionally allows for other types. The flexibility stems from the implicit type-annotation <code>Any</code> for the function arguments. </p>
+<p>The function on the first tab only accepts arguments with type <code>Float64</code>. Note that even integer variables are disallowed, as function arguments aren&#39;t converted to a common type. On the contrary, the function on the second tab entails the same process for <code>Float64</code> inputs, but additionally allows for other types. The flexibility stems from the implicit type-annotation <code>Any</code> for the function arguments. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Packages Commonly Type-Annotate Function Arguments</strong>  </span>  </div>  <div class=content>     When inspect the code of packages, you may notice that function arguments are often type-annotated. The reason for this isn&#39;t related to performance, but rather to ensure the function&#39;s intended usage, safeguarding against inadvertent type mismatches. </p>
 <p>For instance, suppose a function to the revenue of a theater via <code>nr_tickets * price</code>. Importantly, the operator <code>*</code> in Julia not only implements the product of numbers, but also concatenates words when applied to expressions with type <code>String</code>. This opens up the possibility of misusing the function if it&#39;s not type-annotated. The first tab demonstrates a potential misuse of this function, with the second tab addressing this possibility by asserting types.</p>
@@ -3106,7 +3106,7 @@ foo&#40;a&#41;    &#61; a * b</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 28, 2025 
+          © Martin Alfaro <br>Last Modified August 29, 2025 
       </span> 
   </div> 
 </footer>
