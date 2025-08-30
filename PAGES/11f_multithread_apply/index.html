@@ -2845,6 +2845,7 @@ color: white;
 <p>Overall, our discussions to this point have largely focused on the  <em>syntax</em> and  <em>work distribution</em> of these approaches. Therefore, we have yet to address how to apply multithreading in real scenarios. Furthermore, given the possibility of dependencies between computations,  <em>how</em> to parallelize is only part of the challenge: knowing  <em>when</em> to parallelize is equally important.</p>
 <p>This section and the next one aim to bridge this gap, providing practical guidance on implementing multithreading. We begin by highlighting the advantages of coarse‑grained parallelization over fine-grained parallelization. By dividing the workload into a small number of large tasks, coarse‑grained parallelization reduces the scheduling overhead from managing numerous lightweight tasks.</p>
 <p>After this, we revisit the parallelization of for-loops, this time using <code>@spawn</code>. In particular, leveraging the additional control that <code>@spawn</code> provides over task creation, we&#39;ll demonstrate how to apply multithreading in the presence of a ubiquitous type of dependency: reductions.</p>
+<p>We conclude by showing a performance issue arising with multithreading, known as false sharing. While this doesn&#39;t affect the correctness the result, it can slow down computations if not addressed.</p>
 <p>      </div>
     </div>
   </div>
