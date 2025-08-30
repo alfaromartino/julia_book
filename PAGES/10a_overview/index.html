@@ -2840,9 +2840,16 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>The previous chapters started our study of techniques for improving performance. The focus was in particular on type stability and memory allocations, which are not only critical for achieving optimal performance, but also universally applicable. However, specific applications can often benefit from more specialized strategies. This chapter takes a step in this direction by introducing some of these techniques. In particular, we offer two key insights that extend beyond any particular application, and therefore can be applied broadly.</p>
-<p>First, any of the new techniques we&#39;ll introduce <strong>inherently involve trade-offs</strong>. This occurs because, after applying fundamental optimizations to operate at the performance frontier, any further gains can only be achieved at the expense of precision, safety, or generality. This stands in contrast to fundamental optimizations like type stability and reduced memory allocations, which may hinder readability but don&#39;t entail compromises in other respects. The presence of these trade-offs also explains why the techniques aren&#39;t part of Julia&#39;s default implementation, which consistently prioritizes correctness and safety over speed.</p>
-<p>The second important takeaway is related to the concept of <strong>code transformation via macros</strong>. This represents a general strategy that allows developers to implement sophisticated computational algorithms, without requiring users to grasp the underlying complexities for their applications. Macros are particularly well-suited suited for this purpose, as they essentially take expressions in a code and modifies it before compilation. This makes it possible, for example, to identify all operations within a for-loop, subsequently adapting the algorithm for a more efficient computation.</p>
+<p>The previous chapters started our study of techniques for improving performance. The focus was in particular on general strategies, based on type stability and memory allocations. This chapter transitions to more <strong>specialized optimization techniques</strong>.</p>
+<p>There are two important lessons to carry forward from this chapter.</p>
+<ol>
+<li><p><strong>Inherent Trade-offs</strong>. Once type stability is ensured and memory allocations are reduced, further speed gains almost always require a compromise. These trade-offs typically involve sacrificing  <em>precision</em> &#40;accepting a less accurate result for a faster calculation&#41;,  <em>safety</em> &#40;bypassing safeguards that prevent errors&#41;, or  <em>generality</em> &#40;writing code that is highly specific to one problem&#41;. This is precisely why such techniques aren&#39;t applied by default in Julia, which prioritizes correctness and safety above all.</p>
+</li>
+</ol>
+<ol start="2">
+<li><p><strong>Automated Optimization with Macros</strong>. When the need for speed makes these trade-offs worthwhile, macros provide an elegant way to implement complex strategies. They allow developers to package sophisticated optimization algorithms into simple reusable tools. This makes advanced optimization highly accessible, as users can apply these techniques without the need to understand the underlying intricacies of their implementation.</p>
+</li>
+</ol>
  <div style="visibility: hidden;margin-bottom:-4em">
 this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible
 this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible
@@ -2874,7 +2881,7 @@ this is invisible this is invisible this is invisible this is invisible this is 
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 29, 2025 
+          © Martin Alfaro <br>Last Modified August 30, 2025 
       </span> 
   </div> 
 </footer>

@@ -6,6 +6,36 @@ using Random, LoopVectorization
  
 ############################################################################
 #
+#			@VIEWS as an example of macro that simplifies code
+#
+############################################################################
+ 
+Random.seed!(123)       #setting the seed for reproducibility #hide
+x = rand(1_000)
+
+function foo(x)
+    x1 = view(x, x .> 0.7)
+    x2 = view(x, x .< 0.5)
+    x3 = view(x, 1:500)
+    x4 = view(x, 501:1_000)
+
+    x1, x2, x3, x4
+end
+ 
+Random.seed!(123)       #setting the seed for reproducibility #hide
+x = rand(1_000)
+
+@views function foo(x)
+    x1 = x[x .> 0.7]
+    x2 = x[x .< 0.5]
+    x3 = x[1:500] 
+    x4 = x[501:1_000]
+
+    x1, x2, x3, x4
+end
+ 
+############################################################################
+#
 #			@INBOUNDS
 #
 ############################################################################
@@ -26,7 +56,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -44,7 +74,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # equivalence
  
@@ -62,7 +92,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(1_000)
@@ -78,7 +108,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 ####################################################
 #	@inbounds could be applied automatically
@@ -96,7 +126,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(1_000)
@@ -110,7 +140,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 ####################################################
 #	@inbounds isn't necessarily applied automatically and can entail a substantial time difference
@@ -128,7 +158,7 @@ function foo(v, w, x, y)
 
     return output
 end
-@btime foo($v,$w,$x,$y) #hide
+@ctime foo($v,$w,$x,$y) #hide
  
 Random.seed!(123)       #setting the seed for reproducibility #hide
 v,w,x,y = (rand(100_000) for _ in 1:4)       # it assigns random vectors to v,w,x,y
@@ -142,7 +172,7 @@ function foo(v, w, x, y)
 
     return output
 end
-@btime foo($v,$w,$x,$y) #hide
+@ctime foo($v,$w,$x,$y) #hide
  
 ####################################################
 #	splitting @inbounds is possible
@@ -163,7 +193,7 @@ function foo(v,w,x,y)
 
     return output
 end
-@btime foo($v,$w,$x,$y) #hide
+@ctime foo($v,$w,$x,$y) #hide
  
 Random.seed!(123)       #setting the seed for reproducibility #hide
 v,w,x,y = (rand(100_000) for _ in 1:4)        # it assigns random vectors to v,w,x,y
@@ -180,7 +210,7 @@ function foo(v,w,x,y)
 
     return output
 end
-@btime foo($v,$w,$x,$y) #hide
+@ctime foo($v,$w,$x,$y) #hide
  
 ####################################################
 #	remark - about using macros for functions in for-loops
@@ -201,7 +231,7 @@ function foo(v,w,x,y)
 
     return output
 end
-@btime foo($v,$w,$x,$y) #hide
+@ctime foo($v,$w,$x,$y) #hide
  
 Random.seed!(123)       #setting the seed for reproducibility #hide
 v,w,x,y = (rand(100_000) for _ in 1:4) # it assigns random vectors to v, w, x, y
@@ -218,7 +248,7 @@ function foo(v,w,x,y)
 
     return output
 end
-@btime foo($v,$w,$x,$y) #hide
+@ctime foo($v,$w,$x,$y) #hide
  
 Random.seed!(123)       #setting the seed for reproducibility #hide
 v,w,x,y = (rand(100_000) for _ in 1:4) # it assigns random vectors to v, w, x, y
@@ -235,7 +265,7 @@ function foo(v,w,x,y)
 
     return output
 end
-@btime foo($v,$w,$x,$y) #hide
+@ctime foo($v,$w,$x,$y) #hide
  
 ############################################################################
 #
@@ -259,7 +289,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(2_000_000)
@@ -273,7 +303,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 ####################################################
 #	@simd could be applied automatically
@@ -287,7 +317,7 @@ function foo!(x)
         x[i] = x[i] * 2
     end
 end
-@btime foo!($x) #hide
+@ctime foo!($x) #hide
  
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(2_000_000)
@@ -297,7 +327,7 @@ function foo!(x)
         x[i] = x[i] * 2
     end
 end
-@btime foo!($x) #hide
+@ctime foo!($x) #hide
  
 ####################################################
 #	@simd could be disregarded
@@ -319,7 +349,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(2_000_000)
@@ -337,7 +367,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 ####################################################
 #	Simpler Example
@@ -355,7 +385,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(1:10, 2_000_000)
@@ -369,7 +399,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(2_000_000)
@@ -383,7 +413,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(2_000_000)
@@ -397,5 +427,5 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  

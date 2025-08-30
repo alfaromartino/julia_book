@@ -12,4 +12,4 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide

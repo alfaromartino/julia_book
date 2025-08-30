@@ -2840,9 +2840,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Single Instruction, Multiple Data &#40;SIMD&#41; is an optimization technique widely embraced in modern CPU architectures. At its core, SIMD allows a single CPU instruction to process multiple data points concurrently instead of sequentially processing each one individually. This approach can yield substantial performance gains, particularly for workloads involving simple identical calculations repeated across multiple data elements. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> SIMD isn&#39;t exclusive to CPUs. In fact, GPUs also take advantage of it. They&#39;re a natural fit for SIMD, as their architecture was conceived for parallel processing of simple identical operations.  </span></span></p>
-<p>To illustrate the power of SIMD, consider a computation consisting of four separate addition operations. Without SIMD, you&#39;d have to execute four distinct instructions, one for each addition. Instead, SIMD makes it possible to bundle the four additions into a single instruction, with the CPU processing them all at once. In an ideal scenario, the time required to complete four additions using SIMD or one addition without it could be the same.</p>
-<p>The efficiency of SIMD comes from its ability to leverage parallelism within a single CPU core. By operating on vectors rather than individual elements, SIMD instructions can execute the same operation on multiple data simultaneously. This is why SIMD is usually referred to as <strong>vectorization</strong>.</p>
+<p>Single Instruction, Multiple Data &#40;SIMD&#41; is an optimization technique widely embraced in modern CPU architectures. At its core, SIMD allows a single CPU instruction to process multiple data points concurrently, rather than sequentially processing them one by one. The parallel approach can yield substantial performance gains, especially for workloads involving simple identical calculations repeated across multiple data elements. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> SIMD isn&#39;t exclusive to CPUs. In fact, GPUs also take advantage of it. Their architecture is a natural fit for SIMD, as it was conceived for parallel processing of simple identical operations.  </span></span></p>
+<p>To illustrate the power of SIMD, consider a computation involving four separate addition operations. Without SIMD, the computer would need to execute four distinct instructions, one for each addition. Instead, SIMD makes it possible to bundle the four additions into a single instruction, allowing the CPU to process them all at once. In an ideal scenario, the time required to complete four additions with SIMD would be the same as completing one addition without it.</p>
+<p>The efficiency of SIMD lies in its ability to leverage parallelism within a single CPU core. By operating on vectors rather than individual elements, SIMD instructions can execute the same operation on multiple data points simultaneously. This is why the process of applying SIMD is often referred to as <strong>vectorization</strong>.</p>
 <p>Throughout the sections, we&#39;ll cover two approaches for implementing SIMD instructions. </p>
 <ul>
 <li><p>Julia&#39;s native capabilities.</p>
@@ -2850,7 +2850,7 @@ color: white;
 <li><p>The package <code>LoopVectorization</code>.</p>
 </li>
 </ul>
-<p>In this section, we&#39;ll concentrate on the built-in tools for applying SIMD. In particular, we&#39;ll present conditions that trigger its automatic application. Furthermore, we&#39;ll introduce the <code>@simd</code> macro, which allows for manual implementation in for-loops. Instead, the study of <code>LoopVectorization</code> is relegated to subsequent sections. As we&#39;ll see, this package implements more aggressive optimizations, relative to Julia&#39;s base.</p>
+<p>This section will exclusively concentrate on the built-in tools for applying SIMD. In particular, we&#39;ll explore the conditions that trigger automatic vectorization and also introduce the <code>@simd</code> macro, which lets you manually apply it in for-loops. We&#39;ll save our discussion of <code>LoopVectorization</code> for later sections. Relative to Julia&#39;s built-in tools, this package often implements more aggressive optimizations, but can also introduce bugs if misused. </p>
 <p>      </div>
     </div>
   </div>
@@ -2860,21 +2860,21 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>What is SIMD?</h2></p>
-<p>SIMD is a type of instruction-level parallelism that occurs within a single processor core. It&#39;s particularly effective for basic arithmetic operations, such as addition and multiplication, when the same operation must be applied to multiple data. Given the nature of these operations, it&#39;s no surprise that one of the primary applications of SIMD is in linear algebra.</p>
-<p>At the heart of SIMD lies the process of vectorization, where data is split into sub-vectors that can be processed as single units. To facilitate this, modern processors include specialized SIMD registers designed for this purpose. Desktop and laptop processors these days typically feature 256-bit wide registers for vectorized operations, which can hold four 64-bit floating-point numbers. </p>
+<p>SIMD is a type of instruction-level parallelism that occurs within a single processor core. It&#39;s particularly effective for basic arithmetic operations, such as addition and multiplication, when the same operation must be applied to multiple data elements. Given the nature of these operations, it&#39;s unsurprising that one of SIMD’s primary applications is in linear algebra.</p>
+<p>At the heart of SIMD lies the process of vectorization, where data is split into sub-vectors that can be processed as single units. To facilitate this operation, modern processors include specialized SIMD registers designed for this purpose. Today&#39;s processors typically feature 256-bit registers for vectorized operations, which are wide enough to hold four values of either <code>Float64</code> or <code>Int64</code>.</p>
 <p>To illustrate the workings of SIMD, consider the task of adding two vectors, each comprising four elements. Specifically, let <code>x &#61; &#91;1, 2, 3, 4&#93;</code> and <code>y &#61; &#91;10, 20, 30, 40&#93;</code>. In traditional scalar processing, performing the operation <code>x &#43; y</code> would require four separate addition operations, one for each pair of numbers. In contrast, all four additions can be performed with a single instruction under SIMD, producing the result <code>&#91;11, 22, 33, 44&#93;</code> in one step.</p>
 <p>For larger vectors, the process remains fundamentally the same. The only difference is that the processor first partitions the vectors into sub-vectors that fit the register&#39;s capacity. After this, the processor computes all the operations within each segment simultaneously, repeating the procedure for each sub-vector. </p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="broadcasting_vs_for-loops" class="scrollspy">
+<section id="broadcasting_and_for-loops" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Broadcasting vs For-Loops</h2></p>
-<p>The previous analysis shows that SIMD applies to computations involving collections. Based on this, we can identify <strong>two types of operations that can potentially benefit from SIMD instructions: for-loops and broadcasting</strong>. The latter is automatically implemented by the compiler, without requiring any special consideration from the user.</p>
-<p>Instead, the upcoming sections will focus on the application of SIMD in for-loops. This will require exploring the conditions under which SIMD instructions can be applied. If these conditions aren&#39;t met, SIMD will become infeasible or reduce its effectiveness substantially. In addition to elaborating on these conditions, we&#39;ll provide guidance on how to address scenarios that don&#39;t conform to them.</p>
+        <h2>Broadcasting and For-Loops</h2></p>
+<p>The previous analysis shows that SIMD applies to computations involving collections. Based on this, we can identify <strong>two types of operations that can potentially benefit from SIMD instructions: for-loops and broadcasting</strong>. The compiler implements it automatically in the latter case, without requiring any special consideration from the user.</p>
+<p>Instead, the upcoming sections will focus on the application of SIMD in for-loops. This will require exploring the conditions under which SIMD instructions can be applied. If these conditions aren&#39;t met, SIMD will become infeasible or substantially reduce its effectiveness. In addition to elaborating on these conditions, we&#39;ll provide guidance on how to address scenarios that don&#39;t conform to them.</p>
 <p>To pave the way and shift our attention to for-loops, we conclude this section by illustrating the automatic application of SIMD in broadcasting.</p>
 <p>      </div>
     </div>
@@ -2885,7 +2885,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>SIMD in Broadcasting</h2></p>
-<p>The decision whether to apply SIMD instructions is always handled by the compiler, which relies on heuristics to determine when it&#39;s beneficial to do so. One situation where Julia strongly favors the application of SIMD is with broadcasting, as can be noticed in the following example.</p>
+<p>The decision to apply SIMD instructions is made entirely by the compiler, which relies on a set of heuristics to determine when their use will pay off. One case where Julia strongly favors SIMD is in broadcasting operations.</p>
+<p>The following example demonstrates this. It compares the same computation implemented using a for loop and using broadcasting. While broadcasting automatically takes advantage of SIMD, this is not necessarily true for for-loops, and in fact it&#39;s not in this case.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2913,7 +2914,6 @@ foo&#40;x&#41; &#61; 2 ./ x</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The example compares the same operation implemented using a for-loop and broadcasting. While broadcasting automatically leverages SIMD, this isn&#39;t necessarily the case with for-loops. Indeed, in this particular example, we&#39;d need to explicitly instruct the compiler to enable SIMD, which accounts for the observed time differences.</p>
 <p>      </div>
     </div>
   </div>
@@ -2937,7 +2937,7 @@ foo&#40;x&#41; &#61; 2 ./ x</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 29, 2025 
+          © Martin Alfaro <br>Last Modified August 30, 2025 
       </span> 
   </div> 
 </footer>
@@ -3549,7 +3549,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#broadcasting_vs_for-loops" data-offset="-40">Broadcasting vs For-Loops</a>
+          <a href="#broadcasting_and_for-loops" data-offset="-40">Broadcasting and For-Loops</a>
         </li>
         
         <li>

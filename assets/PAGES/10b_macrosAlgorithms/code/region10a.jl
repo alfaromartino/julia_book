@@ -6,4 +6,4 @@ function foo!(x)
         x[i] = x[i] * 2
     end
 end
-@btime foo!($x) #hide
+@ctime foo!($x) #hide

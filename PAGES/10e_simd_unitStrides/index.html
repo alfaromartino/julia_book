@@ -2840,7 +2840,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>SIMD improves computational performance by simultaneously executing the same operation on multiple data elements. Technically, this is achieved through the use of specialized vector registers, which can hold several values &#40;e.g., 4 floating-point numbers or 8 integers&#41;. They allow operations such as multiple additions or multiplications to be completed with a single instruction.</p>
+<p>SIMD improves computational performance by simultaneously executing the same operation on multiple data elements. Technically, this is achieved through the use of specialized vector registers, which can hold several values &#40;e.g., 4 floating-point numbers or 4 integers&#41;. They allow operations such as multiple additions or multiplications to be completed with a single instruction.</p>
 <p>For SIMD to fully exploit this vector-based processing, <strong>data should be organized and accessed in memory</strong> in specific ways. Two fundamental concepts for understanding this are contiguous memory layout and unit stride access.</p>
 <p><span style="color: rgb(62, 121, 180);"><strong>Contiguous memory layout</strong></span> means that data elements reside in adjacent memory addresses, therefore not exhibiting gaps. Newly allocated arrays satisfy this condition, enabling the load of entire segments directly into vector registers. In contrast, array views reference the original data structure, and thus don&#39;t guarantee contiguity. This can potentially result in highly irregular memory access patterns.</p>
 <p>In addition, <span style="color: rgb(62, 121, 180);"><strong>strides</strong></span> refer to the step size between consecutive memory accesses, with <span style="color: rgb(62, 121, 180);"><strong>unit strides</strong></span> in particular entailing that elements are accessed sequentially. For example, consider a freshly allocated vector <code>x</code>. Then, accessing its elements through <code>eachindex&#40;x&#41;</code> &#40;or equivalently <code>1:length&#40;x&#41;</code>&#41; ensures a unit stride, as each access moves sequentially to the next element in memory. This contrasts with ranges having a non-unit stride such as <code>1:2:length&#40;x&#41;</code> or indices with no predictable pattern &#40;e.g., <code>&#91;1, 5, 3, 4&#93;</code> as an index vector&#41;. </p>
@@ -2999,7 +2999,7 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>while for Boolean indexing:</p>
+<p>Instead, for Boolean indexing:</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3406,7 +3406,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 29, 2025 
+          © Martin Alfaro <br>Last Modified August 30, 2025 
       </span> 
   </div> 
 </footer>

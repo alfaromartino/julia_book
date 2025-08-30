@@ -10,4 +10,4 @@ function foo(v, w, x, y)
 
     return output
 end
-@btime foo($v,$w,$x,$y) #hide
+@ctime foo($v,$w,$x,$y) #hide

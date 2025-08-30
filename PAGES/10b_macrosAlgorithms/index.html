@@ -2847,38 +2847,66 @@ color: white;
     </div>
   </div>
 </section>
-<section id="about_macros_for_optimizations" class="scrollspy">
+<section id="uses_of_macros" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>About Macros For Optimizations</h2></p>
-<p>Macros bear a resemblance to functions in that they take an input and return an output. Their primary difference lies in that macros take an entire code block as their input, possibly yielding another code block as its output. </p>
-<p>This unique feature enables macros to be applied for tasks that functions can&#39;t handle. One common application is <strong>code simplification</strong>. By automating repetitive tasks and eliminating redundant code, macros are capable of significantly improving code readability. For instance, suppose a function requires multiple slices of <code>x</code> to be converted into views. Without macros, this would involve repeatedly invoking <code>view&#40;x, &lt;indices&gt;&#41;</code>, resulting in verbose and error-prone code. Instead, prepending the function definition with <code>@views</code> will automatically handle all the slice conversions for us.</p>
-<p>Another application of macros is <strong>to modify how operations are computed</strong>, which is the focus of this section. This functionality allows developers to package sophisticated optimization techniques, making advanced solutions accessible to users. Thus, users who might not be familiar with the underlying complexities of the method, only need to focus on selecting the most suitable computational approach, rather than grappling with implementation details.</p>
-<p>While macros are powerful tools, they&#39;re not without their limitations. Their black-box nature means that misuse can lead to unexpected results or compromise computational safety. That&#39;s why identifying suitable scenarios for each macro is crucial. While this requires a bit of upfront work, it&#39;s considerably less demanding than implementing the same functionality from scratch.</p>
+        <h2>Uses of Macros</h2></p>
+<p><a href="/julia_book/PAGES/03b_packages/#macros">Macros</a>,  denoted by the <code>@</code> symbol before their name, resemble functions in that they take input and produce output. Their primary difference lies in what they operate on and what they can return. Specifically,  <em>functions operate on values</em>: they take evaluated expressions as arguments and return a final computed value. In contrast,  <em>macros operate on code</em>: they take unevaluated expressions as input and return a new transformed expression, which is then compiled and executed in place of the original macro call.</p>
+<p>This unique feature enables macros to handle tasks that functions can&#39;t. Two notable applications are worth mentioning.</p>
+<p>First, macros can be used <strong>to simplify code</strong>. By automating repetitive tasks and eliminating boilerplate, macros can make code significantly more readable and maintainable. For instance, suppose a function requires multiple slices of <code>x</code> to be converted into views. Without macros, this would involve repeatedly invoking <code>view&#40;x, &lt;indices&gt;&#41;</code>, resulting in verbose and error-prone code. Instead, prepending the function definition with <code>@views</code> will automatically handle all the slice conversions for us. This is demonstrated below.</p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> No Macro </button>
+    <button class="tablink" data-id=""> Macro @views </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000&#41;
+
+function foo&#40;x&#41;
+    x1 &#61; view&#40;x, x .&gt; 0.7&#41;
+    x2 &#61; view&#40;x, x .&lt; 0.5&#41;
+    x3 &#61; view&#40;x, 1:500&#41;
+    x4 &#61; view&#40;x, 501:1_000&#41;
+
+    x1, x2, x3, x4
+end</code></pre> </div></div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000&#41;
+
+@views function foo&#40;x&#41;
+    x1 &#61; x&#91;x .&gt; 0.7&#93;
+    x2 &#61; x&#91;x .&lt; 0.5&#93;
+    x3 &#61; x&#91;1:500&#93; 
+    x4 &#61; x&#91;501:1_000&#93;
+
+    x1, x2, x3, x4
+end</code></pre> </div></div> 
+ </div></div>
+<p>  </p></details></div>
+<p>Another application of macros is <strong>to modify how operations are computed</strong>, which is the focus of the current section. This lets developers package sophisticated optimization techniques, making advanced solutions accessible. As a result, users unfamiliar with a method&#39;s underlying complexity can focus on choosing the most suitable computational approach, rather than grappling with the implementation details.</p>
+<p>While macros are powerful tools, they&#39;re not without their limitations. Their black-box nature means that misuse can lead to unexpected results or compromise computational safety. That&#39;s why it&#39;s crucial to identify the right scenarios for each macro. Although this requires some upfront work, it&#39;s considerably less demanding than implementing the same functionality from scratch.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="applying_macros_in_for-loops_inbounds_as_an_example" class="scrollspy section-bg-color">
+<section id="macros_applied_in_for-loops" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Applying Macros in For-Loops: @inbounds As An Example</h2></p>
-<p>One distinctive feature of Julia is its ability to execute for-loops with exceptional speed. In fact, carefully optimized for-loops tend to reach the highest possible performance within the language. This efficiency stems from the versatility of for-loops, which lets users fine-tune them for their specific needs. As a result, it&#39;s no surprise that one prominent application of macros is to implement specific computational approaches for for-loops. </p>
-<p>To illustrate, let&#39;s consider the <code>@inbounds</code> macros. Although strictly speaking this doesn&#39;t implement a new computational approach, it does modify how for-loops are executed. Additionally, it&#39;s simple enough to easily demonstrate this role of macros.</p>
-<p>To appreciate the impact of <code>@inbounds</code>, we first need to understand how for-loops typically behave in Julia. By default, the language implements <span style="color: rgb(62, 121, 180);"><strong>bounds checking</strong></span>: when an element <code>x&#91;i&#93;</code> is accessed during the  <em>i</em>-th iteration, Julia verifies that  <em>i</em> falls within the valid range of indices for <code>x</code>. This built-in mechanism safeguards against errors and security issues caused by out-of-bounds access.</p>
-<p>While bounds checking prevents bugs, it comes at a performance cost: these additional checks not only introduce computational overhead, but also limit the compiler&#39;s ability to implement certain optimizations. However, there are situations where iterations are guaranteed to stay within array bounds. In those cases, we can safely boost performance by disabling bounds checking through the <code>@inbounds</code> macro.</p>
+        <h2>Macros Applied in For-Loops</h2></p>
+<p>One distinctive feature of Julia is its ability to execute for-loops with exceptional speed. In fact, carefully optimized for-loops can reach peak performance within the language. This efficiency stems from the versatility of for-loops, which lets users fine-tune them for their specific needs. As a result, it&#39;s no surprise that one prominent application of macros is to customize how for-loops are computed.</p>
+<p>To illustrate this application, let&#39;s consider <code>@inbounds</code>. To understand what this macro accomplishes, we first need to understand how for-loops behave in Julia. By default, the language implements <span style="color: rgb(62, 121, 180);"><strong>bounds checking</strong></span>: when an element <code>x&#91;i&#93;</code> is accessed during the  <em>i</em>-th iteration, Julia verifies that  <em>i</em> falls within the valid range of indices for <code>x</code>. This built-in mechanism safeguards against errors and security issues caused by out-of-bounds access.</p>
+<p>While bounds checking prevents bugs, it comes at a performance cost: the additional checks not only introduce computational overhead, but also limit the compiler&#39;s ability to implement certain optimizations. In situations where iterations are guaranteed to stay within an array&#39;s bounds, nonetheless, these safety checks become redundant. Consequently, we can safely boost performance by disabling bounds checking with the <code>@inbounds</code> macro.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Trade-Offs Entailed by @inbounds</strong>  </span>  </div>  <div class=content>     The <code>@inbounds</code> macro perfectly illustrates both the power and risks associated with macro usage. When applied judiciously, it can yield substantial performance gains, especially when multiple slices are involved.</p>
-<p>However, disabling bounds checking simultaneously renders code unsafe: it increases the risk of crashes and silent errors, additionally creating security vulnerabilities. In this context, <code>@inbounds</code> shifts the responsibility of applying the macro onto the user, who must be absolutely certain that the iteration range is within the arrays&#39; bounds.  </div>  </div>
- <h4> Illustrating @inbounds </h4>
-<p>Broadly speaking, using a macro within a for-loop to modify its computational approach requires its addition at the beginning of the for-loop. For instance, to disable bounds checking for every indexed element within a for-loop, we simply need to prepend the for-loop with <code>@inbounds</code>. We can alternatively apply <code>@inbounds</code> individually to any specific line within the loop. Nonetheless, this possibility is specific to <code>@inbounds</code>, only arising because the macro can actually be employed even outside for-loops. </p>
+<p>Despite this, disabling bounds checking simultaneously renders code unsafe: it increases the risk of crashes and silent errors, additionally creating security vulnerabilities. In this context, <code>@inbounds</code> shifts the responsibility of applying the macro onto the user, who must be absolutely certain that the iteration range is within the arrays&#39; bounds.  </div>  </div>
+ <h4> @inbounds As An Example </h4>
+<p>Using a macro within a for-loop requires its inclusion at the beginning of the for-loop. For instance, to disable bounds checking for every indexed element within a for-loop, we simply need to prepend the for-loop with <code>@inbounds</code>. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> @inbounds Prepended to For-Loop </button>
-    <button class="tablink" data-id=""> @inbounds Individually Added to Each Line   </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000&#41;
 
@@ -2893,9 +2921,17 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;v,&#36;w,&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  5.002 μs (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;v,&#36;w,&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  5.826 μs (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
+ </div></div>
+<p>  </p></details></div>
+ <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Alternative Application of @inbounds</strong>  </span>  </div>  <div class=content>     We can alternatively apply <code>@inbounds</code> individually to any specific line within the for-loop. Nonetheless, this possibility is specific to <code>@inbounds</code>. It only arises because the macro can actually be employed even outside for-loops. </p>
+<p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> @inbounds Individually Added to Each Line </button>
+</div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000&#41;
 
 function foo&#40;x&#41;
@@ -2909,102 +2945,26 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;v,&#36;w,&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  5.093 μs (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;v,&#36;w,&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  5.938 μs (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
-<p>  </p></details></div>
-<p>The performance advantages of <code>@inbounds</code> don&#39;t only come from the elimination of bounds checking itself. Bounds checking is a form of conditional, where the iteration is executed contingent on all indices being within range. In the next sections, we&#39;ll see that conditional statements commonly limit the compiler&#39;s ability to apply further optimizations. Once we remove these checks, you give the compiler more leeway to implement additional enhancements. </p>
-<p>To illustrate such possibility, the next example shows that the application of <code>@inbounds</code> triggers the so-called SIMD instructions. They&#39;re a form of parallelism within a core and will be explored in the upcoming sections.</p>
- <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> No Macro </button>
-    <button class="tablink" data-id=""> Adding @inbounds</button>
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">v,w,x,y &#61; &#40;rand&#40;100_000&#41; for _ in 1:4&#41;       # it assigns random vectors to v,w,x,y
-
-function foo&#40;v, w, x, y&#41;
-    output &#61; 0.0
-
-    for i in 2:length&#40;v&#41;-1
-        output &#43;&#61; v&#91;i-1&#93; / v&#91;i&#43;1&#93; / w&#91;i-1&#93; * w&#91;i&#43;1&#93; &#43; x&#91;i-1&#93; * x&#91;i&#43;1&#93; / y&#91;i-1&#93; * y&#91;i&#43;1&#93;
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;v,&#36;w,&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  231.242 μs (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">v,w,x,y &#61; &#40;rand&#40;100_000&#41; for _ in 1:4&#41;       # it assigns random vectors to v,w,x,y
-
-function foo&#40;v, w, x, y&#41;
-    output &#61; 0.0
-
-    @inbounds for i in 2:length&#40;v&#41;-1
-        output &#43;&#61; v&#91;i-1&#93; / v&#91;i&#43;1&#93; / w&#91;i-1&#93; * w&#91;i&#43;1&#93; &#43; x&#91;i-1&#93; * x&#91;i&#43;1&#93; / y&#91;i-1&#93; * y&#91;i&#43;1&#93;
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;v,&#36;w,&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  154.179 μs (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>
- <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Function Calls in For-Loop Bodies Can Disable Macro Effects </span>  </div>  <div class=content>     The use of functions without direct reference to slices could prevent the application of <code>@inbounds</code>. This can be observed below, where we compare approaches with and without <code>@inbounds</code> when a function is involved.</p>
-<p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> No Direct Reference to Slices</button>    
-    <button class="tablink" data-id=""> Direct Reference to Slices</button>    
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">v,w,x,y &#61; &#40;rand&#40;100_000&#41; for _ in 1:4&#41; # it assigns random vectors to v, w, x, y
-compute&#40;i, v,w,x,y&#41; &#61; v&#91;i-1&#93; / v&#91;i&#43;1&#93; / w&#91;i-1&#93; * w&#91;i&#43;1&#93; &#43; 
-                      x&#91;i-1&#93; * x&#91;i&#43;1&#93; / y&#91;i-1&#93; * y&#91;i&#43;1&#93;
-
-function foo&#40;v,w,x,y&#41;
-    output &#61; 0.0
-
-    @inbounds for i in 2:length&#40;v&#41;-1
-        output &#43;&#61; compute&#40;i, v,w,x,y&#41;
-
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;v,&#36;w,&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  271.897 μs (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">v,w,x,y &#61; &#40;rand&#40;100_000&#41; for _ in 1:4&#41; # it assigns random vectors to v, w, x, y
-
-
-
-function foo&#40;v,w,x,y&#41;
-    output &#61; 0.0
-
-    @inbounds for i in 2:length&#40;v&#41;-1
-        output &#43;&#61; v&#91;i-1&#93; / v&#91;i&#43;1&#93; / w&#91;i-1&#93; * w&#91;i&#43;1&#93; &#43; 
-                  x&#91;i-1&#93; * x&#91;i&#43;1&#93; / y&#91;i-1&#93; * y&#91;i&#43;1&#93;
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;v,&#36;w,&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  154.194 μs (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>  </div>  </div>
+<p>  </p></details></div>  </div></p>
+<p> </div>
+<p>The performance advantages of <code>@inbounds</code> come not only from eliminating bounds checking itself, but also from giving the compiler more freedom to implement additional optimizations. </p>
+<p>To understand this, note that bounds checking is essentially a conditional statement, where the iteration is executed only if all indices are within range. As we&#39;ll see in the next sections, conditional statements limit the compiler&#39;s ability to apply the so-called SIMD instructions, which are a form of parallelism within a single core.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="macros_could_be_disregarded_or_applied_automatically_by_the_compiler" class="scrollspy">
+<section id="macros_could_be_applied_automatically_or_disregarded_by_the_compiler" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Macros Could be Disregarded or Applied Automatically By The Compiler</h2></p>
-<p>The influence of macros on code execution is complex. In many cases, macros might have no impact at all because compilers ultimately decide the best strategy for the problem at hand. Thus, they could already be implementing the functionality we suggest through the macro, or simply disregard it entirely. The lack of any discernible impact is easily inferred through execution times, which remain unchanged with and without the macro.</p>
-<p>This occurs with the <code>@inbounds</code> macro, in cases where compiler is already skipping bound checks. This is only implemented automatically by the compiler in very simple cases, such as when we define iterations  by <code>eachindex</code>. In such scenarios, the compiler can recognize that memory access is safe and automatically disable bounds checking, rendering the <code>@inbounds</code> macro redundant.</p>
+        <h2>Macros Could be Applied Automatically or Disregarded By The Compiler</h2></p>
+<p>The influence of a macro on code execution isn&#39;t always predictable. In many cases, it might have no impact at all. This is because the compiler has the final say on optimization strategy. Thus, it might already be applying the optimization suggested, or it might determine that the macro&#39;s recommendation is unhelpful and simply ignore it. In either case, you can infer that a macro is ignored when there&#39;s no significant change in execution time after applying it.</p>
+<p>Both scenarios can arise with <code>@inbounds</code> as we show below.</p>
+ <h4> Redundant Macros </h4>
+<p>The compiler could prove on its own that a for-loop is safe and therefore disable bounds checking. In those cases, <code>@inbounds</code> becomes redundant. This behavior typically occurs in simple cases, such as when iterating over a single collection and using <code>eachindex</code>, as illustrated below. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3022,7 +2982,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;v,&#36;w,&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  3.151 μs (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;v,&#36;w,&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  3.384 μs (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000&#41;
@@ -3036,13 +2996,13 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;v,&#36;w,&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  3.098 μs (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;v,&#36;w,&#36;x,&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  3.228 μs (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Macros could also serve as a mere hint to the compiler, without dictating its use. In such scenarios, the hint provided indicates that certain assumptions are met, allowing the compiler to implement more aggressive optimizations. The compiler will then carefully analyze the operations involved and decide whether the suggested approach is actually beneficial. If it is, it&#39;ll apply the optimizations. If not, it&#39;ll disregard the hint and opt for a different approach. This determines that macros guide the compiler towards better performance, but without imposing strict directives.</p>
-<p>An example along these lines is <code>@simd</code>. This which suggests the application of SIMD instructions a technique that we&#39;ll be explored in the next sections. When <code>@simd</code> is introduced, the compiler maintains complete autonomy in deciding whether to implement the suggested optimization. In fact, it&#39;ll only adopt SIMD instructions if it concludes that they&#39;ll potentially improve performance in the specific application. </p>
-<p>In the following example, <code>@simd</code> is ignored by the compiler, explaining why the execution time remains the same with and without the macro. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The fact that the code implemented is the same could be confirmed by inspecting the internal code executed.  </span></span></p>
+ <h4> Disregarded Macro </h4>
+<p>A macro can also be treated as a mere hint that the compiler is free to disregard. In such cases, a macro signals that the necessary conditions for a particular optimization are satisfied, allowing the compiler to consider more aggressive strategies. The compiler will then carefully analyze the operations and decide if the suggested approach is actually beneficial. This fact highlights how macros can guide the compiler toward better performance, without imposing strict directives.</p>
+<p>A prime example along these lines is the <code>@simd</code> macro. This suggests the application of SIMD instructions, a subject that will be explored in upcoming sections. When <code>@simd</code> is added to a for-loop, the compiler retains full autonomy in deciding whether to implement the suggested optimization. In the example below, the compiler concludes that SIMD would likely degrade performance, thus ignoring <code>@simd</code>. This explains why the execution time remains the same with and without the macro. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> It&#39;s possible to confirm that the generated machine code is identical by inspecting the compiler&#39;s output.  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3064,7 +3024,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.056 ms (2 allocations: 15.26 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  881.929 μs (3 allocations: 15.259 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;2_000_000&#41;
@@ -3082,7 +3042,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.066 ms (2 allocations: 15.26 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  863.776 μs (3 allocations: 15.259 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -3108,7 +3068,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 29, 2025 
+          © Martin Alfaro <br>Last Modified August 30, 2025 
       </span> 
   </div> 
 </footer>
@@ -3716,15 +3676,15 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#about_macros_for_optimizations" data-offset="-40">About Macros For Optimizations</a>
+          <a href="#uses_of_macros" data-offset="-40">Uses of Macros</a>
         </li>
         
         <li>
-          <a href="#applying_macros_in_for-loops_inbounds_as_an_example" data-offset="-40">Applying Macros in For-Loops: @inbounds As An Example</a>
+          <a href="#macros_applied_in_for-loops" data-offset="-40">Macros Applied in For-Loops</a>
         </li>
         
         <li>
-          <a href="#macros_could_be_disregarded_or_applied_automatically_by_the_compiler" data-offset="-40">Macros Could be Disregarded or Applied Automatically By The Compiler</a>
+          <a href="#macros_could_be_applied_automatically_or_disregarded_by_the_compiler" data-offset="-40">Macros Could be Applied Automatically or Disregarded By The Compiler</a>
         </li>
         
       </ul>
