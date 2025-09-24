@@ -1978,7 +1978,7 @@ background: transparent;
                 
                 <li><a href="/julia_book/PAGES/10d_simd_independence/"><i>d</i>. SIMD: Independence of Iterations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/10e_simd_unitStrides/"><i>e</i>. SIMD: Unit Strides</a></li><br>
+                <li><a href="/julia_book/PAGES/10e_simd_unitStrides/"><i>e</i>. SIMD: Contiguous Access and Unit Strides</a></li><br>
                 
                 <li><a href="/julia_book/PAGES/10f_simd_branchless/"><i>f</i>. SIMD: Branchless Code</a></li><br>
                 
@@ -2860,10 +2860,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>What is SIMD?</h2></p>
-<p>SIMD is a type of instruction-level parallelism that occurs within a single processor core. It&#39;s particularly effective for basic arithmetic operations, such as addition and multiplication, when the same operation must be applied to multiple data elements. Given the nature of these operations, it&#39;s unsurprising that one of SIMD’s primary applications is in linear algebra.</p>
+<p>SIMD is a type of instruction-level parallelism that occurs within a single processor core, enabling the performance of the same operation on multiple data elements at once.  It&#39;s particularly effective for basic arithmetic operations, such as addition and multiplication, when the same operation must be applied to multiple data elements. Given the nature of these operations, it&#39;s unsurprising that one of SIMD’s primary applications is in linear algebra, where operations like matrix multiplication involve applying identical arithmetic steps to multiple elements.</p>
 <p>At the heart of SIMD lies the process of vectorization, where data is split into sub-vectors that can be processed as single units. To facilitate this operation, modern processors include specialized SIMD registers designed for this purpose. Today&#39;s processors typically feature 256-bit registers for vectorized operations, which are wide enough to hold four values of either <code>Float64</code> or <code>Int64</code>.</p>
-<p>To illustrate the workings of SIMD, consider the task of adding two vectors, each comprising four elements. Specifically, let <code>x &#61; &#91;1, 2, 3, 4&#93;</code> and <code>y &#61; &#91;10, 20, 30, 40&#93;</code>. In traditional scalar processing, performing the operation <code>x &#43; y</code> would require four separate addition operations, one for each pair of numbers. In contrast, all four additions can be performed with a single instruction under SIMD, producing the result <code>&#91;11, 22, 33, 44&#93;</code> in one step.</p>
-<p>For larger vectors, the process remains fundamentally the same. The only difference is that the processor first partitions the vectors into sub-vectors that fit the register&#39;s capacity. After this, the processor computes all the operations within each segment simultaneously, repeating the procedure for each sub-vector. </p>
+<p>To illustrate the workings of SIMD, consider the task of adding two vectors, <code>x &#61; &#91;1, 2, 3, 4&#93;</code> and <code>y &#61; &#91;10, 20, 30, 40&#93;</code>. In traditional scalar processing, performing the operation <code>x &#43; y</code> would require four separate addition operations, one for each pair of numbers. This means that <code>1&#43;10</code>, <code>2&#43;20</code>, <code>3&#43;30</code>, <code>4&#43;40</code> must be executed sequentially, thereby producing the result <code>&#91;11, 22, 33, 44&#93;</code> in four steps. In contrast, all four additions can be performed with a single instruction under SIMD in one step. The processor loads all four elements of <code>x</code> and <code>y</code> into the 256-bit register, and then runs a single &quot;add&quot; instruction to compute all four sums simultaneously. </p>
+<p>For larger vectors, the process remains fundamentally the same. The only difference is that the processor first partitions the vectors into sub-vectors that fit within the register&#39;s capacity. After this, the processor computes all the operations within each sub-vector simultaneously, repeatedly applying the same the procedure for every sub-vector. </p>
 <p>      </div>
     </div>
   </div>
@@ -2873,8 +2873,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Broadcasting and For-Loops</h2></p>
-<p>The previous analysis shows that SIMD applies to computations involving collections. Based on this, we can identify <strong>two types of operations that can potentially benefit from SIMD instructions: for-loops and broadcasting</strong>. The compiler implements it automatically in the latter case, without requiring any special consideration from the user.</p>
-<p>Instead, the upcoming sections will focus on the application of SIMD in for-loops. This will require exploring the conditions under which SIMD instructions can be applied. If these conditions aren&#39;t met, SIMD will become infeasible or substantially reduce its effectiveness. In addition to elaborating on these conditions, we&#39;ll provide guidance on how to address scenarios that don&#39;t conform to them.</p>
+<p>Based on the previous discussion, we can identify <strong>two types of operations that can potentially benefit from SIMD instructions: for-loops and broadcasting</strong>. </p>
+<p>In the case of broadcasting, the compiler implements SIMD automatically, without any user intervention. Instead, the application of SIMD in for-loops isn&#39;t guaranteed. This is why the upcoming sections will identify conditions under which SIMD instructions can be applied effectively. If these conditions aren&#39;t met, SIMD will become infeasible or substantially reduce its effectiveness. Given this, we&#39;ll also provide guidance on how to handle scenarios that aren&#39;t well-suited for SIMD.</p>
 <p>To pave the way and shift our attention to for-loops, we conclude this section by illustrating the automatic application of SIMD in broadcasting.</p>
 <p>      </div>
     </div>
@@ -2937,7 +2937,7 @@ foo&#40;x&#41; &#61; 2 ./ x</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 30, 2025 
+          © Martin Alfaro <br>Last Modified September 24, 2025 
       </span> 
   </div> 
 </footer>

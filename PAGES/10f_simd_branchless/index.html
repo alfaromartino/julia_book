@@ -1984,7 +1984,7 @@ background: transparent;
                 
                 <li><a href="/julia_book/PAGES/10d_simd_independence/"><i>d</i>. SIMD: Independence of Iterations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/10e_simd_unitStrides/"><i>e</i>. SIMD: Unit Strides</a></li><br>
+                <li><a href="/julia_book/PAGES/10e_simd_unitStrides/"><i>e</i>. SIMD: Contiguous Access and Unit Strides</a></li><br>
                 
                 <li><a href="/julia_book/PAGES/10f_simd_branchless/"><i>f</i>. SIMD: Branchless Code</a></li><br>
                 
@@ -2842,7 +2842,7 @@ color: white;
         <h2>Branches</h2></p>
 <p>SIMD accelerates computations by executing the same set of instructions in parallel across multiple data elements. Yet, certain programming constructs, particularly conditional statements, can severely degrade SIMD efficiency. The issue arises since conditional statements inherently lead to different instruction paths, thus disrupting the single instruction execution that SIMD relies on. While the compiler attempts to mitigate this issue by transforming code into SIMD-compatible forms, these adaptations often incur a performance penalty.</p>
 <p>This section explores strategies for efficiently applying SIMD in the presence of conditional operations. We&#39;ll first examine scenarios where the compiler introduces conditional statements as an artifact of its internal computation techniques. By employing alternative coding strategies, we&#39;ll show how these conditional statements can be bypassed. </p>
-<p>After this, we&#39;ll explore conditional statements that are intrinsic to program logic and therefore unavoidable. This includes standard scenarios where conditions are explicitly introduced in the code. In this respect, we&#39;ll revisit the usual approaches to expressing conditions, focusing on their internal implementation. We&#39;ll outline their relative strengths and limitations, indicating which approaches are more conducive to SIMD optimizations. Finally, we&#39;ll show that conditional statements can be equivalently recast as algebraic operations, which effectively removes the branching logic that disrupts SIMD execution.</p>
+<p>After this, we&#39;ll explore conditional statements that are intrinsic to program logic and therefore unavoidable. This includes the standard scenario where conditions are explicitly introduced in the code. In this respect, we&#39;ll revisit the usual approaches to expressing conditions, focusing on their internal implementation. We&#39;ll outline their relative strengths and limitations, indicating which approaches are more conducive to SIMD optimizations. Finally, we&#39;ll show that conditional statements can be equivalently recast as algebraic operations, which effectively removes the branching logic that disrupts SIMD execution.</p>
 <p>      </div>
     </div>
   </div>
@@ -3676,7 +3676,7 @@ foo&#40;x,y&#41;       &#61; @. ifelse&#40;Bool&#40;1 - &#33;&#40;x&gt;0.3&#41; 
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 30, 2025 
+          © Martin Alfaro <br>Last Modified September 24, 2025 
       </span> 
   </div> 
 </footer>

@@ -1992,7 +1992,7 @@ background: transparent;
                 
                 <li><a href="/julia_book/PAGES/10d_simd_independence/"><i>d</i>. SIMD: Independence of Iterations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/10e_simd_unitStrides/"><i>e</i>. SIMD: Unit Strides</a></li><br>
+                <li><a href="/julia_book/PAGES/10e_simd_unitStrides/"><i>e</i>. SIMD: Contiguous Access and Unit Strides</a></li><br>
                 
                 <li><a href="/julia_book/PAGES/10f_simd_branchless/"><i>f</i>. SIMD: Branchless Code</a></li><br>
                 
@@ -2842,7 +2842,7 @@ color: white;
         <h2>Introduction</h2></p>
 <p>The previous section explained the basics of multithreading. In particular, we&#39;ve shown that operations can be computed either sequentially &#40;Julia&#39;s default&#41; or concurrently. The latter approach enables multiple operations to be processed simultaneously, with operations running as soon as a thread becomes available. When Julia&#39;s session is initialized with more than one thread, this implies that computations can be executed in parallel.</p>
 <p>This section will focus on Julia&#39;s native multithreading mechanisms, a topic that will span several sections. Our primary goal here is to demonstrate how to write multithreaded code, rather than exploring how and when to apply the technique.</p>
-<p>We&#39;ve deliberately structured our explanation in this way to smooth subsequent discussions. However, a crucial caveat at this point remains necessary: while multithreading can offer significant performance advantages, it&#39;s not applicable in all scenarios. In particular, multithreading demands extreme caution in handling dependencies between operations, as mismanagement can lead to silent catastrophic bugs. We&#39;ll defer the topic of unsafe-thread operations for now, as identifying them presupposes a basic understanding of parallelism techniques.</p>
+<p>We&#39;ve deliberately structured our explanation in this way to smooth subsequent discussions. However, a crucial caveat at this point remains necessary: while multithreading can offer significant performance advantages, it&#39;s not applicable in all scenarios. In particular, multithreading demands extreme caution in handling dependencies between operations, as mismanagement can lead to silent catastrophic bugs. After grasping a basic understanding of parallelism techniques, we&#39;ll touch on unsafe-thread operations.</p>
 <p>      </div>
     </div>
   </div>
@@ -2853,12 +2853,12 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Enabling Multithreading</h2></p>
 <p>Julia initializes every session with a given pool of threads available. Each of these threads is responsible for executing a given set of instructions. Consequently, the number of threads delimits the number of instructions that the CPU can handle simultaneously.</p>
-<p>By default, Julia only operates with a single thread, requiring setting an alternative number of threads to enable multithreading. You can achieve this in VSCode or VSCodium by going to  <em>File</em> &gt;  <em>Preferences</em> &gt;  <em>Settings</em>. Then, you should search for the keyword  <em>threads</em>, prompting the following line:</p>
+<p>By default, Julia only operates with a single thread, requiring setting an alternative number of threads to enable multithreading. You can achieve this in VSCode or VSCodium by going to  <em>File</em> &gt;  <em>Preferences</em> &gt;  <em>Settings</em>. Then, search for the keyword  <em>threads</em>, prompting the following line:</p>
 <p> <div class="multiple_pics">  
     <img src="/julia_book/assets/PAGES/11c_multithread_tasks/pics/pic01.png" style="width:800px; height:auto; max-width:98%; margin-top:1em;">    
 </div> <br/></p>
-<p>After pressing  <em>Edit in settings.json</em>, you should add the line <code>&quot;julia.NumThreads&quot;: &quot;auto&quot;</code>. This will automatically identify the number of threads based on your computer&#39;s features &#40;either logical or physical threads available&#41;. <strong>Notice that the effects won't take place on the current session.</strong> </p>
-<p>To check whether the effects have taken place, use the command <code>Threads.nthreads&#40;&#41;</code>. This displays the number of threads available in the session. Any number greater than one will indicate that multithreading is activated. Notice also that the changes are permanent, so that every new Julia session will start with the number of threads specified. </p>
+<p>After pressing  <em>Edit in settings.json</em>, you should add the line <code>&quot;julia.NumThreads&quot;: &quot;auto&quot;</code>. This will automatically identify the number of threads based on your computer&#39;s features, which will either match your CPU&#39;s logical or physical threads. </p>
+<p><strong>Notice the effects will take place after starting a new session</strong>. To check whether the effects have taken place, use the command <code>Threads.nthreads&#40;&#41;</code>. This displays the number of threads available in the session. Any number greater than one will indicate that multithreading is activated. Notice also that the changes are permanent, so that every new Julia session will start with the number of threads specified. </p>
 <p>Once we have a session with more than one thread, there are several packages for performing multithreaded computations. The focus on this section will be on the built-in package <code>Threads</code>, which is automatically imported when you start Julia.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2879,7 +2879,7 @@ nthreads&#40;&#41;</code></pre> </div></div>
 <p>  </p></details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Loaded Package </span>  </div>  <div class=content>     All the scripts below assume that you&#39;ve executed the line <code>using Base.Threads</code>. Furthermore, all the examples are based on <strong>a session with two worker threads</strong>.  </div>  </div>
+      <b>Warning!</b> - Loaded Package </span>  </div>  <div class=content>     All the scripts below assume that you&#39;ve executed the line <code>using Base.Threads</code>. Furthermore, all the examples are based on a session with <strong>two worker threads</strong>.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -3067,7 +3067,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 30, 2025 
+          © Martin Alfaro <br>Last Modified September 24, 2025 
       </span> 
   </div> 
 </footer>

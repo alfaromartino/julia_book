@@ -58,7 +58,7 @@ header .jumbotron {
 
     
 <!-- WINDOWS TAB -->
-  <title>10e. SIMD: Unit Strides - Julia Book - Martin Alfaro</title>
+  <title>10e. SIMD: Contiguous Access and Unit Strides - Julia Book - Martin Alfaro</title>
   <link rel="icon" type="image/png"  href="/julia_book/assets/icons/favicon.ico">
 
 <!-- for LUNR -->
@@ -1074,7 +1074,7 @@ color: white;
   
 
 
-    <h1><i>10e.</i> SIMD: Unit Strides</h1>    
+    <h1><i>10e.</i> SIMD: Contiguous Access and Unit Strides</h1>    
     <div class="lead"> </div>
     
     
@@ -1982,7 +1982,7 @@ background: transparent;
                 
                 <li><a href="/julia_book/PAGES/10d_simd_independence/"><i>d</i>. SIMD: Independence of Iterations</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/10e_simd_unitStrides/"><i>e</i>. SIMD: Unit Strides</a></li><br>
+                <li><a href="/julia_book/PAGES/10e_simd_unitStrides/"><i>e</i>. SIMD: Contiguous Access and Unit Strides</a></li><br>
                 
                 <li><a href="/julia_book/PAGES/10f_simd_branchless/"><i>f</i>. SIMD: Branchless Code</a></li><br>
                 
@@ -2840,21 +2840,30 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>SIMD improves computational performance by simultaneously executing the same operation on multiple data elements. Technically, this is achieved through the use of specialized vector registers, which can hold several values &#40;e.g., 4 floating-point numbers or 4 integers&#41;. They allow operations such as multiple additions or multiplications to be completed with a single instruction.</p>
-<p>For SIMD to fully exploit this vector-based processing, <strong>data should be organized and accessed in memory</strong> in specific ways. Two fundamental concepts for understanding this are contiguous memory layout and unit stride access.</p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Contiguous memory layout</strong></span> means that data elements reside in adjacent memory addresses, therefore not exhibiting gaps. Newly allocated arrays satisfy this condition, enabling the load of entire segments directly into vector registers. In contrast, array views reference the original data structure, and thus don&#39;t guarantee contiguity. This can potentially result in highly irregular memory access patterns.</p>
-<p>In addition, <span style="color: rgb(62, 121, 180);"><strong>strides</strong></span> refer to the step size between consecutive memory accesses, with <span style="color: rgb(62, 121, 180);"><strong>unit strides</strong></span> in particular entailing that elements are accessed sequentially. For example, consider a freshly allocated vector <code>x</code>. Then, accessing its elements through <code>eachindex&#40;x&#41;</code> &#40;or equivalently <code>1:length&#40;x&#41;</code>&#41; ensures a unit stride, as each access moves sequentially to the next element in memory. This contrasts with ranges having a non-unit stride such as <code>1:2:length&#40;x&#41;</code> or indices with no predictable pattern &#40;e.g., <code>&#91;1, 5, 3, 4&#93;</code> as an index vector&#41;. </p>
-<p>When it comes to performance, <strong>SIMD is most effectively applied when data is stored in a contiguous memory block and accessed in a unit stride pattern</strong>. This has significant practical implications for creating slices, which can take the form of copies or views. Essentially, this choice gives rise to a trade-off, as views reduce memory allocations but at the expense of hindering computational efficiency. This section explores such a decision.</p>
+<p>This section contrasts the performance of copies and views, emphasizing that copies guarantee conditions favorable to SIMD execution.</p>
+<p>To understand this, recall that SIMD improves computational performance by simultaneously executing the same operation on multiple data elements. Technically, this is achieved through the use of specialized vector registers, which can hold several values &#40;e.g., 4 floating-point numbers or 4 integers&#41;. They allow operations such as multiple additions or multiplications to be completed with a single instruction.</p>
+<p>For SIMD to fully exploit this vector-based processing, <strong>data must adhere to specific organizational and access rules in memory</strong>. The two core requirements are contiguous memory layout and unit-stride access.</p>
+ <div class="itemNormalSpace">
+<ul>
+<li><p><span style="color: rgb(62, 121, 180);"><strong>Contiguous Memory Layout</strong></span>: this means that data elements reside in adjacent memory addresses with no gaps. Freshly allocated arrays meet this requirement, enabling entire segments to load directly into vector registers. In contrast, array views don&#39;t guarantee contiguity. By referencing the original data structure, views can result in highly irregular memory access patterns that jump between non-adjacent addresses.</p>
+</li>
+</ul>
+<ul>
+<li><p><span style="color: rgb(62, 121, 180);"><strong>Unit Strides</strong></span>: strides refer to the step size between consecutive memory accesses. Unit strides means in particular that elements are accessed sequentially. For example, iterating through a freshly allocated vector <code>x</code> using <code>eachindex&#40;x&#41;</code> ensures unit stride: each access moves to the next adjacent address in memory. This contrasts with ranges having a non-unit stride such as <code>1:2:length&#40;x&#41;</code> or indices with no predictable pattern &#40;e.g., <code>&#91;1, 5, 3, 4&#93;</code> as an index vector&#41;.</p>
+</li>
+</ul>
+ </div>
+<p>The fact that SIMD performs best when these two conditions hold creates a key trade-off for developers. On the one hand, using views reduces memory allocations, but makes SIMD less effective as it often violates contiguity or unit stride. Instead, copies create new contiguous arrays that ensure the effectiveness of SIMD, but at the expense of increase memory usage. The current section explores this trade-off.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="review_of_indexing" class="scrollspy">
+<section id="review_of_indexing_approaches" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Review of Indexing</h2></p>
-<p>For the explanations, we&#39;ll utilize the various methods for creating slices, with each differing in how indices are defined: vector indexing, Boolean indexing, and ranges. We present the examples used for each, and then proceed to their explanation.</p>
+        <h2>Review of Indexing Approaches</h2></p>
+<p>The performance trade-offs between copies and views depend on the slicing method employed. For this reason, we begin with a brief overview of the main slicing techniques.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2866,11 +2875,11 @@ color: white;
 
 indices   &#61; sortperm&#40;x&#41;
 elements  &#61; x&#91;indices&#93;    # equivalent to &#96;sort&#40;x&#41;&#96;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>sorted_indices</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>indices</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  1
  2
  3</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>sorted_elements</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>elements</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  10
  20
  30</code></pre> </div></div> </div> 
@@ -2894,190 +2903,33 @@ indices_2 &#61; 1:2:length&#40;x&#41;       # strides two</code></pre> </div></d
 
 indices   &#61; x .&gt; 15
 elements  &#61; x&#91;indices&#93;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>sorted_indices</code> <br/> <pre><code class="plaintext code-output">3-element BitVector:
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>indices</code> <br/> <pre><code class="plaintext code-output">3-element BitVector:
  1
  0
  1</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>sorted_elements</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Int64}:
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>elements</code> <br/> <pre><code class="plaintext code-output">2-element Vector{Int64}:
  20
  30</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>As for <strong>vector indexing</strong>, the demonstrations will be based on the function <code>sortperm</code>.  Given some vector <code>x</code>, this function is such that, while <code>sort&#40;x&#41;</code> returns a vector with <code>x</code>&#39;s elements sorted in ascending order, <code>sortperm&#40;x&#41;</code> returns the corresponding indices of these elements. </p>
-<p>Similarly, <strong>ranges</strong> can be understood as a special case of vector indexing. They differ in that ranges lazily reference consecutive elements for some given strides. Recall that strides represent the gap between successive elements, and they&#39;re included in between the first and last index, i.e. <code>&lt;first index&gt;:&lt;stride&gt;:&lt;last index&gt;</code>. The absence of a stride implicitly assumes a step equal to 1. </p>
-<p>While vector indexing and ranges reference the indices of <code>x</code>, <strong>Boolean indexing</strong> returns a Boolean vector where <code>1</code> indicates the element must be kept. This approach will be used for the creation of slices through broadcasted conditions, as in the example provided.</p>
+<p><strong>Vector Indexing</strong> works by referencing elements directly through their indices. <strong>Ranges</strong> are simply as a special form of vector indexing that lazily references consecutive elements according to a specified stride. The general syntax is <code>&lt;first index&gt;:&lt;stride&gt;:&lt;last index&gt;</code>, where omitting <code>&lt;stride&gt;</code> defaults to a step size of 1. </p>
+<p>The function <code>sortperm</code> is incorporated as it&#39;ll starkly illustrate the difference between copies and views. Given some collection <code>x</code>, <code>sortperm&#40;x&#41;</code> returns the corresponding indices of <code>sort&#40;x&#41;</code>. Assuming that <code>x</code> hasn&#39;t been ordered previously, views that access elements via the indices of <code>sortperm&#40;x&#41;</code> will result in an irregular memory access pattern. For instance, given <code>x &#61; &#91;5, 4, 6&#93;</code>, we get that <code>sort&#40;x&#41;</code> returns <code>&#91;4, 5, 6&#93;</code> and <code>sortperm&#40;x&#41;</code> provides <code>&#91;2, 1, 3&#93;</code>. Therefore, accessing elements of <code>x</code> via <code>sortperm&#40;x&#41;</code> will involve jumping around within the underlying data.</p>
+<p>For its part, <strong>Boolean indexing</strong> returns a Boolean vector, with <code>1</code> indicating the element must be kept. This approach is primarily employed for the creation of slices based on broadcasted conditions.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="contiguous_blocks_in_memory" class="scrollspy section-bg-color">
+<section id="benefits_of_sequential_access" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Contiguous Blocks in Memory</h2></p>
-<p>In <a href="/julia_book/PAGES/09d_views/">the section discussing decreases in memory allocations</a>, we highlighted the benefits of using views over copies when handling slices. Specifically, views maintain references to the original data, thereby avoiding the cost of additional memory allocation. However, views can lead to irregular memory access patterns if data are too scattered. This is why this section also remarked that <a href="/julia_book/PAGES/09d_views/#copying_data_may_be_faster">copies could outperform views in some scenarios</a>. We&#39;re now in a position to explain in more depth why this occurs.</p>
-<p>Creating copies of some data structure involves allocating the information in a new contiguous block of memory. This ensures that all elements are stored sequentially, thus offering two key advantages: a quicker fetching of elements and a more effective use of SIMD instructions.</p>
-<p>To illustrate this, consider retrieving books from a library. If every book you need resides on a single shelf, collecting them is straightforward—you move once, grab the entire stack, and proceed. This mirrors contiguous memory access. Conversely, if the books are dispersed across different floors and sections, each retrieval demands additional time and effort, akin to non-contiguous access. </p>
-<p>In addition to this, our recollection of books would be even more efficient if we had a cart capable of carrying multiple books at once—SIMD operations act like this cart. Note that even without such a cart, the act of gathering contiguous books remains inherently faster, as the physical effort &#40;or computational cycles&#41; is minimized. In other words, the benefits of SIMD are on top of the faster memory access. </p>
- <h4> Vector and Boolean Indexing </h4>
-<p>The following examples highlight the two advantages from contiguous memory access. To isolate their performance effect, we create the slices outside the function to be benchmarked. In this way, the functions we&#39;ll present don&#39;t entail memory allocations. </p>
-<p>For the case of vector indexing:</p>
- <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> View (No SIMD)  </button>
-    <button class="tablink" data-id=""> View (SIMD) </button>
-    <button class="tablink" data-id=""> Copy (No SIMD) </button>    
-    <button class="tablink" data-id=""> Copy (SIMD) </button>
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
-
-indices &#61; sortperm&#40;x&#41;
-y       &#61; @view x&#91;indices&#93;
-
-function foo&#40;y&#41;
-    output &#61; 0.0
-
-    for a in y
-        output &#43;&#61; a
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  21.481 ms (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
-
-indices &#61; sortperm&#40;x&#41;
-y       &#61; @view x&#91;indices&#93;
-
-function foo&#40;y&#41;
-    output &#61; 0.0
-
-    @simd for a in y
-        output &#43;&#61; a
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  20.754 ms (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
-
-indices &#61; sortperm&#40;x&#41;
-y       &#61; x&#91;indices&#93;
-
-function foo&#40;y&#41;    
-    output &#61; 0.0
-
-    for a in y
-        output &#43;&#61; a
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  2.281 ms (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
-
-indices &#61; sortperm&#40;x&#41;
-y       &#61; x&#91;indices&#93;
-
-function foo&#40;y&#41;    
-    output &#61; 0.0
-
-    @simd for a in y
-        output &#43;&#61; a
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  902.847 μs (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>
-<p>Instead, for Boolean indexing:</p>
- <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> View (No SIMD)  </button>
-    <button class="tablink" data-id=""> View (SIMD) </button>
-    <button class="tablink" data-id=""> Copy (No SIMD) </button>    
-    <button class="tablink" data-id=""> Copy (SIMD) </button>
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
-
-indices &#61; x .&gt; 0.5
-y       &#61; @view x&#91;indices&#93;
-
-function foo&#40;y&#41;
-    output &#61; 0.0
-
-    for a in y
-        output &#43;&#61; a
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  2.206 ms (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
-
-indices &#61; x .&gt; 0.5
-y       &#61; @view x&#91;indices&#93;
-
-function foo&#40;y&#41;
-    output &#61; 0.0
-
-    @simd for a in y
-        output &#43;&#61; a
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  1.878 ms (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
-
-indices &#61; x .&gt; 0.5
-y       &#61; x&#91;indices&#93;
-
-function foo&#40;y&#41;    
-    output &#61; 0.0
-
-    for a in y
-        output &#43;&#61; a
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  1.015 ms (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
-
-indices &#61; x .&gt; 0.5
-y       &#61; x&#91;indices&#93;
-
-function foo&#40;y&#41;    
-    output &#61; 0.0
-
-    @simd for a in y
-        output &#43;&#61; a
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  246.526 μs (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>
-<p>Finally, comparing unit strides with non-unit strides:</p>
+        <h2>Benefits of Sequential Access</h2></p>
+<p>In <a href="/julia_book/PAGES/09d_views/">the section on reducing memory allocations</a>, we highlighted the benefits of using views over copies when working with slices: by maintaining references to the original data, views avoid memory allocation. Yet, we briefly remarked that <a href="/julia_book/PAGES/09d_views/#copying_data_may_be_faster">copies could outperform views in some scenarios</a>. We&#39;re now in a position to explain in more depth why this occurs.</p>
+<p>Creating a copy of some data structure involves allocating the information in a new contiguous block of memory. This layout ensures that elements are stored sequentially, thus offering two key advantages: faster element retrieval and a more effective use of SIMD instructions. Views can&#39;t guarantee this property. If the referenced elements are scattered in memory, views will necessarily introduce irregular access patterns.</p>
+<p>An analogy may help clarify this. Imagine retrieving books from a library. If every book you need are neatly arranged on a single shelf, collecting them is straightforward—you move once, grab the entire stack, and proceed. This mirrors contiguous memory access. Conversely, if the books are dispersed across different floors and sections, each retrieval demands additional time and effort, akin to non-contiguous access. The analogy extends further: if you also have a cart that allows you to carry multiple books at once, the process becomes even more efficient. SIMD operations play the role of this cart. </p>
+ <h4> Illustrating Each Benefit in Isolation </h4>
+<p>The following examples illustrate the potential advantages of copies compared to views. To ensure that the memory allocations of copies aren&#39;t distorting the results, slices will be created outside the benchmarked function, </p>
+<p>We start with a scenario where views access elements following a pattern, but without this being characterized by unit stride.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3098,7 +2950,7 @@ function foo&#40;y&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  902.479 μs (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  884.378 μs (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
@@ -3113,7 +2965,7 @@ function foo&#40;y&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  889.059 μs (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  905.283 μs (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
@@ -3128,7 +2980,7 @@ function foo&#40;y&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  196.497 μs (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  196.518 μs (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
@@ -3143,17 +2995,264 @@ function foo&#40;y&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  38.274 μs (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  41.445 μs (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
- <h4> Some Remarks </h4>
-<p>Note that views don&#39;t necessarily impede a sequential memory access. If the view consists of sequential elements, then we&#39;d obtain the same performance relative to a copy created outside the function. </p>
+<p>In some cases, the access of elements doesn&#39;t follow any predictable pattern. Such a behavior can be illustrated by accessing elements via <code>sortperm</code>. </p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> View (No SIMD)  </button>
+    <button class="tablink" data-id=""> View (SIMD) </button>
+    <button class="tablink" data-id=""> Copy (No SIMD) </button>    
+    <button class="tablink" data-id=""> Copy (SIMD) </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
+
+indices &#61; sortperm&#40;x&#41;
+y       &#61; @view x&#91;indices&#93;
+
+function foo&#40;y&#41;
+    output &#61; 0.0
+
+    for a in y
+        output &#43;&#61; a
+    end
+
+    return output
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  21.584 ms (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
+
+indices &#61; sortperm&#40;x&#41;
+y       &#61; @view x&#91;indices&#93;
+
+function foo&#40;y&#41;
+    output &#61; 0.0
+
+    @simd for a in y
+        output &#43;&#61; a
+    end
+
+    return output
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  21.333 ms (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
+
+indices &#61; sortperm&#40;x&#41;
+y       &#61; x&#91;indices&#93;
+
+function foo&#40;y&#41;    
+    output &#61; 0.0
+
+    for a in y
+        output &#43;&#61; a
+    end
+
+    return output
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  2.390 ms (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
+
+indices &#61; sortperm&#40;x&#41;
+y       &#61; x&#91;indices&#93;
+
+function foo&#40;y&#41;    
+    output &#61; 0.0
+
+    @simd for a in y
+        output &#43;&#61; a
+    end
+
+    return output
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  1.028 ms (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>A similar issue occurs with Boolean indexing.</p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> View (No SIMD)  </button>
+    <button class="tablink" data-id=""> View (SIMD) </button>
+    <button class="tablink" data-id=""> Copy (No SIMD) </button>    
+    <button class="tablink" data-id=""> Copy (SIMD) </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
+
+indices &#61; x .&gt; 0.5
+y       &#61; @view x&#91;indices&#93;
+
+function foo&#40;y&#41;
+    output &#61; 0.0
+
+    for a in y
+        output &#43;&#61; a
+    end
+
+    return output
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  2.196 ms (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
+
+indices &#61; x .&gt; 0.5
+y       &#61; @view x&#91;indices&#93;
+
+function foo&#40;y&#41;
+    output &#61; 0.0
+
+    @simd for a in y
+        output &#43;&#61; a
+    end
+
+    return output
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  1.895 ms (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
+
+indices &#61; x .&gt; 0.5
+y       &#61; x&#91;indices&#93;
+
+function foo&#40;y&#41;    
+    output &#61; 0.0
+
+    for a in y
+        output &#43;&#61; a
+    end
+
+    return output
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  1.017 ms (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
+
+indices &#61; x .&gt; 0.5
+y       &#61; x&#91;indices&#93;
+
+function foo&#40;y&#41;    
+    output &#61; 0.0
+
+    @simd for a in y
+        output &#43;&#61; a
+    end
+
+    return output
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  279.995 μs (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="copies_vs_views_total_effects" class="scrollspy">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Copies vs Views: Total Effects</h2></p>
+<p>The previous examples defined slices outside the benchmarked functions, thus avoiding the memory allocations of copies. The goal was to emphasize the benefits of contiguous access and unit strides in isolation. However, the choice between copies and views requires incorporating the overhead of additional memory allocations. Overall, we must weigh these costs against the performance benefits of sequential memory accesses. </p>
+<p>In general, benchmarking is the only way to decide whether copies or views deliver better performance. For instance, below we present a case where views are preferred, since operation executed is straightforward enough to benefit from SIMD.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> View (with SIMD)  </button>
-    <button class="tablink" data-id=""> Copy (SIMD) </button>
+    <button class="tablink" data-id=""> Copy (with SIMD) </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
+indices &#61; sortperm&#40;x&#41;
+
+function foo&#40;x, indices&#41;
+    y      &#61; @view x&#91;indices&#93;
+    output &#61; 0.0
+
+    @simd for a in y
+        output &#43;&#61; a
+    end
+
+    return output
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, &#36;indices&#41;</code> <br/> <pre><code class="plaintext code-output">  23.905 ms (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
+indices &#61; sortperm&#40;x&#41;
+
+function foo&#40;x, indices&#41;
+    y      &#61; x&#91;indices&#93;
+    output &#61; 0.0
+
+    @simd for a in y
+        output &#43;&#61; a
+    end
+
+    return output
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, &#36;indices&#41;</code> <br/> <pre><code class="plaintext code-output">  35.922 ms (2 allocations: 38.148 MiB)
+</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>Instead, the following scenario features a more complex but SIMD-friendly operation, illustrating how copying can actually outperform using views.</p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> View (with SIMD)  </button>
+    <button class="tablink" data-id=""> Copy (with SIMD) </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
+indices &#61; sortperm&#40;x&#41;
+
+function foo&#40;x, indices&#41;
+    y      &#61; @view x&#91;indices&#93;
+    output &#61; 0.0
+
+    @simd for a in y
+        output &#43;&#61; a^&#40;3/2&#41;
+    end
+
+    return output
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, &#36;indices&#41;</code> <br/> <pre><code class="plaintext code-output">  269.828 ms (0 allocations: 0 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
+indices &#61; sortperm&#40;x&#41;
+
+function foo&#40;x, indices&#41;
+    y      &#61; x&#91;indices&#93;
+    output &#61; 0.0
+
+    @simd for a in y
+        output &#43;&#61; a^&#40;3/2&#41;
+    end
+
+    return output
+end</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, &#36;indices&#41;</code> <br/> <pre><code class="plaintext code-output">  131.374 ms (2 allocations: 38.148 MiB)
+</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+ <h4> Special Cases </h4>
+<p>Certain patterns allow us to predict the faster approach without exhaustive benchmarking.</p>
+<p>One scenario where views always outperform copies is when the view is referencing sequential elements. These scenarios call for the use of view, as they provide the same benefits as copies but additionally avoiding memory allocations.</p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> View (with SIMD)  </button>
+    <button class="tablink" data-id=""> Copy (with SIMD) </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;1_000_000&#41;
 
@@ -3169,7 +3268,7 @@ function foo&#40;y&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  76.950 μs (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  83.773 μs (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;1_000_000&#41;
@@ -3186,86 +3285,16 @@ function foo&#40;y&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  76.777 μs (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  82.349 μs (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>A corollary of this example is that views should be employed in cases like this, as they additionally avoid memory allocations. </p>
-<p>Another remark is that  <em>storing</em> elements contiguously is only a necessary condition for contiguous memory  <em>access</em>. To demonstrate this, let&#39;s consider a scenario where we access vectors through the ranges. </p>
-<p>Specifically, consider a vector <code>x</code>. Moreover, there&#39;s another vector <code>y</code> that comprises the same elements as <code>x</code>, but with zeros placed in between. Formally:</p>
+<p>In contrast, a common scenario where copies tend to outpace views is when we need to perform multiple operations on the same slice. In this case, the cost of an additional memory allocation is usually offset by the speed gains from contiguous memory access. This is illustrated below. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> View (with SIMD)  </button>
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x_size &#61; 1_000_000
-
-x &#61; rand&#40;x_size&#41;
-
-y &#61; zeros&#40;eltype&#40;x&#41;,x_size * 2&#41;
-    temp  &#61; view&#40;y, 2:2:length&#40;y&#41;&#41;
-    temp .&#61; x</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x&#91;1:3&#93;</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
- 0.906299638797481
- 0.44349373245960455
- 0.7456733811393941</code></pre> </div></p>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>y&#91;1:6&#93;</code> <br/> <pre><code class="plaintext code-output">6-element Vector{Float64}:
- 0.0
- 0.906299638797481
- 0.0
- 0.44349373245960455
- 0.0
- 0.7456733811393941</code></pre> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>
-<p>Given this, we&#39;d get the same value whether we add all elements from <code>x</code> or add all elements in <code>y</code> skipping zeros. However, the results below reveal that, despite both <code>x</code> and <code>y</code> being contiguous blocks in memory, unit-stride access only holds for <code>x</code>. This explains the differences in the performance observed. </p>
- <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> View (with SIMD)  </button>
-    <button class="tablink" data-id=""> Copy (SIMD) </button>
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;x&#41;
-    output &#61; 0.0
-
-    @inbounds @simd for i in 1:length&#40;x&#41;
-        output &#43;&#61; x&#91;i&#93;
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  78.349 μs (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;y&#41;
-    output &#61; 0.0
-
-    @inbounds @simd for i in 2:2:length&#40;y&#41;
-        output &#43;&#61; y&#91;i&#93;
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  188.483 μs (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>
-<p>      </div>
-    </div>
-  </div>
-</section>
-<section id="copies_vs_views_overall_effects" class="scrollspy">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg- mx-auto">
-        <h2>Copies vs Views: Overall Effects</h2></p>
-<p>When slices are created, the choice between copies and views requires weighing in the overhead of additional memory allocations against the performance benefits of sequential memory accesses &#40;including a more performant application of SIMD&#41;. </p>
-<p>One scenario where views always outperform copies was given above, where the view elements are accessed sequentially. Instead, a common scenario where copies tend to outperform views is when we need to perform multiple operations over the same slice. In this case, the cost of an additional memory allocation is usually outweighed by the performance benefits of contiguous memory access. This is illustrated below. </p>
- <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> View (with SIMD)  </button>
-    <button class="tablink" data-id=""> Copy (SIMD) </button>
+    <button class="tablink" data-id=""> Copy (with SIMD) </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
 indices &#61; sortperm&#40;x&#41;
@@ -3282,7 +3311,7 @@ function foo&#40;x, indices&#41;
 
     return output1, output2, output3
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  248.861 ms (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  269.302 ms (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
@@ -3300,87 +3329,7 @@ function foo&#40;x, indices&#41;
 
     return output1, output2, output3
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  125.033 ms (2 allocations: 38.147 MiB)
-</code></pre> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>
-<p>In general, though, benchmarking is the only way to decide whether copies or views are faster. For instance, views are faster in the following example:</p>
- <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> View (with SIMD)  </button>
-    <button class="tablink" data-id=""> Copy (with SIMD) </button>
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
-indices &#61; sortperm&#40;x&#41;
-
-function foo&#40;x, indices&#41;
-    y      &#61; @view x&#91;indices&#93;
-    output &#61; 0.0
-
-    @simd for a in y
-        output &#43;&#61; a
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, &#36;indices&#41;</code> <br/> <pre><code class="plaintext code-output">  22.741 ms (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
-indices &#61; sortperm&#40;x&#41;
-
-function foo&#40;x, indices&#41;
-    y      &#61; x&#91;indices&#93;
-    output &#61; 0.0
-
-    @simd for a in y
-        output &#43;&#61; a
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, &#36;indices&#41;</code> <br/> <pre><code class="plaintext code-output">  36.151 ms (2 allocations: 38.147 MiB)
-</code></pre> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>
-<p>Instead, the following scenario establishes that an approach with copies outperforms views.</p>
- <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> View (with SIMD)  </button>
-    <button class="tablink" data-id=""> Copy (with SIMD) </button>
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
-indices &#61; sortperm&#40;x&#41;
-
-function foo&#40;x, indices&#41;
-    y      &#61; @view x&#91;indices&#93;
-    output &#61; 0.0
-
-    @simd for a in y
-        output &#43;&#61; a^&#40;3/2&#41;
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, &#36;indices&#41;</code> <br/> <pre><code class="plaintext code-output">  268.653 ms (0 allocations: 0 bytes)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x       &#61; rand&#40;5_000_000&#41;
-indices &#61; sortperm&#40;x&#41;
-
-function foo&#40;x, indices&#41;
-    y      &#61; x&#91;indices&#93;
-    output &#61; 0.0
-
-    @simd for a in y
-        output &#43;&#61; a^&#40;3/2&#41;
-    end
-
-    return output
-end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x, &#36;indices&#41;</code> <br/> <pre><code class="plaintext code-output">  135.816 ms (2 allocations: 38.147 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;y&#41;</code> <br/> <pre><code class="plaintext code-output">  142.894 ms (2 allocations: 38.148 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -3406,7 +3355,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified August 30, 2025 
+          © Martin Alfaro <br>Last Modified September 24, 2025 
       </span> 
   </div> 
 </footer>
@@ -4004,7 +3953,7 @@ for multiple pics in a row
     <button class="nav-toggle" aria-label="Toggle navigation">
       <!-- <span class="nav-toggle-icon"></span> -->
         <img src="/julia_book/assets/icons/dropdown.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:2px;margin-left:0px;">
-      <span class="nav-title"><i>10e.</i> SIMD: Unit Strides</span>
+      <span class="nav-title"><i>10e.</i> SIMD: Contiguous Access and Unit Strides</span>
     </button>
     <div class="nav-menu">
       <ul>
@@ -4014,15 +3963,15 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#review_of_indexing" data-offset="-40">Review of Indexing</a>
+          <a href="#review_of_indexing_approaches" data-offset="-40">Review of Indexing Approaches</a>
         </li>
         
         <li>
-          <a href="#contiguous_blocks_in_memory" data-offset="-40">Contiguous Blocks in Memory</a>
+          <a href="#benefits_of_sequential_access" data-offset="-40">Benefits of Sequential Access</a>
         </li>
         
         <li>
-          <a href="#copies_vs_views_overall_effects" data-offset="-40">Copies vs Views: Overall Effects</a>
+          <a href="#copies_vs_views_total_effects" data-offset="-40">Copies vs Views: Total Effects</a>
         </li>
         
       </ul>
