@@ -2840,7 +2840,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Branches</h2></p>
-<p>SIMD accelerates computations by executing the same set of instructions in parallel across multiple data elements. Yet, certain programming constructs, particularly conditional statements, can severely degrade SIMD efficiency. The issue arises since conditional statements inherently lead to different instruction paths, thus disrupting the single instruction execution that SIMD relies on. While the compiler attempts to mitigate this issue by transforming code into SIMD-compatible forms, these adaptations often incur a performance penalty.</p>
+<p>SIMD accelerates computations by executing the same set of instructions in parallel across multiple data elements. Yet, certain programming constructs, particularly conditional statements, can severely degrade SIMD efficiency. The issue arises because conditional statements inherently lead to different instruction paths, thus disrupting the single instruction execution that SIMD relies on. While the compiler attempts to mitigate this issue by transforming code into SIMD-compatible forms, these adaptations often incur a performance penalty.</p>
 <p>This section explores strategies for efficiently applying SIMD in the presence of conditional operations. We&#39;ll first examine scenarios where the compiler introduces conditional statements as an artifact of its internal computation techniques. By employing alternative coding strategies, we&#39;ll show how these conditional statements can be bypassed. </p>
 <p>After this, we&#39;ll explore conditional statements that are intrinsic to program logic and therefore unavoidable. This includes the standard scenario where conditions are explicitly introduced in the code. In this respect, we&#39;ll revisit the usual approaches to expressing conditions, focusing on their internal implementation. We&#39;ll outline their relative strengths and limitations, indicating which approaches are more conducive to SIMD optimizations. Finally, we&#39;ll show that conditional statements can be equivalently recast as algebraic operations, which effectively removes the branching logic that disrupts SIMD execution.</p>
 <p>      </div>
@@ -3219,7 +3219,7 @@ end</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
  <h4> Ternary Operator Could Choose A Less Performant Approach </h4>
-<p>It&#39;s worth remarking that the method chosen by the ternary operator isn&#39;t foolproof. In the following scenario, it actually chooses the slowest approach.</p>
+<p>It&#39;s worth remarking that the method chosen by the ternary operator isn&#39;t foolproof. In the following scenario, the ternary operator actually chooses the slowest approach.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3272,7 +3272,7 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Scenarios Under Which Each Approach is Better</h2></p>
-<p>As a rule of thumb, <strong>an eager approach is potentially more performant when branches comprise simple algebraic computations</strong>. On the contrary, conditional statements with <strong>computational-demanding operations will more likely benefit from a lazy implementation</strong>. In fact, this is a heuristic that ternary operators commonly follow.</p>
+<p>As a rule of thumb, <strong>an eager approach is potentially more performant when branches comprise simple algebraic computations</strong>. On the contrary, conditional statements with <strong>computational-demanding operations will more likely benefit from a lazy implementation</strong>. In fact, this is a heuristic commonly followed by ternary operators.</p>
 <p>To demonstrate this, the following example considers a conditional statement where only one branch has a computation, which in turn is straightforward. An eager approach with SIMD is faster, and coincides with the approach chosen when a ternary operator is chosen. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3524,7 +3524,7 @@ end</code></pre> </div></div>
 <div class="nonumber">\[
 1-\prod_{i=1}^{n}(1-c_{i}) = 1
 \]</div>
-<p>In terms of Julia, given two Boolean scalars <code>c1</code> and <code>c2</code>, these equivalences become</p>
+<p>In terms of Julia, given two Boolean scalars <code>c1</code> and <code>c2</code>, these equivalences become:</p>
 <ul>
 <li><p><code>c1 &amp;&amp; c2</code> is <code>Bool&#40;c1 * c2&#41;</code></p>
 </li>

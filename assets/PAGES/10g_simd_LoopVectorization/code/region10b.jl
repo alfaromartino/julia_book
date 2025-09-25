@@ -1,13 +1,9 @@
-Random.seed!(123)       #setting the seed for reproducibility #hide
-x = rand(1_000_000)
+x = [0.1, 0.2, 0.3]
 
-function foo(x)
-    output = copy(x)
-
+function foo!(x)
     @inbounds @simd for i in 2:length(x)
-        output[i] = output[i-1] + x[i]
+        x[i] = x[i-1] + x[i]
     end
-
-    return output
 end
-print_compact(sum(foo(x))) #hide
+foo!(x) #hide
+print_compact(x) #hide

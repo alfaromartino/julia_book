@@ -2840,8 +2840,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>So far, we&#39;ve been using the built-in macro <code>@simd</code> to apply SIMD instructions. This macro is relatively limited in certain respects. For one, it only hints at the potential advantages of applying SIMD, leaving the final decision implementation to the compiler&#39;s discretion. Moreover, it only provides basic features of SIMD, prioritizing code safety over performance. </p>
-<p>Next, we introduce the macro <code>@turbo</code> from the package <code>LoopVectorization</code>, which offers several distinct advantages. First, it enforces SIMD optimizations when invoked, rather than merely suggesting them. Furthermore, it applies more aggressive optimizations compared to <code>@simd</code>. Finally, <code>@turbo</code> supports both for-loops and broadcasting operations, contrasting with <code>@simd</code>&#39;s exclusive applicability to for-loops.</p>
+<p>So far, we’ve relied on the built-in <code>@simd</code> macro to apply SIMD instructions. This approach, nonetheless, exhibits several limitations. First, <code>@simd</code> acts as a suggestion rather than a strict command: it hints to the compiler that SIMD optimizations might improve performance, but ultimately leaves the implementation decision up to the compiler&#39;s discretion. Second, <code>@simd</code> prioritizes code safety over speed, restricting access to advanced SIMD features in favor of avoiding unintended bugs. Third, its application is limited to for-loops.</p>
+<p>To overcome these flaws, we introduce the <code>@turbo</code> macro from the <code>LoopVectorization</code> package. Unlike <code>@simd</code>, <code>@turbo</code> enforces SIMD optimizations when called, eliminating ambiguity and ensuring vectorized instructions are applied. It also employs more aggressive optimizations than <code>@simd</code>, shifting the responsibility for safe usage onto users. Finally, <code>@turbo</code> supports both for-loops and broadcasting operations.</p>
 <p>      </div>
     </div>
   </div>
@@ -2851,14 +2851,14 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Caveats About Improper Use of @turbo</h2></p>
-<p>In contrast to <code>@simd</code>, applying <code>@turbo</code> requires some caution, as it may lead to incorrect results if misapplied. This issue arises because the macro makes additional assumptions about the operations being performed, with the goal of applying optimizations more aggressively. In particular:</p>
+<p>In contrast to <code>@simd</code>, applying <code>@turbo</code> requires extra caution, as its misapplication can yield incorrect results. This risk stems from <code>@turbo</code>’s additional assumptions about the operations processed, which are incorporated to enable more aggressive optimization. In particular:</p>
 <ul>
-<li><p><code>@turbo</code> never checks index bounds, potentially leading to out-of-bounds memory access.</p>
+<li><p><code>@turbo</code> doesn&#39;t perform index bound checking, potentially leading to out-of-bounds memory access.</p>
 </li>
-<li><p><code>@turbo</code> assumes the outcome is independent of the iteration order &#40;except for reduction operations&#41;.</p>
+<li><p><code>@turbo</code> assumes the outcome is invariant to iteration order. The only exception is reduction operations, which are handled properly.</p>
 </li>
 </ul>
-<p>An example of the latter is when computing a vector holding cumulative sums of another vector. This can be observed below, where we verify the final result by summing all values in the output vector.</p>
+<p>The latter is an issue when it comes to floating-point operations, but not for integers. It essentially determines that dependent iterations can yield incorrect results. The following example illustrates this problem, where each iteration depends on a previous iteration&#39;s outcome. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2866,57 +2866,58 @@ color: white;
     <button class="tablink" data-id=""> @simd </button>
     <button class="tablink" data-id=""> @turbo </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;0.1, 0.2, 0.3&#93;
 
-function foo&#40;x&#41;
-    output &#61; copy&#40;x&#41;
-
+function foo&#33;&#40;x&#41;
     for i in 2:length&#40;x&#41;
-        output&#91;i&#93; &#61; output&#91;i-1&#93; &#43; x&#91;i&#93;
+        x&#91;i&#93; &#61; x&#91;i-1&#93; &#43; x&#91;i&#93;
     end
-
-    return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>sum&#40;foo&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">2.50038e11</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="julia_line">julia&gt</div> <code>foo&#33;&#40;x&#41;</code></div></p>
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
+ 0.1
+ 0.3
+ 0.6</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;0.1, 0.2, 0.3&#93;
 
-function foo&#40;x&#41;
-    output &#61; copy&#40;x&#41;
-
+function foo&#33;&#40;x&#41;
     @inbounds @simd for i in 2:length&#40;x&#41;
-        output&#91;i&#93; &#61; output&#91;i-1&#93; &#43; x&#91;i&#93;
+        x&#91;i&#93; &#61; x&#91;i-1&#93; &#43; x&#91;i&#93;
     end
-
-    return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>sum&#40;foo&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">2.50038e11</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="julia_line">julia&gt</div> <code>foo&#33;&#40;x&#41;</code></div></p>
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
+ 0.1
+ 0.3
+ 0.6</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;0.1, 0.2, 0.3&#93;
 
-function foo&#40;x&#41;
-    output &#61; copy&#40;x&#41;
-
+function foo&#33;&#40;x&#41;
     @turbo for i in 2:length&#40;x&#41;
-        output&#91;i&#93; &#61; output&#91;i-1&#93; &#43; x&#91;i&#93;
+        x&#91;i&#93; &#61; x&#91;i-1&#93; &#43; x&#91;i&#93;
     end
-
-    return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>sum&#40;foo&#40;x&#41;&#41;</code> <br/> <pre><code class="plaintext code-output">1.03169e6</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="julia_line">julia&gt</div> <code>foo&#33;&#40;x&#41;</code></div></p>
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
+ 0.1
+ 0.3
+ 0.5</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
+<p>Considering that <code>@turbo</code> isn&#39;t suitable for all operations, we next present cases where the macro can be applied safely.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="cases_covered" class="scrollspy section-bg-color">
+<section id="safe_applications_of_turbo" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Cases Covered</h2></p>
-<p>Considering that <code>@turbo</code> isn&#39;t suitable for all operations, let&#39;s present two of its primary applications. The first one arises <strong>when iterations are completely independent</strong>, making their execution order irrelevant.</p>
-<p>For instance, the following code snippet applies a polynomial transformation to each element of a vector.</p>
+        <h2>Safe Applications of @turbo</h2></p>
+<p>There are two safe applications of <code>@turbo</code> that cover a wide range of cases. The first one is <strong>when iterations are completely independent</strong>, making execution order irrelevant for the outcome obtained.</p>
+<p>For instance, the following code snippet applies an independent transformation to each element of a vector.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2937,7 +2938,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.098 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.840 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
@@ -2952,7 +2953,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  5.070 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  4.096 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
@@ -2967,18 +2968,18 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  492.031 μs (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  271.104 μs (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; a * 0.1 &#43; a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
 foo&#40;x&#41;         &#61; @turbo calculation.&#40;x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  406.089 μs (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  482.698 μs (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The second application is <strong>reductions</strong>. Although reductions inherently involve dependent iterations, they represent a special case that <code>@turbo</code> handles properly. </p>
+<p>The second application is <strong>reductions</strong>. Although reductions comprise dependent iterations, they represent a special case that <code>@turbo</code> handles properly. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2998,7 +2999,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.083 ms (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.892 ms (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
@@ -3013,7 +3014,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.299 ms (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.937 ms (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
@@ -3028,7 +3029,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  179.722 μs (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  179.364 μs (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -3041,7 +3042,7 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Special Functions</h2></p>
-<p>The package <code>LoopVectorization</code> leverages the library  <em>SLEEF</em>, which is an acronym for &quot;SIMD Library for Evaluating Elementary Functions&quot;. SLEEF is available in Julia through the package <code>SLEEFPirates</code> and it&#39;s designed to boost the mathematical computations of some functions by utilizing SIMD instructions. In particular, it speeds up the computations of the exponential, logarithmic, power, and trigonometric functions. </p>
+<p>An indirect application of the package <code>LoopVectorization</code> occurs because it leverages the library  <em>SLEEF</em>. This is an acronym for &quot;SIMD Library for Evaluating Elementary Functions&quot;. SLEEF is available in Julia through the package <code>SLEEFPirates</code>and is designed to boost the computations of some mathematical functions via SIMD instructions. In particular, it speeds up the computations of the exponential, logarithmic, power, and trigonometric functions. </p>
 <p>Below, we illustrate the use of <code>@turbo</code> for each type of function. See <a href="https://juliasimd.github.io/SLEEFPirates.jl/stable/">here</a> for a list of all the functions supported.</p>
  <h4> Logarithm </h4>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -3064,7 +3065,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.395 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.542 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
@@ -3079,7 +3080,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.414 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.546 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
@@ -3094,14 +3095,14 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.229 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.617 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; log&#40;a&#41;
 
 foo&#40;x&#41; &#61; @turbo calculation.&#40;x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.237 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.618 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -3126,7 +3127,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.962 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  2.608 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
@@ -3141,7 +3142,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.950 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  2.639 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
@@ -3156,14 +3157,14 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  600.413 μs (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  555.012 μs (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; exp&#40;a&#41;
 
 foo&#40;x&#41; &#61; @turbo calculation.&#40;x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  596.388 μs (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  544.043 μs (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -3188,7 +3189,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.100 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.517 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
@@ -3203,7 +3204,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.305 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.578 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
@@ -3218,14 +3219,14 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  498.762 μs (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  371.218 μs (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; a^4
 
 foo&#40;x&#41; &#61; @turbo calculation.&#40;x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  434.407 μs (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  302.605 μs (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -3250,7 +3251,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.232 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.159 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
@@ -3265,7 +3266,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.231 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.200 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
@@ -3280,14 +3281,14 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  614.203 μs (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  590.429 μs (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; sqrt&#40;a&#41;
 
 foo&#40;x&#41; &#61; @turbo calculation.&#40;x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  614.241 μs (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  578.698 μs (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -3312,7 +3313,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.841 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.915 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
@@ -3327,7 +3328,7 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.767 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  3.895 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
@@ -3342,14 +3343,14 @@ function foo&#40;x&#41;
 
     return output
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.386 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.341 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; sin&#40;a&#41;
 
 foo&#40;x&#41; &#61; @turbo calculation.&#40;x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.384 ms (2 allocations: 7.629 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@ctime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  1.315 ms (3 allocations: 7.629 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -3987,7 +3988,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#cases_covered" data-offset="-40">Cases Covered</a>
+          <a href="#safe_applications_of_turbo" data-offset="-40">Safe Applications of @turbo</a>
         </li>
         
         <li>
