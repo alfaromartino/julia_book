@@ -58,7 +58,7 @@ header .jumbotron {
 
     
 <!-- WINDOWS TAB -->
-  <title>10g. Packages For SIMD - Julia Book - Martin Alfaro</title>
+  <title>10g. SIMD Packages - Julia Book - Martin Alfaro</title>
   <link rel="icon" type="image/png"  href="/julia_book/assets/icons/favicon.ico">
 
 <!-- for LUNR -->
@@ -1074,7 +1074,7 @@ color: white;
   
 
 
-    <h1><i>10g.</i> Packages For SIMD</h1>    
+    <h1><i>10g.</i> SIMD Packages</h1>    
     <div class="lead"> </div>
     
     
@@ -1990,7 +1990,7 @@ background: transparent;
                 
                 <li><a href="/julia_book/PAGES/10f_simd_branchless/"><i>f</i>. SIMD: Branchless Code</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/10g_simd_LoopVectorization/"><i>g</i>. Packages For SIMD</a></li><br>
+                <li><a href="/julia_book/PAGES/10g_simd_LoopVectorization/"><i>g</i>. SIMD Packages</a></li><br>
                 
               </ul>
             </li>            
@@ -2014,7 +2014,7 @@ background: transparent;
                 
                 <li><a href="/julia_book/PAGES/11f_multithread_apply/"><i>f</i>. Parallelization in Practice</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/11g_multithread_packages/"><i>g</i>. Packages for Multithreading</a></li><br>
+                <li><a href="/julia_book/PAGES/11g_multithread_packages/"><i>g</i>. Multithreading Packages</a></li><br>
                 
               </ul>
             </li>            
@@ -2840,8 +2840,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>So far, we’ve relied on the built-in <code>@simd</code> macro to apply SIMD instructions. This approach, nonetheless, exhibits several limitations. First, <code>@simd</code> acts as a suggestion rather than a strict command: it hints to the compiler that SIMD optimizations might improve performance, but ultimately leaves the implementation decision up to the compiler&#39;s discretion. Second, <code>@simd</code> prioritizes code safety over speed, restricting access to advanced SIMD features in favor of avoiding unintended bugs. Third, its application is limited to for-loops.</p>
-<p>To overcome these flaws, we introduce the <code>@turbo</code> macro from the <code>LoopVectorization</code> package. Unlike <code>@simd</code>, <code>@turbo</code> enforces SIMD optimizations when called, eliminating ambiguity and ensuring vectorized instructions are applied. It also employs more aggressive optimizations than <code>@simd</code>, shifting the responsibility for safe usage onto users. Finally, <code>@turbo</code> supports both for-loops and broadcasting operations.</p>
+<p>So far, we’ve relied on the built-in <code>@simd</code> macro to apply SIMD instructions. This approach, nonetheless, exhibits several limitations. First, <code>@simd</code> acts as a suggestion rather than a strict command: it hints to the compiler that SIMD optimizations might improve performance, but ultimately the implementation decision is up to the compiler&#39;s discretion. Second, <code>@simd</code> prioritizes code safety over speed, restricting access to advanced SIMD features to avoid unintended bugs. Third, its application is limited to for-loops.</p>
+<p>To overcome these shortcomings, we introduce the <code>@turbo</code> macro from the <code>LoopVectorization</code> package. Unlike <code>@simd</code>, the <code>@turbo</code> macro enforces SIMD optimizations, guaranteeing that vectorized instructions are actually applied. It also performs more aggressive optimizations than <code>@simd</code>, shifting the responsibility for correctness and safety onto the user. Finally, <code>@turbo</code> extends beyond for-loops, also supporting broadcasting operations. Finally, <code>@turbo</code> integrates with the <code>SLEEFPirates</code> package. This provides SIMD-accelerated implementations of common mathematical functions such as logarithms, exponentials, powers, and trigonometric operations.</p>
 <p>      </div>
     </div>
   </div>
@@ -2851,14 +2851,14 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Caveats About Improper Use of @turbo</h2></p>
-<p>In contrast to <code>@simd</code>, applying <code>@turbo</code> requires extra caution, as its misapplication can yield incorrect results. This risk stems from <code>@turbo</code>’s additional assumptions about the operations processed, which are incorporated to enable more aggressive optimization. In particular:</p>
+<p>In contrast to <code>@simd</code>, applying <code>@turbo</code> requires extra caution, as its misapplication can lead to incorrect results. The risk stems from the additional assumptions that <code>@turbo</code> makes to enable more aggressive optimization. In particular:</p>
 <ul>
-<li><p><code>@turbo</code> doesn&#39;t perform index bound checking, potentially leading to out-of-bounds memory access.</p>
+<li><p><strong>No bound checking</strong>: <code>@turbo</code> omits index bound checks, potentially leading to out-of-bounds memory access.</p>
 </li>
-<li><p><code>@turbo</code> assumes the outcome is invariant to iteration order. The only exception is reduction operations, which are handled properly.</p>
+<li><p><strong>Iteration order invariance</strong>: <code>@turbo</code> assumes the outcome doesn&#39;t depend on the order of iteration, with the sole exception of reduction operations.</p>
 </li>
 </ul>
-<p>The latter is an issue when it comes to floating-point operations, but not for integers. It essentially determines that dependent iterations can yield incorrect results. The following example illustrates this problem, where each iteration depends on a previous iteration&#39;s outcome. </p>
+<p>The second assumption is particularly relevant for floating-point arithmetic, where non-associativity can cause <a href="/julia_book/PAGES/10d_simd_independence/#floating-point">results to vary with iteration order</a>. Integer operations, by contrast, are unaffected. The following example demonstrates this issue: because each iteration depends on the outcome of the previous one, applying <code>@turbo</code> produces incorrect results.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2906,7 +2906,7 @@ end</code></pre> </div></div>
  0.5</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Considering that <code>@turbo</code> isn&#39;t suitable for all operations, we next present cases where the macro can be applied safely.</p>
+<p>Considering that <code>@turbo</code> isn&#39;t suitable for all operations, we next present cases where the macro can be safely applied. </p>
 <p>      </div>
     </div>
   </div>
@@ -2916,8 +2916,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Safe Applications of @turbo</h2></p>
-<p>There are two safe applications of <code>@turbo</code> that cover a wide range of cases. The first one is <strong>when iterations are completely independent</strong>, making execution order irrelevant for the outcome obtained.</p>
-<p>For instance, the following code snippet applies an independent transformation to each element of a vector.</p>
+<p>There are two safe applications of <code>@turbo</code> that cover a wide range of cases. The first applies <strong>when iterations are completely independent</strong>, making execution order irrelevant for the final outcome.</p>
+<p>The example below illustrates this case by performing an independent transformation on each element of a vector. Importantly, <code>@turbo</code> isn&#39;t restricted to for-loops, also allowing for broadcasted operations. We show both applications.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2979,7 +2979,7 @@ foo&#40;x&#41;         &#61; @turbo calculation.&#40;x&#41;</code></pre> </div><
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The second application is <strong>reductions</strong>. Although reductions comprise dependent iterations, they represent a special case that <code>@turbo</code> handles properly. </p>
+<p>The second safe application is <strong>reductions</strong>. While reductions consists of dependent iterations, they&#39;re a special case that <code>@turbo</code> handles properly. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3042,8 +3042,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Special Functions</h2></p>
-<p>An indirect application of the package <code>LoopVectorization</code> occurs because it leverages the library  <em>SLEEF</em>. This is an acronym for &quot;SIMD Library for Evaluating Elementary Functions&quot;. SLEEF is available in Julia through the package <code>SLEEFPirates</code>and is designed to boost the computations of some mathematical functions via SIMD instructions. In particular, it speeds up the computations of the exponential, logarithmic, power, and trigonometric functions. </p>
-<p>Below, we illustrate the use of <code>@turbo</code> for each type of function. See <a href="https://juliasimd.github.io/SLEEFPirates.jl/stable/">here</a> for a list of all the functions supported.</p>
+<p>Another important application of <code>LoopVectorization</code> arises through its integration with the library  <em>SLEEF</em> &#40;an anocrym for &quot;SIMD Library for Evaluating Elementary Functions&quot;&#41;.  SLEEF is exposed via the <code>SLEEFPirates</code> package, which accelerates the evaluation of several mathematical functions using SIMD instructions. In particular, it speeds up the computations of the exponential, logarithmic, power, and trigonometric functions. </p>
+<p>Below, we illustrate the use of <code>@turbo</code> for each type of function. For a complete list of supported functions, see the <a href="https://juliasimd.github.io/SLEEFPirates.jl/stable/">SLEEFPirates documentation</a>. All the examples rely on a for-loop to perform an element-wise transformation of <code>x</code>. This is done via the function <code>calculation</code>, which will take a different form depending on the function illustrated.</p>
  <h4> Logarithm </h4>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3169,6 +3169,7 @@ foo&#40;x&#41; &#61; @turbo calculation.&#40;x&#41;</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
  <h4> Power Functions </h4>
+<p>This includes any operation comprising terms \(x^{y}\). </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3230,7 +3231,7 @@ foo&#40;x&#41; &#61; @turbo calculation.&#40;x&#41;</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The implementation of power functions includes square roots. </p>
+<p>The implementation for power functions includes calls to other function, such as the one for square roots. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3376,7 +3377,7 @@ foo&#40;x&#41; &#61; @turbo calculation.&#40;x&#41;</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 24, 2025 
+          © Martin Alfaro <br>Last Modified September 26, 2025 
       </span> 
   </div> 
 </footer>
@@ -3974,7 +3975,7 @@ for multiple pics in a row
     <button class="nav-toggle" aria-label="Toggle navigation">
       <!-- <span class="nav-toggle-icon"></span> -->
         <img src="/julia_book/assets/icons/dropdown.png" style="width:auto; height:30px; opacity:0.9; padding-bottom:2px;margin-left:0px;">
-      <span class="nav-title"><i>10g.</i> Packages For SIMD</span>
+      <span class="nav-title"><i>10g.</i> SIMD Packages</span>
     </button>
     <div class="nav-menu">
       <ul>

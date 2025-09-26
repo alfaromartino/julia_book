@@ -1988,7 +1988,7 @@ background: transparent;
                 
                 <li><a href="/julia_book/PAGES/10f_simd_branchless/"><i>f</i>. SIMD: Branchless Code</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/10g_simd_LoopVectorization/"><i>g</i>. Packages For SIMD</a></li><br>
+                <li><a href="/julia_book/PAGES/10g_simd_LoopVectorization/"><i>g</i>. SIMD Packages</a></li><br>
                 
               </ul>
             </li>            
@@ -2012,7 +2012,7 @@ background: transparent;
                 
                 <li><a href="/julia_book/PAGES/11f_multithread_apply/"><i>f</i>. Parallelization in Practice</a></li><br>
                 
-                <li><a href="/julia_book/PAGES/11g_multithread_packages/"><i>g</i>. Packages for Multithreading</a></li><br>
+                <li><a href="/julia_book/PAGES/11g_multithread_packages/"><i>g</i>. Multithreading Packages</a></li><br>
                 
               </ul>
             </li>            
@@ -3057,8 +3057,8 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>As the example reveals, an eager computation doesn&#39;t automatically imply the application of SIMD. This is precisely why <code>@simd</code> is included, which provides a hint to the compiler that vectorizing the operation might be beneficial. In fact, we&#39;ll show later that adding <code>@simd</code> when conditions comprise multiple statements could prompt the compiler to vectorize conditions, while still relying on a lazy evaluation.</p>
-<p>It&#39;s also worth remarking that applying SIMD instructions doesn&#39;t necessarily increase performance. The example below demonstrates this point, where the compiler adopts a SIMD approach through <code>ifelse</code>.</p>
+<p>As the example reveals, an eager computation doesn&#39;t automatically imply the application of SIMD. This is precisely why the macro <code>@simd</code> is included, which provides a hint to the compiler that vectorizing the operation might be beneficial. In fact, we&#39;ll show later that adding <code>@simd</code> when conditions comprise multiple statements could prompt the compiler to vectorize conditions, while still relying on a lazy evaluation.</p>
+<p>It&#39;s also worth remarking that applying SIMD instructions doesn&#39;t necessarily increase performance. The example below demonstrates this point, where the compiler adopts a SIMD approach with <code>ifelse</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3165,7 +3165,7 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Instead, the ternary operator implements a lazy approach in the following example.</p>
+<p>Instead, the ternary operator opts for a lazy approach in the following example.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3219,7 +3219,7 @@ end</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
  <h4> Ternary Operator Could Choose A Less Performant Approach </h4>
-<p>It&#39;s worth remarking that the method chosen by the ternary operator isn&#39;t foolproof. In the following scenario, the ternary operator actually chooses the slowest approach.</p>
+<p>It&#39;s worth remarking that the method chosen by the ternary operator isn&#39;t foolproof. In the following example, the ternary operator actually implements the slowest approach.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3676,7 +3676,7 @@ foo&#40;x,y&#41;       &#61; @. ifelse&#40;Bool&#40;1 - &#33;&#40;x&gt;0.3&#41; 
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 24, 2025 
+          © Martin Alfaro <br>Last Modified September 26, 2025 
       </span> 
   </div> 
 </footer>
