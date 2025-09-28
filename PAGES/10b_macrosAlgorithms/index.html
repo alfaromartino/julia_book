@@ -2961,10 +2961,10 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Macros Could be Applied Automatically or Disregarded By The Compiler</h2></p>
-<p>The influence of a macro on code execution isn&#39;t always predictable. In many cases, it might have no impact at all. This is because the compiler has the final say on optimization strategy. Thus, it might already be applying the optimization suggested, or it might determine that the macro&#39;s recommendation is unhelpful and simply ignore it. In either case, you can infer that a macro is ignored when there&#39;s no significant change in execution time after applying it.</p>
+<p>The influence of a macro on code execution isn&#39;t always predictable. In many cases, it might have no impact at all. This is because the compiler has the final say on optimization strategy. Thus, it might already be applying the optimization suggested or determine that the macro&#39;s recommendation is unhelpful and simply ignore it. In either case, you can infer a macro is ignored when there&#39;s no significant change in execution time after applying it. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> More formally, one can verify that macros are ignored by examining the generated machine code. Because we haven&#39;t covered how to inspect that code, we&#39;ll instead use the runtime behavior as an indicator.  </span></span></p>
 <p>Both scenarios can arise with <code>@inbounds</code> as we show below.</p>
  <h4> Redundant Macros </h4>
-<p>The compiler could prove on its own that a for-loop is safe and therefore disable bounds checking. In those cases, <code>@inbounds</code> becomes redundant. This behavior typically occurs in simple cases, such as when iterating over a single collection and using <code>eachindex</code>, as illustrated below. </p>
+<p>The compiler could prove on its own that a for-loop is safe and therefore disable bounds checking. In those cases, <code>@inbounds</code> becomes redundant. This behavior typically occurs in simple cases, such as when iterating over a single collection and using <code>eachindex</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
