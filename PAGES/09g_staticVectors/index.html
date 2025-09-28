@@ -3267,7 +3267,7 @@ end</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
 <p>The &quot;No-Preallocation&quot; tab serves as our baseline, providing a reference point for comparison with the other methods. As for the &quot;Pre-allocating&quot; tab, it reuses a regular vector to compute <code>temp</code>. In contrast, the &quot;SVector&quot; tab converts <code>x</code> to an SVector <code>sx</code> without pre-allocating <code>temp</code>. The benchmarks reveal that the latter approach is more performant, as it avoids memory allocation and benefits from additional optimizations provided by SVectors.</p>
-<p>As for the last two tabs, they continue defining <code>x</code> as an SVector, but additionally treat <code>output</code> as an MVector. The last tab in particular does this by using <code>similar&#40;sx&#41;</code> to initialize <code>output</code>, whereas the other tab explicitly specifies an MVector. Comparing these cases, we can observe that the use of MVectors yields additional performance gains.</p>
+<p>As for the last two tabs, they continue defining <code>x</code> as an SVector, but additionally treat <code>output</code> as an MVector. The last tab in particular does this by using <code>similar&#40;sx&#41;</code> to initialize <code>output</code>, whereas the other tab explicitly specifies an MVector. Comparing these cases, we observe that MVectors deliver additional performance gains.</p>
 <p>      </div>
     </div>
   </div>

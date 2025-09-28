@@ -2840,8 +2840,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>A proper implementation of multithreading demands some basic understanding of the inner workings of computers. In particular, it&#39;s essential to know how programming languages manage dependencies between operations. This knowledge is especially relevant for multithreading, since the technique creates the possibility of writing unsafe code, where a flawed multithreaded implementation may yield incorrect results. </p>
-<p>This section will only present preliminary concepts, setting the stage for subsequent sections. Moreover, the focus will be on explanations, rather than actual implementations of multithreading. In fact, most of the macros and functions introduced here won&#39;t be utilized again on this website. </p>
+<p>A correct implementation of multithreading requires a basic understanding of how computers execute instructions. In particular, it&#39;s essential to understand this procedure in light of data dependencies: situations where one operation relies on the output of a previous one. If these dependencies aren&#39;t properly managed, multithreading could introduce several forms of unsafe code, potentially leading to incorrect results.</p>
+<p>This section introduces the preliminary concepts needed to reason about these issues, laying the foundation for the more practical discussions that follow. The emphasis here is on explanation rather than implementation. Accordingly, many of the macros and functions presented will serve only as illustrative examples and won&#39;t be reused elsewhere on this website.</p>
 <p>      </div>
     </div>
   </div>
@@ -2851,8 +2851,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Nature of Computations</h2></p>
-<p>An operation can be broadly classified by data dependency as dependent or independent. A <span style="color: rgb(62, 121, 180);"><strong>dependent operation</strong></span> is one whose outcome is influenced by the result of another operation. In such cases, the order of execution is critical, because changing the sequence can alter the final outcome. By contrast, an <span style="color: rgb(62, 121, 180);"><strong>independent operation</strong></span> produces the same result, regardless of the order in which it&#39;s executed relative to others—its computation does not rely on the outputs of preceding or subsequent operations.</p>
-<p>The following code gives rise to a dependent or independent operation, depending on which values are summed by operation B.</p>
+<p>Operations can be broadly classified in terms of their data dependencies. A <span style="color: rgb(62, 121, 180);"><strong>dependent operation</strong></span> is one whose outcome is influenced by the result of another operation. In such cases, the order of execution is critical, because changing the sequence can alter the final outcome. In contrast, an <span style="color: rgb(62, 121, 180);"><strong>independent operation</strong></span> produces the same result, regardless of the order in which it&#39;s executed relative to other operations. In other words, its computation doesn&#39;t rely on the outputs of either preceding or subsequent operations.</p>
+<p>The following code gives rise to a dependent or independent operation, based on which values operation B sums.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2880,10 +2880,10 @@ function foo&#40;&#41;
 end</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Likewise, regardless of dependency status, operations can be computed either sequentially or concurrently. A <span style="color: rgb(62, 121, 180);"><strong>sequential</strong></span> procedure involves executing operations one after the other, ensuring each operation completes before the next one begins. Conversely, <span style="color: rgb(62, 121, 180);"><strong>concurrency</strong></span> allows multiple operations to be processed simultaneously, opening up opportunities for parallel execution. </p>
-<p>Like most programming languages, <strong>Julia defaults to a sequential execution</strong>. This is a deliberate choice that prioritizes result correctness, based on that <strong>concurrent execution with dependent operations can yield incorrect results if mishandled</strong>. Basically, the issue arises because concurrency can deal with dependencies in multiple ways, potentially involving timing inconsistencies for reading and writing data. A sequential approach precludes this possibility, as it guarantees a predictable order of execution and therefore timing.</p>
+<p>Regardless of their dependency status, operations can be computed either sequentially or concurrently. A <span style="color: rgb(62, 121, 180);"><strong>sequential</strong></span> procedure involves executing operations one after the other, ensuring each operation completes before the next one begins. Conversely, <span style="color: rgb(62, 121, 180);"><strong>concurrency</strong></span> allows multiple operations to be processed simultaneously, opening up opportunities for parallel execution. </p>
+<p>Like most programming languages, <strong>Julia defaults to a sequential execution</strong>. This is a deliberate design choice that prioritizes result correctness, as <strong>concurrent execution of dependent operations can yield incorrect results if mishandled</strong>. The issue arises because concurrency introduces non-determinism in the execution order, which can lead to timing inconsistencies when reading and writing data. A sequential approach precludes this possibility by guaranteeing a predictable order of execution.</p>
 <p>Despite its advantages regarding safety, a sequential approach can be quite inefficient for independent tasks: by restricting computations to one at a time, computational resources may go underutilized. In contrast, <strong>a simultaneous approach allows for operations to be calculated in parallel, thereby fully utilizing all our available computational resources</strong>. This can lead to significant reductions in computation time. </p>
-<p>Because most programming languages default to sequential execution, certain nuances of concurrent programming can be difficult to grasp &#40;e.g., concurrency doesn&#39;t necessarily imply simultaneity&#41;. Misunderstandings in this regard can lead to flawed program design or incorrect handling of concurrent processes. To address this potential issue, we next revisit this topic in light of the fundamental concepts of tasks and threads.</p>
+<p>Because most programming languages default to sequential execution, certain nuances of concurrent programming can be difficult to grasp &#40;e.g., concurrency doesn&#39;t necessarily imply simultaneity&#41;. Such misunderstandings can lead to flawed program design or incorrect handling of concurrent processes. To address this, we next revisit the topic in light of the fundamental concepts of tasks and threads.</p>
 <p>      </div>
     </div>
   </div>
@@ -2893,9 +2893,10 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Tasks and Threads</h2></p>
-<p>When computing an operation, Julia internally defines a set of instructions to be processed through the concept of <span style="color: rgb(62, 121, 180);"><strong>task</strong></span>. Each of these tasks must be assigned to <span style="color: rgb(62, 121, 180);"><strong>a computer thread</strong></span> for its computation. Since a single task runs on exactly one thread at a time, <strong>the number of threads available on your computer determines the number of tasks that can be computed simultaneously</strong>. </p>
-<p>Importantly, each session in Julia begins with a predefined pool of threads. Julia defaults to a single thread, regardless of your computer&#39;s hardware. We&#39;ll start considering this case, as it provides a convenient starting point for understanding concurrency.</p>
-<p>To build intuition, consider two workers A and B, whom we&#39;ll think of as employees working for a company. B&#39;s job consists of performing the same operation continuously for a certain period of time. In the code, this is represented by summing <code>1&#43;1</code> repeatedly for one second. Instead, A&#39;s job consists of receiving some delivery, which will arrive after a certain period of time. In the code, this job is represented by performing no computations for two seconds, captured by calling the function <code>sleep&#40;2&#41;</code>.</p>
+<p>When computing an operation, Julia internally defines a set of instructions to be processed. This is achieved through the concept of <span style="color: rgb(62, 121, 180);"><strong>tasks</strong></span>. For a task to be computed, it must be assigned to <span style="color: rgb(62, 121, 180);"><strong>a computer thread</strong></span>. Since a single task runs on exactly one thread at a time, <strong>the number of threads available on your computer determines how many tasks can be computed simultaneously</strong>. </p>
+<p>Importantly, each session in Julia starts with a predefined pool of threads, defaulting to a single thread regardless of your computer&#39;s hardware. We&#39;ll begin by examining the single-threaded case, as it provides a clear basis for understanding concurrency.</p>
+<p>To build intuition, consider two workers A and B, whom we&#39;ll think of as employees working for a company. B&#39;s job consists of performing the same operation continuously for a certain period of time. In the code, this is represented by summing <code>1&#43;1</code> repeatedly for one second. For its part, A&#39;s job consists of waiting for some delivery, which will arrive after a certain period of time. In the code, this job is represented by performing no computations for two seconds, simulated by calling the function <code>sleep&#40;2&#41;</code>.</p>
+<p>The following code snippet defines functions capturing each worker&#39;s job.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2919,8 +2920,8 @@ end</code></pre> </div></div>
 end</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Due to the lazy nature of function definitions, these code snippets simply describe a set of operations without performing any computation. It&#39;s only when we add lines like <code>job_A&#40;2&#41;</code> and <code>job_B&#40;1&#41;</code> that the operations are sent for computation. </p>
-<p>To lay bare the internal steps Julia follows to compute them, let&#39;s use a lower-level approach by defining <code>job_A&#40;2&#41;</code> and <code>job_B&#40;1&#41;</code> as tasks. As shown below, tasks aren&#39;t mere abstractions to organize our discussion, but are actual constructs in Julia&#39;s codebase. </p>
+<p>Due to the lazy nature of function definitions, these code snippets merely create a blueprint for a set of operations. This implies that no computation is performed. It&#39;s only when we call these functions by lines like <code>job_A&#40;2&#41;</code> and <code>job_B&#40;1&#41;</code> that the operations are sent for execution. </p>
+<p>To lay bare the internal steps Julia follows for computation, let&#39;s adopt a lower-level approach where the function calls <code>job_A&#40;2&#41;</code> and <code>job_B&#40;1&#41;</code> are defined as tasks. As shown below, tasks aren&#39;t abstractions to organize our discussion, but actual constructs in Julia&#39;s codebase. </p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2930,9 +2931,9 @@ end</code></pre> </div></div>
 B &#61; @task job_B&#40;1&#41;      # B&#39;s task takes 1 second</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div> </p>
-<p>Once tasks are defined, the first step for their computation is to <span style="color: rgb(62, 121, 180);"><strong>schedule</strong></span> them. This means the task is added to the queue of operations the computer&#39;s processor will execute. Essentially, scheduling instructs the machine to compute a task as soon as a thread becomes available.</p>
+<p>Once a task is defined, the first step for its computation is <span style="color: rgb(62, 121, 180);"><strong>scheduling</strong></span> it. This means the task is added to the queue of operations awaiting execution by the computer&#39;s processor. Then, as soon as a thread becomes available, the machine begin its computation.</p>
 <p>Importantly, multiple tasks can be  <em>processed</em> concurrently, without implying that they&#39;ll be  <em>computed</em> simultaneously. Indeed, this is the case in a single-thread session. The distinction can be understood through an analogy with juggling: a juggler manages multiple balls at the same time, but only holds one ball at any given moment. Similarly, multiple tasks can be processed simultaneously, even when only one is actively executing on the CPU.</p>
-<p>Although true parallelism isn&#39;t feasible in single-threaded sessions, concurrency can still offer some benefits. This is due to the possibility of <span style="color: rgb(62, 121, 180);"><strong>task switching</strong></span>, which is enabled by a <span style="color: rgb(62, 121, 180);"><strong>task yielding</strong></span> mechanism. When a task becomes idle, it can voluntarily relinquish control of the thread, allowing other tasks to utilize the thread&#39;s time. By fostering a cooperative approach, concurrency ensures plenty of computer resource utilization at any given time.</p>
+<p>The implication of this statement is that true parallelism isn&#39;t feasible in single-threaded sessions. Nonetheless, concurrency can still improve efficiency through <span style="color: rgb(62, 121, 180);"><strong>task switching</strong></span>. This is enabled by a <span style="color: rgb(62, 121, 180);"><strong>task yielding</strong></span> mechanism: when a task becomes idle &#40;e.g., waiting for input or data&#41;, it can voluntarily relinquish control of the thread, allowing other tasks to utilize the thread&#39;s time. By fostering a cooperative approach, concurrency ensures plenty of computer resource utilization at any given time.</p>
 <p>In the following, we describe this mechanism in more detail. </p>
 <p>      </div>
     </div>
@@ -2943,7 +2944,7 @@ B &#61; @task job_B&#40;1&#41;      # B&#39;s task takes 1 second</code></pre> <
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Sequential and Concurrent Computations</h2></p>
-<p>While code is executed sequentially by default, <strong>tasks are designed to compute concurrently</strong>. As a result, adopting a sequential approach requires instructing Julia to execute tasks one at a time. This is achieved by introducing a wait instruction immediately after scheduling a task, ensuring that the task completes its calculation before proceeding. </p>
+<p>While code is executed sequentially by default, <strong>tasks are designed to run concurrently</strong>. As a result, to enforce a sequential execution of tasks, we must instruct Julia to run them one at a time. This is achieved by introducing a &quot;wait&quot; instruction immediately after scheduling a task, ensuring that the task completes its calculation before proceeding with the rest of the program.</p>
 <p>The code snippet below demonstrates this mechanism by introducing the functions <code>schedule</code> and <code>wait</code>. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2991,11 +2992,11 @@ B &#61; @task job_B&#40;1&#41;      # B&#39;s task takes 1 second
           </div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Note that <code>wait</code> was added even in the concurrent case. Moreover, <code>wait</code> call was incorporated after both tasks had been scheduled. Its purpose is to ensure that both tasks can be processed at the same time, while preventing that subsequent operations are processed alongside them.</p>
+<p>Note that <code>wait</code> was added even in the concurrent case and after both tasks were scheduled. The purpose is to pause the main program flow until both scheduled tasks have finished, preventing subsequent code from executing prematurely.</p>
 <p>The example reveals the benefits of task switching under concurrency: although only one task can run at any moment, task A can yield control of the thread to task B when it becomes idle. In the code, the idle state is simulated by the function <code>sleep</code>, during which the computer performs no operations. Once task A becomes idle, its state is saved, allowing it to eventually resume execution from where it left off. In the meantime, task B can use that thread&#39;s processing time, explaining why B finishes first.</p>
 <p>By taking turns efficiently and sharing the single available thread, tasks make the most of the CPU’s processing power. This contrasts with a sequential approach, where task A must finish before moving to the next task. The difference is reflected in their execution times, resulting in 2 seconds for the concurrent approach and 3 seconds for the sequential one. </p>
 <p>Examples of idle states emerge naturally in real-world scenarios. For instance, it&#39;s common when a program is waiting for user input, such as a keystroke or mouse click. It can also arise when browsing the internet, where the CPU may idle while waiting for a server to send data. Task switching is so ubiquitous in certain contexts that we often take it for granted. For instance, I bet you never questioned whether you could use the computer while a document prints in the background&#33;</p>
-<p>Note, though, that concurrency with a single thread offers no benefits if both tasks require active computations. This is because the CPU would be fully utilized, leaving no opportunity for task switching. In such cases, the sequential and concurrent approaches are equivalent. In our example, this would occur if task B consisted of computing <code>1&#43;1</code> repeatedly, resulting in an execution time of 3 seconds for both approaches.</p>
+<p>Notice, though, that concurrency with a single thread offers no benefits if both tasks require active computations. This is because the CPU would be fully utilized, leaving no opportunity for task switching. In such cases, the sequential and concurrent approaches are equivalent. In our example, this would occur if task B consisted of computing <code>1&#43;1</code> repeatedly, resulting in an execution time of 3 seconds for both approaches.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3050,7 +3051,7 @@ end</code></pre> </div></div>
           </div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Nonetheless, the key insight from the examples isn&#39;t that concurrency is ineffective in a single-thread session. Rather, the main takeaway is the underlying procedure: <strong>when a task is scheduled, the computer attempts to find an available thread for its computation</strong>. For concurrency, this implies that <strong>starting a session with multiple threads enables parallel code execution</strong>, which is simply called <span style="color: rgb(62, 121, 180);"><strong>multithreading</strong></span>. In the following, we explain this case in more detail.</p>
+<p>Overall, the key insight from this subsection is the underlying procedure outlined: <strong>when a task is scheduled, the computer attempts to find an available thread to run it</strong>. For concurrency, this implies that <strong>starting a session with multiple threads enables parallel code execution</strong>. This case is simply referred to as <span style="color: rgb(62, 121, 180);"><strong>multithreading</strong></span> and explained next in more detail.</p>
 <p>      </div>
     </div>
   </div>
@@ -3060,7 +3061,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Multithreading</h2></p>
-<p>Let&#39;s continue considering the last scenario, where both workers A and B perform meaningful computations. The only change we introduce is that Julia&#39;s session now starts with more than one thread available. For the concurrent approach, the only code adjustment added is that tasks are no longer &quot;sticky&quot;. This is just a technicality indicating that a task can be run on any thread, rather than the thread on which it was first scheduled. Non-sticky tasks allow for a better use of resources, as the task can be computed as soon as a thread becomes available.</p>
+<p>Let&#39;s revisit the case where both workers A and B perform meaningful computations. The only change introduced is that Julia&#39;s session now starts with more than one thread available. For the concurrent approach, we also specify that the tasks are &quot;non-sticky&quot;. This technical detail means a task can run on any available thread, not just the one it started on, allowing for more efficient resource allocation.</p>
+<p>Once there&#39;s more than one thread available, concurrency implies simultaneity. This means each task runs on a different thread, which is why task B finishes first in the following implementation.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3099,8 +3101,7 @@ end</code></pre> </div></div>
           </div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Once there&#39;s more than one thread available, concurrency implies simultaneity. This means each task runs on a different thread, which is why task B finishes first. </p>
-<p>Previewing some of the approaches employed in the next section, let&#39;s compare Julia&#39;s standard implementation with a multithreaded one. The macro <code>@spawn</code>, which will be covered in the next section, offers a simple way to run tasks in a multithreaded environment. It&#39;s essentially equivalent to creating and scheduling a non-sticky task. The following code snippets demonstrate both the standard and multithreaded approaches.</p>
+<p>Previewing some of the approaches we&#39;ll introduce later, let&#39;s compare Julia&#39;s default implementation &#40;sequential&#41; with a multithreaded one. The macro <code>@spawn</code>, which will be covered in the next section, offers a simple way to run tasks in a multithreaded environment. Essentially, it&#39;s equivalent to creating and scheduling a non-sticky task. The following code snippets demonstrate both the default and multithreaded approaches.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3145,9 +3146,9 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>The Importance of Waiting For The Results</h2></p>
-<p>Before concluding this section, it&#39;s worth stressing a crucial point: you must always instruct the computer to wait for all operations to complete, before it proceeds with any subsequent computation. This holds true even for concurrent computations. <strong>Failing to wait may produce incorrect results, even in a single-threaded environment</strong>. </p>
-<p>To illustrate this, consider mutating a vector in a single-threaded session, with a one‑second delay for each value update. If we don’t wait for the mutation to finish, any subsequent operation will be based on the vector’s value at the moment it&#39;s accessed. This value doesn&#39;t necessarily reflect its final state after the mutation, but merely its value at the moment of reference. </p>
-<p>For instance, suppose we want to mutate the vector <code>x &#61; &#91;0,0,0&#93;</code> into <code>x &#61; &#91;1,2,3&#93;</code>. Julia’s default sequential execution ensures that the mutation must complete, before continuing with any other operation.</p>
+<p>Before concluding this section, it&#39;s worth stressing a crucial point: you must always instruct your program to wait for operations to complete before proceeding. This holds true even for concurrent computations. <strong>Failing to wait may produce incorrect results, even in a single-threaded environment</strong>. </p>
+<p>To illustrate this, consider mutating a vector in a single-threaded session, with a one‑second delay for each value update. If we don’t wait for the mutation to finish, any subsequent operation will be based on the vector’s value at the moment it&#39;s accessed. This value doesn&#39;t necessarily reflect its final mutated state, but merely its value at the moment of reference. </p>
+<p>For instance, suppose we seek to mutate the vector <code>x &#61; &#91;0,0,0&#93;</code> into <code>x &#61; &#91;1,2,3&#93;</code>. Let&#39;s begin considering Julia’s default sequential execution. This ensures that the mutation completes before continuing with any other operation.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3184,7 +3185,7 @@ println&#40;&quot;the value stored in &#96;output&#96; is &#36;&#40;output&#41;&
           </div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Let&#39;s now consider the same implementation but through tasks. In particular, a task performing a mutation is defined in the following way.</p>
+<p>Let&#39;s now consider the same implementation but through tasks. In particular, we define a task to perform a mutation as follows.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3202,7 +3203,7 @@ println&#40;&quot;the value stored in &#96;output&#96; is &#36;&#40;output&#41;&
 end</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>The following code snippets show the consequences of waiting and not waiting for the mutation to complete.</p>
+<p>The following snippets show the consequences of waiting versus not waiting for the task to complete.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3248,7 +3249,7 @@ println&#40;&quot;the value stored in &#96;output&#96; is &#36;&#40;output&#41;&
           </div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>As we can see, without waiting for the mutation to take place, the subsequent operation takes the value of <code>x</code> at the moment of execution. Since the mutation hasn&#39;t started, <code>x</code> is still <code>x &#61; &#91;0,0,0&#93;</code>.</p>
+<p>Without a <code>wait</code> call, the main program schedules the mutation task and immediately proceeds to the next line. Since the task contains a <code>sleep</code> instruction, the mutation hasn&#39;t yet begun when <code>x</code> is accessed, resulting in the use of its original value <code>&#91;0,0,0&#93;</code>. This demonstrates that properly synchronizing tasks is essential for correctness.</p>
 <p>      </div>
     </div>
   </div>

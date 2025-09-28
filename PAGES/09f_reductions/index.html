@@ -2843,18 +2843,18 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Reductions</strong></span> are a strategy of computation for <strong>operations that take collections as input and return a single element</strong>. Such operations arise naturally in a wide range of contexts, such as when computing summary statistics &#40;e.g., averages, variances, or maxima of collections&#41;.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Reductions</strong></span> are a computational strategy for <strong>operations that take collections as input and return a single element</strong>. Such operations arise naturally in a wide range of contexts, such as when computing summary statistics &#40;e.g., averages, variances, or maxima of collections&#41;.</p>
 <p>The reduction process works by iteratively applying an operation to pairs of elements, accumulating the results at each step until the final output is obtained. For example, to compute <code>sum&#40;x&#41;</code> for a vector <code>x</code>, a reduction would start by adding the first two elements, then add the third element to the partial total, and continue this cumulative process until all elements have been summed.</p>
 <p>The method is particularly convenient when we need to transform a vector&#39;s elements prior to aggregating the result. By operating on scalars, <strong>reductions sidestep the need to materialize intermediate outputs</strong>, thus reducing memory allocations. This means that, if for example you have to compute <code>sum&#40;log.&#40;x&#41;&#41;</code>, a reduction would avoid the creation of the intermediate vector <code>log.&#40;x&#41;</code>.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="intuition" class="scrollspy section-bg-color">
+<section id="an_intuition" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Intuition</h2></p>
+        <h2>An Intuition</h2></p>
 <p>Reductions are implemented using a for-loop, with an operator applied to pairs of elements and the resulting output updated in each iteration. A classic example is the summation of all numeric elements in a vector. This involves applying the addition operator <code>&#43;</code> to pairs of elements, iteratively updating the accumulated sum. This process is demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3310,7 +3310,7 @@ foo&#40;x&#41; &#61; mapreduce&#40;log, min, x&#41;     #same output as minimum&
  </div></div>
 <p>  </p></details></div>
 <p>Just like with <code>reduce</code>, note that the examples could&#39;ve been implemented directly as <a href="#example_previous2">we did previously</a>, through the functions <code>sum</code>, <code>prod</code>, <code>maximum</code>, and <code>minimum</code>.</p>
-<p><code>mapreduce</code> can also be used with anonymous functions and transformations requiring multiple arguments. Below, we illustrate both possibilities, whose implementations are the same as with <code>sum</code>, <code>prod</code>, <code>maximum</code>, and <code>minimum</code>.</p>
+<p><code>mapreduce</code> can also be used with anonymous functions and transformations requiring multiple arguments. Below, we illustrate both possibilities. Note that the implementations are the same as with <code>sum</code>, <code>prod</code>, <code>maximum</code>, and <code>minimum</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3996,7 +3996,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#intuition" data-offset="-40">Intuition</a>
+          <a href="#an_intuition" data-offset="-40">An Intuition</a>
         </li>
         
         <li>
