@@ -2835,31 +2835,33 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
-<section id="introduction" class="scrollspy">
+<section id="introduction" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>The previous section explained the basics of multithreading. In particular, we&#39;ve shown that operations can be computed either sequentially &#40;Julia&#39;s default&#41; or concurrently. The latter approach enables multiple operations to be processed simultaneously, with operations running as soon as a thread becomes available. When Julia&#39;s session is initialized with more than one thread, this implies that computations can be executed in parallel.</p>
-<p>This section will focus on Julia&#39;s native multithreading mechanisms, a topic that will span several sections. Our primary goal here is to demonstrate how to write multithreaded code, rather than exploring how and when to apply the technique.</p>
-<p>We&#39;ve deliberately structured our explanation in this way to smooth subsequent discussions. However, a crucial caveat at this point remains necessary: while multithreading can offer significant performance advantages, it&#39;s not applicable in all scenarios. In particular, multithreading demands extreme caution in handling dependencies between operations, as mismanagement can lead to silent catastrophic bugs. After grasping a basic understanding of parallelism techniques, we&#39;ll touch on unsafe-thread operations.</p>
+<p>The previous section introduced the basics of multithreading, highlighting that operations can be computed either sequentially &#40;Julia&#39;s default&#41; or concurrently. The latter enables the processing of multiple operations simultaneously, with each of them running as soon as a thread becomes available. This implies that, when Julia&#39;s session is initialized with more than one thread, computations can be executed on different CPU cores in parallel.</p>
+<p>This section will focus on Julia&#39;s native multithreading mechanisms, a topic that will span several sections. Our primary goal here is to demonstrate how to write multithreaded code, rather than exploring how and when to apply the technique. We&#39;ve deliberately structured our explanation in this way to smooth subsequent discussions. </p>
+ <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Warning!</b> </span>  </div>  <div class=content>     While multithreading can offer significant performance advantages, it&#39;s not applicable in all scenarios. In particular, multithreading demands extreme caution in handling dependencies between operations, as mismanagement can lead to silent catastrophic bugs. This is why, after grasping a basic understanding of parallelism techniques, we&#39;ll devote an entire section on unsafe-thread operations.  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="enabling_multithreading" class="scrollspy section-bg-color">
+<section id="enabling_multithreading" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Enabling Multithreading</h2></p>
-<p>Julia initializes every session with a given pool of threads available. Each of these threads is responsible for executing a given set of instructions. Consequently, the number of threads delimits the number of instructions that the CPU can handle simultaneously.</p>
-<p>By default, Julia only operates with a single thread, requiring setting an alternative number of threads to enable multithreading. You can achieve this in VSCode or VSCodium by going to  <em>File</em> &gt;  <em>Preferences</em> &gt;  <em>Settings</em>. Then, search for the keyword  <em>threads</em>, prompting the following line:</p>
+<p>Each Julia session is initialized with a pool of threads available for execution. Since each thread can run a set of instructions independently, the total number of threads determines how many instructions can be processed simultaneously.</p>
+<p>By default, Julia runs in single-threaded mode. To enable multithreading, you need to configure the environment to launch Julia with more than one thread. In VSCode or VSCodium, this can be done by navigating to  <em>File</em> &gt;  <em>Preferences</em> &gt;  <em>Settings</em>. Then, search for the keyword  <em>threads</em>, which will display the following option:</p>
 <p> <div class="multiple_pics">  
     <img src="/julia_book/assets/PAGES/11c_multithread_tasks/pics/pic01.png" style="width:800px; height:auto; max-width:98%; margin-top:1em;">    
 </div> <br/></p>
-<p>After pressing  <em>Edit in settings.json</em>, you should add the line <code>&quot;julia.NumThreads&quot;: &quot;auto&quot;</code>. This will automatically identify the number of threads based on your computer&#39;s features, which will either match your CPU&#39;s logical or physical threads. </p>
-<p><strong>Notice the effects will take place after starting a new session</strong>. To check whether the effects have taken place, use the command <code>Threads.nthreads&#40;&#41;</code>. This displays the number of threads available in the session. Any number greater than one will indicate that multithreading is activated. Notice also that the changes are permanent, so that every new Julia session will start with the number of threads specified. </p>
-<p>Once we have a session with more than one thread, there are several packages for performing multithreaded computations. The focus on this section will be on the built-in package <code>Threads</code>, which is automatically imported when you start Julia.</p>
+<p>After selecting  <em>Edit in settings.json</em>, add the line <code>&quot;julia.NumThreads&quot;: &quot;auto&quot;</code> in the JSON file that opens. This setting automatically detects the number of threads supported by your system, typically matching either the logical or physical cores of your CPU.</p>
+<p><strong>Notice the effects will take place after starting a new session</strong>. Moreover, the changes are permanent, so that every new Julia session will start with the number of threads specified.  To check that the effects have taken place, run the command <code>Threads.nthreads&#40;&#41;</code>, which displays the number of threads available in the session. Any number greater than one will indicate that multithreading is active. </p>
+<p>Once a multithreaded session is started, you can perform parallel computations. While several packages exist for this, the current section will focus on the capabilities built directly into Julia. They&#39;re provided by the <code>Threads</code> package, which is automatically imported in every Julia session.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2884,14 +2886,14 @@ nthreads&#40;&#41;</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="task-based_parallelism_spawn" class="scrollspy">
+<section id="task-based_parallelism_spawn" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Task-Based Parallelism: @spawn</h2></p>
-<p>The first approach we&#39;ll cover is implemented through the macro <code>@spawn</code>, which streamlines the application of the previous section&#39;s techniques. Specifically, by prepending any operation with <code>@spawn</code>, we create a &#40;non-sticky&#41; task that&#39;s scheduled right away for its execution. Recall that once a task is scheduled, it&#39;ll immediately start its computation if there&#39;s a thread available. </p>
-<p>Unlike other approaches that we&#39;ll present, <code>@spawn</code> requires explicitly instructing Julia to wait for the task to complete. The way to do this depends on the nature of the output. For tasks that perform computation and additionally return an output, we have the function <code>fetch</code>. This waits for calculations of a task to finish and then returns its output. Since parallel computation requires spawning multiple tasks, the function argument of <code>fetch</code> should comprise all the tasks spawned and <code>fetch</code> be broadcasted.</p>
-<p>In the following, we illustrate <code>fetch</code> with two spawned tasks that return vectors as their output.</p>
+<p>The first approach for parallel execution we introduce is the macro <code>@spawn</code>. By prefixing an expression with <code>@spawn</code>, Julia creates a &#40;non-sticky&#41; task that&#39;s immediately scheduled for execution. If a thread is available, the task begins running right away.</p>
+<p>Unlike other approaches that we&#39;ll introduce, <code>@spawn</code> requires explicit instructions to wait for task completion. The method for doing so depends on the nature of the output. For tasks that perform computations and additionally return an output, the function used is <code>fetch</code>. This function waits for the calculations of a task to finish and then returns its output. Since parallel computation consists of multiple tasks spawned, <code>fetch</code> should be broadcasted and using all the tasks spawned as its argument. </p>
+<p>The following example demonstrates <code>fetch</code> with two spawned tasks, each returning a vector.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2917,9 +2919,15 @@ function foo&#40;x&#41;
 end</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>It&#39;s important to distinguish between <code>task_a</code> and <code>a</code>: while <code>a</code> refers to the vector created &#40;i.e., the task&#39;s output&#41;, <code>task_a</code> denotes the task creating the vector <code>a</code>. The distinction is essential since the function <code>fetch</code> only takes a task as its input.</p>
-<p>Alternatively, for operations that don&#39;t return any output, we can use either the function <code>wait</code> or the macro <code>@sync</code>. The function <code>wait</code> is applied similarly to <code>fetch</code>. Instead, the macro <code>@sync</code> requires wrapping all operations to be synchronized, which is done by enclosing the operations with the keywords <code>begin</code> and <code>end</code>. </p>
-<p>For the demonstration, let&#39;s consider a mutating function. Mutating functions are suitable as an example, since they only modify values of a collection, without returning any output.</p>
+<p>Note that <code>fetch</code> takes tasks as its input. Consequently, it&#39;s essential to distinguish between <code>task_a</code> and <code>a</code>: </p>
+<ul>
+<li><p><code>task_a</code> denotes the task creating the vector <code>a</code>,</p>
+</li>
+<li><p><code>a</code> refers to the vector created &#40;i.e., the task&#39;s output&#41;. </p>
+</li>
+</ul>
+<p>For tasks that perform actions but don&#39;t return any output, we can use either the function <code>wait</code> or the macro <code>@sync</code>. The function <code>wait</code> works analogously to <code>fetch</code>, with the only difference that it doesn&#39;t return any value. Instead, the macro <code>@sync</code> requires wrapping all operations to be synchronized using the keywords <code>begin</code> and <code>end</code>. </p>
+<p>To illustrate, consider a mutating function. Such functions are ideal examples here, as they modify the contents of a collection in place, without producing a return value.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2957,12 +2965,13 @@ end</code></pre> </div></div>
     </div>
   </div>
 </section>
-<section id="multithreading_overhead" class="scrollspy section-bg-color">
+<section id="multithreading_overhead" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Multithreading Overhead</h2></p>
-<p>To see the advantages of <code>@spawn</code> in action, let&#39;s compute the sum and maximum of a vector <code>x</code>, for which we present a sequential and a simultaneous approach. To clearly shed light on the benefits of parallelization, we also include the time to execute each operation in isolation. The results establish that the time of the sequential procedure is equivalent to the sum of each computation. Instead, thanks to parallelism, the execution time under multithreading is roughly equivalent to the maximum time required for either computation.</p>
+<p>To see the advantages of <code>@spawn</code> in action, let&#39;s calculate both the sum and the maximum of a vector <code>x</code>. Their computation will be implemented following a sequential and a simultaneous approach. To unveil the benefits of parallelization, we&#39;ll also include the execution time of each operation in isolation. </p>
+<p>The results establish that the total runtime of the sequential procedure is essentially the sum of the individual runtimes. In contrast, the runtime under multithreading is roughly equivalent to the longer of the two computations, thanks to parallelism.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3001,8 +3010,8 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>As we can see, the execution time under multithreaded is roughly equivalent to the maximum time for a single operation to complete in isolation. Nonetheless, this equivalence isn&#39;t exact. The reason is that <strong>multithreading has a non-negligible overhead</strong>, stemming from the creation and scheduling of tasks. This determines <strong>multithreading isn't beneficial for operations involving small objects</strong>, as the added overhead negates any potential benefits.</p>
-<p>To illustrate this, let&#39;s compare the execution times of a sequential and multithreaded approach for different sizes of <code>x</code>. In the case considered, the single-threaded approach dominates for sizes smaller than 100,000. </p>
+<p>Although the multithreaded runtime is close to the maximum of the individual runtimes, the equivalence isn&#39;t exact. This is because <strong>multithreading introduces overhead</strong> due to the creation, scheduling, and synchronization of tasks. As a result, <strong>multithreading isn't advantageous for small workloads</strong>, where the overhead can outweigh any potential gains.</p>
+<p>To illustrate this effect, let&#39;s compare the execution times of a sequential and multithreaded approach for different sizes of <code>x</code>. In the case considered, the single-threaded approach dominates for sizes smaller than 100,000. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3067,7 +3076,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 27, 2025 
+          © Martin Alfaro <br>Last Modified September 28, 2025 
       </span> 
   </div> 
 </footer>

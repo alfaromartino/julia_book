@@ -2840,7 +2840,19 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Parallelism techniques target code that performs multiple operations, making it a natural fit for for-loops. Using the macro <code>@spawn</code> introduced in a previous section, we can parallelize for-loops through a task-based parallelism. In an upcoming section, we&#39;ll demonstrate that <code>@spawn</code> is flexible enough to split iterations into tasks in various ways. For now, we&#39;ll consider a simple &#40;inefficient&#41; case where each iteration defines a separate task. The coding implementing this technique is shown below.</p>
+<p>For-Loops are fundamental building blocks in scientific computing, often representing the most computationally intensive parts of a program. To accelerate these computations, parallel processing offers a powerful solution by distributing a for-loop&#39;s iterations across multiple processor threads. The central challenge, however, lies in how this work is divided, as the optimal strategy depends heavily on the nature of the workload.</p>
+<p>This section introduces Julia&#39;s <code>@threads</code> macro as a straightforward approach to parallelization of for-loops. It operates by dividing the loop iterations evenly among the available threads, before execution begins. For the explanations, we&#39;ll contrast its underlying mechanism with the task-based parallelism offered by <code>@spawn</code>.</p>
+<p>To clearly illustrate the differences between approaches, our examples will use <code>@spawn</code> in a simple but inefficient manner, where a separate task is created for every single iteration. While this is enough for the purpose of comparison with <code>@threads</code>, you should bear in mind that it&#39;s not representative of typical <code>@spawn</code> usage. In the next section, we&#39;ll revisit the macro by studying how to efficiently define tasks with <code>@spawn</code>. This exploration will reveal that the inherent flexibility of <code>@spawn</code> enables the construction of sophisticated parallel strategies, capable of replicating even the behavior of <code>@threads</code>.</p>
+<p>      </div>
+    </div>
+  </div>
+</section>
+<section id="some_preliminaries" class="scrollspy section-bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg- mx-auto">
+        <h2>Some Preliminaries</h2></p>
+<p>Parallelism techniques target code that performs multiple operations, making it a natural fit for for-loops. Using the macro <code>@spawn</code> introduced in the previous sections, we can parallelize for-loops through a task-based parallelism. In an upcoming section, we&#39;ll demonstrate that <code>@spawn</code> is flexible enough to split iterations into tasks in various ways. For now, we&#39;ll consider a simple &#40;inefficient&#41; case where each iteration defines a separate task. The coding implementing this technique is shown below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2873,8 +2885,8 @@ Iteration 4 is computed on Thread 2
 <p>  </p></details></div>
 <p>When there are only a few iterations involved in a for-loop, creating one task per iteration can be a straightforward and effective way to parallelize the code. However, as the number of iterations increases, the approach becomes less efficient due to the overhead of task creation. To mitigate this issue, we need to consider alternative ways of parallelizing for-loops.</p>
 <p>One such alternative is to create tasks that encompass multiple iterations, rather than just one iteration per task. The techniques to do this, which will be explored in following sections, offers more granular control, but at the expense of adding substantial complexity to the code.</p>
-<p>In light of this, Julia provides the <code>@threads</code> macro from the package <code>Threads</code>, with the goal of reducing the overhead of task creation while keeping the parallelization simple. This is achieved by dividing the set of iterations evenly among threads, thereby restricting the creation of tasks to the number of threads available.</p>
-<p>The following example demonstrates the implementation of <code>@threads</code>, highlighting its difference from the approach using <code>@spawn</code>. The scenario considered is based on 4 iterations and 2 worker threads, where we also display the thread on which each iteration is executed. This is achieved by the <code>threadid&#40;&#41;</code> function, which identifies the ID of the thread computing the operation.</p>
+<p>In light of this complexity, Julia provides the <code>@threads</code> macro from the package <code>Threads</code>. The goal is to reduce the overhead of task creation, while keeping the parallelization simple. Specifically, <code>@threads</code> divides the set of iterations evenly among threads, thereby restricting the creation of tasks to the number of threads available.</p>
+<p>The following example demonstrates the implementation of <code>@threads</code>, highlighting its difference from the approach with <code>@spawn</code>. The scenario considered is based on 4 iterations and 2 worker threads. We also display the thread on which each iteration is executed by using the <code>threadid&#40;&#41;</code> function, which identifies the thread&#39;s ID that&#39;s computing the operation.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2909,12 +2921,13 @@ Iteration 4 is computed on Thread 2
 Iteration 3 is computed on Thread 2</div></div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The key distinction between <code>@threads</code> and <code>@spawn</code> lies in their thread allocation strategies. Thread assignments with <code>@threads</code> are predetermined: before the for-loop begins, the macro pre-allocates threads and distributes iterations evenly. Thus, each thread is assigned a fixed number of iterations upfront, creating a predictable workload distribution. In the example, the feature is reflected in the allocation of two iterations per thread. In contrast, <code>@spawn</code> creates a separate task for each iteration, dynamically scheduling them as soon as a thread becomes available. This method allows for more flexible thread utilization, with task assignments adapting in real-time to the current system load and available thread capacity. For instance, in the given example, one thread ended computing three out of the four iterations.</p>
+<p>The key distinction between <code>@threads</code> and <code>@spawn</code> lies in the strategy for thread allocation. Thread assignments with <code>@threads</code> are predetermined: before the for-loop begins, the macro pre-allocates threads and distributes iterations evenly. Thus, each thread is assigned a fixed number of iterations upfront, creating a predictable workload distribution. In the example, the feature is reflected in the allocation of two iterations per thread. </p>
+<p>In contrast, <code>@spawn</code> creates a separate task for each iteration, dynamically scheduling them as soon as a thread becomes available. This method allows for more flexible thread utilization, with task assignments adapting in real-time to the current system load and available thread capacity. For instance, in the previous example, a single thread ended up computing three out of the four iterations.</p>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="spawn_vs_threads" class="scrollspy section-bg-color">
+<section id="spawn_vs_threads" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
@@ -3054,7 +3067,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 27, 2025 
+          © Martin Alfaro <br>Last Modified September 28, 2025 
       </span> 
   </div> 
 </footer>
@@ -3659,6 +3672,10 @@ for multiple pics in a row
         
         <li>
           <a href="#introduction" data-offset="-40">Introduction</a>
+        </li>
+        
+        <li>
+          <a href="#some_preliminaries" data-offset="-40">Some Preliminaries</a>
         </li>
         
         <li>
