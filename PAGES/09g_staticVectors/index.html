@@ -2843,11 +2843,11 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>The creation of vectors can rapidly become a performance bottleneck, due to the memory-allocation overhead it triggers. The issue has far-reaching implications, as vector creation doesn&#39;t just occur when we explicitly define a variable holding a new vector. It also happens internally in various scenarios, such as when referencing a slice like <code>x&#91;1:2&#93;</code> or computing intermediate results on the fly like <code>x .* y</code> in <code>sum&#40;x .* y&#41;</code>.</p>
-<p>This section introduces a way to address this limitation, while still preserving the use of vectors for collections. The solution leverages the so-called <strong>static vectors</strong>, provided by the <code>StaticArrays</code> package. Unlike built-in vectors, which are allocated on the heap, static vectors are stack-allocated. </p>
-<p>Under the hood, static vectors are built on top of tuples. This feature determines that <strong>static vectors are only suitable for collections comprising a few elements</strong>. As a rule of thumb, consider <strong>using static vectors for collections with up to 75 elements</strong>. Exceeding this threshold can lead to increased overhead during creation and access, potentially offsetting any performance benefits or even resulting in a fatal error.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The recommended number of elements I provide is actually lower than the documentation&#39;s suggested &#40;100 elements&#41;. The reason for this discrepancy is that, as you approach the upper limit, the performance benefits of static vectors compared to regular vectors decrease significantly. As a result, the time spent benchmarking with collections of 100 elements will likely offset any potential advantage.  </span></span> </p>
-<p>Static vectors offer additional benefits relative to tuples. Firstly, they maintain their performance benefits even at sizes where tuples would typically lose them. Secondly, they&#39;re more convenient to work with, as they are manipulated similarly to regular vectors. </p>
-<p>The <code>StaticArrays</code> package also supports any array type, including matrices, and provides mutable variants. The latter makes static vectors more flexible than tuples, which are only available in an immutable form. It&#39;s worth indicating though that, while the mutable version provides performance benefits relative to regular vectors, the immutable option still offers the best performance.</p>
+<p>The creation of vectors can rapidly become a performance bottleneck, due to the memory-allocation overhead it entails. The issue has far-reaching implications, as vector creation doesn&#39;t just occur when we explicitly define a variable holding a new vector. It also happens internally in various scenarios, such as when referencing a slice like <code>x&#91;1:2&#93;</code> or computing intermediate results on the fly, like <code>x .* y</code> in <code>sum&#40;x .* y&#41;</code>.</p>
+<p>This section introduces a strategy to address this limitation, while retaining the convenience of vectors for collections. The solution leverages the so-called <strong>static vectors</strong>, provided by the <code>StaticArrays</code> package. Unlike built-in vectors, which are allocated on the heap, static vectors are stack-allocated. </p>
+<p>Under the hood, static vectors are built on top of tuples. This feature determines that <strong>static vectors are only suitable for collections comprising a few elements</strong>. As a rule of thumb, <strong>you should use static vectors for collections with up to 75 elements</strong>. Exceeding this threshold can lead to increased overhead during creation and access, potentially offsetting any performance benefits or even resulting in a fatal error.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The recommended number of elements provided is actually lower than the documentation&#39;s suggested &#40;100 elements&#41;. The reason for this discrepancy is that, as you approach the upper limit, the performance benefits of static vectors compared to regular vectors decrease significantly. As a result, the time spent benchmarking with collections of 100 elements will likely offset any potential advantage.  </span></span> </p>
+<p>Static vectors offer additional benefits relative to tuples. Firstly, they maintain their performance benefits even at sizes where tuples typically degrade. Secondly, they&#39;re manipulated like regular vectors, making them more convenient to work with.</p>
+<p>The <code>StaticArrays</code> package also supports other array types, including matrices, and provides mutable variants. The latter makes static vectors more flexible than tuples, which are only available in an immutable form. It&#39;s worth indicating though that, while the mutable version provides performance benefits relative to regular vectors, the immutable option still offers the best performance.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content>     To avoid repetition, <strong>the entire section assumes all collections are small</strong>. Taking this into account, all the benefits highlighted are contingent upon this assumption.  We also suppose that the <code>StaticArrays</code> package is already available in the workspace, so the command <code>using StaticArrays</code> is omitted from each code snippet.  </div>  </div>
@@ -2861,7 +2861,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Creating Static Vectors</h2></p>
 <p>The package <code>StaticArrays</code> includes several variants of static arrays. Our focus in particular we&#39;ll be on the type <code>SVector</code>, whose objects will be referred to as SVectors for simplicity. </p>
-<p>There are two approaches to creating an SVector, each serving a distinct purpose. The first one creates an SVector through literal values, while the other option converts a standard vector into an SVector. The implementation of each approach is illustrated below.</p>
+<p>There are two approaches to creating an SVector, each serving a distinct purpose: the first one creates an SVector through literal values, while the other option converts a standard vector into an SVector. The implementation of each approach is illustrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2938,7 +2938,7 @@ slice2 &#61; sx&#91;&#91;1,2&#93;&#93;</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>SVectors Don't Allocate Memory and Are Faster</h2></p>
-<p>One of the key advantages of SVectors is that they&#39;re internally built on top of tuples. Consequently, SVectors don&#39;t allocate memory. </p>
+<p>One of the key advantages of SVectors is that they&#39;re internally implemented on top of tuples. Consequently, SVectors don&#39;t allocate memory. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3012,7 +3012,7 @@ foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Interestingly, the performance benefits of SVectors extend beyond memory allocation. This means that, even when operations on regular vectors don&#39;t allocate memory, SVectors can still provide a speed boost. Below, we demonstrate this through the function <code>sum&#40;f, &lt;vector&gt;&#41;</code>, which sums the elements of <code>&lt;vector&gt;</code> after they&#39;re transformed via <code>f</code>. The example shows that the implementation with SVectors yields faster execution times, even though regular vectors already don&#39;t incur memory allocations.</p>
+<p>Interestingly, the performance benefits of SVectors extend beyond memory allocation. This means that, even when operations on regular vectors don&#39;t allocate memory, SVectors could still deliver significant speedups. Below, we demonstrate this through the function <code>sum&#40;f, &lt;vector&gt;&#41;</code>, which sums the elements of <code>&lt;vector&gt;</code> after they&#39;re transformed via <code>f</code>. The example shows that the implementation with SVectors yields faster execution times, despite regular vectors already not incurring memory allocations.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3041,7 +3041,7 @@ foo&#40;x&#41; &#61; sum&#40;a -&gt; 10 &#43; 2a &#43;  3a^2, x&#41;</code></pre
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>SVector Type and Its Mutable Variant</h2></p>
-<p>Similar to tuples, <strong>SVectors are immutable</strong>, meaning that their elements can&#39;t be added, removed, or modified. To accommodate mutable collections, the package <code>StaticArrays</code> also provides a variant given by the type <code>MVector</code>. The creation of MVector instances and their slices follow the same syntax as SVectors, with the only difference being the substitution of the function <code>SVector</code> with <code>MVector</code>. This is illustrated below.</p>
+<p>Similar to tuples, <strong>SVectors are immutable</strong>, meaning that their elements can&#39;t be added, removed, or modified. To accommodate mutable collections, the package <code>StaticArrays</code> additionally provides a variant given by the type <code>MVector</code>. The creation of MVectors and their slices follow the same syntax as SVectors, where the function <code>SVector</code> is replaced with <code>MVector</code>. This is illustrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3149,8 +3149,8 @@ end
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Performance Comparison</h2></p>
-<p>MVectors offer performance benefits over regular vectors. However, you should bear in mind that they&#39;re never more performant than SVectors and may additionally result in memory allocations. Considering this, it&#39;s recommended to use SVectors if you&#39;re certain that the collection doesn&#39;t need to be mutated.</p>
-<p>Below, we illustrate the performance of SVectors and MVectors. The examples demonstrate that they may exhibit similar performance, with the possibility of SVectors being more performant. Simultaneously, SVectors and MVectors consistently outperform regular vectors for small collections. </p>
+<p>MVectors offer performance benefits over regular vectors. However, bear in mind that they&#39;re never more performant than SVectors. In fact, certain operations on MVectors may still trigger memory allocations. For this reason, the general guideline is to prefer SVectors when the collection doesn&#39;t need to be mutated, restricting MVectors when in-place mutation is necessary.</p>
+<p>Below, we compare the performance of SVectors and MVectors. The examples demonstrate that they may exhibit similar performance, although SVectors are more performant in certain cases. Likewise, SVectors and MVectors consistently outperform regular vectors for small collections. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3189,8 +3189,8 @@ foo&#40;x&#41; &#61; 10 &#43; 2x &#43;  3x^2</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Static Vectors vs Pre-Allocations</h2></p>
-<p>Considering the advantages of static vectors over regular vectors, we can now compare their performance to other strategies that reduce memory allocations. In particular, we&#39;ll examine how they stack up against pre-allocating memory for intermediate outputs. Our examples demonstrate that static vectors can efficiently store intermediate results, making pre-allocation techniques unnecessary. Moreover, the examples reveal that storing the final output in an MVector can lead to performance gains over using a regular vector.</p>
-<p>For the illustration, consider a for-loop that requires an intermediate result during each iteration <code>i</code>. This involves counting the number of elements in <code>x</code> that are greater than <code>x&#91;i&#93;</code>, which can be formally implemented as <code>sum&#40;x .&gt; x&#91;i&#93;&#41;</code>. To make the comparison stark, we&#39;ll isolate the computation of the intermediate step <code>x .&gt; x&#91;i&#93;</code>. Note that every implementation below requires pre-allocating the vector <code>output</code>, leaving us with only one decision to make: whether to pre-allocate the temporary vector <code>temp</code>. This also explains why all the implementations involve at least one memory allocation.</p>
+<p>Considering the advantages of static vectors over regular vectors, let&#39;s compare their performance to other strategies that reduce memory allocations. In particular, we&#39;ll examine how they stack up against pre-allocating memory for intermediate outputs. Our examples demonstrate that static vectors can efficiently store intermediate results, making pre-allocation techniques unnecessary. Moreover, the examples reveal that storing the final output in an MVector can lead to performance gains over using a regular vector.</p>
+<p>For the illustration, consider a for-loop that requires an intermediate result during each iteration <code>i</code>. This involves counting the number of elements in <code>x</code> that are greater than <code>x&#91;i&#93;</code>, which can be formally implemented as <code>sum&#40;x .&gt; x&#91;i&#93;&#41;</code>. To make the comparison stark, we&#39;ll isolate the computation of the intermediate step <code>x .&gt; x&#91;i&#93;</code>. Note that every implementation below requires pre-allocating the vector <code>output</code>, leaving us with only one decision to make: whether to pre-allocate the temporary vector <code>temp</code>. This also explains why all the implementations below involve at least one memory allocation.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3267,7 +3267,7 @@ end</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
 <p>The &quot;No-Preallocation&quot; tab serves as our baseline, providing a reference point for comparison with the other methods. As for the &quot;Pre-allocating&quot; tab, it reuses a regular vector to compute <code>temp</code>. In contrast, the &quot;SVector&quot; tab converts <code>x</code> to an SVector <code>sx</code> without pre-allocating <code>temp</code>. The benchmarks reveal that the latter approach is more performant, as it avoids memory allocation and benefits from additional optimizations provided by SVectors.</p>
-<p>As for the last two tabs, they continue defining <code>x</code> as an SVector, but additionally treat <code>output</code> as an MVector. The last tab in particular does this by using <code>similar&#40;sx&#41;</code> to initialize <code>output</code>, whereas the other tab explicitly specifies an MVector. Comparing these cases, we can observe that integrating MVectors into the operation yields further performance gains.</p>
+<p>As for the last two tabs, they continue defining <code>x</code> as an SVector, but additionally treat <code>output</code> as an MVector. The last tab in particular does this by using <code>similar&#40;sx&#41;</code> to initialize <code>output</code>, whereas the other tab explicitly specifies an MVector. Comparing these cases, we can observe that the use of MVectors yields additional performance gains.</p>
 <p>      </div>
     </div>
   </div>
@@ -3290,7 +3290,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 26, 2025 
+          © Martin Alfaro <br>Last Modified September 27, 2025 
       </span> 
   </div> 
 </footer>

@@ -2840,10 +2840,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>In <a href="/julia_book/PAGES/09b_onAllocations/">the previous section</a>, we introduced the fundamentals of memory allocations, highlighting that objects can be stored on either the heap or the stack. Furthermore, we introduced typical terminology in programming and Julia, where <strong>allocations exclusively refer to those on the heap</strong>. This convention gives rise to the common expression that an object &quot;allocates&quot; when it&#39;s stored on the heap.</p>
-<p>The distinction isn&#39;t merely to economize on words. Rather, it reflects a fundamental reality of software performance: heap allocations are the ones that typically matter. They involve a more complex management process than the stack, which can introduce significant computational overhead. </p>
-<p>The intimate relationship between performance and heap allocations is even reflected in Julia&#39;s built-in benchmarking tools. Macros like <code>@time</code> and <code>@btime</code> don&#39;t just report the total runtime of an operation, but also provide a detailed account of the heap allocations involved.</p>
-<p>Considering this, the current section categorizes objects into those that allocate and those that don&#39;t.</p>
+<p>In <a href="/julia_book/PAGES/09b_onAllocations/">the previous section</a>, we introduced the fundamentals of memory allocations, noting that objects can be stored on either the heap or the stack. Furthermore, we introduced typical terminology in programming and Julia, where <strong>allocations exclusively refer to those on the heap</strong>. This convention underlies the common expression that an object &quot;allocates&quot; when it&#39;s stored on the heap.</p>
+<p>The distinction isn&#39;t merely to economize on words. Rather, it reflects a fundamental performance implication: heap allocations are the ones significantly impacting efficiency. They involve a more complex management process than the stack, which can introduce significant computational overhead. </p>
+<p>The intimate relationship between performance and heap allocations is even reflected in Julia&#39;s built-in benchmarking tools. Macros like <code>@time</code> and <code>@btime</code> report the total runtime of an operation, along with the heap allocations involved.</p>
+<p>Considering the importance of memory allocations on the heap, the current section categorizes objects into those that allocate and those that don&#39;t.</p>
 <p>      </div>
     </div>
   </div>
@@ -2864,7 +2864,7 @@ color: white;
 <li><p>Ranges </p>
 </li>
 </ul>
-<p>As these objects don&#39;t allocate, neither does creating, accessing, and operating on them. This is demonstrated below.</p>
+<p>As these objects don&#39;t allocate, neither does their creation, access, or manipulation. This is demonstrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2906,19 +2906,16 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
- <div style="visibility: hidden;margin-bottom:-4em">
-this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible
-</div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="arrays_and_slices_do_allocate_memory" class="scrollspy">
+<section id="arrays_and_their_slices_do_allocate_memory" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Arrays and Slices Do Allocate Memory</h2></p>
-<p>Among the most common objects that allocate memory are arrays. This allocation doesn&#39;t just happen when we explicitly create an array and assign it to a variable. It also occurs whenever a computation generates a new array as its result. The following example illustrates this point. </p>
+        <h2>Arrays and Their Slices Do Allocate Memory</h2></p>
+<p>Arrays are among the most common objects allocating memory. Such allocation occurs not only when an array is explicitly created and assigned to a variable. It also occurs whenever a computation produces a new array as its result. The following example illustrates this point.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2929,7 +2926,7 @@ this is invisible this is invisible this is invisible this is invisible this is 
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p><a href="/julia_book/PAGES/05e_slices/">Slicing</a> is another operation that creates arrays and therefore allocates. This is due to the default behavior of slicing, which returns a new copy rather than a view of the original object. The sole exception is when a single element is accessed, in which case no new allocation occurs.</p>
+<p><a href="/julia_book/PAGES/05e_slices/">Slicing</a> is another operation that creates arrays and therefore incurs memory allocations. This arises from the default behavior of slicing, which returns a new copy rather than a view of the original object. The sole exception is when a single element is accessed, in which case no new allocation takes place.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2956,7 +2953,7 @@ foo&#40;x&#41; &#61; x&#91;1&#93; * x&#91;2&#93; &#43; x&#91;3&#93;</code></pre>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Array comprehensions and broadcasting are other operations that lead to array creation. Notably, broadcasting triggers memory allocation when intermediate results are generated internally, even if they aren&#39;t explicitly returned. This specific case is demonstrated in the tab &quot;Broadcasting 2&quot; below. </p>
+<p>Array comprehensions and broadcasting are additional operations that lead to array creation. Notably, broadcasting triggers memory allocation when intermediate results are generated internally, even if they aren&#39;t explicitly returned. This behavior is demonstrated in the tab &quot;Broadcasting 2&quot; below. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3001,7 +2998,7 @@ foo&#40;x&#41; &#61; sum&#40;x .* x&#41;                # 1 allocation from temp
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 26, 2025 
+          © Martin Alfaro <br>Last Modified September 27, 2025 
       </span> 
   </div> 
 </footer>
@@ -3613,7 +3610,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#arrays_and_slices_do_allocate_memory" data-offset="-40">Arrays and Slices Do Allocate Memory</a>
+          <a href="#arrays_and_their_slices_do_allocate_memory" data-offset="-40">Arrays and Their Slices Do Allocate Memory</a>
         </li>
         
       </ul>

@@ -2922,7 +2922,7 @@ Iteration 3 is computed on Thread 2</div></div></div> </div>
 <p>The macros <code>@threads</code> and <code>@spawn</code> embody two distinct approaches to work distribution, thus catering to different types of scenarios. By comparing the creation of one task per iteration relative to <code>@threads</code>, we can highlight the inherent trade-offs involved in parallelizing code. </p>
 <p><code>@threads</code> employs a coarse-grained approach, making it well-suited for workloads with similar computational requirements. By reducing the overhead associated with task creation, this approach excels in scenarios where tasks have comparable execution times. However, it&#39;s less effective in handling workloads with unbalanced execution times, where some iterations are computationally intensive while others are relatively lightweight.</p>
 <p>In contrast, <code>@spawn</code> adopts a fine-grained approach, treating each iteration as a separate task that can be scheduled independently. This allows for more flexible work distribution, with tasks dynamically allocated to available threads as soon as they become available. As a result, <code>@spawn</code> is particularly well-suited for scenarios with varying computational efforts, where iteration completion times can differ significantly. While this approach has a bigger overhead due to the creation of numerous smaller tasks, it simultaneously enables more efficient resource utilization. This is because no thread remains idle while tasks await computation.</p>
-<p>In the following, we demonstrate the efficiency of the approaches under each scenario. With this goal, consider a situation where the  <em>i</em>-th iteration computes <code>job&#40;i;time_working&#41;</code>. This function represents some calculations that are performed during <code>time_working</code> seconds. It&#39;s formally defined as follows. </p>
+<p>In the following, we demonstrate the efficiency of the approaches under each scenario. With this goal, consider a situation where the  <em>i</em>-th iteration computes <code>job&#40;i;time_working&#41;</code>. This function represents potential calculations performed during <code>time_working</code> seconds. It&#39;s formally defined as follows. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2942,8 +2942,7 @@ end</code></pre> </div></div>
 <p>Note that <code>job</code> additionally identifies the thread on which it&#39;s running and displays it on the REPL. </p>
 <p>Based on a for-loop with four iterations and a session with two worker threads, we next consider two scenarios. They differ by the computational workload of the iterations.</p>
  <h4> Scenario 1: Unbalanced Workload </h4>
-<p>The first scenario represents a situation with unbalanced work, where some iterations require more computational effort. The feature is captured by assuming that the  <em>i</em>-th iteration has a duration of <code>i</code> seconds. A visual representation of the problem is as follows.</p>
-<p>XXXXX</p>
+<p>The first scenario represents a situation with unbalanced work, where some iterations require more computational effort. The feature is captured by assuming that the  <em>i</em>-th iteration has a duration of <code>i</code> seconds. </p>
 <p>We start by presenting the coding implementing each approach, and then provide explanations for each.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3055,7 +3054,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 26, 2025 
+          © Martin Alfaro <br>Last Modified September 27, 2025 
       </span> 
   </div> 
 </footer>

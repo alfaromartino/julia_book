@@ -2840,10 +2840,10 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>In many scenarios, for-loops entail the creation of new vectors at every iteration, resulting in repeated memory allocation. This allocation may be unnecessary, particularly if these vectors hold temporary intermediate results that don’t need to be preserved for future use. In such situations, performance can be improved through the use of a technique known as pre-allocation.</p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Pre-allocation</strong></span> involves initializing a vector before the for-loop begins execution, which is then reused during each iteration to store temporary results. By allocating memory upfront and modifying it in place, the overhead associated with repeatedly creating new vectors is effectively bypassed.</p>
-<p>The performance gains from pre-allocation can be substantial. Remarkably, this technique isn&#39;t exclusive to Julia, but rather represents a universal optimization strategy applicable across programming languages. Its effectiveness ultimately stems from prioritizing the mutation of pre-allocated memory over the creation of new objects, thereby minimizing the reliance on the heap.</p>
-<p>Our presentation begins with a review of methods for initializing vectors, which serve as a prerequisite for implementing pre-allocations. We then present two scenarios where pre-allocation proves advantageous, with special emphasis on its advantages within nested for-loops. </p>
+<p>In many scenarios, for-loops entail the creation of new vectors at every iteration, resulting in repeated memory allocation. This dynamic allocation may be unnecessary, particularly if these vectors hold temporary intermediate results that don’t need to be preserved for future use. In such situations, performance can be improved through the use of a technique known as pre-allocation.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Pre-allocation</strong></span> involves initializing a vector before the for-loop begins execution, which is then reused during each iteration to store temporary results. By allocating memory upfront and modifying it in place, the overhead associated with repeated vector creation is effectively bypassed.</p>
+<p>The performance gains from pre-allocation can be substantial. Remarkably, this technique isn&#39;t exclusive to Julia, but rather represents an optimization strategy applicable across programming languages. Its effectiveness ultimately stems from prioritizing the mutation of pre-allocated memory over the creation of new objects, thereby minimizing new assignments on the heap.</p>
+<p>Our presentation begins with a review of methods for initializing vectors. This serves as a prerequisite for implementing pre-allocations. We then present two scenarios where pre-allocation proves advantageous, with special emphasis on its advantages within nested for-loops. </p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     The review of methods for vector initialization will be relatively brief and centered on performance considerations. For a more detailed review, see the <a href="/julia_book/PAGES/05d_initializeVector/">section about vector creation</a>, as well as the sections on <a href="/julia_book/PAGES/05g_inplace_operations/">in-place assignments</a>&#41; and <a href="/julia_book/PAGES/05g_inplace_functions/">in-place functions</a>&#41;.  </div>  </div>
@@ -2856,8 +2856,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Initializing Vectors</h2></p>
-<p><span style="color: rgb(62, 121, 180);"><strong>Vector initialization</strong></span> refers to the process of creating a vector with the intention of subsequently filling it with values. The process typically involves two steps: reserving space in memory and populating that space with some initial values. An efficient approach to initializing a vector involves performing only the first step, keeping whatever content is held in the memory address at the moment of creation. Although these values will display specific numbers if called in Julia, they&#39;re essentially arbitrary and meaningless, explaining why these values referred to as <code>undef</code> &#40;undefined&#41;.</p>
-<p>There are two methods for initializing a vector with <code>undef</code> values. The first one requires specifying the type and length of the array. Its syntax closely resembles the creation of new vectors. The second one is based on the function <code>similar&#40;y&#41;</code>, which creates a vector with the same type and dimension as another existing vector <code>y</code>. This approach is particularly useful when, for instance, your output matches the structure of another vector.</p>
+<p><span style="color: rgb(62, 121, 180);"><strong>Vector initialization</strong></span> refers to the process of creating a vector for subsequently filling it with values. The process typically involves two steps: reserving space in memory and populating that space with some initial values. An efficient approach to initializing a vector involves performing only the first step, keeping whatever content is held in the memory address at the moment of creation. Although Julia will display these contents as numerical values, note that they&#39;re essentially arbitrary and meaningless, explaining why they&#39;re referred to as <code>undef</code> &#40;undefined&#41;.</p>
+<p>There are two methods for initializing a vector with <code>undef</code> values. The first one requires specifying the type and length of the array. Its syntax closely resembles the creation of new vectors. The second one is based on the function <code>similar&#40;y&#41;</code>, which creates a vector with the same type and dimension as another existing vector <code>y</code>. This approach is particularly useful when your output matches the structure of an input.</p>
 <p>Below, we compare the performance of approaches to initializing a vector. In particular, we show that working with <code>undef</code> values is faster than populating the vector with specific values. To starkly show these differences, we create a vector with 100 elements and repeat the procedure 100,000 times.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2926,8 +2926,7 @@ end</code></pre> </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     Recall that <code>_</code> is a convention adopted for denoting <strong>dummy variables</strong>. They&#39;re variables that have a value, but aren&#39;t used or referenced anywhere in the code. In the context of a for-loop, the sole purpose of <code>_</code> is to satisfy the syntax requirements, which expects a variable to iterate over. </p>
-<p>The symbol <code>_</code> is arbitrary and any other could be used in its place. Throughout the website, we&#39;ve consistently used <code>_</code> when our intention is to repeatedly compute the same operation.  </div>  </div>
+      <b> Remark</b> </span>  </div>  <div class=content>     Recall that <code>_</code> is a convention adopted for <strong>dummy variables</strong>. They&#39;re variables that have a value, but aren&#39;t used or referenced anywhere in the code. In the context of a for-loop, the sole purpose of <code>_</code> is to satisfy the syntax requirements, which expects a variable to iterate over. The symbol <code>_</code> is arbitrary and any other could be used in its place.  </div>  </div>
  <h4> Approaches to Initializing Vectors </h4>
 <p>We can initialize <code>output</code> by passing it to the function as a keyword argument. This enables the use of <code>similar&#40;x&#41;</code>, where <code>x</code> is a previous function&#39;s argument. Considering this, the following two implementations turn out to be equivalent.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -2951,7 +2950,7 @@ end</code></pre>
 <p></div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>When multiple variables of the same type need to be initialized, array comprehension offers a concise way to do so. In addition to array comprehension, there exists a closely related yet more efficient approach based on generators. This approach is covered in a subsequent section. At this point, you should only know that the method based on generators doesn&#39;t allocate. Furthermore, its syntax is similar to array comprehension, with the only difference that brackets <code>&#91;&#93;</code> are replaced with parentheses <code>&#40;&#41;</code>.  </p>
+<p>When multiple variables of the same type need to be initialized, array comprehension offers a concise solution. A more efficient approach is based on the so-called generators, which will be covered in a <a href="/julia_book/PAGES/09h_lazyOperations/#generators">subsequent section</a>. At this point, you should only know that the method based on generators doesn&#39;t allocate. Furthermore, its syntax is similar to array comprehensions, with the only difference that brackets <code>&#91;&#93;</code> are replaced with parentheses <code>&#40;&#41;</code>.  </p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2977,7 +2976,7 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>   </p>
-<p>The demonstration uses <code>similar&#40;x&#41;</code> as an example, but the same principle applies to other initialization methods such as <code>Vector&#123;Float64&#125;&#40;undef, length&#40;x&#41;&#41;</code>. </p>
+<p>Notice that, although the example uses <code>similar&#40;x&#41;</code>, the same principle applies to other initialization methods such as <code>Vector&#123;Float64&#125;&#40;undef, length&#40;x&#41;&#41;</code>. </p>
 <p>      </div>
     </div>
   </div>
@@ -2987,7 +2986,7 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Pre-Allocating Vectors in Nested For-Loops</h2></p>
-<p>When working with vectors within for-loops and broadcasting, certain operations inherently require the creation of new vectors. In fact, these vectors can be generated even when the operation ultimately yields a scalar value. The following examples demonstrate this point.  </p>
+<p>When working with vectors in for-loops or through broadcasting, certain operations inevitably create new vectors. This may occur even when the operation ultimately yields a scalar value. The following examples demonstrate this point.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3015,7 +3014,7 @@ foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;                  # 2 .* x implicitly cr
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>When the outcome of a computation must be retained, allocating new vectors is an inevitable part of the process. This is most evident when the operation produces the final output. However, even the final output of an operation could serve as an intermediate step in a larger computation, which may involve another for-loop. These situations, in which one loop’s work becomes part of another’s, fall into the category of <span style="color: rgb(62, 121, 180);"><strong>nested for-loops</strong></span>.</p>
+<p>Furthermore, when the outcome of a computation must be preserved, allocating new vectors becomes an inevitable part of the process. However, final outputs could actually serve themselves as intermediate steps in a larger computation that may involve another for-loop. Situations where the output of one for-loop feeds into another fall into the category of <span style="color: rgb(62, 121, 180);"><strong>nested for-loops</strong></span>.</p>
 <p>The following example illustrates how each iteration in the second for-loop generates a new vector for the intermediate result. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3046,8 +3045,8 @@ calling_foo_in_a_loop&#40;x&#41; &#61; &#91;sum&#40;foo&#40;x&#41;&#41; for _ in
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Scenarios like this lead to unnecessary memory allocations, making them well-suited for pre-allocation of the intermediate result. By adopting this strategy, we can reuse the same vector across iterations, effectively bypassing the memory allocations stemming from creating a new vector multiple times.</p>
-<p>To implement it, we need an in-place function that takes the output of the for-loop as one of the arguments. This function will eventually be called iteratively, updating its output in each iteration. There are two ways to implement this strategy, and we analyze each separately in the following.</p>
+<p>Cases like this lead to unnecessary memory allocations, making them strong candidates for pre-allocating intermediate results. By adopting this strategy, we can reuse the same vector across iterations, and hence avoid the repeated overhead of creating new vectors.</p>
+<p>To implement this strategy, we require an in-place function that takes the for-loop&#39;s output as one of its arguments. This function will eventually be called iteratively, updating its output at each iteration. There are two ways to implement this method, and we analyze each separately in the following.</p>
  <h4> Via a For-Loop </h4>
 <p>The first approach defines an in-place function that updates the values of <code>output</code> through a for-loop. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -3086,7 +3085,7 @@ calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x
  </div></div>
 <p>  </p></details></div>
  <h4> Via Broadcasting </h4>
-<p>The second option relies on the operator <code>.&#61;</code> to update a vector&#39;s values. Relative to the example above, this allows for an update through a simpler syntax, where <code>foo&#33;</code> is defined in one line. </p>
+<p>The second option relies on the operator <code>.&#61;</code> to update a vector&#39;s values. Compared to the previous example, this strategy enables updates with a simpler syntax, allowing <code>foo&#33;</code> to be defined in a single line. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3120,7 +3119,7 @@ calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x
 <p>  </p></details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Use of @. to update values </span>  </div>  <div class=content>     When your goal is to update values of a vector, recall that <code>@.</code> has to be  <em>placed at the beginning</em> of the statement.</p>
+      <b>Warning!</b> - Use of @. to update values </span>  </div>  <div class=content>     When your goal is to update the values of a vector, recall that <code>@.</code> has to be  <em>placed at the beginning</em> of the statement.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3149,10 +3148,10 @@ calling_foo_in_a_loop&#40;output,x&#41; &#61; &#91;sum&#40;foo&#33;&#40;output,x
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Pre-Allocations for Intermediate Steps</h2></p>
-<p>So far, our discussion has centered around the benefits of pre-allocating vectors in nested for-loops. However, its applicability extends beyond this specific scenario.</p>
-<p>Broadly speaking, pre-allocating proves useful when:  <span style="font-style:italic"><strong>i</strong></span>&#41; the vector serves an intermediate result that feeds into another operation, and  <span style="font-style:italic"><strong>ii</strong></span>&#41; the intermediate result is computed inside a for-loop. If these two conditions are met, reusing the same pre-allocated vector outperforms a strategy based on a new vector for each iteration.</p>
-<p>Next, we analyze a case where these conditions hold, even though <code>foo</code> isn&#39;t called in a for-loop as it&#39;d be the case in a nested for-loop. The usefulness of a pre-allocation emerges because <code>output</code> demands a complex computation, making it convenient to split the calculation in several steps. </p>
-<p>To illustrate the procedure, consider an operation where <code>temp</code> represents an intermediate variable to compute <code>output</code>. All the implementations below don&#39;t pre-allocate <code>temp</code>, and hence create a new vector in each iteration.</p>
+<p>So far, our discussion has centered around the benefits of pre-allocating vectors in nested for-loops. However, such benefits extend beyond that specific setting.</p>
+<p>Broadly speaking, pre-allocating proves useful when:  <span style="font-style:italic"><strong>i</strong></span>&#41; the vector serves an intermediate result that feeds into another operation, and  <span style="font-style:italic"><strong>ii</strong></span>&#41; the intermediate result is computed inside a for-loop. When both conditions are met, reusing a pre-allocated vector consistently outperforms creating a new vector at each iteration.</p>
+<p>To illustrate, consider a function <code>foo</code> that returns <code>output</code>, whose computation requires an intermediate variable <code>temp</code>. The key feature here is that, even though <code>foo</code> itself won&#39;t be called inside a nested for-loop, the computation of <code>output</code> is complex enough that it&#39;s convenient to split it into multiple steps. </p>
+<p>If <code>temp</code> isn&#39;t pre-allocated, a new vector is created at each iteration as shown below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links"> 
@@ -3189,10 +3188,10 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In the following, we pre-allocate <code>temp</code>, although the scenario considered exhibits some differences relative to a nested for-loop. These differences result in some subtle aspects regarding their implementation. </p>
-<p>First, as we&#39;re assuming that this function won&#39;t be called in a for-loop, the pre-allocation can be performed within the function, rather than defining <code>temp</code> as an argument of <code>foo</code>. Second, all the iterations occur within the same for-loop, making the broadcasting option more convenient. The consequences of these differences for the implementation are discussed below.</p>
+<p>Next, we demonstrate different strategies that pre-allocate <code>temp</code>. The implementation of the pre-allocation differs in subtle but important ways from the nested-loop case. </p>
+<p>First, because <code>foo</code> won&#39;t be eventually called in a for-loop, the pre-allocation of <code>temp</code> can be performed within the function itself. This means we don&#39;t need to define <code>temp</code> as an argument of <code>foo</code>. Second, since all iterations occur within a single for-loop, broadcasting becomes a particularly convenient option for updating <code>temp</code>. </p>
  <h4> Via a For-Loop or Broadcasting </h4>
-<p>Pre-allocating <code>temp</code> and update its values via broadcasting is the simplest way for the scenario considered. In fact, this method doesn&#39;t require departing from the original syntax. On the contrary, the use a for-loop is more involved.</p>
+<p>The simplest strategy to avoid the allocations of <code>temp</code> is to pre-allocate it and update its values via broadcasting. By contrast, updating <code>temp</code> through a for-loop represents a more involved approach. The difference can be observed below.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links"> 
@@ -3242,9 +3241,9 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>   </p>
-<p>Note that the two allocations observed are due to the creation of <code>temp</code> and <code>output</code>, which are incurred only once rather than in each iteration. </p>
+<p>Note that the two allocations observed are due to the creation of <code>temp</code> and <code>output</code>, which are unavoidable. </p>
  <h4> Via In-Place Function </h4>
-<p>Given the features of the scenario considered, we can also implement the pre-allocation via an in-place function. We refer to it as <code>update_temp&#33;</code>, which is defined outside the for-loop and updated in each iteration. An advantage of this approach is that we separate <code>update_temp&#33;</code> from the for-loop, and hence we can focus on <code>update_temp&#33;</code> if the operation is performance critical. </p>
+<p>Another way to avoid the memory allocations of <code>temp</code> is to pre-allocate it via an in-place function. We&#39;ll refer to this function as <code>update_temp&#33;</code>, which is defined outside the for-loop and executed at each iteration. The advantage of this approach is <a href="/julia_book/PAGES/03d_scope/#sub_modularity">modularity</a>: by separating the update logic from the for-loop, we can focus on optimizing <code>update_temp&#33;</code> independently if its performance becomes critical. This design also improves code readability and maintainability.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3287,7 +3286,8 @@ end</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
  <h4> Adding a Nested For-Loop </h4>
-<p>We know combine both cases, where <code>foo</code> requires an intermediate variable <code>temp</code> and then is called in another for-loop. In such a scenario, both <code>output</code> and <code>temp</code> needs to be initialized outside the functions and used as function arguments. The following example illustrates this by considering only <code>update_temp&#33;</code> using broadcasting. </p>
+<p>Finally, let&#39;s study a scenario that combines the two situations discussed earlier: a function <code>foo</code> that requires an intermediate variable <code>temp</code>, and the repeated invocation of <code>foo</code> inside an outer for-loop. In this case, we&#39;re layering the complexity of intermediate pre-allocation with the demands of a nested loop structure.</p>
+<p>In this combined setting, both <code>output</code> and <code>temp</code> must be initialized outside the function and passed in as arguments. This ensures that neither vector is re-created at each iteration of the inner or outer for-loop. The following example illustrates an implementation that avoids unnecessary allocations by updating <code>update_temp&#33;</code> via broadcasting. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3353,7 +3353,7 @@ calling_foo_in_a_loop&#40;x, output, temp&#41; &#61; &#91;foo&#33;&#40;x, output
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 26, 2025 
+          © Martin Alfaro <br>Last Modified September 27, 2025 
       </span> 
   </div> 
 </footer>

@@ -2840,8 +2840,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>In a previous discussion on <a href="/julia_book/PAGES/05e_slices/">Slices and Views</a>, we defined a slice as a subvector derived from a parent vector <code>x</code>. Common examples include expressions such as <code>x&#91;1:2&#93;</code>, which extracts elements at positions 1 and 2, or <code>x&#91;x .&gt; 0&#93;</code>, which selects only those elements that satisfy a specific condition. By default, these operations create a copy of the data and therefore allocate memory. The only exception to this rule occurs when a slice comprises a single object.</p>
-<p>Next, we address the memory allocations associated with slices. We do this by highlighting the role of <strong>views</strong>, which bypass the need for a copy by directly referencing the parent object. This method is particularly effective when slices are indexed through ranges. However, it&#39;s not suitable for slices that employ Boolean indexing, like <code>x&#91;x .&gt; 0&#93;</code>, where memory allocation will still occur despite using a view.</p>
+<p>In a previous discussion on <a href="/julia_book/PAGES/05e_slices/">Slices and Views</a>, we defined a slice as a subvector derived from a parent vector <code>x</code>. Common examples include expressions such as <code>x&#91;1:2&#93;</code>, which extracts elements at positions 1 and 2, or <code>x&#91;x .&gt; 0&#93;</code>, which selects only those elements that are positive. By default, these operations create a copy of the data and therefore allocate memory. The only exception to this rule occurs when a slice comprises a single object.</p>
+<p>In this section, we address the issue of memory allocations associated with slices. To do this, we highlight the role of <strong>views</strong>, which bypass the need for a copy by directly referencing the parent object. The strategy is particularly effective when slices are indexed through ranges. On the contrary, it&#39;s not suitable for slices that employ Boolean indexing, like <code>x&#91;x .&gt; 0&#93;</code>, where memory allocation will still occur even with views.</p>
 <p>Interestingly, we&#39;ll show scenarios where <strong>copying data could actually be faster than using views</strong>, despite the additional memory allocation involved. This apparent paradox emerges because copied data is stored in a contiguous block of memory, which facilitates more efficient access patterns. In contrast, views might reference non-contiguous memory locations, potentially leading to slower access times, despite avoiding the initial allocation cost.</p>
 <p>      </div>
     </div>
@@ -2852,7 +2852,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Views of Slices</h2></p>
-<p>We start showing that views don&#39;t allocate memory  <em>if the slice is indexed by a range</em>. This property can lead to performance improvements over regular slices, which create a copy by default.</p>
+<p>We begin by showing that views don&#39;t allocate memory  <em>when a slice is indexed by a range</em>. This behavior can yield performance improvements over regular slices, which create a copy of the data by default.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2872,7 +2872,7 @@ foo&#40;x&#41; &#61; sum&#40;@view&#40;x&#91;1:2&#93;&#41;&#41;    # it doesn&#3
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>However, <span style="color: rgb(168, 50, 50);"><strong>views under Boolean indexing won't reduce memory allocations or be more performant</strong></span>. Therefore, don&#39;t rely on views of these objects to speed up computations. This fact is illustrated below.</p>
+<p>However, <span style="color: rgb(168, 50, 50);"><strong>views created through Boolean indexing neither reduce memory allocations nor are more performant</strong></span>. Therefore, you shouldn&#39;t rely on views of these objects to speed up computations. This fact is illustrated below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2901,8 +2901,9 @@ foo&#40;x&#41; &#61; @views sum&#40;x&#91;x .&gt; 0.5&#93;&#41;</code></pre> </d
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Copying Data May Be Faster</h2></p>
-<p>Although views can reduce memory allocations, there are scenarios where copying data can be the faster approach. This is due to an inherent trade-off between memory allocation and data access patterns. On the one hand, newly created vectors store data in contiguous blocks of memory, enabling more efficient CPU access. On the other hand, while views avoid allocation, they require accessing data scattered throughout memory. </p>
-<p>In certain cases, the overhead of creating a copy may be outweighed by the benefits of contiguous memory access, making copying the more efficient choice. This possibility is illustrated below. </p>
+<p>Although views can reduce memory allocations, there are scenarios where copying data can result in faster performance. A detailed comparison of copies versus views will be provided in <a href="/julia_book/PAGES/10e_simd_unitStrides/">Part II</a>. Here, we simply remark on this possibility. </p>
+<p>Essentially, the choice between copies and views reflects a fundamental trade-off between memory allocation and data access patterns. On the one hand, newly created vectors store data in contiguous blocks of memory, enabling more efficient CPU access and allowing for certain optimizations. On the other hand, views avoid allocation, but may also require accessing data scattered across non-contiguous memory regions.</p>
+<p>Below, we illustrate a scenario in which the overhead of creating a copy is outweighed by the benefits of contiguous memory access, making copying the more efficient choice. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2944,7 +2945,7 @@ foo&#40;x&#41; &#61; max.&#40;@view&#40;x&#91;1:2:length&#40;x&#41;&#93;&#41;, 0
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 26, 2025 
+          © Martin Alfaro <br>Last Modified September 27, 2025 
       </span> 
   </div> 
 </footer>
