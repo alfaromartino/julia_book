@@ -2892,7 +2892,8 @@ nthreads&#40;&#41;</code></pre> </div></div>
       <div class="col-lg- mx-auto">
         <h2>Task-Based Parallelism: @spawn</h2></p>
 <p>The first approach for parallel execution we introduce is the macro <code>@spawn</code>. By prefixing an expression with <code>@spawn</code>, Julia creates a &#40;non-sticky&#41; task that&#39;s immediately scheduled for execution. If a thread is available, the task begins running right away.</p>
-<p>Unlike other approaches that we&#39;ll introduce, <code>@spawn</code> requires explicit instructions to wait for task completion. The method for doing so depends on the nature of the output. For tasks that perform computations and additionally return an output, the function used is <code>fetch</code>. This function waits for the calculations of a task to finish and then returns its output. Since parallel computation consists of multiple tasks spawned, <code>fetch</code> should be broadcasted and using all the tasks spawned as its argument. </p>
+<p>Unlike other parallel programming approaches we&#39;ll examine later, <code>@spawn</code> requires explicit instructions to wait for task completion. The method for doing so depends on the nature of the task output. </p>
+<p>The <code>fetch</code> function should be employed when tasks produce computational outputs. It serves a dual purpose of waiting for a task to complete and retrieving its return value.Since parallel computation consists of multiple tasks spawned, <code>fetch</code> should be broadcasted over a collection containing all the spawned tasks.</p>
 <p>The following example demonstrates <code>fetch</code> with two spawned tasks, each returning a vector.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2921,13 +2922,13 @@ end</code></pre> </div></div>
 <p>  </p></details></div>
 <p>Note that <code>fetch</code> takes tasks as its input. Consequently, it&#39;s essential to distinguish between <code>task_a</code> and <code>a</code>: </p>
 <ul>
-<li><p><code>task_a</code> denotes the task creating the vector <code>a</code>,</p>
+<li><p><code>task_a</code> denotes the task creating the vector <code>a</code> &#40;i.e., the task itself&#41;,</p>
 </li>
 <li><p><code>a</code> refers to the vector created &#40;i.e., the task&#39;s output&#41;. </p>
 </li>
 </ul>
-<p>For tasks that perform actions but don&#39;t return any output, we can use either the function <code>wait</code> or the macro <code>@sync</code>. The function <code>wait</code> works analogously to <code>fetch</code>, with the only difference that it doesn&#39;t return any value. Instead, the macro <code>@sync</code> requires wrapping all operations to be synchronized using the keywords <code>begin</code> and <code>end</code>. </p>
-<p>To illustrate, consider a mutating function. Such functions are ideal examples here, as they modify the contents of a collection in place, without producing a return value.</p>
+<p>For tasks that perform actions but don&#39;t return any output, we can use either the function <code>wait</code> or the macro <code>@sync</code>. The function <code>wait</code> works analogously to <code>fetch</code>, except that it doesn&#39;t return any value. Instead, the macro <code>@sync</code> requires enclosing all operations to be synchronized using the keywords <code>begin</code> and <code>end</code>. </p>
+<p>To illustrate, consider a mutating function. Such functions are suitable as examples, since they modify the contents of a collection in place, without producing a return value.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
