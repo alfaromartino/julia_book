@@ -2951,7 +2951,7 @@ color: white;
       <div class="col-lg- mx-auto">
         <h2>Package "BenchmarkTools" </h2></p>
 <p>A more reliable alternative for measuring execution time is provided by <code>BenchmarkTools</code>, which addresses the shortcomings of <code>@time</code> in several ways.</p>
-<p>First, it reduces result variability by running operations multiple times and then computing summary statistics. It also measures the execution time of functions correctly. To account for compilation latency, the package discards the first run, ensuring that overhead isn&#39;t included in the reported timing. Additionally, it&#39;s possible to handle function arguments correctly: by prefixing an argument with the <code>&#36;</code> symbol, you can indicate that the variable shouldn&#39;t be treated as a global variable.</p>
+<p>First, it reduces result variability by running operations multiple times and then computing summary statistics. It also measures the execution time of functions without compilation latency, since the package discards the first run for the reported timing. Additionally, the package allows users to explicitly control variable scope: by prefixing function arguments with the <code>&#36;</code> symbol, they&#39;re treated as local variables during a function call.</p>
 <p>The package offers two macros, depending on the level of detail required: <code>@btime</code>, which only reports the minimum time, and <code>@benchmark</code>, which provides detailed statistics. Below, we demonstrate their use.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -2976,7 +2976,7 @@ x &#61; 1:100
     </div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>In later sections, we&#39;ll exclusively benchmark functions. Therefore, you should always prefix each function argument with <code>&#36;</code>. <strong>Omitting</strong> <code>&#36;</code> <strong>will lead to inaccurate results</strong>, including incorrect reports of memory allocations.</p>
+<p>In later sections, we&#39;ll exclusively benchmark functions. This means that you should always prefix the function arguments with <code>&#36;</code>. <strong>Omitting</strong> <code>&#36;</code> <strong>will lead to inaccurate results</strong>, including incorrect reports of memory allocations.</p>
 <p>The following example demonstrates the consequence of excluding <code>&#36;</code>, where the runtimes reported are higher than the actual runtime. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3042,10 +3042,9 @@ display&#40;@be sum&#40;&#36;x&#41;&#41;       # analogous to &#96;@benchmark&#9
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Remark On Random Numbers For Benchmarking</h2></p>
-<p>When we seek to compare the performance of different methods for a given operation, we must ensure that our measurements aren’t skewed by variations in the input data. One way to do this is by making sure that each approach is tested using  <em>the exact same set of numbers</em>. This guarantees that any differences in execution time can be attributed solely to the efficiency of the method itself, rather than to a change in the inputs.</p>
-<p>To achieve this, we can take advantage of random number generators that use a fixed &quot;seed.&quot; A <span style="color: rgb(62, 121, 180);"><strong>random seed</strong></span> is simply an initial value that determines the entire sequence of numbers that will be generated. By setting the same seed before each test, we can guarantee that the same deterministic sequence of random numbers is produced when code is run. </p>
-<p>Importantly, <strong>any arbitrary number can be used for the seed</strong>. The only requirement is that the same number is utilized, so that you can replicate the exact same set of random numbers.</p>
-<p>Random number generation is provided by the package <code>Random</code>. Below, we demonstrate its use by setting the seed <code>1234</code> before executing each operation, although any other number could have been used.</p>
+<p>When comparing the performance of different methods, we must ensure that our measurements aren’t skewed by variations in the input data. This implies each approach must be tested using  <em>the exact same set of values</em>. This guarantees that differences in execution time can be attributed solely to the efficiency of the method itself, rather than to a change in the inputs.</p>
+<p>Such consistency can be achieved by using random number generators. They rely on a <span style="color: rgb(62, 121, 180);"><strong>random seed</strong></span>, which is an arbitrary starting point that dictates the entire sequence of values they produce. By setting the same seed before each test, we can generate identical deterministic sequences of random numbers across multiple runs. Importantly, <strong>any arbitrary number can be used for the seed</strong>. The only requirement is that the same number is employed, so that you replicate the exact same set of random numbers.</p>
+<p>Random number generation is provided by the package <code>Random</code>. Below, we demonstrate its use by setting the seed <code>1234</code> before executing each operation. Note, though, that any other number could be used.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3069,7 +3068,7 @@ x &#61; rand&#40;100&#41;
 y &#61; rand&#40;100&#41;           # different from &#96;x&#96;</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>To maintain a clear presentation throughout this website, code snippets will omit the lines that set the random seed. While adding these code lines is essential for ensuring reproducibility, their inclusion in every example would create unnecessary clutter. Below, we illustrate the code that will be displayed throughout the website, along with the actual code executed.</p>
+<p>For presentation purposes, code snippets on this website will omit the lines dedicated to setting the random seed. While adding these code lines is essential for ensuring reproducibility, their inclusion in every example would create unnecessary clutter. Below, we illustrate the code that will be displayed throughout the website, along with the actual code executed.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3100,11 +3099,11 @@ y &#61; sum&#40;x&#41;</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Benchmarks In Perspective</h2></p>
-<p>When evaluating approaches for performing a task, execution times are often negligible, typically on the order of nanoseconds. However, this should not lead us to believe that the choice of method has no practical implications.</p>
-<p>While operations in isolation may have an insignificant impact on a program&#39;s overall runtime, <strong>the relevance of our benchmarks lies in scenarios where these operations are performed repeatedly</strong>. This includes cases where the operation is called in a for-loop or in iterative procedures &#40;e.g., solving systems of equations or the maximization of a function&#41;. In these situations, small differences in timing are amplified as they are replicated hundreds, thousands, or even millions of times.</p>
+<p>When evaluating approaches for performing a task, execution times are often negligible, typically on the order of nanoseconds. Yet, this doesn&#39;t mean that the choice of method is without practical consequence.</p>
+<p>While it&#39;s true that operations in isolation may have an insignificant impact on a program&#39;s overall runtime, <strong>the relevance of benchmarks emerges when these operations are performed repeatedly</strong>. This includes cases where the operation is called in a for-loop or in iterative procedures &#40;e.g., solving systems of equations or maximizing functions&#41;. In these situations, small differences in timing are amplified as they are replicated hundreds, thousands, or even millions of times.</p>
  <h4> An Example </h4>
 <p>To illustrate this matter, let&#39;s consider a concrete example. Suppose we want to double each element of a vector <code>x</code>, and then calculate their sum. In the following, we&#39;ll compare two different approaches to accomplish this task.</p>
-<p>The first method will be based on <code>sum&#40;2 .* x&#41;</code> with <code>x</code> entering into the computation as a global variable. As we&#39;ll discuss in later sections, this approach is relatively inefficient. A more performance alternative is given by <code>sum&#40;a -&gt; 2 * a, x&#41;</code> and passing <code>x</code> passed as a function argument. For the purpose of this comparison, you only need to know that both method produces the same result, with the first one being less performance. The runtime of each approach is as follows.</p>
+<p>The first method will be based on <code>sum&#40;2 .* x&#41;</code> with <code>x</code> treated as a global variable. As we&#39;ll discuss in later sections, this approach is relatively inefficient. Instead, a more performance alternative is given by <code>sum&#40;a -&gt; 2 * a, x&#41;</code>, where <code>x</code> is passed as a function argument. For the purpose of this comparison, it&#39;s sufficient to note that both methods produce the same result, with the first one being less performant. The measured runtimes of each approach are as follows.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3124,9 +3123,9 @@ foo&#40;x&#41; &#61; sum&#40;a -&gt; 2 * a, x&#41;</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The results reveal that the second approach achieves a significant speedup, taking less than 15&#37; of the slower approach. However, even the &quot;slow&quot; approach is extremely fast, taking less than 0.0001 seconds to execute.</p>
-<p>This pattern will be a common theme in our benchmarks, where absolute execution times are often negligible. In such cases, the relevance of our conclusions depends on the context in which the operation is considered. If the operation is only performed once in isolation, readability should be the primary consideration for choosing a method. On the other hand, if the operation is repeated multiple times, small differences in performance might accumulate and become significant, making the faster approach a more suitable choice.</p>
-<p>To illustrate this point, let’s take the functions from the previous example and call them within a for-loop that runs 100,000 times. Since our sole goal is to repeat the operation, we don’t need a meaningful iteration variable. This is a well-established programming convention for so-called <strong>throwaway variables</strong>: placeholders that exist only to satisfy the loop’s syntax, without their value being used. It signals to other programmers that the variable can be safely ignored. In our example, <code>_</code> will simply reflect that each iteration is performing exactly the same operation.</p>
+<p>The results reveal that the second approach achieves a significant speedup, requiring less than 15&#37; of the time taken by the slower method. However, even the &quot;slow&quot; approach is remarkably fast, taking less than 0.0001 seconds to execute.</p>
+<p>This pattern will be recurring in our benchmarks, where absolute execution times are often negligible. In such cases, the relevance of our conclusions heavily depends on the context. If the operation is only performed once in isolation, readability should be the primary consideration for choosing a method. On the other hand, if the operation is executed repeatedly, small differences in performance might accumulate and become meaningful, making the faster approach a more suitable choice.</p>
+<p>To make this point concrete, let’s revisit the functions from the previous example and call them inside a for-loop that runs 100,000 times. Since our sole goal is to repeat the operation,  the iteration variable itself plays no role. In such cases, it&#39;s common practice to employ a <strong>throwaway variable</strong>: placeholder that exists only to satisfy the loop’s syntax, without ever being referenced. This convention signals to other programmers that the variable&#39;s value can be safely ignored. In our example, <code>_</code> serves this purpose, simply reflecting that each iteration performs exactly the same operation.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3156,7 +3155,7 @@ end</code></pre> </div></div>
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The example starkly reveals the consequences of calling the function within a for-loop. The execution time of the slow version now jumps to more than 20 seconds, while the fast version finishes in under one second. The outcome highlights the importance of optimizing functions that will eventually be executed repeatedly, as even minor improvements can yield a significant impact on overall performance. </p>
+<p>The example starkly reveals the consequences of calling these functions within a for-loop. The execution time of the slow version now jumps to more than 20 seconds, while the fast version finishes in under one second.  Such a stark contrast underscores the importance of optimizing functions that are executed repeatedly: even seemingly minor improvements can accumulate into pronounced performance gains.</p>
 <p>      </div>
     </div>
   </div>

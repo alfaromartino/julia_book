@@ -2906,7 +2906,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>The Operator <: to Identify Supertypes</h2></p>
-<p>The rest of this section is dedicated to operators and functions for working with types. Specifically, we&#39;ll introduce the operator <code>&lt;:</code>, which checks whether a given type is a subtype of another, and then explore ways to constrain a variable to certain types. </p>
+<p>The rest of this section is dedicated to operators and functions for working with types. Specifically, we&#39;ll introduce the operator <code>&lt;:</code>, which checks whether one type is a subtype of another. Then, we&#39;ll examine strategies for constraining variables to specific types. </p>
 <p><strong>It's possible that you won't need to apply any of the techniques we present</strong>, as Julia automatically attempts to infer types when functions are called. Nonetheless, understanding these operators is essential for grasping upcoming material.</p>
  <h4> Use of <code>&lt;:</code> </h4>
 <p>The symbol <code>:&lt;</code> tests whether a type <code>T</code> is a subtype of another type <code>S</code>. It can be used as an operator <code>T &lt;: S</code> or as a function <code>&lt;:&#40;T,S&#41;</code>. For example, <code>Int64 &lt;: Number</code> and <code>&lt;:&#40;Int64, Number&#41;</code> verifiy whether <code>Int64</code> is a subtype of <code>Number</code>, which would return <code>true</code>. Below, we provide further examples.</p>
@@ -2934,7 +2934,7 @@ Int64   &lt;: Vector&#123;Int64&#125;</code></pre>
 <p>The fact that <code>Int64 &lt;: Int64</code> evaluates to <code>true</code> illustrates a fundamental principle: <strong>every type is a subtype of itself</strong>. Moreover, in the case of concrete types, this is the only subtype.</p>
 <p> <h4> The Keyword <code>where</code> </h4> <div class="own-anchors"><a name="keyword_where"></a></div></p>
 <p>By combining <code>&lt;:</code> with <code>Union</code>, you can also check whether a type belongs to a given set of types. For example, <code>Int64 &lt;: Union&#123;Int64, Float64&#125;</code> assesses whether <code>Int64</code> equals <code>Int64</code> or <code>Float64</code>, thus returning <code>true</code>. </p>
-<p>The approach can be made more widely applicable by using the <code>where</code> keyword  with a type parameter <code>T</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> <code>T</code> can be replaced by any other letter  </span></span>. The syntax is <code>&lt;type depending on T&gt; where T &lt;: &lt;set of types&gt;</code>. In this way, <code>T</code> represents multiple possibilities.</p>
+<p>The approach can be made more widely applicable by using the <code>where</code> keyword  with a type parameter <code>T</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> <code>T</code> can be replaced by any other letter  </span></span> The syntax is <code>&lt;type depending on T&gt; where T &lt;: &lt;set of types&gt;</code>. In this way, <code>T</code> represents multiple possibilities.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3010,9 +3010,9 @@ Vector&#123;Int64&#125; &lt;: Vector&#123;T&#125; where T</code></pre>
         <h2>Type-Annotating Variables</h2></p>
 <p>In the following, we present methods for <span style="color: rgb(62, 121, 180);"><strong>type-annotating variables</strong></span>. The techniques introduced can be used either to assert a variable&#39;s type <strong>during an assignment</strong> or to restrict the types of <strong>function arguments</strong>. </p>
 <p>Specifically, there are two approaches to type-annotating variables. The first one relies on the binary operator <code>::</code>, and its syntax is <code>x::&lt;type&gt;</code>. The second approach leverages the Boolean binary operator <code>&lt;:</code>, combined with <code>::</code> and the keyword <code>where</code>. Its syntax is <code>x::T where T &lt;: &lt;type&gt;</code> &#40;note that <code>T</code> accepts any other letter&#41;. </p>
-<p>Next, we illustrate both methods, considering type-annotations for assignments and for function arguments separately.</p>
+<p>Next, we illustrate both methods, separately considering type-annotations for both assignments and function arguments.</p>
  <h4> Assignments </h4>
-<p>Let&#39;s start illustrating the approaches for scalar assignments. Each tab below declares an identical type for <code>x</code> and for <code>y</code>. </p>
+<p>Let&#39;s start illustrating the approaches based on scalar assignments. Each tab below declares an identical type for <code>x</code> and for <code>y</code>. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3041,7 +3041,7 @@ y::T where T &lt;: Number &#61; 2      # only reassignments to &#96;Float64&#96;
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> - Modifying Types </span>  </div>  <div class=content>     Once you assert a type for <code>x</code> in an assignment, you can&#39;t modify <code>x</code>&#39;s type afterwards. The only way to fix this is by starting a new Julia session.  </div>  </div>
-<p>The fact that <code>x</code> retains the same type across all tabs follows because <code>T &lt;: Float64</code> can only represent <code>Float64</code>. This fact arises because <code>Float64</code> is a concrete type, which has no subtypes other than itself by definition. Considering this, scalar types are usually asserted using <code>::</code> rather than <code>&lt;:</code>.</p>
+<p>The fact that <code>x</code> retains the same type across all tabs follows because <code>T &lt;: Float64</code> can only represent <code>Float64</code>. This arises because <code>Float64</code> is a concrete type, which has no subtypes other than itself by definition. Considering this, scalar types are usually asserted using <code>::</code> rather than <code>&lt;:</code>.</p>
 <p>On the contrary, the implications when <code>::</code> or <code>&lt;:</code> is chosen differs for vectors. Specifically, using <code>::</code> in combination with <code>Vector&#123;Number&#125;</code> establishes that <code>Vector&#123;Number&#125;</code> is the only possible concrete type. Instead, <code>Vector&#123;T&#125; where T &lt;: Number</code> indicates that the elements of the vector will adopt a concrete type that&#39;s a subtype of <code>Number</code>, rather than the object adopting <code>Vector&#123;Number&#125;</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
