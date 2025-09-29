@@ -2840,10 +2840,12 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>Functions in Julia are <span style="color: rgb(62, 121, 180);"><strong>first-class objects</strong></span>, a concept also referred to as <span style="color: rgb(62, 121, 180);"><strong>first-class citizens</strong></span>. This means that functions can be handled just like any other variable. In this way, we can define vectors of functions, have functions whose outputs are other functions, and do many more sophisticated things that would be impossible if functions were treated as a different entity.</p>
-<p>In particular, the property makes it possible to define <span style="color: rgb(62, 121, 180);"><strong>higher-order functions</strong></span>, which are functions that take another function as an argument. Throughout the explanations, we&#39;ll refer to the function passed as an argument as the  <em>callback function</em>. </p>
-<p>We&#39;ve already encountered several examples of higher-order functions, often in the form of anonymous functions passed as function arguments. A familiar example is <code>map&#40;&lt;function&gt;, &lt;collection&gt;&#41;</code>, which applies <code>&lt;function&gt;</code> to every element of <code>&lt;collection&gt;</code>. </p>
+<p>Functions in Julia are <span style="color: rgb(62, 121, 180);"><strong>first-class objects</strong></span>, a concept also referred to as <span style="color: rgb(62, 121, 180);"><strong>first-class citizens</strong></span>. This means that functions can be handled just like any other variable: we can define vectors of functions, have functions whose outputs are other functions, and do many more sophisticated things that would be impossible if functions were treated as a different entity.</p>
+<p>In particular, the property makes it possible to define <span style="color: rgb(62, 121, 180);"><strong>higher-order functions</strong></span>, which are functions that take another function as an argument. We&#39;ve already worked with several higher-order functions, often in the form of anonymous functions passed as function arguments. A familiar example is <code>map&#40;&lt;function&gt;, &lt;collection&gt;&#41;</code>, which applies <code>&lt;function&gt;</code> to every element of <code>&lt;collection&gt;</code>. </p>
 <p>In this section, the focus will be on conditions under which higher-order functions are type-stable. As we&#39;ll discover, these functions present some challenges in this regard.</p>
+ <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b> Remark</b> </span>  </div>  <div class=content>     Throughout the explanations, we&#39;ll often refer to the function passed as an argument as the  <em>callback function</em>.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2853,9 +2855,9 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Functions as Arguments: The Issue</h2></p>
-<p>In Julia,  <em>each function defines its own unique concrete type</em>. In turn, this concrete type is a subtype of an abstract type called <code>Function</code>, which encompasses all possible functions defined in Julia. This type system creates challenges when specializing the computation method of higher-order functions, as it can potentially lead to a combinatorial explosion of methods, where a unique method is generated for each callback function.</p>
-<p>To address this issue, Julia takes a conservative stance, <strong>often choosing not to specialize the methods of high-order functions</strong>. In particular, we&#39;ll see that Julia avoids specialization if the callback function isn&#39;t explicitly called. The performance in such cases can drop sharply, as the execution runtime would become similar to performing operations in the global scope. </p>
-<p>Given this, it&#39;s important to pinpoint the scenarios where specialization is inhibited and monitor its consequences. If you notice that performance is severely impaired, there are still ways to enforce specialization. In the following section, we explore them.</p>
+<p>In Julia,  <em>each function defines its own unique concrete type</em>. In turn, this concrete type is a subtype of an abstract type called <code>Function</code>. The type <code>Function</code> encompasses all possible functions defined in Julia. The design of the type system creates challenges when specializing the computation method of higher-order functions. Specifically, it can potentially lead to a combinatorial explosion of methods, where a unique method is generated for each callback function.</p>
+<p>To address this issue, Julia takes a conservative stance, <strong>often choosing not to specialize the methods of high-order functions</strong>. In particular, we&#39;ll see that Julia avoids specialization if the callback function isn&#39;t explicitly called. The performance in those cases can drop sharply, as the execution runtime would become similar to performing operations in the global scope. </p>
+<p>Given this, it&#39;s important to pinpoint the scenarios where specialization is inhibited and monitor its consequences. If you notice that performance is severely impaired, there are still ways to enforce specialization. In this section, we&#39;ll explore these strategies.</p>
 <p>      </div>
     </div>
   </div>
@@ -2865,8 +2867,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>An Example of No Specialization</h2></p>
-<p>Let&#39;s illustrate the conditions under which higher-order functions fail to specialize. Consider a scenario where we want to sum the transformed elements of a vector <code>x</code>. The only requirement we impose is that the transforming function should be generic, allowing us to possibly apply different functions for the transformation. </p>
-<p>We implement this via a higher-order function <code>foo</code>. This function first uses <code>map</code> to transform <code>x</code> through some function <code>f</code>, and then applies the function <code>sum</code> to add the transformed elements. To demonstrate how <code>foo</code> works, we call it with the function <code>abs</code> as the transformation function. </p>
+<p>Let&#39;s illustrate the conditions under which higher-order functions fail to specialize. Consider a scenario where the goal is to sum the transformed elements of a vector <code>x</code>. The only requirement imposed is that the transforming function should be generic, allowing us to possibly apply different functions for the transformation. </p>
+<p>We implement this construction via a higher-order function <code>foo</code>. The function applies <code>map</code> to transform <code>x</code> through some function <code>f</code>, and then applies <code>sum</code> to add the transformed elements. To demonstrate how <code>foo</code> works, we call it with the function <code>abs</code> as the transformation function, which provides absolute values.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
