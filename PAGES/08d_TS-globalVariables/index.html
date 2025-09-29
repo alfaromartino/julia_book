@@ -2842,7 +2842,7 @@ color: white;
         <h2>Introduction</h2></p>
 <p>Variables can be categorized as local or global according to the code block in which they live: <span style="color: rgb(62, 121, 180);"><strong>global variables</strong></span> can be accessed and modified anywhere in the code, while <span style="color: rgb(62, 121, 180);"><strong>local variables</strong></span> are only accessible within a specific scope. In the context of this section, the scope of interest is a function, so local variables will exclusively refer to function arguments and variables defined within the function.</p>
 <p>The distinction between local and global variables is especially relevant for this chapter since <strong>global variables are a common source of type instability</strong>. The issue arises because Julia&#39;s type system doesn&#39;t assign specific concrete types to global variables. As a result, the compiler is forced to consider multiple possibilities for any computation involving these variables. This limitation prevents specialization, leading to reduced performance.</p>
-<p>The current section explores two approaches to working with global variables: type-annotations and constants. Defining global variables as constants is a natural choice when values are truly fixed, such as in the case of <code>π &#61; 3.14159</code>. More broadly, constants can be used in any scenario where they remain unmodified throughout the script. Compared to type annotations, constants offer better performance, as the compiler gains knowledge of  <em>both</em> the type and value, rather than just the type. This feature allows for further optimizations, effectively making <strong>the behavior of constants within a function indistinguishable from that of a literal value</strong>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Literal values refer to values expressed directly in the code &#40;e.g., <code>1</code>, <code>&quot;hello&quot;</code>, or <code>true</code>&#41;, in contrast to values coming from a variable input.  </span></span></p>
+<p>The current section explores two approaches to working with global variables: type-annotations and constants. Defining global variables as constants is a natural choice when values are truly fixed, such as in the case of \(π = 3.14159\). More broadly, constants can be used in any scenario where they remain unmodified throughout the script. Compared to type annotations, constants offer better performance, as the compiler gains knowledge of  <em>both</em> the type and value, rather than just the type. This feature allows for further optimizations, effectively making <strong>the behavior of constants within a function indistinguishable from that of a literal value</strong>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Literal values refer to values expressed directly in the code &#40;e.g., <code>1</code>, <code>&quot;hello&quot;</code>, or <code>true</code>&#41;, in contrast to values coming from a variable input.  </span></span></p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> - You Should Still Wrap Code in a Function </span>  </div>  <div class=content>     Even if you implement the fixes proposed for global variables, optimal performance still calls for wrapping tasks in functions. The reason is that <strong>functions implement additional optimizations</strong> that aren&#39;t possible in the global scope.  </div>  </div>
@@ -3057,6 +3057,20 @@ end</code></pre> </div></div>
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; rand&#40;100_000&#41;
 
 
+foo&#40;x&#41; &#61; x ./ sum&#40;x&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  49.400 μs (2 allocations: 781.30 KiB)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; rand&#40;100_000&#41;
+const sum_x &#61; sum&#40;x&#41;
+
+foo&#40;x&#41; &#61; x ./ sum_x</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  41.500 μs (2 allocations: 781.30 KiB)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; rand&#40;100_000&#41;
+
+
 function foo&#40;x&#41;
     y    &#61; similar&#40;x&#41;
     
@@ -3067,20 +3081,6 @@ function foo&#40;x&#41;
     return y
 end</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  633.245 ms (2 allocations: 781.30 KiB)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; rand&#40;100_000&#41;
-
-
-foo&#40;x&#41; &#61; x ./ sum&#40;x&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  49.400 μs (2 allocations: 781.30 KiB)
-</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x           &#61; rand&#40;100_000&#41;
-const sum_x &#61; sum&#40;x&#41;
-
-foo&#40;x&#41; &#61; x ./ sum_x</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  41.500 μs (2 allocations: 781.30 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
@@ -3106,7 +3106,7 @@ foo&#40;x&#41; &#61; x ./ sum_x</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 28, 2025 
+          © Martin Alfaro <br>Last Modified September 29, 2025 
       </span> 
   </div> 
 </footer>
