@@ -38,29 +38,6 @@ print_asis(collect(values(x))) #hide
 #
 ############################################################################
  
-some_symbol = :x
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-some_symbol = Symbol("x")
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-some_symbol = Symbol(1)
- 
-print_asis(some_symbol) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
 vector_symbols = [:x, :y]
  
 print_asis(vector_symbols) #hide
@@ -130,7 +107,7 @@ print_asis(some_dict["a"]) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-some_dict = Dict("a" => 10, "b" => 20)
+some_dict      = Dict("a" => 10, "b" => 20)
 
 keys_from_dict = collect(keys(some_dict))
 print_asis(keys_from_dict) #hide
@@ -145,7 +122,7 @@ print_asis(some_dict) #hide
  
 print_asis(some_dict[:a]) #hide
  
-some_dict = Dict(:a => 10, :b => 20)
+some_dict      = Dict(:a => 10, :b => 20)
 
 keys_from_dict = collect(keys(some_dict))
 print_asis(keys_from_dict) #hide
@@ -165,7 +142,7 @@ print_asis(some_dict[3]) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-some_dict = Dict(3 => 10, 4 => 20)
+some_dict      = Dict(3 => 10, 4 => 20)
 
 keys_from_dict = collect(keys(some_dict))
 print_asis(keys_from_dict) #hide
@@ -175,7 +152,7 @@ print_asis(some_dict) #hide
  
 print_asis(some_dict[(1,1)]) #hide
  
-some_dict = Dict((1,1) => 10, (1,2) => 20)
+some_dict      = Dict((1,1) => 10, (1,2) => 20)
 
 keys_from_dict = collect(keys(some_dict))
 print_asis(keys_from_dict) #hide
@@ -334,10 +311,10 @@ print_asis(nt) #hide
 #
 ############################################################################
  
-a = 10
-b = 20
+a              = 10
+b              = 20
 
-tup = (a, b)
+tup            = (a, b)
  
 print_asis(tup) #hide
  
@@ -347,8 +324,7 @@ print_asis(tup) #hide
  
 values_for_tup = [10, 20]
 
-
-tup = Tuple(values_for_tup)
+tup            = Tuple(values_for_tup)
  
 print_asis(tup) #hide
  
@@ -358,8 +334,7 @@ print_asis(tup) #hide
  
 values_for_tup = [10, 20]
 
-
-tup = (values_for_tup... ,)
+tup            = (values_for_tup... ,)
  
 print_asis(tup) #hide
  

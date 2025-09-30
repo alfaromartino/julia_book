@@ -2857,14 +2857,13 @@ end</code></pre>
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     While functions are capable of mutating values, they <strong>can't reassign variables</strong> outside their scope. Any attempt to redefine a variable within a function will be interpreted as the creation of a new local variable.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Strictly speaking, it&#39;s possible to reassign a variable by using the <code>global</code> keyword. However, its use is typically discouraged, explaining why we won&#39;t cover it.  </span></span> </p>
-<p>The following code illustrates this behavior by redefining a function argument and a global variable. The output reflects that <code>foo</code> in each example treats the redefined <code>x</code> as a new local variable, thus only existing within <code>foo</code>&#39;s scope.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Functions Can't Reassign Variables</strong>  </span>  </div>  <div class=content>     While functions are capable of mutating values, they <strong>can't reassign variables defined outside their scope</strong>. Any attempt to redefine such variable will be interpreted as the creation of a new local variable.  <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Strictly speaking, it&#39;s possible to reassign a variable by using the <code>global</code> keyword. However, its use is typically discouraged, explaining why we won&#39;t cover it.  </span></span> </p>
+<p>The following code illustrates this behavior by redefining a function argument and a global variable. The output reflects that <code>foo</code> in each example treats the redefined <code>x</code> as a new local variable, only existing within <code>foo</code>&#39;s scope.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> A Function's Argument  </button>
-    <button class="tablink" data-id=""> A Global Variable </button>
+    <button class="tablink first_tab active" data-id=""> Function Argument x  </button>
+    <button class="tablink" data-id=""> Global Variable x </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; 2
@@ -2904,14 +2903,13 @@ end</code></pre>
         <h2>Built-In In-Place Functions</h2></p>
 <p>In Julia, many built-in functions that take vectors as arguments are available in two forms: a &quot;standard&quot; version and an in-place version. To distinguish between them, Julia&#39;s developers follow a convention that <strong>any function ending with</strong> <code>&#33;</code> <strong>corresponds to an in-place function</strong>.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content> <strong>Appending</strong> <code>&#33;</code> <strong>to a function has no impact on the function's behavior at all</strong>. It&#39;s simply a convention adopted by Julia&#39;s developers to emphasize the mutable nature of the operation. Its purpose is to alert users about the potential side effects of the function, thus preventing unintended modifications of objects.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Appending ! To A Function Has No Impact at All</strong>  </span>  </div>  <div class=content> <strong>Appending</strong> <code>&#33;</code> <strong>to a function doesn't change the function's behavior</strong>. It&#39;s simply a convention adopted by Julia&#39;s developers to emphasize the mutable nature of the operation. Its purpose is to alert users about the potential side effects of the function, thus preventing unintended modifications of objects.  </div>  </div>
 <p>To illustrate these forms, let&#39;s start considering single-argument functions. In particular, we&#39;ll focus on <code>sort</code>. This arranges the elements of a vector in ascending order, with the option <code>rev&#61;true</code> implementing a descending order. In its standard form, <code>sort&#40;x&#41;</code> creates a new vector containing the sorted elements, leaving the original vector <code>x</code> unchanged. In contrast, the in-place version <code>sort&#33;&#40;x&#41;</code> updates the original vector <code>x</code> directly, overwriting its values with the sorted result.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Standard Version  </button>
-    <button class="tablink" data-id=""> In-Place Version </button>
+    <button class="tablink first_tab active" data-id=""> sort - Standard Version  </button>
+    <button class="tablink" data-id=""> sort - In-Place Version </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;2, 1, 3&#93; 
@@ -3046,7 +3044,7 @@ end</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 29, 2025 
+          © Martin Alfaro <br>Last Modified September 30, 2025 
       </span> 
   </div> 
 </footer>

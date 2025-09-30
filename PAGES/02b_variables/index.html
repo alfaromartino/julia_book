@@ -2839,10 +2839,10 @@ color: white;
   <h2 style="color:rgb(63, 99,136)">Variables</h2>
     <img src="/julia_book/assets/PAGES/02b_variables/tikz/variable01.svg" style="width:500px; height:auto; margin-top:1em;max-width:100%;">  
 </div> <br/></p>
-<p>To illustrate this process, let&#39;s consider executing <code>x &#61; &quot;Hello&quot;</code>. When this is run, several actions take place. First, the computer reserves a memory location &#40;e.g., at address <code>0x1234</code>&#41; to store the object. This object is then assigned the specific value <code>&quot;Hello&quot;</code>, which in Julia is an instance of the type <code>String</code>.</p>
-<p>At the same time, we&#39;re assigning the label <code>x</code> to this object, meaning that <code>x</code> points to the memory address <code>0x1234</code>. This means that, every time we use <code>x</code> in our code, we&#39;re actually accessing the object stored at memory address <code>0x1234</code>. It’s important to note that <code>x</code> isn&#39;t the object or the value itself, but rather a reference to the memory allocation <code>0x1234</code>. This explains why we can define multiple labels to reference exactly the same object &#40;i.e., the same memory address&#41;.</p>
+<p>To illustrate this process, let&#39;s consider executing the command <code>x &#61; &quot;Hello&quot;</code>. When this is run, several actions take place. First, the computer reserves a memory location to store the object &#40;e.g., at address <code>0x1234</code>&#41;. This object is then assigned the specific value <code>&quot;Hello&quot;</code>, which in Julia is an instance of the type <code>String</code>.</p>
+<p>At the same time, we&#39;re assigning the label <code>x</code> to this object, so that <code>x</code> points to the memory address <code>0x1234</code>. This means that, every time we use <code>x</code> in our code, we&#39;re actually accessing the object stored at memory address <code>0x1234</code>. It’s important to note that <code>x</code> isn&#39;t the object or the value itself, but rather a reference to the memory allocation <code>0x1234</code>. This explains why we can define multiple labels to reference exactly the same object &#40;i.e., the same memory address&#41;.</p>
  <h4> Classification of Objects </h4>
-<p>Objects are typically characterized according to the number of elements they contain, with <span style="color: rgb(62, 121, 180);"><strong>scalars</strong></span> referring to single-element objects, and <span style="color: rgb(62, 121, 180);"><strong>collections</strong></span> referring to objects containing multiple elements. Below, we outline some objects encompassed in each category.</p>
+<p>Objects are typically characterized according to the number of elements they contain: <span style="color: rgb(62, 121, 180);"><strong>scalars</strong></span> refer to single-element objects, and <span style="color: rgb(62, 121, 180);"><strong>collections</strong></span> refer to objects containing multiple elements. Below, we outline some objects encompassed in each category.</p>
  <div class="multiple_pics">
   <!-- <h2 style="color:rgb(63, 99,136)">Objects</h2> -->
     <img src="/julia_book/assets/PAGES/02b_variables/tikz/list_variables01.svg" style="width:700px; height:auto; margin-top:1em; margin-bottom:1em;max-width:100%;">  
@@ -2852,7 +2852,7 @@ color: white;
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Variables </button>
+    <button class="tablink first_tab active" data-id=""> Variable Names </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">a         &#61; 2
@@ -2876,13 +2876,13 @@ ẋ         &#61; 2
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> </span>  </div>  <div class=content> <strong>Julia doesn't let you delete variables</strong>. Once a variable is created, it remains in memory until the program terminates. If a variable is taking up too much memory, you can free up space by reassigning it to a smaller object.  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Notation for Variable Names</strong>  </span>  </div>  <div class=content>     Julia&#39;s developers adopt the convention of using <strong>snake-case</strong> notation for variable names. This format consists of lowercase letters and numbers, with words separated by underscores. &#40;e.g., <code>snake_case_var1</code>&#41;. Note that this is only a convention, not a language&#39;s requirement.  </div>  </div>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Notation for Variable Names</strong>  </span>  </div>  <div class=content>     Julia&#39;s developers adopt the convention of using <strong>snake-case notation for variable names</strong>. This format consists of lowercase letters and numbers, with words separated by underscores. &#40;e.g., <code>snake_case_var1</code>&#41;. Note that this is only a convention, not a language&#39;s requirement.  </div>  </div>
 <p> <h4> Updating Variables </h4><div class="own-anchors"><a name="update-operator"></a></div></p>
 <p>It&#39;s possible to assign a new value to a variable using the variable itself. This approach is referred to as <strong>updating a variable</strong>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Updating Variable </button>
+    <button class="tablink first_tab active" data-id=""> Updating A Variable </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x  &#61; 2
@@ -2985,7 +2985,7 @@ x -&#61; 3        # equivalent</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 29, 2025 
+          © Martin Alfaro <br>Last Modified September 30, 2025 
       </span> 
   </div> 
 </footer>

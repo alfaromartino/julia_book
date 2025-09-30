@@ -54,6 +54,75 @@ print_asis(x) #hide
  
 ############################################################################
 #
+#           MUTATION VIA FOR-LOOPS
+#
+############################################################################
+ 
+x = Vector{Int64}(undef, 3)  # `x` is initialized with 3 undefined elements
+
+
+for i in eachindex(x)
+    x[i] = 0
+end
+print_asis(x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+y = [1, 2, 3]
+x = similar(y)               # `x` replicates the type of `y`, which is Vector{Int64}(undef, 3)
+
+for i in eachindex(x)
+    x[i] = 0
+end
+print_asis(x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x     = zeros(3)
+slice = view(x, 2:3)
+
+for i in eachindex(slice)
+    slice[i] = 1
+end
+print_asis(x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x     = zeros(3)
+
+
+for i in 2:3
+    x[i] = 1
+end
+print_asis(x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x    = Vector{Int64}(undef, 3)  # `x` is initialized with 3 undefined elements
+
+for i in eachindex(x)
+    x[i] = 0
+end
+print_asis(x) #hide
+ 
+x    = Vector{Int64}(undef, 3)  # `x` is initialized with 3 undefined elements
+
+x[1] = 0
+x[2] = 0
+x[3] = 0
+print_asis(x) #hide
+ 
+############################################################################
+#
 #           MUTATION VIA .=
 #
 ############################################################################
@@ -164,7 +233,7 @@ print_asis(x) #hide
  
 x      = [-2, -1, 1]
 
-slice  = view(x, x .< 0)        # or slice = @view x[x .< 0]
+slice  = view(x, x .< 0)     # or slice = @view x[x .< 0]
 slice .= 0
 print_asis(x) #hide
  
@@ -174,8 +243,8 @@ print_asis(x) #hide
  
 x      = [-2, -1, 1]
 
-slice  = view(x, x .< 0)        # or slice = @view x[x .< 0]
-slice  = 0                      # this does NOT modify `x`
+slice  = view(x, x .< 0)     # or slice = @view x[x .< 0]
+slice  = 0                   # this does NOT modify `x`
 print_asis(x) #hide
  
 # <space_to_be_deleted>
@@ -185,7 +254,7 @@ print_asis(x) #hide
 x      = [1, 2, 3]
 
 slice  = view(x, x .≥ 2)
-slice .= slice .* 10            # same as 'x[x .≥ 2] = x[x .≥ 2] .* 10'
+slice .= slice .* 10        # same as 'x[x .≥ 2] = x[x .≥ 2] .* 10'
 print_asis(x) #hide
  
 # <space_to_be_deleted>
@@ -195,7 +264,7 @@ print_asis(x) #hide
 x      = [1, 2, 3]
 
 slice  = view(x, x .≥ 2)
-slice  = slice .* 10            # this does NOT modify `x`
+slice  = slice .* 10        # this does NOT modify `x`
 print_asis(x) #hide
  
 ####################################################
@@ -229,75 +298,6 @@ print_asis(x) #hide
 x      = [-2, -1, 1]
 
 slice  = view(x, x .< 0)
-slice  = 0                  # this creates a new object, it does NOT modify `x`
-print_asis(x) #hide
- 
-############################################################################
-#
-#           MUTATION VIA FOR-LOOPS
-#
-############################################################################
- 
-x = Vector{Int64}(undef, 3)  # `x` is initialized with 3 undefined elements
-
-
-for i in eachindex(x)
-    x[i] = 0
-end
-print_asis(x) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-y = [1, 2, 3]
-x = similar(y)               # `x` replicates the type of `y`, which is Vector{Int64}(undef, 3)
-
-for i in eachindex(x)
-    x[i] = 0
-end
-print_asis(x) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x     = zeros(3)
-slice = view(x, 2:3)
-
-for i in eachindex(slice)
-    slice[i] = 1
-end
-print_asis(x) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x     = zeros(3)
-
-
-for i in 2:3
-    x[i] = 1
-end
-print_asis(x) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x    = Vector{Int64}(undef, 3)  # `x` is initialized with 3 undefined elements
-
-for i in eachindex(x)
-    x[i] = 0
-end
-print_asis(x) #hide
- 
-x    = Vector{Int64}(undef, 3)  # `x` is initialized with 3 undefined elements
-
-x[1] = 0
-x[2] = 0
-x[3] = 0
+slice  = 0                  # this does NOT modify `x`
 print_asis(x) #hide
  

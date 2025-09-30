@@ -3243,14 +3243,14 @@ ceil&#40;x, sigdigits&#61;2&#41;             # 460.0</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Rankings</h2></p>
-<p>Instead of sorting a vector, you may be interested in determining the rank position of each element. The <code>StatsBase</code> package offers two functions for this purpose: <code>competerank</code> and <code>ordinalrank</code>. The main difference between them lies in how they handle tied elements: <code>competerank</code> assigns the same rank to tied elements, while <code>ordinalrank</code> assigns consecutive ranks. Both functions return ranks where 1 corresponds to the lowest value. If you prefer to invert the ranking, so that the highest value corresponds to a rank of 1, you can pass the keyword argument <code>rev &#61; true</code>.</p>
+<p>Instead of sorting a vector, you may be interested in determining the rank position of each element. The <code>StatsBase</code> package offers two functions for this purpose: <code>competerank</code> and <code>ordinalrank</code>. The main difference between them lies in how they handle tied elements: <code>competerank</code> assigns the same rank to tied elements, while <code>ordinalrank</code> assigns consecutive ranks. Both functions return ranks where 1 corresponds to the lowest value. The keyword argument <code>rev &#61; true</code> allows you to invert the ranking, so that the highest value corresponds to a rank of 1.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Rank (Same Rank for Ties) </button>
-    <button class="tablink" data-id="">  Rank (Same Rank for Ties) </button>
+    <button class="tablink" data-id="">  Descending Rank (Same Rank for Ties) </button>
     <button class="tablink" data-id="">  Rank (Unique Positions) </button>
-    <button class="tablink" data-id="">  Rank (Unique Positions) </button>
+    <button class="tablink" data-id="">  Descending Rank (Unique Positions) </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using StatsBase
 x &#61; &#91;6, 6, 0, 5&#93;
@@ -3328,12 +3328,12 @@ y &#61; sortperm&#40;x&#41;</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Extrema (Maximum and Minimum)</h2></p>
-<p>We conclude by presenting a method for finding extrema in a vector, along with their corresponding indices. The following examples illustrate how to find the maximum, with similar functions available for finding the minimum.</p>
+<p>We conclude by presenting a method for finding the indices and values of extrema in collections. The following examples are based on the maximum, with similar functions available for the minimum.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Value of Maximum</button>
-    <button class="tablink" data-id="">  Index of Maximum </button>
+    <button class="tablink first_tab active" data-id=""> Value</button>
+    <button class="tablink" data-id="">  Index </button>
     <button class="tablink" data-id="">  Value and Index</button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;6, 6, 0, 5&#93;
@@ -3352,7 +3352,7 @@ y &#61; findmax&#40;x&#41;</code></pre> </div></div>
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>y</code> <br/> <pre><code class="plaintext code-output">(6, 1)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Julia additionally provides the function <code>max</code> and <code>min</code>, which respectively return the maximum and minimum of their  <em>arguments</em>. These functions are particularly useful for binary operations.</p>
+<p>Julia additionally provides the function <code>max</code> and <code>min</code>, which respectively return the maximum and minimum of their  <em>arguments</em>. These functions will become particularly useful for procedures based on binary operations &#40;e.g., the so-called reductions&#41;.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3387,7 +3387,7 @@ z &#61; max&#40;x,y&#41;</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 29, 2025 
+          © Martin Alfaro <br>Last Modified September 30, 2025 
       </span> 
   </div> 
 </footer>

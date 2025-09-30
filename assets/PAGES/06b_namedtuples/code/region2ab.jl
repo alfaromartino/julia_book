@@ -1,1 +1,1 @@
-print_asis(some_pair.second) #hide
+print_asis(collect(values(x))) #hide

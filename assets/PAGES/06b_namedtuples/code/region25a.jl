@@ -1,0 +1,1 @@
+some_pair = ("a" => 1)      # or simply 'some_pair = "a" => 1'

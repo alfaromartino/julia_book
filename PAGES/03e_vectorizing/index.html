@@ -3051,7 +3051,7 @@ y        &#61; &#91; 2,  4,  10&#93;</code></pre>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Broadcasting Strings </button>
+    <button class="tablink first_tab active" data-id=""> Broadcasting With Strings </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">country &#61; &#91;&quot;France&quot;, &quot;Canada&quot;&#93;
@@ -3137,13 +3137,21 @@ y &#61; &#91;5, 5, 5&#93;</code></pre>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b> Remark</b> </span>  </div>  <div class=content>     We emphasize that broadcasting can be applied to any iterable collection. Thus, the <a href="#examp1">example</a> based on strings presented above can be rewritten as follows.</p>
-<p> <div class=" code_box"> <details  open><summary> Code  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">country       &#61;  &#91;&quot;France&quot;, &quot;Canada&quot;&#93;
-is_in         &#61;  &quot; is in &quot;
-region        &#61;  &#91;&quot;Europe&quot;, &quot;North America&quot;&#93;</code></pre>
-<p></div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>string.&#40;country, is_in, region&#41;</code><br/><div class="akin_to_pre">2-element Vector{String}:
+<p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Broadcasting With Strings </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">country &#61; &#91;&quot;France&quot;, &quot;Canada&quot;&#93;
+is_in   &#61; &quot; is in &quot;
+region  &#61; &#91;&quot;Europe&quot;, &quot;North America&quot;&#93;</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>string.&#40;country, is_in, region&#41;</code><br/><div class="akin_to_pre">2-element Vector{String}:
  "France is in Europe"
- "Canada is in North America"</div> </div></div> </div>   </details></div>  </div>  </div>
+ "Canada is in North America"</div> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -3186,10 +3194,26 @@ y &#61; 1:3</code></pre>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Broadcast </button>    
-    <button class="tablink" data-id=""> Macro @. </button>
-    <button class="tablink" data-id=""> Operation Implemented </button>
+    <button class="tablink first_tab active" data-id=""> Operation </button>    
+    <button class="tablink" data-id=""> Via Broadcasting </button>
+    <button class="tablink" data-id=""> Via Macro @. </button>
 </div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">x &#61; &#91;1, 0, 2&#93;
+y &#61; &#91;1, 2, 0&#93;
+
+temp &#61; x .&#43; y
+z    &#61; temp .^ 2</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>temp</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 2
+ 2
+ 2</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
+ 4
+ 4
+ 4</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x &#61; &#91;1, 0, 2&#93;
 y &#61; &#91;1, 2, 0&#93;
@@ -3211,22 +3235,6 @@ square&#40;x&#41; &#61; x^2</code></pre>
  4
  4
  4</div> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;1, 0, 2&#93;
-y &#61; &#91;1, 2, 0&#93;
-
-temp &#61; x .&#43; y
-z    &#61; temp .^ 2</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>temp</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
- 2
- 2
- 2</div> </div></p>
-<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z</code><br/><div class="akin_to_pre">3-element Vector{Int64}:
- 4
- 4
- 4</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -3244,7 +3252,7 @@ z    &#61; temp .^ 2</code></pre>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Functions with Single-Element Arguments </button>
-    <button class="tablink" data-id=""> Functions with Vector Arguments </button>
+    <button class="tablink" data-id=""> Functions with Vector as Argument </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x                 &#61; &#91;1, 2, 3&#93;
@@ -3516,7 +3524,7 @@ list &#61; &#91;1, 2, 3&#93;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 29, 2025 
+          © Martin Alfaro <br>Last Modified September 30, 2025 
       </span> 
   </div> 
 </footer>

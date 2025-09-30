@@ -2836,7 +2836,7 @@ color: white;
 <li><p>use of views to modify subsets of the data</p>
 </li>
 </ol>
- <div style="visibility: hidden;margin-bottom:-4em">
+ <div style="transform:scale(0); margin-bottom:-4em; overflow:hidden">
 this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible this is invisible
 </div>
 <p>      </div>
@@ -2854,10 +2854,10 @@ this is invisible this is invisible this is invisible this is invisible this is 
 </li>
 <li><p><code>visits</code>: viewers per video &#40;in thousands&#41;.</p>
 </li>
-<li><p><code>payrates</code>: Dollars paid per video for 1,000 visits, ranging from &#36;2 to &#36;6. The fluctuation is consistent with YouTube&#39;s payment model, which depends on a video&#39;s feature &#40;e.g., content, duration, retention&#41;.</p>
+<li><p><code>payrates</code>: Dollars paid per video for 1,000 visits. They range from &#36;2 to &#36;6. The fluctuation is consistent with YouTube&#39;s payment model, which depends on a video&#39;s feature &#40;e.g., content, duration, retention&#41;.</p>
 </li>
 </ul></div>
-<p>The scenario is modeled by some mock data. The details of how data are generated are unimportant, but were added below for the sake of completeness. Ultimately, what matters is that the mock data creates the following two variables.</p>
+<p>The scenario is modeled by some mock data. The details of how data are generated are unimportant, but were added below for the sake of completeness. Ultimately, what matters is that the mock data creates the variables <code>visits</code> and <code>payrates</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2880,32 +2880,32 @@ nr_videos &#61; 30
 visits   &#61; audience&#40;nr_videos, median_target &#61; 50&#41;      # in thousands of visits
 payrates &#61; rand&#40;2:6, nr_videos&#41;                         # per thousands of visits</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>visits</code> # in thousands <br/> <pre><code class="plaintext code-output">30-element Vector{Float64}:
- 44.4608
- 57.2323
+ 38.8086
+ 70.8113
   ⋮
- 86.4182
- 36.5051</code></pre> </div></p>
+ 72.3673
+ 30.2565</code></pre> </div></p>
 <p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>payrates</code> # per thousand visits <br/> <pre><code class="plaintext code-output">30-element Vector{Int64}:
- 2
- 6
- ⋮
+ 5
  3
+ ⋮
+ 2
  4</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>These two variables enable us to calculate the total payment per video.</p>
+<p>The variables <code>visits</code> and <code>payrates</code> enable us to calculate the total payment per video.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Additional Variable </button>    
+    <button class="tablink first_tab active" data-id=""> Variable "earnings" </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">earnings &#61; visits .* payrates</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>earnings</code> <br/> <pre><code class="plaintext code-output">30-element Vector{Float64}:
-  88.9215
- 343.394
+ 194.043
+ 212.434
    ⋮
- 259.254
- 146.02</code></pre> </div></div> </div> 
+ 144.735
+ 121.026</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -2917,7 +2917,7 @@ payrates &#61; rand&#40;2:6, nr_videos&#41;                         # per thousa
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Some General Information</h2></p>
-<p>We begin by presenting some information about the per-view payments made by YouTube. We first show that Johnny&#39;s payments ranged from &#36;2 to &#36;6. Moreover, using the <code>countmaps</code> function from the <code>StatsBase</code> package, we conclude that Johnny has eight videos reaching the maximum payment of &#36;6.</p>
+<p>We begin by examining the per-view payments made by YouTube. We first show that Johnny&#39;s payments range from &#36;2 to &#36;6. Moreover, using the <code>countmaps</code> function from the <code>StatsBase</code> package, we conclude that Johnny has eight videos reaching the maximum payment of &#36;6.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2935,14 +2935,14 @@ payrates &#61; rand&#40;2:6, nr_videos&#41;                         # per thousa
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">using StatsBase
 occurrences_payrates &#61; countmap&#40;payrates&#41; |&gt; sort</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>occurrences_payrates</code> <br/> <pre><code class="plaintext code-output">OrderedDict{Int64, Int64} with 5 entries:
-  2 => 4
-  3 => 5
+  2 => 5
+  3 => 6
   4 => 8
   5 => 5
-  6 => 8</code></pre> </div></div> </div> 
+  6 => 6</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>We can also provide some insights into Johnny&#39;s most profitable videos. By applying the <code>sort</code> function and isolating the top 3 videos, we can obtain information on the highest earnings videos. Moreover, we can apply the <code>sortperm</code> function to identify the indices of these videos, allowing us to extract the payment per view and total visits associated with each.</p>
+<p>We can also provide some insights into Johnny&#39;s most profitable videos. By applying the <code>sort</code> function, we can isolate his top 3 highest-earning videos. Moreover, we can apply the <code>sortperm</code> function to identify their indices, allowing us to extract the payment per view and total visits associated with each video.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2952,25 +2952,25 @@ occurrences_payrates &#61; countmap&#40;payrates&#41; |&gt; sort</code></pre> </
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">top_earnings    &#61; sort&#40;earnings, rev&#61;true&#41;&#91;1:3&#93;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>top_earnings</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
- 2708.57
- 1083.07
-  723.493</code></pre> </div></div> </div> 
+ 7757.81
+  693.813
+  672.802</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">indices         &#61; sortperm&#40;earnings, rev&#61;true&#41;&#91;1:3&#93;
 
 sorted_payrates &#61; payrates&#91;indices&#93;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>sorted_payrates</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
  6
- 5
- 5</code></pre> </div></div> </div> 
+ 6
+ 6</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">indices         &#61; sortperm&#40;earnings, rev&#61;true&#41;&#91;1:3&#93;
 
 sorted_visits   &#61; visits&#91;indices&#93;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>sorted_visits</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Float64}:
- 451.428
- 216.615
- 144.699</code></pre> </div></div> </div> 
+ 1292.97
+  115.636
+  112.134</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -2982,8 +2982,8 @@ sorted_visits   &#61; visits&#91;indices&#93;</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Boolean Variables</h2></p>
-<p>In the following, we demonstrate how to use Boolean indexing to extract and characterize subsets of data. Our focus will be on characterizing Johnny&#39;s viral videos, defined as those that have surpassed a threshold of 100k visits. In particular, we&#39;ll determine the number of visits and revenue generated by these videos.</p>
-<p>To identify the viral videos, we&#39;ll create a <code>Bool</code> vector, where <code>true</code> identifies a viral video. This vector allows us to selectively extract data points from other variables by using them as indices. For instance, we use it below to compute the total visits and earnings derived from these viral videos.</p>
+<p>In the following, we demonstrate how to use Boolean indexing to extract and characterize subsets of data. Our focus will be on characterizing Johnny&#39;s viral videos, defined as those that have surpassed a threshold of 100k visits. In particular, we&#39;ll determine the number of visits and revenue generated by them.</p>
+<p>To identify the viral videos, we&#39;ll create a <code>Bool</code> vector, where <code>true</code> identifies a viral video. This vector can then be employed as a logical index, allowing us to selectively extract data points from other variables. In the example below, we apply it to compute the total visits and earnings attributable to the viral videos.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2997,12 +2997,12 @@ is_viral        &#61; &#40;visits .≥ viral_threshold&#41;
 viral_nrvideos  &#61; sum&#40;is_viral&#41;
 viral_visits    &#61; sum&#40;visits&#91;is_viral&#93;&#41;
 viral_revenue   &#61; sum&#40;earnings&#91;is_viral&#93;&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>viral_nrvideos</code> <br/> <pre><code class="plaintext code-output">6</code></pre> </div></p>
-<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>viral_visits</code> <br/> <pre><code class="plaintext code-output">1243.63</code></pre> </div>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>viral_revenue</code> <br/> <pre><code class="plaintext code-output">6133.19</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>viral_nrvideos</code> <br/> <pre><code class="plaintext code-output">4</code></pre> </div></p>
+<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>viral_visits</code> <br/> <pre><code class="plaintext code-output">1625.05</code></pre> </div>
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>viral_revenue</code> <br/> <pre><code class="plaintext code-output">9750.3</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Boolean indexing also makes it possible to subset data satisfying multiple conditions. For instance, we can use this technique to calculate the proportion of viral videos for which YouTube paid more than &#36;3 per thousand visits. </p>
+<p>Boolean indexing also enables subsetting data satisfying multiple conditions. For instance, we can apply this technique to calculate the proportion of viral videos for which YouTube paid more than &#36;3 per thousand visits. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3017,12 +3017,12 @@ is_viral_lucrative &#61; &#40;visits .≥ viral_threshold&#41; .&amp;&amp; &#40;
 
 # stat
 proportion_viral_lucrative &#61; sum&#40;is_viral_lucrative&#41; / sum&#40;is_viral&#41; * 100</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>proportion_viral_lucrative</code> <br/> <pre><code class="plaintext code-output">83.3333</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>proportion_viral_lucrative</code> <br/> <pre><code class="plaintext code-output">100.0</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Rounding Outputs</strong>  </span>  </div>  <div class=content>     You can express results with rounded numbers via the function <code>round</code>. By default, this returns the nearest integer expressed as a <code>Float64</code> number. </p>
-<p>The function also offers additional specifications. For instance, you can control the number of decimal places in the approximation using the <code>digits</code> keyword argument. Furthermore, it&#39;s possible to represent the number as an <code>Int64</code> using the argument <code>Int</code>.</p>
+<p>The function also offers additional specifications. For instance, the number of decimal places in the approximation can be controlled via the <code>digits</code> keyword argument. Furthermore, it&#39;s possible to represent the number as an integer using either <code>Int64</code> or <code>Int</code> as an argument. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Recall that the type <code>Int</code> defaults to <code>Int64</code> on 64-bit systems and to <code>Int32</code> for 32-bit systems. Most modern computers fall into the former category.  </span></span></p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3031,13 +3031,13 @@ proportion_viral_lucrative &#61; sum&#40;is_viral_lucrative&#41; / sum&#40;is_vi
     <button class="tablink" data-id=""> Round - Integer </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">rounded_proportion &#61; round&#40;proportion_viral_lucrative&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>rounded_proportion</code> <br/> <pre><code class="plaintext code-output">83.0</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>rounded_proportion</code> <br/> <pre><code class="plaintext code-output">100.0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">rounded_proportion &#61; round&#40;proportion_viral_lucrative, digits&#61;1&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>rounded_proportion</code> <br/> <pre><code class="plaintext code-output">83.3</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>rounded_proportion</code> <br/> <pre><code class="plaintext code-output">100.0</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">rounded_proportion &#61; round&#40;Int, proportion_viral_lucrative&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>rounded_proportion</code> <br/> <pre><code class="plaintext code-output">83</code></pre> </div></div> </div> 
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">rounded_proportion &#61; round&#40;Int64, proportion_viral_lucrative&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>rounded_proportion</code> <br/> <pre><code class="plaintext code-output">100</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
 <p>      </div>
@@ -3049,9 +3049,9 @@ proportion_viral_lucrative &#61; sum&#40;is_viral_lucrative&#41; / sum&#40;is_vi
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Functions to Represent Tasks</h2></p>
-<p>The approach employed so far allows for a rapid exploration of Johnny&#39;s viral videos. However, it falls short in providing a systematic analysis that could be extended to other subsets of data. To overcome this limitation, we can automate the process by defining a function.</p>
-<p>Recall that a well-designed function should embody a specific task, implying that it must be independent of its specific application. In our case, the goal is to subset data and extract specific statistics, including the number of videos, visits, and revenue generated. </p>
-<p>The function below implements this task taking three arguments: the raw data &#40;<code>visits</code> and <code>payrates</code>&#41; and a condition defining the subset &#40;<code>condition</code>&#41;. By keeping the condition generic, we can seamlessly apply the same analysis to various subsets of data. The example also showcases the convenience of pipes to compute intermediate temporary steps, using it to retrieve the income earned from a subset of videos.</p>
+<p>The approach employed so far allows for a quick exploration of Johnny&#39;s viral videos. However, it lacks the structure needed for a systematic analysis across different subsets of the data. To address this limitation, we can capture the characterization of videos through a function.</p>
+<p>Recall that a well-designed function should embody a single clearly defined task. In our case, the goal is to subset data and extract key statistics, including the number of videos, visits, and revenue generated. Furthermore, the function should remain independent of any specific application, so it can be reused to analyze different groups of videos without rewriting code each time.</p>
+<p>The function below implements this task taking three arguments: the raw data &#40;<code>visits</code> and <code>payrates</code>&#41; and a condition that defines the subset of data &#40;<code>condition</code>&#41;. By keeping the condition generic, the function is flexible enough to target any subset of videos. The example also showcases the convenience of pipes to compute intermediate temporary steps.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3093,7 +3093,7 @@ function stats_subset&#40;visits, payrates, condition&#41;
 end</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>Below, we illustrate how the function enables effortlessly characterizing various subsets of data.</p>
+<p>Below, we demonstrate the reusability of the function by characterizing various subsets of data.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3104,30 +3104,30 @@ end</code></pre> </div></div>
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">viral_threshold  &#61; 100
 is_viral         &#61; &#40;visits .≥ viral_threshold&#41;
 viral            &#61; stats_subset&#40;visits, payrates, is_viral&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>viral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 6, audience = 1243.63, revenue = 6133.19)</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>viral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 4, audience = 1625.05, revenue = 9750.3)</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">viral_threshold  &#61; 100
 is_notviral      &#61; .&#33;&#40;is_viral&#41;      # &#39;&#33;&#39; is negating a boolean value and we broadcast it
 notviral         &#61; stats_subset&#40;visits, payrates, is_notviral&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>notviral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 24, audience = 1169.13, revenue = 4971.02)</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>notviral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 26, audience = 1497.02, revenue = 5687.67)</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">days_to_consider &#61; &#40;1, 10, 25&#41;      # days when the videos were posted
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">days_to_consider &#61; &#40;1, 10, 25&#41;      # subset of days to be characterized
 is_day           &#61; in.&#40;eachindex&#40;visits&#41;, Ref&#40;days_to_consider&#41;&#41;
 specific_days    &#61; stats_subset&#40;visits, payrates, is_day&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>specific_days</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 3, audience = 118.547, revenue = 414.113)</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>specific_days</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 3, audience = 182.939, revenue = 1030.33)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="mutating_variables" class="scrollspy section-bg-color">
+<section id="variable_mutation" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Mutating Variables</h2></p>
-<p>Suppose that, seeking to enhance audience engagement, Johnny has decided to promote his videos through advertising. His projections suggest that ads will boost viewership per video by 20&#37;. However, due to budget constraints, Johnny must choose between promoting either his non-viral videos or his viral ones. To make an informed decision, Johnny decides to leverage the data at his disposal to crunch some rough estimates. In particular, he&#39;ll base his decision on the earnings he would&#39;ve earned during last month if he had run targeted ads.</p>
-<p>The computations require creating a modified copy of <code>visits</code>, adjusting the audience data after running the ads for the targeted videos. With this updated audience data, we can then apply the previously defined <code>stats_subset</code> function to estimate the potential earnings. Comparing the results in each tab, Johnny would conclude that promoting viral videos seems to be a more profitable strategy.</p>
+        <h2>Variable Mutation</h2></p>
+<p>Suppose Johnny is exploring ways to increase viewership through targeted advertising. His projections suggest that ads will boost viewership per video by 20&#37;. However, due to budget constraints, Johnny must choose between promoting either his non-viral or viral ones. To make an informed decision, Johnny decides to leverage the data at his disposal to crunch some rough estimates. In particular, he&#39;ll base his decision on the earnings he would&#39;ve earned if he had run targeted ads.</p>
+<p>The first step in this process involves creating a modified copy of his <code>visits</code> variables. This variable should now reflect the anticipated increase in viewership from running ads on the targeted videos &#40;either viral or non-viral&#41;. With this updated audience data in hand, Johnny can then apply the previously defined <code>stats_subset</code> function to estimate the potential earnings. By comparing the estimated earnings generated from promoting viral videos versus non-viral videos, Johnny can determine which strategy offers the higher return on investment. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3141,7 +3141,7 @@ temp           .&#61; 1.2 .* temp
 
 allvideos       &#61; trues&#40;length&#40;new_visits&#41;&#41;
 targetViral     &#61; stats_subset&#40;new_visits, payrates, allvideos&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>targetViral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 30, audience = 2661.48, revenue = 12330.8)</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>targetViral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 30, audience = 3447.08, revenue = 17388.0)</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia"># &#39;temp&#39; modifies &#39;new_visits&#39;
 new_visits      &#61; copy&#40;visits&#41;
@@ -3150,11 +3150,12 @@ temp           .&#61; 1.2 .* temp
 
 allvideos       &#61; trues&#40;length&#40;new_visits&#41;&#41;
 targetNonViral  &#61; stats_subset&#40;new_visits, payrates, allvideos&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>targetNonViral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 30, audience = 2646.58, revenue = 12098.4)</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>targetNonViral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 30, audience = 3421.47, revenue = 16575.5)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
+<p>Given the results in each tab, promoting viral videos appears to be the more profitable option.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Be Careful with Misusing 'view'</strong>  </span>  </div>  <div class=content>     Updating <code>temp</code> requires an in-place operation to mutate the parent object. In our case, this was achieved via the broadcasted operator <code>.&#61;</code>. Below, we state some implementations that fail to produce the desired result. </p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Be Careful with Misusing 'view'</strong>  </span>  </div>  <div class=content>     Updating <code>temp</code> requires an in-place operation to mutate the parent object. In our case, this was achieved via the broadcasted operator <code>.&#61;</code>. Below, we present some implementations that fail to produce the intended result. </p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3182,8 +3183,8 @@ temp  &#61; temp .* 1.2     # it creates a new variable &#39;temp&#39;, it does 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Use of "Let Blocks" To Avoid Bugs</strong>  </span>  </div>  <div class=content>     The code above for &quot;Target Viral&quot; and &quot;Target Non-Viral&quot; refers to each variable by an identical name. This increases the risk of accidentally referring to a variable from a different scenario. </p>
-<p>The likelihood of incurring this issue can be alleviated by employing &quot;let blocks&quot;. By defining their own scope, they help maintain a clean namespace.</p>
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>Use of "Let Blocks" To Avoid Bugs</strong>  </span>  </div>  <div class=content>     In the code above, &quot;Target Viral&quot; and &quot;Target Non-Viral&quot; reference variables with identical names. This creates the risk of accidentally referring to a variable from the wrong scenario. </p>
+<p>A practical way to mitigate this risk is by employing &quot;let blocks&quot;. Since each let block introduces its own scope, this helps maintain a clean namespace and prevents variable collisions.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3198,7 +3199,7 @@ temp  &#61; temp .* 1.2     # it creates a new variable &#39;temp&#39;, it does 
     allvideos  &#61; trues&#40;length&#40;new_visits&#41;&#41;
     stats_subset&#40;new_visits, payrates, allvideos&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>targetViral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 30, audience = 2661.48, revenue = 12330.8)</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>targetViral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 30, audience = 3447.08, revenue = 17388.0)</code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">targetNonViral &#61; let visits &#61; visits, payrates &#61; payrates, threshold &#61; viral_threshold
     new_visits &#61; copy&#40;visits&#41;
@@ -3208,19 +3209,21 @@ end</code></pre> </div></div>
     allvideos  &#61; trues&#40;length&#40;new_visits&#41;&#41;
     stats_subset&#40;new_visits, payrates, allvideos&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>targetNonViral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 30, audience = 2646.58, revenue = 12098.4)</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>targetNonViral</code> <br/> <pre><code class="plaintext code-output">(nrvideos = 30, audience = 3421.47, revenue = 16575.5)</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>  </div>  </div>
 <p>      </div>
     </div>
   </div>
 </section>
-<section id="broadcasting_over_a_list_of_functions_optional" class="scrollspy">
+<section id="broadcasting_over_a_list_of_functions" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Broadcasting Over a List of Functions (<strong><i>OPTIONAL</i></strong>)</h2></p>
-<p>At the beginning of the analysis, we could&#39;ve derived descriptive statistics to gain insights about Johnny&#39;s videos. This can be accomplished by using the <code>describe</code> function from the <code>StatsBase</code> package. Despite this, the presentation aims to highlight that functions are first-class objects in Julia. This property entails that a function behaves just like any other variable, allowing the user to define a list of functions and then apply them element-wise to a variable.</p>
+        <h2>Broadcasting Over a List of Functions</h2></p>
+<p>A function like <code>stats_subset</code> is useful for computing a fixed set of summary statistics. However, since the choice of statistics is hard‑coded into the function’s definition, the output can&#39;t be changed without rewriting the code. This rigidity makes the function less reusable across different analytical contexts.  </p>
+<p>A more flexible approach consists of specifying which statistics to compute at the time of use. Julia makes this possible because functions are  <em>first-class objects</em>, entailing that functions behave just like any other variable. This feature lets us define a list of statistical functions, eventually applying them element-wise to the variables we want to characterize. </p>
+<p>Below, we apply this methodology to characterize the variable <code>visits</code>. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3230,14 +3233,14 @@ end</code></pre> </div></div>
 
 stats_visits   &#61; &#91;fun&#40;visits&#41; for fun in list_functions&#93;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>stats_visits</code> <br/> <pre><code class="plaintext code-output">5-element Vector{Float64}:
- 2661.48
-   52.7884
-   88.716
-  541.714
-   27.7205</code></pre> </div></div> </div> 
+ 3447.08
+   64.8765
+  114.903
+ 1551.56
+   28.2954</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>By broadcasting the operation, we can also simultaneously compute stats for multiple variables. For instance, below we characterize <code>visits</code> and <code>earnings</code> concurrently. </p>
+<p>The same methodology can also be employed for characterizing multiple variables at once. In fact, broadcasting makes this straightforward to implement. For instance, below we simultaneously characterize <code>visits</code> and <code>earnings</code>. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3247,15 +3250,15 @@ stats_visits   &#61; &#91;fun&#40;visits&#41; for fun in list_functions&#93;</co
 
 stats_various  &#61; &#91;fun.&#40;&#91;visits, payrates&#93;&#41; for fun in list_functions&#93;</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>stats_various</code> <br/> <pre><code class="plaintext code-output">5-element Vector{Vector{Float64}}:
- [2661.48, 128.0]
- [52.7884, 4.0]
- [88.716, 4.26667]
- [541.714, 6.0]
- [27.7205, 2.0]</code></pre> </div></div> </div> 
+ [3447.08, 121.0]
+ [64.8765, 4.0]
+ [114.903, 4.03333]
+ [1551.56, 6.0]
+ [28.2954, 2.0]</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>One major limitation of the current method is its inability to capture each statistic&#39;s name. To overcome this, we can employ a named tuple. We&#39;ll call it <code>stats_visits</code>. The approach enables the access of stats through their respective names, such as <code>stats_visits.mean</code> or <code>stats_visits&#91;:mean&#93;</code> for the average value. </p>
-<p>The implementation is based on the type <code>Symbol</code>. This converts strings into identifiers, which are necessary to programmatically access a named tuple&#39;s keys.</p>
+<p>One major limitation of the current method is its inability to reflect each statistic&#39;s name. To address this, we can collect all statistics in a named tuple, enabling the access of each through its name. For instance, given a named tuple <code>stats_visits</code>, it&#39;ll become possible to retrieve the average value of <code>visits</code> by <code>stats_visits.mean</code> or <code>stats_visits&#91;:mean&#93;</code>.</p>
+<p>To assign names to the statistics within the named tuple, we&#39;ll use the <code>Symbol</code> type. This translates strings into identifiers that can act as keys of a named tuple, enabling programmatic access to each statistic.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3263,9 +3266,9 @@ stats_various  &#61; &#91;fun.&#40;&#91;visits, payrates&#93;&#41; for fun in li
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">vector_of_tuples &#61; &#91;&#40;Symbol&#40;fun&#41;, fun&#40;visits&#41;&#41; for fun in list_functions&#93;
 stats_visits     &#61; NamedTuple&#40;vector_of_tuples&#41;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>stats_visits</code> <br/> <pre><code class="plaintext code-output">(sum = 2661.48, median = 52.7884, mean = 88.716, maximum = 541.714, minimum = 27.7205)</code></pre> </div></p>
-<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>stats_visits.mean</code> <br/> <pre><code class="plaintext code-output">88.716</code></pre> </div>
-<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>stats_visits&#91;:median&#93;</code> <br/> <pre><code class="plaintext code-output">52.7884</code></pre> </div></div> </div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>stats_visits</code> <br/> <pre><code class="plaintext code-output">(sum = 3447.08, median = 64.8765, mean = 114.903, maximum = 1551.56, minimum = 28.2954)</code></pre> </div></p>
+<div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>stats_visits.mean</code> <br/> <pre><code class="plaintext code-output">114.903</code></pre> </div>
+<p><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>stats_visits&#91;:median&#93;</code> <br/> <pre><code class="plaintext code-output">64.8765</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>
@@ -3290,7 +3293,7 @@ stats_visits     &#61; NamedTuple&#40;vector_of_tuples&#41;</code></pre> </div><
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 29, 2025 
+          © Martin Alfaro <br>Last Modified September 30, 2025 
       </span> 
   </div> 
 </footer>
@@ -3914,11 +3917,11 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#mutating_variables" data-offset="-40">Mutating Variables</a>
+          <a href="#variable_mutation" data-offset="-40">Variable Mutation</a>
         </li>
         
         <li>
-          <a href="#broadcasting_over_a_list_of_functions_optional" data-offset="-40">Broadcasting Over a List of Functions (<strong><i>OPTIONAL</i></strong>)</a>
+          <a href="#broadcasting_over_a_list_of_functions" data-offset="-40">Broadcasting Over a List of Functions</a>
         </li>
         
       </ul>

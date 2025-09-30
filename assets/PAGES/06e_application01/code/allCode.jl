@@ -1,8 +1,8 @@
-include(joinpath(homedir(), "JULIA_UTILS", "initial_folders.jl"))
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
-using StatsBase, Distributions, Random, Pipe
+using Random, StatsBase, Distributions , Pipe
  
 ############################################################################
 #
@@ -58,10 +58,12 @@ print_compact(sorted_visits) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 range_payrates  = unique(payrates) |> sort
 range_payrates |> print_compact #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
@@ -89,7 +91,7 @@ print_compact(viral_nrvideos) #hide
  
 print_compact(viral_visits) #hide
  
-print_compact(viral_payrates) #hide
+print_compact(viral_revenue) #hide
  
 # characterization
 viral_threshold    = 100
@@ -108,9 +110,10 @@ print_asis(rounded_proportion) #hide
 rounded_proportion = round(proportion_viral_lucrative, digits=1)
 print_asis(rounded_proportion) #hide
  
-rounded_proportion = round(Int, proportion_viral_lucrative)
+rounded_proportion = round(Int64, proportion_viral_lucrative)
 print_asis(rounded_proportion) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
@@ -132,6 +135,8 @@ function stats_subset(visits, payrates, condition)
 end
  
 # <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 using Pipe
 function stats_subset(visits, payrates, condition)
@@ -144,6 +149,8 @@ function stats_subset(visits, payrates, condition)
     return (; nrvideos, audience, revenue)
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
 # <space_to_be_deleted>
  
 using Pipe
@@ -169,12 +176,13 @@ notviral         = stats_subset(visits, payrates, is_notviral)
  
 print_compact(notviral) #hide
  
-days_to_consider = (1, 10, 25)      # days when the videos were posted
+days_to_consider = (1, 10, 25)      # subset of days to be characterized
 is_day           = in.(eachindex(visits), Ref(days_to_consider))
 specific_days    = stats_subset(visits, payrates, is_day)
  
 print_compact(specific_days) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
@@ -247,6 +255,7 @@ temp  = temp .* 1.2     # it creates a new variable 'temp', it does not modify '
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ############################################################################
 #
@@ -260,12 +269,14 @@ print(describe(visits)) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 list_functions = [sum, median, mean, maximum, minimum]
 
 stats_visits   = [fun(visits) for fun in list_functions]
 print_compact(stats_visits) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
@@ -277,6 +288,7 @@ print_compact(stats_various) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 stats_visits   = NamedTuple((Symbol(fun), fun(visits)) for fun in list_functions)
 print_compact(stats_visits) #hide
@@ -285,6 +297,7 @@ print_compact(stats_visits.mean) #hide
  
 print_compact(stats_visits[:median]) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
