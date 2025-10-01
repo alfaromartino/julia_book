@@ -1643,9 +1643,9 @@ color: white;
     max-width : 100%;  
 }
 
-.gif-wrapper.playing {
+/* .gif-wrapper.playing {
   visibility: visible; 
-}
+} */
 
 .play-overlay {
   position        : absolute;
@@ -2990,11 +2990,11 @@ foo&#40;1, 2.5&#41;         # type UNSTABLE -&gt; &#96;a * i&#96; is either &#96
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Vector Assignment </button>    
-    <button class="tablink" data-id=""> Vector Type-Annotated </button>    
+    <button class="tablink first_tab active" data-id=""> Vector Assignment - Conversion 1  </button>    
+    <button class="tablink" data-id=""> Vector Assignment -  Conversion 2  </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x &#61; &#91;1, 2, 2.5&#93;     # automatic conversion to &#96;Vector&#123;Float64&#125;&#96;</code></pre>
+<pre><code class="language-julia">x &#61; &#91;1, 2, 2.5&#93;      # automatic conversion to &#96;Vector&#123;Float64&#125;&#96;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>x</code><br/><div class="akin_to_pre">3-element Vector{Float64}:
  1.0
@@ -3014,13 +3014,13 @@ foo&#40;1, 2.5&#41;         # type UNSTABLE -&gt; &#96;a * i&#96; is either &#96
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> No Conversion - Vector Assignment 1 </button>
-    <button class="tablink" data-id=""> No Conversion - Vector Assignment 2 </button>
+    <button class="tablink first_tab active" data-id=""> Vector Assignment - No Conversion 1 </button>
+    <button class="tablink" data-id=""> Vector Assignment - No Conversion 2 </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">x1                 &#61; &#91;1, 2.0, 3.0&#93;                 # automatic conversion to &#96;Vector&#123;Float64&#125;&#96;  
+<pre><code class="language-julia">x1                 &#61; &#91;1, 2.0, 3.0&#93;     # automatic conversion to &#96;Vector&#123;Float64&#125;&#96;  
 
-x2::Vector&#123;Int64&#125;  &#61; y1                            # conversion to &#96;Vector&#123;Int64&#125;&#96;</code></pre>
+x2::Vector&#123;Int64&#125;  &#61; y1                # conversion to &#96;Vector&#123;Int64&#125;&#96;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z2</code><br/><div class="akin_to_pre">3-element Vector{Number}:
  1.0
@@ -3028,9 +3028,9 @@ x2::Vector&#123;Int64&#125;  &#61; y1                            # conversion to
  2.5</div> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">y1                 &#61; &#91;1, 2, 2.5&#93;                   # automatic conversion to &#96;Vector&#123;Float64&#125;&#96;  
+<pre><code class="language-julia">y1                 &#61; &#91;1, 2, 2.5&#93;       # automatic conversion to &#96;Vector&#123;Float64&#125;&#96;  
 
-y2::Vector&#123;Number&#125; &#61; y1                            # &#96;y2&#96; is still &#96;Vector&#123;Number&#125;&#96;</code></pre>
+y2::Vector&#123;Number&#125; &#61; y1                # &#96;y2&#96; is still &#96;Vector&#123;Number&#125;&#96;</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>z2</code><br/><div class="akin_to_pre">3-element Vector{Number}:
  1.0

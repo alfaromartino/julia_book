@@ -1643,9 +1643,9 @@ color: white;
     max-width : 100%;  
 }
 
-.gif-wrapper.playing {
+/* .gif-wrapper.playing {
   visibility: visible; 
-}
+} */
 
 .play-overlay {
   position        : absolute;
@@ -2932,8 +2932,8 @@ end</code></pre> </div></div>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Approach 1 </button>
-    <button class="tablink" data-id=""> Approach 2 </button>
+    <button class="tablink first_tab active" data-id=""> Implementation 1 </button>
+    <button class="tablink" data-id=""> Implementation 2 </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">function foo&#40;x&#41;
@@ -2954,8 +2954,8 @@ end</code></pre>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Approach 1 </button>
-    <button class="tablink" data-id=""> Approach 2 </button>    
+    <button class="tablink first_tab active" data-id=""> Implementation 1 </button>
+    <button class="tablink" data-id=""> Implementation 2 </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; &#91;1,2,3&#93;
 
@@ -2990,9 +2990,15 @@ end</code></pre> </div></div>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> For-Loop (Equivalent)</button>
-    <button class="tablink" data-id=""> Broadcasting </button>
+    <button class="tablink first_tab active" data-id=""> Broadcasting</button>
+    <button class="tablink" data-id=""> For-Loop (Equivalent) </button>
 </div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
+
+foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;                  # 2 .* x implicitly creates a temporary vector</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  36.779 ns (1 allocation: 896 bytes)
+</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
 function foo&#40;x&#41;
@@ -3006,12 +3012,6 @@ function foo&#40;x&#41;
 end</code></pre> </div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  45.416 ns (1 allocation: 896 bytes)
 </code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
-
-foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;                  # 2 .* x implicitly creates a temporary vector</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  36.779 ns (1 allocation: 896 bytes)
-</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>Furthermore, when the outcome of a computation must be preserved, allocating new vectors becomes an inevitable part of the process. However, final outputs could actually serve themselves as intermediate steps in a larger computation that may involve another for-loop. Situations where the output of one for-loop feeds into another fall into the category of <span style="color: rgb(62, 121, 180);"><strong>nested for-loops</strong></span>.</p>
@@ -3019,8 +3019,8 @@ foo&#40;x&#41; &#61; sum&#40;2 .* x&#41;                  # 2 .* x implicitly cr
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Broadcast Called in a For-Loop</button>
-    <button class="tablink" data-id=""> For-Loop Called in a For-Loop</button>    
+    <button class="tablink first_tab active" data-id=""> Broadcasting within a For-Loop</button>
+    <button class="tablink" data-id=""> For-Loop within a For-Loop</button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
@@ -3291,8 +3291,8 @@ end</code></pre> </div></div>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> No Pre-Allocation for Nested Loop </button>
-    <button class="tablink" data-id=""> Pre-Allocation for Nested Loop </button>    
+    <button class="tablink first_tab active" data-id=""> No Pre-Allocation in Nested For-Loop </button>
+    <button class="tablink" data-id=""> Pre-Allocation in Nested For-Loop </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
 

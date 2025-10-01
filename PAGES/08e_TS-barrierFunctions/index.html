@@ -1643,9 +1643,9 @@ color: white;
     max-width : 100%;  
 }
 
-.gif-wrapper.playing {
+/* .gif-wrapper.playing {
   visibility: visible; 
-}
+} */
 
 .play-overlay {
   position        : absolute;
@@ -2840,11 +2840,11 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section presents an approach to mitigating type instability based on the so-called <span style="color: rgb(62, 121, 180);"><strong>barrier functions</strong></span>. These are defined as type-stable functions embedded within a type-unstable function, where variables having uncertain types are passed as arguments. By doing so, the compiler is prompted to infer a concrete type for the variables, effectively creating a &quot;barrier&quot; that prevents the spread of type instability to subsequent operations.</p>
-<p>A key benefit of this approach is that <strong>barrier functions are agnostic to the underlying cause of type instability</strong>, making them widely applicable.</p>
+<p>This section presents an approach to mitigating type instability based on the so-called <span style="color: rgb(62, 121, 180);"><strong>barrier functions</strong></span>. These are defined as type-stable functions embedded within a type-unstable function, where variables of uncertain type are passed as arguments. This design prompts the compiler to infer concrete types for those variables, effectively creating a &quot;barrier&quot; that prevents the propagation of type instability to subsequent operations.</p>
+<p>A key benefit of this technique is that <strong>barrier functions are agnostic to the underlying source of type instability</strong>, making them widely applicable across scenarios.</p>
 <p> <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Barrier Functions Should Be Considered as a Second Option </span>  </div>  <div class=content>     Typically, barrier functions should be reserved for situations where type instability is either difficult to fix or inherent to the operations performed. This is because the original function will still remain type unstable, entailing different consequences depending on the instability nature. Considering this, it&#39;s best to aim for type-stable code from the outset, whenever possible.  </div>  </div> </p>
+      <b>Warning!</b> - Barrier Functions Should Be Considered as a Second Option </span>  </div>  <div class=content>     Barrier functions are preferred for situations where type instability is either difficult to fix or inherent to the operations performed. Keep in mind that the original function will remain type unstable, entailing different consequences depending on the instability nature. For this reason, it&#39;s best to aim for type-stable code from the outset, whenever possible.  </div>  </div> </p>
 <p>      </div>
     </div>
   </div>
@@ -2854,7 +2854,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Applying Barrier Functions</h2></p>
-<p>To illustrate the technique, let&#39;s revisit a type-unstable function from a previous section. This function defines a variable <code>y</code> based on <code>x</code>, and subsequently performs an operation involving <code>y</code>.</p>
+<p>To illustrate the technique, let&#39;s revisit a type-unstable function from a previous section. This defines a variable <code>y</code> based on <code>x</code>, and subsequently performs an operation involving <code>y</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2870,8 +2870,14 @@ end
 @code_warntype foo&#40;1.&#41;      # type UNSTABLE</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>In the example, <code>0</code> is an <code>Int64</code>, whereas <code>x</code> could be either an <code>Int64</code> or <code>Float64</code>. When <code>x</code> is an <code>Int64</code>, <code>y</code> will also be an <code>Int64</code>, making <code>foo&#40;1&#41;</code> type stable. However, when <code>x</code> is a <code>Float64</code>, the compiler can&#39;t determine whether <code>y</code> will be an <code>Int64</code> or a <code>Float64</code>, rendering <code>foo&#40;1.&#41;</code> type unstable.</p>
-<p>Addressing this type instability through a barrier functions requires embedding a type-stable function into <code>foo</code>, passing <code>y</code> as an argument. By doing so, the function will attempt to deduce <code>y</code>&#39;s type, allowing the compiler to use this information for subsequent operations. The example below in particular defines <code>operation</code> as a barrier function. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> In this particular example, there&#39;s an easier solution for the type instability, where <code>0</code> is substituted with <code>zero&#40;x&#41;</code>. The function <code>zero&#40;x&#41;</code> has been designed to return the null element for the type identified of <code>x</code>.  </span></span></p>
+<p>In the example, <code>0</code> is an <code>Int64</code>, whereas <code>x</code> could be either an <code>Int64</code> or <code>Float64</code>. This leads to two possibilities:</p>
+<ul>
+<li><p><code>x</code> is an <code>Int64</code>: then, <code>y</code> will also be an <code>Int64</code>, making <code>foo&#40;1&#41;</code> type stable. </p>
+</li>
+<li><p><code>x</code> is a <code>Float64</code>: the compiler then can&#39;t determine whether <code>y</code> will be an <code>Int64</code> or a <code>Float64</code>, rendering <code>foo&#40;1.&#41;</code> type unstable.</p>
+</li>
+</ul>
+<p>A barrier function can address the type instability of the second case. It requires embedding a type-stable function into <code>foo</code>, passing <code>y</code> as an argument. The function will then attempt to deduce <code>y</code>&#39;s type, allowing the compiler to use this information for subsequent operations. The example below defines <code>operation</code> as a barrier function. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> In this particular example, there&#39;s an easier solution, where <code>0</code> is substituted with <code>zero&#40;x&#41;</code>. The function <code>zero&#40;x&#41;</code> has been designed to return the additive identity &#40;i.e., the null element&#41; of <code>x</code>&#39;s type.  </span></span></p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2892,11 +2898,11 @@ end
 @code_warntype foo&#40;1.&#41;         # barrier-function solution</code></pre> </div></div> 
  </div></div>
 <p>  </p></details></div>
-<p>With the introduction of the barrier function <code>operation</code>, the variable <code>y</code> in <code>foo&#40;1.&#41;</code> can still be either an <code>Int64</code> or a <code>Float64</code>. Nevertheless, this ambiguity no longer matters, as <code>operation&#40;y&#41;</code> will determine the type of <code>y</code> before the array comprehension is executed. As a result, the expression <code>&#91;y * i for i in 1:100&#93;</code> will be computed using a method specialized for the specific type of <code>y</code>, ensuring type stability.</p>
+<p>With the introduction of <code>operation</code>, the variable <code>y</code> in <code>foo&#40;1.&#41;</code> can still be either an <code>Int64</code> or a <code>Float64</code>. Nevertheless, this ambiguity no longer matters, as <code>operation&#40;y&#41;</code> will determine the type of <code>y</code> before the array comprehension is executed. As a result, the expression <code>&#91;y * i for i in 1:100&#93;</code> will be computed with a method specialized for the specific type of <code>y</code>, ensuring type stability.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     Barrier Functions should solve the type instability  <em>before</em> the type unstable operation is executed. Otherwise, we&#39;re back to the original issue, where the compiler has to check <code>y</code>&#39;s type at each iteration and select a method accordingly.</p>
-<p>For example, <code>foo</code> in the example below doesn&#39;t apply correctly the barrier-function technique: <code>y</code> can be either <code>Float64</code> or <code>Int64</code>, and <code>operation&#40;y,i&#41;</code> only identifies the type inside the for-loop. This determines that the compiler is forced to check <code>y</code>&#39;s type at each iteration of the loop, which is the original problem the barrier function was intended to solve.</p>
+      <b>Warning!</b> </span>  </div>  <div class=content>     Barrier Functions should address the type instability  <em>before</em> the type-unstable operation is executed. Otherwise, we&#39;re back to the original issue, where the compiler has to check <code>y</code>&#39;s type at each iteration and select a method accordingly.</p>
+<p>For example, <code>foo</code> in the example below doesn&#39;t apply the technique correctly: <code>y</code> can be either <code>Float64</code> or <code>Int64</code>, but <code>operation&#40;y,i&#41;</code> only identifies the type inside the for-loop. Thus, the compiler is forced to check <code>y</code>&#39;s type at each iteration, which is the original problem we intended to solve.</p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3014,7 +3020,7 @@ function foo&#40;z&#41;
     
     operation&#40;y&#41;
 end</code></pre> </div></div> 
-<div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"><div class="julia_repl_NoFormat" style="padding-bottom:0.25em; padding-top:0.25em"><span style="padding-left:1em;"><div class="julia_line">julia&gt</div> <code>@code_warntype foo&#40;x&#41;</code></span></div></div>  <div class="img_output">
+<div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"><div class="julia_repl_NoFormat" style="padding-bottom:0.25em; padding-top:0.25em"><span style="padding-left:1em;"><div class="julia_line">julia&gt</div> <code>@code_warntype foo&#40;x&#91;2&#93;&#41;</code></span></div></div>  <div class="img_output">
     <p> <span style="padding-left:1em;"> 
           <img style="width:25%; height:auto; max-width:100%;" src="/julia_book/assets/PAGES/08e_TS-barrierFunctions/pics/05.png"/>
           </span>
@@ -3022,7 +3028,7 @@ end</code></pre> </div></div>
     </div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The effectiveness of a barrier function ultimately depends on how the function <code>foo</code> will be applied. In the given example, the barrier-function solution would be sufficient if <code>foo</code> is called only once. Instead, if <code>foo</code> is eventually called in a tight loop, the type instability of <code>2 * x&#91;2&#93;</code> would be incurred multiple times. In such cases, simultaneously addressing the type instability in <code>2 * x&#91;2&#93;</code> could lead to substantial performance benefits.</p>
+<p>The effectiveness of a barrier function ultimately hinges on how the function <code>foo</code> will be applied. In the given example, the barrier-function solution would be sufficient if <code>foo</code> is called only once. Instead, if <code>foo</code> is eventually called in a tight loop, the type instability of <code>2 * x&#91;2&#93;</code> would be incurred multiple times. In such cases, simultaneously addressing the type instability in <code>2 * x&#91;2&#93;</code> could lead to substantial performance benefits.</p>
 <p>      </div>
     </div>
   </div>

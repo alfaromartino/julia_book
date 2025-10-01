@@ -1643,9 +1643,9 @@ color: white;
     max-width : 100%;  
 }
 
-.gif-wrapper.playing {
+/* .gif-wrapper.playing {
   visibility: visible; 
-}
+} */
 
 .play-overlay {
   position        : absolute;
@@ -3103,12 +3103,12 @@ y &#61; sum&#40;x&#41;</code></pre> </div></div>
 <p>While it&#39;s true that operations in isolation may have an insignificant impact on a program&#39;s overall runtime, <strong>the relevance of benchmarks emerges when these operations are performed repeatedly</strong>. This includes cases where the operation is called in a for-loop or in iterative procedures &#40;e.g., solving systems of equations or maximizing functions&#41;. In these situations, small differences in timing are amplified as they are replicated hundreds, thousands, or even millions of times.</p>
  <h4> An Example </h4>
 <p>To illustrate this matter, let&#39;s consider a concrete example. Suppose we want to double each element of a vector <code>x</code>, and then calculate their sum. In the following, we&#39;ll compare two different approaches to accomplish this task.</p>
-<p>The first method will be based on <code>sum&#40;2 .* x&#41;</code> with <code>x</code> treated as a global variable. As we&#39;ll discuss in later sections, this approach is relatively inefficient. Instead, a more performance alternative is given by <code>sum&#40;a -&gt; 2 * a, x&#41;</code>, where <code>x</code> is passed as a function argument. For the purpose of this comparison, it&#39;s sufficient to note that both methods produce the same result, with the first one being less performant. The measured runtimes of each approach are as follows.</p>
+<p>The first method will be based on <code>sum&#40;2 .* x&#41;</code>, with <code>x</code> treated as a global variable. As we&#39;ll discuss in later sections, this approach is relatively inefficient. A more performant alternative is given by <code>sum&#40;a -&gt; 2 * a, x&#41;</code>, where <code>x</code> is passed as a function argument. While we haven&#39;t explained why this implementation is better, it&#39;s sufficient to note that both methods produce the same result. The measured runtimes of each approach are as follows.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Approach 1</button>
-    <button class="tablink" data-id=""> Approach 2 </button>
+    <button class="tablink first_tab active" data-id=""> Implementation 1</button>
+    <button class="tablink" data-id=""> Implementation 2 </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100_000&#41;
 
@@ -3129,8 +3129,8 @@ foo&#40;x&#41; &#61; sum&#40;a -&gt; 2 * a, x&#41;</code></pre> </div></div>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Approach 1 in a For-Loop </button>
-    <button class="tablink" data-id=""> Approach 2 in a For-Loop </button>
+    <button class="tablink first_tab active" data-id=""> Implementation 1 within a For-Loop </button>
+    <button class="tablink" data-id=""> Implementation 2 within a For-Loop </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100_000&#41;
 foo&#40;&#41;  &#61; sum&#40;2 .* x&#41;

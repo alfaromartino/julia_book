@@ -1643,9 +1643,9 @@ color: white;
     max-width : 100%;  
 }
 
-.gif-wrapper.playing {
+/* .gif-wrapper.playing {
   visibility: visible; 
-}
+} */
 
 .play-overlay {
   position        : absolute;
@@ -2888,7 +2888,7 @@ foo&#40;&#41; &#61; 3 * x</code></pre>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Functions and Methods</h2></p>
-<p>A <span style="color: rgb(62, 121, 180);"><strong>function</strong></span> is simply a name that can be associated with multiple implementations. Each of these implementations is called a <span style="color: rgb(62, 121, 180);"><strong>method</strong></span>. Methods define a specific function body for a given combination of argument types and number of arguments. The list of methods associated with a function <code>foo</code> can be retrieved by running the command <code>methods&#40;foo&#41;</code>.</p>
+<p>A <span style="color: rgb(62, 121, 180);"><strong>function</strong></span> is a name that can be associated with multiple implementations known as methods. A <span style="color: rgb(62, 121, 180);"><strong>method</strong></span> defines a specific function body for a given combination of argument types and number of arguments. The list of methods associated with a function <code>foo</code> can be retrieved by running the command <code>methods&#40;foo&#41;</code>.</p>
 <p>To make this concrete, let&#39;s define several methods for some function <code>foo</code>. Creating methods requires type-annotating <code>foo</code>&#39;s arguments with the operator <code>::</code> during its definition. By using this strategy, we can set a distinct body function for each unique combination of types.</p>
 <p>To keep matters simple, let&#39;s start considering a scenario where all the methods of <code>foo</code> have the same number of arguments. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -2993,7 +2993,7 @@ z &#61; sum&#40;log, x&#41;     # log&#40;2&#41; &#43; log&#40;3&#41; &#43; log&
       <div class="col-lg- mx-auto">
         <h2>Remarks on Type Inference</h2></p>
 <p>Below, we provide various remarks about type inference that are worth keeping in mind for next sections.</p>
- <h4> Functions Do Not Guarantee Concrete Types </h4>
+ <h4> Functions Do Not Guarantee Identification of Concrete Types </h4>
 <p>Merely wrapping code in a function doesn&#39;t guarantee that the compiler will identify concrete types for all operations. The following example illustrates this.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3008,13 +3008,13 @@ foo&#40;x&#41; &#61; x&#91;1&#93; &#43; x&#91;2&#93;        # type unstable</cod
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo&#40;x&#41;</code><br/><div class="akin_to_pre">3</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The issue in the example arises because the compiler assigns the type <code>Any</code> to both <code>x&#91;1&#93;</code> and <code>x&#91;2&#93;</code>, as they come from an object with type <code>Vector&#123;Any&#125;</code>. The consequence is that the compiler can&#39;t specialize the computation of the operation <code>&#43;</code>. The example also highlights that compilation is exclusively based on types, not values. Thus, the generated code ignores the actual values <code>x&#91;1&#93; &#61; 1</code> and <code>x&#91;2&#93; &#61; 2</code>, which would otherwise indicate a type <code>Int64</code>.</p>
+<p>The issue in the example arises because the compiler assigns the type <code>Any</code> to both <code>x&#91;1&#93;</code> and <code>x&#91;2&#93;</code>, as they come from an object with type <code>Vector&#123;Any&#125;</code>. As a consequece, the compiler can&#39;t specialize the computation of the operation <code>&#43;</code>. The example also highlights that compilation is exclusively based on types, not values. Thus, the generated code ignores the actual values <code>x&#91;1&#93; &#61; 1</code> and <code>x&#91;2&#93; &#61; 2</code>, which would otherwise indicate a type <code>Int64</code>.</p>
  <h4> Global Variables Inherit Their Global Type </h4>
-<p>Type inference is restricted to local variables, with any global variable have its type inherited from the global scope. For instance, consider the following example.</p>
+<p>Type inference is restricted to local variables, with any global variable having its type inherited from the global scope. For instance, consider the following example.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Global Variable  </button>    
+    <button class="tablink first_tab active" data-id=""> Unannotated Global Variable  </button>    
     <button class="tablink" data-id=""> Type-Annotated Global Variable </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
@@ -3041,20 +3041,20 @@ foo&#40;a&#41;    &#61; a * b</code></pre>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Type-Annotated Function </button>    
-    <button class="tablink" data-id=""> Unannotated Function </button>
+    <button class="tablink first_tab active" data-id=""> Unannotated Function </button>    
+    <button class="tablink" data-id="">  Type-Annotated Function </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"></p>
-<pre><code class="language-julia">foo1&#40;a::Float64, b::Float64&#41; &#61; a * b</code></pre>
-<p></div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo1&#40;0.5, 2.0&#41;</code><br/><div class="akin_to_pre">1.0</div> </div></p>
-<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo1&#40;1, 2&#41;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching foo1(::Int64, ::Int64)</div> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">foo2&#40;a, b&#41; &#61; a * b</code></pre>
 <p></div></div> 
 <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo2&#40;0.5, 2.0&#41;</code><br/><div class="akin_to_pre">1.0</div> </div></p>
 <p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo2&#40;1, 2&#41;</code><br/><div class="akin_to_pre">2</div> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
+<pre><code class="language-julia">foo1&#40;a::Float64, b::Float64&#41; &#61; a * b</code></pre>
+<p></div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo1&#40;0.5, 2.0&#41;</code><br/><div class="akin_to_pre">1.0</div> </div></p>
+<p><div class="julia_repl_NoFormat"> <div class="julia_line">julia&gt</div> <code>foo1&#40;1, 2&#41;</code><br/><div class="akin_to_pre"><span style="color: rgb(168, 50, 50); padding-left:-1px"><strong>ERROR</strong></span>: MethodError: no method matching foo1(::Int64, ::Int64)</div> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>The function on the first tab only accepts arguments of type <code>Float64</code>, implying that even integer variables are disallowed. By contrast, the function on the second tab mirrors the behavior with <code>Float64</code> inputs, but additionally allows for other types. This flexibility stems from the implicit type annotation <code>Any</code> on the function arguments.</p>

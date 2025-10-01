@@ -1643,9 +1643,9 @@ color: white;
     max-width : 100%;  
 }
 
-.gif-wrapper.playing {
+/* .gif-wrapper.playing {
   visibility: visible; 
-}
+} */
 
 .play-overlay {
   position        : absolute;
@@ -2877,13 +2877,13 @@ color: white;
 <p>The diagram below illustrates the difference between abstract and concrete types for scalars. In particular, we present the hierarchy of the type <code>Number</code>, where the labels included match the corresponding type name in Julia. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> The <code>Signed</code> subtype of <code>Integers</code> allows for the representation of negative and positive integers. Julia also offers the type <code>Unsigned</code>, which only accepts positive integers and comprises subtypes such as <code>UInt64</code> and <code>UInt32</code>.  </span></span></p>
 <p> <div class="multiple_pics">
   <h2 style="color:rgb(63, 99,136);"><div style="text-decoration:underline;">Hierarchy of Type Number</div></h2>
-    <img src="/julia_book/assets/PAGES/07d_TS-onTypes/tikz/supertypes_Number02.svg" style="width:90%; height:22em; margin-top:1em; margin-bottom:1em;max-width:100%;">  
+    <img src="/julia_book/assets/PAGES/07d_TS-onTypes/tikz/supertypes_Number02.svg" style="width:900px; height:auto; margin-top:1em; margin-bottom:1em;max-width:100%;">  
     <div style="padding-bottom:1.5em;width:75%;margin:0 auto;font-size:90%;"> <u><b>Note</b></u>: Dashed red borders indicate <span style="border: 2px dashed rgb(168, 50, 50); border-style: dashed dashed; padding: 2px;">abstract types</span>, while solid blue borders indicate <span style="border: 2px solid rgb(63, 99,136); padding: 2px;">concrete types</span>.  </div>
 </div> <br/></p>
 <p>The distinction between abstract and concrete types for scalars is relatively straightforward. Instead, the same distinction becomes more nuanced when vectors are considered, as shown in the diagram below. </p>
 <p> <div class="multiple_pics">
   <h2 style="color:rgb(63, 99,136);"><div style="text-decoration:underline;">Hierarchy of Type Vector</div></h2>
-    <img src="/julia_book/assets/PAGES/07d_TS-onTypes/tikz/supertypes_Vector02.svg" style="width:90%; height:22em; margin-top:1em; margin-bottom:1em;max-width:100%;">  
+    <img src="/julia_book/assets/PAGES/07d_TS-onTypes/tikz/supertypes_Vector02.svg" style="width:900px; height:auto; margin-top:1em; margin-bottom:1em;max-width:100%;">  
     <div style="padding-bottom:1.5em;width:75%;margin:0 auto;font-size:90%;"> <u><b>Note</b></u>: Dashed red borders indicate <span style="border: 2px dashed rgb(168, 50, 50); border-style: dashed dashed; padding: 2px;">abstract types</span>, while solid blue borders indicate <span style="border: 2px solid rgb(63, 99,136); padding: 2px;">concrete types</span>.  </div>
 </div> <br/></p>
 <p>The tree reveals that <code>Vector&#123;T&#125;</code> <strong>for a given type</strong> <code>T</code> <strong>is a concrete type</strong>. This means that variables can be instances of <code>Vector&#123;T&#125;</code>, where <code>Vector&#123;T&#125;</code> doesn&#39;t have subtypes. The consequence is that a vector like <code>Vector&#123;Int64&#125;</code> isn&#39;t a subtype of <code>Vector&#123;Any&#125;</code>, even though <code>Int64</code> is a subtype of <code>Any</code>. This behavior stands in stark contrast to scalars, where <code>Any</code> is an abstract type. However, it aligns perfectly with the concept of vectors as collections of  <em>homogeneous elements</em>, meaning that all elements share the same type.</p>
@@ -2982,7 +2982,7 @@ Vector&#123;Number&#125;  &lt;: Vector&#123;Any&#125;</code></pre>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Example </button>
-    <button class="tablink" data-id=""> Equivalent - Alternative Notation </button>    
+    <button class="tablink" data-id=""> Alternative (Equivalent) </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia"># all the statements below are &#96;true&#96;
@@ -3172,7 +3172,7 @@ end</code></pre>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Implicit "Any"  </button>
+    <button class="tablink first_tab active" data-id=""> "Any" (Implicit)  </button>
     <button class="tablink" data-id=""> "Any" with :: </button>
     <button class="tablink" data-id=""> "Any" with <: </button>
     <button class="tablink" data-id=""> Equivalent to <: </button>    

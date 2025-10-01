@@ -1643,9 +1643,9 @@ color: white;
     max-width : 100%;  
 }
 
-.gif-wrapper.playing {
+/* .gif-wrapper.playing {
   visibility: visible; 
-}
+} */
 
 .play-overlay {
   position        : absolute;
@@ -2850,11 +2850,11 @@ color: white;
     </div>
   </div>
 </section>
-<section id="functions_as_arguments_the_issue" class="scrollspy section-bg-color">
+<section id="the_issue" class="scrollspy section-bg-color">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
-        <h2>Functions as Arguments: The Issue</h2></p>
+        <h2>The Issue</h2></p>
 <p>In Julia,  <em>each function defines its own unique concrete type</em>. In turn, this concrete type is a subtype of an abstract type called <code>Function</code>. The type <code>Function</code> encompasses all possible functions defined in Julia. The design of the type system creates challenges when specializing the computation method of higher-order functions. Specifically, it can potentially lead to a combinatorial explosion of methods, where a unique method is generated for each callback function.</p>
 <p>To address this issue, Julia takes a conservative stance, <strong>often choosing not to specialize the methods of high-order functions</strong>. In particular, we&#39;ll see that Julia avoids specialization if the callback function isn&#39;t explicitly called. The performance in those cases can drop sharply, as the execution runtime would become similar to performing operations in the global scope. </p>
 <p>Given this, it&#39;s important to pinpoint the scenarios where specialization is inhibited and monitor its consequences. If you notice that performance is severely impaired, there are still ways to enforce specialization. In this section, we&#39;ll explore these strategies.</p>
@@ -2942,8 +2942,8 @@ end</code></pre> </div></div>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Type-Annotation </button>
-    <button class="tablink" data-id=""> Tuple </button>    
+    <button class="tablink first_tab active" data-id=""> Type-Annotated Function </button>
+    <button class="tablink" data-id=""> Function in Tuple </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
@@ -3602,7 +3602,7 @@ for multiple pics in a row
         </li>
         
         <li>
-          <a href="#functions_as_arguments_the_issue" data-offset="-40">Functions as Arguments: The Issue</a>
+          <a href="#the_issue" data-offset="-40">The Issue</a>
         </li>
         
         <li>

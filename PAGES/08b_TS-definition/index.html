@@ -1643,9 +1643,9 @@ color: white;
     max-width : 100%;  
 }
 
-.gif-wrapper.playing {
+/* .gif-wrapper.playing {
   visibility: visible; 
-}
+} */
 
 .play-overlay {
   position        : absolute;
@@ -3032,18 +3032,26 @@ end</code></pre>
 <p>Despite this, note that not all yellow warnings will necessarily escalate to a red warning when incorporated into a for-loop. The third tab illustrates this point, reinforcing that not all type instabilities are equally detrimental.</p>
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong>For-Loops and Yellow Warnings</strong>  </span>  </div>  <div class=content>     When running for-loops, a yellow warning will always be displayed, even if the operation is type stable. The warning can safely be disregarded in such cases, as it simply reflects the inherent behavior of iterators: they return either the next element to iterate over or <code>nothing</code> &#40;a value with type <code>Nothing</code>&#41; when the sequence is exhausted.</p>
-<p> <div class=" code_box"> <details  open><summary> For-Loop  </summary> <div class="code_inline"><div class="code_NoFormat"></p>
+<p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Yellow Warning in For-Loops </button>    
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">function foo&#40;&#41;
     for i in 1:100
         i
     end
 end</code></pre>
-<p></div> </div> <div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"><div class="julia_repl_NoFormat" style="padding-bottom:0.25em; padding-top:0.25em"><span style="padding-left:1em;"><div class="julia_line">julia&gt</div> <code>@code_warntype foo&#40;&#41;</code></span></div></div>  <div class="img_output">
+<p></div></div> 
+<div class="img_output_in_modal output_in_modal"><div class="sign_output">Output in REPL </div>  <div style="padding-bottom:0.5em;"><div class="julia_repl_NoFormat" style="padding-bottom:0.25em; padding-top:0.25em"><span style="padding-left:1em;"><div class="julia_line">julia&gt</div> <code>@code_warntype foo&#40;&#41;</code></span></div></div>  <div class="img_output">
     <p> <span style="padding-left:1em;"> 
           <img style="width:45%; height:auto; max-width:100%;" src="/julia_book/assets/PAGES/08b_TS-definition/pics/03.png"/>
           </span>
     </p>
-    </div> </div>   </details></div>  </div>  </div>
+    </div> </div> 
+ </div></div>
+<p>  </p></details></div>  </div>  </div>
 <p>      </div>
     </div>
   </div>

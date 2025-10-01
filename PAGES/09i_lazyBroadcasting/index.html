@@ -1643,9 +1643,9 @@ color: white;
     max-width : 100%;  
 }
 
-.gif-wrapper.playing {
+/* .gif-wrapper.playing {
   visibility: visible; 
-}
+} */
 
 .play-overlay {
   position        : absolute;
@@ -2863,8 +2863,8 @@ color: white;
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Broadcasting </button>
-    <button class="tablink" data-id=""> Rough Implementation </button>    
-    <button class="tablink" data-id=""> Actual Implementation </button>
+    <button class="tablink" data-id=""> Rough Internal Implementation </button>    
+    <button class="tablink" data-id=""> Actual Internal Implementation </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
 
@@ -3121,7 +3121,7 @@ foo&#40;x,β&#41; &#61; x * β</code></pre> </div></div>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Vector Operation (No Fusion) </button>
-    <button class="tablink" data-id=""> Equivalent Internal Representation </button>    
+    <button class="tablink" data-id=""> Internal Implementation  </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
@@ -3146,7 +3146,7 @@ end</code></pre> </div></div>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Partial Fusion </button>
-    <button class="tablink" data-id=""> Equivalent Internal Representation </button>
+    <button class="tablink" data-id=""> Internal Implementation </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;100&#41;
 
@@ -3194,13 +3194,21 @@ foo&#40;a&#41; &#61; a * 2 &#43; a * 3</code></pre> </div></div>
  </div></div>
 <p>  </p></details></div>
 <p>When several lengthy operations must be combined, the need to split them becomes inevitable. In such cases, we can still leverage the inherent laziness of function definitions. Loop fusion would then be achieved by defining each operation as a separate scalar function. </p>
- <div class=" code_box"> <details  open><summary> Loop Fusion Splitting Operations  </summary> <div class="code_inline"><div class="code_NoFormat"><pre><code class="language-julia">x        &#61; rand&#40;100&#41;
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Splitting Operations with Loop Fusion </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x        &#61; rand&#40;100&#41;
 
 term1&#40;a&#41; &#61; a * 2
 term2&#40;a&#41; &#61; a * 3
 
-foo&#40;a&#41;   &#61; term1&#40;a&#41; &#43; term2&#40;a&#41;</code></pre> </div> </div> <div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo.&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  35.346 ns (1 allocation: 896 bytes)
-</code></pre> </div></div> </div>   </details></div>
+foo&#40;a&#41;   &#61; term1&#40;a&#41; &#43; term2&#40;a&#41;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>@btime foo.&#40;&#36;x&#41;</code> <br/> <pre><code class="plaintext code-output">  35.346 ns (1 allocation: 896 bytes)
+</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
 <p>      </div>
     </div>
   </div>
@@ -3215,8 +3223,8 @@ foo&#40;a&#41;   &#61; term1&#40;a&#41; &#43; term2&#40;a&#41;</code></pre> </di
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Eager Broadcast </button>
-    <button class="tablink" data-id=""> Lazy Broadcast @~ </button>    
+    <button class="tablink first_tab active" data-id=""> Eager Broadcasting </button>
+    <button class="tablink" data-id=""> Lazy Broadcasting @~ </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x         &#61; rand&#40;100&#41;
 
@@ -3268,9 +3276,9 @@ foo&#40;x&#41; &#61; sum&#40;@~ 2 .* x&#41;</code></pre> </div></div>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Split with Functions </button>
-    <button class="tablink" data-id=""> Split with @~ </button>
-    <button class="tablink" data-id=""> Split with @~ (Equivalent) </button>    
+    <button class="tablink first_tab active" data-id=""> Splitting via Functions </button>
+    <button class="tablink" data-id=""> Splitting via @~ </button>
+    <button class="tablink" data-id=""> Splitting via @~ (Equivalent) </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;100&#41;
 
