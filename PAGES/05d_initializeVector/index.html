@@ -3092,10 +3092,10 @@ x                &#61; repeat&#40;vector_to_repeat, nr_repetitions&#41;</code></
         <h2>Adding, Removing, and Replacing Elements (<strong><i style="color:red">OPTIONAL</i></strong>)</h2></p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> </span>  </div>  <div class=content>     This subsection requires knowledge of a few <strong>concepts that we haven't discussed yet</strong>. As such, it&#39;s marked as optional.</p>
-<p>One such concept is <strong>in-place functions</strong>, identified by the symbol <code>&#33;</code> appended to the function&#39;s name. The symbol is simply a notation added by developers, hinting that the function modifies the value of at least one of its arguments. In-place functions will be explored thoroughly <a href="/julia_book/PAGES/05g_inplace_functions/">later</a>&#41;.</p>
-<p>Another concept introduced is <strong>pairs</strong>, which will also be examined comprehensively in <a href="/julia_book/PAGES/06b_namedtuples/#keys_and_values">a future section</a>. For the purposes of this subsection, it&#39;s sufficient to know that pairs are denoted by <code>a &#61;&gt; b</code>, where <code>a</code> in our application refers to some value and <code>b</code> represents its corresponding replacement value.  </div>  </div>
-<p>Next, we show how to add, remove, and replace elements of a vector. To add a single element in particular, the methods are as follows.</p>
+      <b>Warning!</b> </span>  </div>  <div class=content>     This subsection requires knowledge of a few <strong>concepts we haven't discussed yet</strong>. As such, it&#39;s marked as optional.</p>
+<p>One such concept is that of <strong>in-place functions</strong>, identified by the symbol <code>&#33;</code> appended to the function&#39;s name. The symbol is simply a convention chosen by developers to indicate that the function modifies at least one of its arguments. A detailed discussion of in-place functions will be <a href="/julia_book/PAGES/05g_inplace_functions/">provided later</a>.</p>
+<p>Another concept introduced is that of <strong>pairs</strong>, which will be throughly examined in <a href="/julia_book/PAGES/06b_namedtuples/#keys_and_values">a future section</a>too. For the purposes of this subsection, it&#39;s sufficient to know that pairs are written in the form <code>a &#61;&gt; b</code>. In our applications, <code>a</code> will represent a given value and <code>b</code> denotes its corresponding replacement value.  </div>  </div>
+<p>Next, we demonstrate how to add, remove, and replace elements within a vector. Below, we begin by presenting methods for adding a single element.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3150,7 +3150,7 @@ append&#33;&#40;x, vector_to_insert&#41;                # add 6 and 7 at the end
  7</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The function <code>push&#33;</code> is particularly helpful to collect results in a vector. This is because, as it doesn&#39;t require any prior knowledge about the number of elements to be stored, we can dynamically grow the vector by adding more results. Notice that adding elements at the end via <code>push&#33;</code> is faster than doing so at the beginning via <code>pushfirst&#33;</code>. </p>
+<p>The function <code>push&#33;</code> is particularly helpful to collect outputs in a vector. Since it doesn&#39;t require prior knowledge of how many elements will be stored, the vector can grow dynamically as new results are added. Notice that adding elements at the end with <code>push&#33;</code> is generally faster than inserting them at the beginning with <code>pushfirst&#33;</code>. </p>
 <p>Analogous functions exist to remove elements, as shown below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
@@ -3192,7 +3192,7 @@ deleteat&#33;&#40;x, indices_of_removal&#41;    # delete elements at indices 1 a
  6</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Emulating the behavior of <code>deleteat&#33;</code>, we can also indicate which elements should be retained.  </p>
+<p>By analogy with the behavior of <code>deleteat&#33;</code>, it&#39;s also possible to specify which elements should be retained.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3214,8 +3214,8 @@ keepat&#33;&#40;x, index_to_keep&#41;</code></pre> </div></div>
  6</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Finally, we can replace specific values with new ones. This can be done by creating a new copy via <code>replace</code> or by updating the original vector with <code>replace&#33;</code>. </p>
-<p>Both functions make use of pairs <code>a &#61;&gt; b</code>, where <code>a</code> is some value and <code>b</code> its corresponding replacement value. Note that these functions perform substitutions based on values, rather than indices.</p>
+<p>Finally, specific values can be replaced with new ones. This can be done by either creating a new copy using <code>replace</code> or by updating the original vector with <code>replace&#33;</code>. </p>
+<p>Both functions make use of pairs <code>a &#61;&gt; b</code>, where <code>a</code> denotes a given value and <code>b</code> specifies its replacement. Note that these functions perform substitutions based on values, not on indices.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3279,7 +3279,7 @@ y &#61; replace&#40;x, 3 &#61;&gt; 0, 5 &#61;&gt; 1&#41;   # new copy</code></pr
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified September 30, 2025 
+          © Martin Alfaro <br>Last Modified October 1, 2025 
       </span> 
   </div> 
 </footer>
