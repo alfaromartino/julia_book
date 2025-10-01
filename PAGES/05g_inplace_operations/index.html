@@ -2824,12 +2824,17 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>This section focuses on <span style="color: rgb(62, 121, 180);"><strong>in-place operations</strong></span>, a term that encompasses any method that mutates collections. These operations are characterized by the reuse of existing objects, rather than generating new ones, giving rise to the expression &quot; <em>modifying values in place</em>.&quot; </p>
-<p>Understanding whether an operation mutates an object or generates a new one is crucial, as the outcomes may differ depending on the application. Furthermore, even if results were identical, in-place modifications commonly entail performance benefits relative to the creation of new objects. This aspect will be explored in Part II of the website, when we discuss high performance.</p>
- <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
-      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b> Remark</b> </span>  </div>  <div class=content>     Before proceeding, I recommend reviewing the definitions of slices introduced <a href="/julia_book/PAGES/05e_slices/">in the previous section</a>. Recall that, given a vector <code>x</code>, a <strong>slice</strong> refers to a subset of <code>x</code>&#39;s elements selected via <code>x&#91;&lt;indices&gt;&#93;</code>. </p>
-<p>Moreover, a slice can act as a <strong>copy</strong>, in which case we&#39;re creating a new object with its own memory address. Alternatively, the slice can behave as a <strong>view</strong>, thereby referencing the original memory address of <code>x</code>. The distinction is crucial, as it&#39;ll determine whether modifying the slice will affect the original data or not.  </div>  </div>
+<p>This section focuses on <span style="color: rgb(62, 121, 180);"><strong>in-place operations</strong></span>, where the contents of an existing object are directly modified. Unlike operations that generate new objects, in-place operations are characterized by the reuse of existing objects, giving rise to the expression  <em>modifying values in place</em>.</p>
+<p>Distinguishing between mutations and the creation of new copies is essential. If an operation mutates an object, any other variable that references the same object will also reflect the change. This can be desirable when you intend to update shared data, but it can also introduce subtle bugs if you expected the original to remain intact. In-place modifications are also relevant for performance, as they tend to reduce the memory overhead introduced when new objects are created. This aspect will be explored in Part II of the website.</p>
+<p>At the heart of in-place operations is the concept of a slice <a href="/julia_book/PAGES/05e_slices/">introduced before</a>. Before proceeding, I recommend reviewing that section before moving forward.</p>
+<p>Essentially, a <strong>slice</strong> of a vector <code>x</code> is a subset of its elements, selected through the syntax <code>x&#91;&lt;indices&gt;&#93;</code>. Moreover, slices can behave in two distinct ways:  </p>
+<ul>
+<li><p>As a <strong>copy</strong>, in which case a new object with its own memory address is created.  </p>
+</li>
+<li><p>As a <strong>view</strong>, in which case the slice references the original memory of <code>x</code>.  </p>
+</li>
+</ul>
+<p>In what follows, we&#39;ll first examine how to mutate vectors by assigning new collections to their slices. From there, we&#39;ll cover the classic approach of using for-loops to modify elements one by one. Finally, we’ll present the broadcasting assignment operator <code>.&#61;</code>, which provides a concise tool for in-place updates.</p>
 <p>      </div>
     </div>
   </div>
@@ -2839,7 +2844,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Mutations Via Collections</h2></p>
-<p>A simple way to mutate a vector is to replace an entire slice with another collection. This is achieved using statements of the form <code>x&#91;&lt;indices&gt;&#93; &#61; &lt;expression&gt;</code>, where <code>&lt;expression&gt;</code> must match the length of <code>x&#91;&lt;indices&gt;&#93;</code>. The approach effectively mutates <code>x</code> because a slice on the left-hand side of <code>&#61;</code> behaves as a view, thus referencing the original object. Below, we provide a few examples of this approach. </p>
+<p>The most straightforward approach to mutating a vector is to replace an entire slice with another collection. This is achieved through statements of the form <code>x&#91;&lt;indices&gt;&#93; &#61; &lt;expression&gt;</code>, where <code>&lt;expression&gt;</code> must match the length of <code>x&#91;&lt;indices&gt;&#93;</code>. Because slices on the left-hand side of <code>&#61;</code> act as views, the assignment effectively modifies the original vector <code>x</code>, rather than creating a new one.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2863,7 +2868,7 @@ x&#91;x .≥ 2&#93; &#61; &#91;2, 3&#93; .* 10</code></pre> </div></div>
  30</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>A common application of this method involves defining <code>&lt;expression&gt;</code> through elements from either the original vector or the slice being modified. This allows for self-referencing updates of the variable.</p>
+<p>A common use case is when <code>&lt;expression&gt;</code> itself depends on either elements of the original vector or on the slice being modified itself. This allows for self-referential updates, where the new values are computed from the old ones.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2887,7 +2892,7 @@ x&#91;x .≥ 2&#93; &#61; x&#91;x .≥ 2&#93; .* 10</code></pre> </div></div>
  30</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Importantly for the mutations via for-loops, a scalar can be used on the right-hand side of <code>&#61;</code> for single-element slices. </p>
+<p>Importantly, when the left-hand side is a single-element slice, the right-hand side of <code>&#61;</code> accepts a scalar. This property will be particularly relevant when we present mutations via for-loops.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2904,12 +2909,12 @@ x&#91;3&#93;      &#61; 30</code></pre> </div></div>
 <p>  </p></details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Vectors can only be mutated by objects of the same type </span>  </div>  <div class=content>     When a vector is defined, the type of elements that the vector can hold is implicitly defined. Consequently, attempting to replace elements with a different type will result in an error. For instance, the following examples only admit mutations with values of type <code>Int64</code>.</p>
+      <b>Warning!</b> - Vectors can only be mutated by objects of the same type </span>  </div>  <div class=content>     When a vector is created, the type of its elements is implicitly defined. Consequently, attempting to replace elements with a different type will result in an error. For instance, a vector of type <code>Int64</code> can only be mutated with other <code>Int64</code> values or <code>Float64</code> values that can be converted into it. This is shown below. </p>
 <p> <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Mutation Not Allowed </button>
-    <button class="tablink" data-id=""> Mutation Allowd (Automatic Conversion) </button>    
+    <button class="tablink" data-id=""> Mutation Allowed (Automatic Conversion) </button>    
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"></p>
 <pre><code class="language-julia">x         &#61; &#91;1, 2, 3&#93;    # Vector&#123;Int64&#125;
@@ -2938,8 +2943,8 @@ x&#91;2:3&#93;    &#61; &#91;3.0, 4&#93;     # 3.0 is Float64 but accepts conver
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Mutations Via For-Loops</h2></p>
-<p>Replacing a single-element slice with a scalar value enables mutations through for-loops. This is implemented by substituting the value of a single element during each iteration.</p>
-<p>To illustrate the procedure, let&#39;s consider a typical application of this approach: populating vectors with values. The process involves initializing a vector, and then iterating over its elements to assign desired values.</p>
+<p>Previously, we indicated that single-element slices on the left-hand side of <code>&#61;</code> permit seamless mutations with scalar values. Thus, statements like <code>x&#91;i&#93; &#61; 0</code> directly updates the element at position <code>i</code>, without requiring a collection on the right-hand side. Extending this idea, multiple elements of a vector can be updated within a for-loop.</p>
+<p>A common use case of this approach arises when populating a vector with values. Typically, this involves first initializing a vector, whose initial contents are irrelevant, and then iterating over its elements with a for-loop to assign the desired values. The strategy is especially prevalent when storing outputs generated during a computation.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2967,8 +2972,8 @@ end</code></pre> </div></div>
  0</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>The approach relies on <code>x&#91;i&#93;</code> on the left-hand side of <code>&#61;</code> acting as a view. Alternatively, we could leverage the function <code>view</code> to create a variable that contains all the elements to be modified. This allows us to work with for-loops that mutate entire objects, rather than a subset of the original object. </p>
-<p>The following example demonstrates this by mutating a vector of zeros. Note that the function <code>zeros</code> defaults to zeros with type <code>Float64</code>, explaining why <code>1</code> is automatically converted to <code>1.0</code>.</p>
+<p>The approach presented above relies on <code>x&#91;i&#93;</code> on the left-hand side of <code>&#61;</code>, ensuring each element is treated as a view. However, an alternative strategy is to leverage the function <code>view</code>. This function enables the creation of a variable that contains all the elements to be modified. In doing so, the mutation can be performed directly on the entire object created, rather than repeatedly accessing elements from the original object. </p>
+<p>In the following, we illustrate the technique by mutating a vector initialized with zeros. Note that the function <code>zeros</code> defaults to zeros with type <code>Float64</code>, explaining why <code>1</code> is automatically converted to <code>1.0</code>.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3000,7 +3005,7 @@ end</code></pre> </div></div>
 <p>  </p></details></div>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - For-Loops Should be Wrapped in Functions </span>  </div>  <div class=content>     Recall that for-loops should always be wrapped in functions, as failing to do so severely affects performance. In the next section, where we&#39;ll cover mutating functions, mutations via for-loops will be revisited.  </div>  </div>
+      <b>Warning!</b> - For-Loops Should Always be Wrapped in Functions </span>  </div>  <div class=content>     In the example above, we left the for-loop outside a function to highlight the mutating strategy. In practice, however, placing for-loops in the global scope is highly discouraged: it not only severely hurts performance, but also introduces different variable-scoping rules. In fact, earlier versions of Julia completely disallowed mutations in the global scope through for-loops. To perform mutations via for-loops within functions, though, we first need to introduce the concept of mutating functions. This is done in the next section, where we&#39;ll return to this subject.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -3010,8 +3015,8 @@ end</code></pre> </div></div>
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Mutations Via .= </h2></p>
-<p>In terms of syntax, broadcasting serves as a streamlined alternative to for-loops. This principle even extends to mutations, which can be implemented by broadcasting the assignment operator <code>&#61;</code>. The syntax for this is <code>x&#91;&lt;indices&gt;&#93; .&#61; &lt;expression&gt;</code>, where <code>&lt;expression&gt;</code> can be either a  <em>vector</em> or a  <em>scalar</em>. </p>
-<p>In the specific case of <code>x&#91;&lt;indices&gt;&#93;</code> on the left-hand side and a vector for <code>&lt;expression&gt;</code>, the <code>.&#61;</code> operator produces the same outcome as using <code>&#61;</code> with a corresponding collection. In fact, using <code>&#61;</code> rather than <code>.&#61;</code> in these cases tends to be more performant. </p>
+<p>Broadcasting provides a streamlined alternative to for-loops, and this principle extends to mutations as well. The implementation is based on the broadcasting of the assignment operator <code>&#61;</code>, denoted as <code>.&#61;</code>. Specifically, the syntax is <code>x&#91;&lt;indices&gt;&#93; .&#61; &lt;expression&gt;</code>, where <code>&lt;expression&gt;</code> can be either a  <em>vector</em> or a  <em>scalar</em>. </p>
+<p>In the particular case of <code>x&#91;&lt;indices&gt;&#93;</code> on the left-hand side of <code>.&#61;</code> and a vector for <code>&lt;expression&gt;</code>, the <code>.&#61;</code> operator produces the same outcome as using <code>&#61;</code> with a corresponding collection. In fact, using <code>&#61;</code> rather than <code>.&#61;</code> tends to be more performant in those cases.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3035,17 +3040,19 @@ x&#91;1:2&#93; .&#61; x&#91;1:2&#93; .* 10    # identical output &#40;less perfo
   5</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Considering this, the primary use cases of <code>.&#61;</code> for mutating <code>x</code> involve expressions like:</p>
+<p>Considering this, the primary use cases of <code>.&#61;</code> for mutating <code>x</code> is for expressions such as:</p>
 <ul>
-<li><p><code>x&#91;&lt;indices&gt;&#93; .&#61; &lt;scalar&gt;</code>, and </p>
+<li><p><code>x&#91;&lt;indices&gt;&#93;.&#61; &lt;scalar&gt;</code>,</p>
 </li>
-<li><p><code>y .&#61; &lt;expression&gt;</code> where <code>y</code> is either a view of <code>x</code> or <code>x</code> itself.</p>
+<li><p><code>x .&#61; &lt;expression&gt;</code>, and</p>
+</li>
+<li><p><code>y .&#61; &lt;expression&gt;</code> where <code>y</code> is a view of <code>x</code>.</p>
 </li>
 </ul>
 <p>Next, we analyze each case separately.</p>
- <h4> Scalars on the Right-Hand Side of &#61; </h4>
-<p>Applying <code>&#61;</code> to replace multiple elements with the  <em>same</em> scalar value requires a collection matching the number of elements being substituted. However, with the <code>.&#61;</code> operator, you can streamline the process by simply writing <code>x&#91;&lt;indices&gt;&#93; .&#61; &lt;scalar&gt;</code>.</p>
-<p>For instance, the following code snippet uses this approach to replace every negative value in <code>x</code> with zero.</p>
+ <h4> Scalars on the Right-Hand Side of .&#61; </h4>
+<p>A common mutation scenario arises when multiple elements must be replaced with the  <em>same</em> scalar value. Using the standard assignment operator <code>&#61;</code> requires providing a collection on the right-hand side whose length matches the number of elements on the left. This not only introduces unnecessary boilerplate, but also assumes prior knowledge of the elements being replaced.</p>
+<p>The broadcasting assignment operator <code>.&#61;</code> makes such operations much simpler, simply requiring the execution of <code>x&#91;&lt;indices&gt;&#93; .&#61; &lt;scalar&gt;</code>. The following code snippet employs this strategy to replace every negative value in <code>x</code> with zero.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3060,10 +3067,10 @@ x&#91;x .&lt; 0&#93; .&#61; 0</code></pre> </div></div>
  1</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
- <h4> Variables on the Left-Hand Side of &#61; </h4>
-<p>Since both mutations and assignments rely on <code>&#61;</code>, it&#39;s essential to <strong>distinguish between in-place operations and reassignments</strong>. In particular, the latter doesn&#39;t modify the original object, but actually creates a new one.</p>
-<p>We&#39;ve already shown that placing slices on the left-hand side of <code>&#61;</code> results in mutations. Now, let&#39;s consider cases where an entire object like <code>x</code> appears on the left-hand side. In these cases, we need to be careful, as only <code>.&#61;</code> will result in a mutation, whereas <code>&#61;</code> will perform a reassignment.</p>
-<p>For example, suppose our goal is to modify  <em>all</em> the elements of a vector <code>x</code>. All the following approaches determine that <code>x</code> holds the same values, but only the last two achieve this by mutating <code>x</code>.</p>
+ <h4> Object Itself on the Left-Hand Side of .&#61; </h4>
+<p>We&#39;ve already shown that the inclusion of terms like <code>x&#91;indices&#93;</code> on the left-hand side of <code>&#61;</code> results in mutations. Now, let&#39;s turn to cases where an entire object appears on the left-hand side. Here, we focus on the case where the object is <code>x</code> itself, deferring the case of slices defined via <code>view</code> until the next subsection. </p>
+<p>In these scenarios, we need to carefully <strong>distinguish between in-place operations and reassignments</strong>, which depends on whether <code>.&#61;</code> or <code>&#61;</code> is employed. It&#39;s only when <code>.&#61;</code> is placed in the operation that a mutation takes place. Instead, <code>&#61;</code> will perform a reassignment, creating a new object at a new memory address. While the distinction seems irrelevant since <code>x</code> will ultimately hold the new values, we&#39;ll see in Part II of the website that the distinction actually matters for performance.</p>
+<p>To illustrate, suppose our goal is to modify  <em>all</em> the elements of a vector <code>x</code>. All the following approaches determine that <code>x</code> ends up holding the new values, but only the last two achieve this by mutation of <code>x</code>. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3096,14 +3103,19 @@ x&#91;:&#93; &#61; x .* 10</code></pre> </div></div>
  30</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>Notice that the difference between approaches could go unnoticed, as they all yield the same outcome. However, we&#39;ll see in Part II of the website that these approaches can entail big differences in performance. In particular, reusing the original memory address of <code>x</code> tends to be more performant than creating a new memory address for <code>x</code>. </p>
-<p>This difference will also manifest when using the macro <code>@.</code> for a seamless broadcasting. Depending on where <code>@.</code> is placed relative to <code>&#61;</code>, we could end up with an assignment or a mutation. </p>
+<p>This risk of mixing up <code>.&#61;</code> and <code>&#61;</code> becomes even greater when using the <code>@.</code> macro for broadcasting, rather than manually inserting dots into each operator. The placement of <code>@.</code> relative to <code>&#61;</code> determines whether the operation is a reassignment or a mutation. Specifically:</p>
+<ul>
+<li><p>If <code>@.</code> appears  <em>before</em> <code>&#61;</code>, <code>x</code> is mutated since <code>.&#61;</code> is being used.</p>
+</li>
+<li><p>If <code>@.</code> instead appears after <code>&#61;</code>, only the right-hand side is broadcasted and the assignment is performed with <code>&#61;</code>. This results in a reassignment, rather than a mutation. </p>
+</li>
+</ul>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Mutation </button>    
-    <button class="tablink" data-id=""> Mutation</button>
-    <button class="tablink" data-id=""> New Object (Assignment) </button>
+    <button class="tablink first_tab active" data-id=""> Mutation (Intended Operation)  </button>    
+    <button class="tablink" data-id=""> Mutation (Equivalent via @.)</button>
+    <button class="tablink" data-id=""> Reassignment Using @.  </button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x    &#61; &#91;1, 2, 3&#93;
 
@@ -3130,40 +3142,22 @@ x    &#61; @. x * 10</code></pre> </div></div>
  30</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
- <h4> View Aliases on the Left-Hand Side of &#61; </h4>
-<p>The previous case exemplified a scenario where the ultimate outcome is the same, regardless of whether we employ <code>&#61;</code> or <code>.&#61;</code>. Instead, the results will differ when view aliases are on the left-hand side. View aliases allow us to work with <code>slice &#61; view&#40;x, &lt;indices&gt;&#41;</code>, rather than <code>x&#91;&lt;indices&gt;&#93;</code>. Defining view aliases is convenient when we need to perform various operations over the same slice. This avoids repeatedly referencing the slice via <code>x&#91;&lt;indices&gt;&#93;</code>, which would be inefficient, error-prone, and tedious. </p>
-<p>In these cases, it&#39;s only when we use <code>.&#61;</code> that we&#39;ll perform a mutation. </p>
- <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
- <div class="tab_wrapper">
- <div class="tab_code_links">
-    <button class="tablink first_tab active" data-id=""> Mutation</button>
-    <button class="tablink" data-id=""> Wrong Use (Reassignment) </button>    
-</div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1, 2, 3&#93;
-
-slice  &#61; view&#40;x, x .≥ 2&#41;
-slice .&#61; slice .* 10        # same as &#39;x&#91;x .≥ 2&#93; &#61; x&#91;x .≥ 2&#93; .* 10&#39;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
-  1
- 20
- 30</code></pre> </div></div> </div> 
- </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1, 2, 3&#93;
-
-slice  &#61; view&#40;x, x .≥ 2&#41;
-slice  &#61; slice .* 10        # this does NOT modify &#96;x&#96;</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
- 1
- 2
- 3</code></pre> </div></div> </div> 
- </div></div>
-<p>  </p></details></div>
-<p>There are a few additional incorrect uses that can emerge with view aliases. To demonstrate them, let&#39;s consider replacing all negative values in <code>x</code> with zero. Below, only the first approach achieves the desired outcome.</p>
+ <h4> View Aliases on the Left-Hand Side of .&#61; </h4>
+<p>Let&#39;s continue with our analysis of entire objects on the left-hand side of <code>.&#61;</code>. Our focus now shifts to <span style="color: rgb(62, 121, 180);"><strong>view aliases</strong></span>: variables such as <code>slices</code> defined by <code>slices &#61; view&#40;x&#91;&lt;indices&gt;&#93;&#41;</code>. </p>
+<p>View aliases allow us to work directly with <code>slice</code> on the left-hand side, rather than <code>x&#91;&lt;indices&gt;&#93;</code>. The introduction of this variable is especially convenient when performing multiple operations on the same slice. It avoids repeated references to <code>x&#91;&lt;indices&gt;&#93;</code>, which would be inefficient, error-prone, and tedious. </p>
+<p>As before, it&#39;s crucial to distinguish between using <code>.&#61;</code> and <code>&#61;</code>. In particular, only <code>.&#61;</code> will perform a mutation, while <code>&#61;</code> will result in a reassignment. With view aliases, however, additional care is required. The intended workflow involves first defining a slice &#40;an assignment over a view&#41; and then mutating that slice. This structure determines that there are now two possible wrong uses: </p>
+<ul>
+<li><p>the initial assignment is performed over a copy of <code>x&#91;&lt;indices&gt;&#93;</code>, rather than a view of <code>x&#91;indices&#93;</code>.</p>
+</li>
+<li><p>the second step performs a reassignment &#40;<code>&#61;</code>&#41;, rather than a mutation &#40;<code>.&#61;</code>&#41;. </p>
+</li>
+</ul>
+<p>Below, we illustrate the correct usage, followed by these two incorrect patterns. The aim is to replace all negative values in <code>x</code> with zero. </p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
     <button class="tablink first_tab active" data-id=""> Mutation </button>
-    <button class="tablink" data-id=""> Wrong Use (Copy Creation)</button>
+    <button class="tablink" data-id=""> Wrong Use (Copy)</button>
     <button class="tablink" data-id=""> Wrong Use (Reassignment)</button>
 </div><div data-id="" class="tabcontent active">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;-2, -1, 1&#93;
@@ -3192,6 +3186,42 @@ slice  &#61; 0                  # this does NOT modify &#96;x&#96;</code></pre> 
  -2
  -1
   1</code></pre> </div></div> </div> 
+ </div></div>
+<p>  </p></details></div>
+<p>Note that mutations with view aliases also allow <code>slice</code> to be included on the right-hand side of <code>&#61;</code>. Below, we provide again the correct implementation, along with the two incorrect ones.</p>
+ <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
+ <div class="tab_wrapper">
+ <div class="tab_code_links">
+    <button class="tablink first_tab active" data-id=""> Mutation</button>
+    <button class="tablink" data-id=""> Wrong Use (Copy) </button>
+    <button class="tablink" data-id=""> Wrong Use (Reassignment) </button>
+</div><div data-id="" class="tabcontent active">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1, 2, 3&#93;
+
+slice  &#61; view&#40;x, x .≥ 2&#41;
+slice .&#61; slice .* 10        # same as &#39;x&#91;x .≥ 2&#93; &#61; x&#91;x .≥ 2&#93; .* 10&#39;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+  1
+ 20
+ 30</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1, 2, 3&#93;
+
+slice  &#61; x&#91;x .≥ 2&#93;          # &#39;slice&#39; is a copy
+slice  &#61; slice .* 10        # this does NOT modify &#96;x&#96;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 1
+ 2
+ 3</code></pre> </div></div> </div> 
+ </div><div data-id="" class="tabcontent">
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; &#91;1, 2, 3&#93;
+
+slice  &#61; view&#40;x, x .≥ 2&#41;
+slice  &#61; slice .* 10        # this does NOT modify &#96;x&#96;</code></pre> </div></div> 
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div> <code>x</code> <br/> <pre><code class="plaintext code-output">3-element Vector{Int64}:
+ 1
+ 2
+ 3</code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>      </div>

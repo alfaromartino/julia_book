@@ -267,6 +267,12 @@ slice  = view(x, x .≥ 2)
 slice  = slice .* 10        # this does NOT modify `x`
 print_asis(x) #hide
  
+x      = [1, 2, 3]
+
+slice  = x[x .≥ 2]          # 'slice' is a copy
+slice  = slice .* 10        # this does NOT modify `x`
+print_asis(x) #hide
+ 
 ####################################################
 #	WARNING ABOUT THE USE OF .= AND VIEW
 ####################################################
