@@ -14,83 +14,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="author" content="Martin Alfaro">
   
-
-  <!-- FRANKLIN DEFINED - LATEX AND CODE HIGHLIGHTS -->
-   <!-- HERE WE ADD ANY CSS ELEMENT WE WANT TO ADD
-(don't confuse head with header, head applies globally) -->
-
-<link rel="stylesheet" href="/julia_book/libs/katex/katex.min.css">
-
-<!-- FOR LATEX -->
-<!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css"></link> -->
-
-<!-- <link rel="stylesheet" 
-href="https://fonts.googleapis.com/css?family=Open+Sans"></link> -->
-<!-- Montserrat|Roboto|Lato|Raleway|Work+Sans|Raleway -->     
-   <link rel="stylesheet" href="/julia_book/libs/highlight/styles/vs_myversion.css">
-   
-
-  <link rel="stylesheet" href="/julia_book/css/bootstrap.min.css">
-  <style>
-.section-bg-color {
-  background-color: rgba(63, 99, 136, 0.07);
-}
-
-footer a {
-  color: cornflowerblue;
-}
+  <!-- FOR DARK MODE -->
+    <!-- Inline script in <head> ensures dark mode is applied before first paint -->
+  <script>
+    (function() {
+      const darkMode = localStorage.getItem('darkMode');
+      if (darkMode === 'enabled' ||
+         (!darkMode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+      }
+    })();
+  </script>
 
 
-
-  header {
-    margin-top: 0px !important;
-  }
-
-
-
-header .jumbotron {
-  background-image: linear-gradient(to right, black, rgb(0, 0, 0) 10%, rgb(63,99,136) 55%, rgb(63,99,136));;
-  background-repeat: no-repeat;  
-  background-size: 100%;  
-}
-</style>
-  <link rel="stylesheet" href="/julia_book/css/custom.css">
-
-    
-<!-- WINDOWS TAB -->
-  <title>5d. Initializing Vectors - Julia Book - Martin Alfaro</title>
-  <link rel="icon" type="image/png"  href="/julia_book/assets/icons/favicon.ico">
-
-<!-- for LUNR -->
-  <script src="/julia_book/libs/lunr/lunr.min.js"></script>
-  <script src="/julia_book/libs/lunr/lunr_index.js"></script>
-  <script src="/julia_book/libs/lunr/lunrclient.min.js"></script>
-</head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-K96JNP7PKB"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-K96JNP7PKB');
-</script>
-<!-- end of google tag -->
-
-
-
-<body id="page-top">
-  <!-- HERE WE ADD ALL THE HTML ELEMENTS (PAGES) WE WANT TO ADD TO THE SITE, FOR INSTANCE THE SIDEBAR -->
-
-
-
-<!-- 
-#################################################
-# FOR EACH SPECIFIC PAGE
-#################################################
- -->
- 
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Poppins|Crimson+Text|Cardo|Ubuntu"></link> -->
 <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans"></link> -->
 <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter"></link> -->
@@ -120,6 +56,84 @@ header .jumbotron {
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     
+ 
+ 
+  <!-- FRANKLIN DEFINED - LATEX AND CODE HIGHLIGHTS -->
+   <!-- HERE WE ADD ANY CSS ELEMENT WE WANT TO ADD
+(don't confuse head with header, head applies globally) -->
+
+<link rel="stylesheet" href="/julia_book/libs/katex/katex.min.css">
+
+<!-- FOR LATEX -->
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css"></link> -->
+
+<!-- <link rel="stylesheet" 
+href="https://fonts.googleapis.com/css?family=Open+Sans"></link> -->
+<!-- Montserrat|Roboto|Lato|Raleway|Work+Sans|Raleway -->     
+   <link rel="stylesheet" href="/julia_book/libs/highlight/styles/vs_myversion.css">
+   
+
+    <link rel="stylesheet" href="/julia_book/css/bootstrap.min.css">
+  <style>
+.section-bg-color {
+  background-color: rgba(63, 99, 136, 0.07);
+}
+
+footer a {
+  color: cornflowerblue;
+}
+
+
+
+  header {
+    margin-top: 0px !important;
+  }
+
+
+
+header .jumbotron {
+  background-image: linear-gradient(to right, black, rgb(0, 0, 0) 10%, rgb(63,99,136) 55%, rgb(63,99,136));;
+  background-repeat: no-repeat;  
+  background-size: 100%;  
+}
+</style>
+  <link rel="stylesheet" href="/julia_book/css/custom.css">
+
+
+<!-- WINDOWS TAB -->
+  <title>5d. Initializing Vectors - Julia Book - Martin Alfaro</title>
+  <link rel="icon" type="image/png"  href="/julia_book/assets/icons/favicon.ico">
+
+  
+<!-- for LUNR 
+  <script src="/julia_book/libs/lunr/lunr.min.js"></script>
+  <script src="/julia_book/libs/lunr/lunr_index.js"></script>
+  <script src="/julia_book/libs/lunr/lunrclient.min.js"></script> -->
+</head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K96JNP7PKB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-K96JNP7PKB');
+</script>
+<!-- end of google tag -->
+
+
+
+<body id="page-top">
+  <!-- HERE WE ADD ALL THE HTML ELEMENTS (PAGES) WE WANT TO ADD TO THE SITE, FOR INSTANCE THE SIDEBAR -->
+
+
+
+<!-- 
+#################################################
+# FOR EACH SPECIFIC PAGE
+#################################################
+ -->
  
 
  
@@ -1041,27 +1055,29 @@ color: white;
   
   
   
+  
   <script>
-    document.getElementById('toggleStyles').addEventListener('change', function() {
-    const root = document.documentElement; // Reference to <html>
-    if (this.checked) {
-      root.classList.add('dark-mode');       // Add class to <html>
-      localStorage.setItem('darkMode', 'enabled');
-    } else {
-      root.classList.remove('dark-mode');    // Remove class from <html>
-      localStorage.setItem('darkMode', 'disabled');
-    }
-  });
-  
-  window.addEventListener('load', function() {
-    const root = document.documentElement;
-    var darkMode = localStorage.getItem('darkMode');
-    if (darkMode === 'enabled') {
-      document.getElementById('toggleStyles').checked = true;
-      root.classList.add('dark-mode');       // Add class to <html> on load
-    }
-  });
-  
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('toggleStyles');
+      const root = document.documentElement;
+
+      function setDarkMode(enabled) {
+        root.classList.toggle('dark-mode', enabled);
+        localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
+        toggle.checked = enabled;
+      }
+
+      // Load preference
+      const saved = localStorage.getItem('darkMode');
+      if (saved) {
+        setDarkMode(saved === 'enabled');
+      } else {
+        setDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+
+      // Listen for user toggle
+      toggle.addEventListener('change', () => setDarkMode(toggle.checked));
+    });
   </script>
 
   <!-- NOTE THAT FOR DARK MOBILE WE NEED TO CHECK `allPages_leftbar_mobile.html` -->
@@ -3279,7 +3295,7 @@ y &#61; replace&#40;x, 3 &#61;&gt; 0, 5 &#61;&gt; 1&#41;   # new copy</code></pr
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified October 1, 2025 
+          © Martin Alfaro <br>Last Modified October 3, 2025 
       </span> 
   </div> 
 </footer>

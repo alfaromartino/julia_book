@@ -1,0 +1,43 @@
+<head>
+  <!-- Inline script in <head> ensures dark mode is applied before first paint -->
+  <script>
+    (function() {
+      const darkMode = localStorage.getItem('darkMode');
+      if (darkMode === 'enabled' ||
+         (!darkMode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark-mode');
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Your dark mode toggle -->
+  <label>
+    <input type="checkbox" id="toggleStyles"> Dark Mode
+  </label>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('toggleStyles');
+      const root = document.documentElement;
+
+      function setDarkMode(enabled) {
+        root.classList.toggle('dark-mode', enabled);
+        localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
+        toggle.checked = enabled;
+      }
+
+      // Load preference
+      const saved = localStorage.getItem('darkMode');
+      if (saved) {
+        setDarkMode(saved === 'enabled');
+      } else {
+        setDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+
+      // Listen for user toggle
+      toggle.addEventListener('change', () => setDarkMode(toggle.checked));
+    });
+  </script>
+</body>
