@@ -13,9 +13,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="author" content="Martin Alfaro">
+
+  <!-- FOR DARK MODE -->
+   <!-- Early script to prevent white flash -->
+  <script>    
+    function applySavedTheme() {
+      const darkMode = localStorage.getItem('darkMode');
+      if (darkMode === 'enabled') {
+        document.documentElement.classList.add('dark-mode');
+      }
+    }
+    
+    // Execute immediately
+    applySavedTheme();
+  </script>
   
-  
-  
+
+  <!--FONTS  -->
+
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Poppins|Crimson+Text|Cardo|Ubuntu"></link> -->
+<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans"></link> -->
+<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter"></link> -->
+
+<!-- 
+<style>
+    @font-face {
+        font-family: 'Open Sans';
+        src:
+            /* url('/libs/fonts/OpenSans/OpenSans-Regular.ttf'), */
+            url('libs/fonts/OpenSans/OpenSans-VariableFont_wdth,wght.ttf'),
+            url('libs/fonts/OpenSans/OpenSans-Italic-VariableFont_wdth,wght.ttf');
+        font-variation-settings: 'wght' 100 1000, 'wdth' 25 100;
+    }
+
+    @font-face {
+        font-family: 'Inter';
+        src:
+            /* url('libs/fonts/Inter/Inter-Regular.ttf'); */
+            url('libs/fonts/Inter/Inter-VariableFont_slnt,wght.ttf'),
+            /* font-variation-settings: 'wght' 100 1000, 'wdth' 25 100; */
+    }
+</style> -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+ 
+
+
+
 
  
   <!-- FRANKLIN DEFINED - LATEX AND CODE HIGHLIGHTS -->
@@ -96,37 +143,6 @@ header .jumbotron {
  
 
  
-    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Poppins|Crimson+Text|Cardo|Ubuntu"></link> -->
-<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans"></link> -->
-<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter"></link> -->
-
-<!-- 
-<style>
-    @font-face {
-        font-family: 'Open Sans';
-        src:
-            /* url('/libs/fonts/OpenSans/OpenSans-Regular.ttf'), */
-            url('libs/fonts/OpenSans/OpenSans-VariableFont_wdth,wght.ttf'),
-            url('libs/fonts/OpenSans/OpenSans-Italic-VariableFont_wdth,wght.ttf');
-        font-variation-settings: 'wght' 100 1000, 'wdth' 25 100;
-    }
-
-    @font-face {
-        font-family: 'Inter';
-        src:
-            /* url('libs/fonts/Inter/Inter-Regular.ttf'); */
-            url('libs/fonts/Inter/Inter-VariableFont_slnt,wght.ttf'),
-            /* font-variation-settings: 'wght' 100 1000, 'wdth' 25 100; */
-    }
-</style> -->
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
- 
-
-
  
 <!-- format -->
  
@@ -1043,27 +1059,30 @@ color: white;
   
   
   
-    <script>
-    document.getElementById('toggleStyles').addEventListener('change', function() {
-    const root = document.documentElement; // Reference to <html>
-    if (this.checked) {
-      root.classList.add('dark-mode');       // Add class to <html>
-      localStorage.setItem('darkMode', 'enabled');
-    } else {
-      root.classList.remove('dark-mode');    // Remove class from <html>
-      localStorage.setItem('darkMode', 'disabled');
-    }
-  });
   
-  window.addEventListener('DOMContentLoaded', function() {
-    const root = document.documentElement;
-    var darkMode = localStorage.getItem('darkMode');
-    if (darkMode === 'enabled') {
-      document.getElementById('toggleStyles').checked = true;
-      root.classList.add('dark-mode');       // Add class to <html> on load
-    }
-  });
-  
+  <script>
+    // Main functionality after DOM loads
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleSwitch = document.getElementById('toggleStyles');
+      const root = document.documentElement;
+      
+      // Set initial state based on localStorage
+      const darkMode = localStorage.getItem('darkMode');
+      if (darkMode === 'enabled') {
+        toggleSwitch.checked = true;
+      }
+      
+      // Handle toggle changes
+      toggleSwitch.addEventListener('change', function() {
+        if (this.checked) {
+          root.classList.add('dark-mode');
+          localStorage.setItem('darkMode', 'enabled');
+        } else {
+          root.classList.remove('dark-mode');
+          localStorage.setItem('darkMode', 'disabled');
+        }
+      });
+    });
   </script>
 
   <!-- NOTE THAT FOR DARK MOBILE WE NEED TO CHECK `allPages_leftbar_mobile.html` -->

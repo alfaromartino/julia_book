@@ -13,9 +13,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="author" content="Martin Alfaro">
+
+  <!-- FOR DARK MODE -->
+   <!-- Early script to prevent white flash -->
+  <script>    
+    function applySavedTheme() {
+      const darkMode = localStorage.getItem('darkMode');
+      if (darkMode === 'enabled') {
+        document.documentElement.classList.add('dark-mode');
+      }
+    }
+    
+    // Execute immediately
+    applySavedTheme();
+  </script>
   
-  
-  
+
+  <!--FONTS  -->
+
+
+
+
 
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Poppins|Crimson+Text|Cardo|Ubuntu"></link> -->
 <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans"></link> -->
@@ -127,8 +145,6 @@ header .jumbotron {
  
 
  
-
-
  
 <!-- format -->
  
@@ -1045,27 +1061,30 @@ color: white;
   
   
   
-    <script>
-    document.getElementById('toggleStyles').addEventListener('change', function() {
-    const root = document.documentElement; // Reference to <html>
-    if (this.checked) {
-      root.classList.add('dark-mode');       // Add class to <html>
-      localStorage.setItem('darkMode', 'enabled');
-    } else {
-      root.classList.remove('dark-mode');    // Remove class from <html>
-      localStorage.setItem('darkMode', 'disabled');
-    }
-  });
   
-  window.addEventListener('DOMContentLoaded', function() {
-    const root = document.documentElement;
-    var darkMode = localStorage.getItem('darkMode');
-    if (darkMode === 'enabled') {
-      document.getElementById('toggleStyles').checked = true;
-      root.classList.add('dark-mode');       // Add class to <html> on load
-    }
-  });
-  
+  <script>
+    // Main functionality after DOM loads
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleSwitch = document.getElementById('toggleStyles');
+      const root = document.documentElement;
+      
+      // Set initial state based on localStorage
+      const darkMode = localStorage.getItem('darkMode');
+      if (darkMode === 'enabled') {
+        toggleSwitch.checked = true;
+      }
+      
+      // Handle toggle changes
+      toggleSwitch.addEventListener('change', function() {
+        if (this.checked) {
+          root.classList.add('dark-mode');
+          localStorage.setItem('darkMode', 'enabled');
+        } else {
+          root.classList.remove('dark-mode');
+          localStorage.setItem('darkMode', 'disabled');
+        }
+      });
+    });
   </script>
 
   <!-- NOTE THAT FOR DARK MOBILE WE NEED TO CHECK `allPages_leftbar_mobile.html` -->
