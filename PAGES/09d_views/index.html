@@ -14,18 +14,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="author" content="Martin Alfaro">
   
-  <!-- FOR DARK MODE -->
-    <!-- Inline script in <head> ensures dark mode is applied before first paint -->
-  <script>
-    (function() {
-      const darkMode = localStorage.getItem('darkMode');
-      if (darkMode === 'enabled' ||
-         (!darkMode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark-mode');
-      }
-    })();
-  </script>
-
+  
+  
 
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Poppins|Crimson+Text|Cardo|Ubuntu"></link> -->
 <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans"></link> -->
@@ -1055,29 +1045,27 @@ color: white;
   
   
   
+    <script>
+    document.getElementById('toggleStyles').addEventListener('change', function() {
+    const root = document.documentElement; // Reference to <html>
+    if (this.checked) {
+      root.classList.add('dark-mode');       // Add class to <html>
+      localStorage.setItem('darkMode', 'enabled');
+    } else {
+      root.classList.remove('dark-mode');    // Remove class from <html>
+      localStorage.setItem('darkMode', 'disabled');
+    }
+  });
   
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const toggle = document.getElementById('toggleStyles');
-      const root = document.documentElement;
-
-      function setDarkMode(enabled) {
-        root.classList.toggle('dark-mode', enabled);
-        localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
-        toggle.checked = enabled;
-      }
-
-      // Load preference
-      const saved = localStorage.getItem('darkMode');
-      if (saved) {
-        setDarkMode(saved === 'enabled');
-      } else {
-        setDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
-      }
-
-      // Listen for user toggle
-      toggle.addEventListener('change', () => setDarkMode(toggle.checked));
-    });
+  window.addEventListener('DOMContentLoaded', function() {
+    const root = document.documentElement;
+    var darkMode = localStorage.getItem('darkMode');
+    if (darkMode === 'enabled') {
+      document.getElementById('toggleStyles').checked = true;
+      root.classList.add('dark-mode');       // Add class to <html> on load
+    }
+  });
+  
   </script>
 
   <!-- NOTE THAT FOR DARK MOBILE WE NEED TO CHECK `allPages_leftbar_mobile.html` -->
