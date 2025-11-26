@@ -1,2 +1,2 @@
-earnings = visits .* payrates
+earnings = viewers .* payrates
 print_compact(earnings) #hide

@@ -14,26 +14,26 @@ using StatsBase, Distributions
 using Random; Random.seed!(1234)
 
 function audience(nr_videos; median_target)
-    shape = log(4,5)
-    scale = median_target / 2^(1/shape)
+    shape   = log(4,5)
+    scale   = median_target / 2^(1/shape)
+    
+    viewers = rand(Pareto(shape,scale),  nr_videos)
 
-    visits = rand(Pareto(shape,scale),  nr_videos)
-
-    return visits
+    return viewers
 end
 
 nr_videos = 30
 
-visits   = audience(nr_videos, median_target = 50)      # in thousands of visits
-payrates = rand(2:6, nr_videos)                         # per thousands of visits
+viewers  = audience(nr_videos, median_target = 50)      # in thousands of viewers
+payrates = rand(2:6, nr_videos)                         # per thousands of viewers
  
 print_compact(nr_videos) #hide
  
-print_compact(visits) #hide
+print_compact(viewers) #hide
  
 print_compact(payrates) #hide
  
-earnings = visits .* payrates
+earnings = viewers .* payrates
 print_compact(earnings) #hide
  
 ############################################################################
@@ -52,8 +52,8 @@ print_compact(sorted_payrates) #hide
  
 indices         = sortperm(earnings, rev=true)[1:3]
 
-sorted_visits   = visits[indices]
-print_compact(sorted_visits) #hide
+sorted_viewers  = viewers[indices]
+print_compact(sorted_viewers) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -74,22 +74,22 @@ occurrences_payrates |> print_compact #hide
 ############################################################################
 #
 # BOOLEAN INDICES
-# (to characterize viral videos defined by >100k visits)
+# (to characterize viral videos defined by >100k viewers)
 #    
 ############################################################################
  
 # characterization of viral videos
 viral_threshold = 100
-is_viral        = (visits .≥ viral_threshold)
+is_viral        = (viewers .≥ viral_threshold)
 
 # stats
 viral_nrvideos  = sum(is_viral)
-viral_visits    = sum(visits[is_viral])
+viral_viewers   = sum(viewers[is_viral])
 viral_revenue   = sum(earnings[is_viral])
  
 print_compact(viral_nrvideos) #hide
  
-print_compact(viral_visits) #hide
+print_compact(viral_viewers) #hide
  
 print_compact(viral_revenue) #hide
  
@@ -97,8 +97,8 @@ print_compact(viral_revenue) #hide
 viral_threshold    = 100
 payrates_above_avg = 3
 
-is_viral           = (visits .≥ viral_threshold)
-is_viral_lucrative = (visits .≥ viral_threshold) .&& (payrates .> payrates_above_avg)
+is_viral           = (viewers .≥ viral_threshold)
+is_viral_lucrative = (viewers .≥ viral_threshold) .&& (payrates .> payrates_above_avg)
 
 # stat
 proportion_viral_lucrative = sum(is_viral_lucrative) / sum(is_viral) * 100
@@ -124,11 +124,11 @@ print_asis(rounded_proportion) #hide
 ############################################################################
  
 #
-function stats_subset(visits, payrates, condition)
+function stats_subset(viewers, payrates, condition)
     nrvideos = sum(condition)
-    audience = sum(visits[condition])
+    audience = sum(viewers[condition])
     
-    earnings = visits .* payrates
+    earnings = viewers .* payrates
     revenue  = sum(earnings[condition])
     
     return (; nrvideos, audience, revenue)
@@ -139,12 +139,12 @@ end
 # <space_to_be_deleted>
  
 using Pipe
-function stats_subset(visits, payrates, condition)
+function stats_subset(viewers, payrates, condition)
     nrvideos = sum(condition)
-    audience = sum(visits[condition])
+    audience = sum(viewers[condition])
     
     
-    revenue  = @pipe (visits .* payrates) |> x -> sum(x[condition])
+    revenue  = @pipe (viewers .* payrates) |> x -> sum(x[condition])
     
     return (; nrvideos, audience, revenue)
 end
@@ -154,31 +154,31 @@ end
 # <space_to_be_deleted>
  
 using Pipe
-function stats_subset(visits, payrates, condition)
+function stats_subset(viewers, payrates, condition)
     nrvideos = sum(condition)
-    audience = sum(visits[condition])
+    audience = sum(viewers[condition])
     
     
-    revenue  = @pipe (visits .* payrates) |> sum(_[condition])
+    revenue  = @pipe (viewers .* payrates) |> sum(_[condition])
     
     return (; nrvideos, audience, revenue)
 end
  
 viral_threshold  = 100
-is_viral         = (visits .≥ viral_threshold)
-viral            = stats_subset(visits, payrates, is_viral)
+is_viral         = (viewers .≥ viral_threshold)
+viral            = stats_subset(viewers, payrates, is_viral)
  
 print_compact(viral) #hide
  
 viral_threshold  = 100
 is_notviral      = .!(is_viral)      # '!' is negating a boolean value and we broadcast it
-notviral         = stats_subset(visits, payrates, is_notviral)
+notviral         = stats_subset(viewers, payrates, is_notviral)
  
 print_compact(notviral) #hide
  
 days_to_consider = (1, 10, 25)      # subset of days to be characterized
-is_day           = in.(eachindex(visits), Ref(days_to_consider))
-specific_days    = stats_subset(visits, payrates, is_day)
+is_day           = in.(eachindex(viewers), Ref(days_to_consider))
+specific_days    = stats_subset(viewers, payrates, is_day)
  
 print_compact(specific_days) #hide
  
@@ -192,41 +192,41 @@ print_compact(specific_days) #hide
 #    
 ############################################################################
  
-# 'temp' modifies 'new_visits'
-new_visits      = copy(visits)
-temp            = @view new_visits[new_visits .< viral_threshold]
+# 'temp' modifies 'new_viewers'
+new_viewers     = copy(viewers)
+temp            = @view new_viewers[new_viewers .< viral_threshold]
 temp           .= 1.2 .* temp
 
-allvideos       = trues(length(new_visits))
-targetNonViral  = stats_subset(new_visits, payrates, allvideos)
+allvideos       = trues(length(new_viewers))
+targetNonViral  = stats_subset(new_viewers, payrates, allvideos)
 print_compact(targetNonViral) #hide
  
-# 'temp' modifies 'new_visits'
-new_visits      = copy(visits)
-temp            = @view new_visits[new_visits .≥ viral_threshold]
+# 'temp' modifies 'new_viewers'
+new_viewers     = copy(viewers)
+temp            = @view new_viewers[new_viewers .≥ viral_threshold]
 temp           .= 1.2 .* temp
 
-allvideos       = trues(length(new_visits))
-targetViral     = stats_subset(new_visits, payrates, allvideos)
+allvideos       = trues(length(new_viewers))
+targetViral     = stats_subset(new_viewers, payrates, allvideos)
 print_compact(targetViral) #hide
  
-targetNonViral = let visits = visits, payrates = payrates, threshold = viral_threshold
-    new_visits = copy(visits)
-    temp       = @view new_visits[new_visits .< threshold]
-    temp      .= 1.2 .* temp
+targetNonViral = let viewers = viewers, payrates = payrates, threshold = viral_threshold
+    new_viewers = copy(viewers)
+    temp        = @view new_viewers[new_viewers .< threshold]
+    temp       .= 1.2 .* temp
 
-    allvideos  = trues(length(new_visits))
-    stats_subset(new_visits, payrates, allvideos)
+    allvideos  = trues(length(new_viewers))
+    stats_subset(new_viewers, payrates, allvideos)
 end
 print_compact(targetNonViral) #hide
  
-targetViral    = let visits = visits, payrates = payrates, threshold = viral_threshold
-    new_visits = copy(visits)
-    temp       = @view new_visits[new_visits .≥ threshold]
-    temp      .= 1.2 .* temp
+targetViral    = let viewers = viewers, payrates = payrates, threshold = viral_threshold
+    new_viewers = copy(viewers)
+    temp        = @view new_viewers[new_viewers .≥ threshold]
+    temp       .= 1.2 .* temp
 
-    allvideos  = trues(length(new_visits))
-    stats_subset(new_visits, payrates, allvideos)
+    allvideos  = trues(length(new_viewers))
+    stats_subset(new_viewers, payrates, allvideos)
 end
 print_compact(targetViral) #hide
  
@@ -235,23 +235,23 @@ print_compact(targetViral) #hide
 # only the first one is right
 ############
  
-new_visits = copy(visits)
+new_viewers = copy(viewers)
 
 
-temp  = @view new_visits[new_visits .≥ viral_threshold]
+temp  = @view new_viewers[new_viewers .≥ viral_threshold]
 temp .= temp .* 1.2
  
-new_visits = visits     # it creates an alias, it's a view of the original object!!!
+new_viewers = viewers     # it creates an alias, it's a view of the original object!!!
 
-# 'temp' modifies 'visits' -> you lose the original info
-temp  = @view new_visits[new_visits .≥ viral_threshold]
+# 'temp' modifies 'viewers' -> you lose the original info
+temp  = @view new_viewers[new_viewers .≥ viral_threshold]
 temp .= temp .* 1.2
  
-new_visits = copy(visits)
+new_viewers = copy(viewers)
 
 # wrong -> not using `temp .= temp .* 1.2`
-temp  = @view new_visits[new_visits .≥ viral_threshold]
-temp  = temp .* 1.2     # it creates a new variable 'temp', it does not modify 'new_visits'
+temp  = @view new_viewers[new_viewers .≥ viral_threshold]
+temp  = temp .* 1.2     # it creates a new variable 'temp', it does not modify 'new_viewers'
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -263,8 +263,8 @@ temp  = temp .* 1.2     # it creates a new variable 'temp', it does not modify '
 #    
 ############################################################################
  
-describe(visits)
-print(describe(visits)) #hide
+describe(viewers)
+print(describe(viewers)) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -273,8 +273,8 @@ print(describe(visits)) #hide
  
 list_functions = [sum, median, mean, maximum, minimum]
 
-stats_visits   = [fun(visits) for fun in list_functions]
-print_compact(stats_visits) #hide
+stats_viewers  = [fun(viewers) for fun in list_functions]
+print_compact(stats_viewers) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -282,7 +282,7 @@ print_compact(stats_visits) #hide
  
 list_functions = [sum, median, mean, maximum, minimum]
 
-stats_various  = [fun.([visits, payrates]) for fun in list_functions]
+stats_various  = [fun.([viewers, payrates]) for fun in list_functions]
 print_compact(stats_various) #hide
  
 # <space_to_be_deleted>
@@ -290,19 +290,19 @@ print_compact(stats_various) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-stats_visits   = NamedTuple((Symbol(fun), fun(visits)) for fun in list_functions)
-print_compact(stats_visits) #hide
+stats_viewers  = NamedTuple((Symbol(fun), fun(viewers)) for fun in list_functions)
+print_compact(stats_viewers) #hide
  
-print_compact(stats_visits.mean) #hide
+print_compact(stats_viewers.mean) #hide
  
-print_compact(stats_visits[:median]) #hide
+print_compact(stats_viewers[:median]) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-vector_of_tuples = [(Symbol(fun), fun(visits)) for fun in list_functions]
-stats_visits     = NamedTuple(vector_of_tuples)
-print_compact(stats_visits) #hide
+vector_of_tuples = [(Symbol(fun), fun(viewers)) for fun in list_functions]
+stats_viewers    = NamedTuple(vector_of_tuples)
+print_compact(stats_viewers) #hide
  

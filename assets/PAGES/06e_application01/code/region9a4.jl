@@ -1,3 +1,3 @@
 viral_threshold  = 100
-is_viral         = (visits .≥ viral_threshold)
-viral            = stats_subset(visits, payrates, is_viral)
+is_viral         = (viewers .≥ viral_threshold)
+viral            = stats_subset(viewers, payrates, is_viral)

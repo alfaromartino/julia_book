@@ -1,10 +1,10 @@
 using Pipe
-function stats_subset(visits, payrates, condition)
+function stats_subset(viewers, payrates, condition)
     nrvideos = sum(condition)
-    audience = sum(visits[condition])
+    audience = sum(viewers[condition])
     
     
-    revenue  = @pipe (visits .* payrates) |> sum(_[condition])
+    revenue  = @pipe (viewers .* payrates) |> sum(_[condition])
     
     return (; nrvideos, audience, revenue)
 end

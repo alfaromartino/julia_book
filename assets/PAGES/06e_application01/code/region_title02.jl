@@ -1,6 +1,6 @@
 ############################################################################
 #
 # BOOLEAN INDICES
-# (to characterize viral videos defined by >100k visits)
+# (to characterize viral videos defined by >100k viewers)
 #    
 ############################################################################

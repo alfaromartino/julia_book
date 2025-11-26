@@ -1,0 +1,1 @@
+print_compact(foo2(x))
