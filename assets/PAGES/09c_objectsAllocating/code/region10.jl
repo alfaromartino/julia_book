@@ -1,5 +1,5 @@
 x      = [1,2,3]
 
-foo(x) = x[1:2]                 # ONE allocation, since ranges don't allocate (but 'x[1:2]' itself does)
+foo(x) = x[1:2]                 # allocations only from 'x[1:2]' itself (ranges don't allocate)
 
-@btime foo($x) #hide
+@ctime foo($x) #hide

@@ -1,4 +1,3 @@
-foo()  = [1,2,3]
+foo() = [1,2,3]
 
-
-@btime foo() #hide
+@ctime foo() #hide

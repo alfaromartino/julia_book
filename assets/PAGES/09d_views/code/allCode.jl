@@ -12,7 +12,7 @@ using Random, Skipper
  
 x = [1, 2, 3]
 
-foo(x) = sum(x[1:2])           # it allocates ONE vector -> the slice 'x[1:2]'
+foo(x) = sum(x[1:2])           # allocations from the slice 'x[1:2]'
 
 @btime foo($x) #hide
  

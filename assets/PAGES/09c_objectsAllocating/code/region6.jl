@@ -4,4 +4,4 @@ function foo()
     nt.a + nt.b * nt.c
 end
 
-@btime foo() #hide
+@ctime foo() #hide

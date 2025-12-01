@@ -1,4 +1,4 @@
 x      = [1,2,3]
-foo(x) = sum(x .* x)                # 1 allocation from temporary vector 'x .* x' 
+foo(x) = sum(x .* x)                # allocations from temporary vector 'x .* x' 
 
-@btime foo($x) #hide
+@ctime foo($x) #hide

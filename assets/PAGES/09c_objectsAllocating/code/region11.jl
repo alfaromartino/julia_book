@@ -1,5 +1,5 @@
 x      = [1,2,3]
 
-foo(x) = x[[1,2]]               # TWO allocations (one for '[1,2]' and another for 'x[[1,2]]' itself)
+foo(x) = x[[1,2]]               # allocations from both '[1,2]' and 'x[[1,2]]' itself
 
-@btime foo($x) #hide
+@ctime foo($x) #hide

@@ -1,7 +1,7 @@
 function foo()
     rang = 1:3
 
-    rang[1] + rang[2] * rang[3]
+    sum(rang[1:2]) + rang[2] * rang[3]
 end
 
-@btime foo() #hide
+@ctime foo() #hide

@@ -4,4 +4,4 @@ function foo()
     x + y
 end
 
-@btime foo() #hide
+@ctime foo() #hide
