@@ -1,19 +1,25 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# For more accurate results, we benchmark code through functions and interpolate each argument.
-    # this means that benchmarking a function `foo(x)` makes use of `foo($x)`
+# For more accurate results, we benchmark code through functions.
+    # We also interpolate each function argument, so that they're taken as local variables.
+    # All this means that benchmarking a function `foo(x)` is done via `foo($x)`
 using BenchmarkTools
 
-# The following defines the macro `@fast_btime foo($x)`
-    # `@fast_btime` is equivalent to `@btime` but substantially faster
-    # if you want to use it, you should replace `@btime` with `@fast_btime`
-    # by default, if `@fast_btime` doesn't provide allocations, it means there are none
+# The following defines the macro `@ctime`, which is equivalent to `@btime` but faster
+    # to use it, replace `@btime` with `@ctime`
 using Chairmarks
-macro fast_btime(ex)
-    return quote
-        display(@b $ex)
-    end
+macro ctime(expr)
+    esc(quote
+        object = @b $expr
+        result = sprint(show, "text/plain", object) |>
+            x -> object.allocs == 0 ?
+                x * " (0 allocations: 0 bytes)" :
+                replace(x, "allocs" => "allocations") |>
+            x -> replace(x, r",.*$" => ")") |>
+            x -> replace(x, "(without a warmup) " => "")
+        println("  " * result)
+    end)
 end
 
 ############################################################################
@@ -36,6 +42,8 @@ x = 1:100
 @time sum(x)         # first run                     -> it incorporates compilation time 
 @time sum(x)         # time without compilation time -> relevant for each subsequent run
  
+
+
 ############################################################################
 #
 #      PACKAGE BenchmarkTools
@@ -139,7 +147,8 @@ using Chairmarks
 using Random; Random.seed!(1234)
 x = rand(100)
 
-display(@b sum($x))        # provides minimum time only)
+display(@b sum($x))        # provides minimum time only
+@b sum($x)
  
 
 
@@ -148,7 +157,8 @@ using Chairmarks
 using Random; Random.seed!(1234)
 x = rand(100)
 
-display(@be sum($x))       # analogous to `@benchmark` in BenchmarkTools)
+display(@be sum($x))       # analogous to `@benchmark` in BenchmarkTools
+@be sum($x)
  
 
 

@@ -1,3 +1,98 @@
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
+############################################################################
+#
+#			START OF THE CODE
+#
+############################################################################
 include(joinpath("C:/", "JULIA_UTILS", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
@@ -15,11 +110,9 @@ print_asis(x)   #hide
  
 print_asis(y)   #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = (a for a in 1:10)
 
 y = (a for a in 1:10 if a > 5)
@@ -27,29 +120,23 @@ print_asis(x)   #hide
  
 print_asis(y)   #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = 1:10
  
 print_asis(x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = collect(1:10)
  
 print_asis(x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100)
 
@@ -61,11 +148,9 @@ end
     
 @btime foo($x) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100)
 
@@ -77,11 +162,9 @@ end
     
 @btime foo($x) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100)
 
@@ -90,11 +173,9 @@ foo(x) = sum(a * 2 for a in x)              # 0 allocations
     
 @btime foo($x) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #                           ITERATORS
@@ -114,11 +195,9 @@ end
     
 @btime foo($x) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = collect(1:100)
 
@@ -130,11 +209,9 @@ end
     
 @btime foo($x) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = collect(1:100)
 
@@ -146,11 +223,9 @@ end
     
 @btime foo($x) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = collect(1:100)
 
@@ -162,11 +237,9 @@ end
     
 @btime foo($x) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	MAP
 ####################################################
@@ -182,11 +255,9 @@ end
     
 @btime foo($x) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100)
 
@@ -214,10 +285,8 @@ foo(x,β) = exp.(β * x) + (β * x) * 5
 
 @btime foo($x, $β) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100)
 β = 1.5
@@ -241,10 +310,8 @@ end
 
 @btime foo($x, $y) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100) ; y = rand(100)
 
@@ -258,10 +325,8 @@ end
 
 @btime foo($x, $y) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100) ; y = rand(100)
 
@@ -275,10 +340,8 @@ end
 
 @btime foo($x, $y) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100) ; y = rand(100)
 
@@ -306,11 +369,9 @@ foo(x) = sum(2 .* x)
 
 @btime foo($x) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 Random.seed!(123)       #setting the seed for reproducibility #hide
 using LazyArrays
 x = rand(100)
@@ -319,11 +380,9 @@ foo(x) = sum(@~ 2 .* x)
 
 @btime foo($x) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100) ; y = rand(100)
 
@@ -337,11 +396,9 @@ end
 
 @btime foo($x, $y) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100) ; y = rand(100)
 
@@ -355,11 +412,9 @@ end
 
 @btime foo($x, $y) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100) ; y = rand(100)
 

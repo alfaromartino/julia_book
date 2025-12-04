@@ -6,4 +6,4 @@ term2(a) = a * 3
 temp(a)  = term1(a) + term2(a)
 
 foo(x)   = sum(@~ temp.(x))
-@btime foo($x) #hide
+@ctime foo($x) #hide

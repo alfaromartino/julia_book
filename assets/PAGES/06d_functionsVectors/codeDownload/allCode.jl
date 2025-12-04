@@ -1,19 +1,25 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# For more accurate results, we benchmark code through functions and interpolate each argument.
-    # this means that benchmarking a function `foo(x)` makes use of `foo($x)`
+# For more accurate results, we benchmark code through functions.
+    # We also interpolate each function argument, so that they're taken as local variables.
+    # All this means that benchmarking a function `foo(x)` is done via `foo($x)`
 using BenchmarkTools
 
-# The following defines the macro `@fast_btime foo($x)`
-    # `@fast_btime` is equivalent to `@btime` but substantially faster
-    # if you want to use it, you should replace `@btime` with `@fast_btime`
-    # by default, if `@fast_btime` doesn't provide allocations, it means there are none
+# The following defines the macro `@ctime`, which is equivalent to `@btime` but faster
+    # to use it, replace `@btime` with `@ctime`
 using Chairmarks
-macro fast_btime(ex)
-    return quote
-        display(@b $ex)
-    end
+macro ctime(expr)
+    esc(quote
+        object = @b $expr
+        result = sprint(show, "text/plain", object) |>
+            x -> object.allocs == 0 ?
+                x * " (0 allocations: 0 bytes)" :
+                replace(x, "allocs" => "allocations") |>
+            x -> replace(x, r",.*$" => ")") |>
+            x -> replace(x, "(without a warmup) " => "")
+        println("  " * result)
+    end)
 end
 
 ############################################################################
@@ -44,6 +50,7 @@ y = sort(x, rev=true)
 x = [4, 5, 3, 2]
 
 sort!(x)
+x
  
 
 x      = [4, -5, 3]
@@ -72,36 +79,43 @@ y      = sort(x, by = foo)      # same as sort(x, by = x -> -x)
 x          = [1, 2, 3, 4]
 
 sort_index = sortperm(x)
+sort_index
  
 
 x          = [3, 4, 5, 6]
 
 sort_index = sortperm(x)
+sort_index
  
 
 x          = [1, 3, 4, 2]
 
 sort_index = sortperm(x)
+sort_index
  
 
 x          = [9, 3, 2, 1]
 
 sort_index = sortperm(x, rev=true)
+sort_index
  
 
 x          = [9, 5, 3, 1]
 
 sort_index = sortperm(x, rev=true)
+sort_index
  
 
 x          = [9, 3, 5, 1]
 
 sort_index = sortperm(x, rev=true)
+sort_index
  
 
 x          = [9, 3, 5, 1]
 
 sort_index = sortperm(x, rev=true)
+sort_index
  
 
 x      = [4, -5, 3]
@@ -153,11 +167,13 @@ y = unique(x)       # returns a new vector
 x = [2, 2, 3, 4]
 
 unique!(x)          # mutates 'x'
+x
  
 
 x = [2, 2, 3]
 
 y = allunique(x)    # Boolean - true if all elements are unique
+y
  
 ############################################################################
 #
@@ -182,7 +198,7 @@ y           = sort(countmap(x))        # OrderedDict with `element => occurrence
 elements    = collect(keys(y))
 occurrences = collect(values(y))
  
-#ide
+elements #ide
  
 
 using StatsBase
@@ -260,36 +276,42 @@ using StatsBase
 x = [6, 6, 0, 5]
 
 y = competerank(x)
+y
  
 
 using StatsBase
 x = [6, 6, 0, 5]
 
 y = competerank(x, rev=true)
+y
  
 
 using StatsBase
 x = [6, 6, 0, 5]
 
 y = ordinalrank(x)
+y
  
 
 using StatsBase
 x = [6, 6, 0, 5]
 
 y = ordinalrank(x, rev=true)
+y
  
 
 using StatsBase
 x = [3, 1, 2]
 
 y = ordinalrank(x)
+y
  
 
 using StatsBase
 x = [3, 1, 2]
 
 y = sortperm(x)
+y
  
 ############################################################################
 #
@@ -300,20 +322,24 @@ y = sortperm(x)
 x = [6, 6, 0, 5]
 
 y = maximum(x)
+y
  
 
 x = [6, 6, 0, 5]
 
 y = argmax(x)
+y
  
 
 x = [6, 6, 0, 5]
 
 y = findmax(x)
+y
  
 
 x = 3
 y = 4
 
 z = max(x,y)
+z
  

@@ -12,19 +12,25 @@ Pkg.instantiate() #to install the packages
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# For more accurate results, we benchmark code through functions and interpolate each argument.
-    # this means that benchmarking a function `foo(x)` makes use of `foo($x)`
+# For more accurate results, we benchmark code through functions.
+    # We also interpolate each function argument, so that they're taken as local variables.
+    # All this means that benchmarking a function `foo(x)` is done via `foo($x)`
 using BenchmarkTools
 
-# The following defines the macro `@fast_btime foo($x)`
-    # `@fast_btime` is equivalent to `@btime` but substantially faster
-    # if you want to use it, you should replace `@btime` with `@fast_btime`
-    # by default, if `@fast_btime` doesn't provide allocations, it means there are none
+# The following defines the macro `@ctime`, which is equivalent to `@btime` but faster
+    # to use it, replace `@btime` with `@ctime`
 using Chairmarks
-macro fast_btime(ex)
-    return quote
-        display(@b $ex)
-    end
+macro ctime(expr)
+    esc(quote
+        object = @b $expr
+        result = sprint(show, "text/plain", object) |>
+            x -> object.allocs == 0 ?
+                x * " (0 allocations: 0 bytes)" :
+                replace(x, "allocs" => "allocations") |>
+            x -> replace(x, r",.*$" => ")") |>
+            x -> replace(x, "(without a warmup) " => "")
+        println("  " * result)
+    end)
 end
 
 ############################################################################
@@ -46,20 +52,21 @@ using StatsBase, Distributions
 using Random; Random.seed!(1234)
 
 function audience(nr_videos; median_target)
-    shape = log(4,5)
-    scale = median_target / 2^(1/shape)
+    shape   = log(4,5)
+    scale   = median_target / 2^(1/shape)
+    
+    viewers = rand(Pareto(shape,scale),  nr_videos)
 
-    visits = rand(Pareto(shape,scale),  nr_videos)
-
-    return visits
+    return viewers
 end
 
 nr_videos = 30
 
-visits   = audience(nr_videos, median_target = 50)      # in thousands of visits
-payrates = rand(2:6, nr_videos)                         # per thousands of visits
+viewers  = audience(nr_videos, median_target = 50)      # in thousands of viewers
+payrates = rand(2:6, nr_videos)                         # per thousands of viewers
  
-earnings = visits .* payrates
+earnings = viewers .* payrates
+earnings
  
 ############################################################################
 #
@@ -73,10 +80,12 @@ top_earnings |> print_compact
 indices         = sortperm(earnings, rev=true)[1:3]
 
 sorted_payrates = payrates[indices]
+sorted_payrates
  
 indices         = sortperm(earnings, rev=true)[1:3]
 
-sorted_visits   = visits[indices]
+sorted_viewers  = viewers[indices]
+sorted_viewers
  
 
 
@@ -93,34 +102,38 @@ occurrences_payrates |> print_compact
 ############################################################################
 #
 # BOOLEAN INDICES
-# (to characterize viral videos defined by >100k visits)
+# (to characterize viral videos defined by >100k viewers)
 #    
 ############################################################################
  
 # characterization of viral videos
 viral_threshold = 100
-is_viral        = (visits .≥ viral_threshold)
+is_viral        = (viewers .≥ viral_threshold)
 
 # stats
 viral_nrvideos  = sum(is_viral)
-viral_visits    = sum(visits[is_viral])
+viral_viewers   = sum(viewers[is_viral])
 viral_revenue   = sum(earnings[is_viral])
  
 # characterization
 viral_threshold    = 100
 payrates_above_avg = 3
 
-is_viral           = (visits .≥ viral_threshold)
-is_viral_lucrative = (visits .≥ viral_threshold) .&& (payrates .> payrates_above_avg)
+is_viral           = (viewers .≥ viral_threshold)
+is_viral_lucrative = (viewers .≥ viral_threshold) .&& (payrates .> payrates_above_avg)
 
 # stat
 proportion_viral_lucrative = sum(is_viral_lucrative) / sum(is_viral) * 100
+proportion_viral_lucrative
  
 rounded_proportion = round(proportion_viral_lucrative)
+rounded_proportion
  
 rounded_proportion = round(proportion_viral_lucrative, digits=1)
+rounded_proportion
  
-rounded_proportion = round(Int, proportion_viral_lucrative)
+rounded_proportion = round(Int64, proportion_viral_lucrative)
+rounded_proportion
  
 
 
@@ -131,11 +144,11 @@ rounded_proportion = round(Int, proportion_viral_lucrative)
 ############################################################################
  
 #
-function stats_subset(visits, payrates, condition)
+function stats_subset(viewers, payrates, condition)
     nrvideos = sum(condition)
-    audience = sum(visits[condition])
+    audience = sum(viewers[condition])
     
-    earnings = visits .* payrates
+    earnings = viewers .* payrates
     revenue  = sum(earnings[condition])
     
     return (; nrvideos, audience, revenue)
@@ -144,12 +157,12 @@ end
 
 
 using Pipe
-function stats_subset(visits, payrates, condition)
+function stats_subset(viewers, payrates, condition)
     nrvideos = sum(condition)
-    audience = sum(visits[condition])
+    audience = sum(viewers[condition])
     
     
-    revenue  = @pipe (visits .* payrates) |> x -> sum(x[condition])
+    revenue  = @pipe (viewers .* payrates) |> x -> sum(x[condition])
     
     return (; nrvideos, audience, revenue)
 end
@@ -157,27 +170,27 @@ end
 
 
 using Pipe
-function stats_subset(visits, payrates, condition)
+function stats_subset(viewers, payrates, condition)
     nrvideos = sum(condition)
-    audience = sum(visits[condition])
+    audience = sum(viewers[condition])
     
     
-    revenue  = @pipe (visits .* payrates) |> sum(_[condition])
+    revenue  = @pipe (viewers .* payrates) |> sum(_[condition])
     
     return (; nrvideos, audience, revenue)
 end
  
 viral_threshold  = 100
-is_viral         = (visits .≥ viral_threshold)
-viral            = stats_subset(visits, payrates, is_viral)
+is_viral         = (viewers .≥ viral_threshold)
+viral            = stats_subset(viewers, payrates, is_viral)
  
 viral_threshold  = 100
 is_notviral      = .!(is_viral)      # '!' is negating a boolean value and we broadcast it
-notviral         = stats_subset(visits, payrates, is_notviral)
+notviral         = stats_subset(viewers, payrates, is_notviral)
  
-days_to_consider = (1, 10, 25)      # days when the videos were posted
-is_day           = in.(eachindex(visits), Ref(days_to_consider))
-specific_days    = stats_subset(visits, payrates, is_day)
+days_to_consider = (1, 10, 25)      # subset of days to be characterized
+is_day           = in.(eachindex(viewers), Ref(days_to_consider))
+specific_days    = stats_subset(viewers, payrates, is_day)
  
 
 
@@ -187,62 +200,66 @@ specific_days    = stats_subset(visits, payrates, is_day)
 #    
 ############################################################################
  
-# 'temp' modifies 'new_visits'
-new_visits      = copy(visits)
-temp            = @view new_visits[new_visits .< viral_threshold]
+# 'temp' modifies 'new_viewers'
+new_viewers     = copy(viewers)
+temp            = @view new_viewers[new_viewers .< viral_threshold]
 temp           .= 1.2 .* temp
 
-allvideos       = trues(length(new_visits))
-targetNonViral  = stats_subset(new_visits, payrates, allvideos)
+allvideos       = trues(length(new_viewers))
+targetNonViral  = stats_subset(new_viewers, payrates, allvideos)
+targetNonViral
  
-# 'temp' modifies 'new_visits'
-new_visits      = copy(visits)
-temp            = @view new_visits[new_visits .≥ viral_threshold]
+# 'temp' modifies 'new_viewers'
+new_viewers     = copy(viewers)
+temp            = @view new_viewers[new_viewers .≥ viral_threshold]
 temp           .= 1.2 .* temp
 
-allvideos       = trues(length(new_visits))
-targetViral     = stats_subset(new_visits, payrates, allvideos)
+allvideos       = trues(length(new_viewers))
+targetViral     = stats_subset(new_viewers, payrates, allvideos)
+targetViral
  
-targetNonViral = let visits = visits, payrates = payrates, threshold = viral_threshold
-    new_visits = copy(visits)
-    temp       = @view new_visits[new_visits .< threshold]
-    temp      .= 1.2 .* temp
+targetNonViral = let viewers = viewers, payrates = payrates, threshold = viral_threshold
+    new_viewers = copy(viewers)
+    temp        = @view new_viewers[new_viewers .< threshold]
+    temp       .= 1.2 .* temp
 
-    allvideos  = trues(length(new_visits))
-    stats_subset(new_visits, payrates, allvideos)
+    allvideos  = trues(length(new_viewers))
+    stats_subset(new_viewers, payrates, allvideos)
 end
+targetNonViral
  
-targetViral    = let visits = visits, payrates = payrates, threshold = viral_threshold
-    new_visits = copy(visits)
-    temp       = @view new_visits[new_visits .≥ threshold]
-    temp      .= 1.2 .* temp
+targetViral    = let viewers = viewers, payrates = payrates, threshold = viral_threshold
+    new_viewers = copy(viewers)
+    temp        = @view new_viewers[new_viewers .≥ threshold]
+    temp       .= 1.2 .* temp
 
-    allvideos  = trues(length(new_visits))
-    stats_subset(new_visits, payrates, allvideos)
+    allvideos  = trues(length(new_viewers))
+    stats_subset(new_viewers, payrates, allvideos)
 end
+targetViral
  
 ############
 # REMARK: WRONG USES
 # only the first one is right
 ############
  
-new_visits = copy(visits)
+new_viewers = copy(viewers)
 
 
-temp  = @view new_visits[new_visits .≥ viral_threshold]
+temp  = @view new_viewers[new_viewers .≥ viral_threshold]
 temp .= temp .* 1.2
  
-new_visits = visits     # it creates an alias, it's a view of the original object!!!
+new_viewers = viewers     # it creates an alias, it's a view of the original object!!!
 
-# 'temp' modifies 'visits' -> you lose the original info
-temp  = @view new_visits[new_visits .≥ viral_threshold]
+# 'temp' modifies 'viewers' -> you lose the original info
+temp  = @view new_viewers[new_viewers .≥ viral_threshold]
 temp .= temp .* 1.2
  
-new_visits = copy(visits)
+new_viewers = copy(viewers)
 
 # wrong -> not using `temp .= temp .* 1.2`
-temp  = @view new_visits[new_visits .≥ viral_threshold]
-temp  = temp .* 1.2     # it creates a new variable 'temp', it does not modify 'new_visits'
+temp  = @view new_viewers[new_viewers .≥ viral_threshold]
+temp  = temp .* 1.2     # it creates a new variable 'temp', it does not modify 'new_viewers'
  
 
 
@@ -252,30 +269,34 @@ temp  = temp .* 1.2     # it creates a new variable 'temp', it does not modify '
 #    
 ############################################################################
  
-describe(visits)
-print(describe(visits))
+describe(viewers)
+print(describe(viewers))
  
 
 
 
 list_functions = [sum, median, mean, maximum, minimum]
 
-stats_visits   = [fun(visits) for fun in list_functions]
+stats_viewers  = [fun(viewers) for fun in list_functions]
+stats_viewers
  
 
 
 list_functions = [sum, median, mean, maximum, minimum]
 
-stats_various  = [fun.([visits, payrates]) for fun in list_functions]
+stats_various  = [fun.([viewers, payrates]) for fun in list_functions]
+stats_various
  
 
 
 
-stats_visits   = NamedTuple((Symbol(fun), fun(visits)) for fun in list_functions)
+stats_viewers  = NamedTuple((Symbol(fun), fun(viewers)) for fun in list_functions)
+stats_viewers
  
 
 
 
-vector_of_tuples = [(Symbol(fun), fun(visits)) for fun in list_functions]
-stats_visits     = NamedTuple(vector_of_tuples)
+vector_of_tuples = [(Symbol(fun), fun(viewers)) for fun in list_functions]
+stats_viewers    = NamedTuple(vector_of_tuples)
+stats_viewers
  

@@ -3,4 +3,4 @@ using LazyArrays
 x      = rand(100)
 
 foo(x) = sum(@~ 2 .* x)
-@btime foo($x) #hide
+@ctime foo($x) #hide

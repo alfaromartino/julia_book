@@ -12,19 +12,25 @@ Pkg.instantiate() #to install the packages
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# For more accurate results, we benchmark code through functions and interpolate each argument.
-    # this means that benchmarking a function `foo(x)` makes use of `foo($x)`
+# For more accurate results, we benchmark code through functions.
+    # We also interpolate each function argument, so that they're taken as local variables.
+    # All this means that benchmarking a function `foo(x)` is done via `foo($x)`
 using BenchmarkTools
 
-# The following defines the macro `@fast_btime foo($x)`
-    # `@fast_btime` is equivalent to `@btime` but substantially faster
-    # if you want to use it, you should replace `@btime` with `@fast_btime`
-    # by default, if `@fast_btime` doesn't provide allocations, it means there are none
+# The following defines the macro `@ctime`, which is equivalent to `@btime` but faster
+    # to use it, replace `@btime` with `@ctime`
 using Chairmarks
-macro fast_btime(ex)
-    return quote
-        display(@b $ex)
-    end
+macro ctime(expr)
+    esc(quote
+        object = @b $expr
+        result = sprint(show, "text/plain", object) |>
+            x -> object.allocs == 0 ?
+                x * " (0 allocations: 0 bytes)" :
+                replace(x, "allocs" => "allocations") |>
+            x -> replace(x, r",.*$" => ")") |>
+            x -> replace(x, "(without a warmup) " => "")
+        println("  " * result)
+    end)
 end
 
 ############################################################################
@@ -34,7 +40,7 @@ end
 ############################################################################
  
 # necessary packages for this file
-using Random
+using Random, LazyArrays
  
 ############################################################################
 #
@@ -55,7 +61,7 @@ function foo(x, repetitions)
     end
 end
 
-@btime foo($x, $repetitions)
+@ctime foo($x, $repetitions)
  
 
 
@@ -68,7 +74,7 @@ function foo(x, repetitions)
     end
 end
 
-@btime foo($x, $repetitions)
+@ctime foo($x, $repetitions)
  
 
 
@@ -81,7 +87,7 @@ function foo(x, repetitions)
     end
 end
 
-@btime foo($x, $repetitions)
+@ctime foo($x, $repetitions)
  
 
 
@@ -94,7 +100,7 @@ function foo(x, repetitions)
     end
 end
 
-@btime foo($x, $repetitions)
+@ctime foo($x, $repetitions)
  
 
 
@@ -107,7 +113,7 @@ function foo(x, repetitions)
     end
 end
 
-@btime foo($x, $repetitions)
+@ctime foo($x, $repetitions)
  
 
 
@@ -118,7 +124,7 @@ function foo(x)
     # <some calculations using a,b,c>
 end
 
-@btime foo($x)
+@ctime foo($x)
  
 
 
@@ -129,7 +135,7 @@ function foo(x; a = similar(x), b = similar(x), c = similar(x))
     # <some calculations using a,b,c>
 end
 
-@btime foo($x)
+@ctime foo($x)
  
 
 
@@ -140,7 +146,7 @@ function foo(x)
     # <some calculations using a,b,c>
 end
 
-@btime foo($x)
+@ctime foo($x)
  
 
 
@@ -151,300 +157,512 @@ function foo(x)
     # <some calculations using a,b,c>
 end
 
-@btime foo($x)
+@ctime foo($x)
  
 ####################################################
-#	preallocations 1
-####################################################
- 
-Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-foo(x) = sum(2 .* x)                  # 2 .* x implicitly creates a temporary vector  
-
-@btime foo($x)
- 
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-function foo(x)
-    output = similar(x)               # you need to create this vector to store the results
-
-    for i in eachindex(x)
-        output[i] = 2 * x[i]
-    end
-
-    return output
-end
-
-@btime foo($x)
- 
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-foo(x) = 2 .* x
-
-calling_foo_in_a_loop(x) = [sum(foo(x)) for _ in 1:100]
-
-@btime calling_foo_in_a_loop($x)
- 
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
-
-function foo(x; output = similar(x))
-    for i in eachindex(x)
-        output[i] = 2 * x[i]
-    end
-
-    return output
-end
-
-calling_foo_in_a_loop(output,x) = [sum(foo(x)) for _ in 1:100]
-
-@btime calling_foo_in_a_loop($x)
- 
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-x      = rand(100)
-output = similar(x)
-
-function foo!(output,x)
-    for i in eachindex(x)
-        output[i] = 2 * x[i]
-    end
-
-    return output
-end
-
-@btime foo!($output, $x)
- 
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-x      = rand(100)
-output = similar(x)
-
-function foo!(output,x)
-    for i in eachindex(x)
-        output[i] = 2 * x[i]
-    end
-
-    return output
-end
-
-calling_foo_in_a_loop(output,x) = [sum(foo!(output,x)) for _ in 1:100]
-
-@btime calling_foo_in_a_loop($output,$x)
- 
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-x      = rand(100)
-output = similar(x)
-
-foo!(output,x) = (output .= 2 .* x)
-
-@btime foo!($output, $x)
- 
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-x      = rand(100)
-output = similar(x)
-
-foo!(output,x) = (@. output = 2 * x)
-
-@btime foo!($output, $x)
- 
-
-
-Random.seed!(123)       #setting the seed for reproducibility
-x      = rand(100)
-output = similar(x)
-
-foo!(output,x) = (@. output = 2 * x)
-
-calling_foo_in_a_loop(output,x) = [sum(foo!(output,x)) for _ in 1:100]
-
-@btime calling_foo_in_a_loop($output,$x)
- 
-
-
-####################################################
-#	preallocations 2
+#	DESCRIBING THE TECHNIQUE
 ####################################################
  
 Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
+nr_days            = 30
+score              = rand(nr_days)
 
-foo(x) = [sum(x .> x[i]) for i in eachindex(x)]
+performance(score) = score .> 0.5
 
-@btime foo($x)
+@ctime performance($score)
  
 
 
 Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
+nr_days            = 30
+score              = rand(nr_days)
 
-function foo(x) 
-    temp   = [x .> x[i] for i in eachindex(x)]
-    output = sum.(temp)
+function performance(score)
+    target = similar(score)
+
+    for i in eachindex(score)
+        target[i] = score[i] > 0.5
+    end
+
+    return target
 end
 
-@btime foo($x)
+@ctime performance($score)
+ 
+Random.seed!(123)       #setting the seed for reproducibility
+nr_days            = 30
+score              = rand(nr_days)
+
+function performance(score; target=similar(score))
+    
+
+    for i in eachindex(score)
+        target[i] = score[i] > 0.5
+    end
+
+    return target
+end
+
+@ctime performance($score)
  
 
 
 Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
+nr_days            = 30
+score              = rand(nr_days)
 
-function foo(x; output = similar(x))
-    for i in eachindex(x)
-        temp      = x .> x[i]
-        output[i] = sum(temp)
+performance(score) = score .> 0.5
+
+performance_in_a_loop(x) = [sum(foo(x)) for _ in 1:100]
+@ctime performance_in_a_loop($x)
+ 
+nr_days            = 30
+score              = rand(nr_days)
+
+performance(score) = score .> 0.5
+
+function performance(score; output = similar(score))
+    for i in eachindex(score)
+        output[i] = score[i] > 0.5
     end
 
     return output
 end
 
-@btime foo($x)
+performance_in_a_loop(x) = [sum(foo(x)) for _ in 1:100]
+@ctime performance_in_a_loop($x)
+ 
+Random.seed!(123)       #setting the seed for reproducibility
+nr_days            = 30
+scores             = [rand(nr_days), rand(nr_days), rand(nr_days)]  # 3 workers
+
+performance(score) = score .> 0.5
+
+function repeated_call(scores)
+    stats = Vector{Float64}(undef, length(scores))
+
+    for col in eachindex(scores)
+      target     = performance(scores[col])
+      stats[col] = std(target) / mean(target)
+    end
+
+    return stats
+end
+
+@ctime repeated_call($scores)
  
 
 
 Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
+nr_days            = 30
+scores             = [rand(nr_days), rand(nr_days), rand(nr_days)]   # 3 workers
 
-function foo!(x; output = similar(x), temp = similar(x))
-    for i in eachindex(x)        
-        for j in eachindex(x)
-            temp[j] = x[j] > x[i]
-        end
-        output[i] = sum(temp)
+function performance(score)
+    target = similar(score)
+
+    for i in eachindex(score)
+        target[i] = score[i] > 0.5
+    end
+
+    return target
+end
+
+function repeated_call(scores)
+    stats = Vector{Float64}(undef, length(scores))
+
+    for col in eachindex(scores)
+      target     = performance(scores[col])
+      stats[col] = std(target) / mean(target)
+    end
+
+    return stats
+end
+@ctime repeated_call($scores)
+ 
+Random.seed!(123)       #setting the seed for reproducibility
+nr_days            = 30
+scores             = [rand(nr_days), rand(nr_days), rand(nr_days)]   # 3 workers
+
+function performance(score; target = similar(score))
+    
+    
+    for i in eachindex(score)
+        target[i] = score[i] > 0.5
+    end
+
+    return target
+end
+
+function repeated_call(scores)
+    stats = Vector{Float64}(undef, length(scores))
+
+    for col in eachindex(scores)
+      target     = performance(scores[col])
+      stats[col] = std(target) / mean(target)
+    end
+
+    return stats
+end
+
+@ctime repeated_call($scores)
+ 
+
+
+####################################################
+#	PRE-ALLOCATION AS A SOLUTION
+####################################################
+ 
+Random.seed!(123)       #setting the seed for reproducibility
+nr_days = 30
+scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
+
+
+performance(score) = score .> 0.5
+
+function repeated_call!(scores)
+    stats = Vector{Float64}(undef, length(scores))
+
+    for col in eachindex(scores)
+        target     = performance(scores[col])
+        stats[col] = std(target) / mean(target)
+    end
+
+    return stats
+end
+
+@ctime repeated_call(scores)
+ 
+Random.seed!(123)       #setting the seed for reproducibility
+nr_days = 30
+scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
+target  = similar(scores[1])
+
+function performance!(target, score)
+    for i in eachindex(score)
+        target[i] = score[i] > 0.5
+    end
+end
+
+function repeated_call!(target, scores)
+    stats = Vector{Float64}(undef, length(scores))
+
+    for col in eachindex(scores)
+        performance!(target, scores[col])
+        stats[col] = std(target) / mean(target)
+    end
+
+    return stats
+end
+
+@ctime repeated_call!(target, scores)
+ 
+
+
+Random.seed!(123)       #setting the seed for reproducibility
+nr_days = 30
+scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
+target  = similar(scores[1])
+
+performance!(target, score) = (@. target = score > 0.5)
+
+function repeated_call!(target, scores)
+    stats = Vector{Float64}(undef, length(scores))
+
+    for col in eachindex(scores)
+        performance!(target, scores[col])
+        stats[col] = std(target) / mean(target)
+    end
+
+    return stats
+end
+
+@ctime repeated_call!(target,scores)
+ 
+
+
+Random.seed!(123)       #setting the seed for reproducibility
+nr_days = 30
+scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
+target  = similar(scores[1])
+
+performance!(target, score) = map!(a -> a > 0.5, target, score)
+
+function repeated_call!(target, scores)
+    stats = Vector{Float64}(undef, length(scores))
+
+    for col in eachindex(scores)
+        performance!(target, scores[col])
+        stats[col] = std(target) / mean(target)
+    end
+
+    return stats
+end
+
+@ctime repeated_call!(target,scores)
+ 
+
+
+# simpler
+ 
+Random.seed!(123)       #setting the seed for reproducibility
+nr_days = 30
+scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
+
+
+function repeated_call!(scores)
+    stats = Vector{Float64}(undef, length(scores))
+
+    for col in eachindex(scores)
+        target     = @. score > 0.5
+        stats[col] = std(target) / mean(target)
+    end
+
+    return stats
+end
+
+@ctime repeated_call(scores)
+ 
+Random.seed!(123)       #setting the seed for reproducibility
+nr_days = 30
+scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
+target  = similar(scores[1])
+
+function repeated_call!(target, scores)
+    stats = Vector{Float64}(undef, length(scores))
+
+    for col in eachindex(scores)
+        @. target  = scores[col] > 0.5
+        stats[col] = std(target) / mean(target)
+    end
+
+    return stats
+end
+
+@ctime repeated_call!(target,scores)
+ 
+Random.seed!(123)       #setting the seed for reproducibility
+nr_days = 30
+scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
+target  = similar(scores[1])
+
+function repeated_call!(target, scores)
+    stats = Vector{Float64}(undef, length(scores))
+
+    for col in eachindex(scores)
+        map!(a -> a > 0.5, target, scores[col])
+        stats[col] = std(target) / mean(target)
+    end
+
+    return stats
+end
+
+@ctime repeated_call!(target,scores)
+ 
+####################################################
+#	APPLICATION 1 - matrices
+####################################################
+ 
+Random.seed!(123)       #setting the seed for reproducibility
+nr_days    = 2
+nr_workers = 1_000_000
+
+scores     = rand(nr_days,nr_workers)
+
+
+
+
+function foo(score; temp = Vector{Float64}(undef, nr_days))
+    for i in eachindex(score)
+        temp[i] = score[i] > 0.5
+    end
+
+    return temp
+end
+
+@views repeated_call(scores) = [sum(foo(scores[:,j])) for j in axes(scores,2)]
+@ctime repeated_call($scores)
+ 
+
+
+Random.seed!(123)       #setting the seed for reproducibility
+nr_days    = 2
+nr_workers = 1_000_000
+
+scores     = rand(nr_days, nr_workers)
+temp       = Vector{Float64}(undef, nr_days)
+output     = Vector{Float64}(undef,length(scores))
+
+function foo!(temp, score)
+    for i in eachindex(score)
+        temp[i] = score[i] > 0.5
+    end
+
+    return temp
+end
+
+@views function repeated_call!(output, temp, scores) 
+    for col in axes(scores,2)
+        output[col] = sum(foo!(temp, scores[:,col]))
     end
 
     return output
 end
 
-@btime foo!($x)
+@ctime repeated_call!($output,$temp,$scores)
  
-
-
+####################################################
+#	APPLICATION 2 - model simulations
+####################################################
+ 
 Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
+nr_days = 30
+scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
-function foo!(x; output = similar(x), temp = similar(x))
-    for i in eachindex(x)
-        temp     .= x .> x[i]
-        output[i] = sum(temp)
+
+
+
+
+function foo(score)
+    temp = similar(score)
+    
+    for i in eachindex(score)
+        temp[i] = score[i] > 0.5
+    end
+
+    return std(temp) / mean(temp)
+end
+
+function repeated_call(scores) 
+    output = Vector{Float64}(undef,length(scores))
+
+    for col in eachindex(scores)
+        output[col] = foo(scores[col])
     end
 
     return output
 end
 
-@btime foo!($x);
+@ctime repeated_call($scores)
  
-
-
 Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
+nr_days = 30
+scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
-function foo!(x; output = similar(x), temp = similar(x))
-    for i in eachindex(x)
-        @. temp      = x > x[i]
-           output[i] = sum(temp)
+temp    = similar(scores[1])
+output  = Vector{Float64}(undef,length(scores))
+
+function foo!(temp, score)
+    for i in eachindex(score)
+        temp[i] = score[i] > 0.5
+    end
+
+    return std(temp) / mean(temp)
+end
+
+function repeated_call!(output, temp, scores) 
+    for col in eachindex(scores)
+        output[col] = foo!(temp, scores[col])
     end
 
     return output
 end
 
-@btime foo!($x)
+@ctime repeated_call!($output,$temp,$scores)
  
-
-
+####################################################
+#	APPLICATION 3 - lazy is slower here
+####################################################
+ 
 Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
+nr_days = 30
+scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
-function update_temp!(x, temp, i)
-    for j in eachindex(x)        
-       temp[j] = x[j] > x[i]
-    end    
+
+
+
+
+function foo(score)
+    temp = similar(score)
+    
+    for i in eachindex(score)
+        temp[i] = score[i] > 0.5
+    end
+
+    return temp
 end
 
-function foo!(x; output = similar(x), temp = similar(x))
-    for i in eachindex(x)
-        update_temp!(x, temp, i)
-        output[i] = sum(temp)
+function repeated_call(scores) 
+    output = Vector{Float64}(undef,length(scores))
+
+    for col in eachindex(scores)
+        score       = scores[col]
+        temp        = foo(score)
+        output[col] = std(temp) / mean(temp)
     end
 
     return output
 end
-
-@btime foo!($x)
+@ctime repeated_call($scores)
  
-
-
 Random.seed!(123)       #setting the seed for reproducibility
-x = rand(100)
+nr_days = 30
+scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
-update_temp!(x, temp, i) = (@. temp = x > x[i])
+temp    = similar(scores[1])
+output  = Vector{Float64}(undef,length(scores))
 
-function foo!(x; output = similar(x), temp = similar(x))
-    for i in eachindex(x)
-           update_temp!(x, temp, i)
-           output[i] = sum(temp)
+function foo!(temp, score)
+    for i in eachindex(score)
+        temp[i] = score[i] > 0.5
+    end
+
+    return temp
+end
+
+function repeated_call!(output, temp, scores) 
+    for col in eachindex(scores)
+        score   = scores[col]        
+        foo!(temp, score)
+        output[col] = std(temp) / mean(temp)
     end
 
     return output
 end
-
-@btime foo!($x)
+@ctime repeated_call!($output,$temp,$scores)
  
-
-
 Random.seed!(123)       #setting the seed for reproducibility
-x      = rand(100)
+nr_days = 30
+scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
 
+output  = Vector{Float64}(undef,length(scores))
 
-update_temp!(x, temp, i) = (@. temp = x > x[i])
-
-function foo!(x; output = similar(x), temp = similar(x))
-    for i in eachindex(x)
-           update_temp!(x, temp, i)
-           output[i] = sum(temp)
+function repeated_call!(output, scores) 
+    for col in eachindex(scores)
+        score       = scores[col]
+        temp        = (score[i] > 0.5 for i in eachindex(score))    # lazy (generator)
+        output[col] = std(temp) / mean(temp)
     end
+
     return output
 end
-
-calling_foo_in_a_loop(x) = [foo!(x) for _ in 1:1_000]
-
-@btime calling_foo_in_a_loop($x)
+@ctime repeated_call!($output,$scores)
  
-
-
 Random.seed!(123)       #setting the seed for reproducibility
-x      = rand(100)
-output = similar(x)
-temp   = similar(x)
+nr_days = 30
+scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
-update_temp!(x, temp, i) = (@. temp = x > x[i])
 
-function foo!(x, output, temp)    
-    for i in eachindex(x)
-           update_temp!(x, temp, i)
-           output[i] = sum(temp)
+output  = Vector{Float64}(undef,length(scores))
+
+function repeated_call!(output, scores) 
+    for col in eachindex(scores)
+        score       = scores[col]
+        temp        = @~ (score .> 0.5) 
+        output[col] = std(temp) / mean(temp)
     end
+
     return output
 end
-
-calling_foo_in_a_loop(x, output, temp) = [foo!(x, output, temp) for _ in 1:1_000]
-
-@btime calling_foo_in_a_loop($x, $output, $temp)
+@ctime repeated_call!($output,$scores)
  

@@ -7,4 +7,4 @@ function foo(x)
     
     output = term1 .+ term2
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide

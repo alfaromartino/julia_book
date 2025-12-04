@@ -6,4 +6,4 @@ function foo(x)
     
     output = term1 .+ x .*3
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide

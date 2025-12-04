@@ -18,7 +18,7 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x      = rand(100)
 
 foo(x) = 2 .* x
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -36,7 +36,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -54,7 +54,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 ####################################################
 #	remark: @inbounds may be automatically applied to for-loops
@@ -72,7 +72,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -90,7 +90,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -108,24 +108,24 @@ function foo(x)
 
     return output
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 ####################################################
 #	remark: there can be other optimization differences between for-loops and broadcasting
 ####################################################
  
-Random.seed!(1234) # hide
+Random.seed!(123)       #setting the seed for reproducibility #hide
 x      = rand(100)
 
 foo(x) = x ./ sum(x)
 
-@btime foo($x)    # hide
+@ctime foo($x)    #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-Random.seed!(1234) # hide
+Random.seed!(123)       #setting the seed for reproducibility #hide
 x      = rand(100)
 
 function foo(x)
@@ -138,13 +138,13 @@ function foo(x)
 
     return output
 end
-@btime foo($x)    # hide
+@ctime foo($x)    #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-Random.seed!(1234) # hide
+Random.seed!(123)       #setting the seed for reproducibility #hide
 x      = rand(100)
 
 function foo(x)
@@ -157,7 +157,7 @@ function foo(x)
 
     return output
 end
-@btime foo($x)    # hide
+@ctime foo($x)    #hide
  
 ############################################################################
 #
@@ -169,7 +169,7 @@ end
 # intuition
 ####################################################
  
-Random.seed!(1234) # hide
+Random.seed!(123)       #setting the seed for reproducibility #hide
 x        = rand(100)
 
 function foo(x)
@@ -178,33 +178,33 @@ function foo(x)
     
     output = a .+ b
 end
-@btime foo($x)    # hide
+@ctime foo($x)    #hide
  
-Random.seed!(1234) # hide
+Random.seed!(123)       #setting the seed for reproducibility #hide
 x        = rand(100)
 
 foo(x)   = x .* 2 .+ x .* 3     # or @. x * 2 + x * 3
-@btime foo($x)    # hide
+@ctime foo($x)    #hide
  
-Random.seed!(1234) # hide
+Random.seed!(123)       #setting the seed for reproducibility #hide
 x        = rand(100)
 
 foo(x)   = @. x * 2 + x * 3
 
-@btime foo($x)    # hide
+@ctime foo($x)    #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-Random.seed!(1234) # hide
+Random.seed!(123)       #setting the seed for reproducibility #hide
 x        = rand(100)
 
 term1(a) = a * 2
 term2(a) = a * 3
 
 foo(a)   = term1(a) + term2(a)
-@btime foo.($x)    # hide
+@ctime foo.($x)    #hide
  
 ####################################################
 #	vector operations can provide same results as broadcasting
@@ -216,13 +216,13 @@ x        = [1, 2, 3]
 y        = [4, 5, 6]
 
 foo(x,y) = x + y
-print_asis(foo(x, y)) #hide
+print_asis(foo(x, y))   #hide
  
 x        = [1, 2, 3]
 y        = [4, 5, 6]
 
 foo(x,y) = x .+ y
-print_asis(foo(x, y)) #hide
+print_asis(foo(x, y))   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -235,8 +235,7 @@ x        = [1, 2, 3]
 β        = 2
 
 foo(x,β) = x * β
-
-print_asis(foo(x,β)) #hide
+print_asis(foo(x,β))   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -247,8 +246,7 @@ x        = [1, 2, 3]
 β        = 2
 
 foo(x,β) = x .* β
-
-print_asis(foo(x, β)) #hide
+print_asis(foo(x, β))   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -262,8 +260,7 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x = rand(100)
 
 foo(x)  = x * 2 + x * 3
-
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -279,7 +276,7 @@ function foo(x)
     output = term1 + term2
 end
 
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -295,7 +292,7 @@ function foo(x)
     output = term1 .+ term2
 end
 
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -305,7 +302,7 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x      = rand(100)
 
 foo(x) = x * 2 .+ x .* 3
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -319,7 +316,7 @@ function foo(x)
     
     output = term1 .+ x .*3
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -333,8 +330,7 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x      = rand(100)
 
 foo(x) = x .* 2 .+ x .* 3
-
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -344,8 +340,7 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x      = rand(100)
 
 foo(x) = @. x * 2 + x * 3
-
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -355,7 +350,7 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x      = rand(100)
 
 foo(a) = a * 2 + a * 3
-@btime foo.($x) #hide
+@ctime foo.($x) #hide
  
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x        = rand(100)
@@ -364,7 +359,7 @@ term1(a) = a * 2
 term2(a) = a * 3
 
 foo(a)   = term1(a) + term2(a)
-@btime foo.($x) #hide
+@ctime foo.($x) #hide
  
 Random.seed!(123)       #setting the seed for reproducibility #hide
 x        = rand(100)
@@ -373,7 +368,7 @@ term1(a) = a * 2
 term2(a) = a * 3
 
 foo(x)   = @. term1(x) + term2(x)
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 ############################################################################
 #
@@ -394,7 +389,7 @@ function foo(x)
     
     output = term1 .+ term2
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -409,7 +404,7 @@ function foo(x)
     
     output = term1 .+ term2
 end
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -422,7 +417,7 @@ term1(a)  = a * 2
 term2(a)  = a * 3
 
 foo(a)    = term1(a) + term2(a)
-@btime foo.($x) #hide
+@ctime foo.($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -435,7 +430,7 @@ term_1    = @~ x .* 2
 term_2    = @~ x .* 3
 
 foo(term1, term2) = term1 .+ term2
-@btime foo($term_1, $term_2) #hide
+@ctime foo($term_1, $term_2) #hide
  
 ####################################################
 #	reductions
@@ -446,7 +441,7 @@ Random.seed!(123)       #setting the seed for reproducibility #hide
 x      = rand(100)
 
 foo(x) = sum(2 .* x)
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -458,7 +453,7 @@ using LazyArrays
 x      = rand(100)
 
 foo(x) = sum(@~ 2 .* x)
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -475,7 +470,7 @@ term2(a) = a * 3
 temp(a)  = term1(a) + term2(a)
 
 foo(x)   = sum(temp.(x))
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -490,7 +485,7 @@ term2(a) = a * 3
 temp(a)  = term1(a) + term2(a)
 
 foo(x)   = sum(Iterators.map(temp, x))
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -505,7 +500,7 @@ term2(a) = a * 3
 temp(a)  = term1(a) + term2(a)
 
 foo(x)   = sum(@~ temp.(x))
-@btime foo($x) #hide
+@ctime foo($x) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -522,5 +517,5 @@ function foo(x)
     output = sum(temp)
 end
 
-@btime foo($x) #hide
+@ctime foo($x) #hide
  

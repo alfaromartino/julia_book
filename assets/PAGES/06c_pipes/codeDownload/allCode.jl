@@ -1,19 +1,25 @@
 ############################################################################
 #   AUXILIAR FOR BENCHMARKING
 ############################################################################
-# For more accurate results, we benchmark code through functions and interpolate each argument.
-    # this means that benchmarking a function `foo(x)` makes use of `foo($x)`
+# For more accurate results, we benchmark code through functions.
+    # We also interpolate each function argument, so that they're taken as local variables.
+    # All this means that benchmarking a function `foo(x)` is done via `foo($x)`
 using BenchmarkTools
 
-# The following defines the macro `@fast_btime foo($x)`
-    # `@fast_btime` is equivalent to `@btime` but substantially faster
-    # if you want to use it, you should replace `@btime` with `@fast_btime`
-    # by default, if `@fast_btime` doesn't provide allocations, it means there are none
+# The following defines the macro `@ctime`, which is equivalent to `@btime` but faster
+    # to use it, replace `@btime` with `@ctime`
 using Chairmarks
-macro fast_btime(ex)
-    return quote
-        display(@b $ex)
-    end
+macro ctime(expr)
+    esc(quote
+        object = @b $expr
+        result = sprint(show, "text/plain", object) |>
+            x -> object.allocs == 0 ?
+                x * " (0 allocations: 0 bytes)" :
+                replace(x, "allocs" => "allocations") |>
+            x -> replace(x, r",.*$" => ")") |>
+            x -> replace(x, "(without a warmup) " => "")
+        println("  " * result)
+    end)
 end
 
 ############################################################################
@@ -29,41 +35,45 @@ using Pipe
 #	                     EXAMPLE 1
 ####################################################
  
-a = -2
+a      = -2
 
 output = round(log(abs(a)))
+output
  
 
 
-a = -2
+a      = -2
 
 temp1  = abs(a)
 temp2  = log(temp1)
 output = round(temp2)
+output
  
 
 
-a = -2
+a      = -2
 
 output = let b = a         # 'b' is a local variable having the value of 'a' 
    temp1 = abs(b)
    temp2 = log(temp1)
    round(temp2)
 end
+output
  
 
 
-a = -2
+a      = -2
 
 output = let a = a         # the 'a' on the left of `=` defines a local variable
    temp1 = abs(a)
    temp2 = log(temp1)
    round(temp2)
 end
+output
  
 
 
-a = -2
+a      = -2
 
 output = a |> abs |> log |> round
  
@@ -87,15 +97,15 @@ end
 #	                     EXAMPLE 2
 ####################################################
  
-x = [-1,2,3]
+x      = [-1,2,3]
 
 output = sum(log.(abs.(x)))
  
-# hide
+output # hide
  
 
 
-x = [-1,2,3]
+x      = [-1,2,3]
 
 temp1  = abs.(x)
 temp2  = log.(temp1)
@@ -103,7 +113,7 @@ output = sum(temp2)
  
 
 
-x = [-1,2,3]
+x      = [-1,2,3]
 
 output = x .|> abs .|> log |> sum
  
@@ -111,13 +121,14 @@ output = x .|> abs .|> log |> sum
 #	                     EXAMPLE 3
 ####################################################
  
-a = -2
+a      = -2
 
 output = round(2 * abs(a))
+output
  
 
 
-a = -2
+a      = -2
 
 temp1  = abs(a)
 temp2  = 2 * temp1
@@ -125,7 +136,7 @@ output = round(temp2)
  
 
 
-a = -2
+a      = -2
 
 output = a |> abs |> (x -> 2 * x) |> round
 
@@ -138,7 +149,7 @@ output = a              |>
 
 
 #
-a = -2
+a      = -2
 
 output = a |> abs |> (x -> 2 * x) |> round
 
@@ -173,7 +184,8 @@ a        = -1
 output   = log(abs(a))
 output   = a |> abs |> log
 output   = (log ∘ abs)(a)
-output   = ∘(log, abs)(a)# hide
+output   = ∘(log, abs)(a)
+output # hide
  
 
 
@@ -186,7 +198,8 @@ output   = (a / 2) + 2
 output   = outer(inner(a))
 output   = a |> inner |> outer
 output   = (outer ∘ inner)(a)
-output   = ∘(outer, inner)(a)# hide
+output   = ∘(outer, inner)(a)
+output # hide
  
 
 
@@ -198,7 +211,8 @@ x        = [1, 2, 3]
 output   = log.(abs.(x))
 output   = x .|> abs .|> log
 output   = (log ∘ abs).(x)
-output   = ∘(log, abs).(x)# hide
+output   = ∘(log, abs).(x)
+output # hide
  
 
 
@@ -211,7 +225,8 @@ output   = (x ./ 2) .+ 2
 output   = outer.(inner.(x))
 output   = x .|> inner .|> outer
 output   = (outer ∘ inner).(x)
-output   = ∘(outer, inner).(x)# hide
+output   = ∘(outer, inner).(x)
+output # hide
  
 
 
@@ -225,9 +240,9 @@ compositions = outers .∘ inners
 output       = [log(abs(a)), sqrt(abs(a))]
 output       = [foo(a) for foo in compositions]
  
-# hide
+compositions # hide
  
-# hide
+output # hide
  
 ####################################################
 #	                     EXAMPLE 4
@@ -237,7 +252,7 @@ variable_with_a_long_name = 2
 
 output = variable_with_a_long_name - log(variable_with_a_long_name) / abs(variable_with_a_long_name)
  
-# hide
+output # hide
  
 
 
@@ -250,12 +265,12 @@ output = temp - log(temp) / abs(temp)
 
 variable_with_a_long_name = 2
 
-output = variable_with_a_long_name       |>
+output = variable_with_a_long_name  |>
          a -> a - log(a) / abs(a)
  
 
 
-variable_with_a_long_name = 2 ; using Pipe
+variable_with_a_long_name = 2
 
 output = @pipe variable_with_a_long_name |>
                _ - log(_) / abs(_)
@@ -284,7 +299,7 @@ object_with_a_long_name = [-1,2,3]
 temp   = object_with_a_long_name
 output = [abs(temp[i]) + temp[i] / exp(temp[i]) for i in eachindex(temp)]
  
-# hide
+output # hide
  
 
 
