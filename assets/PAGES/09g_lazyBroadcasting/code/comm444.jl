@@ -1,1 +1,1 @@
-# comparison with Iterators
+# comparison with lazy map

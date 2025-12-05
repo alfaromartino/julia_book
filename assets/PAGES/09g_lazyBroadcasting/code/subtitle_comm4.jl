@@ -1,3 +1,3 @@
 ####################################################
-#	vector operations can provide same results as broadcasting
+#	vector operations can provide identical results to broadcasting
 ####################################################
