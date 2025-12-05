@@ -143,7 +143,7 @@ Random.seed!(1234)       #setting seed for reproducibility
 x = rand(100)
 
 display(@b sum($x))        # provides minimum time only
-@b sum($x)
+print_asis(@b sum($x))
  
 
 
@@ -153,7 +153,7 @@ Random.seed!(1234)       #setting seed for reproducibility
 x = rand(100)
 
 display(@be sum($x))       # analogous to `@benchmark` in BenchmarkTools
-@be sum($x)
+print_asis(@be sum($x))
  
 
 

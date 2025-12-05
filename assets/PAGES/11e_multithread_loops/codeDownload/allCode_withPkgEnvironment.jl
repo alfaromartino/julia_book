@@ -54,7 +54,7 @@ function foo()
 
     return output
 end
-foo()
+print_asis(foo())
  
 function foo()
     output = 0
@@ -66,7 +66,7 @@ function foo()
 
     return output
 end
-foo()
+print_asis(foo())
  
 # reading and writing a shared variable
  
@@ -81,7 +81,7 @@ function foo()
 
     return out
 end
-foo()
+print_asis(foo())
  
 function foo()
     out  = zeros(Int, 2)
@@ -94,7 +94,7 @@ function foo()
 
     return out
 end
-foo()
+print_asis(foo())
  
 function foo()
     out  = zeros(Int, 2)
@@ -107,7 +107,7 @@ function foo()
 
     return out
 end
-foo()
+print_asis(foo())
  
 ############################################################################
 #
@@ -131,7 +131,7 @@ function foo(x)
 
     return output
 end
-foo(x)
+print_asis(foo(x))
  
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
@@ -145,7 +145,7 @@ function foo(x)
 
     return output
 end
-foo(x)
+print_asis(foo(x))
  
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
@@ -159,7 +159,7 @@ function foo(x)
 
     return output
 end
-foo(x)
+print_asis(foo(x))
  
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
@@ -173,7 +173,7 @@ function foo(x)
 
     return output
 end
-foo(x)
+print_asis(foo(x))
  
 ############################################################################
 #

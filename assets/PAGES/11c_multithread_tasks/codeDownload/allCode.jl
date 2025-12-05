@@ -34,12 +34,12 @@ using Random, Base.Threads
 # package Threads automatically imported when you start Julia session 
 
 Threads.nthreads()
-Threads.nthreads()
+print_asis(Threads.nthreads())
  
 using Base.Threads      # or `using .Threads`
 
 nthreads()
-nthreads()
+print_asis(nthreads())
  
 ############################################################################
 #

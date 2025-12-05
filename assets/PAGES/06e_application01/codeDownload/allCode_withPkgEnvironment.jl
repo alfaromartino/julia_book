@@ -59,8 +59,14 @@ nr_videos = 30
 viewers  = audience(nr_videos, median_target = 50)      # in thousands of viewers
 payrates = rand(2:6, nr_videos)                         # per thousands of viewers
  
+print_compact(nr_videos)
+ 
+print_compact(viewers)
+ 
+print_compact(payrates)
+ 
 earnings = viewers .* payrates
-earnings
+print_compact(earnings)
  
 ############################################################################
 #
@@ -74,12 +80,12 @@ top_earnings |> print_compact
 indices         = sortperm(earnings, rev=true)[1:3]
 
 sorted_payrates = payrates[indices]
-sorted_payrates
+print_compact(sorted_payrates)
  
 indices         = sortperm(earnings, rev=true)[1:3]
 
 sorted_viewers  = viewers[indices]
-sorted_viewers
+print_compact(sorted_viewers)
  
 
 
@@ -110,6 +116,12 @@ viral_nrvideos  = sum(is_viral)
 viral_viewers   = sum(viewers[is_viral])
 viral_revenue   = sum(earnings[is_viral])
  
+print_compact(viral_nrvideos)
+ 
+print_compact(viral_viewers)
+ 
+print_compact(viral_revenue)
+ 
 # characterization
 viral_threshold    = 100
 payrates_above_avg = 3
@@ -119,16 +131,16 @@ is_viral_lucrative = (viewers .≥ viral_threshold) .&& (payrates .> payrates_ab
 
 # stat
 proportion_viral_lucrative = sum(is_viral_lucrative) / sum(is_viral) * 100
-proportion_viral_lucrative
+print_compact(proportion_viral_lucrative)
  
 rounded_proportion = round(proportion_viral_lucrative)
-rounded_proportion
+print_asis(rounded_proportion)
  
 rounded_proportion = round(proportion_viral_lucrative, digits=1)
-rounded_proportion
+print_asis(rounded_proportion)
  
 rounded_proportion = round(Int64, proportion_viral_lucrative)
-rounded_proportion
+print_asis(rounded_proportion)
  
 
 
@@ -182,13 +194,19 @@ viral_threshold  = 100
 is_viral         = (viewers .≥ viral_threshold)
 viral            = stats_subset(viewers, payrates, is_viral)
  
+print_compact(viral)
+ 
 viral_threshold  = 100
 is_notviral      = .!(is_viral)      # '!' is negating a boolean value and we broadcast it
 notviral         = stats_subset(viewers, payrates, is_notviral)
  
+print_compact(notviral)
+ 
 days_to_consider = (1, 10, 25)      # subset of days to be characterized
 is_day           = in.(eachindex(viewers), Ref(days_to_consider))
 specific_days    = stats_subset(viewers, payrates, is_day)
+ 
+print_compact(specific_days)
  
 
 
@@ -206,7 +224,7 @@ temp           .= 1.2 .* temp
 
 allvideos       = trues(length(new_viewers))
 targetNonViral  = stats_subset(new_viewers, payrates, allvideos)
-targetNonViral
+print_compact(targetNonViral)
  
 # 'temp' modifies 'new_viewers'
 new_viewers     = copy(viewers)
@@ -215,7 +233,7 @@ temp           .= 1.2 .* temp
 
 allvideos       = trues(length(new_viewers))
 targetViral     = stats_subset(new_viewers, payrates, allvideos)
-targetViral
+print_compact(targetViral)
  
 targetNonViral = let viewers = viewers, payrates = payrates, threshold = viral_threshold
     new_viewers = copy(viewers)
@@ -225,7 +243,7 @@ targetNonViral = let viewers = viewers, payrates = payrates, threshold = viral_t
     allvideos  = trues(length(new_viewers))
     stats_subset(new_viewers, payrates, allvideos)
 end
-targetNonViral
+print_compact(targetNonViral)
  
 targetViral    = let viewers = viewers, payrates = payrates, threshold = viral_threshold
     new_viewers = copy(viewers)
@@ -235,7 +253,7 @@ targetViral    = let viewers = viewers, payrates = payrates, threshold = viral_t
     allvideos  = trues(length(new_viewers))
     stats_subset(new_viewers, payrates, allvideos)
 end
-targetViral
+print_compact(targetViral)
  
 ############
 # REMARK: WRONG USES
@@ -278,7 +296,7 @@ print(describe(viewers))
 list_functions = [sum, median, mean, maximum, minimum]
 
 stats_viewers  = [fun(viewers) for fun in list_functions]
-stats_viewers
+print_compact(stats_viewers)
  
 
 
@@ -286,18 +304,22 @@ stats_viewers
 list_functions = [sum, median, mean, maximum, minimum]
 
 stats_various  = [fun.([viewers, payrates]) for fun in list_functions]
-stats_various
+print_compact(stats_various)
  
 
 
 
 stats_viewers  = NamedTuple((Symbol(fun), fun(viewers)) for fun in list_functions)
-stats_viewers
+print_compact(stats_viewers)
+ 
+print_compact(stats_viewers.mean)
+ 
+print_compact(stats_viewers[:median])
  
 
 
 
 vector_of_tuples = [(Symbol(fun), fun(viewers)) for fun in list_functions]
 stats_viewers    = NamedTuple(vector_of_tuples)
-stats_viewers
+print_compact(stats_viewers)
  

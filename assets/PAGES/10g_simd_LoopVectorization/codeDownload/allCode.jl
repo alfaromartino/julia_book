@@ -42,7 +42,7 @@ function foo!(x)
     end
 end
 foo!(x)
-x
+print_compact(x)
  
 x = [0.1, 0.2, 0.3]
 
@@ -52,7 +52,7 @@ function foo!(x)
     end
 end
 foo!(x)
-x
+print_compact(x)
  
 x = [0.1, 0.2, 0.3]
 
@@ -62,7 +62,7 @@ function foo!(x)
     end
 end
 foo!(x)
-x
+print_compact(x)
  
 ####################################################
 #	you should apply it with independent iterations

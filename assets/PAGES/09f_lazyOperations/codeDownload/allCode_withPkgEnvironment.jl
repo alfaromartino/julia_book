@@ -43,7 +43,9 @@ using Random
 x = [a for a in 1:10]
 
 y = [a for a in 1:10 if a > 5]
-x
+print_asis(x)
+ 
+print_asis(y)
  
 
 
@@ -51,17 +53,23 @@ x
 x = (a for a in 1:10)
 
 y = (a for a in 1:10 if a > 5)
-x
+print_asis(x)
+ 
+print_asis(y)
  
 
 
 
 x = 1:10
  
+print_asis(x)
+ 
 
 
 
 x = collect(1:10)
+ 
+print_asis(x)
  
 
 

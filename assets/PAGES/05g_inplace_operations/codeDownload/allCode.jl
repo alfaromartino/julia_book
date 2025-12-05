@@ -31,7 +31,7 @@ print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), 
 x         = [1, 2, 3]
 
 x[3]      = 30
-x
+print_asis(x)
  
 
 
@@ -39,7 +39,7 @@ x
 x         = [1, 2, 3]
 
 x[2:end]  = [20, 30]
-x
+print_asis(x)
  
 
 
@@ -47,7 +47,7 @@ x
 x         = [1, 2, 3]
 
 x[x .≥ 2] = [2, 3] .* 10
-x
+print_asis(x)
  
 
 
@@ -55,7 +55,7 @@ x
 x         = [1, 2, 3]
 
 x[x .≥ 2] = x[x .≥ 2] .* 10
-x
+print_asis(x)
  
 
 
@@ -63,7 +63,7 @@ x
 x         = [1, 2, 3]
 
 x[2:end]  = [x[i] * 10 for i in 2:length(x)]
-x
+print_asis(x)
  
 
 
@@ -80,7 +80,7 @@ x = Vector{Int64}(undef, 3)  # `x` is initialized with 3 undefined elements
 for i in eachindex(x)
     x[i] = 0
 end
-x
+print_asis(x)
  
 
 
@@ -91,7 +91,7 @@ x = similar(y)               # `x` replicates the type of `y`, which is Vector{I
 for i in eachindex(x)
     x[i] = 0
 end
-x
+print_asis(x)
  
 
 
@@ -102,7 +102,7 @@ slice = view(x, 2:3)
 for i in eachindex(slice)
     slice[i] = 1
 end
-x
+print_asis(x)
  
 
 
@@ -113,7 +113,7 @@ x     = zeros(3)
 for i in 2:3
     x[i] = 1
 end
-x
+print_asis(x)
  
 
 
@@ -123,14 +123,14 @@ x    = Vector{Int64}(undef, 3)  # `x` is initialized with 3 undefined elements
 for i in eachindex(x)
     x[i] = 0
 end
-x
+print_asis(x)
  
 x    = Vector{Int64}(undef, 3)  # `x` is initialized with 3 undefined elements
 
 x[1] = 0
 x[2] = 0
 x[3] = 0
-x
+print_asis(x)
  
 ############################################################################
 #
@@ -145,7 +145,7 @@ x
 x       = [3, 4, 5]
 
 x[1:2] .= x[1:2] .* 10    # identical output (less performant)
-x
+print_asis(x)
  
 
 
@@ -153,7 +153,7 @@ x
 x       = [3, 4, 5]
 
 x[1:2]  = x[1:2] .* 10
-x
+print_asis(x)
  
 
 
@@ -165,7 +165,7 @@ x
 x          = [-2, -1, 1]
 
 x[x .< 0] .= 0
-x
+print_asis(x)
  
 
 
@@ -179,7 +179,7 @@ x
 x    = [1, 2, 3]
 
 x    = x .* 10
-x
+print_asis(x)
  
 
 
@@ -189,7 +189,7 @@ x
 x    = [1, 2, 3]
 
 x[:] = x .* 10
-x
+print_asis(x)
  
 
 
@@ -197,7 +197,7 @@ x
 x    = [1, 2, 3]
 
 x   .= x .* 10
-x
+print_asis(x)
  
 
 
@@ -205,7 +205,7 @@ x
 x    = [1, 2, 3]
 
 @. x = x  * 10
-x
+print_asis(x)
  
 
 
@@ -213,7 +213,7 @@ x
 x    = [1, 2, 3]
 
 x    = @. x * 10
-x
+print_asis(x)
  
 
 
@@ -228,7 +228,7 @@ x          = [-2, -1, 1]
 
 
 x[x .< 0] .= 0
-x
+print_asis(x)
  
 
 
@@ -237,7 +237,7 @@ x      = [-2, -1, 1]
 
 slice  = view(x, x .< 0)     # or slice = @view x[x .< 0]
 slice .= 0
-x
+print_asis(x)
  
 
 
@@ -246,7 +246,7 @@ x      = [-2, -1, 1]
 
 slice  = view(x, x .< 0)     # or slice = @view x[x .< 0]
 slice  = 0                   # this does NOT modify `x`
-x
+print_asis(x)
  
 
 
@@ -255,7 +255,7 @@ x      = [1, 2, 3]
 
 slice  = view(x, x .≥ 2)
 slice .= slice .* 10        # same as 'x[x .≥ 2] = x[x .≥ 2] .* 10'
-x
+print_asis(x)
  
 
 
@@ -264,13 +264,13 @@ x      = [1, 2, 3]
 
 slice  = view(x, x .≥ 2)
 slice  = slice .* 10        # this does NOT modify `x`
-x
+print_asis(x)
  
 x      = [1, 2, 3]
 
 slice  = x[x .≥ 2]          # 'slice' is a copy
 slice  = slice .* 10        # this does NOT modify `x`
-x
+print_asis(x)
  
 ####################################################
 #	WARNING ABOUT THE USE OF .= AND VIEW
@@ -282,7 +282,7 @@ x      = [-2, -1, 1]
 
 slice  = view(x, x .< 0)
 slice .= 0
-x
+print_asis(x)
  
 
 
@@ -293,7 +293,7 @@ x      = [-2, -1, 1]
 
 slice  = x[x .< 0]          # 'slice' is a copy
 slice .= 0                  # this does NOT modify `x`
-x
+print_asis(x)
  
 
 
@@ -302,5 +302,5 @@ x      = [-2, -1, 1]
 
 slice  = view(x, x .< 0)
 slice  = 0                  # this does NOT modify `x`
-x
+print_asis(x)
  

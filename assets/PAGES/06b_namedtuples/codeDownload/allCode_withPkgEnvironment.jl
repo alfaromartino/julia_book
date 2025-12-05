@@ -44,10 +44,18 @@ print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), 
  
 x = [4, 5, 6]
  
+print_asis(collect(keys(x)))
+ 
+print_asis(collect(values(x)))
+ 
 
 
 
 x = (4, 5, 6)
+ 
+print_asis(collect(keys(x)))
+ 
+print_asis(collect(values(x)))
  
 
 
@@ -60,10 +68,18 @@ x = (4, 5, 6)
  
 vector_symbols = [:x, :y]
  
+print_asis(vector_symbols)
+ 
+print_asis(vector_symbols[1])
+ 
 
 
 
 vector_symbols = [Symbol("x"), Symbol("y")]
+ 
+print_asis(vector_symbols)
+ 
+print_asis(vector_symbols[1])
  
 ############################################################################
 #
@@ -76,10 +92,26 @@ vector_symbols = [Symbol("x"), Symbol("y")]
 
 some_pair = ("a" => 1)      # or simply 'some_pair = "a" => 1'
  
+print_asis(some_pair)
+ 
+print_asis(some_pair[1])
+ 
+print_asis(some_pair.first)
+ 
+print_asis(some_pair[2])
+ 
+print_asis(some_pair.second)
+ 
 
 
 
 some_pair = Pair("a", 1)            # equivalent
+ 
+print_asis(some_pair)
+ 
+print_asis(some_pair[1])
+ 
+print_asis(some_pair.second)
  
 ############################################################################
 #
@@ -88,7 +120,9 @@ some_pair = Pair("a", 1)            # equivalent
 ############################################################################
  
 some_dict = Dict("a" => 10, "b" => 20)
-some_dict
+print_asis(some_dict)
+ 
+print_asis(some_dict["a"])
  
 
 
@@ -96,24 +130,28 @@ some_dict
 some_dict      = Dict("a" => 10, "b" => 20)
 
 keys_from_dict = collect(keys(some_dict))
-keys_from_dict
+print_asis(keys_from_dict)
  
 
 
 
 some_dict = Dict(:a => 10, :b => 20)
-some_dict
+print_asis(some_dict)
+ 
+print_asis(some_dict[:a])
  
 some_dict      = Dict(:a => 10, :b => 20)
 
 keys_from_dict = collect(keys(some_dict))
-keys_from_dict
+print_asis(keys_from_dict)
  
 
 
 
 some_dict = Dict(3 => 10, 4 => 20)
-some_dict
+print_asis(some_dict)
+ 
+print_asis(some_dict[3])
  
 
 
@@ -121,15 +159,17 @@ some_dict
 some_dict      = Dict(3 => 10, 4 => 20)
 
 keys_from_dict = collect(keys(some_dict))
-keys_from_dict
+print_asis(keys_from_dict)
  
 some_dict = Dict((1,1) => 10, (1,2) => 20)
-some_dict
+print_asis(some_dict)
+ 
+print_asis(some_dict[(1,1)])
  
 some_dict      = Dict((1,1) => 10, (1,2) => 20)
 
 keys_from_dict = collect(keys(some_dict))
-keys_from_dict
+print_asis(keys_from_dict)
  
 
 
@@ -140,6 +180,8 @@ vector = [10, 20] # or tupl = (10,20)
 
 dict = Dict(pairs(vector))
  
+print_asis(dict)
+ 
 
 
 
@@ -148,6 +190,8 @@ values_for_dict = [10, 20]
 
 
 dict = Dict(zip(keys_for_dict, values_for_dict))
+ 
+print_asis(dict)
  
 
 
@@ -158,6 +202,8 @@ values_for_dict = (10, 20)
 
 dict = Dict(zip(keys_for_dict, values_for_dict))
  
+print_asis(dict)
+ 
 
 
 
@@ -166,6 +212,8 @@ nt_for_dict = (a = 10, b = 20)
 
 
 dict = Dict(pairs(nt_for_dict))
+ 
+print_asis(dict)
  
 
 
@@ -176,10 +224,16 @@ vector_keys_values = [(keys_for_dict[i], values_for_dict[i]) for i in eachindex(
 
 dict = Dict(vector_keys_values)
  
+print_asis(dict)
+ 
 
 
 
 x = (a=4, b=5, c=6)
+ 
+print_asis(collect(keys(x)))
+ 
+print_asis(values(x))
  
 
 
@@ -190,6 +244,8 @@ b = 20
 
 nt = (; a, b)
  
+print_asis(nt)
+ 
 
 
 
@@ -198,6 +254,8 @@ values_for_nt = [10, 20]
 
 
 nt = NamedTuple(zip(keys_for_nt, values_for_nt))
+ 
+print_asis(nt)
  
 
 
@@ -208,6 +266,8 @@ values_for_nt = (10, 20)
 
 nt = NamedTuple(zip(keys_for_nt, values_for_nt))
  
+print_asis(nt)
+ 
 
 
 
@@ -216,6 +276,8 @@ values_for_nt = [10, 20]
 
 
 nt = (; zip(keys_for_nt, values_for_nt)...)
+ 
+print_asis(nt)
  
 
 
@@ -226,11 +288,15 @@ vector_keys_values = [(keys_for_nt[i], values_for_nt[i]) for i in eachindex(keys
 
 nt = NamedTuple(vector_keys_values)
  
+print_asis(nt)
+ 
 dict = Dict(:a => 10, :b => 20)
 
 
 
 nt = NamedTuple(vector_keys_values)
+ 
+print_asis(nt)
  
 ############################################################################
 #
@@ -243,6 +309,8 @@ b              = 20
 
 tup            = (a, b)
  
+print_asis(tup)
+ 
 
 
 
@@ -250,12 +318,16 @@ values_for_tup = [10, 20]
 
 tup            = Tuple(values_for_tup)
  
+print_asis(tup)
+ 
 
 
 
 values_for_tup = [10, 20]
 
 tup            = (values_for_tup... ,)
+ 
+print_asis(tup)
  
 ############################################################################
 #

@@ -36,6 +36,8 @@ x = rand(100)
 
 foo(x) = sum(x)
  
+print_compact(foo(x))
+ 
 
 
 
@@ -52,6 +54,8 @@ function foo(x)
     return output
 end
  
+print_compact(foo(x))
+ 
 
 
 
@@ -67,6 +71,8 @@ function foo(x)
 
     return output
 end
+ 
+print_compact(foo(x))
  
 
 
@@ -92,6 +98,10 @@ function foo2(x)
     return output
 end
  
+print_compact(foo1(x))
+ 
+print_compact(foo2(x))
+ 
 
 
 
@@ -109,6 +119,10 @@ function foo2(x)
 
     return output
 end
+ 
+print_compact(foo1(x))
+ 
+print_compact(foo2(x))
  
 
 
@@ -128,6 +142,10 @@ function foo2(x)
     return output
 end
  
+print_compact(foo1(x))
+ 
+print_compact(foo2(x))
+ 
 
 
 
@@ -145,6 +163,10 @@ function foo2(x)
 
     return output
 end
+ 
+print_compact(foo1(x))
+ 
+print_compact(foo2(x))
  
 
 

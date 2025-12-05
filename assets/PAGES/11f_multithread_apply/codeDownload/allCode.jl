@@ -308,6 +308,10 @@ nr_chunks     = 5
 chunk_indices = index_chunks(x, n = nr_chunks)
 chunk_values  = chunks(x, n = nr_chunks)
  
+print_asis(collect(chunk_indices))
+ 
+print_asis(collect(chunk_values))
+ 
 # chunks creation -> by setting the size of the subsets
  
 x             = string.('a':'z')            # all letters from "a" to "z"
@@ -316,6 +320,10 @@ chunk_length  = 10
 
 chunk_indices = index_chunks(x, size = chunk_length)
 chunk_values  = chunks(x, size = chunk_length)
+ 
+print_asis(collect(chunk_indices))
+ 
+print_asis(collect(chunk_values))
  
 ####################################################
 #	common way to split chunks for multithreading
@@ -327,6 +335,10 @@ nr_chunks     = nthreads()
 
 chunk_indices = index_chunks(x, n = nr_chunks)
 chunk_values  = chunks(x, n = nr_chunks)
+ 
+print_asis(collect(chunk_indices))
+ 
+print_asis(collect(chunk_values))
  
 
 
@@ -340,6 +352,14 @@ chunk_values  = chunks(x, n = nr_chunks)
 
 chunk_iter1   = enumerate(chunk_indices)    # pairs (i_chunk, chunk_index)
 chunk_iter2   = enumerate(chunk_values)     # pairs (i_chunk, chunk_value)
+ 
+print_asis(collect(chunk_indices))
+ 
+print_asis(collect(chunk_values))
+ 
+print_asis(collect(chunk_iter1))
+ 
+print_asis(collect(chunk_iter2))
  
 ############################################################################
 #
@@ -486,7 +506,7 @@ function foo(x)
 
     output
 end
-foo(x)
+print_asis(foo(x))
  
 @ctime foo($x)
  
@@ -503,7 +523,7 @@ function foo(x)
     
     return sum(partial_outputs)
 end
-foo(x)
+print_asis(foo(x))
  
 @ctime foo($x)
  
@@ -520,7 +540,7 @@ function foo(x)
         
     return sum(partial_outputs)
 end
-foo(x)
+print_asis(foo(x))
  
 @ctime foo($x)
  

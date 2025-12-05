@@ -669,7 +669,7 @@ function foo()
 
     return out
 end
-foo()
+print_asis(foo())
  
 
 
@@ -685,7 +685,7 @@ function foo()
 
     return out
 end
-foo()
+print_asis(foo())
  
 
 
@@ -701,7 +701,7 @@ function foo()
 
     return out
 end
-foo()
+print_asis(foo())
  
 
 
@@ -717,7 +717,7 @@ function foo()
 
     return out
 end
-foo()
+print_asis(foo())
  
 
 

@@ -57,7 +57,8 @@ end
 
 
 
-
+print_compact(foo(abs, x))
+ 
 
 
 
@@ -71,6 +72,8 @@ function foo(f, x)
     sum(y)
 end
 @ctime foo(abs, $x)
+ 
+print_compact(foo(abs, x))
  
 
 
@@ -93,6 +96,8 @@ function foo(f::F, x) where F
 end
 @ctime foo(abs, $x)
  
+print_compact(foo(abs, x))
+ 
 
 
 
@@ -107,4 +112,6 @@ function foo(f_tup, x)
     sum(y)
 end
 @ctime foo($f_tup, $x)
+ 
+print_compact(foo(f_tup, x))
  

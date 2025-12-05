@@ -135,7 +135,6 @@ Random.seed!(123)       #setting seed for reproducibility
 x      = rand(100)
 
 foo(x) = x ./ sum(x)
-
 @ctime foo($x)
  
 
@@ -211,7 +210,6 @@ Random.seed!(123)       #setting seed for reproducibility
 x        = rand(100)
 
 foo(x)   = @. x * 2 + x * 3
-
 @ctime foo($x)
  
 
@@ -240,7 +238,7 @@ x        = [1, 2, 3]
 y        = [4, 5, 6]
 
 foo(x,y) = x + y
-foo(x, y)
+print_asis(foo(x, y))
  
 
 
@@ -249,7 +247,7 @@ x        = [1, 2, 3]
 y        = [4, 5, 6]
 
 foo(x,y) = x .+ y
-foo(x, y)
+print_asis(foo(x, y))
  
 
 
@@ -261,7 +259,7 @@ x        = [1, 2, 3]
 β        = 2
 
 foo(x,β) = x * β
-foo(x,β)
+print_asis(foo(x,β))
  
 
 
@@ -271,7 +269,7 @@ x        = [1, 2, 3]
 β        = 2
 
 foo(x,β) = x .* β
-foo(x, β)
+print_asis(foo(x, β))
  
 
 

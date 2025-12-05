@@ -46,6 +46,10 @@ x         = [10, 20, 30]
 indices   = sortperm(x)
 elements  = x[indices]    # equivalent to `sort(x)`
  
+print_asis(indices)
+ 
+print_asis(elements)
+ 
 
 
 
@@ -54,10 +58,18 @@ x         = [20, 10, 30]
 indices   = x .> 15
 elements  = x[indices]
  
+print_asis(indices)
+ 
+print_asis(elements)
+ 
 x         = [2, 3, 4, 5, 6]
 
 indices_1 = 1:length(x)         # unit strides, equivalent to 1:1:length(x)
 indices_2 = 1:2:length(x)       # strides two
+ 
+print_asis(collect(indices_1))
+ 
+print_asis(collect(indices_2))
  
 ############################################################################
 #
@@ -721,6 +733,10 @@ x = rand(x_size)
 y = zeros(eltype(x),x_size * 2)
     temp  = view(y, 2:2:length(y))
     temp .= x
+ 
+print_asis(x[1:3])
+ 
+print_asis(y[1:6],12)
  
 # simd is faster with unit strides
  

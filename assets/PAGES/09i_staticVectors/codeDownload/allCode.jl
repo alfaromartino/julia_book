@@ -37,6 +37,8 @@ sx = SVector{length(x), eltype(x)}(x)
 sx = SA[x...]
 sx = @SVector [a for a in x]
  
+print_asis(sx, 10)
+ 
 
 
 
@@ -48,6 +50,8 @@ sx = SVector{3, Int64}(3,4,5)
 sx = SA[3,4,5]
 sx = @SVector [i for i in 3:5]
  
+print_asis(sx)
+ 
 
 
 
@@ -56,6 +60,10 @@ x = collect(3:10) ; sx = SVector(x...)
 # both define static vectors
 slice1 = sx[:]
 slice2 = sx[SA[1,2]]        # or slice2 = sx[SVector(1,2)]
+ 
+print_asis(slice1)
+ 
+print_asis(slice2)
  
 
 
@@ -66,13 +74,7 @@ x = collect(3:10) ; sx = SVector(x...)
 slice2 = sx[1:2]
 slice2 = sx[[1,2]]
  
-
-
-
-x = collect(3:10) ; sx = SVector(x...)
-
-slice1 = sx[1]
-slice2 = sx[:]
+print_asis(slice2)
  
 
 
@@ -81,6 +83,18 @@ x = collect(3:10) ; sx = SVector(x...)
 
 slice1 = sx[1]
 slice2 = sx[:]
+ 
+print_asis(slice2)
+ 
+
+
+
+x = collect(3:10) ; sx = SVector(x...)
+
+slice1 = sx[1]
+slice2 = sx[:]
+ 
+print_asis(slice2)
  
 
 
@@ -102,12 +116,16 @@ mx = MVector(x...)
 
 mx[1] = 0
  
+print_asis(mx, 10)
+ 
 
 
 
 sx = SVector(1,2,3)
 
 mx = similar(sx)        # it defines an MVector with undef elements
+ 
+print_asis(mx, 10)
  
 
 

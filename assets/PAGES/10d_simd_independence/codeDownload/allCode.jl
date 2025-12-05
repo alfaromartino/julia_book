@@ -146,6 +146,10 @@ x               = [20, 10, 30]
 sorted_indices  = sortperm(x)
 sorted_elements = x[sorted_indices]    # equivalent to `sort(x)`
  
+print_asis(sorted_indices)
+ 
+print_asis(sorted_elements)
+ 
 ####################################################
 #	@simd is faster when elements are contiguous in memory
 ####################################################
