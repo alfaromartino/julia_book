@@ -10,28 +10,22 @@ Pkg.instantiate() #to install the packages
 
 
 ############################################################################
-#   AUXILIAR FOR BENCHMARKING
+#   AUXILIARS FOR BENCHMARKING
 ############################################################################
-# For more accurate results, we benchmark code through functions.
-    # We also interpolate each function argument, so that they're taken as local variables.
-    # All this means that benchmarking a function `foo(x)` is done via `foo($x)`
-using BenchmarkTools
+#= The following package defines the macro `@ctime`
+    Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# The following defines the macro `@ctime`, which is equivalent to `@btime` but faster
-    # to use it, replace `@btime` with `@ctime`
-using Chairmarks
-macro ctime(expr)
-    esc(quote
-        object = @b $expr
-        result = sprint(show, "text/plain", object) |>
-            x -> object.allocs == 0 ?
-                x * " (0 allocations: 0 bytes)" :
-                replace(x, "allocs" => "allocations") |>
-            x -> replace(x, r",.*$" => ")") |>
-            x -> replace(x, "(without a warmup) " => "")
-        println("  " * result)
-    end)
-end
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+using FastBenchmark
+    
+############################################################################
+#   AUXILIARS FOR DISPLAYING RESULTS
+############################################################################
+# you can alternatively use "println" or "display"
+print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
+print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
+
 
 ############################################################################
 #
@@ -54,6 +48,7 @@ end
  
 
 
+
 #############################          TUPLES           #########################################
 ####################################################
 #   ACCESSING or CREATING TUPLES DON'T ALLOCATE
@@ -67,6 +62,7 @@ end
 
 @ctime foo()
  
+
 
 
 ####################################################
@@ -92,6 +88,7 @@ end
 
 @ctime foo()
  
+
 
 
 #############################          ARRAYS           #########################################
@@ -130,6 +127,7 @@ foo(x) = x .* x
  
 
 
+
 ####################################################
 #	 ACCESSING ARRAYS ALLOCATE
 ####################################################
@@ -151,6 +149,7 @@ foo(x) = x[[1,2]]               # allocations from both '[1,2]' and 'x[[1,2]]' i
  
 
 
+
 ####################################################
 #	 ACCESSING VECTORS OR SINGLE-ELEMENTS OF ARRAYS DON'T ALLOCATE
 ####################################################
@@ -170,6 +169,7 @@ foo(x) = x[1] * x[2] + x[3]
 
 @ctime foo($x)
  
+
 
 
 ####################################################

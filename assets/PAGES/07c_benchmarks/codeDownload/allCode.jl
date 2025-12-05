@@ -1,26 +1,20 @@
 ############################################################################
-#   AUXILIAR FOR BENCHMARKING
+#   AUXILIARS FOR BENCHMARKING
 ############################################################################
-# For more accurate results, we benchmark code through functions.
-    # We also interpolate each function argument, so that they're taken as local variables.
-    # All this means that benchmarking a function `foo(x)` is done via `foo($x)`
-using BenchmarkTools
+#= The following package defines the macro `@ctime`
+    Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# The following defines the macro `@ctime`, which is equivalent to `@btime` but faster
-    # to use it, replace `@btime` with `@ctime`
-using Chairmarks
-macro ctime(expr)
-    esc(quote
-        object = @b $expr
-        result = sprint(show, "text/plain", object) |>
-            x -> object.allocs == 0 ?
-                x * " (0 allocations: 0 bytes)" :
-                replace(x, "allocs" => "allocations") |>
-            x -> replace(x, r",.*$" => ")") |>
-            x -> replace(x, "(without a warmup) " => "")
-        println("  " * result)
-    end)
-end
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+using FastBenchmark
+    
+############################################################################
+#   AUXILIARS FOR DISPLAYING RESULTS
+############################################################################
+# you can alternatively use "println" or "display"
+print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
+print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
+
 
 ############################################################################
 #
@@ -42,6 +36,7 @@ x = 1:100
 @time sum(x)         # first run                     -> it incorporates compilation time 
 @time sum(x)         # time without compilation time -> relevant for each subsequent run
  
+
 
 
 ############################################################################
@@ -122,7 +117,7 @@ end
 ############################################################################
  
 using BenchmarkTools
-using Random; Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(100)
 
 @btime sum(x)
@@ -131,7 +126,7 @@ x = rand(100)
 
 
 using BenchmarkTools
-using Random; Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(100)
 
 @btime sum($x)
@@ -144,7 +139,7 @@ x = rand(100)
 ############################################################################
  
 using Chairmarks
-using Random; Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(100)
 
 display(@b sum($x))        # provides minimum time only
@@ -154,7 +149,7 @@ display(@b sum($x))        # provides minimum time only
 
 
 using Chairmarks
-using Random; Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(100)
 
 display(@be sum($x))       # analogous to `@benchmark` in BenchmarkTools
@@ -164,7 +159,7 @@ display(@be sum($x))       # analogous to `@benchmark` in BenchmarkTools
 
 
 using Chairmarks
-using Random; Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 
 @b begin
    x = rand(100)
@@ -175,7 +170,7 @@ end
 
 
 using Chairmarks
-using Random; Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 
 @be begin
    x = rand(100)
@@ -188,7 +183,7 @@ end
 #
 ############################################################################
  
-using Random; Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(100_000)
 
 foo()  = sum(2 .* x)
@@ -198,7 +193,7 @@ foo()  = sum(2 .* x)
 
 
 
-using Random; Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(100_000)
 
 foo(x) = sum(a -> 2 * a, x)
@@ -208,7 +203,7 @@ foo(x) = sum(a -> 2 * a, x)
 
 
 
-using Random; Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(100_000)
 foo()  = sum(2 .* x)
 
@@ -223,7 +218,7 @@ end
 
 
 
-using Random; Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(100_000)
 foo(x) = sum(a -> 2 * a, x)
 
@@ -273,7 +268,7 @@ y = sum(x)
 
 
 
-using Random ; Random.seed!(123) # hide
+using Random ; Random.seed!(123)
 # We omit the lines that seet the seed
 
 
@@ -287,7 +282,7 @@ y = sum(x)
 #
 ############################################################################
  
-using Random; Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(100_000)
 
 foo()  = sum(2 .* x)
@@ -297,7 +292,7 @@ foo()  = sum(2 .* x)
 
 
 
-using Random; Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(100_000)
 
 foo(x) = sum(a -> 2 * a, x)
@@ -307,7 +302,7 @@ foo(x) = sum(a -> 2 * a, x)
 
 
 
-using Random; Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(100_000)
 foo()  = sum(2 .* x)
 
@@ -322,7 +317,7 @@ end
 
 
 
-using Random; Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(100_000)
 foo(x) = sum(a -> 2 * a, x)
 

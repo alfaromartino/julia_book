@@ -10,28 +10,22 @@ Pkg.instantiate() #to install the packages
 
 
 ############################################################################
-#   AUXILIAR FOR BENCHMARKING
+#   AUXILIARS FOR BENCHMARKING
 ############################################################################
-# For more accurate results, we benchmark code through functions.
-    # We also interpolate each function argument, so that they're taken as local variables.
-    # All this means that benchmarking a function `foo(x)` is done via `foo($x)`
-using BenchmarkTools
+#= The following package defines the macro `@ctime`
+    Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# The following defines the macro `@ctime`, which is equivalent to `@btime` but faster
-    # to use it, replace `@btime` with `@ctime`
-using Chairmarks
-macro ctime(expr)
-    esc(quote
-        object = @b $expr
-        result = sprint(show, "text/plain", object) |>
-            x -> object.allocs == 0 ?
-                x * " (0 allocations: 0 bytes)" :
-                replace(x, "allocs" => "allocations") |>
-            x -> replace(x, r",.*$" => ")") |>
-            x -> replace(x, "(without a warmup) " => "")
-        println("  " * result)
-    end)
-end
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+using FastBenchmark
+    
+############################################################################
+#   AUXILIARS FOR DISPLAYING RESULTS
+############################################################################
+# you can alternatively use "println" or "display"
+print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
+print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
+
 
 ############################################################################
 #
@@ -133,7 +127,7 @@ mx = similar(sx)        # it defines an MVector with undef elements
 #	        comparison
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(10)
 
 function foo(x)
@@ -143,12 +137,12 @@ function foo(x)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo($x)
+@ctime foo($x)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(10)
 
 @views function foo(x)
@@ -158,12 +152,12 @@ x = rand(10)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo($x)
+@ctime foo($x)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(10);   tup = Tuple(x)
 
 function foo(x)
@@ -173,12 +167,12 @@ function foo(x)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo($tup)
+@ctime foo($tup)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(10);   sx = SA[x...]
 
 function foo(x)
@@ -188,12 +182,12 @@ function foo(x)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo($sx)
+@ctime foo($sx)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(10);   mx = MVector(x...)
 
 function foo(x)
@@ -203,82 +197,82 @@ function foo(x)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo($mx)
+@ctime foo($mx)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(10)
 
 foo(x) = sum(2 .* x)
 
-@btime foo($x)
+@ctime foo($x)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(10);   sx = SVector(x...)
 
 foo(x) = sum(2 .* x)
 
-@btime foo($sx)
+@ctime foo($sx)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x  = rand(10)
 
 foo(x) = sum(a -> 10 + 2a +  3a^2, x)
 
-@btime foo($x)
+@ctime foo($x)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x  = rand(10);  sx = SVector(x...);
 
 foo(x) = sum(a -> 10 + 2a +  3a^2, x)
 
-@btime foo($sx)
+@ctime foo($sx)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x  = rand(10)
 sx = SVector(x...);  mx = MVector(x...)
 
 foo(x) = sum(a -> 10 + 2a +  3a^2, x)
  
-@btime foo($x)
+@ctime foo($x)
  
-@btime foo($sx)
+@ctime foo($sx)
  
-@btime foo($mx)
+@ctime foo($mx)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x  = rand(10)
 sx = SVector(x...);  mx = MVector(x...)
 
 foo(x) = 10 + 2x +  3x^2
  
-@btime foo.($x)
+@ctime foo.($x)
  
-@btime foo.($sx)
+@ctime foo.($sx)
  
-@btime foo.($mx)
+@ctime foo.($mx)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(50)
 
 function foo(x; output = similar(x))
@@ -290,12 +284,12 @@ function foo(x; output = similar(x))
     return output
 end
  
-@btime foo($x)
+@ctime foo($x)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(50)
 
 function foo(x; output = similar(x), temp = similar(x))
@@ -307,12 +301,12 @@ function foo(x; output = similar(x), temp = similar(x))
     return output
 end
  
-@btime foo($x)
+@ctime foo($x)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(50);   sx = SVector(x...)
 
 function foo(x; output = Vector{Float64}(undef, length(x)))
@@ -324,12 +318,12 @@ function foo(x; output = Vector{Float64}(undef, length(x)))
     return output
 end
  
-@btime foo($sx)
+@ctime foo($sx)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(50);   sx = SVector(x...)
 
 function foo(x; output = similar(x))
@@ -341,12 +335,12 @@ function foo(x; output = similar(x))
     return output
 end
  
-@btime foo($sx)
+@ctime foo($sx)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(50);   sx = SVector(x...)
 
 function foo(x; output = MVector{length(x),eltype(x)}(undef))
@@ -358,12 +352,12 @@ function foo(x; output = MVector{length(x),eltype(x)}(undef))
     return output
 end
  
-@btime foo($sx)
+@ctime foo($sx)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(50)
 
 function foo(x)
@@ -383,7 +377,7 @@ end
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(50);   sx = SVector(x...)
 
 function foo(x)
@@ -403,7 +397,7 @@ end
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(50)
 
 function foo(x, ::Val{N}) where N
@@ -423,20 +417,20 @@ end
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(100)
 y = rand(100)
 
-@btime sum($x .* $y)
+@ctime sum($x .* $y)
  
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = tuple(rand(100)...)
 y = tuple(rand(100)...)
 
-@btime sum($x .* $y)
+@ctime sum($x .* $y)
  
 
 
@@ -445,5 +439,5 @@ using BenchmarkTools
 x2 = SVector(rand(100)...)
 y2 = SVector(rand(100)...)
 
-@btime sum($x .* $y)
+@ctime sum($x .* $y)
  

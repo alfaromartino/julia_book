@@ -1,26 +1,20 @@
 ############################################################################
-#   AUXILIAR FOR BENCHMARKING
+#   AUXILIARS FOR BENCHMARKING
 ############################################################################
-# For more accurate results, we benchmark code through functions.
-    # We also interpolate each function argument, so that they're taken as local variables.
-    # All this means that benchmarking a function `foo(x)` is done via `foo($x)`
-using BenchmarkTools
+#= The following package defines the macro `@ctime`
+    Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# The following defines the macro `@ctime`, which is equivalent to `@btime` but faster
-    # to use it, replace `@btime` with `@ctime`
-using Chairmarks
-macro ctime(expr)
-    esc(quote
-        object = @b $expr
-        result = sprint(show, "text/plain", object) |>
-            x -> object.allocs == 0 ?
-                x * " (0 allocations: 0 bytes)" :
-                replace(x, "allocs" => "allocations") |>
-            x -> replace(x, r",.*$" => ")") |>
-            x -> replace(x, "(without a warmup) " => "")
-        println("  " * result)
-    end)
-end
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+using FastBenchmark
+    
+############################################################################
+#   AUXILIARS FOR DISPLAYING RESULTS
+############################################################################
+# you can alternatively use "println" or "display"
+print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
+print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
+
 
 ############################################################################
 #
@@ -42,6 +36,7 @@ output
  
 
 
+
 a      = -2
 
 temp1  = abs(a)
@@ -49,6 +44,7 @@ temp2  = log(temp1)
 output = round(temp2)
 output
  
+
 
 
 a      = -2
@@ -62,6 +58,7 @@ output
  
 
 
+
 a      = -2
 
 output = let a = a         # the 'a' on the left of `=` defines a local variable
@@ -73,20 +70,21 @@ output
  
 
 
+
 a      = -2
 
 output = a |> abs |> log |> round
  
-# just like functions, be careful as you can mutate the global variable   # hide 
-# just like functions too, you can't reassign a value through a let block # hide 
+# just like functions, be careful as you can mutate the global variable 
+# just like functions too, you can't reassign a value through a let block 
 x = [2,2,2]
 
 output = let x = x
    x[1] = 0
 end
  
-# just like functions, be careful as you can mutate the global variable   # hide 
-# just like functions too, you can't reassign a value through a let block # hide 
+# just like functions, be careful as you can mutate the global variable 
+# just like functions too, you can't reassign a value through a let block 
 x = [2,2,2]
 
 output = let x = x
@@ -101,8 +99,7 @@ x      = [-1,2,3]
 
 output = sum(log.(abs.(x)))
  
-output # hide
- 
+
 
 
 x      = [-1,2,3]
@@ -111,6 +108,7 @@ temp1  = abs.(x)
 temp2  = log.(temp1)
 output = sum(temp2)
  
+
 
 
 x      = [-1,2,3]
@@ -128,12 +126,14 @@ output
  
 
 
+
 a      = -2
 
 temp1  = abs(a)
 temp2  = 2 * temp1
 output = round(temp2)
  
+
 
 
 a      = -2
@@ -148,6 +148,7 @@ output = a              |>
  
 
 
+
 #
 a      = -2
 
@@ -159,6 +160,7 @@ output =       a            |>
                x -> 2 * x   |>
                round
  
+
 
 
 using Pipe
@@ -185,8 +187,9 @@ output   = log(abs(a))
 output   = a |> abs |> log
 output   = (log ∘ abs)(a)
 output   = ∘(log, abs)(a)
-output # hide
+output
  
+
 
 
 a        = 2
@@ -199,8 +202,9 @@ output   = outer(inner(a))
 output   = a |> inner |> outer
 output   = (outer ∘ inner)(a)
 output   = ∘(outer, inner)(a)
-output # hide
+output
  
+
 
 
 x        = [1, 2, 3]
@@ -212,8 +216,9 @@ output   = log.(abs.(x))
 output   = x .|> abs .|> log
 output   = (log ∘ abs).(x)
 output   = ∘(log, abs).(x)
-output # hide
+output
  
+
 
 
 x        = [1, 2, 3]
@@ -226,8 +231,9 @@ output   = outer.(inner.(x))
 output   = x .|> inner .|> outer
 output   = (outer ∘ inner).(x)
 output   = ∘(outer, inner).(x)
-output # hide
+output
  
+
 
 
 a            = -1
@@ -240,10 +246,6 @@ compositions = outers .∘ inners
 output       = [log(abs(a)), sqrt(abs(a))]
 output       = [foo(a) for foo in compositions]
  
-compositions # hide
- 
-output # hide
- 
 ####################################################
 #	                     EXAMPLE 4
 ####################################################
@@ -252,8 +254,7 @@ variable_with_a_long_name = 2
 
 output = variable_with_a_long_name - log(variable_with_a_long_name) / abs(variable_with_a_long_name)
  
-output # hide
- 
+
 
 
 variable_with_a_long_name = 2
@@ -263,6 +264,7 @@ output = temp - log(temp) / abs(temp)
  
 
 
+
 variable_with_a_long_name = 2
 
 output = variable_with_a_long_name  |>
@@ -270,11 +272,13 @@ output = variable_with_a_long_name  |>
  
 
 
+
 variable_with_a_long_name = 2
 
 output = @pipe variable_with_a_long_name |>
                _ - log(_) / abs(_)
  
+
 
 
 variable_with_a_long_name = 2
@@ -294,13 +298,13 @@ output = [abs(object_with_a_long_name[i]) + object_with_a_long_name[i] / exp(obj
  
 
 
+
 object_with_a_long_name = [-1,2,3]
 
 temp   = object_with_a_long_name
 output = [abs(temp[i]) + temp[i] / exp(temp[i]) for i in eachindex(temp)]
  
-output # hide
- 
+
 
 
 object_with_a_long_name = [-1,2,3]
@@ -310,11 +314,13 @@ output = object_with_a_long_name |>
  
 
 
+
 object_with_a_long_name = [-1,2,3]
 
 output = @pipe object_with_a_long_name |>
                [abs(_[i]) + _[i] / exp(_[i]) for i in eachindex(_)]
  
+
 
 
 object_with_a_long_name = [-1,2,3]

@@ -1,26 +1,20 @@
 ############################################################################
-#   AUXILIAR FOR BENCHMARKING
+#   AUXILIARS FOR BENCHMARKING
 ############################################################################
-# For more accurate results, we benchmark code through functions.
-    # We also interpolate each function argument, so that they're taken as local variables.
-    # All this means that benchmarking a function `foo(x)` is done via `foo($x)`
-using BenchmarkTools
+#= The following package defines the macro `@ctime`
+    Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# The following defines the macro `@ctime`, which is equivalent to `@btime` but faster
-    # to use it, replace `@btime` with `@ctime`
-using Chairmarks
-macro ctime(expr)
-    esc(quote
-        object = @b $expr
-        result = sprint(show, "text/plain", object) |>
-            x -> object.allocs == 0 ?
-                x * " (0 allocations: 0 bytes)" :
-                replace(x, "allocs" => "allocations") |>
-            x -> replace(x, r",.*$" => ")") |>
-            x -> replace(x, "(without a warmup) " => "")
-        println("  " * result)
-    end)
-end
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+using FastBenchmark
+    
+############################################################################
+#   AUXILIARS FOR DISPLAYING RESULTS
+############################################################################
+# you can alternatively use "println" or "display"
+print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
+print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
+
 
 ############################################################################
 #
@@ -29,7 +23,7 @@ end
 ############################################################################
  
 # necessary packages for this file
-using Random, LazyArrays
+using Random, Statistics, LazyArrays
  
 ############################################################################
 #
@@ -41,6 +35,10 @@ using Random, LazyArrays
 #	INITIALIZING VECTORS
 ####################################################
  
+####################################################
+#	approaches
+####################################################
+ 
 x           = collect(1:100)
 repetitions = 100_000                       # repetitions in a for-loop
 
@@ -49,9 +47,9 @@ function foo(x, repetitions)
         similar(x)
     end
 end
-
 @ctime foo($x, $repetitions)
  
+
 
 
 x           = collect(1:100)
@@ -62,9 +60,9 @@ function foo(x, repetitions)
         Vector{Int64}(undef, length(x))
     end
 end
-
 @ctime foo($x, $repetitions)
  
+
 
 
 x           = collect(1:100)
@@ -75,9 +73,9 @@ function foo(x, repetitions)
         zeros(Int64, length(x))
     end
 end
-
 @ctime foo($x, $repetitions)
  
+
 
 
 x           = collect(1:100)
@@ -88,9 +86,9 @@ function foo(x, repetitions)
         ones(Int64, length(x))
     end
 end
-
 @ctime foo($x, $repetitions)
  
+
 
 
 x           = collect(1:100)
@@ -101,20 +99,24 @@ function foo(x, repetitions)
         fill(2, length(x))                  # vector filled with integer 2
     end
 end
-
 @ctime foo($x, $repetitions)
  
 
 
+
+####################################################
+#	initializing vectors in functions
+####################################################
+ 
 x = [1,2,3]
 
 function foo(x)
     a = similar(x); b = similar(x); c = similar(x)    
     # <some calculations using a,b,c>
 end
-
 @ctime foo($x)
  
+
 
 
 x = [1,2,3]
@@ -123,9 +125,9 @@ function foo(x; a = similar(x), b = similar(x), c = similar(x))
     
     # <some calculations using a,b,c>
 end
-
 @ctime foo($x)
  
+
 
 
 x = [1,2,3]
@@ -134,9 +136,9 @@ function foo(x)
     a,b,c = [similar(x) for _ in 1:3]
     # <some calculations using a,b,c>
 end
-
 @ctime foo($x)
  
+
 
 
 x = [1,2,3]
@@ -145,24 +147,23 @@ function foo(x)
     a,b,c = (similar(x) for _ in 1:3)
     # <some calculations using a,b,c>
 end
-
 @ctime foo($x)
  
 ####################################################
 #	DESCRIBING THE TECHNIQUE
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 nr_days            = 30
 score              = rand(nr_days)
 
 performance(score) = score .> 0.5
-
 @ctime performance($score)
  
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+
+Random.seed!(123)       #setting seed for reproducibility
 nr_days            = 30
 score              = rand(nr_days)
 
@@ -175,10 +176,12 @@ function performance(score)
 
     return target
 end
-
 @ctime performance($score)
  
-Random.seed!(123)       #setting the seed for reproducibility
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
 nr_days            = 30
 score              = rand(nr_days)
 
@@ -191,12 +194,12 @@ function performance(score; target=similar(score))
 
     return target
 end
-
 @ctime performance($score)
  
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+
+Random.seed!(123)       #setting seed for reproducibility
 nr_days            = 30
 score              = rand(nr_days)
 
@@ -205,6 +208,9 @@ performance(score) = score .> 0.5
 performance_in_a_loop(x) = [sum(foo(x)) for _ in 1:100]
 @ctime performance_in_a_loop($x)
  
+
+
+
 nr_days            = 30
 score              = rand(nr_days)
 
@@ -221,7 +227,7 @@ end
 performance_in_a_loop(x) = [sum(foo(x)) for _ in 1:100]
 @ctime performance_in_a_loop($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 nr_days            = 30
 scores             = [rand(nr_days), rand(nr_days), rand(nr_days)]  # 3 workers
 
@@ -237,12 +243,12 @@ function repeated_call(scores)
 
     return stats
 end
-
 @ctime repeated_call($scores)
  
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+
+Random.seed!(123)       #setting seed for reproducibility
 nr_days            = 30
 scores             = [rand(nr_days), rand(nr_days), rand(nr_days)]   # 3 workers
 
@@ -268,7 +274,10 @@ function repeated_call(scores)
 end
 @ctime repeated_call($scores)
  
-Random.seed!(123)       #setting the seed for reproducibility
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
 nr_days            = 30
 scores             = [rand(nr_days), rand(nr_days), rand(nr_days)]   # 3 workers
 
@@ -292,16 +301,16 @@ function repeated_call(scores)
 
     return stats
 end
-
 @ctime repeated_call($scores)
  
+
 
 
 ####################################################
 #	PRE-ALLOCATION AS A SOLUTION
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
@@ -318,10 +327,12 @@ function repeated_call!(scores)
 
     return stats
 end
-
 @ctime repeated_call(scores)
  
-Random.seed!(123)       #setting the seed for reproducibility
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 target  = similar(scores[1])
@@ -342,12 +353,12 @@ function repeated_call!(target, scores)
 
     return stats
 end
-
 @ctime repeated_call!(target, scores)
  
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+
+Random.seed!(123)       #setting seed for reproducibility
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 target  = similar(scores[1])
@@ -364,12 +375,12 @@ function repeated_call!(target, scores)
 
     return stats
 end
-
 @ctime repeated_call!(target,scores)
  
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+
+Random.seed!(123)       #setting seed for reproducibility
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 target  = similar(scores[1])
@@ -386,14 +397,14 @@ function repeated_call!(target, scores)
 
     return stats
 end
-
 @ctime repeated_call!(target,scores)
  
 
 
+
 # simpler
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
@@ -408,10 +419,12 @@ function repeated_call!(scores)
 
     return stats
 end
-
 @ctime repeated_call(scores)
  
-Random.seed!(123)       #setting the seed for reproducibility
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 target  = similar(scores[1])
@@ -426,10 +439,12 @@ function repeated_call!(target, scores)
 
     return stats
 end
-
 @ctime repeated_call!(target,scores)
  
-Random.seed!(123)       #setting the seed for reproducibility
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 target  = similar(scores[1])
@@ -444,14 +459,13 @@ function repeated_call!(target, scores)
 
     return stats
 end
-
 @ctime repeated_call!(target,scores)
  
 ####################################################
 #	APPLICATION 1 - matrices
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 nr_days    = 2
 nr_workers = 1_000_000
 
@@ -473,7 +487,8 @@ end
  
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+
+Random.seed!(123)       #setting seed for reproducibility
 nr_days    = 2
 nr_workers = 1_000_000
 
@@ -496,14 +511,13 @@ end
 
     return output
 end
-
 @ctime repeated_call!($output,$temp,$scores)
  
 ####################################################
 #	APPLICATION 2 - model simulations
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
@@ -530,10 +544,9 @@ function repeated_call(scores)
 
     return output
 end
-
 @ctime repeated_call($scores)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
@@ -555,14 +568,13 @@ function repeated_call!(output, temp, scores)
 
     return output
 end
-
 @ctime repeated_call!($output,$temp,$scores)
  
 ####################################################
 #	APPLICATION 3 - lazy is slower here
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
@@ -593,7 +605,7 @@ function repeated_call(scores)
 end
 @ctime repeated_call($scores)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
@@ -619,7 +631,7 @@ function repeated_call!(output, temp, scores)
 end
 @ctime repeated_call!($output,$temp,$scores)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
@@ -637,7 +649,7 @@ function repeated_call!(output, scores)
 end
 @ctime repeated_call!($output,$scores)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 

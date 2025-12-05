@@ -1,26 +1,20 @@
 ############################################################################
-#   AUXILIAR FOR BENCHMARKING
+#   AUXILIARS FOR BENCHMARKING
 ############################################################################
-# For more accurate results, we benchmark code through functions.
-    # We also interpolate each function argument, so that they're taken as local variables.
-    # All this means that benchmarking a function `foo(x)` is done via `foo($x)`
-using BenchmarkTools
+#= The following package defines the macro `@ctime`
+    Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# The following defines the macro `@ctime`, which is equivalent to `@btime` but faster
-    # to use it, replace `@btime` with `@ctime`
-using Chairmarks
-macro ctime(expr)
-    esc(quote
-        object = @b $expr
-        result = sprint(show, "text/plain", object) |>
-            x -> object.allocs == 0 ?
-                x * " (0 allocations: 0 bytes)" :
-                replace(x, "allocs" => "allocations") |>
-            x -> replace(x, r",.*$" => ")") |>
-            x -> replace(x, "(without a warmup) " => "")
-        println("  " * result)
-    end)
-end
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+using FastBenchmark
+    
+############################################################################
+#   AUXILIARS FOR DISPLAYING RESULTS
+############################################################################
+# you can alternatively use "println" or "display"
+print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
+print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
+
 
 ############################################################################
 #
@@ -41,6 +35,7 @@ x         = [10, 20, 30]
 indices   = sortperm(x)
 elements  = x[indices]    # equivalent to `sort(x)`
  
+
 
 
 x         = [20, 10, 30]
@@ -67,7 +62,7 @@ indices_2 = 1:2:length(x)       # strides two
 #	example 1
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(5_000_000)
 
 indices = sortperm(x)
@@ -84,7 +79,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(5_000_000)
 
 indices = sortperm(x)
@@ -101,7 +96,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(5_000_000)
 
 indices = sortperm(x)
@@ -118,7 +113,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(5_000_000)
 
 indices = sortperm(x)
@@ -139,7 +134,7 @@ end
 #	example 2
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(5_000_000)
 
 indices = x .> 0.5
@@ -156,7 +151,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(5_000_000)
 
 indices = x .> 0.5
@@ -173,7 +168,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(5_000_000)
 
 indices = x .> 0.5
@@ -190,7 +185,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(5_000_000)
 
 indices = x .> 0.5
@@ -212,7 +207,7 @@ end
 #       hence, views are faster as they avoid memory allocations
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(1_000_000)
 
 indices = 1:length(x)
@@ -229,7 +224,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(1_000_000)
 
 indices = 1:length(x)
@@ -246,7 +241,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(1_000_000)
 
 indices = 1:length(x)
@@ -263,7 +258,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(1_000_000)
 
 indices = 1:length(x)
@@ -284,7 +279,7 @@ end
 #	a copy is faster when multiple operations with the same object are performed
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(5_000_000)
 indices = sortperm(x)
 
@@ -302,7 +297,7 @@ function foo(x, indices)
 end
 @ctime foo($x, $indices)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(5_000_000)
 indices = sortperm(x)
 
@@ -322,7 +317,7 @@ end
  
 # ultimately a race horse between not copying data vs SIMD efficiency
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(1_000_000)
 indices = sortperm(x)
 
@@ -338,7 +333,7 @@ function foo(x,indices)
 end
 @ctime foo($x,$indices)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(1_000_000)
 indices = sortperm(x)
 
@@ -354,7 +349,7 @@ function foo(x,indices)
 end
 @ctime foo($x,$indices)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(1_000_000)
 indices = sortperm(x)
 
@@ -370,7 +365,7 @@ function foo(x,indices)
 end
 @ctime foo($x,$indices)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(1_000_000)
 indices = sortperm(x)
 
@@ -390,7 +385,7 @@ end
 #	example 2
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(10_000)
 indices = x .> 0.5
 y       = @view x[indices]
@@ -406,7 +401,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(10_000)
 indices = x .> 0.5
 y       = x[indices]
@@ -422,7 +417,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(10_000)
 indices = x .> 0.5
 y       = @view x[indices]
@@ -438,7 +433,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(10_000)
 indices = x .> 0.5
 y       = x[indices]
@@ -456,7 +451,7 @@ end
  
 # ultimately a race horse between not copying data vs SIMD efficiency
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(10_000)
 indices = x .> 0.5
 
@@ -472,7 +467,7 @@ function foo(x,indices)
 end
 @ctime foo($x,$indices)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(10_000)
 indices = x .> 0.5
 
@@ -488,7 +483,7 @@ function foo(x,indices)
 end
 @ctime foo($x,$indices)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(10_000)
 indices = x .> 0.5
 
@@ -504,7 +499,7 @@ function foo(x,indices)
 end
 @ctime foo($x,$indices)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(10_000)
 indices = x .> 0.5
 
@@ -526,7 +521,7 @@ end
  
 # view faster here
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(5_000_000)
 indices = sortperm(x)
 
@@ -542,7 +537,7 @@ function foo(x, indices)
 end
 @ctime foo($x, $indices)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(5_000_000)
 indices = sortperm(x)
 
@@ -560,7 +555,7 @@ end
  
 # copy is faster below
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(5_000_000)
 indices = sortperm(x)
 
@@ -576,7 +571,7 @@ function foo(x, indices)
 end
 @ctime foo($x, $indices)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(5_000_000)
 indices = sortperm(x)
 
@@ -602,7 +597,7 @@ end
 #	simd is faster with unit strides
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 y = @view x[1:2:length(x)]
 
@@ -617,7 +612,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 y = @view x[1:2:length(x)]
 
@@ -632,7 +627,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 y = x[1:2:length(x)]
 
@@ -647,7 +642,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 y = x[1:2:length(x)]
 
@@ -667,7 +662,7 @@ end
 
 # overall effect
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(1_000_000)
 indices = 1:2:length(x)
 
@@ -683,7 +678,7 @@ function foo(x, indices)
 end
 @ctime foo($x, $indices)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(1_000_000)
 indices = 1:2:length(x)
 
@@ -707,7 +702,7 @@ end
  
 # vectors we'll use
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x_size = 1_000_000
 
 x = rand(x_size)
@@ -744,7 +739,7 @@ end
 #	copies vs views - simd is faster with unit strides
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 y = @view x[1:2:length(x)]
 
@@ -759,7 +754,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 y = @view x[1:2:length(x)]
 
@@ -774,7 +769,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 y = x[1:2:length(x)]
 
@@ -789,7 +784,7 @@ function foo(y)
 end
 @ctime foo($y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 y = x[1:2:length(x)]
 
@@ -809,7 +804,7 @@ end
 
 # overall effect
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(1_000_000)
 indices = 1:2:length(x)
 
@@ -825,7 +820,7 @@ function foo(x, indices)
 end
 @ctime foo($x, $indices)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x       = rand(1_000_000)
 indices = 1:2:length(x)
 

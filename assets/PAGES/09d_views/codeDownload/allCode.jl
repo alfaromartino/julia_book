@@ -1,26 +1,20 @@
 ############################################################################
-#   AUXILIAR FOR BENCHMARKING
+#   AUXILIARS FOR BENCHMARKING
 ############################################################################
-# For more accurate results, we benchmark code through functions.
-    # We also interpolate each function argument, so that they're taken as local variables.
-    # All this means that benchmarking a function `foo(x)` is done via `foo($x)`
-using BenchmarkTools
+#= The following package defines the macro `@ctime`
+    Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# The following defines the macro `@ctime`, which is equivalent to `@btime` but faster
-    # to use it, replace `@btime` with `@ctime`
-using Chairmarks
-macro ctime(expr)
-    esc(quote
-        object = @b $expr
-        result = sprint(show, "text/plain", object) |>
-            x -> object.allocs == 0 ?
-                x * " (0 allocations: 0 bytes)" :
-                replace(x, "allocs" => "allocations") |>
-            x -> replace(x, r",.*$" => ")") |>
-            x -> replace(x, "(without a warmup) " => "")
-        println("  " * result)
-    end)
-end
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+using FastBenchmark
+    
+############################################################################
+#   AUXILIARS FOR DISPLAYING RESULTS
+############################################################################
+# you can alternatively use "println" or "display"
+print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
+print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
+
 
 ############################################################################
 #
@@ -41,96 +35,103 @@ x = [1, 2, 3]
 
 foo(x) = sum(x[1:2])           # allocations from the slice 'x[1:2]'
 
-@btime foo($x)
+@ctime foo($x)
  
+
 
 
 x = [1, 2, 3]
 
 foo(x) = sum(@view(x[1:2]))    # it doesn't allocate
 
-@btime foo($x)
+@ctime foo($x)
  
 ####################################################
 #	views and boolean index
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 foo(x) = sum(x[x .> 0.5])
 
-@btime foo($x)
+@ctime foo($x)
  
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 foo(x) = @views sum(x[x .> 0.5])
 
-@btime foo($x)
+@ctime foo($x)
  
+
 
 
 ####################################################
 #	skippers for boolean indexing (optional)
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 foo(x) = sum(x[x .> 0.5])
 
-@btime foo($x)
+@ctime foo($x)
  
 
 
+
 using Skipper
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 foo(x) = sum(skip(≤(0.5), x))
 
-@btime foo($x)
+@ctime foo($x)
  
 
 
+
 #
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 foo(x) = sum(Iterators.filter(>(0.5), x))
 
-@btime foo($x)
+@ctime foo($x)
  
 
 
+
 #
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 foo(x) = sum(a for a in x if a > 0.5)
 
-@btime foo($x)
+@ctime foo($x)
  
 ####################################################
 #	copying data may be faster
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(100_000)
 
 foo(x) = max.(x[1:2:length(x)], 0.5)
 
-@btime foo($x)
+@ctime foo($x)
  
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(100_000)
 
 foo(x) = max.(@view(x[1:2:length(x)]), 0.5)
 
-@btime foo($x)
+@ctime foo($x)
  

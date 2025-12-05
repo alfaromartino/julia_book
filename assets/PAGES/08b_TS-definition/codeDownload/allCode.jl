@@ -1,35 +1,26 @@
 ############################################################################
-#   AUXILIAR FOR BENCHMARKING
+#   AUXILIARS FOR BENCHMARKING
 ############################################################################
-# For more accurate results, we benchmark code through functions.
-    # We also interpolate each function argument, so that they're taken as local variables.
-    # All this means that benchmarking a function `foo(x)` is done via `foo($x)`
-using BenchmarkTools
+#= The following package defines the macro `@ctime`
+    Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# The following defines the macro `@ctime`, which is equivalent to `@btime` but faster
-    # to use it, replace `@btime` with `@ctime`
-using Chairmarks
-macro ctime(expr)
-    esc(quote
-        object = @b $expr
-        result = sprint(show, "text/plain", object) |>
-            x -> object.allocs == 0 ?
-                x * " (0 allocations: 0 bytes)" :
-                replace(x, "allocs" => "allocations") |>
-            x -> replace(x, r",.*$" => ")") |>
-            x -> replace(x, "(without a warmup) " => "")
-        println("  " * result)
-    end)
-end
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+using FastBenchmark
+    
+############################################################################
+#   AUXILIARS FOR DISPLAYING RESULTS
+############################################################################
+# you can alternatively use "println" or "display"
+print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
+print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
+
 
 ############################################################################
 #
 #			START OF THE CODE
 #
 ############################################################################
- 
-# necessary packages for this file
-using Statistics, BenchmarkTools, Chairmarks
  
 ############################################################################
 #
@@ -39,13 +30,14 @@ using Statistics, BenchmarkTools, Chairmarks
  
 x = [1, 2, 3]                  # `x` has type `Vector{Int64}`
 
-@btime sum($x[1:2])            # type stable
+@ctime sum($x[1:2])            # type stable
  
+
 
 
 x = [1, 2, "hello"]            # `x` has type `Vector{Any}`
 
-@btime sum($x[1:2])            # type UNSTABLE
+@ctime sum($x[1:2])            # type UNSTABLE
  
 ############################################################################
 #
@@ -60,8 +52,9 @@ function foo(x,y)
 end
 
 foo(1, 2)           # type stable   -> `a * i` is always `Int64`
-@btime foo(1, 2)            # hide
+@ctime foo(1, 2)
  
+
 
 
 function foo(x,y)
@@ -71,7 +64,7 @@ function foo(x,y)
 end
 
 foo(1, 2.5)         # type UNSTABLE -> `a * i` is either `Int64` or `Float64`
-@btime foo(1, 2.5)            # hide
+@ctime foo(1, 2.5)
  
 ############################################################################
 #
@@ -85,10 +78,12 @@ sum(x1)             # type stable
  
 
 
+
 x2::Vector{Int64}   = [1, 2, 3]
 
 sum(x2)             # type stable
  
+
 
 
 x3::Vector{Float64} = [1, 2, 3]
@@ -97,28 +92,32 @@ sum(x3)             # type stable
  
 
 
+
 x4::BitVector       = [true, false, true]
 
 sum(x4)             # type stable
  
 
 
+
 x                  = [1, 2, 3]
 
 sum(x)             # type stable
-@btime sum(x)   # hide
+@ctime sum(x)
  
+
 
 
 x5::Vector{Number} = [1, 2, 3]
 
 sum(x5)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Number`
-@btime sum(x5)   # hide
+@ctime sum(x5)
  
+
 
 
 x6::Vector{Any}    = [1, 2, 3]
 
 sum(x6)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Any`
-@btime sum(x6)   # hide
+@ctime sum(x6)
  

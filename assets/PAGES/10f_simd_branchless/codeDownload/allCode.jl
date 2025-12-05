@@ -1,26 +1,20 @@
 ############################################################################
-#   AUXILIAR FOR BENCHMARKING
+#   AUXILIARS FOR BENCHMARKING
 ############################################################################
-# For more accurate results, we benchmark code through functions.
-    # We also interpolate each function argument, so that they're taken as local variables.
-    # All this means that benchmarking a function `foo(x)` is done via `foo($x)`
-using BenchmarkTools
+#= The following package defines the macro `@ctime`
+    Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# The following defines the macro `@ctime`, which is equivalent to `@btime` but faster
-    # to use it, replace `@btime` with `@ctime`
-using Chairmarks
-macro ctime(expr)
-    esc(quote
-        object = @b $expr
-        result = sprint(show, "text/plain", object) |>
-            x -> object.allocs == 0 ?
-                x * " (0 allocations: 0 bytes)" :
-                replace(x, "allocs" => "allocations") |>
-            x -> replace(x, r",.*$" => ")") |>
-            x -> replace(x, "(without a warmup) " => "")
-        println("  " * result)
-    end)
-end
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+using FastBenchmark
+    
+############################################################################
+#   AUXILIARS FOR DISPLAYING RESULTS
+############################################################################
+# you can alternatively use "println" or "display"
+print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
+print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
+
 
 ############################################################################
 #
@@ -28,7 +22,7 @@ end
 #
 ############################################################################
  
-using Random, StatsBase, Distributions
+using Random
  
 ############################################################################
 #
@@ -36,7 +30,7 @@ using Random, StatsBase, Distributions
 #
 ############################################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -50,7 +44,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -64,7 +58,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -78,7 +72,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -94,13 +88,14 @@ end
  
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+
+Random.seed!(123)       #setting seed for reproducibility
 x      = rand(1_000_000)
 foo(x) = 2 ./ x
 
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x      = rand(1_000_000)
 
 function foo(x)
@@ -114,7 +109,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x      = rand(1_000_000)
 
 function foo(x)
@@ -136,7 +131,7 @@ end
  
 # `ifelse` facilitates SIMD, `if` hinders it
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -152,7 +147,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -168,7 +163,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -182,7 +177,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -198,7 +193,7 @@ end
  
 # compiler could make bad choices
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x      = rand(5_000_000)
 output = similar(x)
 
@@ -209,7 +204,7 @@ function foo!(output,x)
 end
 @ctime foo!($output,$x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x      = rand(5_000_000)
 output = similar(x)
 
@@ -220,7 +215,7 @@ function foo!(output,x)
 end
 @ctime foo!($output,$x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x      = rand(5_000_000)
 output = similar(x)
 
@@ -243,7 +238,7 @@ end
  
 # ternary operator selects `ifelse`
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -259,7 +254,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -273,7 +268,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -291,7 +286,7 @@ end
 #	ternary operator selects `if`
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -307,7 +302,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -321,7 +316,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -339,7 +334,7 @@ end
 #	sometimes ternary operator makes bad choices
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x      = rand(5_000_000)
 output = similar(x)
 
@@ -352,7 +347,7 @@ function foo!(output,x)
 end
 @ctime foo!($output,$x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x      = rand(5_000_000)
 output = similar(x)
 
@@ -363,7 +358,7 @@ function foo!(output,x)
 end
 @ctime foo!($output,$x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x      = rand(5_000_000)
 output = similar(x)
 
@@ -384,7 +379,7 @@ end
 #	with ternary operator, easy computations favor SIMD
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 condition(a)   = a > 0.5
 computation(a) = a * 2
@@ -402,7 +397,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 condition(a)   = a > 0.5
 computation(a) = a * 2
@@ -418,7 +413,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 condition(a)   = a > 0.5
 computation(a) = a * 2
@@ -438,7 +433,7 @@ end
 #	but when computations are more intensive, ternary operator chooses a lazy approach
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x              = rand(2_000_000)
 condition(a)   = a > 0.5
 computation(a) = exp(a)/3 - log(a)/2
@@ -456,7 +451,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x              = rand(2_000_000)
 condition(a)   = a > 0.5
 computation(a) = exp(a)/3 - log(a)/2
@@ -472,7 +467,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x              = rand(2_000_000)
 condition(a)   = a > 0.5
 computation(a) = exp(a)/3 - log(a)/2
@@ -498,7 +493,7 @@ end
 #	with vector of conditions
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x         = rand(1_000_000)
 bitvector = x .> 0.5
 
@@ -514,7 +509,7 @@ function foo(x,bitvector)
 end
 @ctime foo($x,$bitvector)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x         = rand(1_000_000)
 bitvector = x .> 0.5
 
@@ -532,7 +527,7 @@ end
  
 # REMARK
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -548,7 +543,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -564,7 +559,7 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -590,7 +585,7 @@ end
 #	BROADCASTING
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 y              = rand(1_000_000)
 
@@ -598,7 +593,7 @@ y              = rand(1_000_000)
 foo(x,y)       = @. ifelse((x>0.3) && (y<0.6) && (x>y), x,y)
 @ctime foo($x,$y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 y              = rand(1_000_000)
 
@@ -606,7 +601,7 @@ y              = rand(1_000_000)
 foo(x,y)       = @. ifelse((x>0.3) *  (y<0.6) *  (x>y), x,y)
 @ctime foo($x,$y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 y              = rand(1_000_000)
 condition(a,b) = (a > 0.3) && (b < 0.6) && (a > b)
@@ -617,7 +612,7 @@ foo(x,y)       = @. ifelse(condition(x,y), x,y)
 
 
 
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 y              = rand(1_000_000)
 
@@ -625,7 +620,7 @@ y              = rand(1_000_000)
 foo(x,y)       = @. ifelse((x>0.3) || (y<0.6) || (x>y), x,y)
 @ctime foo($x,$y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 y              = rand(1_000_000)
 
@@ -633,7 +628,7 @@ y              = rand(1_000_000)
 foo(x,y)       = @. ifelse(Bool(1 - !(x>0.3) * !(y<0.6) * !(x>y)), x,y)
 @ctime foo($x,$y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 y              = rand(1_000_000)
 condition(a,b) = (a > 0.3) || (b < 0.6) || (a > b)
@@ -649,7 +644,7 @@ foo(x,y)       = @. ifelse(condition(x,y), x,y)
 #	REMARK: @simd could be applied even with `if` depending how we write conditions
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x                 = rand(1_000_000)
 y                 = rand(1_000_000)
 
@@ -667,7 +662,7 @@ function foo(x,y)
 end
 @ctime foo($x,$y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x                 = rand(1_000_000)
 y                 = rand(1_000_000)
 
@@ -685,7 +680,7 @@ function foo(x,y)
 end
 @ctime foo($x,$y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x                 = rand(1_000_000)
 y                 = rand(1_000_000)
 condition(a,b)    = (a > 0.3) && (b < 0.6) && (a > b)
@@ -710,7 +705,7 @@ end
 #	REMARK: @simd could be applied even with `if` depending how we write conditions
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x                 = rand(1_000_000)
 y                 = rand(1_000_000)
 
@@ -728,7 +723,7 @@ function foo(x,y)
 end
 @ctime foo($x,$y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x                 = rand(1_000_000)
 y                 = rand(1_000_000)
 
@@ -746,7 +741,7 @@ function foo(x,y)
 end
 @ctime foo($x,$y)
  
-Random.seed!(123)       #setting the seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility
 x                 = rand(1_000_000)
 y                 = rand(1_000_000)
 condition(a,b)    = (a > 0.3) || (b < 0.6) || (a > b)

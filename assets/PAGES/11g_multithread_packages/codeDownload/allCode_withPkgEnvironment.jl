@@ -10,28 +10,22 @@ Pkg.instantiate() #to install the packages
 
 
 ############################################################################
-#   AUXILIAR FOR BENCHMARKING
+#   AUXILIARS FOR BENCHMARKING
 ############################################################################
-# For more accurate results, we benchmark code through functions.
-    # We also interpolate each function argument, so that they're taken as local variables.
-    # All this means that benchmarking a function `foo(x)` is done via `foo($x)`
-using BenchmarkTools
+#= The following package defines the macro `@ctime`
+    Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# The following defines the macro `@ctime`, which is equivalent to `@btime` but faster
-    # to use it, replace `@btime` with `@ctime`
-using Chairmarks
-macro ctime(expr)
-    esc(quote
-        object = @b $expr
-        result = sprint(show, "text/plain", object) |>
-            x -> object.allocs == 0 ?
-                x * " (0 allocations: 0 bytes)" :
-                replace(x, "allocs" => "allocations") |>
-            x -> replace(x, r",.*$" => ")") |>
-            x -> replace(x, "(without a warmup) " => "")
-        println("  " * result)
-    end)
-end
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+using FastBenchmark
+    
+############################################################################
+#   AUXILIARS FOR DISPLAYING RESULTS
+############################################################################
+# you can alternatively use "println" or "display"
+print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
+print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
+
 
 ############################################################################
 #
@@ -40,7 +34,7 @@ end
 ############################################################################
  
 # necessary packages for this file
-using Random, Base.Threads, OhMyThreads, Folds, FLoops, LoopVectorization, Polyester, ChunkSplitters, ThreadsX
+using Random, Base.Threads, ChunkSplitters, OhMyThreads, LoopVectorization, FLoops
  
 ############################################################################
 #
@@ -52,7 +46,7 @@ using Random, Base.Threads, OhMyThreads, Folds, FLoops, LoopVectorization, Polye
 #	basic functions
 ####################################################
  
-Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x                       = rand(1_000_000)
 
 
@@ -68,7 +62,8 @@ foo_parallel2(x)        = tmap(log, eltype(x), x)
  
 
 
-Random.seed!(1234)
+
+Random.seed!(1234)       #setting seed for reproducibility
 x                       = rand(1_000_000)
 output                  = similar(x)
 
@@ -81,9 +76,10 @@ foo_parallel!(output,x) = tmap!(log, output, x)
  
 
 
+
 # do-syntax
  
-Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)    
@@ -95,7 +91,10 @@ function foo(x)
     return output
 end
  
-Random.seed!(1234)
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -109,15 +108,16 @@ end
  
 
 
+
 # defining chunk size or number of chunks
  
-Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(1_000_000)
 
 foo(x) = tmap(log, eltype(x), x; nchunks = nthreads())
 @ctime foo($x)
  
-Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(1_000_000)
 
 foo(x) = tmap(log, eltype(x), x; chunksize = length(x) ÷ nthreads())
@@ -125,9 +125,10 @@ foo(x) = tmap(log, eltype(x), x; chunksize = length(x) ÷ nthreads())
  
 
 
+
 # array comprehensions
  
-Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x                = rand(1_000_000)
 output           = similar(x)
 
@@ -141,13 +142,14 @@ foo_parallel2(x) = tcollect(eltype(x), log(a) for a in x)
  
 @ctime foo_parallel2($x)
  
+
+
+
 ####################################################
 #	reductions and mapreduce
 ####################################################
  
-
-
-Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x               = rand(1_000_000)
 
 foo(x)          =  reduce(+, x)
@@ -159,7 +161,8 @@ foo_parallel(x) = treduce(+, x)
  
 
 
-Random.seed!(1234)
+
+Random.seed!(1234)       #setting seed for reproducibility
 x               = rand(1_000_000)
 
 foo(x)          =  mapreduce(log, +, x)
@@ -169,11 +172,14 @@ foo_parallel(x) = tmapreduce(log, +, x)
  
 @ctime foo_parallel($x)
  
+
+
+
 ####################################################
 #	alternative to for-loops
 ####################################################
  
-Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -187,7 +193,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(1234)
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -201,7 +210,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(1234)
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -215,9 +227,12 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 # multithreaded
  
-Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -231,7 +246,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(1234)
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -245,7 +263,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(1234)
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -259,7 +280,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(1234)
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -275,9 +299,10 @@ end
  
 
 
+
 # control over work distribution
  
-Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -291,7 +316,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(1234)
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -305,9 +333,18 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
+############################################################################
+#
+#		PARALLELIZED FOR-LOOPS	
+#
+############################################################################
+ 
 # independent for-loops
  
-Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -321,7 +358,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(1234)
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -337,9 +377,10 @@ end
  
 
 
+
 # reductions
  
-Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -353,7 +394,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(1234) # hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -368,9 +412,12 @@ function foo(x)
     
     return sum(partial_outputs)
 end
-@ctime foo($x)  # hide
+@ctime foo($x)
  
-Random.seed!(1234)
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -384,7 +431,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(1234)
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -400,43 +450,10 @@ end
  
 
 
+
 # multiple reductions
  
-Random.seed!(1234)
-x = rand(1_000_000)
-
-function foo(x)
-    output1 = 1.0
-    output2 = 0.0
-    
-    for i in eachindex(x)
-        output1 *= log(x[i])
-        output2 += exp(x[i])
-    end
-    
-    return output1, output2
-end
-@ctime foo($x)
- 
-Random.seed!(1234) # hide
-x = rand(1_000_000)
-
-function foo(x)
-    output1 = 1.0
-    output2 = 0.0
-    
-    @floop for i in eachindex(x)
-        @reduce output1 *= log(x[i])
-        @reduce output2 += exp(x[i])
-    end
-    
-    return output1, output2
-end
-@ctime foo($x)  # hide
- 
-# multiple reductions
- 
-Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000)
 
 function foo(x)
@@ -452,7 +469,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(1234) # hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000)
 
 function foo(x)
@@ -466,9 +486,12 @@ function foo(x)
     
     return output1, output2
 end
-@ctime foo($x)  # hide
+@ctime foo($x)
  
-Random.seed!(1234) # hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000)
 
 function foo(x)
@@ -489,15 +512,18 @@ function foo(x)
     
     return output1, output2
 end
-@ctime foo($x)  # hide
+@ctime foo($x)
  
+
+
+
 ############################################################################
 #
-#			LIGHTER THREADS (FOR SMALL OBJECTS)
+#		LIGHTER THREADS (FOR SMALL OBJECTS)
 #
 ############################################################################
  
-Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(500)
 
 function foo(x)
@@ -511,7 +537,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(1234)
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(500)
 
 function foo(x)
@@ -525,7 +554,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(1234)
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(500)
 
 function foo(x)
@@ -541,9 +573,10 @@ end
  
 
 
+
 # for reductions
  
-Random.seed!(1234)
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(250)
 
 function foo(x)
@@ -557,7 +590,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(1234)
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(250)
 
 function foo(x)
@@ -573,7 +609,8 @@ end
  
 
 
-Random.seed!(1234)
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(250)
 
 function foo(x)
@@ -589,7 +626,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(1234)
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(250)
 
 function foo(x)
@@ -605,7 +645,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-Random.seed!(1234)
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(250)
 
 function foo(x)
@@ -621,7 +664,10 @@ function foo(x)
 end
 @ctime foo($x)
  
-# it handles correctly local variables
+
+
+
+# it handles local variables correctly
  
 function foo()
     out  = zeros(Int, 2)
@@ -636,6 +682,9 @@ function foo()
 end
 foo()
  
+
+
+
 function foo()
     out  = zeros(Int, 2)
     
@@ -649,6 +698,9 @@ function foo()
 end
 foo()
  
+
+
+
 function foo()
     out  = zeros(Int, 2)
     temp = 0
@@ -662,6 +714,9 @@ function foo()
 end
 foo()
  
+
+
+
 function foo()
     out  = zeros(Int, 2)
     temp = 0
@@ -677,13 +732,14 @@ foo()
  
 
 
+
 ############################################################################
 #
 #			SIMD + THREADS
 #
 ############################################################################
  
-Random.seed!(1234) # hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = BitVector(rand(Bool, 100_000))
 
 function foo(x)
@@ -695,9 +751,12 @@ function foo(x)
 
     output
 end
-@ctime foo($x)  # hide
+@ctime foo($x)
  
-Random.seed!(1234) # hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = BitVector(rand(Bool, 100_000))
 
 function foo(x)
@@ -709,9 +768,12 @@ function foo(x)
 
     output
 end
-@ctime foo($x)  # hide
+@ctime foo($x)
  
-Random.seed!(1234) # hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = BitVector(rand(Bool, 100_000))
 
 function foo(x)
@@ -723,11 +785,12 @@ function foo(x)
 
     output
 end
-@ctime foo($x)  # hide
+@ctime foo($x)
  
 
 
-Random.seed!(1234) # hide
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = BitVector(rand(Bool, 100_000))
 y = rand(100_000)
 
@@ -740,9 +803,12 @@ function foo(x,y)
 
     output
 end
-@ctime foo($x,$y)  # hide
+@ctime foo($x,$y)
  
-Random.seed!(1234) # hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = BitVector(rand(Bool, 100_000))
 y = rand(100_000)
 
@@ -755,9 +821,12 @@ function foo(x,y)
 
     output
 end
-@ctime foo($x,$y)  # hide
+@ctime foo($x,$y)
  
-Random.seed!(1234) # hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = BitVector(rand(Bool, 100_000))
 y = rand(100_000)
 
@@ -770,11 +839,12 @@ function foo(x,y)
 
     output
 end
-@ctime foo($x,$y)  # hide
+@ctime foo($x,$y)
  
 
 
-Random.seed!(1234) # hide
+
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(1_000_000)
 
 function foo(x)
@@ -786,9 +856,12 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)  # hide
+@ctime foo($x)
  
-Random.seed!(1234) # hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(1_000_000)
 
 function foo(x)
@@ -800,11 +873,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)  # hide
+@ctime foo($x)
  
-Random.seed!(1234) # hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(1_000_000)
 
 foo(x) = @tturbo log.(x) ./ x
-@ctime foo($x)  # hide
+@ctime foo($x)
  
