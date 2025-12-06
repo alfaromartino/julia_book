@@ -16,7 +16,8 @@ Pkg.instantiate() #to install the packages
     Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
     For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+    # uncomment if you don't have the package installed
 using FastBenchmark
     
 ############################################################################
@@ -40,7 +41,7 @@ print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), 
 ############################################################################
  
 ####################################################
-#	task A -> do something that B needs as input
+#	task A -> execute operation that B needs as input
 #	task B -> work with A's output
 ####################################################
  
@@ -54,6 +55,9 @@ function foo()
     return A,B
 end
  
+
+
+
 job_A() = 1 + 1
 job_B() = 2 + 2
 
@@ -64,9 +68,12 @@ function foo()
     return A,B
 end
  
+
+
+
 ####################################################
 #	task A -> wait (do nothing) until message arrives
-#	task B -> summing 1 + 1 during `time_working`
+#	task B -> sum 1 + 1 during `time_working`
 ####################################################
  
 function job_A(time_working)
@@ -88,11 +95,17 @@ function job_B(time_working)
     println("B completed his task")
 end
  
+
+
+
 # defining jobs as tasks
  
 A = @task job_A(2)      # A's task takes 2 seconds
 B = @task job_B(1)      # B's task takes 1 second
  
+
+
+
 # sequential computation (default in Julia)
  
 A = @task job_A(2)      # A's task takes 2 seconds
@@ -120,14 +133,20 @@ B = @task job_B(1)      # B's task takes 1 second
 
 (schedule(A), schedule(B)) .|> wait
  
+
+
+
 # sequentially (Julia's standard execution)
  
 A = job_A(2)            # A's task takes 2 seconds
 B = job_B(1)            # B's task takes 1 second
  
+
+
+
 ####################################################
-#	task A -> summing 1 + 1 during `time_working`
-#	task B -> summing 1 + 1 during `time_working`
+#	task A -> sum 1 + 1 during `time_working`
+#	task B -> sum 1 + 1 during `time_working`
 ####################################################
  
 function job(name_worker, time_working)
@@ -140,6 +159,9 @@ function job(name_worker, time_working)
     println("$name_worker completed his task")
 end
  
+
+
+
 # sequentially (default in Julia)
  
 function schedule_of_tasks()
@@ -163,6 +185,9 @@ function schedule_of_tasks()
     schedule(B)
 end
  
+
+
+
 function schedule_of_tasks()
     A = @task job("A", 2)      # A's task takes 2 seconds
     B = @task job("B", 1)      # B's task takes 1 second
@@ -170,6 +195,9 @@ function schedule_of_tasks()
     (schedule(A), schedule(B)) .|> wait
 end
  
+
+
+
 ####################################################
 #	be careful, you need to wait for the result
 ####################################################
@@ -214,6 +242,9 @@ function job!(x)
     end
 end
  
+
+
+
 function foo()
     x = [0, 0, 0]
 
@@ -241,9 +272,22 @@ end
 output = foo()
 println("the value stored in `output` is $(output)")
  
+
+
+
+############################################################################
+#
+#			MULTITHREADED CODE
+#
+############################################################################
+ 
 ####################################################
-#	task A -> summing 1 + 1 during `time_working`
-#	task B -> summing 1 + 1 during `time_working`
+#	EXECUTE CODE BELOW ONLY AFTER ENABLING MULTIPLE THREADS!!!
+####################################################
+ 
+####################################################
+#	task A -> sum 1 + 1 during `time_working`
+#	task B -> sum 1 + 1 during `time_working`
 ####################################################
  
 function job(name_worker, time_working)
@@ -256,6 +300,9 @@ function job(name_worker, time_working)
     println("$name_worker completed his task")
 end
  
+
+
+
 # sequentially (default in Julia)
  
 function schedule_of_tasks()
@@ -266,6 +313,9 @@ function schedule_of_tasks()
     schedule(B) |> wait
 end
  
+
+
+
 # sequentially (default in Julia)
  
 function schedule_of_tasks()
@@ -285,9 +335,22 @@ function schedule_of_tasks()
     (schedule(A), schedule(B)) .|> wait
 end
  
+
+
+
+############################################################################
+#
+#			MULTITHREADED CODE
+#
+############################################################################
+ 
 ####################################################
-#	task A -> summing 1 + 1 during `time_working`
-#	task B -> summing 1 + 1 during `time_working`
+#	EXECUTE CODE BELOW ONLY AFTER ENABLING MULTIPLE THREADS!!!
+####################################################
+ 
+####################################################
+#	task A -> sum 1 + 1 during `time_working`
+#	task B -> sum 1 + 1 during `time_working`
 ####################################################
  
 function job(name_worker, time_working)
@@ -300,6 +363,9 @@ function job(name_worker, time_working)
     println("$name_worker completed his task")
 end
  
+
+
+
 # sequentially (default in Julia)
  
 function schedule_of_tasks()
@@ -311,6 +377,9 @@ end
 
 @ctime schedule_of_tasks()
  
+
+
+
 # sequentially (default in Julia)
  
 function schedule_of_tasks()

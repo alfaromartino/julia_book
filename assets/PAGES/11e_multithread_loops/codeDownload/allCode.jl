@@ -5,7 +5,8 @@
     Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
     For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+    # uncomment if you don't have the package installed
 using FastBenchmark
     
 ############################################################################
@@ -45,6 +46,9 @@ function foo()
 end
 print_asis(foo())
  
+
+
+
 function foo()
     output = 0
 
@@ -57,6 +61,9 @@ function foo()
 end
 print_asis(foo())
  
+
+
+
 # reading and writing a shared variable
  
 function foo()
@@ -72,6 +79,9 @@ function foo()
 end
 print_asis(foo())
  
+
+
+
 function foo()
     out  = zeros(Int, 2)
     temp = 0
@@ -85,6 +95,9 @@ function foo()
 end
 print_asis(foo())
  
+
+
+
 function foo()
     out  = zeros(Int, 2)
     
@@ -98,6 +111,9 @@ function foo()
 end
 print_asis(foo())
  
+
+
+
 ############################################################################
 #
 #      RACE CONDITIONS
@@ -122,6 +138,9 @@ function foo(x)
 end
 print_asis(foo(x))
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
@@ -136,6 +155,9 @@ function foo(x)
 end
 print_asis(foo(x))
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
@@ -150,6 +172,9 @@ function foo(x)
 end
 print_asis(foo(x))
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
@@ -164,6 +189,9 @@ function foo(x)
 end
 print_asis(foo(x))
  
+
+
+
 ############################################################################
 #
 #      EMBARRASSINGLY-PARALLEL PROGRAM
@@ -191,6 +219,9 @@ end
  
 @ctime foo($x_big)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x_small  = rand(    1_000)
 x_medium = rand(  100_000)

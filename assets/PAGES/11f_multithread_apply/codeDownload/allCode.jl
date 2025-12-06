@@ -5,7 +5,8 @@
     Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
     For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+    # uncomment if you don't have the package installed
 using FastBenchmark
     
 ############################################################################
@@ -52,6 +53,9 @@ end
  
 @ctime foo($x_big)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x_small  = rand(    1_000)
 x_medium = rand(  100_000)
@@ -73,6 +77,9 @@ end
  
 @ctime foo($x_big)
  
+
+
+
 ############################################################################
 #
 #      BETTER PARALLELIZING AT THE TOP
@@ -175,6 +182,9 @@ x_large  = rand(100_000)
  
 @ctime foo($x_large)
  
+
+
+
 ############################################################################
 #
 #			TASKS ARE TYPE UNSTABLE
@@ -190,6 +200,9 @@ function foo(x)
     a,b
 end
  
+
+
+
 x = rand(10); y = rand(10)
 
 function foo(x)
@@ -199,6 +212,9 @@ function foo(x)
     a,b = fetch.((task_a, task_b))
 end
  
+
+
+
 x = rand(10); y = rand(10)
 
 function foo!(x,y)
@@ -206,6 +222,9 @@ function foo!(x,y)
     @. y = -y
 end
  
+
+
+
 x = rand(10); y = rand(10)
 
 function foo!(x,y)
@@ -215,6 +234,9 @@ function foo!(x,y)
     wait.((task_a, task_b))
 end
  
+
+
+
 ############################################################################
 #
 #			@spawn vs @threads
@@ -243,6 +265,9 @@ foo(x);
  
 @ctime foo($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000)
 
@@ -259,6 +284,9 @@ foo(x);
  
 @ctime foo($x)
  
+
+
+
 # increasing time per iteration
  
 Random.seed!(1234)       #setting seed for reproducibility
@@ -277,6 +305,9 @@ foo(x);
  
 @ctime foo($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000)
 
@@ -293,6 +324,9 @@ foo(x);
  
 @ctime foo($x)
  
+
+
+
 ############################################################################
 #
 #			CHUNK SPLITTERS
@@ -312,6 +346,9 @@ print_asis(collect(chunk_indices))
  
 print_asis(collect(chunk_values))
  
+
+
+
 # chunks creation -> by setting the size of the subsets
  
 x             = string.('a':'z')            # all letters from "a" to "z"
@@ -325,6 +362,9 @@ print_asis(collect(chunk_indices))
  
 print_asis(collect(chunk_values))
  
+
+
+
 ####################################################
 #	common way to split chunks for multithreading
 ####################################################
@@ -361,6 +401,9 @@ print_asis(collect(chunk_iter1))
  
 print_asis(collect(chunk_iter2))
  
+
+
+
 ############################################################################
 #
 #			CHUNKS
@@ -385,6 +428,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -399,6 +445,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -414,6 +463,9 @@ function foo(x, nr_chunks)
 end
 @ctime foo($x, nthreads())
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -428,6 +480,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -444,6 +499,9 @@ function foo(x, nr_chunks)
 end
 @ctime foo($x, nthreads())
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -464,6 +522,9 @@ end
  
 @ctime foo($x, nthreads() * 4)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -490,6 +551,9 @@ end
  
 @ctime foo($x, nthreads() * 4)
  
+
+
+
 ####################################################
 #	REDUCTIONS
 ####################################################
@@ -510,6 +574,9 @@ print_asis(foo(x))
  
 @ctime foo($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -527,6 +594,9 @@ print_asis(foo(x))
  
 @ctime foo($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -544,6 +614,9 @@ print_asis(foo(x))
  
 @ctime foo($x)
  
+
+
+
 ############################################################################
 #
 #			FALSE SHARING
@@ -564,6 +637,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -581,6 +657,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -600,6 +679,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -621,6 +703,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -646,6 +731,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 

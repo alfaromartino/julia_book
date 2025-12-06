@@ -16,7 +16,8 @@ Pkg.instantiate() #to install the packages
     Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
     For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+    # uncomment if you don't have the package installed
 using FastBenchmark
     
 ############################################################################
@@ -42,7 +43,7 @@ using Random, LoopVectorization
 ############################################################################
  
 ####################################################
-#	wrong result - this dependence is not allowed
+#	wrong result - this type of dependence is not allowed
 ####################################################
  
 x = [0.1, 0.2, 0.3]
@@ -55,6 +56,9 @@ end
 foo!(x)
 print_compact(x)
  
+
+
+
 x = [0.1, 0.2, 0.3]
 
 function foo!(x)
@@ -65,6 +69,9 @@ end
 foo!(x)
 print_compact(x)
  
+
+
+
 x = [0.1, 0.2, 0.3]
 
 function foo!(x)
@@ -75,8 +82,11 @@ end
 foo!(x)
 print_compact(x)
  
+
+
+
 ####################################################
-#	you should apply it with independent iterations
+#	you should apply it only when iterations are independent
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility
@@ -94,6 +104,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
@@ -109,6 +122,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
@@ -124,6 +140,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
@@ -132,6 +151,9 @@ foo(x)         = @turbo calculation.(x)
     
 @ctime foo($x)
  
+
+
+
 ############################################################################
 #
 #			REDUCTIONS
@@ -153,6 +175,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
@@ -168,6 +193,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
@@ -183,6 +211,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 ############################################################################
 #
 #			SPECIAL FUNCTIONS
@@ -208,6 +239,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = log(a)
@@ -223,6 +257,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = log(a)
@@ -238,6 +275,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = log(a)
@@ -245,6 +285,9 @@ calculation(a) = log(a)
 foo(x) = @turbo calculation.(x)    
 @ctime foo($x)
  
+
+
+
 ####################################################
 #	EXPONENTIAL
 ####################################################
@@ -264,6 +307,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = exp(a)
@@ -279,6 +325,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = exp(a)
@@ -294,6 +343,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = exp(a)
@@ -301,6 +353,9 @@ calculation(a) = exp(a)
 foo(x) = @turbo calculation.(x)    
 @ctime foo($x)
  
+
+
+
 ####################################################
 #	POWER FUNCTIONS
 ####################################################
@@ -320,6 +375,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = a^4
@@ -335,6 +393,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = a^4
@@ -350,6 +411,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = a^4
@@ -357,6 +421,10 @@ calculation(a) = a^4
 foo(x) = @turbo calculation.(x)    
 @ctime foo($x)
  
+
+
+
+
 
 
 
@@ -375,6 +443,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = sqrt(a)
@@ -390,6 +461,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = sqrt(a)
@@ -405,6 +479,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = sqrt(a)
@@ -412,6 +489,9 @@ calculation(a) = sqrt(a)
 foo(x) = @turbo calculation.(x)    
 @ctime foo($x)
  
+
+
+
 ####################################################
 #	TRIGONOMETRIC FUNCTIONS
 ####################################################
@@ -431,6 +511,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = sin(a)
@@ -446,6 +529,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = sin(a)
@@ -461,6 +547,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = sin(a)

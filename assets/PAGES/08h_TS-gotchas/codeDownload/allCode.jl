@@ -5,7 +5,8 @@
     Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
     For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+    # uncomment if you don't have the package installed
 using FastBenchmark
     
 ############################################################################
@@ -103,7 +104,6 @@ function foo(data)
 end
 
 @code_warntype foo(data)            # type UNSTABLE
-#@ctime foo(ref($data))
  
 
 
@@ -120,7 +120,6 @@ function operation!(x)
 end
 
 @code_warntype foo(data)            # barrier-function solution
-#@ctime foo(ref($data))
  
 
 ############################################################################
@@ -142,8 +141,6 @@ foo(data) = operation!(data[2])
 
 @code_warntype foo(data)            # barrier-function solution
  
-#@ctime foo(ref($data))
- 
 
 
 
@@ -160,8 +157,6 @@ end
 
 @code_warntype foo(data)            # type UNSTABLE
  
-#@ctime foo(ref($data))
- 
 
 
 
@@ -177,8 +172,6 @@ function foo(data)
 end
 
 @code_warntype foo(data)            # type UNSTABLE
- 
-#@ctime foo(ref($data))
  
 
 ############################################################################
@@ -221,7 +214,6 @@ function foo(x)                         # 'Vector{Int64}' has no info on the num
 end
 
 @code_warntype foo(x)                   # type UNSTABLE
-# @ctime foo(ref($x))
  
 
 
@@ -250,7 +242,6 @@ function foo(x)
 end
 
 @code_warntype foo(tuple_x)             # type stable
-# @ctime foo(ref($tuple_x))
  
 
 
@@ -264,7 +255,6 @@ function foo(x, ::Val{N}) where N
 end
 
 @code_warntype foo(x, Val(length(x)))   # type stable
-# @ctime foo(ref($tuple_x))
  
 
 
@@ -278,7 +268,6 @@ function foo(x)
 end
 
 @code_warntype foo(x)                   # type UNSTABLE
-# @ctime foo(ref($x))
  
 
 ############################################################################

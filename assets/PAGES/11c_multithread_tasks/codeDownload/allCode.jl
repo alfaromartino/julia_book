@@ -5,7 +5,8 @@
     Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
     For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+    # uncomment if you don't have the package installed
 using FastBenchmark
     
 ############################################################################
@@ -31,16 +32,22 @@ using Random, Base.Threads
 #
 ############################################################################
  
-# package Threads automatically imported when you start Julia session 
+# package `Threads` is automatically imported when you start a Julia session 
 
 Threads.nthreads()
 print_asis(Threads.nthreads())
  
+
+
+
 using Base.Threads      # or `using .Threads`
 
 nthreads()
 print_asis(nthreads())
  
+
+
+
 ############################################################################
 #
 #			CONCURRENT NON-BLOCKING TASKS  (SPAWN)
@@ -60,6 +67,9 @@ function foo(x)
     a,b
 end
  
+
+
+
 x = rand(10); y = rand(10)
 
 function foo(x)
@@ -69,6 +79,9 @@ function foo(x)
     a,b = fetch.((task_a, task_b))
 end
  
+
+
+
 x = rand(10); y = rand(10)
 
 function foo!(x,y)
@@ -76,6 +89,9 @@ function foo!(x,y)
     @. y = -y
 end
  
+
+
+
 x = rand(10); y = rand(10)
 
 function foo!(x,y)
@@ -85,6 +101,9 @@ function foo!(x,y)
     wait.((task_a, task_b))
 end
  
+
+
+
 x = rand(10); y = rand(10)
 
 function foo!(x,y)
@@ -94,8 +113,11 @@ function foo!(x,y)
     end    
 end
  
+
+
+
 ####################################################
-#	example with spawn
+#	example with @spawn
 ####################################################
  
 Random.seed!(1234)       #setting seed for reproducibility
@@ -104,12 +126,18 @@ foo(x) = maximum(x)
 
 @ctime foo($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(10_000_000)
 foo(x) = sum(x)
 
 @ctime foo($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -123,6 +151,9 @@ non_threaded(x)
  
 @ctime non_threaded($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -137,6 +168,9 @@ multithreaded(x)
  
 @ctime multithreaded($x)
  
+
+
+
 # multithreading overhead
  
 Random.seed!(1234)       #setting seed for reproducibility
@@ -157,6 +191,9 @@ end
  
 @ctime foo($x_big)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x_small  = rand(    1_000)
 x_medium = rand(  100_000)
@@ -176,6 +213,9 @@ end
  
 @ctime foo($x_big)
  
+
+
+
 # multithreading overhead - with more tasks
  
 Random.seed!(1234)       #setting seed for reproducibility
@@ -198,6 +238,9 @@ end
  
 @ctime foo($x_big)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x_small  = rand(    1_000)
 x_medium = rand(  100_000)
@@ -219,6 +262,9 @@ end
  
 @ctime foo($x_big)
  
+
+
+
 ############################################################################
 #
 #			MULTITHREADED FOR-LOOPS
@@ -231,6 +277,9 @@ end
     end
 end
  
+
+
+
 @sync begin
     @spawn println("Iteration 1 is computed on Thread $(threadid())")
     @spawn println("Iteration 2 is computed on Thread $(threadid())")
@@ -238,6 +287,9 @@ end
     @spawn println("Iteration 4 is computed on Thread $(threadid())")
 end
  
+
+
+
 ####################################################
 #	differences between approaches
 ####################################################
@@ -246,17 +298,26 @@ for i in 1:4
     println("Iteration $i is computed on Thread $(threadid())")
 end
  
+
+
+
 @threads for i in 1:4
     println("Iteration $i is computed on Thread $(threadid())")
 end
  
+
+
+
 @sync begin
     for i in 1:4
         @spawn println("Iteration $i is computed on Thread $(threadid())")
     end
 end
  
-# typical application of `threads`
+
+
+
+# typical application of `@threads`
  
 Random.seed!(1234)       #setting seed for reproducibility
 function foo(x)
@@ -269,6 +330,9 @@ function foo(x)
     return output
 end
  
+
+
+
 ############################################################################
 #
 #			@spawn vs @threads
@@ -298,6 +362,9 @@ foo(1);
  
 @ctime foo(4)
  
+
+
+
 function foo(nr_iterations)
     @threads for i in 1:nr_iterations
         job(i; time_working = i)        
@@ -307,6 +374,9 @@ foo(1);
  
 @ctime foo(4)
  
+
+
+
 function foo(nr_iterations)
     @sync begin
         for i in 1:nr_iterations
@@ -318,6 +388,9 @@ foo(1);
  
 @ctime foo(4)
  
+
+
+
 ####################################################
 #	same time per iteration
 ####################################################
@@ -342,6 +415,9 @@ GC.gc() ;
  
 @ctime foo(1_000_000)
  
+
+
+
 function foo(nr_iterations)
     fixed_time = 1 / 1_000_000
 
@@ -354,6 +430,9 @@ GC.gc() ;
  
 @ctime foo(1_000_000)
  
+
+
+
 function foo(nr_iterations)
     fixed_time = 1 / 1_000_000
 

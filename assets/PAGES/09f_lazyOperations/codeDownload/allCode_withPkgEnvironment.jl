@@ -16,7 +16,8 @@ Pkg.instantiate() #to install the packages
     Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
     For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+    # uncomment if you don't have the package installed
 using FastBenchmark
     
 ############################################################################
@@ -43,6 +44,7 @@ using Random
 x = [a for a in 1:10]
 
 y = [a for a in 1:10 if a > 5]
+
 print_asis(x)
  
 print_asis(y)
@@ -53,6 +55,7 @@ print_asis(y)
 x = (a for a in 1:10)
 
 y = (a for a in 1:10 if a > 5)
+
 print_asis(x)
  
 print_asis(y)
@@ -78,7 +81,7 @@ Random.seed!(123)       #setting seed for reproducibility
 x = rand(100)
 
 function foo(x)
-    y = [a * 2 for a in x]                  # 1 allocation
+    y = [a * 2 for a in x]       # 1 allocation
     
     sum(y)
 end
@@ -92,7 +95,7 @@ Random.seed!(123)       #setting seed for reproducibility
 x = rand(100)
 
 function foo(x)
-    y = (a * 2 for a in x)                  # 0 allocations
+    y = (a * 2 for a in x)      # 0 allocations
     
     sum(y)
 end
@@ -106,7 +109,7 @@ Random.seed!(123)       #setting seed for reproducibility
 x = rand(100)
 
 
-foo(x) = sum(a * 2 for a in x)              # 0 allocations
+foo(x) = sum(a * 2 for a in x)  # 0 allocations
     
 @ctime foo($x)
  

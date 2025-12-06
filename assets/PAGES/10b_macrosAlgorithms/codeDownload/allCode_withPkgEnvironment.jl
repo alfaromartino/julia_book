@@ -16,7 +16,8 @@ Pkg.instantiate() #to install the packages
     Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
     For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
 
-# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git") #uncomment if you don't have the package installed
+# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+    # uncomment if you don't have the package installed
 using FastBenchmark
     
 ############################################################################
@@ -54,6 +55,9 @@ function foo(x)
     x1, x2, x3, x4
 end
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
@@ -66,6 +70,9 @@ x = rand(1_000)
     x1, x2, x3, x4
 end
  
+
+
+
 ############################################################################
 #
 #			@INBOUNDS
@@ -107,6 +114,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 # equivalence
  
 Random.seed!(123)       #setting seed for reproducibility
@@ -125,6 +135,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
@@ -141,6 +154,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 ####################################################
 #	@inbounds could be applied automatically
 ####################################################
@@ -159,6 +175,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
@@ -173,6 +192,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 ####################################################
 #	@inbounds isn't necessarily applied automatically and can entail a substantial time difference
 ####################################################
@@ -191,6 +213,9 @@ function foo(v, w, x, y)
 end
 @ctime foo($v,$w,$x,$y)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 v,w,x,y = (rand(100_000) for _ in 1:4)       # it assigns random vectors to v,w,x,y
 
@@ -205,6 +230,9 @@ function foo(v, w, x, y)
 end
 @ctime foo($v,$w,$x,$y)
  
+
+
+
 ####################################################
 #	splitting @inbounds is possible
 ####################################################
@@ -226,6 +254,9 @@ function foo(v,w,x,y)
 end
 @ctime foo($v,$w,$x,$y)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 v,w,x,y = (rand(100_000) for _ in 1:4)        # it assigns random vectors to v,w,x,y
 
@@ -243,6 +274,9 @@ function foo(v,w,x,y)
 end
 @ctime foo($v,$w,$x,$y)
  
+
+
+
 ####################################################
 #	remark - about using macros for functions in for-loops
 ####################################################
@@ -264,6 +298,9 @@ function foo(v,w,x,y)
 end
 @ctime foo($v,$w,$x,$y)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 v,w,x,y = (rand(100_000) for _ in 1:4) # it assigns random vectors to v, w, x, y
 compute(i, v,w,x,y) = v[i-1] / v[i+1] / w[i-1] * w[i+1] + 
@@ -281,6 +318,9 @@ function foo(v,w,x,y)
 end
 @ctime foo($v,$w,$x,$y)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 v,w,x,y = (rand(100_000) for _ in 1:4) # it assigns random vectors to v, w, x, y
 
@@ -298,6 +338,9 @@ function foo(v,w,x,y)
 end
 @ctime foo($v,$w,$x,$y)
  
+
+
+
 ############################################################################
 #
 #			SIMD (SINGLE INSTRUCTION, MULTIPLE DATA)
@@ -322,6 +365,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(2_000_000)
 
@@ -336,6 +382,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 ####################################################
 #	@simd could be applied automatically
 ####################################################
@@ -350,6 +399,9 @@ function foo!(x)
 end
 @ctime foo!($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(2_000_000)
 
@@ -360,6 +412,9 @@ function foo!(x)
 end
 @ctime foo!($x)
  
+
+
+
 ####################################################
 #	@simd could be disregarded
 ####################################################
@@ -382,6 +437,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(2_000_000)
 
@@ -400,6 +458,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 ####################################################
 #	Simpler Example
 ####################################################
@@ -418,6 +479,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(1:10, 2_000_000)
 
@@ -432,6 +496,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(2_000_000)
 
@@ -446,6 +513,9 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(2_000_000)
 
