@@ -1,0 +1,1 @@
+print_asis(curried1(2)(1))   #hide

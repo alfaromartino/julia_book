@@ -1,0 +1,1 @@
+print_asis([square(x[1]), square(x[2]), square(x[3])])   #hide

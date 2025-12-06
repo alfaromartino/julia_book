@@ -1,0 +1,1 @@
+print_compact(log.(x))   #hide

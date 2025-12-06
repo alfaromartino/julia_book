@@ -1,0 +1,1 @@
+print_asis([2*x[1], 2*x[2], 2*x[3]])    #hide

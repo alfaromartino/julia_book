@@ -1,0 +1,1 @@
+print_asis(@. square(x + y))   #hide

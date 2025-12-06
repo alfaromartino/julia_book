@@ -1,0 +1,1 @@
+print_asis(is_one_positive)    #hide

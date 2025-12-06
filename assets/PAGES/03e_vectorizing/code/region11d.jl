@@ -1,0 +1,1 @@
+print_asis(vector_squared(x))   #hide

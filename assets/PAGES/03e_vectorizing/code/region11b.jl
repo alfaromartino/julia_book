@@ -1,0 +1,1 @@
+print_asis(number_squared.(x))   #hide

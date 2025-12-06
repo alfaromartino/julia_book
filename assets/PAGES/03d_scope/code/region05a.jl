@@ -1,0 +1,1 @@
+expenditure(price, quantity, tax_rate) = price * quantity * (1 + tax_rate)
