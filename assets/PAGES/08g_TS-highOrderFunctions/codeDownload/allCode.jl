@@ -32,13 +32,10 @@ using Random
 ############################################################################
  
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100)
+x         = rand(100)
 
-function foo(f, x)
-    y = map(f, x)
-    
-    sum(y)    
-end
+foo(f, x) = f.(x)
+@code_warntype foo(abs, x)
  
 
 
@@ -47,10 +44,8 @@ Random.seed!(123)       #setting seed for reproducibility
 x = rand(100)
 
 function foo(f, x)
-    y = map(f, x)
     
-
-    sum(y)    
+    f.(x)
 end
 @ctime foo(abs, $x)
  
@@ -66,10 +61,8 @@ Random.seed!(123)       #setting seed for reproducibility
 x = rand(100)
 
 function foo(f, x)
-    y = map(f, x)
     f(1)                # irrelevant computation to force specialization
-
-    sum(y)
+    f.(x)
 end
 @ctime foo(abs, $x)
  
@@ -89,10 +82,7 @@ x = rand(100)
 
 
 function foo(f::F, x) where F
-    y = map(f, x)
-    
-
-    sum(y)
+    f.(x)
 end
 @ctime foo(abs, $x)
  
@@ -106,10 +96,7 @@ x = rand(100)
 f_tup = (abs,)
 
 function foo(f_tup, x)
-    y = map(f_tup[1], x)
-    
-
-    sum(y)
+    f_tup[1].(x)    
 end
 @ctime foo($f_tup, $x)
  

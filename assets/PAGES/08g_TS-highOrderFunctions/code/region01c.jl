@@ -1,10 +1,8 @@
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(100)
 
 function foo(f, x)
-    y = map(f, x)
     f(1)                # irrelevant computation to force specialization
-
-    sum(y)
+    f.(x)
 end
-@btime foo(abs, $x) #hide
+@ctime foo(abs, $x) #hide

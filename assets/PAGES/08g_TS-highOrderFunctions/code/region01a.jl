@@ -1,8 +1,5 @@
-Random.seed!(123)       #setting the seed for reproducibility #hide
-x = rand(100)
+Random.seed!(123)       #setting seed for reproducibility #hide
+x         = rand(100)
 
-function foo(f, x)
-    y = map(f, x)
-    
-    sum(y)    
-end
+foo(f, x) = f.(x)
+@code_warntype foo(abs, x) #hide

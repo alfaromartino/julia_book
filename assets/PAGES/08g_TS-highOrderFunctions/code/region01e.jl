@@ -1,11 +1,8 @@
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(100)
 f_tup = (abs,)
 
 function foo(f_tup, x)
-    y = map(f_tup[1], x)
-    
-
-    sum(y)
+    f_tup[1].(x)    
 end
-@btime foo($f_tup, $x) #hide
+@ctime foo($f_tup, $x) #hide
