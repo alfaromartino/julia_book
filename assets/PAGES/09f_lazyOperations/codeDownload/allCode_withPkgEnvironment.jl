@@ -20,13 +20,6 @@ Pkg.instantiate() #to install the packages
     # uncomment if you don't have the package installed
 using FastBenchmark
     
-############################################################################
-#   AUXILIARS FOR DISPLAYING RESULTS
-############################################################################
-# you can alternatively use "println" or "display"
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-
 
 ############################################################################
 #
@@ -45,9 +38,9 @@ x = [a for a in 1:10]
 
 y = [a for a in 1:10 if a > 5]
 
-print_asis(x)
+println(x)
  
-print_asis(y)
+println(y)
  
 
 
@@ -56,23 +49,23 @@ x = (a for a in 1:10)
 
 y = (a for a in 1:10 if a > 5)
 
-print_asis(x)
+println(x)
  
-print_asis(y)
+println(y)
  
 
 
 
 x = 1:10
  
-print_asis(x)
+println(x)
  
 
 
 
 x = collect(1:10)
  
-print_asis(x)
+println(x)
  
 
 

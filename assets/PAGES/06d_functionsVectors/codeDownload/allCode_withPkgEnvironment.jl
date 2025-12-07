@@ -20,13 +20,6 @@ Pkg.instantiate() #to install the packages
     # uncomment if you don't have the package installed
 using FastBenchmark
     
-############################################################################
-#   AUXILIARS FOR DISPLAYING RESULTS
-############################################################################
-# you can alternatively use "println" or "display"
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-
 
 ############################################################################
 #
@@ -47,24 +40,24 @@ x = [4, 5, 3, 2]
 
 y = sort(x)
  
-print_asis(x)
+println(x)
  
-print_asis(y)
+println(y)
  
 
 x = [4, 5, 3, 2]
 
 y = sort(x, rev=true)
  
-print_asis(x)
+println(x)
  
-print_asis(y)
+println(y)
  
 
 x = [4, 5, 3, 2]
 
 sort!(x)
-print_asis(x)
+println(x)
  
 
 x      = [4, -5, 3]
@@ -72,9 +65,9 @@ x      = [4, -5, 3]
 
 y      = sort(x, by = abs)      # 'abs' computes the absolute value
  
-print_asis(abs.(x))
+println(abs.(x))
  
-print_asis(y)
+println(y)
  
 
 x      = [4, -5, 3]
@@ -82,9 +75,9 @@ x      = [4, -5, 3]
 foo(a) = a^2
 y      = sort(x, by = foo)      # same as sort(x, by = x -> x^2)
  
-print_asis(foo.(x))
+println(foo.(x))
  
-print_asis(y)
+println(y)
  
 
 x      = [4, -5, 3]
@@ -92,9 +85,9 @@ x      = [4, -5, 3]
 foo(a) = -a
 y      = sort(x, by = foo)      # same as sort(x, by = x -> -x)
  
-print_asis(foo.(x))
+println(foo.(x))
  
-print_asis(y)
+println(y)
  
 ############################################################################
 #
@@ -105,43 +98,43 @@ print_asis(y)
 x          = [1, 2, 3, 4]
 
 sort_index = sortperm(x)
-print_asis(sort_index)
+println(sort_index)
  
 
 x          = [3, 4, 5, 6]
 
 sort_index = sortperm(x)
-print_asis(sort_index)
+println(sort_index)
  
 
 x          = [1, 3, 4, 2]
 
 sort_index = sortperm(x)
-print_asis(sort_index)
+println(sort_index)
  
 
 x          = [9, 3, 2, 1]
 
 sort_index = sortperm(x, rev=true)
-print_asis(sort_index)
+println(sort_index)
  
 
 x          = [9, 5, 3, 1]
 
 sort_index = sortperm(x, rev=true)
-print_asis(sort_index)
+println(sort_index)
  
 
 x          = [9, 3, 5, 1]
 
 sort_index = sortperm(x, rev=true)
-print_asis(sort_index)
+println(sort_index)
  
 
 x          = [9, 3, 5, 1]
 
 sort_index = sortperm(x, rev=true)
-print_asis(sort_index)
+println(sort_index)
  
 
 x      = [4, -5, 3]
@@ -150,11 +143,11 @@ x      = [4, -5, 3]
 value  = sort(x, by = abs)      # 'abs' computes the absolute value
 index  = sortperm(x, by = abs)
  
-print_asis(abs.(x))
+println(abs.(x))
  
-print_asis(value)
+println(value)
  
-print_asis(index)
+println(index)
  
 
 x      = [4, -5, 3]
@@ -163,11 +156,11 @@ foo(a) = a^2
 value  = sort(x, by = foo)      # same as sort(x, by = x -> x^2)
 index  = sortperm(x, by = foo)
  
-print_asis(foo.(x))
+println(foo.(x))
  
-print_asis(value)
+println(value)
  
-print_asis(index)
+println(index)
  
 
 x      = [4, -5, 3]
@@ -176,11 +169,11 @@ foo(a) = -a
 value  = sort(x, by = foo)      # same as sort(x, by = x -> -x)
 index  = sortperm(x, by = foo)
  
-print_asis(foo.(x))
+println(foo.(x))
  
-print_asis(value)
+println(value)
  
-print_asis(index)
+println(index)
  
 
 days     = [1, 2, 3]
@@ -189,9 +182,9 @@ failures = [8, 2, 4]
 index            = sortperm(failures, rev=true)
 days_by_failures = days[index]                     # days sorted by highest earnings
  
-print_asis(index)
+println(index)
  
-print_asis(days_by_failures)
+println(days_by_failures)
  
 
 days     = ["one", "two", "three"]
@@ -200,9 +193,9 @@ failures = [8, 2, 4]
 index            = sortperm(failures)
 days_by_failures = days[index]                     # days sorted by lowest failures
  
-print_asis(index)
+println(index)
  
-print_asis(days_by_failures)
+println(days_by_failures)
  
 ############################################################################
 #
@@ -215,21 +208,21 @@ x = [2, 2, 3, 4]
 
 y = unique(x)       # returns a new vector
  
-print_asis(x)
+println(x)
  
-print_asis(y)
+println(y)
  
 
 x = [2, 2, 3, 4]
 
 unique!(x)          # mutates 'x'
-print_asis(x)
+println(x)
  
 
 x = [2, 2, 3]
 
 y = allunique(x)    # Boolean - true if all elements are unique
-print_asis(y)
+println(y)
  
 ############################################################################
 #
@@ -245,11 +238,11 @@ y           = countmap(x)              # Dict with `element => occurrences`
 elements    = collect(keys(y))
 occurrences = collect(values(y))
  
-print_asis(y)
+println(y)
  
-print_asis(elements)
+println(elements)
  
-print_asis(occurrences)
+println(occurrences)
  
 
 using StatsBase
@@ -260,11 +253,11 @@ y           = sort(countmap(x))        # OrderedDict with `element => occurrence
 elements    = collect(keys(y))
 occurrences = collect(values(y))
  
-print_asis(y)
+println(y)
  
-print_asis(elements) #ide
+println(elements) #ide
  
-print_asis(occurrences)
+println(occurrences)
  
 
 using StatsBase
@@ -278,9 +271,9 @@ end
 x        = [0, 4, 4, 4, 5, 5]
 sorted_x = to_sort_x(x)
  
-print_asis(x, 10)
+println(x, 10)
  
-print_asis(sorted_x, 10)
+println(sorted_x, 10)
  
 ############################################################################
 #
@@ -346,42 +339,42 @@ using StatsBase
 x = [6, 6, 0, 5]
 
 y = competerank(x)
-print_asis(y)
+println(y)
  
 
 using StatsBase
 x = [6, 6, 0, 5]
 
 y = competerank(x, rev=true)
-print_asis(y)
+println(y)
  
 
 using StatsBase
 x = [6, 6, 0, 5]
 
 y = ordinalrank(x)
-print_asis(y)
+println(y)
  
 
 using StatsBase
 x = [6, 6, 0, 5]
 
 y = ordinalrank(x, rev=true)
-print_asis(y)
+println(y)
  
 
 using StatsBase
 x = [3, 1, 2]
 
 y = ordinalrank(x)
-print_asis(y)
+println(y)
  
 
 using StatsBase
 x = [3, 1, 2]
 
 y = sortperm(x)
-print_asis(y)
+println(y)
  
 ############################################################################
 #
@@ -392,24 +385,24 @@ print_asis(y)
 x = [6, 6, 0, 5]
 
 y = maximum(x)
-print_asis(y)
+println(y)
  
 
 x = [6, 6, 0, 5]
 
 y = argmax(x)
-print_asis(y)
+println(y)
  
 
 x = [6, 6, 0, 5]
 
 y = findmax(x)
-print_asis(y)
+println(y)
  
 
 x = 3
 y = 4
 
 z = max(x,y)
-print_asis(z)
+println(z)
  

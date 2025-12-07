@@ -20,13 +20,6 @@ Pkg.instantiate() #to install the packages
     # uncomment if you don't have the package installed
 using FastBenchmark
     
-############################################################################
-#   AUXILIARS FOR DISPLAYING RESULTS
-############################################################################
-# you can alternatively use "println" or "display"
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-
 
 ############################################################################
 #
@@ -44,7 +37,7 @@ using Pipe
 a      = -2
 
 output = round(log(abs(a)))
-print_asis(output)
+println(output)
  
 
 
@@ -54,11 +47,11 @@ a      = -2
 temp1  = abs(a)
 temp2  = log(temp1)
 output = round(temp2)
-print_asis(output)
+println(output)
  
-print_asis(temp1)
+println(temp1)
  
-print_asis(temp2)
+println(temp2)
  
 
 
@@ -70,11 +63,11 @@ output = let b = a         # 'b' is a local variable having the value of 'a'
    temp2 = log(temp1)
    round(temp2)
 end
-print_asis(output)
+println(output)
  
-print_asis(temp1)
+println(temp1)
  
-print_asis(temp2)
+println(temp2)
  
 
 
@@ -86,11 +79,11 @@ output = let a = a         # the 'a' on the left of `=` defines a local variable
    temp2 = log(temp1)
    round(temp2)
 end
-print_asis(output)
+println(output)
  
-print_asis(temp1)
+println(temp1)
  
-print_asis(temp2)
+println(temp2)
  
 
 
@@ -107,7 +100,7 @@ output = let x = x
    x[1] = 0
 end
  
-print_asis(x)
+println(x)
  
 # just like functions, be careful as you can mutate the global variable 
 # just like functions too, you can't reassign a value through a let block 
@@ -117,7 +110,7 @@ output = let x = x
    x = 0
 end
  
-print_asis(x)
+println(x)
  
 ####################################################
 #	                     EXAMPLE 2
@@ -127,7 +120,7 @@ x      = [-1,2,3]
 
 output = sum(log.(abs.(x)))
  
-print_asis(output)
+println(output)
  
 
 
@@ -152,7 +145,7 @@ output = x .|> abs .|> log |> sum
 a      = -2
 
 output = round(2 * abs(a))
-print_asis(output)
+println(output)
  
 
 
@@ -217,7 +210,7 @@ output   = log(abs(a))
 output   = a |> abs |> log
 output   = (log ∘ abs)(a)
 output   = ∘(log, abs)(a)
-print_asis(output)
+println(output)
  
 
 
@@ -232,7 +225,7 @@ output   = outer(inner(a))
 output   = a |> inner |> outer
 output   = (outer ∘ inner)(a)
 output   = ∘(outer, inner)(a)
-print_asis(output)
+println(output)
  
 
 
@@ -246,7 +239,7 @@ output   = log.(abs.(x))
 output   = x .|> abs .|> log
 output   = (log ∘ abs).(x)
 output   = ∘(log, abs).(x)
-print_asis(output)
+println(output)
  
 
 
@@ -261,7 +254,7 @@ output   = outer.(inner.(x))
 output   = x .|> inner .|> outer
 output   = (outer ∘ inner).(x)
 output   = ∘(outer, inner).(x)
-print_asis(output)
+println(output)
  
 
 
@@ -276,9 +269,9 @@ compositions = outers .∘ inners
 output       = [log(abs(a)), sqrt(abs(a))]
 output       = [foo(a) for foo in compositions]
  
-print_asis(compositions)
+println(compositions)
  
-print_asis(output)
+println(output)
  
 ####################################################
 #	                     EXAMPLE 4
@@ -288,7 +281,7 @@ variable_with_a_long_name = 2
 
 output = variable_with_a_long_name - log(variable_with_a_long_name) / abs(variable_with_a_long_name)
  
-print_asis(output)
+println(output)
  
 
 
@@ -340,7 +333,7 @@ object_with_a_long_name = [-1,2,3]
 temp   = object_with_a_long_name
 output = [abs(temp[i]) + temp[i] / exp(temp[i]) for i in eachindex(temp)]
  
-print_asis(output)
+println(output)
  
 
 

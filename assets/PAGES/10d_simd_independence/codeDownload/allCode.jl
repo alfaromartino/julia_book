@@ -9,13 +9,6 @@
     # uncomment if you don't have the package installed
 using FastBenchmark
     
-############################################################################
-#   AUXILIARS FOR DISPLAYING RESULTS
-############################################################################
-# you can alternatively use "println" or "display"
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-
 
 ############################################################################
 #
@@ -165,9 +158,9 @@ x               = [20, 10, 30]
 sorted_indices  = sortperm(x)
 sorted_elements = x[sorted_indices]    # equivalent to `sort(x)`
  
-print_asis(sorted_indices)
+println(sorted_indices)
  
-print_asis(sorted_elements)
+println(sorted_elements)
  
 
 

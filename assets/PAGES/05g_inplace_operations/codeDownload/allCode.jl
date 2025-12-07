@@ -9,13 +9,6 @@
     # uncomment if you don't have the package installed
 using FastBenchmark
     
-############################################################################
-#   AUXILIARS FOR DISPLAYING RESULTS
-############################################################################
-# you can alternatively use "println" or "display"
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-
 
 ############################################################################
 #
@@ -32,7 +25,7 @@ print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), 
 x         = [1, 2, 3]
 
 x[3]      = 30
-print_asis(x)
+println(x)
  
 
 
@@ -40,7 +33,7 @@ print_asis(x)
 x         = [1, 2, 3]
 
 x[2:end]  = [20, 30]
-print_asis(x)
+println(x)
  
 
 
@@ -48,7 +41,7 @@ print_asis(x)
 x         = [1, 2, 3]
 
 x[x .≥ 2] = [2, 3] .* 10
-print_asis(x)
+println(x)
  
 
 
@@ -56,7 +49,7 @@ print_asis(x)
 x         = [1, 2, 3]
 
 x[x .≥ 2] = x[x .≥ 2] .* 10
-print_asis(x)
+println(x)
  
 
 
@@ -64,7 +57,7 @@ print_asis(x)
 x         = [1, 2, 3]
 
 x[2:end]  = [x[i] * 10 for i in 2:length(x)]
-print_asis(x)
+println(x)
  
 
 
@@ -81,7 +74,7 @@ x = Vector{Int64}(undef, 3)  # `x` is initialized with 3 undefined elements
 for i in eachindex(x)
     x[i] = 0
 end
-print_asis(x)
+println(x)
  
 
 
@@ -92,7 +85,7 @@ x = similar(y)               # `x` replicates the type of `y`, which is Vector{I
 for i in eachindex(x)
     x[i] = 0
 end
-print_asis(x)
+println(x)
  
 
 
@@ -103,7 +96,7 @@ slice = view(x, 2:3)
 for i in eachindex(slice)
     slice[i] = 1
 end
-print_asis(x)
+println(x)
  
 
 
@@ -114,7 +107,7 @@ x     = zeros(3)
 for i in 2:3
     x[i] = 1
 end
-print_asis(x)
+println(x)
  
 
 
@@ -124,14 +117,14 @@ x    = Vector{Int64}(undef, 3)  # `x` is initialized with 3 undefined elements
 for i in eachindex(x)
     x[i] = 0
 end
-print_asis(x)
+println(x)
  
 x    = Vector{Int64}(undef, 3)  # `x` is initialized with 3 undefined elements
 
 x[1] = 0
 x[2] = 0
 x[3] = 0
-print_asis(x)
+println(x)
  
 ############################################################################
 #
@@ -146,7 +139,7 @@ print_asis(x)
 x       = [3, 4, 5]
 
 x[1:2] .= x[1:2] .* 10    # identical output (less performant)
-print_asis(x)
+println(x)
  
 
 
@@ -154,7 +147,7 @@ print_asis(x)
 x       = [3, 4, 5]
 
 x[1:2]  = x[1:2] .* 10
-print_asis(x)
+println(x)
  
 
 
@@ -166,7 +159,7 @@ print_asis(x)
 x          = [-2, -1, 1]
 
 x[x .< 0] .= 0
-print_asis(x)
+println(x)
  
 
 
@@ -180,7 +173,7 @@ print_asis(x)
 x    = [1, 2, 3]
 
 x    = x .* 10
-print_asis(x)
+println(x)
  
 
 
@@ -190,7 +183,7 @@ print_asis(x)
 x    = [1, 2, 3]
 
 x[:] = x .* 10
-print_asis(x)
+println(x)
  
 
 
@@ -198,7 +191,7 @@ print_asis(x)
 x    = [1, 2, 3]
 
 x   .= x .* 10
-print_asis(x)
+println(x)
  
 
 
@@ -206,7 +199,7 @@ print_asis(x)
 x    = [1, 2, 3]
 
 @. x = x  * 10
-print_asis(x)
+println(x)
  
 
 
@@ -214,7 +207,7 @@ print_asis(x)
 x    = [1, 2, 3]
 
 x    = @. x * 10
-print_asis(x)
+println(x)
  
 
 
@@ -229,7 +222,7 @@ x          = [-2, -1, 1]
 
 
 x[x .< 0] .= 0
-print_asis(x)
+println(x)
  
 
 
@@ -238,7 +231,7 @@ x      = [-2, -1, 1]
 
 slice  = view(x, x .< 0)     # or slice = @view x[x .< 0]
 slice .= 0
-print_asis(x)
+println(x)
  
 
 
@@ -247,7 +240,7 @@ x      = [-2, -1, 1]
 
 slice  = view(x, x .< 0)     # or slice = @view x[x .< 0]
 slice  = 0                   # this does NOT modify `x`
-print_asis(x)
+println(x)
  
 
 
@@ -256,7 +249,7 @@ x      = [1, 2, 3]
 
 slice  = view(x, x .≥ 2)
 slice .= slice .* 10        # same as 'x[x .≥ 2] = x[x .≥ 2] .* 10'
-print_asis(x)
+println(x)
  
 
 
@@ -265,13 +258,13 @@ x      = [1, 2, 3]
 
 slice  = view(x, x .≥ 2)
 slice  = slice .* 10        # this does NOT modify `x`
-print_asis(x)
+println(x)
  
 x      = [1, 2, 3]
 
 slice  = x[x .≥ 2]          # 'slice' is a copy
 slice  = slice .* 10        # this does NOT modify `x`
-print_asis(x)
+println(x)
  
 ####################################################
 #	WARNING ABOUT THE USE OF .= AND VIEW
@@ -283,7 +276,7 @@ x      = [-2, -1, 1]
 
 slice  = view(x, x .< 0)
 slice .= 0
-print_asis(x)
+println(x)
  
 
 
@@ -294,7 +287,7 @@ x      = [-2, -1, 1]
 
 slice  = x[x .< 0]          # 'slice' is a copy
 slice .= 0                  # this does NOT modify `x`
-print_asis(x)
+println(x)
  
 
 
@@ -303,5 +296,5 @@ x      = [-2, -1, 1]
 
 slice  = view(x, x .< 0)
 slice  = 0                  # this does NOT modify `x`
-print_asis(x)
+println(x)
  

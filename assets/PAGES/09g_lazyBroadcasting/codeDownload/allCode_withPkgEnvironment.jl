@@ -20,13 +20,6 @@ Pkg.instantiate() #to install the packages
     # uncomment if you don't have the package installed
 using FastBenchmark
     
-############################################################################
-#   AUXILIARS FOR DISPLAYING RESULTS
-############################################################################
-# you can alternatively use "println" or "display"
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-
 
 ############################################################################
 #
@@ -250,7 +243,7 @@ x        = [1, 2, 3]
 y        = [4, 5, 6]
 
 foo(x,y) = x + y
-print_asis(foo(x, y))
+println(foo(x, y))
  
 
 
@@ -259,7 +252,7 @@ x        = [1, 2, 3]
 y        = [4, 5, 6]
 
 foo(x,y) = x .+ y
-print_asis(foo(x, y))
+println(foo(x, y))
  
 
 
@@ -271,7 +264,7 @@ x        = [1, 2, 3]
 β        = 2
 
 foo(x,β) = x * β
-print_asis(foo(x,β))
+println(foo(x,β))
  
 
 
@@ -281,7 +274,7 @@ x        = [1, 2, 3]
 β        = 2
 
 foo(x,β) = x .* β
-print_asis(foo(x, β))
+println(foo(x, β))
  
 
 

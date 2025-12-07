@@ -20,13 +20,6 @@ Pkg.instantiate() #to install the packages
     # uncomment if you don't have the package installed
 using FastBenchmark
     
-############################################################################
-#   AUXILIARS FOR DISPLAYING RESULTS
-############################################################################
-# you can alternatively use "println" or "display"
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-
 
 ############################################################################
 #
@@ -155,7 +148,7 @@ Random.seed!(1234)       #setting seed for reproducibility
 x = rand(100)
 
 display(@b sum($x))        # provides minimum time only
-print_asis(@b sum($x))
+println(@b sum($x))
  
 
 
@@ -165,7 +158,7 @@ Random.seed!(1234)       #setting seed for reproducibility
 x = rand(100)
 
 display(@be sum($x))       # analogous to `@benchmark` in BenchmarkTools
-print_asis(@be sum($x))
+println(@be sum($x))
  
 
 

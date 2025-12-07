@@ -20,13 +20,6 @@ Pkg.instantiate() #to install the packages
     # uncomment if you don't have the package installed
 using FastBenchmark
     
-############################################################################
-#   AUXILIARS FOR DISPLAYING RESULTS
-############################################################################
-# you can alternatively use "println" or "display"
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-
 
 ############################################################################
 #
@@ -47,9 +40,9 @@ x         = [10, 20, 30]
 indices   = sortperm(x)
 elements  = x[indices]    # equivalent to `sort(x)`
  
-print_asis(indices)
+println(indices)
  
-print_asis(elements)
+println(elements)
  
 
 
@@ -59,9 +52,9 @@ x         = [20, 10, 30]
 indices   = x .> 15
 elements  = x[indices]
  
-print_asis(indices)
+println(indices)
  
-print_asis(elements)
+println(elements)
  
 
 
@@ -71,9 +64,9 @@ x         = [2, 3, 4, 5, 6]
 indices_1 = 1:length(x)         # unit strides, equivalent to 1:1:length(x)
 indices_2 = 1:2:length(x)       # strides two
  
-print_asis(collect(indices_1))
+println(collect(indices_1))
  
-print_asis(collect(indices_2))
+println(collect(indices_2))
  
 
 
@@ -846,9 +839,9 @@ y = zeros(eltype(x),x_size * 2)
     temp  = view(y, 2:2:length(y))
     temp .= x
  
-print_asis(x[1:3])
+println(x[1:3])
  
-print_asis(y[1:6],12)
+println(y[1:6],12)
  
 
 

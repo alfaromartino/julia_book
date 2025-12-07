@@ -20,13 +20,6 @@ Pkg.instantiate() #to install the packages
     # uncomment if you don't have the package installed
 using FastBenchmark
     
-############################################################################
-#   AUXILIARS FOR DISPLAYING RESULTS
-############################################################################
-# you can alternatively use "println" or "display"
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-
 
 ############################################################################
 #
@@ -46,7 +39,7 @@ using Random, Base.Threads
 # package `Threads` is automatically imported when you start a Julia session 
 
 Threads.nthreads()
-print_asis(Threads.nthreads())
+println(Threads.nthreads())
  
 
 
@@ -54,7 +47,7 @@ print_asis(Threads.nthreads())
 using Base.Threads      # or `using .Threads`
 
 nthreads()
-print_asis(nthreads())
+println(nthreads())
  
 
 

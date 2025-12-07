@@ -9,13 +9,6 @@
     # uncomment if you don't have the package installed
 using FastBenchmark
     
-############################################################################
-#   AUXILIARS FOR DISPLAYING RESULTS
-############################################################################
-# you can alternatively use "println" or "display"
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-
 
 ############################################################################
 #
@@ -53,7 +46,7 @@ end
 
 
 
-print_compact(foo(abs, x))
+println(foo(abs, x))
  
 
 
@@ -67,7 +60,7 @@ function foo(f, x)
 end
 @ctime foo(abs, $x)
  
-print_compact(foo(abs, x))
+println(foo(abs, x))
  
 
 
@@ -87,7 +80,7 @@ function foo(f::F, x) where F
 end
 @ctime foo(abs, $x)
  
-print_compact(foo(abs, x))
+println(foo(abs, x))
  
 
 
@@ -101,5 +94,5 @@ function foo(f_tup, x)
 end
 @ctime foo($f_tup, $x)
  
-print_compact(foo(f_tup, x))
+println(foo(f_tup, x))
  

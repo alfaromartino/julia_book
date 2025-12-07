@@ -20,13 +20,6 @@ Pkg.instantiate() #to install the packages
     # uncomment if you don't have the package installed
 using FastBenchmark
     
-############################################################################
-#   AUXILIARS FOR DISPLAYING RESULTS
-############################################################################
-# you can alternatively use "println" or "display"
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-
 
 ############################################################################
 #
@@ -48,7 +41,7 @@ x = rand(100)
 
 foo(x) = sum(x)
  
-print_compact(foo(x))
+println(foo(x))
  
 
 
@@ -66,7 +59,7 @@ function foo(x)
     return output
 end
  
-print_compact(foo(x))
+println(foo(x))
  
 
 
@@ -84,7 +77,7 @@ function foo(x)
     return output
 end
  
-print_compact(foo(x))
+println(foo(x))
  
 
 
@@ -110,9 +103,9 @@ function foo2(x)
     return output
 end
  
-print_compact(foo1(x))
+println(foo1(x))
  
-print_compact(foo2(x))
+println(foo2(x))
  
 
 
@@ -132,9 +125,9 @@ function foo2(x)
     return output
 end
  
-print_compact(foo1(x))
+println(foo1(x))
  
-print_compact(foo2(x))
+println(foo2(x))
  
 
 
@@ -154,9 +147,9 @@ function foo2(x)
     return output
 end
  
-print_compact(foo1(x))
+println(foo1(x))
  
-print_compact(foo2(x))
+println(foo2(x))
  
 
 
@@ -176,9 +169,9 @@ function foo2(x)
     return output
 end
  
-print_compact(foo1(x))
+println(foo1(x))
  
-print_compact(foo2(x))
+println(foo2(x))
  
 
 

@@ -20,13 +20,6 @@ Pkg.instantiate() #to install the packages
     # uncomment if you don't have the package installed
 using FastBenchmark
     
-############################################################################
-#   AUXILIARS FOR DISPLAYING RESULTS
-############################################################################
-# you can alternatively use "println" or "display"
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-
 
 ############################################################################
 #
@@ -353,9 +346,9 @@ nr_chunks     = 5
 chunk_indices = index_chunks(x, n = nr_chunks)
 chunk_values  = chunks(x, n = nr_chunks)
  
-print_asis(collect(chunk_indices))
+println(collect(chunk_indices))
  
-print_asis(collect(chunk_values))
+println(collect(chunk_values))
  
 
 
@@ -369,9 +362,9 @@ chunk_length  = 10
 chunk_indices = index_chunks(x, size = chunk_length)
 chunk_values  = chunks(x, size = chunk_length)
  
-print_asis(collect(chunk_indices))
+println(collect(chunk_indices))
  
-print_asis(collect(chunk_values))
+println(collect(chunk_values))
  
 
 
@@ -387,9 +380,9 @@ nr_chunks     = nthreads()
 chunk_indices = index_chunks(x, n = nr_chunks)
 chunk_values  = chunks(x, n = nr_chunks)
  
-print_asis(collect(chunk_indices))
+println(collect(chunk_indices))
  
-print_asis(collect(chunk_values))
+println(collect(chunk_values))
  
 
 
@@ -404,13 +397,13 @@ chunk_values  = chunks(x, n = nr_chunks)
 chunk_iter1   = enumerate(chunk_indices)    # pairs (i_chunk, chunk_index)
 chunk_iter2   = enumerate(chunk_values)     # pairs (i_chunk, chunk_value)
  
-print_asis(collect(chunk_indices))
+println(collect(chunk_indices))
  
-print_asis(collect(chunk_values))
+println(collect(chunk_values))
  
-print_asis(collect(chunk_iter1))
+println(collect(chunk_iter1))
  
-print_asis(collect(chunk_iter2))
+println(collect(chunk_iter2))
  
 
 
@@ -581,7 +574,7 @@ function foo(x)
 
     output
 end
-print_asis(foo(x))
+println(foo(x))
  
 @ctime foo($x)
  
@@ -601,7 +594,7 @@ function foo(x)
     
     return sum(partial_outputs)
 end
-print_asis(foo(x))
+println(foo(x))
  
 @ctime foo($x)
  
@@ -621,7 +614,7 @@ function foo(x)
         
     return sum(partial_outputs)
 end
-print_asis(foo(x))
+println(foo(x))
  
 @ctime foo($x)
  

@@ -20,13 +20,6 @@ Pkg.instantiate() #to install the packages
     # uncomment if you don't have the package installed
 using FastBenchmark
     
-############################################################################
-#   AUXILIARS FOR DISPLAYING RESULTS
-############################################################################
-# you can alternatively use "println" or "display"
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-
 
 ############################################################################
 #
@@ -60,14 +53,14 @@ nr_videos = 30
 viewers  = audience(nr_videos, median_target = 50)      # in thousands of viewers
 payrates = rand(2:6, nr_videos)                         # per thousands of viewers
  
-print_compact(nr_videos)
+println(nr_videos)
  
-print_compact(viewers)
+println(viewers)
  
-print_compact(payrates)
+println(payrates)
  
 earnings = viewers .* payrates
-print_compact(earnings)
+println(earnings)
  
 ############################################################################
 #
@@ -76,30 +69,30 @@ print_compact(earnings)
 ############################################################################
  
 top_earnings    = sort(earnings, rev=true)[1:3]
-top_earnings |> print_compact
+top_earnings |> println
  
 indices         = sortperm(earnings, rev=true)[1:3]
 
 sorted_payrates = payrates[indices]
-print_compact(sorted_payrates)
+println(sorted_payrates)
  
 indices         = sortperm(earnings, rev=true)[1:3]
 
 sorted_viewers  = viewers[indices]
-print_compact(sorted_viewers)
+println(sorted_viewers)
  
 
 
 
 range_payrates  = unique(payrates) |> sort
-range_payrates |> print_compact
+range_payrates |> println
  
 
 
 
 using StatsBase
 occurrences_payrates = countmap(payrates) |> sort
-occurrences_payrates |> print_compact
+occurrences_payrates |> println
  
 ############################################################################
 #
@@ -117,11 +110,11 @@ viral_nrvideos  = sum(is_viral)
 viral_viewers   = sum(viewers[is_viral])
 viral_revenue   = sum(earnings[is_viral])
  
-print_compact(viral_nrvideos)
+println(viral_nrvideos)
  
-print_compact(viral_viewers)
+println(viral_viewers)
  
-print_compact(viral_revenue)
+println(viral_revenue)
  
 # characterization
 viral_threshold    = 100
@@ -132,16 +125,16 @@ is_viral_lucrative = (viewers .≥ viral_threshold) .&& (payrates .> payrates_ab
 
 # stat
 proportion_viral_lucrative = sum(is_viral_lucrative) / sum(is_viral) * 100
-print_compact(proportion_viral_lucrative)
+println(proportion_viral_lucrative)
  
 rounded_proportion = round(proportion_viral_lucrative)
-print_asis(rounded_proportion)
+println(rounded_proportion)
  
 rounded_proportion = round(proportion_viral_lucrative, digits=1)
-print_asis(rounded_proportion)
+println(rounded_proportion)
  
 rounded_proportion = round(Int64, proportion_viral_lucrative)
-print_asis(rounded_proportion)
+println(rounded_proportion)
  
 
 
@@ -195,19 +188,19 @@ viral_threshold  = 100
 is_viral         = (viewers .≥ viral_threshold)
 viral            = stats_subset(viewers, payrates, is_viral)
  
-print_compact(viral)
+println(viral)
  
 viral_threshold  = 100
 is_notviral      = .!(is_viral)      # '!' is negating a boolean value and we broadcast it
 notviral         = stats_subset(viewers, payrates, is_notviral)
  
-print_compact(notviral)
+println(notviral)
  
 days_to_consider = (1, 10, 25)      # subset of days to be characterized
 is_day           = in.(eachindex(viewers), Ref(days_to_consider))
 specific_days    = stats_subset(viewers, payrates, is_day)
  
-print_compact(specific_days)
+println(specific_days)
  
 
 
@@ -225,7 +218,7 @@ temp           .= 1.2 .* temp
 
 allvideos       = trues(length(new_viewers))
 targetNonViral  = stats_subset(new_viewers, payrates, allvideos)
-print_compact(targetNonViral)
+println(targetNonViral)
  
 # 'temp' modifies 'new_viewers'
 new_viewers     = copy(viewers)
@@ -234,7 +227,7 @@ temp           .= 1.2 .* temp
 
 allvideos       = trues(length(new_viewers))
 targetViral     = stats_subset(new_viewers, payrates, allvideos)
-print_compact(targetViral)
+println(targetViral)
  
 targetNonViral = let viewers = viewers, payrates = payrates, threshold = viral_threshold
     new_viewers = copy(viewers)
@@ -244,7 +237,7 @@ targetNonViral = let viewers = viewers, payrates = payrates, threshold = viral_t
     allvideos  = trues(length(new_viewers))
     stats_subset(new_viewers, payrates, allvideos)
 end
-print_compact(targetNonViral)
+println(targetNonViral)
  
 targetViral    = let viewers = viewers, payrates = payrates, threshold = viral_threshold
     new_viewers = copy(viewers)
@@ -254,7 +247,7 @@ targetViral    = let viewers = viewers, payrates = payrates, threshold = viral_t
     allvideos  = trues(length(new_viewers))
     stats_subset(new_viewers, payrates, allvideos)
 end
-print_compact(targetViral)
+println(targetViral)
  
 ############
 # REMARK: WRONG USES
@@ -297,7 +290,7 @@ print(describe(viewers))
 list_functions = [sum, median, mean, maximum, minimum]
 
 stats_viewers  = [fun(viewers) for fun in list_functions]
-print_compact(stats_viewers)
+println(stats_viewers)
  
 
 
@@ -305,22 +298,22 @@ print_compact(stats_viewers)
 list_functions = [sum, median, mean, maximum, minimum]
 
 stats_various  = [fun.([viewers, payrates]) for fun in list_functions]
-print_compact(stats_various)
+println(stats_various)
  
 
 
 
 stats_viewers  = NamedTuple((Symbol(fun), fun(viewers)) for fun in list_functions)
-print_compact(stats_viewers)
+println(stats_viewers)
  
-print_compact(stats_viewers.mean)
+println(stats_viewers.mean)
  
-print_compact(stats_viewers[:median])
+println(stats_viewers[:median])
  
 
 
 
 vector_of_tuples = [(Symbol(fun), fun(viewers)) for fun in list_functions]
 stats_viewers    = NamedTuple(vector_of_tuples)
-print_compact(stats_viewers)
+println(stats_viewers)
  

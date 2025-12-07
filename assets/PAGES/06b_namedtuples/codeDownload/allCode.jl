@@ -9,13 +9,6 @@
     # uncomment if you don't have the package installed
 using FastBenchmark
     
-############################################################################
-#   AUXILIARS FOR DISPLAYING RESULTS
-############################################################################
-# you can alternatively use "println" or "display"
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-
 
 ############################################################################
 #
@@ -34,18 +27,18 @@ print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), 
  
 x = [4, 5, 6]
  
-print_asis(collect(keys(x)))
+println(collect(keys(x)))
  
-print_asis(collect(values(x)))
+println(collect(values(x)))
  
 
 
 
 x = (4, 5, 6)
  
-print_asis(collect(keys(x)))
+println(collect(keys(x)))
  
-print_asis(collect(values(x)))
+println(collect(values(x)))
  
 
 
@@ -58,18 +51,18 @@ print_asis(collect(values(x)))
  
 vector_symbols = [:x, :y]
  
-print_asis(vector_symbols)
+println(vector_symbols)
  
-print_asis(vector_symbols[1])
+println(vector_symbols[1])
  
 
 
 
 vector_symbols = [Symbol("x"), Symbol("y")]
  
-print_asis(vector_symbols)
+println(vector_symbols)
  
-print_asis(vector_symbols[1])
+println(vector_symbols[1])
  
 ############################################################################
 #
@@ -82,26 +75,26 @@ print_asis(vector_symbols[1])
 
 some_pair = ("a" => 1)      # or simply 'some_pair = "a" => 1'
  
-print_asis(some_pair)
+println(some_pair)
  
-print_asis(some_pair[1])
+println(some_pair[1])
  
-print_asis(some_pair.first)
+println(some_pair.first)
  
-print_asis(some_pair[2])
+println(some_pair[2])
  
-print_asis(some_pair.second)
+println(some_pair.second)
  
 
 
 
 some_pair = Pair("a", 1)            # equivalent
  
-print_asis(some_pair)
+println(some_pair)
  
-print_asis(some_pair[1])
+println(some_pair[1])
  
-print_asis(some_pair.second)
+println(some_pair.second)
  
 ############################################################################
 #
@@ -110,9 +103,9 @@ print_asis(some_pair.second)
 ############################################################################
  
 some_dict = Dict("a" => 10, "b" => 20)
-print_asis(some_dict)
+println(some_dict)
  
-print_asis(some_dict["a"])
+println(some_dict["a"])
  
 
 
@@ -120,28 +113,28 @@ print_asis(some_dict["a"])
 some_dict      = Dict("a" => 10, "b" => 20)
 
 keys_from_dict = collect(keys(some_dict))
-print_asis(keys_from_dict)
+println(keys_from_dict)
  
 
 
 
 some_dict = Dict(:a => 10, :b => 20)
-print_asis(some_dict)
+println(some_dict)
  
-print_asis(some_dict[:a])
+println(some_dict[:a])
  
 some_dict      = Dict(:a => 10, :b => 20)
 
 keys_from_dict = collect(keys(some_dict))
-print_asis(keys_from_dict)
+println(keys_from_dict)
  
 
 
 
 some_dict = Dict(3 => 10, 4 => 20)
-print_asis(some_dict)
+println(some_dict)
  
-print_asis(some_dict[3])
+println(some_dict[3])
  
 
 
@@ -149,17 +142,17 @@ print_asis(some_dict[3])
 some_dict      = Dict(3 => 10, 4 => 20)
 
 keys_from_dict = collect(keys(some_dict))
-print_asis(keys_from_dict)
+println(keys_from_dict)
  
 some_dict = Dict((1,1) => 10, (1,2) => 20)
-print_asis(some_dict)
+println(some_dict)
  
-print_asis(some_dict[(1,1)])
+println(some_dict[(1,1)])
  
 some_dict      = Dict((1,1) => 10, (1,2) => 20)
 
 keys_from_dict = collect(keys(some_dict))
-print_asis(keys_from_dict)
+println(keys_from_dict)
  
 
 
@@ -170,7 +163,7 @@ vector = [10, 20] # or tupl = (10,20)
 
 dict = Dict(pairs(vector))
  
-print_asis(dict)
+println(dict)
  
 
 
@@ -181,7 +174,7 @@ values_for_dict = [10, 20]
 
 dict = Dict(zip(keys_for_dict, values_for_dict))
  
-print_asis(dict)
+println(dict)
  
 
 
@@ -192,7 +185,7 @@ values_for_dict = (10, 20)
 
 dict = Dict(zip(keys_for_dict, values_for_dict))
  
-print_asis(dict)
+println(dict)
  
 
 
@@ -203,7 +196,7 @@ nt_for_dict = (a = 10, b = 20)
 
 dict = Dict(pairs(nt_for_dict))
  
-print_asis(dict)
+println(dict)
  
 
 
@@ -214,16 +207,16 @@ vector_keys_values = [(keys_for_dict[i], values_for_dict[i]) for i in eachindex(
 
 dict = Dict(vector_keys_values)
  
-print_asis(dict)
+println(dict)
  
 
 
 
 x = (a=4, b=5, c=6)
  
-print_asis(collect(keys(x)))
+println(collect(keys(x)))
  
-print_asis(values(x))
+println(values(x))
  
 
 
@@ -234,7 +227,7 @@ b = 20
 
 nt = (; a, b)
  
-print_asis(nt)
+println(nt)
  
 
 
@@ -245,7 +238,7 @@ values_for_nt = [10, 20]
 
 nt = NamedTuple(zip(keys_for_nt, values_for_nt))
  
-print_asis(nt)
+println(nt)
  
 
 
@@ -256,7 +249,7 @@ values_for_nt = (10, 20)
 
 nt = NamedTuple(zip(keys_for_nt, values_for_nt))
  
-print_asis(nt)
+println(nt)
  
 
 
@@ -267,7 +260,7 @@ values_for_nt = [10, 20]
 
 nt = (; zip(keys_for_nt, values_for_nt)...)
  
-print_asis(nt)
+println(nt)
  
 
 
@@ -278,7 +271,7 @@ vector_keys_values = [(keys_for_nt[i], values_for_nt[i]) for i in eachindex(keys
 
 nt = NamedTuple(vector_keys_values)
  
-print_asis(nt)
+println(nt)
  
 dict = Dict(:a => 10, :b => 20)
 
@@ -286,7 +279,7 @@ dict = Dict(:a => 10, :b => 20)
 
 nt = NamedTuple(vector_keys_values)
  
-print_asis(nt)
+println(nt)
  
 ############################################################################
 #
@@ -299,7 +292,7 @@ b              = 20
 
 tup            = (a, b)
  
-print_asis(tup)
+println(tup)
  
 
 
@@ -308,7 +301,7 @@ values_for_tup = [10, 20]
 
 tup            = Tuple(values_for_tup)
  
-print_asis(tup)
+println(tup)
  
 
 
@@ -317,7 +310,7 @@ values_for_tup = [10, 20]
 
 tup            = (values_for_tup... ,)
  
-print_asis(tup)
+println(tup)
  
 ############################################################################
 #

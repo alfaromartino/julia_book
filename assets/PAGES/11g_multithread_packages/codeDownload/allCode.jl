@@ -9,13 +9,6 @@
     # uncomment if you don't have the package installed
 using FastBenchmark
     
-############################################################################
-#   AUXILIARS FOR DISPLAYING RESULTS
-############################################################################
-# you can alternatively use "println" or "display"
-print_asis(x)    = show(IOContext(stdout, :limit => true, :displaysize =>(9,100)), MIME("text/plain"), x)
-print_compact(x) = show(IOContext(stdout, :limit => true, :displaysize =>(9,6), :compact => true), MIME("text/plain"), x)
-
 
 ############################################################################
 #
@@ -670,7 +663,7 @@ function foo()
 
     return out
 end
-print_asis(foo())
+println(foo())
  
 
 
@@ -686,7 +679,7 @@ function foo()
 
     return out
 end
-print_asis(foo())
+println(foo())
  
 
 
@@ -702,7 +695,7 @@ function foo()
 
     return out
 end
-print_asis(foo())
+println(foo())
  
 
 
@@ -718,7 +711,7 @@ function foo()
 
     return out
 end
-print_asis(foo())
+println(foo())
  
 
 
