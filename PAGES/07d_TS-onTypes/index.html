@@ -28,7 +28,7 @@
     applySavedTheme();
   </script>
   
-
+  
    <!--FONTS  -->
 
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Poppins|Crimson+Text|Cardo|Ubuntu"></link> -->
@@ -116,11 +116,8 @@ header .jumbotron {
   <title>7d. Preliminaries on Types - Julia Book - Martin Alfaro</title>
   <link rel="icon" type="image/png"  href="/julia_book/assets/icons/favicon.ico">
 
-  
-<!-- for LUNR 
-  <script src="/julia_book/libs/lunr/lunr.min.js"></script>
-  <script src="/julia_book/libs/lunr/lunr_index.js"></script>
-  <script src="/julia_book/libs/lunr/lunrclient.min.js"></script> -->
+ 
+
 </head>
 
 
@@ -811,25 +808,46 @@ section a:hover{
       </a>
     </li>    
     <li>
+      <div style="text-indent:0;">
+        <button class="modalButton" id="openSearch" style="text-transform: uppercase">
+          <img src="/julia_book/assets/icons/search_icon.png"
+            style="width:20%; height:auto; opacity:0.9;margin-bottom:0px; margin-left:-54px; padding-right:4px;">
+          <span style="margin-left:-0.2em;">SEARCH</span>
+        </button>
+      </div>
+      <div class="searchBar" id="searchModal" style="display:none;">
+        <div class="modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2>Search</h2>
+            </div>
+            <div class="modal-body">
+              <link href="/julia_book/libs/pagefind/pagefind-ui.css" rel="stylesheet">
+              <script src="/julia_book/libs/pagefind/pagefind-ui.js"></script>        
+              <div id="search_modal_container"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li>
       <h3 style="font-weight:400; font-size: 14px; padding-top:2em; margin-bottom:-0.5em; text-decoration: none;">Dark Mode</h3>
         <label class="switch">
         <input type="checkbox" id="toggleStyles">
         <span class="slider round"></span>
       </label>
-    </li>    
+    </li>
   </ul>
   
 
-      
-     
-    
+      <!-- pagefind -->
+
+  
+
+
     
   <div class="personal_website">
-    <div class="searchForm">
-      <form action="https://duckduckgo.com/" method="get" onsubmit="return prependSiteOperator();">
-        <input type="text" id="searchInput" name="q" placeholder="Search..." required>        
-      </form>    
-    </div>
+    
     <a href="https://alfaromartino.github.io"><img src="/julia_book/assets/icons/personal.png"
         style="width:18%; height:auto;opacity:0.9;margin-bottom:-14px; padding-right:4px">
       Personal
@@ -908,33 +926,56 @@ color: white;
 
 
 
-
-<!-- FOR SEARCH BAR -->
-<script>
-      function prependSiteOperator() {
-        var searchInput = document.getElementById('searchInput');
-        // Prepend the site: operator to restrict the search to your domain.
-        searchInput.value = 'site:https://alfaromartino.github.io/julia_book/ ' + searchInput.value;
-        return true; // Continue with form submission.
-      }
-</script>
-
 <style>
-  .left_bar .searchForm {
-    width       : 100%;  /* set a width for the container if needed */    
-    }
-  .left_bar .searchForm input[type="text"] {
-      width           : 100%;
-      box-sizing      : border-box;  /* ensures padding/border don’t push the width out */
-      background-color: inherit;
-      border          : 0px solid;
-      border-color    : white;
-      height          : 60px;
-      color           : white;
-      padding-left    : 0.6em;
-      font-size: 85%;
-    }
-</style>  
+
+       
+ 
+  
+
+</style>
+
+
+
+
+
+<!-- FOR SEARCH BAR from DDG-->
+     <!-- ddg search -->
+          <!-- <div class="searchForm">
+                <form action="https://duckduckgo.com/" method="get" onsubmit="return prependSiteOperator();">
+                  <input type="text" id="searchInput" name="q" placeholder="Search..." required>        
+                </form>    
+              </div> -->
+          
+          <!-- <script>
+            function prependSiteOperator() {
+              var searchInput = document.getElementById('searchInput');
+              // Prepend the site: operator to restrict the search to your domain.
+              searchInput.value = 'site:https://alfaromartino.github.io/julia_book/ ' + searchInput.value;
+              return true; // Continue with form submission.
+            }
+          </script>
+           -->
+          
+          
+          <!-- <style>
+            .left_bar .searchForm {
+              width: 100%;
+              /* set a width for the container if needed */
+            }
+          
+            .left_bar .searchForm input[type="text"] {
+              width: 100%;
+              box-sizing: border-box;
+              /* ensures padding/border don’t push the width out */
+              background-color: inherit;
+              border: 0px solid;
+              border-color: white;
+              height: 60px;
+              color: white;
+              padding-left: 0.6em;
+              font-size: 85%;
+            }
+          </style> -->  
 
  <!-- Dark Mode -->
 
@@ -3374,7 +3415,7 @@ y &#61; convert.&#40;Float64, x&#41;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified December 7, 2025 
+          © Martin Alfaro <br>Last Modified December 8, 2025 
       </span> 
   </div> 
 </footer>
@@ -3838,6 +3879,104 @@ for multiple pics in a row
  */
 
 </style>
+
+<!-- FOR searchbar -->
+<style>
+    #search_modal_container .pagefind-ui__result-title,
+    #search_modal_container .pagefind-ui__message,
+    #search_modal_container p {
+        display    : block;
+        width      : 100% !important;
+        white-space: normal;
+        /* prevent truncation */
+        text-indent: 0;
+    }
+
+    #search_modal_container .pagefind-ui__search-clear {
+        font-size: 100%;
+    }
+
+    .left_bar .searchBar {
+        display        : flex;
+        justify-content: center;
+        /* centers child horizontally */
+        width: auto;
+    }
+
+    .left_bar .searchBar .modal-content {
+           position                  : relative;
+           width                     : auto;
+           max-width                 : 70%;
+           height                    : max-content;
+           max-height                : 90%;
+           background-color          : rgb(205, 214, 224);
+           margin                    : auto;
+           margin-left               : 160px;
+           padding                   : 8px;
+           -webkit-animation-name    : none;
+        /* -webkit-animation-duration: 0.0s; */
+           animation-name            : none;
+        /* animation-duration        : 0.0s; */
+    }
+
+    .left_bar .searchBar .modal-body {
+        padding: 10px;
+    }
+
+
+    #search_modal_container .pagefind-ui__result {
+        margin: 4px 0;        
+        padding: 6px 8px;
+            }
+
+    html.dark-mode #search_modal_container, html.dark-mode #searchLine{
+        --pagefind-ui-text         : rgb(235, 244, 252);
+        --pagefind-ui-background   : rgb(3, 9, 17);
+        --pagefind-ui-placeholder  : rgb(235, 244, 252);
+        --pagefind-ui-border-radius: 0px;
+
+    }
+
+    html.dark-mode #search_modal_container ::placeholder, html.dark-mode #searchLine ::placeholder {
+        opacity: 0.5;
+    }
+
+    html.dark-mode #search_modal_container .pagefind-ui__button {
+        color: rgba(235, 244, 252, 0.6);
+        /* faded text only */
+    }
+
+
+    #search_modal_container {
+        --pagefind-ui-scale: 0.85;
+    }
+</style>
+
+
+<!-- to immediately be able to type when pressing on "Search" -->
+<script>
+  let pagefind;
+
+  window.addEventListener('DOMContentLoaded', () => {
+    pagefind = new PagefindUI({
+      element: "#search_modal_container"
+    });
+  });
+
+  document.getElementById("openSearch").addEventListener("click", () => {
+    // Show modal
+    document.getElementById("searchModal").style.display = "block";
+
+    // Wait a tick for PagefindUI to render, then focus input
+    setTimeout(() => {
+      const input = document.querySelector("#search_modal_container input");
+      if (input) input.focus();
+    }, 100);
+  });
+</script>
+
+
+
 
 <!-- FOR COPYING THE TITLES IN SECTION -->
        
