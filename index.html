@@ -466,6 +466,8 @@ section a:hover{
     </div> -->
 
 
+    <link href="/julia_book/pagefind/pagefind-ui.css" rel="stylesheet">
+              <script src="/julia_book/pagefind/pagefind-ui.js"></script>        
 
   <ul>
     <li style="text-transform: uppercase">
@@ -821,9 +823,7 @@ section a:hover{
             <div class="modal-header">
               <h2>Search</h2>
             </div>
-            <div class="modal-body">
-              <link href="/julia_book/pagefind/pagefind-ui.css" rel="stylesheet">
-              <script src="/julia_book/pagefind/pagefind-ui.js"></script>        
+            <div class="modal-body">              
               <div id="search_modal_container"></div>
             </div>
           </div>
@@ -3053,8 +3053,27 @@ for multiple pics in a row
 
 
     #search_modal_container {
-        --pagefind-ui-scale: 0.85;
+        --pagefind-ui-scale: 0.9;
     }
+
+    /* Put clear button inside the search bar, aligned right */
+/* .pagefind-ui__search-input-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+} */
+
+#search_modal_container .pagefind-ui__search-clear {
+  display:none;
+}
+
+#search_modal_container .pagefind-ui__button {
+  padding:0px;
+  height:auto;
+}
+
+ 
+
 </style>
 
 
@@ -3080,8 +3099,41 @@ for multiple pics in a row
   });
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.querySelector("#search_modal_container");
+  let currentIndex = -1;
 
+  // Keyboard navigation only - no initialization!
+  container.addEventListener("keydown", (e) => {
+    const results = container.querySelectorAll(".pagefind-ui__result a");
+    if (!results.length) return;
 
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      currentIndex = (currentIndex + 1) % results.length;
+      results[currentIndex].focus();
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      currentIndex = (currentIndex - 1 + results.length) % results.length;
+      results[currentIndex].focus();
+    }
+
+    if (e.key === "Enter" && currentIndex >= 0) {
+      e.preventDefault();
+      results[currentIndex].click();
+    }
+  });
+
+  // Reset index on new results
+  const observer = new MutationObserver(() => {
+    currentIndex = -1;
+  });
+  observer.observe(container, { childList: true, subtree: true });
+});
+</script>
 
 <!-- FOR COPYING THE TITLES IN SECTION -->
 
