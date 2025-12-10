@@ -1,1 +1,1 @@
-print_asis(in.(x, (list,)))   #hide
+print_asis(output)   #hide

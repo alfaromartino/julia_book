@@ -1,1 +1,1 @@
-print_asis(square.(x))   #hide
+print_asis(output)   #hide

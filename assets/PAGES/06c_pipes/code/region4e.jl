@@ -8,3 +8,4 @@ output = @pipe a            |>
                abs          |>
                2 * _        |>
                round
+print_asis(output) #hide

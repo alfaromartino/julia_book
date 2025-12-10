@@ -1,1 +1,1 @@
-print_asis([log(x[1]), log(x[2]), log(x[3])])   #hide
+print_asis(equivalent)   #hide

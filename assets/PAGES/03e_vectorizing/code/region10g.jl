@@ -1,1 +1,1 @@
-print_asis(@. square(x + y))   #hide
+print_asis(output)   #hide

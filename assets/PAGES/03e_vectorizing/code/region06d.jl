@@ -1,1 +1,1 @@
-print_compact(.√x)   #hide
+print_compact(output)   #hide

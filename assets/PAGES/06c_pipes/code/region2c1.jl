@@ -1,1 +1,1 @@
-print_asis(temp1) #hide
+#print_compact(temp1) #ERROR in a new session #hide

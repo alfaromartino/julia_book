@@ -1,4 +1,5 @@
-x = [ 1, 2, 3]
-y = [-1,-2]
+x          = [ 1, 2, 3]
+y          = [-1,-2]
 
-z = map(+, x, y)        # `+` is both an operator and a function
+output     = map(+, x, y)        # `+` exists as both operator and function
+equivalent = [+(x[1],y[1]), +(x[2],y[2])]

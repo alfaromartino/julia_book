@@ -1,3 +1,3 @@
-x = [4,5]
+x = [3,4]
 
-y = [4,5]
+push!(x, 5)       # add element 5 at the end

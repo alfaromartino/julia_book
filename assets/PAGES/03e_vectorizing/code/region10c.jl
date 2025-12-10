@@ -1,1 +1,1 @@
-print_asis(z)   #hide
+print_asis(output)   #hide

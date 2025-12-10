@@ -2,4 +2,4 @@ x = 2
 y = 1
 
 z = (x > y)       # is `x` greater than `y` ?
-z = x > y         # same operation (don't interpreted it as 'z = x')
+z = x > y         # equivalent (don't interpret it as 'z = x')

@@ -3,80 +3,39 @@ include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "regi
  
 ############################################################################
 #
-#			ASSIGNMENTS VS MUTATION
+#			MUTABLE AND IMMUTABLE OBJECTS
 #
 ############################################################################
  
 ####################################################
-#	mutating all elements vs assignment
+#	examples
 ####################################################
  
-x    = [4,5]
-
-x[:] = [0,0]
+x = [3,4,5]
  
-print_asis(x)   #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-####################################################
-#	alias vs copy
-####################################################
- 
-x = 2   #'x' points to an object with value 2
-y = x   #'y' points to the same object as 'x' (do not interpret it as 'y' pointing to 'x') 
-
-x = 4   #'x' now points to another object (but 'y' still points to the object holding 2)
- 
-print_asis(x)   #hide
- 
-print_asis(y)   #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-####################################################
-#	Two variables may contain identical elements and yet refer to different objects
-####################################################
- 
-x = [4,5]
-
-y = x
- 
-print_asis(x == y)      #hide
- 
-print_asis(x === y)      #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x = [4,5]
-
-y = [4,5]
- 
-print_asis(x == y)      #hide
- 
-print_asis(x === y)      #hide
- 
-####################################################
-#	variable 'y' as an alias
-####################################################
- 
-x    = [4,5]
-y    = x
-
 x[1] = 0
  
 print_asis(x)   #hide
  
-print_asis(y)   #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x = (3,4,5)
+ 
+# x[1] = 0 #ERROR   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x = "hello"
+ 
+print_asis(x[1])
+ 
+# x[1] = "a" #ERROR   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -84,15 +43,32 @@ print_asis(y)   #hide
 # <space_to_be_deleted>
  
 ####################################################
-#	variable 'y' as a copy
+#	modifying mutable collections
 ####################################################
  
-x    = [4,5]
-y    = x
+x = [3,4]
 
-x[1] = 0
+push!(x, 5)       # add element 5 at the end
  
 print_asis(x)   #hide
  
-print_asis(y)   #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x = [3,4,5]
+
+pop!(x)           # delete last element
+ 
+print_asis(x)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x = (3,4,5)
+
+# pop!(x)           # ERROR, as with push!(x, <some element>)
  

@@ -8,4 +8,4 @@ output   = outer.(inner.(x))
 output   = x .|> inner .|> outer
 output   = (outer ∘ inner).(x)
 output   = ∘(outer, inner).(x)
-print_asis(output) # hide
+print_compact(output) #hide

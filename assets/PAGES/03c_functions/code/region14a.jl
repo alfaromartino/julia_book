@@ -1,5 +1,5 @@
-x = [1,2,3]
-y = [4,5,6]
+x            = [1,2,3]
+y            = [4,5,6]
 
-add(a,b) = a + b
-result   = map(add_two, x, y)
+add_two(a,b) = a + b
+output       = map(add_two, x, y)

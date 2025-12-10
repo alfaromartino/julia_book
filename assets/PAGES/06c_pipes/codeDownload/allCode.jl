@@ -19,9 +19,11 @@ using FastBenchmark
 # necessary packages for this file
 using Pipe
  
-####################################################
-#	                     EXAMPLE 1
-####################################################
+############################################################################
+#
+#			LET BLOCKS
+#
+############################################################################
  
 a      = -2
 
@@ -54,9 +56,9 @@ output = let b = a         # 'b' is a local variable having the value of 'a'
 end
 println(output)
  
-println(temp1)
+#println(temp1) #ERROR in a new session
  
-println(temp2)
+#println(temp2) #ERROR in a new session
  
 
 
@@ -70,9 +72,43 @@ output = let a = a         # the 'a' on the left of `=` defines a local variable
 end
 println(output)
  
-println(temp1)
+#println(temp1) #ERROR in a new session
  
-println(temp2)
+#println(temp2) #ERROR in a new session
+ 
+
+
+
+####################################################
+#	remark: Let Blocks Can Mutate Variables
+####################################################
+ 
+# just like functions, be careful as you can mutate the global variable 
+x = [2,2,2]
+
+output = let x = x
+   x[1] = 0
+end
+println(x)
+ 
+# just like functions too, you can't reassign a value through a let block 
+x = [2,2,2]
+
+output = let x = x
+   x = 0
+end
+println(x)
+ 
+############################################################################
+#
+#			PIPES
+#
+############################################################################
+ 
+a      = -2
+
+output = round(log(abs(a)))
+println(output)
  
 
 
@@ -80,35 +116,58 @@ println(temp2)
 a      = -2
 
 output = a |> abs |> log |> round
+println(output)
  
-# just like functions, be careful as you can mutate the global variable 
-# just like functions too, you can't reassign a value through a let block 
-x = [2,2,2]
 
-output = let x = x
-   x[1] = 0
-end
- 
-println(x)
- 
-# just like functions, be careful as you can mutate the global variable 
-# just like functions too, you can't reassign a value through a let block 
-x = [2,2,2]
 
-output = let x = x
-   x = 0
-end
- 
-println(x)
- 
+
 ####################################################
-#	                     EXAMPLE 2
+#	remark: Let Blocks and Pipes For Long Names
+####################################################
+ 
+variable_with_a_long_name = 2
+
+output = variable_with_a_long_name - log(variable_with_a_long_name) / abs(variable_with_a_long_name)
+println(output)
+ 
+
+
+
+variable_with_a_long_name = 2
+
+temp   = variable_with_a_long_name
+output = temp - log(temp) / abs(temp)
+println(output)
+ 
+
+
+
+variable_with_a_long_name = 2
+
+output = variable_with_a_long_name  |>
+         a -> a - log(a) / abs(a)
+println(output)
+ 
+
+
+
+variable_with_a_long_name = 2
+
+output = let x = variable_with_a_long_name
+    x - log(x) / abs(x)
+end
+println(output)
+ 
+
+
+
+####################################################
+#	broadcasting pipes
 ####################################################
  
 x      = [-1,2,3]
 
 output = sum(log.(abs.(x)))
- 
 println(output)
  
 
@@ -119,6 +178,7 @@ x      = [-1,2,3]
 temp1  = abs.(x)
 temp2  = log.(temp1)
 output = sum(temp2)
+println(output)
  
 
 
@@ -126,9 +186,13 @@ output = sum(temp2)
 x      = [-1,2,3]
 
 output = x .|> abs .|> log |> sum
+println(output)
  
+
+
+
 ####################################################
-#	                     EXAMPLE 3
+#	Pipes with More Complex Operations 
 ####################################################
  
 a      = -2
@@ -144,6 +208,7 @@ a      = -2
 temp1  = abs(a)
 temp2  = 2 * temp1
 output = round(temp2)
+println(output)
  
 
 
@@ -157,10 +222,15 @@ output = a              |>
          abs            |>
          x -> 2 * x     |>
          round
+println(output)
  
 
 
 
+####################################################
+#	Package Pipe
+####################################################
+ 
 #
 a      = -2
 
@@ -171,6 +241,7 @@ output =       a            |>
                abs          |>
                x -> 2 * x   |>
                round
+println(output)
  
 
 
@@ -185,10 +256,16 @@ output = @pipe a            |>
                abs          |>
                2 * _        |>
                round
+println(output)
  
-####################################################
-#	                     FUNCTION COMPOSITION
-####################################################
+
+
+
+############################################################################
+#
+#			FUNCTION COMPOSITION
+#
+############################################################################
  
 a        = -1
 
@@ -261,91 +338,4 @@ output       = [foo(a) for foo in compositions]
 println(compositions)
  
 println(output)
- 
-####################################################
-#	                     EXAMPLE 4
-####################################################
- 
-variable_with_a_long_name = 2
-
-output = variable_with_a_long_name - log(variable_with_a_long_name) / abs(variable_with_a_long_name)
- 
-println(output)
- 
-
-
-
-variable_with_a_long_name = 2
-
-temp   = variable_with_a_long_name
-output = temp - log(temp) / abs(temp)
- 
-
-
-
-variable_with_a_long_name = 2
-
-output = variable_with_a_long_name  |>
-         a -> a - log(a) / abs(a)
- 
-
-
-
-variable_with_a_long_name = 2
-
-output = @pipe variable_with_a_long_name |>
-               _ - log(_) / abs(_)
- 
-
-
-
-variable_with_a_long_name = 2
-
-output = let x = variable_with_a_long_name
-    x - log(x) / abs(x)
-end
- 
-####################################################
-#	                     EXAMPLE 4 bis
-####################################################
- 
-object_with_a_long_name = [-1,2,3]
-
-output = [abs(object_with_a_long_name[i]) + object_with_a_long_name[i] / exp(object_with_a_long_name[i])
-          for i in eachindex(object_with_a_long_name)]
- 
-
-
-
-object_with_a_long_name = [-1,2,3]
-
-temp   = object_with_a_long_name
-output = [abs(temp[i]) + temp[i] / exp(temp[i]) for i in eachindex(temp)]
- 
-println(output)
- 
-
-
-
-object_with_a_long_name = [-1,2,3]
-
-output = object_with_a_long_name |>
-         x -> [abs(x[i]) + x[i] / exp(x[i]) for i in eachindex(x)]
- 
-
-
-
-object_with_a_long_name = [-1,2,3]
-
-output = @pipe object_with_a_long_name |>
-               [abs(_[i]) + _[i] / exp(_[i]) for i in eachindex(_)]
- 
-
-
-
-object_with_a_long_name = [-1,2,3]
-
-output = let x = object_with_a_long_name
-   [abs(x[i]) + x[i] / exp(x[i]) for i in eachindex(x)]
-end
  

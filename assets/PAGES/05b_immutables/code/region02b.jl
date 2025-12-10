@@ -1,1 +1,1 @@
-print_asis(x)   #hide
+# x[1] = 0 #ERROR   #hide

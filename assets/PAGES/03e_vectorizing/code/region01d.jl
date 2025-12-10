@@ -1,4 +1,4 @@
-x = [1, 2, 3]
+x          = [1, 2, 3]
 
-
-z = map(a -> 2 * a, x)
+output     = map(a -> 2 * a, x)
+equivalent = [2*x[1], 2*x[2], 2*x[3]]

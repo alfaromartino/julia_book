@@ -9,7 +9,7 @@ include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "regi
  
 x_length = 3
 
-x = Vector{Int64}(undef, x_length)  # `x` can hold `Int64` values, and is initialized with 3 undefined elements
+x        = Vector{Int64}(undef, x_length)  # `x` can hold `Int64` values, and is initialized with 3 undefined elements
 print_asis(x) #hide
  
 # <space_to_be_deleted>
@@ -17,9 +17,9 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-y = [3,4,5]
+y        = [3,4,5]
 
-x = similar(y)                      # `x` has the same type as `y`, which is Vector{Int64}(undef, 3)
+x        = similar(y)                      # `x` has the same type as `y`, which is Vector{Int64}(undef, 3)
 print_asis(x) #hide
  
 ############################################################################
@@ -134,10 +134,10 @@ print_asis(x) #hide
 #
 ############################################################################
  
-length_vector    = 3
-filling_object   = [1,2]
+length_vector  = 3
+filling_object = [1,2]
 
-x                = fill(filling_object, length_vector)
+x              = fill(filling_object, length_vector)
 print_asis(x) #hide
  
 # <space_to_be_deleted>
@@ -145,10 +145,10 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-length_vector    = 3
-filling_object   = 1
+length_vector  = 3
+filling_object = 1
 
-x                = fill(filling_object, length_vector)
+x              = fill(filling_object, length_vector)
 print_asis(x) #hide
  
 # <space_to_be_deleted>
@@ -156,10 +156,10 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-length_vector    = 3
-filling_object   = [1]
+length_vector  = 3
+filling_object = [1]
 
-x                = fill(filling_object, length_vector)
+x              = fill(filling_object, length_vector)
 print_asis(x) #hide
  
 ############################################################################
@@ -241,7 +241,7 @@ x                 = [3,4,5]
 element_to_insert = 0
 
 
-push!(x, element_to_insert)                 # add 0 at the end - faster
+push!(x, element_to_insert)                 # add 0 as last element - faster
 print_asis(x) #hide
  
 # <space_to_be_deleted>
@@ -253,7 +253,7 @@ x                 = [3,4,5]
 element_to_insert = 0
 
 
-pushfirst!(x, element_to_insert)            # add 0 at the beginning - slower
+pushfirst!(x, element_to_insert)            # add 0 as first element - slower
 print_asis(x) #hide
  
 # <space_to_be_deleted>
@@ -277,7 +277,7 @@ x                 = [3,4,5]
 vector_to_insert  = [6,7]
 
 
-append!(x, vector_to_insert)                # add 6 and 7 at the end
+append!(x, vector_to_insert)                # add 6 and 7 as last elements
 print_asis(x) #hide
  
 ############################################################################
@@ -311,7 +311,7 @@ print_asis(x) #hide
 x                  = [5,6,7]
 index_of_removal   = 2
 
-deleteat!(x, index_of_removal)      # delete element at index 2
+deleteat!(x, index_of_removal)     # delete element at index 2
 print_asis(x) #hide
  
 # <space_to_be_deleted>
@@ -322,7 +322,7 @@ print_asis(x) #hide
 x                  = [5,6,7]
 indices_of_removal = [1,3]
 
-deleteat!(x, indices_of_removal)    # delete elements at indices 1 and 3
+deleteat!(x, indices_of_removal)   # delete elements at indices 1 and 3
 print_asis(x) #hide
  
 # <space_to_be_deleted>

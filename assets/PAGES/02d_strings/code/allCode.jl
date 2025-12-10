@@ -7,11 +7,9 @@ include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "regi
 #
 ############################################################################
  
-############################################################################
-#
-#			CHARACTERS
-#
-############################################################################
+####################################################
+#	characters
+####################################################
  
 # x equals the character 'a'
 x = 'a'
@@ -26,25 +24,18 @@ y = '🐒'
 # <space_to_be_deleted>
  
 # any character is allowed for defining a variable
-🐒 = 2          # 🐒 represents a variable, just like if we had defined x = 2
+🐒 = 2      # 🐒 represents a variable, just like if we had defined x = 2
 
-y  = 🐒         # y equals 2
-z  = '🐒'       # z equals the character 🐒
+y  = 🐒     # y equals 2, 🐒's value at that moment (not 🐒 itself)
+z  = '🐒'   # z equals the character 🐒 (entirely independent of the 🐒 variable )
  
-############################################################################
-#
-#			STRING NOTATION
-#
-############################################################################
+####################################################
+#	string notation
+####################################################
  
 x = "Hello, beautiful world"
 
 x = """Hello, beautiful world"""
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
  
 ############################################################################
 #
@@ -58,6 +49,11 @@ number_students = 10
 output_text     = "There are $(number_students) students in the course"
  
 print_asis(output_text)       #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 number_matches  = 50
 goals_per_match = 2

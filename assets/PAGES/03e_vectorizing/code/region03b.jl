@@ -1,1 +1,1 @@
-print_asis(log.(x))   #hide
+print_asis(output)   #hide

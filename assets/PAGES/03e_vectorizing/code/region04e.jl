@@ -1,1 +1,1 @@
-print_asis(foo.(x,y))   #hide
+print_asis(output)   #hide

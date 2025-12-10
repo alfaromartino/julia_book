@@ -1,1 +1,1 @@
-print_asis(foo(10,2))   #hide
+print_asis(foo(1,2))   #hide

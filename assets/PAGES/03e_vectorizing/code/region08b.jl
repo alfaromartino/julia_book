@@ -1,1 +1,1 @@
-print_asis(string.(country, is_in, region))     #hide
+print_asis(output)     #hide

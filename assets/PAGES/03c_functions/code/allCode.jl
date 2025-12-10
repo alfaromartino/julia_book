@@ -38,7 +38,7 @@ function foo(x,y)
     return term2
 end
  
-print_asis(foo(10,2))   #hide
+print_asis(foo(1,2))   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -47,10 +47,10 @@ print_asis(foo(10,2))   #hide
  
 function foo(x,y)   
     term1 = x + y
-    term2 = x * y           # output returned
+    term2 = x * y         # output returned
 end
  
-print_asis(foo(10,2))   #hide
+print_asis(foo(1,2))   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -61,10 +61,10 @@ function foo(x,y)
     term1 = x + y
     term2 = x * y 
 
-    return term1, term2     # a tuple, using the notation that omits the parentheses
+    return term1, term2   # a tuple (notation that omits the parentheses)
 end
  
-print_asis(foo(10,2))   #hide
+print_asis(foo(1,2))   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -78,7 +78,7 @@ function foo(x,y)
     return term1 + term2
 end
  
-print_asis(foo(10,2))   #hide
+print_asis(foo(1,2))   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -219,16 +219,16 @@ print_asis(foo(z...))   #hide
 x          = [1, 2, 3]
 add_two(a) = a + 2
 
-result     = map(add_two, x)
+output     = map(add_two, x)
  
-print_asis(result)   #hide
+print_asis(output)   #hide
  
 x          = [1, 2, 3]
 
 
-result     = map(a -> a + 2, x)
+output     = map(a -> a + 2, x)
  
-print_asis(result)   #hide
+print_asis(output)   #hide
  
 ####################################################
 #	example 2
@@ -238,17 +238,17 @@ x            = [1,2,3]
 y            = [4,5,6]
 
 add_two(a,b) = a + b
-result       = map(add_two, x, y)
+output       = map(add_two, x, y)
  
-print_asis(result)   #hide
+print_asis(output)   #hide
  
 x            = [1,2,3]
 y            = [4,5,6]
 
 
-result       = map((a,b) -> a + b, x, y)
+output       = map((a,b) -> a + b, x, y)
  
-print_asis(result)   #hide
+print_asis(output)   #hide
  
 ####################################################
 #	The "Do-Block" Syntax
@@ -271,53 +271,53 @@ foo(<vector>) do <arguments of inner function>
 x          = [1, 2, 3]
 add_two(a) = a + 2
 
-result     = map(add_two, x)
+output     = map(add_two, x)
  
-print_asis(result)   #hide
- 
-x          = [1, 2, 3]
-
-
-result     = map(a -> a + 2, x)
- 
-print_asis(result)   #hide
+print_asis(output)   #hide
  
 x          = [1, 2, 3]
 
-result     = map(x) do a
+
+output     = map(a -> a + 2, x)
+ 
+print_asis(output)   #hide
+ 
+x          = [1, 2, 3]
+
+output     = map(x) do a
                 a + 2
                 end
  
-print_asis(result)   #hide
+print_asis(output)   #hide
  
 ####################################################
 #	do-blocks with anonymous funcitons and multiple arguments
 ####################################################
  
-x = [1,2,3]
-y = [4,5,6]
+x            = [1,2,3]
+y            = [4,5,6]
 
-add(a,b) = a + b
-result   = map(add_two, x, y)
+add_two(a,b) = a + b
+output       = map(add_two, x, y)
  
-print_asis(result)   #hide
- 
-x        = [1,2,3]
-y        = [4,5,6]
-
-
-result   = map((a,b) -> a + b, x, y)
- 
-print_asis(result)   #hide
+print_asis(output)   #hide
  
 x        = [1,2,3]
 y        = [4,5,6]
 
-result   = map(x,y) do a,b      # not (a,b)
+
+output   = map((a,b) -> a + b, x, y)
+ 
+print_asis(output)   #hide
+ 
+x        = [1,2,3]
+y        = [4,5,6]
+
+output   = map(x,y) do a,b      # not (a,b)
                 a + b
                 end
  
-print_asis(result)   #hide
+print_asis(output)   #hide
  
 ############################################################################
 #

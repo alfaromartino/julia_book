@@ -1,1 +1,1 @@
-print_asis([foo(x[1],y[1]), foo(x[2],y[2]), foo(x[3],y[3])])   #hide
+print_asis(equivalent)   #hide

@@ -1,4 +1,4 @@
-x = [1, 2, 3]
+x          = [1, 2, 3]
 
-
-z = map(log,x)
+output     = map(log, x)
+equivalent = [log(x[1]), log(x[2]), log(x[3])]

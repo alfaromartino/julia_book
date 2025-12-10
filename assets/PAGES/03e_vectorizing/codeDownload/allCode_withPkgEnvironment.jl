@@ -37,26 +37,26 @@ using FastBenchmark
 #	first way
 ####################################################
  
-x = [1, 2, 3]
+x          = [1, 2, 3]
 
-
-z = map(log,x)
+output     = map(log, x)
+equivalent = [log(x[1]), log(x[2]), log(x[3])]
  
-println(z)
+println(output)
  
-println([log(x[1]), log(x[2]), log(x[3])])
+println(equivalent)
  
 
 
 
-x = [1, 2, 3]
+x          = [1, 2, 3]
 
-
-z = map(a -> 2 * a, x)
+output     = map(a -> 2 * a, x)
+equivalent = [2*x[1], 2*x[2], 2*x[3]]
  
-println(z)
+println(output)
  
-println([2*x[1], 2*x[2], 2*x[3]])
+println(equivalent)
  
 
 
@@ -65,50 +65,54 @@ println([2*x[1], 2*x[2], 2*x[3]])
 #	second way
 ####################################################
  
-x = [ 1, 2, 3]
-y = [-1,-2,-3]
+x          = [ 1, 2, 3]
+y          = [-1,-2,-3]
 
-z = map(+, x, y)        # recall that `+` exists as both operator and function
+output     = map(+, x, y)        # `+` exists as both operator and function
+equivalent = [+(x[1],y[1]), +(x[2],y[2]), +(x[3],y[3])]
  
-println(z)
+println(output)
  
-println([+(x[1],y[1]), +(x[2],y[2]), +(x[3],y[3])])
- 
-
-
-
-x = [ 1, 2, 3]
-y = [-1,-2,-3]
-
-z = map((a,b) -> a+b, x, y)
- 
-println(z)
- 
-println([x[1]+y[1], x[2]+y[2], x[3]+y[3]])
+println(equivalent)
  
 
 
 
-x = [ 1, 2, 3]
-y = [-1,-2]
+x          = [ 1, 2, 3]
+y          = [-1,-2,-3]
 
-z = map(+, x, y)        # `+` is both an operator and a function
+output     = map((a,b) -> a+b, x, y)
+equivalent = [x[1]+y[1], x[2]+y[2], x[3]+y[3]]
  
-println(z)
+println(output)
+ 
+println(equivalent)
+ 
+
+
+
+x          = [ 1, 2, 3]
+y          = [-1,-2]
+
+output     = map(+, x, y)        # `+` exists as both operator and function
+equivalent = [+(x[1],y[1]), +(x[2],y[2])]
+ 
+println(output)
  
 println([+(x[1],y[1]), +(x[2],y[2])])
  
 
 
 
-x = [ 1, 2, 3]
-y =  -1
+x          = [ 1, 2, 3]
+y          = -1
 
-z = map(+, x, y)        # `+` is both an operator and a function
+output     = map(+, x, y)        # `+` exists as both operator and function
+equivalent = [+(x[1],y[1])]
  
-println(z)
+println(output)
  
-println([+(x[1],y[1])])
+println(equivalent)
  
 
 
@@ -123,49 +127,57 @@ println([+(x[1],y[1])])
 #	example 1
 ####################################################
  
-# `log(a)` is a function appying to scalars `a`
+# `log(a)` applies to scalars `a`
+x          = [1,2,3]
 
-x         = [1,2,3]
+output     = log.(x)
+equivalent = [log(x[1]), log(x[2]), log(x[3])]
  
-println(log.(x))
+println(output)
  
-println([log(x[1]), log(x[2]), log(x[3])])
+println(equivalent)
  
 
 
 
-square(a) = a^2     #user-defined function for a single element 'a'
+square(a)  = a^2     #user-defined function for a scalar 'a'
+x          = [1,2,3]
 
-x         = [1,2,3]
+output     = square.(x)
+equivalent = [square(x[1]), square(x[2]), square(x[3])]
  
-println(square.(x))
+println(output)
  
-println([square(x[1]), square(x[2]), square(x[3])])
+println(equivalent)
  
 ####################################################
 #	example 2 
 ####################################################
  
 # 'max(a,b)' returns 'a' if 'a>b', and 'b' otherwise
+x          = [0, 4, 0]
+y          = [2, 0, 8]
 
-x        = [0, 4, 0]
-y        = [2, 0, 8]
+output     = max.(x,y)
+equivalent = [max(x[1],y[1]), max(x[2],y[2]), max(x[3],y[3])]
  
-println(max.(x,y))
+println(output)
  
-println([max(x[1],y[1]), max(x[2],y[2]), max(x[3],y[3])])
+println(equivalent)
  
 
 
 
-foo(a,b) = a + b        # user-defined function for scalars 'a' and 'b'
+foo(a,b)   = a + b        # user-defined function for scalars 'a' and 'b'
+x          = [-2, -4, -10]
+y          = [ 2,  4,  10]
 
-x        = [-2, -4, -10]
-y        = [ 2,  4,  10]
+output     = foo.(x,y)
+equivalent = [foo(x[1],y[1]), foo(x[2],y[2]), foo(x[3],y[3])]
  
-println(foo.(x,y))
+println(output)
  
-println([foo(x[1],y[1]), foo(x[2],y[2]), foo(x[3],y[3])])
+println(equivalent)
  
 ####################################################
 #	example 3
@@ -174,8 +186,10 @@ println([foo(x[1],y[1]), foo(x[2],y[2]), foo(x[3],y[3])])
 country = ["France", "Canada"]
 is_in   = [" is in "  , " is in "]
 region  = ["Europe", "North America"]
+
+output  = string.(country, is_in, region)
  
-println(string.(country, is_in, region))
+println(output)
  
 ############################################################################
 #
@@ -183,17 +197,22 @@ println(string.(country, is_in, region))
 #
 ############################################################################
  
-x = [ 1,  2,  3]
-y = [-1, -2, -3]
+x      = [ 1,  2,  3]
+y      = [-1, -2, -3]
+
+output = x .+ y
  
-println(x .+ y)
+println(output)
  
 
 
 
-x = [1, 2, 3]
+x      = [1, 2, 3]
+
+
+output = .√x
  
-println(.√x)
+println(output)
  
 ############################################################################
 #
@@ -201,18 +220,22 @@ println(.√x)
 #
 ############################################################################
  
-x = [0,10,20]
-y = 5
+x      = [0,10,20]
+y      = 5
+
+output = x .+ y
  
-println(x .+ y)
+println(output)
  
 
 
 
-x = [0,10,20]
-y = [5, 5, 5]
+x      = [0,10,20]
+y      = [5, 5, 5]
+
+output = x .+ y
  
-println(x .+ y)
+println(output)
  
 ####################################################
 #	remark
@@ -221,8 +244,10 @@ println(x .+ y)
 country = ["France", "Canada"]
 is_in   = " is in "
 region  = ["Europe", "North America"]
+
+output  = string.(country, is_in, region)
  
-println(string.(country, is_in, region))
+println(output)
  
 ############################################################################
 #
@@ -268,11 +293,11 @@ x         = [1, 0, 2]
 y         = [1, 2, 0]
 
 temp      = x .+ y
-z         = temp .^ 2
+output    = temp .^ 2
  
 println(temp)
  
-println(z)
+println(output)
  
 
 
@@ -281,8 +306,9 @@ x         = [1, 0, 2]
 y         = [1, 2, 0]
 
 square(x) = x^2
+output    = square.(x .+ y)
  
-println(square.(x .+ y))
+println(output)
  
 
 
@@ -291,8 +317,9 @@ x         = [1, 0, 2]
 y         = [1, 2, 0]
 
 square(x) = x^2
+output    = @. square(x + y)
  
-println(@. square(x + y))
+println(output)
  
 
 
@@ -305,18 +332,20 @@ println(@. square(x + y))
  
 x                 = [1, 2, 3]
 
-number_squared(a) = a ^ 2         # function for scalar 'a'
+number_squared(a) = a ^ 2               # function for scalar 'a'
+output            = number_squared.(x)
  
-println(number_squared.(x))
+println(output)
  
 
 
 
 x                 = [1, 2, 3]
 
-vector_squared(x) = x .^ 2         # function for a vector 'x'
+vector_squared(x) = x .^ 2              # function for a vector 'x'
+output            = vector_squared(x)   # '.' not needed (it'd be redundant)
  
-println(vector_squared(x))
+println(output)
  
 ############################################################################
 #
@@ -348,43 +377,53 @@ println(in.(x, list))
 #	example 2
 ####################################################
  
-x    = [2, 4, 6]
-list = [1, 2, 3]        # 'x[1]' equals the element 2 in 'list'
- 
-println(in.(x, [list]))
- 
+x      = [2, 4, 6]
+list   = [1, 2, 3]        # 'x[1]' equals the element 2 in 'list'
 
-
-
-x    = [2, 4, 6]
-list = [1, 2, 3]        # 'x[1]' equals the element 2 in 'list'
+output = in.(x, [list])
  
-println(in.(x, (list,)))
+println(output)
  
 
 
 
-x    = [2, 4, 6]
-list = [1, 2, 3]        # 'x[1]' equals the element 2 in 'list'
+x      = [2, 4, 6]
+list   = [1, 2, 3]        # 'x[1]' equals the element 2 in 'list'
+
+output = in.(x, (list,))
  
-println(in.(x, Ref(list)))
+println(output)
+ 
+
+
+
+x      = [2, 4, 6]
+list   = [1, 2, 3]        # 'x[1]' equals the element 2 in 'list'
+
+output = in.(x, Ref(list))
+ 
+println(output)
  
 ####################################################
 #	example 3
 ####################################################
  
-x    = [2, 4, 6]
-list = [1, 2, 3]
+x      = [2, 4, 6]
+list   = [1, 2, 3]
+
+output = x .∈ (list,)       # only 'x[1]' equals an element in 'list'
  
-println(x .∈ (list,))
+println(output)
  
 
 
 
-x    = [2, 4, 6]
-list = [1, 2, 3]
+x      = [2, 4, 6]
+list   = [1, 2, 3]
+
+output = x .∈ Ref(list)     # only 'x[1]' equals an element in 'list'
  
-println(x .∈ Ref(list))
+println(output)
  
 ############################################################################
 #

@@ -1,1 +1,1 @@
-print_asis(x === y)      #hide
+# x[1] = "a" #ERROR   #hide

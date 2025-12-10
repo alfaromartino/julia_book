@@ -60,7 +60,7 @@ function foo(x,y)
     return term2
 end
  
-println(foo(10,2))
+println(foo(1,2))
  
 
 
@@ -70,7 +70,7 @@ function foo(x,y)
     term2 = x * y         # output returned
 end
  
-println(foo(10,2))
+println(foo(1,2))
  
 
 
@@ -79,10 +79,10 @@ function foo(x,y)
     term1 = x + y
     term2 = x * y 
 
-    return term1, term2   # a tuple with notation that omits the parentheses
+    return term1, term2   # a tuple (notation that omits the parentheses)
 end
  
-println(foo(10,2))
+println(foo(1,2))
  
 
 
@@ -94,7 +94,7 @@ function foo(x,y)
     return term1 + term2
 end
  
-println(foo(10,2))
+println(foo(1,2))
  
 
 
@@ -225,16 +225,16 @@ println(foo(z...))
 x          = [1, 2, 3]
 add_two(a) = a + 2
 
-result     = map(add_two, x)
+output     = map(add_two, x)
  
-println(result)
+println(output)
  
 x          = [1, 2, 3]
 
 
-result     = map(a -> a + 2, x)
+output     = map(a -> a + 2, x)
  
-println(result)
+println(output)
  
 ####################################################
 #	example 2
@@ -244,17 +244,17 @@ x            = [1,2,3]
 y            = [4,5,6]
 
 add_two(a,b) = a + b
-result       = map(add_two, x, y)
+output       = map(add_two, x, y)
  
-println(result)
+println(output)
  
 x            = [1,2,3]
 y            = [4,5,6]
 
 
-result       = map((a,b) -> a + b, x, y)
+output       = map((a,b) -> a + b, x, y)
  
-println(result)
+println(output)
  
 ####################################################
 #	The "Do-Block" Syntax
@@ -277,53 +277,53 @@ foo(<vector>) do <arguments of inner function>
 x          = [1, 2, 3]
 add_two(a) = a + 2
 
-result     = map(add_two, x)
+output     = map(add_two, x)
  
-println(result)
- 
-x          = [1, 2, 3]
-
-
-result     = map(a -> a + 2, x)
- 
-println(result)
+println(output)
  
 x          = [1, 2, 3]
 
-result     = map(x) do a
+
+output     = map(a -> a + 2, x)
+ 
+println(output)
+ 
+x          = [1, 2, 3]
+
+output     = map(x) do a
                 a + 2
                 end
  
-println(result)
+println(output)
  
 ####################################################
 #	do-blocks with anonymous funcitons and multiple arguments
 ####################################################
  
-x = [1,2,3]
-y = [4,5,6]
+x            = [1,2,3]
+y            = [4,5,6]
 
-add(a,b) = a + b
-result   = map(add_two, x, y)
+add_two(a,b) = a + b
+output       = map(add_two, x, y)
  
-println(result)
- 
-x        = [1,2,3]
-y        = [4,5,6]
-
-
-result   = map((a,b) -> a + b, x, y)
- 
-println(result)
+println(output)
  
 x        = [1,2,3]
 y        = [4,5,6]
 
-result   = map(x,y) do a,b      # not (a,b)
+
+output   = map((a,b) -> a + b, x, y)
+ 
+println(output)
+ 
+x        = [1,2,3]
+y        = [4,5,6]
+
+output   = map(x,y) do a,b      # not (a,b)
                 a + b
                 end
  
-println(result)
+println(output)
  
 ############################################################################
 #

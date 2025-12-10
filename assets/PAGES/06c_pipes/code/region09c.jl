@@ -7,4 +7,4 @@ output   = log.(abs.(x))
 output   = x .|> abs .|> log
 output   = (log ∘ abs).(x)
 output   = ∘(log, abs).(x)
-print_asis(output) # hide
+print_compact(output) #hide

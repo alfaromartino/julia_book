@@ -1,1 +1,1 @@
-print_asis([+(x[1],y[1])])    #hide
+print_asis(equivalent)    #hide

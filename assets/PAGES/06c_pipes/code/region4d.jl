@@ -8,3 +8,4 @@ output =       a            |>
                abs          |>
                x -> 2 * x   |>
                round
+print_asis(output) #hide

@@ -1,1 +1,1 @@
-print_asis(temp2) #hide
+print_compact(temp2) #hide

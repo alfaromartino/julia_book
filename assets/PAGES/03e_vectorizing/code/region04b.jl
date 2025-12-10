@@ -1,1 +1,1 @@
-print_asis(max.(x,y))   #hide
+print_asis(output)   #hide

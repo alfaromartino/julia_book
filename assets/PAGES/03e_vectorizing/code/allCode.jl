@@ -11,28 +11,28 @@ include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "regi
 #	first way
 ####################################################
  
-x = [1, 2, 3]
+x          = [1, 2, 3]
 
-
-z = map(log,x)
+output     = map(log, x)
+equivalent = [log(x[1]), log(x[2]), log(x[3])]
  
-print_asis(z)   #hide
+print_asis(output)   #hide
  
-print_asis([log(x[1]), log(x[2]), log(x[3])])   #hide
+print_asis(equivalent)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x = [1, 2, 3]
+x          = [1, 2, 3]
 
-
-z = map(a -> 2 * a, x)
+output     = map(a -> 2 * a, x)
+equivalent = [2*x[1], 2*x[2], 2*x[3]]
  
-print_asis(z)   #hide
+print_asis(output)   #hide
  
-print_asis([2*x[1], 2*x[2], 2*x[3]])    #hide
+print_asis(equivalent)    #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -43,40 +43,43 @@ print_asis([2*x[1], 2*x[2], 2*x[3]])    #hide
 #	second way
 ####################################################
  
-x = [ 1, 2, 3]
-y = [-1,-2,-3]
+x          = [ 1, 2, 3]
+y          = [-1,-2,-3]
 
-z = map(+, x, y)        # recall that `+` exists as both operator and function
+output     = map(+, x, y)        # `+` exists as both operator and function
+equivalent = [+(x[1],y[1]), +(x[2],y[2]), +(x[3],y[3])]
  
-print_asis(z)   #hide
+print_asis(output)   #hide
  
-print_asis([+(x[1],y[1]), +(x[2],y[2]), +(x[3],y[3])])    #hide
+print_asis(equivalent)    #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x = [ 1, 2, 3]
-y = [-1,-2,-3]
+x          = [ 1, 2, 3]
+y          = [-1,-2,-3]
 
-z = map((a,b) -> a+b, x, y)
+output     = map((a,b) -> a+b, x, y)
+equivalent = [x[1]+y[1], x[2]+y[2], x[3]+y[3]]
  
-print_asis(z)   #hide
+print_asis(output)   #hide
  
-print_asis([x[1]+y[1], x[2]+y[2], x[3]+y[3]])    #hide
+print_asis(equivalent)    #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x = [ 1, 2, 3]
-y = [-1,-2]
+x          = [ 1, 2, 3]
+y          = [-1,-2]
 
-z = map(+, x, y)        # `+` is both an operator and a function
+output     = map(+, x, y)        # `+` exists as both operator and function
+equivalent = [+(x[1],y[1]), +(x[2],y[2])]
  
-print_asis(z)   #hide
+print_asis(output)   #hide
  
 print_asis([+(x[1],y[1]), +(x[2],y[2])])    #hide
  
@@ -85,14 +88,15 @@ print_asis([+(x[1],y[1]), +(x[2],y[2])])    #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x = [ 1, 2, 3]
-y =  -1
+x          = [ 1, 2, 3]
+y          = -1
 
-z = map(+, x, y)        # `+` is both an operator and a function
+output     = map(+, x, y)        # `+` exists as both operator and function
+equivalent = [+(x[1],y[1])]
  
-print_asis(z)   #hide
+print_asis(output)   #hide
  
-print_asis([+(x[1],y[1])])    #hide
+print_asis(equivalent)    #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -109,53 +113,61 @@ print_asis([+(x[1],y[1])])    #hide
 #	example 1
 ####################################################
  
-# `log(a)` is a function appying to scalars `a`
+# `log(a)` applies to scalars `a`
+x          = [1,2,3]
 
-x         = [1,2,3]
+output     = log.(x)
+equivalent = [log(x[1]), log(x[2]), log(x[3])]
  
-print_asis(log.(x))   #hide
+print_asis(output)   #hide
  
-print_asis([log(x[1]), log(x[2]), log(x[3])])   #hide
+print_asis(equivalent)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-square(a) = a^2     #user-defined function for a single element 'a'
+square(a)  = a^2     #user-defined function for a scalar 'a'
+x          = [1,2,3]
 
-x         = [1,2,3]
+output     = square.(x)
+equivalent = [square(x[1]), square(x[2]), square(x[3])]
  
-print_asis(square.(x))   #hide
+print_asis(output)   #hide
  
-print_asis([square(x[1]), square(x[2]), square(x[3])])   #hide
+print_asis(equivalent)   #hide
  
 ####################################################
 #	example 2 
 ####################################################
  
 # 'max(a,b)' returns 'a' if 'a>b', and 'b' otherwise
+x          = [0, 4, 0]
+y          = [2, 0, 8]
 
-x        = [0, 4, 0]
-y        = [2, 0, 8]
+output     = max.(x,y)
+equivalent = [max(x[1],y[1]), max(x[2],y[2]), max(x[3],y[3])]
  
-print_asis(max.(x,y))   #hide
+print_asis(output)   #hide
  
-print_asis([max(x[1],y[1]), max(x[2],y[2]), max(x[3],y[3])])   #hide
+print_asis(equivalent)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-foo(a,b) = a + b        # user-defined function for scalars 'a' and 'b'
+foo(a,b)   = a + b        # user-defined function for scalars 'a' and 'b'
+x          = [-2, -4, -10]
+y          = [ 2,  4,  10]
 
-x        = [-2, -4, -10]
-y        = [ 2,  4,  10]
+output     = foo.(x,y)
+equivalent = [foo(x[1],y[1]), foo(x[2],y[2]), foo(x[3],y[3])]
  
-print_asis(foo.(x,y))   #hide
+print_asis(output)   #hide
  
-print_asis([foo(x[1],y[1]), foo(x[2],y[2]), foo(x[3],y[3])])   #hide
+print_asis(equivalent)   #hide
  
 ####################################################
 #	example 3
@@ -164,8 +176,10 @@ print_asis([foo(x[1],y[1]), foo(x[2],y[2]), foo(x[3],y[3])])   #hide
 country = ["France", "Canada"]
 is_in   = [" is in "  , " is in "]
 region  = ["Europe", "North America"]
+
+output  = string.(country, is_in, region)
  
-print_asis(string.(country, is_in, region))     #hide
+print_asis(output)     #hide
  
 ############################################################################
 #
@@ -173,19 +187,24 @@ print_asis(string.(country, is_in, region))     #hide
 #
 ############################################################################
  
-x = [ 1,  2,  3]
-y = [-1, -2, -3]
+x      = [ 1,  2,  3]
+y      = [-1, -2, -3]
+
+output = x .+ y
  
-print_asis(x .+ y)   #hide
+print_asis(output)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x = [1, 2, 3]
+x      = [1, 2, 3]
+
+
+output = .√x
  
-print_compact(.√x)   #hide
+print_compact(output)   #hide
  
 ############################################################################
 #
@@ -193,20 +212,24 @@ print_compact(.√x)   #hide
 #
 ############################################################################
  
-x = [0,10,20]
-y = 5
+x      = [0,10,20]
+y      = 5
+
+output = x .+ y
  
-print_asis(x .+ y)   #hide
+print_asis(output)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x = [0,10,20]
-y = [5, 5, 5]
+x      = [0,10,20]
+y      = [5, 5, 5]
+
+output = x .+ y
  
-print_asis(x .+ y)   #hide
+print_asis(output)   #hide
  
 ####################################################
 #	remark
@@ -215,8 +238,10 @@ print_asis(x .+ y)   #hide
 country = ["France", "Canada"]
 is_in   = " is in "
 region  = ["Europe", "North America"]
+
+output  = string.(country, is_in, region)
  
-print_asis(string.(country, is_in, region))     #hide
+print_asis(output)     #hide
  
 ############################################################################
 #
@@ -268,11 +293,11 @@ x         = [1, 0, 2]
 y         = [1, 2, 0]
 
 temp      = x .+ y
-z         = temp .^ 2
+output    = temp .^ 2
  
 print_asis(temp)   #hide
  
-print_asis(z)   #hide
+print_asis(output)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -283,8 +308,9 @@ x         = [1, 0, 2]
 y         = [1, 2, 0]
 
 square(x) = x^2
+output    = square.(x .+ y)
  
-print_asis(square.(x .+ y))   #hide
+print_asis(output)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -295,8 +321,9 @@ x         = [1, 0, 2]
 y         = [1, 2, 0]
 
 square(x) = x^2
+output    = @. square(x + y)
  
-print_asis(@. square(x + y))   #hide
+print_asis(output)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -311,9 +338,10 @@ print_asis(@. square(x + y))   #hide
  
 x                 = [1, 2, 3]
 
-number_squared(a) = a ^ 2         # function for scalar 'a'
+number_squared(a) = a ^ 2               # function for scalar 'a'
+output            = number_squared.(x)
  
-print_asis(number_squared.(x))   #hide
+print_asis(output)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -322,9 +350,10 @@ print_asis(number_squared.(x))   #hide
  
 x                 = [1, 2, 3]
 
-vector_squared(x) = x .^ 2         # function for a vector 'x'
+vector_squared(x) = x .^ 2              # function for a vector 'x'
+output            = vector_squared(x)   # '.' not needed (it'd be redundant)
  
-print_asis(vector_squared(x))   #hide
+print_asis(output)   #hide
  
 ############################################################################
 #
@@ -360,49 +389,59 @@ print_asis(in.(x, list))   #hide
 #	example 2
 ####################################################
  
-x    = [2, 4, 6]
-list = [1, 2, 3]        # 'x[1]' equals the element 2 in 'list'
+x      = [2, 4, 6]
+list   = [1, 2, 3]        # 'x[1]' equals the element 2 in 'list'
+
+output = in.(x, [list])
  
-print_asis(in.(x, [list]))   #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x    = [2, 4, 6]
-list = [1, 2, 3]        # 'x[1]' equals the element 2 in 'list'
- 
-print_asis(in.(x, (list,)))   #hide
+print_asis(output)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x    = [2, 4, 6]
-list = [1, 2, 3]        # 'x[1]' equals the element 2 in 'list'
+x      = [2, 4, 6]
+list   = [1, 2, 3]        # 'x[1]' equals the element 2 in 'list'
+
+output = in.(x, (list,))
  
-print_asis(in.(x, Ref(list)))   #hide
+print_asis(output)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x      = [2, 4, 6]
+list   = [1, 2, 3]        # 'x[1]' equals the element 2 in 'list'
+
+output = in.(x, Ref(list))
+ 
+print_asis(output)   #hide
  
 ####################################################
 #	example 3
 ####################################################
  
-x    = [2, 4, 6]
-list = [1, 2, 3]
+x      = [2, 4, 6]
+list   = [1, 2, 3]
+
+output = x .∈ (list,)       # only 'x[1]' equals an element in 'list'
  
-print_asis(x .∈ (list,))   #hide
+print_asis(output)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x    = [2, 4, 6]
-list = [1, 2, 3]
+x      = [2, 4, 6]
+list   = [1, 2, 3]
+
+output = x .∈ Ref(list)     # only 'x[1]' equals an element in 'list'
  
-print_asis(x .∈ Ref(list))   #hide
+print_asis(output)   #hide
  
 ############################################################################
 #

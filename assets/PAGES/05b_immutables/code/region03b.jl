@@ -1,1 +1,1 @@
-print_asis(x == y)      #hide
+print_asis(x[1])

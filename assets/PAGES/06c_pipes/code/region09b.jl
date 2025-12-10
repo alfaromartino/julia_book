@@ -8,4 +8,4 @@ output   = outer(inner(a))
 output   = a |> inner |> outer
 output   = (outer ∘ inner)(a)
 output   = ∘(outer, inner)(a)
-print_asis(output) # hide
+print_asis(output) #hide
