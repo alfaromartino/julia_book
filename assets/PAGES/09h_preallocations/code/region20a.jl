@@ -1,4 +1,4 @@
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days    = 2
 nr_workers = 1_000_000
 

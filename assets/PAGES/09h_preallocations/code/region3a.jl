@@ -6,5 +6,4 @@ function foo(x, repetitions)
         similar(x)
     end
 end
-
 @ctime foo($x, $repetitions) #hide

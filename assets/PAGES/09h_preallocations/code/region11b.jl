@@ -1,4 +1,4 @@
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 target  = similar(scores[1])
@@ -13,5 +13,4 @@ function repeated_call!(target, scores)
 
     return stats
 end
-
 @ctime repeated_call!(target,scores)    #hide

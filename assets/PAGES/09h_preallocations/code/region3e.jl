@@ -6,5 +6,4 @@ function foo(x, repetitions)
         fill(2, length(x))                  # vector filled with integer 2
     end
 end
-
 @ctime foo($x, $repetitions) #hide

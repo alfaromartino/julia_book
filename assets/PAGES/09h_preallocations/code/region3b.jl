@@ -6,5 +6,4 @@ function foo(x, repetitions)
         Vector{Int64}(undef, length(x))
     end
 end
-
 @ctime foo($x, $repetitions) #hide

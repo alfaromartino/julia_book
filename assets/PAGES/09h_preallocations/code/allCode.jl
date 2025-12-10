@@ -2,7 +2,7 @@ include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
-using Random, LazyArrays
+using Random, Statistics, LazyArrays
  
 ############################################################################
 #
@@ -14,6 +14,10 @@ using Random, LazyArrays
 #	INITIALIZING VECTORS
 ####################################################
  
+####################################################
+#	approaches
+####################################################
+ 
 x           = collect(1:100)
 repetitions = 100_000                       # repetitions in a for-loop
 
@@ -22,9 +26,9 @@ function foo(x, repetitions)
         similar(x)
     end
 end
-
 @ctime foo($x, $repetitions) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -37,9 +41,9 @@ function foo(x, repetitions)
         Vector{Int64}(undef, length(x))
     end
 end
-
 @ctime foo($x, $repetitions) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -52,9 +56,9 @@ function foo(x, repetitions)
         zeros(Int64, length(x))
     end
 end
-
 @ctime foo($x, $repetitions) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -67,9 +71,9 @@ function foo(x, repetitions)
         ones(Int64, length(x))
     end
 end
-
 @ctime foo($x, $repetitions) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -82,12 +86,16 @@ function foo(x, repetitions)
         fill(2, length(x))                  # vector filled with integer 2
     end
 end
-
 @ctime foo($x, $repetitions) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+####################################################
+#	initializing vectors in functions
+####################################################
  
 x = [1,2,3]
 
@@ -95,9 +103,9 @@ function foo(x)
     a = similar(x); b = similar(x); c = similar(x)    
     # <some calculations using a,b,c>
 end
-
 @ctime foo($x) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -108,9 +116,9 @@ function foo(x; a = similar(x), b = similar(x), c = similar(x))
     
     # <some calculations using a,b,c>
 end
-
 @ctime foo($x) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -121,9 +129,9 @@ function foo(x)
     a,b,c = [similar(x) for _ in 1:3]
     # <some calculations using a,b,c>
 end
-
 @ctime foo($x) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -134,26 +142,25 @@ function foo(x)
     a,b,c = (similar(x) for _ in 1:3)
     # <some calculations using a,b,c>
 end
-
 @ctime foo($x) #hide
  
 ####################################################
 #	DESCRIBING THE TECHNIQUE
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days            = 30
 score              = rand(nr_days)
 
 performance(score) = score .> 0.5
-
 @ctime performance($score) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days            = 30
 score              = rand(nr_days)
 
@@ -166,10 +173,14 @@ function performance(score)
 
     return target
 end
-
 @ctime performance($score) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days            = 30
 score              = rand(nr_days)
 
@@ -182,14 +193,14 @@ function performance(score; target=similar(score))
 
     return target
 end
-
 @ctime performance($score) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days            = 30
 score              = rand(nr_days)
 
@@ -197,6 +208,11 @@ performance(score) = score .> 0.5
 
 performance_in_a_loop(x) = [sum(foo(x)) for _ in 1:100]
 @ctime performance_in_a_loop($x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 nr_days            = 30
 score              = rand(nr_days)
@@ -214,7 +230,25 @@ end
 performance_in_a_loop(x) = [sum(foo(x)) for _ in 1:100]
 @ctime performance_in_a_loop($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
+nr_days            = 30
+scores             = [rand(nr_days), rand(nr_days), rand(nr_days)]  # 3 workers
+
+
+
+function repeated_call(scores)
+    stats = Vector{Float64}(undef, length(scores))
+
+    for col in eachindex(scores)
+
+      stats[col] = std(@~ scores[col] .> 0.5) / mean(@~ scores[col] .> 0.5)
+    end
+
+    return stats
+end
+@ctime repeated_call($scores) #hide
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days            = 30
 scores             = [rand(nr_days), rand(nr_days), rand(nr_days)]  # 3 workers
 
@@ -230,14 +264,14 @@ function repeated_call(scores)
 
     return stats
 end
-
 @ctime repeated_call($scores) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days            = 30
 scores             = [rand(nr_days), rand(nr_days), rand(nr_days)]   # 3 workers
 
@@ -263,7 +297,12 @@ function repeated_call(scores)
 end
 @ctime repeated_call($scores) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days            = 30
 scores             = [rand(nr_days), rand(nr_days), rand(nr_days)]   # 3 workers
 
@@ -287,9 +326,9 @@ function repeated_call(scores)
 
     return stats
 end
-
 @ctime repeated_call($scores) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -298,14 +337,14 @@ end
 #	PRE-ALLOCATION AS A SOLUTION
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
 
 performance(score) = score .> 0.5
 
-function repeated_call!(scores)
+function repeated_call(scores)
     stats = Vector{Float64}(undef, length(scores))
 
     for col in eachindex(scores)
@@ -315,10 +354,14 @@ function repeated_call!(scores)
 
     return stats
 end
-
 @ctime repeated_call(scores)    #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 target  = similar(scores[1])
@@ -339,14 +382,14 @@ function repeated_call!(target, scores)
 
     return stats
 end
-
 @ctime repeated_call!(target, scores)    #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 target  = similar(scores[1])
@@ -363,14 +406,14 @@ function repeated_call!(target, scores)
 
     return stats
 end
-
 @ctime repeated_call!(target,scores)    #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 target  = similar(scores[1])
@@ -387,21 +430,21 @@ function repeated_call!(target, scores)
 
     return stats
 end
-
 @ctime repeated_call!(target,scores)    #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
 # simpler
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
 
-function repeated_call!(scores)
+function repeated_call(scores)
     stats = Vector{Float64}(undef, length(scores))
 
     for col in eachindex(scores)
@@ -411,10 +454,14 @@ function repeated_call!(scores)
 
     return stats
 end
-
 @ctime repeated_call(scores)    #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 target  = similar(scores[1])
@@ -429,10 +476,14 @@ function repeated_call!(target, scores)
 
     return stats
 end
-
 @ctime repeated_call!(target,scores)    #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 target  = similar(scores[1])
@@ -447,14 +498,13 @@ function repeated_call!(target, scores)
 
     return stats
 end
-
 @ctime repeated_call!(target,scores)    #hide
  
 ####################################################
 #	APPLICATION 1 - matrices
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days    = 2
 nr_workers = 1_000_000
 
@@ -477,8 +527,9 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days    = 2
 nr_workers = 1_000_000
 
@@ -501,14 +552,13 @@ end
 
     return output
 end
-
 @ctime repeated_call!($output,$temp,$scores) #hide
  
 ####################################################
 #	APPLICATION 2 - model simulations
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
@@ -535,10 +585,9 @@ function repeated_call(scores)
 
     return output
 end
-
 @ctime repeated_call($scores) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
@@ -560,14 +609,13 @@ function repeated_call!(output, temp, scores)
 
     return output
 end
-
 @ctime repeated_call!($output,$temp,$scores)    #hide
  
 ####################################################
 #	APPLICATION 3 - lazy is slower here
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
@@ -598,7 +646,7 @@ function repeated_call(scores)
 end
 @ctime repeated_call($scores) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
@@ -624,7 +672,7 @@ function repeated_call!(output, temp, scores)
 end
 @ctime repeated_call!($output,$temp,$scores)    #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 
@@ -642,7 +690,7 @@ function repeated_call!(output, scores)
 end
 @ctime repeated_call!($output,$scores)    #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days = 30
 scores  = [rand(nr_days), rand(nr_days), rand(nr_days)]
 

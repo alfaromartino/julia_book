@@ -6,5 +6,4 @@ function foo(x, repetitions)
         zeros(Int64, length(x))
     end
 end
-
 @ctime foo($x, $repetitions) #hide

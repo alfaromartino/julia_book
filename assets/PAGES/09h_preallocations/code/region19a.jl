@@ -1,4 +1,4 @@
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days            = 30
 scores             = [rand(nr_days), rand(nr_days), rand(nr_days)]  # 3 workers
 
@@ -14,5 +14,4 @@ function repeated_call(scores)
 
     return stats
 end
-
 @ctime repeated_call($scores) #hide
