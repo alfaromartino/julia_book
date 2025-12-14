@@ -2,7 +2,7 @@ include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
-using Random, Base.Threads, ChunkSplitters, OhMyThreads, LoopVectorization, Polyester, LazyArrays
+using Random, Base.Threads, ChunkSplitters, LoopVectorization, LazyArrays
  
 ############################################################################
 #
@@ -10,7 +10,7 @@ using Random, Base.Threads, ChunkSplitters, OhMyThreads, LoopVectorization, Poly
 #
 ############################################################################
  
-Random.seed!(1234) #hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x_small  = rand(    1_000)
 x_medium = rand(  100_000)
 x_big    = rand(10_000_000)
@@ -31,7 +31,12 @@ end
  
 @ctime foo($x_big)
  
-Random.seed!(1234) #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x_small  = rand(    1_000)
 x_medium = rand(  100_000)
 x_big    = rand(10_000_000)
@@ -51,6 +56,11 @@ end
 @ctime foo($x_medium)
  
 @ctime foo($x_big)
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ############################################################################
 #
@@ -80,7 +90,7 @@ function foo(x)
    return output
 end
 
-Random.seed!(1234) #hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x_small  = rand(  1_000)
 x_large  = rand(100_000)
  
@@ -88,6 +98,7 @@ x_large  = rand(100_000)
  
 @ctime foo($x_large) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -114,7 +125,7 @@ function foo(x)
    return output
 end
 
-Random.seed!(1234) #hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x_small  = rand(  1_000)
 x_large  = rand(100_000)
  
@@ -122,6 +133,7 @@ x_large  = rand(100_000)
  
 @ctime foo($x_large) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -148,13 +160,18 @@ function foo(x)
    return output
 end
 
-Random.seed!(1234) #hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x_small  = rand(  1_000)
 x_large  = rand(100_000)
  
 @ctime foo($x_small) #hide
  
 @ctime foo($x_large) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ############################################################################
 #
@@ -171,6 +188,11 @@ function foo(x)
     a,b
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = rand(10); y = rand(10)
 
 function foo(x)
@@ -180,12 +202,22 @@ function foo(x)
     a,b = fetch.((task_a, task_b))
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = rand(10); y = rand(10)
 
 function foo!(x,y)
     @. x = -x
     @. y = -y
 end
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 x = rand(10); y = rand(10)
 
@@ -195,6 +227,11 @@ function foo!(x,y)
 
     wait.((task_a, task_b))
 end
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ############################################################################
 #
@@ -208,7 +245,7 @@ end
  
 # same time per iteration
  
-Random.seed!(1234) #hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000)
 
 function foo(x)
@@ -224,7 +261,12 @@ foo(x); #hide
  
 @ctime foo($x) #hide
  
-Random.seed!(1234) #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000)
 
 function foo(x)
@@ -240,9 +282,14 @@ foo(x); #hide
  
 @ctime foo($x) #hide
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # increasing time per iteration
  
-Random.seed!(1234) #hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000)
 
 function foo(x)
@@ -258,7 +305,12 @@ foo(x); #hide
  
 @ctime foo($x) #hide
  
-Random.seed!(1234) #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000)
 
 function foo(x)
@@ -273,6 +325,11 @@ end
 foo(x); #hide
  
 @ctime foo($x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ############################################################################
 #
@@ -293,6 +350,11 @@ print_asis(collect(chunk_indices))
  
 print_asis(collect(chunk_values))
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # chunks creation -> by setting the size of the subsets
  
 x             = string.('a':'z')            # all letters from "a" to "z"
@@ -305,6 +367,11 @@ chunk_values  = chunks(x, size = chunk_length)
 print_asis(collect(chunk_indices))
  
 print_asis(collect(chunk_values))
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
 #	common way to split chunks for multithreading
@@ -321,6 +388,7 @@ print_asis(collect(chunk_indices))
  
 print_asis(collect(chunk_values))
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -343,6 +411,11 @@ print_asis(collect(chunk_iter1))
  
 print_asis(collect(chunk_iter2))
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
 #			CHUNKS
@@ -353,7 +426,7 @@ print_asis(collect(chunk_iter2))
 #	implementation of @threads by using @spawn + chunks
 ####################################################
  
-Random.seed!(1234) #hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -367,7 +440,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(1234) #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -381,7 +459,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(1234) #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x, nr_chunks)
@@ -394,9 +477,14 @@ function foo(x, nr_chunks)
 
     return output
 end
-@ctime foo($x, nthreads())  # hide
+@ctime foo($x, nthreads())  #hide
  
-Random.seed!(1234) #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -410,7 +498,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(1234) #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x, nr_chunks)
@@ -424,9 +517,14 @@ function foo(x, nr_chunks)
 
     return wait.(task_indices)
 end
-@ctime foo($x, nthreads())  # hide
+@ctime foo($x, nthreads())  #hide
  
-Random.seed!(1234) #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x, nr_chunks)
@@ -440,13 +538,18 @@ function foo(x, nr_chunks)
     return output
 end
  
-@ctime foo($x, nthreads() * 1)  # hide
+@ctime foo($x, nthreads() * 1)  #hide
  
-@ctime foo($x, nthreads() * 2)  # hide
+@ctime foo($x, nthreads() * 2)  #hide
  
-@ctime foo($x, nthreads() * 4)  # hide
+@ctime foo($x, nthreads() * 4)  #hide
  
-Random.seed!(1234) #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function compute!(output, x, chunk)
@@ -466,21 +569,26 @@ function foo(x, nr_chunks)
     return output
 end
  
-@ctime foo($x, nthreads() * 1)  # hide
+@ctime foo($x, nthreads() * 1)  #hide
  
-@ctime foo($x, nthreads() * 2)  # hide
+@ctime foo($x, nthreads() * 2)  #hide
  
-@ctime foo($x, nthreads() * 4)  # hide
+@ctime foo($x, nthreads() * 4)  #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
 #	REDUCTIONS
 ####################################################
  
-Random.seed!(1234) #hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
-    output = 0.
+    output = 0.0
 
     for i in eachindex(x)
         output += x[i]
@@ -492,7 +600,12 @@ print_asis(foo(x)) #hide
  
 @ctime foo($x)
  
-Random.seed!(1234) #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -509,7 +622,12 @@ print_asis(foo(x)) #hide
  
 @ctime foo($x)
  
-Random.seed!(1234) #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -526,17 +644,22 @@ print_asis(foo(x)) #hide
  
 @ctime foo($x)
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
 #			FALSE SHARING
 #
 ############################################################################
  
-Random.seed!(1234) # hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
-    output = 0.
+    output = 0.0
 
     for i in eachindex(x)
         output += log(x[i])
@@ -544,14 +667,19 @@ function foo(x)
 
     output
 end
-@ctime foo($x)  # hide
+@ctime foo($x)  #hide
  
-Random.seed!(1234) # hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
     chunk_ranges    = index_chunks(x, n=nthreads())
-    partial_outputs = zeros(length(chunk_ranges))
+    partial_outputs = Vector{Float64}(undef, length(chunk_ranges))
     
     @threads for (i,chunk) in enumerate(chunk_ranges)
         for j in chunk
@@ -561,14 +689,19 @@ function foo(x)
     
     return sum(partial_outputs)
 end
-@ctime foo($x)  # hide
+@ctime foo($x)  #hide
  
-Random.seed!(1234) # hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
     chunk_ranges    = index_chunks(x, n=nthreads())
-    partial_outputs = zeros(length(chunk_ranges))
+    partial_outputs = Vector{Float64}(undef, length(chunk_ranges))
     
     @threads for (i,chunk) in enumerate(chunk_ranges)
         temp = 0.0
@@ -580,14 +713,19 @@ function foo(x)
     
     return sum(partial_outputs)
 end
-@ctime foo($x)  # hide
+@ctime foo($x)  #hide
  
-Random.seed!(1234) # hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
     chunk_ranges    = index_chunks(x, n=nthreads())
-    partial_outputs = zeros(length(chunk_ranges))    
+    partial_outputs = Vector{Float64}(undef, length(chunk_ranges))    
     
     @sync for (i,chunk) in enumerate(chunk_ranges)
         @spawn begin
@@ -601,9 +739,14 @@ function foo(x)
     
     return sum(partial_outputs)
 end
-@ctime foo($x)  # hide
+@ctime foo($x)  #hide
  
-Random.seed!(1234) # hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function compute(x, chunk)
@@ -618,7 +761,7 @@ end
 
 function foo(x)
     chunk_ranges    = index_chunks(x, n=nthreads())
-    partial_outputs = zeros(length(chunk_ranges))    
+    partial_outputs = Vector{Float64}(undef, length(chunk_ranges))    
     
     @threads for (i,chunk) in enumerate(chunk_ranges)
         partial_outputs[i] = compute(x, chunk)
@@ -626,22 +769,46 @@ function foo(x)
     
     return sum(partial_outputs)
 end
-@ctime foo($x)  # hide
+@ctime foo($x)  #hide
  
-Random.seed!(1234) # hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
-    chunk_ranges     = index_chunks(x, n=nthreads())    
-    partial_outputs  = zeros(7, length(chunk_ranges))    
-        
-    @threads for (i,chunk) in enumerate(chunk_ranges)
-        for j in chunk 
-            partial_outputs[1,i] += log(x[j])
+    chunk_ranges    = index_chunks(x, n=nthreads())
+    nr_strides      = 8
+    partial_outputs = Matrix{Float64}(undef, nr_strides, length(chunk_ranges))
+
+    @threads for (i, chunk) in enumerate(chunk_ranges)
+        for j in chunk
+            partial_outputs[1, i] += log(x[j])
         end
     end
-    
-    return sum(@view(partial_outputs[:,1]))
+
+    return sum(@view(partial_outputs[1, :]))
 end
-@ctime foo($x)  # hide
+@ctime foo($x)  #hide
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
+x = rand(10_000_000)
+
+function foo(x)
+    chunk_ranges    = index_chunks(x, n=nthreads())
+    nr_strides      = 8
+    partial_outputs = Vector{Float64}(undef, length(chunk_ranges) * nr_strides)
+
+    @threads for (i, chunk) in enumerate(chunk_ranges)
+        for j in chunk
+            partial_outputs[(i-1)*nr_strides + 1] += log(x[j])
+        end
+    end
+
+    return sum(@view(partial_outputs[1:nr_strides:end]))
+end
+@ctime foo($x)  #hide
  

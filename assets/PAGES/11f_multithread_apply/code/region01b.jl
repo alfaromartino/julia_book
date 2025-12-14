@@ -1,9 +1,9 @@
-Random.seed!(1234) # hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
     chunk_ranges    = index_chunks(x, n=nthreads())
-    partial_outputs = zeros(length(chunk_ranges))
+    partial_outputs = Vector{Float64}(undef, length(chunk_ranges))
     
     @threads for (i,chunk) in enumerate(chunk_ranges)
         temp = 0.0
@@ -15,4 +15,4 @@ function foo(x)
     
     return sum(partial_outputs)
 end
-@ctime foo($x)  # hide
+@ctime foo($x)  #hide

@@ -1,1 +1,1 @@
-@ctime foo($x, nthreads() * 2)  # hide
+@ctime foo($x, nthreads() * 2)  #hide

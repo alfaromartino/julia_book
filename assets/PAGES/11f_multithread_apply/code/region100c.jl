@@ -1,4 +1,4 @@
-Random.seed!(1234) #hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x, nr_chunks)
@@ -12,4 +12,4 @@ function foo(x, nr_chunks)
 
     return wait.(task_indices)
 end
-@ctime foo($x, nthreads())  # hide
+@ctime foo($x, nthreads())  #hide

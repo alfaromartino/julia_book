@@ -20,6 +20,6 @@ function foo(x)
    return output
 end
 
-Random.seed!(1234) #hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x_small  = rand(  1_000)
 x_large  = rand(100_000)
