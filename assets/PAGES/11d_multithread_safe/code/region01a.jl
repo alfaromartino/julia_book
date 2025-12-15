@@ -1,12 +1,12 @@
 function foo()
-    out  = zeros(Int, 2)
-    temp = 0
+    output = Vector{Int}(undef,2)
+    temp   = 0
 
     for i in 1:2
-        temp   = i; sleep(i)
-        out[i] = temp
+        temp      = i; sleep(i)
+        output[i] = temp
     end
 
-    return out
+    return output
 end
 print_asis(foo()) #hide

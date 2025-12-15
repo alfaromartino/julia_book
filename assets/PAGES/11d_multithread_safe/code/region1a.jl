@@ -1,8 +1,8 @@
-Random.seed!(1234) #hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
-    output = 0.
+    output = 0.0
 
     for i in eachindex(x)
         output += x[i]

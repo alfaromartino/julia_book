@@ -1,0 +1,27 @@
+\documentclass[tikz, convert={outext=.svg,pdf2svg}]{standalone}
+
+\usepackage{tikz,amsmath, amssymb,bm,color}
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{calc, backgrounds}
+
+\definecolor{myblue}{RGB}{175, 204, 233}
+
+\begin{document}
+%\begin{tikzpicture}[background rectangle/.style={fill=cyan}, show background rectangle]
+\begin{tikzpicture}
+  % Scalar side
+  \node at (0,0) {Step 1: $1+10=11$};
+  \node at (0,-0.8) {Step 2: $2+20=22$};
+  \node at (0,-1.6) {Step 3: $3+30=33$};
+  \node at (0,-2.4) {Step 4: $4+40=44$};
+  \node at (0,-3.2) {Scalar: 4 steps};
+
+  % SIMD side
+  \draw (5,0) rectangle (9,0.8) node[midway] {$[1,2,3,4]$};
+  \draw (5,-1) rectangle (9,-0.2) node[midway] {$[10,20,30,40]$};
+  \draw[->] (7,-1.2) -- (7,-2.2) node[midway,right] {Step 1: SIMD Add};
+  \draw (5,-2.4) rectangle (9,-1.6) node[midway] {$[11,22,33,44]$};
+  \node at (7,-3.2) {SIMD: 1 step};
+\end{tikzpicture}
+
+\end{document}
