@@ -234,19 +234,19 @@ print_asis(output)   #hide
 #	example 2
 ####################################################
  
-x            = [1,2,3]
-y            = [4,5,6]
+x               = [1,2,3]
+y               = [4,5,6]
+add_values(a,b) = a + b
 
-add_two(a,b) = a + b
-output       = map(add_two, x, y)
+output          = map(add_values, x, y)
  
 print_asis(output)   #hide
  
-x            = [1,2,3]
-y            = [4,5,6]
+x               = [1,2,3]
+y               = [4,5,6]
 
 
-output       = map((a,b) -> a + b, x, y)
+output          = map((a,b) -> a + b, x, y)
  
 print_asis(output)   #hide
  
