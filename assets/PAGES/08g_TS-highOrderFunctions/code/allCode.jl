@@ -65,7 +65,7 @@ print_compact(foo(abs, x))
 ############################################################################
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(100)
+x     = rand(100)
 
 
 function foo(f::F, x) where F
@@ -81,7 +81,7 @@ print_compact(foo(abs, x))
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(100)
+x     = rand(100)
 f_tup = (abs,)
 
 function foo(f_tup, x)

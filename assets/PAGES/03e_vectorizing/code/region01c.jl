@@ -1,1 +1,1 @@
-print_asis(equivalent)   #hide
+print_compact(equivalent)   #hide

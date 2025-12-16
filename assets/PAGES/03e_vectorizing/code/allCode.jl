@@ -16,9 +16,9 @@ x          = [1, 2, 3]
 output     = map(log, x)
 equivalent = [log(x[1]), log(x[2]), log(x[3])]
  
-print_asis(output)   #hide
+print_compact(output)   #hide
  
-print_asis(equivalent)   #hide
+print_compact(equivalent)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -119,9 +119,9 @@ x          = [1,2,3]
 output     = log.(x)
 equivalent = [log(x[1]), log(x[2]), log(x[3])]
  
-print_asis(output)   #hide
+print_compact(output)   #hide
  
-print_asis(equivalent)   #hide
+print_compact(equivalent)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>

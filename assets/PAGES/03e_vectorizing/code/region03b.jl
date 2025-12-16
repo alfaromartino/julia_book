@@ -1,1 +1,1 @@
-print_asis(output)   #hide
+print_compact(output)   #hide
