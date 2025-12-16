@@ -1,0 +1,1 @@
+print_asis(foo6(0.5, 2.0)) #hide

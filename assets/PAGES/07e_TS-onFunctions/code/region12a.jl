@@ -1,0 +1,1 @@
+revenue1(nr_tickets, price) = nr_tickets * price

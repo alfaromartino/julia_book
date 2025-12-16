@@ -71,15 +71,15 @@ println(foo())
 # reading and writing a shared variable
  
 function foo()
-    out  = zeros(Int, 2)
-    temp = 0
+    output = Vector{Int}(undef,2)
+    temp   = 0
 
     for i in 1:2
-        temp   = i; sleep(i)
-        out[i] = temp
+        temp      = i; sleep(i)
+        output[i] = temp
     end
 
-    return out
+    return output
 end
 println(foo())
  
@@ -87,15 +87,15 @@ println(foo())
 
 
 function foo()
-    out  = zeros(Int, 2)
-    temp = 0
+    output = Vector{Int}(undef,2)
+    temp   = 0
 
     @threads for i in 1:2
-        temp   = i; sleep(i)
-        out[i] = temp
+        temp      = i; sleep(i)
+        output[i] = temp
     end
 
-    return out
+    return output
 end
 println(foo())
  
@@ -103,15 +103,15 @@ println(foo())
 
 
 function foo()
-    out  = zeros(Int, 2)
+    output = Vector{Int}(undef,2)
     
 
     @threads for i in 1:2
-        temp   = i; sleep(i)
-        out[i] = temp
+        temp      = i; sleep(i)
+        output[i] = temp
     end
 
-    return out
+    return output
 end
 println(foo())
  
@@ -132,7 +132,7 @@ Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
-    output = 0.
+    output = 0.0
 
     for i in eachindex(x)
         output += x[i]
@@ -149,7 +149,7 @@ Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
-    output = 0.
+    output = 0.0
 
     @threads for i in eachindex(x)
         output += x[i]
@@ -166,7 +166,7 @@ Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
-    output = 0.
+    output = 0.0
 
     @threads for i in eachindex(x)
         output += x[i]
@@ -183,7 +183,7 @@ Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
-    output = 0.
+    output = 0.0
 
     @threads for i in eachindex(x)
         output += x[i]

@@ -1,0 +1,1 @@
+#print_asis(foo6(1, 2)) #ERROR #hide

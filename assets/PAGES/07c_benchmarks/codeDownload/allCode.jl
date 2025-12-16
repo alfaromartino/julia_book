@@ -21,6 +21,12 @@ using BenchmarkTools, Chairmarks
  
 ############################################################################
 #
+#			BENCHMARKING EXECUTION TIME
+#
+############################################################################
+ 
+############################################################################
+#
 #      @time - built-in macro (not reliable)
 #
 ############################################################################
@@ -55,60 +61,9 @@ x = 1:100
 
 
 
-using BenchmarkTools
-
-@btime begin
-   x = 1:100
-   sum($x)
-end
- 
-
-
-
-using BenchmarkTools
-
-@benchmark begin
-   x = 1:100
-   sum($x)
-end
- 
-############################################################################
-#
-#      be careful when no output is returned
-#      (calculations are avoided, so benchmark is meaningless)
-#
-############################################################################
- 
-using BenchmarkTools
-x = 2
-
-function foo(x, repetitions)
-   for i in 1:repetitions
-      x * i
-   end
-end
-
-@btime foo(x, 100)
- 
-
-
-
-using BenchmarkTools
-x = 2
-
-function foo(x, repetitions)
-   for i in 1:repetitions
-      x * i
-   end
-end
-
-@btime foo(x, 100_000)
- 
-############################################################################
-#
-#      PACKAGE Chairmarks (way faster, but still quite new)
-#
-############################################################################
+####################################################
+#	interpolation with $ to treat function arguments as local variables
+####################################################
  
 using BenchmarkTools
 Random.seed!(1234)       #setting seed for reproducibility
@@ -128,7 +83,7 @@ x = rand(100)
 ############################################################################
 #
 #      PACKAGE Chairmarks 
-#      (way faster, but still quite new so we don't know if there are bugs)
+#      (way faster, but still quite new)
 #
 ############################################################################
  
@@ -152,78 +107,6 @@ println(@be sum($x))
 
 
 
-using Chairmarks
-Random.seed!(1234)       #setting seed for reproducibility
-
-@b begin
-   x = rand(100)
-   sum($x)
-end
- 
-
-
-
-using Chairmarks
-Random.seed!(1234)       #setting seed for reproducibility
-
-@be begin
-   x = rand(100)
-   sum($x)
-end
- 
-############################################################################
-#
-#     INTERPRETING BENCHMARKS
-#
-############################################################################
- 
-Random.seed!(1234)       #setting seed for reproducibility
-x      = rand(100_000)
-
-foo()  = sum(2 .* x)
-
-@btime foo()
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x      = rand(100_000)
-
-foo(x) = sum(a -> 2 * a, x)
-
-@btime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x      = rand(100_000)
-foo()  = sum(2 .* x)
-
-function replicate()
-   for _ in 1:100_000
-      foo()
-   end
-end
-
-@btime replicate()
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x      = rand(100_000)
-foo(x) = sum(a -> 2 * a, x)
-
-function replicate(x)
-   for _ in 1:100_000
-      foo(x)
-   end
-end
-
-@btime replicate($x)
- 
 ############################################################################
 #
 #      REMARK ON RANDOM NUMBERS USED ON THE WEBSITE

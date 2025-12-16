@@ -1,0 +1,1 @@
+print_asis(revenue1("this is ", "allowed")) #hide

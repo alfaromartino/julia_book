@@ -1,0 +1,1 @@
+foo6(a::Float64, b::Float64) = a * b

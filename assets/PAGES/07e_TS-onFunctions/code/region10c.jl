@@ -1,0 +1,1 @@
+print_asis(foo5(1, 2)) #hide

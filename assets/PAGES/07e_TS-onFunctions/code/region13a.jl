@@ -1,0 +1,1 @@
+revenue2(nr_tickets::Int64, price::Number) = nr_tickets * price

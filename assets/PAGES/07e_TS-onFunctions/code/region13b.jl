@@ -1,0 +1,1 @@
+print_asis(revenue2(3, 2)) #hide

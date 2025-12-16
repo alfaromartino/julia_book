@@ -566,7 +566,7 @@ Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
 function foo(x)
-    output = 0.
+    output = 0.0
 
     for i in eachindex(x)
         output += x[i]
@@ -631,7 +631,7 @@ Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
 function foo(x)
-    output = 0.
+    output = 0.0
 
     for i in eachindex(x)
         output += log(x[i])
@@ -649,7 +649,7 @@ x = rand(10_000_000)
 
 function foo(x)
     chunk_ranges    = index_chunks(x, n=nthreads())
-    partial_outputs = zeros(length(chunk_ranges))
+    partial_outputs = Vector{Float64}(undef, length(chunk_ranges))
     
     @threads for (i,chunk) in enumerate(chunk_ranges)
         for j in chunk
@@ -669,7 +669,7 @@ x = rand(10_000_000)
 
 function foo(x)
     chunk_ranges    = index_chunks(x, n=nthreads())
-    partial_outputs = zeros(length(chunk_ranges))
+    partial_outputs = Vector{Float64}(undef, length(chunk_ranges))
     
     @threads for (i,chunk) in enumerate(chunk_ranges)
         temp = 0.0
@@ -691,7 +691,7 @@ x = rand(10_000_000)
 
 function foo(x)
     chunk_ranges    = index_chunks(x, n=nthreads())
-    partial_outputs = zeros(length(chunk_ranges))    
+    partial_outputs = Vector{Float64}(undef, length(chunk_ranges))    
     
     @sync for (i,chunk) in enumerate(chunk_ranges)
         @spawn begin
@@ -725,7 +725,7 @@ end
 
 function foo(x)
     chunk_ranges    = index_chunks(x, n=nthreads())
-    partial_outputs = zeros(length(chunk_ranges))    
+    partial_outputs = Vector{Float64}(undef, length(chunk_ranges))    
     
     @threads for (i,chunk) in enumerate(chunk_ranges)
         partial_outputs[i] = compute(x, chunk)
@@ -742,16 +742,35 @@ Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
 function foo(x)
-    chunk_ranges     = index_chunks(x, n=nthreads())    
-    partial_outputs  = zeros(7, length(chunk_ranges))    
-        
-    @threads for (i,chunk) in enumerate(chunk_ranges)
-        for j in chunk 
-            partial_outputs[1,i] += log(x[j])
+    chunk_ranges    = index_chunks(x, n=nthreads())
+    nr_strides      = 8
+    partial_outputs = Matrix{Float64}(undef, nr_strides, length(chunk_ranges))
+
+    @threads for (i, chunk) in enumerate(chunk_ranges)
+        for j in chunk
+            partial_outputs[1, i] += log(x[j])
         end
     end
-    
-    return sum(@view(partial_outputs[:,1]))
+
+    return sum(@view(partial_outputs[1, :]))
+end
+@ctime foo($x)
+ 
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(10_000_000)
+
+function foo(x)
+    chunk_ranges    = index_chunks(x, n=nthreads())
+    nr_strides      = 8
+    partial_outputs = Vector{Float64}(undef, length(chunk_ranges) * nr_strides)
+
+    @threads for (i, chunk) in enumerate(chunk_ranges)
+        for j in chunk
+            partial_outputs[(i-1)*nr_strides + 1] += log(x[j])
+        end
+    end
+
+    return sum(@view(partial_outputs[1:nr_strides:end]))
 end
 @ctime foo($x)
  

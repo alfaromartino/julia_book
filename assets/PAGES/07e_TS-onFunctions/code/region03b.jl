@@ -1,0 +1,1 @@
+print_asis(methods(foo1)) #hide
