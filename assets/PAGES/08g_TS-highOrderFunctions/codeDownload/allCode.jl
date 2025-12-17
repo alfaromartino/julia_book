@@ -72,7 +72,7 @@ println(foo(abs, x))
 ############################################################################
  
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100)
+x     = rand(100)
 
 
 function foo(f::F, x) where F
@@ -86,7 +86,7 @@ println(foo(abs, x))
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100)
+x     = rand(100)
 f_tup = (abs,)
 
 function foo(f_tup, x)

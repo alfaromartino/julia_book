@@ -232,17 +232,25 @@ println(x)
 x      = [1,2,3]
 
 
-y      = [a^2 for a in x]        # or y = [x[i]^2 for i in eachindex(x)]
+y      = [a^2 for a in x]
+z      = [x[i]^2 for i in eachindex(x)]
+ 
 println(y)
+ 
+println(z)
  
 
 
 
 x      = [1,2,3]
-
 foo(a) = a^2
-y      = [foo(a) for a in x]     # or y = [foo(x[i]) for i in eachindex(x)]
+
+y      = [foo(a) for a in x]
+z      = [foo(x[i]) for i in eachindex(x)]
+ 
 println(y)
+ 
+println(z)
  
 
 
@@ -251,8 +259,14 @@ println(y)
 #	array comprehensions with conditions
 ####################################################
  
-x = [i for i in 1:4 if i ≤ 3]
-println(x)
+x = [1, 2, 3, 4]
+
+y = [a for a in x if a ≤ 2]
+z = [x[i] for i in eachindex(x) if x[i] ≤ 2]
+ 
+println(y)
+ 
+println(z)
  
 
 
@@ -269,38 +283,44 @@ println(y)
 
 ############################################################################
 #
-#			ITERATING OVER MULTIPLE OBJECTS
+#			ITERATING OVER MULTIPLE ITERABLE COLLECTIONS
 #
 ############################################################################
  
-list1 = [1, 2]
-list2 = [3, 4]
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
 
 for (a,b) in Iterators.product(list1,list2)    #it takes all possible combinations
-    println([a,b])
+    println((a,b))
 end
  
 
 
 
-list1 = [1, 2]
-list2 = [3, 4]
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
 
 for (a,b) in zip(list1,list2)                  #it takes pairs with the same index
-    println([a,b])
+    println((a,b))
 end
  
 
 
 
 ####################################################
-#	using zip
+#	array comprehensions
 ####################################################
  
-x = [i * j for i in 1:2 for j in 1:2]
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
+
+x     = [(i,j) for i in list1 for j in list2]
 println(x)
  
-x = [i * j for (i,j) in zip(1:2, 1:2)]
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
+
+x     = [(i,j) for (i,j) in zip(list1,list2)]
 println(x)
  
 
