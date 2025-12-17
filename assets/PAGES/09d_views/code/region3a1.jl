@@ -1,6 +1,6 @@
-Random.seed!(123)       #setting the seed for reproducibility #hide
-x = rand(100_000)
+Random.seed!(123)       #setting seed for reproducibility #hide
+x      = rand(100_000)
 
 foo(x) = max.(x[1:2:length(x)], 0.5)
 
-@btime foo($x) #hide
+@ctime foo($x) #hide
