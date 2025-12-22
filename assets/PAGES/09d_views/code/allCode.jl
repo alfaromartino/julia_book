@@ -21,6 +21,7 @@ foo(x) = sum(x[1:2])           # allocations from the slice 'x[1:2]'
 # <space_to_be_deleted>
  
 x      = [1, 2, 3]
+
 foo(x) = sum(@view(x[1:2]))    # it doesn't allocate
 @ctime foo($x) #hide
  

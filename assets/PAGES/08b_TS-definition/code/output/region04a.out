@@ -1,0 +1,26 @@
+MethodInstance for foo()
+  from foo() @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08b_TS-definition/code/region04a.jl:1
+Arguments
+  #self#::Core.Const(Main.foo)
+Locals
+  @_2::UNION{NOTHING, TUPLE{INT64, INT64}}
+  i::Int64
+Body::Nothing
+1 ─ %1  = (1:100)::Core.Const(1:100)
+│         (@_2 = Base.iterate(%1))
+│   %3  = @_2::Core.Const((1, 1))
+│   %4  = (%3 === nothing)::Core.Const(false)
+│   %5  = Base.not_int(%4)::Core.Const(true)
+└──       goto #4 if not %5
+2 ┄ %7  = @_2::Tuple{Int64, Int64}
+│         (i = Core.getfield(%7, 1))
+│   %9  = Core.getfield(%7, 2)::Int64
+│         i
+│         (@_2 = Base.iterate(%1, %9))
+│   %12 = @_2::UNION{NOTHING, TUPLE{INT64, INT64}}
+│   %13 = (%12 === nothing)::Bool
+│   %14 = Base.not_int(%13)::Bool
+└──       goto #4 if not %14
+3 ─       goto #2
+4 ┄       return nothing
+

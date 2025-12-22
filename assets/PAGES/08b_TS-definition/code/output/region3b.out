@@ -1,1 +1,32 @@
-  54.605 μs (2 allocations: 781.30 KiB)
+MethodInstance for foo(::Int64)
+  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08b_TS-definition/code/region3b.jl:1
+Arguments
+  #self#::Core.Const(Main.foo)
+  x::Int64
+Locals
+  #46::var"#46#47"{Int64}
+  y::Int64
+  @_5::Int64
+Body::Vector{Int64}
+1 ─       Core.NewvarNode(:(#46))
+│         Core.NewvarNode(:(y))
+│   %3  = (x < 0)::Bool
+└──       goto #3 if not %3
+2 ─       (@_5 = 0)
+└──       goto #4
+3 ─ %7  = x::Int64
+└──       (@_5 = %7)
+4 ┄ %9  = @_5::Int64
+│         (y = %9)
+│   %11 = Main.:(var"#46#47")::Core.Const(var"#46#47")
+│   %12 = y::Int64
+│   %13 = Core.typeof(%12)::Core.Const(Int64)
+│   %14 = Core.apply_type(%11, %13)::Core.Const(var"#46#47"{Int64})
+│   %15 = y::Int64
+│         (#46 = %new(%14, %15))
+│   %17 = #46::var"#46#47"{Int64}
+│   %18 = (1:100)::Core.Const(1:100)
+│   %19 = Base.Generator(%17, %18)::Core.PartialStruct(Base.Generator{UnitRange{Int64}, var"#46#47"{Int64}}, Any[var"#46#47"{Int64}, Core.Const(1:100)])
+│   %20 = Base.collect(%19)::Vector{Int64}
+└──       return %20
+
