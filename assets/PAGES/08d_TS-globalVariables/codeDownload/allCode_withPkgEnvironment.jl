@@ -36,16 +36,15 @@ using Random
 #
 ############################################################################
  
+####################################################
+#	When Are We Using Global Variables?
+####################################################
+ 
+# all operations are type UNSTABLE (they're defined in the global scope)
 x = 2
 
-function foo(x) 
-    y = 2 * x 
-    z = log(y)
-
-    return z
-end
-
-@code_warntype foo(x)  # type stable
+y = 2 * x 
+z = log(y)
  
 
 
@@ -64,17 +63,29 @@ end
 
 
 
-# all operations are type UNSTABLE (they're defined in the global scope)
 x = 2
 
-y = 2 * x 
-z = log(y)
+function foo(x) 
+    y = 2 * x 
+    z = log(y)
+
+    return z
+end
+
+@code_warntype foo(x)  # type stable
  
+
+
+
 ############################################################################
 #
-#                           CONST
+#			Achieving Type Stability With Global Variables
 #
 ############################################################################
+ 
+####################################################
+#	Constant Global Variables
+####################################################
  
 const a = 5
 foo()   = 2 * a
@@ -89,11 +100,69 @@ foo()   = sum(b)
 
 @code_warntype foo()        # type stable
  
+####################################################
+#	warning
+####################################################
+ 
+const x1 = 1
+foo()    = x1
+foo()             # it gives 1
+
+x1       = 2
+
+foo()             # it still gives 1
+ 
+
+
+
+const x2 = 1
+foo()    = x2
+foo()             # it gives 1
+
+x2       = 2
+foo()    = x2
+foo()             # it gives 2
+ 
+####################################################
+#	Type-Annotating a Global Variable
+####################################################
+ 
+x3::Int64           = 5
+foo()               = 2 * x3
+
+@code_warntype foo()     # type stable
+ 
+x4::Vector{Float64} = [1, 2, 3]
+foo()               = sum(x4)
+
+@code_warntype foo()     # type stable
+ 
+x5::Vector{Number}  = [1, 2, 3]
+foo()               = sum(x5)
+
+@code_warntype foo()     # type UNSTABLE
+ 
 ############################################################################
 #
-#                           PERFORMANCE
+#			DIFFERENCES BETWEEN APPROACHES
 #
 ############################################################################
+ 
+####################################################
+#	differences in code
+####################################################
+ 
+x6::Int64 = 5
+foo()     = 2 * x6
+foo()               # output is 10
+
+x6        = 2
+foo()     = 2 * x6
+foo()               # output is 4
+ 
+####################################################
+#	Differences in Performance
+####################################################
  
 const k1  = 2
 
@@ -131,7 +200,9 @@ end
 
 
 
-# remark on performance
+####################################################
+#	remark: invariance of operations
+####################################################
  
 Random.seed!(1234)       #setting seed for reproducibility
 x           = rand(100_000)

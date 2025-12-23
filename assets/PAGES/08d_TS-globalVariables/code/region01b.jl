@@ -5,5 +5,4 @@ function foo()
        2^k2
     end
 end
-
-@btime foo()    # hide
+@ctime foo()    #hide

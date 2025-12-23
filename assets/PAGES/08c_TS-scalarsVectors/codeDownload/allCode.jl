@@ -18,26 +18,44 @@ using FastBenchmark
  
 ############################################################################
 #
-#           A DEFINITION
+#			TYPE STABILITY WITH SCALARS AND VECTORS
 #
 ############################################################################
  
-x = [1, 2, 3]                  # `x` has type `Vector{Int64}`
+############################################################################
+#
+#           Type Stability with Scalars
+#
+############################################################################
+ 
+####################################################
+#	type promotion and type conversion
+####################################################
+ 
+foo(x,y)    = x * y
 
-@ctime sum($x[1:2])            # type stable
+x1          = 2
+y1          = 0.5
+
+output      = foo(x1,y1)      # type stable: mixing `Int64` and `Float64` results in `Float64`
+ 
+println(output)
  
 
 
 
-x = [1, 2, "hello"]            # `x` has type `Vector{Any}`
+foo(x,y)    = x * y
 
-@ctime sum($x[1:2])            # type UNSTABLE
+x2::Float64 = 2               # this is converted to `2.0` 
+y2          = 0.5
+
+output      = foo(x2,y2)      # type stable: `x` and `y` are `Float64`, so output type is predictable
  
-############################################################################
-#
-#           TYPE STABILITY WITH SCALARS
-#
-############################################################################
+println(output)
+ 
+####################################################
+#	Type Instability
+####################################################
  
 function foo(x,y)
     a = (x > y) ?  x  :  y
@@ -66,53 +84,87 @@ foo(1, 2.5)         # type UNSTABLE -> `a * i` is either `Int64` or `Float64`
 #
 ############################################################################
  
-x1::Vector{Int}     = [1, 2, 3]
-
-sum(x1)             # type stable
+x = [1, 2, 2.5]      # automatic conversion to `Vector{Float64}`
+println(x)
  
 
 
 
-x2::Vector{Int64}   = [1, 2, 3]
-
-sum(x2)             # type stable
+y = [1, 2.0, 3.0]    # automatic conversion to `Vector{Float64}`
+println(y)
  
 
 
 
-x3::Vector{Float64} = [1, 2, 3]
+v1                 = [1, 2.0, 3.0]     # automatic conversion to `Vector{Float64}`  
 
-sum(x3)             # type stable
+w1::Vector{Int64}  = v1                # conversion to `Vector{Int64}`
+ 
+println(w1)
  
 
 
 
-x4::BitVector       = [true, false, true]
+v2                 = [1, 2, 2.5]       # automatic conversion to `Vector{Float64}`  
 
-sum(x4)             # type stable
+w2::Vector{Number} = v2                # `w2` is still `Vector{Number}`
+ 
+println(w2)
  
 
 
 
-x                  = [1, 2, 3]
+####################################################
+#	type instability
+####################################################
+ 
+z1::Vector{Int}     = [1, 2, 3]
 
-sum(x)             # type stable
-
-@ctime sum(x)
+sum(z1)             # type stable
  
 
 
 
-x5::Vector{Number} = [1, 2, 3]
+z2::Vector{Int64}   = [1, 2, 3]
 
-sum(x5)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Number`
-@ctime sum(x5)
+sum(z2)             # type stable
  
 
 
 
-x6::Vector{Any}    = [1, 2, 3]
+z3::Vector{Float64} = [1, 2, 3]
 
-sum(x6)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Any`
-@ctime sum(x6)
+sum(z3)             # type stable
+ 
+
+
+
+z4::BitVector       = [true, false, true]
+
+sum(z4)             # type stable
+ 
+
+
+
+z                  = [1, 2, 3]
+
+sum(z)             # type stable
+
+@ctime sum(z)
+ 
+
+
+
+z5::Vector{Number} = [1, 2, 3]
+
+sum(z5)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Number`
+@ctime sum(z5)
+ 
+
+
+
+z6::Vector{Any}    = [1, 2, 3]
+
+sum(z6)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Any`
+@ctime sum(z6)
  

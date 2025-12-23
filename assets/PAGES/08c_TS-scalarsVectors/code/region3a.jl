@@ -5,4 +5,4 @@ function foo(x,y)
 end
 
 foo(1, 2)           # type stable   -> `a * i` is always `Int64`
-@btime foo(1, 2)            # hide
+@ctime foo(1, 2)    #hide

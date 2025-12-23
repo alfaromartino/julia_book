@@ -1,5 +1,7 @@
-const k1  = 2
+const x1 = 1
+foo()    = x1
+foo()             # it gives 1
 
-foo() = [log(k1) for _ in 1:100]
-        
-@btime foo() # hide
+x1       = 2
+
+foo()             # it still gives 1

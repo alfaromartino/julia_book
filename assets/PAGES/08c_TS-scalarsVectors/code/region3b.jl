@@ -5,4 +5,4 @@ function foo(x,y)
 end
 
 foo(1, 2.5)         # type UNSTABLE -> `a * i` is either `Int64` or `Float64`
-@btime foo(1, 2.5)            # hide
+@ctime foo(1, 2.5)  #hide
