@@ -1,15 +1,16 @@
 MethodInstance for foo(::Vector{Int64})
-  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8e_TS-tuples/code/region05b2.jl:4
+  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08f_TS-tuples/code/region05b2.jl:4
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Vector{Int64}
 Locals
   tup::TUPLE{VARARG{INT64}}
 Body::Int64
 1 ─      (tup = Main.Tuple(x))
-│   %2 = tup::TUPLE{VARARG{INT64}}
-│   %3 = (1:2)::Core.Const(1:2)
-│   %4 = Base.getindex(%2, %3)::Tuple{Int64, Int64}
-│   %5 = Main.sum(%4)::Int64
-└──      return %5
+│   %2 = Main.sum::Core.Const(sum)
+│   %3 = tup::TUPLE{VARARG{INT64}}
+│   %4 = (1:2)::Core.Const(1:2)
+│   %5 = Base.getindex(%3, %4)::Tuple{Int64, Int64}
+│   %6 = (%2)(%5)::Int64
+└──      return %6
 

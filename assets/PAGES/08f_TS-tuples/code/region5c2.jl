@@ -7,4 +7,3 @@ function foo(x, ::Val{N}) where N
 end
 
 @code_warntype foo(x, Val(length(x)))   # type stable
-#@btime foo($tuple_x) #hide

@@ -7,4 +7,3 @@ function foo(x, N)
 end
 
 @code_warntype foo(x, length(x))        # type UNSTABLE
-#@btime foo($tuple_x) #hide

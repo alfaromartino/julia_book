@@ -1,12 +1,13 @@
 MethodInstance for foo(::Vector{Any})
-  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8c_barrierFunctions/code/region02b.jl:5
+  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08e_TS-barrierFunctions/code/region02b.jl:5
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Vector{Any}
 Locals
   y::ANY
 Body::VECTOR
 1 ─      (y = Base.getindex(x, 2))
-│   %2 = Main.operation(y)::VECTOR
-└──      return %2
+│   %2 = y::ANY
+│   %3 = Main.operation(%2)::VECTOR
+└──      return %3
 

@@ -1,14 +1,15 @@
-include(joinpath(homedir(), "JULIA_UTILS", "initial_folders.jl"))
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
-# necessary packages for this file
-# using StatsBase, Random
+############################################################################
+#
+#			BARRIER FUNCTIONS
+#
+############################################################################
  
-############################################################################
-#
-#           BARRIER FUNCTIONS
-#
-############################################################################
+####################################################
+#	Applying Barrier Functions
+####################################################
  
 function foo(x)
     y = (x < 0) ?  0  :  x
@@ -17,7 +18,12 @@ function foo(x)
 end
 
 @code_warntype foo(1)       # type stable
-@code_warntype foo(1.)      # type UNSTABLE
+@code_warntype foo(1.0)     # type UNSTABLE
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 operation(y) = [y * i for i in 1:100]
 
@@ -28,11 +34,13 @@ function foo(x)
 end
 
 @code_warntype operation(1)    # barrier function is type stable
-@code_warntype operation(1.)   # barrier function is type stable
+@code_warntype operation(1.0)  # barrier function is type stable
 
 @code_warntype foo(1)          # type stable
-@code_warntype foo(1.)         # barrier-function solution
+@code_warntype foo(1.0)        # barrier-function solution
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
@@ -45,17 +53,17 @@ function foo(x)
 end
 
 @code_warntype foo(1)          # type stable
-@code_warntype foo(1.)         # type UNSTABLE
+@code_warntype foo(1.0)        # type UNSTABLE
  
 ############################################################################
 #
-#           INTERPRETING `@code_warntype`
+#			Remarks on @code_warntype
 #
 ############################################################################
  
-################
-# EXAMPLE 1
-################
+####################################################
+#	EXAMPLE 1
+####################################################
  
 x = ["a", 1]                     # variable with type 'Any'
 
@@ -69,6 +77,7 @@ end
  
 @code_warntype foo(x)
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -88,10 +97,11 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-################
-# EXAMPLE 2
-################
+####################################################
+#	EXAMPLE 2
+####################################################
  
 x = ["a", 1]                     # variable with type 'Any'
 
@@ -105,8 +115,9 @@ end
  
 @code_warntype foo(x)
  
-@btime foo($x)
+@ctime foo($x)
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -123,8 +134,9 @@ end
  
 @code_warntype foo(x)
  
-@btime foo($x)
+@ctime foo($x)
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -141,5 +153,5 @@ end
  
 @code_warntype foo(x[2])
  
-@btime foo($x[2])
+@ctime foo($x[2])
  

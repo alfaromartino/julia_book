@@ -5,4 +5,3 @@ f_tup = (abs,)
 function foo(f_tup, x)
     f_tup[1].(x)    
 end
-@ctime foo($f_tup, $x) #hide

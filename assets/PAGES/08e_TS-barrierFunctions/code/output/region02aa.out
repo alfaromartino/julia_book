@@ -1,20 +1,22 @@
 MethodInstance for foo(::Vector{Any})
-  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8c_barrierFunctions/code/region02a.jl:5
+  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08e_TS-barrierFunctions/code/region02a.jl:5
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Vector{Any}
 Locals
-  #85::VAR"#85#86"
+  #46::VAR"#46#47"
   y::ANY
 Body::VECTOR
-1 ─      (y = Base.getindex(x, 2))
-│   %2 = Main.:(var"#85#86")::Core.Const(var"#85#86")
-│   %3 = Core.typeof(y)::DATATYPE
-│   %4 = Core.apply_type(%2, %3)::TYPE{VAR"#85#86"{_A}} WHERE _A
-│        (#85 = %new(%4, y))
-│   %6 = #85::VAR"#85#86"
-│   %7 = (1:100)::Core.Const(1:100)
-│   %8 = Base.Generator(%6, %7)::BASE.GENERATOR{UNITRANGE{INT64}, F} WHERE F<:VAR"#85#86"
-│   %9 = Base.collect(%8)::VECTOR
-└──      return %9
+1 ─       (y = Base.getindex(x, 2))
+│   %2  = Main.:(var"#46#47")::Core.Const(var"#46#47")
+│   %3  = y::ANY
+│   %4  = Core.typeof(%3)::DATATYPE
+│   %5  = Core.apply_type(%2, %4)::TYPE{VAR"#46#47"{_A}} WHERE _A
+│   %6  = y::ANY
+│         (#46 = %new(%5, %6))
+│   %8  = #46::VAR"#46#47"
+│   %9  = (1:100)::Core.Const(1:100)
+│   %10 = Base.Generator(%8, %9)::BASE.GENERATOR{UNITRANGE{INT64}, F} WHERE F<:VAR"#46#47"
+│   %11 = Base.collect(%10)::VECTOR
+└──       return %11
 

@@ -5,4 +5,3 @@ function foo(f, x)
     
     f.(x)
 end
-@ctime foo(abs, $x) #hide

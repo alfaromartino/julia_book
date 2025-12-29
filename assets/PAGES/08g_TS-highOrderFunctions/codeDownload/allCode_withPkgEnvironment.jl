@@ -32,7 +32,13 @@ using Random
  
 ############################################################################
 #
-#      NO SPECIALIZATION ON FUNCTIONS
+#			TYPE STABILITY WITH HIGHER-ORDER FUNCTOINS
+#
+############################################################################
+ 
+############################################################################
+#
+#			AN EXAMPLE OF NO SPECIALIZATION
 #
 ############################################################################
  
@@ -52,11 +58,9 @@ function foo(f, x)
     
     f.(x)
 end
+ 
 @ctime foo(abs, $x)
  
-
-
-
 println(foo(abs, x))
  
 
@@ -69,6 +73,7 @@ function foo(f, x)
     f(1)                # irrelevant computation to force specialization
     f.(x)
 end
+ 
 @ctime foo(abs, $x)
  
 println(foo(abs, x))
@@ -78,10 +83,25 @@ println(foo(abs, x))
 
 ############################################################################
 #
-#			SOLUTIONS
+#			FORCING SPECIALIZATION
 #
 ############################################################################
  
+Random.seed!(123)       #setting seed for reproducibility
+x     = rand(100)
+
+function foo(f, x)
+    
+    f.(x)
+end
+ 
+@ctime foo(abs, $x)
+ 
+println(foo(abs, x))
+ 
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x     = rand(100)
 
@@ -89,6 +109,7 @@ x     = rand(100)
 function foo(f::F, x) where F
     f.(x)
 end
+ 
 @ctime foo(abs, $x)
  
 println(foo(abs, x))
@@ -103,6 +124,7 @@ f_tup = (abs,)
 function foo(f_tup, x)
     f_tup[1].(x)    
 end
+ 
 @ctime foo($f_tup, $x)
  
 println(foo(f_tup, x))
