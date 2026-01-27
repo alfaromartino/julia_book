@@ -14,8 +14,9 @@ function foo(x)
 end
 
 @code_warntype foo(1)      # type stable
-@code_warntype foo(1.)     # type UNSTABLE
+@code_warntype foo(1.0)    # type UNSTABLE
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -27,7 +28,7 @@ function foo(x)
 end
 
 @code_warntype foo(1)      # type stable
-@code_warntype foo(1.)     # type stable
+@code_warntype foo(1.0)    # type stable
  
 ####################################################
 #	extending the function `zero` to other VALUES
@@ -40,8 +41,9 @@ function foo(x)
 end
 
 @code_warntype foo(1)      # type stable
-@code_warntype foo(1.)     # type UNSTABLE
+@code_warntype foo(1.0)    # type UNSTABLE
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -53,8 +55,9 @@ function foo(x)
 end
 
 @code_warntype foo(1)      # type stable
-@code_warntype foo(1.)     # type stable
+@code_warntype foo(1.0)    # type stable
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -66,7 +69,7 @@ function foo(x)
 end
 
 @code_warntype foo(1)      # type stable
-@code_warntype foo(1.)     # type stable
+@code_warntype foo(1.0)    # type stable
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -87,7 +90,6 @@ function foo(data)
 end
 
 @code_warntype foo(data)            # type UNSTABLE
-#@btime foo(ref($data)) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -106,7 +108,6 @@ function operation!(x)
 end
 
 @code_warntype foo(data)            # barrier-function solution
-#@btime foo(ref($data)) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -130,8 +131,6 @@ foo(data) = operation!(data[2])
 
 @code_warntype foo(data)            # barrier-function solution
  
-#@btime foo(ref($data))
- 
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -150,8 +149,6 @@ end
 
 @code_warntype foo(data)            # type UNSTABLE
  
-#@btime foo(ref($data))
- 
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -169,8 +166,6 @@ function foo(data)
 end
 
 @code_warntype foo(data)            # type UNSTABLE
- 
-#@btime foo(ref($data))
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -219,7 +214,6 @@ function foo(x)                         # 'Vector{Int64}' has no info on the num
 end
 
 @code_warntype foo(x)                   # type UNSTABLE
-# @btime foo(ref($x))           #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -252,7 +246,6 @@ function foo(x)
 end
 
 @code_warntype foo(tuple_x)             # type stable
-# @btime foo(ref($tuple_x))     #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -268,7 +261,6 @@ function foo(x, ::Val{N}) where N
 end
 
 @code_warntype foo(x, Val(length(x)))   # type stable
-# @btime foo(ref($tuple_x)) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -284,7 +276,6 @@ function foo(x)
 end
 
 @code_warntype foo(x)                   # type UNSTABLE
-# @btime foo(ref($x))           #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>

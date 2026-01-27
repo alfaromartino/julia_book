@@ -1,1 +1,1 @@
-@btime foo1($x)
+@ctime foo1($x)

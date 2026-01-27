@@ -16,11 +16,18 @@ using FastBenchmark
 #
 ############################################################################
  
+# necessary packages for this file
 using Random
  
 ############################################################################
 #
-#			PREVIEW CONCEPTS FOR EXAMPLES
+#			SIMD: CONTIGUOUS ACCESS AND UNIT STRIDES
+#
+############################################################################
+ 
+############################################################################
+#
+#			REVIEW OF INDEXING APPROACHES
 #
 ############################################################################
  
@@ -28,18 +35,6 @@ x         = [10, 20, 30]
 
 indices   = sortperm(x)
 elements  = x[indices]    # equivalent to `sort(x)`
- 
-println(indices)
- 
-println(elements)
- 
-
-
-
-x         = [20, 10, 30]
-
-indices   = x .> 15
-elements  = x[indices]
  
 println(indices)
  
@@ -60,18 +55,106 @@ println(collect(indices_2))
 
 
 
+x         = [20, 10, 30]
+
+indices   = x .> 15
+elements  = x[indices]
+ 
+println(indices)
+ 
+println(elements)
+ 
+
+
+
 ############################################################################
 #
-#			CONTIGUOUS BLOCKS OF MEMORY
+#			BENEFITS OF SEQUENTIAL ACCESS
 #
 ############################################################################
  
 ####################################################
-#	@simd is faster when elements are contiguous in memory
+#	illustrating each benefit in isolation
 ####################################################
  
 ####################################################
-#	example 1
+#	case 1
+####################################################
+ 
+Random.seed!(123)       #setting seed for reproducibility
+x = rand(1_000_000)
+y = @view x[1:2:length(x)]
+
+function foo(y)
+    output = 0.0
+
+    for a in y
+        output += a
+    end
+
+    return output
+end
+@ctime foo($y)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x = rand(1_000_000)
+y = @view x[1:2:length(x)]
+
+function foo(y)
+    output = 0.0
+
+    @simd for a in y
+        output += a
+    end
+
+    return output
+end
+@ctime foo($y)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x = rand(1_000_000)
+y = x[1:2:length(x)]
+
+function foo(y)
+    output = 0.0
+
+    for a in y
+        output += a
+    end
+
+    return output
+end
+@ctime foo($y)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x = rand(1_000_000)
+y = x[1:2:length(x)]
+
+function foo(y)
+    output = 0.0
+
+    @simd for a in y
+        output += a
+    end
+
+    return output
+end
+@ctime foo($y)
+ 
+
+
+
+####################################################
+#	case 2
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility
@@ -84,6 +167,26 @@ function foo(y)
     output = 0.0
 
     for a in y
+        output += a
+    end
+
+    return output
+end
+@ctime foo($y)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x       = rand(5_000_000)
+
+indices = sortperm(x)
+y       = @view x[indices]
+
+function foo(y)
+    output = 0.0
+
+    @simd for a in y
         output += a
     end
 
@@ -118,26 +221,6 @@ Random.seed!(123)       #setting seed for reproducibility
 x       = rand(5_000_000)
 
 indices = sortperm(x)
-y       = @view x[indices]
-
-function foo(y)
-    output = 0.0
-
-    @simd for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(5_000_000)
-
-indices = sortperm(x)
 y       = x[indices]
 
 function foo(y)    
@@ -155,7 +238,7 @@ end
 
 
 ####################################################
-#	example 2
+#	case 3
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility
@@ -238,373 +321,12 @@ end
 
 
 
-####################################################
-#	choice between copy or views doesn't matter if access is contiguous
-#       hence, views are faster in this case, as they avoid memory allocations
-####################################################
+############################################################################
+#
+#			COPIES VS VIEWS: TOTAL EFFECTS
+#
+############################################################################
  
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(1_000_000)
-
-indices = 1:length(x)
-y       = @view x[indices]
-
-function foo(y)
-    output = 0.0
-
-    for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(1_000_000)
-
-indices = 1:length(x)
-y       = x[indices]
-
-function foo(y)    
-    output = 0.0
-
-    for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(1_000_000)
-
-indices = 1:length(x)
-y       = @view x[indices]
-
-function foo(y)
-    output = 0.0
-
-    @simd for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(1_000_000)
-
-indices = 1:length(x)
-y       = x[indices]
-
-function foo(y)    
-    output = 0.0
-
-    @simd for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-####################################################
-#	copies are faster when executing multiple operations with the same object
-####################################################
- 
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(5_000_000)
-indices = sortperm(x)
-
-function foo(x, indices)
-    y      = @view x[indices]
-    output1, output2, output3 = (0.0 for _ in 1:3)
-
-    @simd for a in y
-        output1 += a^(3/2)
-        output2 += a / 3
-        output3 += a * 2.5
-    end
-
-    return output1, output2, output3
-end
-@ctime foo($x, $indices)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(5_000_000)
-indices = sortperm(x)
-
-function foo(x, indices)
-    y      = x[indices]
-    output1, output2, output3 = (0.0 for _ in 1:3)
-
-    @simd for a in y
-        output1 += a^(3/2)
-        output2 += a / 3
-        output3 += a * 2.5
-    end
-
-    return output1, output2, output3
-end
-@ctime foo($x, $indices)
- 
-
-
-
-# ultimately a race horse between not copying data vs SIMD efficiency
- 
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(1_000_000)
-indices = sortperm(x)
-
-function foo(x,indices)
-    y      = @view x[indices]
-    output = 0.0
-
-    for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($x,$indices)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(1_000_000)
-indices = sortperm(x)
-
-function foo(x,indices)
-    y      = x[indices]
-    output = 0.0
-
-    for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($x,$indices)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(1_000_000)
-indices = sortperm(x)
-
-function foo(x,indices)
-    y      = @view x[indices]
-    output = 0.0
-
-    @simd for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($x,$indices)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(1_000_000)
-indices = sortperm(x)
-
-function foo(x,indices)
-    y      = x[indices]
-    output = 0.0
-
-    @simd for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($x,$indices)
- 
-
-
-
-####################################################
-#	example 2
-####################################################
- 
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(10_000)
-indices = x .> 0.5
-y       = @view x[indices]
-
-function foo(y)
-    output = 0.0
-
-    for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(10_000)
-indices = x .> 0.5
-y       = x[indices]
-
-function foo(y)    
-    output = 0.0
-
-    for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(10_000)
-indices = x .> 0.5
-y       = @view x[indices]
-
-function foo(y)
-    output = 0.0
-
-    @simd for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(10_000)
-indices = x .> 0.5
-y       = x[indices]
-
-function foo(y)    
-    output = 0.0
-
-    @simd for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-# ultimately a race horse between not copying data vs SIMD efficiency
- 
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(10_000)
-indices = x .> 0.5
-
-function foo(x,indices)
-    y      = @view x[indices]
-    output = 0.0
-
-    for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($x,$indices)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(10_000)
-indices = x .> 0.5
-
-function foo(x,indices)
-    y      = x[indices]
-    output = 0.0
-
-    for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($x,$indices)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(10_000)
-indices = x .> 0.5
-
-function foo(x,indices)
-    y      = @view x[indices]
-    output = 0.0
-
-    @simd for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($x,$indices)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(10_000)
-indices = x .> 0.5
-
-function foo(x,indices)
-    y      = x[indices]
-    output = 0.0
-
-    @simd for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($x,$indices)
- 
-
-
-
 ####################################################
 #	ultimately a race horse between not copying data vs SIMD efficiency
 ####################################################
@@ -689,103 +411,69 @@ end
 
 
 
-############################################################################
-#
-#			UNIT STRIDES
-#
-############################################################################
- 
 ####################################################
-#	simd is faster with unit strides
+#	special cases
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-y = @view x[1:2:length(x)]
-
-function foo(y)
-    output = 0.0
-
-    for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-y = @view x[1:2:length(x)]
-
-function foo(y)
-    output = 0.0
-
-    @simd for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-y = x[1:2:length(x)]
-
-function foo(y)
-    output = 0.0
-
-    for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-y = x[1:2:length(x)]
-
-function foo(y)
-    output = 0.0
-
-    @simd for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-# overall effect
+# case 1
  
 Random.seed!(123)       #setting seed for reproducibility
 x       = rand(1_000_000)
-indices = 1:2:length(x)
+
+indices = 1:length(x)
+y       = @view x[indices]
+
+function foo(y)
+    output = 0.0
+
+    @simd for a in y
+        output += a
+    end
+
+    return output
+end
+@ctime foo($y)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x       = rand(1_000_000)
+
+indices = 1:length(x)
+y       = x[indices]
+
+function foo(y)    
+    output = 0.0
+
+    @simd for a in y
+        output += a
+    end
+
+    return output
+end
+@ctime foo($y)
+ 
+
+
+
+# case 2
+ 
+Random.seed!(123)       #setting seed for reproducibility
+x       = rand(5_000_000)
+indices = sortperm(x)
 
 function foo(x, indices)
     y      = @view x[indices]
-    output = 0.0
+    output1, output2, output3 = (0.0 for _ in 1:3)
 
     @simd for a in y
-        output += a
+        output1 += a^(3/2)
+        output2 += a / 3
+        output3 += a * 2.5
     end
 
-    return output
+    return output1, output2, output3
 end
 @ctime foo($x, $indices)
  
@@ -793,188 +481,23 @@ end
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x       = rand(1_000_000)
-indices = 1:2:length(x)
+x       = rand(5_000_000)
+indices = sortperm(x)
 
 function foo(x, indices)
     y      = x[indices]
-    output = 0.0
+    output1, output2, output3 = (0.0 for _ in 1:3)
 
     @simd for a in y
-        output += a
+        output1 += a^(3/2)
+        output2 += a / 3
+        output3 += a * 2.5
     end
 
-    return output
+    return output1, output2, output3
 end
 @ctime foo($x, $indices)
  
 
 
 
-############################################################################
-#
-#			another example of unit strides
-#
-############################################################################
- 
-# vectors we'll use
- 
-Random.seed!(123)       #setting seed for reproducibility
-x_size = 1_000_000
-
-x = rand(x_size)
-
-y = zeros(eltype(x),x_size * 2)
-    temp  = view(y, 2:2:length(y))
-    temp .= x
- 
-println(x[1:3])
- 
-println(y[1:6],12)
- 
-
-
-
-# simd is faster with unit strides
- 
-function foo(x)
-    output = 0.0
-
-    @inbounds @simd for i in 1:length(x)
-        output += x[i]
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-function foo(y)
-    output = 0.0
-
-    @inbounds @simd for i in 2:2:length(y)
-        output += y[i]
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-####################################################
-#	copies vs views - simd is faster with unit strides
-####################################################
- 
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-y = @view x[1:2:length(x)]
-
-function foo(y)
-    output = 0.0
-
-    for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-y = @view x[1:2:length(x)]
-
-function foo(y)
-    output = 0.0
-
-    @simd for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-y = x[1:2:length(x)]
-
-function foo(y)
-    output = 0.0
-
-    for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-y = x[1:2:length(x)]
-
-function foo(y)
-    output = 0.0
-
-    @simd for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($y)
- 
-
-
-
-# overall effect
- 
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(1_000_000)
-indices = 1:2:length(x)
-
-function foo(x, indices)
-    y      = @view x[indices]
-    output = 0.0
-
-    @simd for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($x, $indices)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x       = rand(1_000_000)
-indices = 1:2:length(x)
-
-function foo(x, indices)
-    y      = x[indices]
-    output = 0.0
-
-    @simd for a in y
-        output += a
-    end
-
-    return output
-end
-@ctime foo($x, $indices)
- 

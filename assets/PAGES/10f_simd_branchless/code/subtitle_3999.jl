@@ -1,3 +1,3 @@
 ####################################################
-#	sometimes ternary operator makes bad choices
+#	Ternary Operator Could Choose A Less Performant Approach
 ####################################################

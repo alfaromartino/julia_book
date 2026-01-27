@@ -1,20 +1,24 @@
 MethodInstance for foo(::Vector{Int64}, ::Int64)
-  from foo(x, β) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region10d.jl:3
+  from foo(x, β) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region10d.jl:3
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Vector{Int64}
   β@_3::Int64
 Locals
-  #266::var"#266#267"{Int64}
+  #88::var"#88#89"{Int64}
   β@_5::Int64
 Body::Vector{Int64}
-1 ─      (β@_5 = β@_3)
-│        (β@_5 = Main.abs(β@_5))
-│   %3 = Main.:(var"#266#267")::Core.Const(var"#266#267")
-│   %4 = Core.typeof(β@_5)::Core.Const(Int64)
-│   %5 = Core.apply_type(%3, %4)::Core.Const(var"#266#267"{Int64})
-│        (#266 = %new(%5, β@_5))
-│   %7 = #266::var"#266#267"{Int64}
-│   %8 = Main.filter(%7, x)::Vector{Int64}
-└──      return %8
+1 ─       (β@_5 = β@_3)
+│   %2  = β@_5::Int64
+│         (β@_5 = Main.abs(%2))
+│   %4  = Main.filter::Core.Const(filter)
+│   %5  = Main.:(var"#88#89")::Core.Const(var"#88#89")
+│   %6  = β@_5::Int64
+│   %7  = Core.typeof(%6)::Core.Const(Int64)
+│   %8  = Core.apply_type(%5, %7)::Core.Const(var"#88#89"{Int64})
+│   %9  = β@_5::Int64
+│         (#88 = %new(%8, %9))
+│   %11 = #88::var"#88#89"{Int64}
+│   %12 = (%4)(%11, x)::Vector{Int64}
+└──       return %12
 

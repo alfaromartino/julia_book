@@ -1,11 +1,11 @@
 MethodInstance for foo(::Int64)
-  from foo(x; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region2c.jl:1
+  from foo(x; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region2c.jl:1
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Int64
 Locals
   @_3::UNION{NOTHING, TUPLE{INT64, INT64}}
-  bar::var"#bar#270"
+  bar::var"#bar#92"
   β::Int64
   i::Int64
 Body::Int64
@@ -13,19 +13,26 @@ Body::Int64
 │         (β = 0)
 │   %3  = (1:10)::Core.Const(1:10)
 │         (@_3 = Base.iterate(%3))
-│   %5  = (@_3::Core.Const((1, 1)) === nothing)::Core.Const(false)
-│   %6  = Base.not_int(%5)::Core.Const(true)
-└──       goto #4 if not %6
-2 ┄ %8  = @_3::Tuple{Int64, Int64}
-│         (i = Core.getfield(%8, 1))
-│   %10 = Core.getfield(%8, 2)::Int64
-│         (β = β + i)
-│         (@_3 = Base.iterate(%3, %10))
-│   %13 = (@_3 === nothing)::Bool
-│   %14 = Base.not_int(%13)::Bool
-└──       goto #4 if not %14
+│   %5  = @_3::Core.Const((1, 1))
+│   %6  = (%5 === nothing)::Core.Const(false)
+│   %7  = Base.not_int(%6)::Core.Const(true)
+└──       goto #4 if not %7
+2 ┄ %9  = @_3::Tuple{Int64, Int64}
+│         (i = Core.getfield(%9, 1))
+│   %11 = Core.getfield(%9, 2)::Int64
+│   %12 = β::Int64
+│   %13 = i::Int64
+│         (β = %12 + %13)
+│         (@_3 = Base.iterate(%3, %11))
+│   %16 = @_3::UNION{NOTHING, TUPLE{INT64, INT64}}
+│   %17 = (%16 === nothing)::Bool
+│   %18 = Base.not_int(%17)::Bool
+└──       goto #4 if not %18
 3 ─       goto #2
-4 ┄       (bar = %new(Main.:(var"#bar#270")))
-│   %18 = (bar)(x, β)::Int64
-└──       return %18
+4 ┄ %21 = Main.:(var"#bar#92")::Core.Const(var"#bar#92")
+│         (bar = %new(%21))
+│   %23 = bar::Core.Const(var"#bar#92"())
+│   %24 = β::Int64
+│   %25 = (%23)(x, %24)::Int64
+└──       return %25
 

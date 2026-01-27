@@ -1,113 +1,108 @@
-include(joinpath(homedir(), "JULIA_UTILS", "initial_folders.jl"))
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
-# necessary packages for this file
-using Statistics, BenchmarkTools, Chairmarks
+############################################################################
+#
+#			DEFINING TYPE STABILITY
+#
+############################################################################
  
-############################################################################
-#
-#           A DEFINITION
-#
-############################################################################
+####################################################
+#	An example
+####################################################
  
 x = [1, 2, 3]                  # `x` has type `Vector{Int64}`
 
-@btime sum($x[1:2])            # type stable
+@ctime sum($x[1:2])            # type stable
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
 x = [1, 2, "hello"]            # `x` has type `Vector{Any}`
 
-@btime sum($x[1:2])            # type UNSTABLE
+@ctime sum($x[1:2])            # type UNSTABLE
  
 ############################################################################
 #
-#           TYPE STABILITY WITH SCALARS
+#           Checking for type stability
 #
 ############################################################################
  
-function foo(x,y)
-    a = (x > y) ?  x  :  y
-
-    [a * i for i in 1:100_000]
+function foo(x)
+    y = (x < 0) ?  0  :  x
+    
+    return [y * i for i in 1:100]
 end
-
-foo(1, 2)           # type stable   -> `a * i` is always `Int64`
-@btime foo(1, 2)            # hide
+@code_warntype foo(1.0) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-function foo(x,y)
-    a = (x > y) ?  x  :  y
-
-    [a * i for i in 1:100_000]
+function foo(x)
+    y = (x < 0) ?  0  :  x
+    
+    return [y * i for i in 1:100]
 end
-
-foo(1, 2.5)         # type UNSTABLE -> `a * i` is either `Int64` or `Float64`
-@btime foo(1, 2.5)            # hide
+@code_warntype foo(1) #hide
  
 ############################################################################
 #
-#           TYPE STABILITY WITH VECTORS
+#           Yellow Warnings May Turn Red
 #
 ############################################################################
  
-x1::Vector{Int}     = [1, 2, 3]
-
-sum(x1)             # type stable
+function foo(x)
+    y = (x < 0) ?  0  :  x
+    
+    y * 2
+end
+@code_warntype foo(1.0) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
- 
-x2::Vector{Int64}   = [1, 2, 3]
-
-sum(x2)             # type stable
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x3::Vector{Float64} = [1, 2, 3]
-
-sum(x3)             # type stable
+function foo(x)
+    y = (x < 0) ?  0  :  x
+    
+    [y * i for i in 1:100]
+end
+@code_warntype foo(1.0) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
- 
-x4::BitVector       = [true, false, true]
-
-sum(x4)             # type stable
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x                  = [1, 2, 3]
-
-sum(x)             # type stable
-@btime sum(x)   # hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x5::Vector{Number} = [1, 2, 3]
-
-sum(x5)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Number`
-@btime sum(x5)   # hide
+function foo(x)
+    y = (x < 0) ?  0  :  x    
+    
+    for i in 1:100
+      y = y + i
+    end
+    
+    return y
+end
+@code_warntype foo(1.0) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-x6::Vector{Any}     = [1, 2, 3]
-
-sum(x6)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Any`
-@btime sum(x6)   # hide
+####################################################
+#	remark: For-Loops and Yellow Warnings
+####################################################
+ 
+function foo()
+    for i in 1:100
+        i
+    end
+end
+@code_warntype foo() #hide
  

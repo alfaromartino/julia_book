@@ -1,32 +1,48 @@
-include(joinpath(homedir(), "JULIA_UTILS", "initial_folders.jl"))
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
-# necessary packages for this file
-using Statistics, BenchmarkTools, Chairmarks
- 
 ############################################################################
 #
-#           A DEFINITION
+#			TYPE STABILITY WITH SCALARS AND VECTORS
 #
 ############################################################################
  
-x = [1, 2, 3]                  # `x` has type `Vector{Int64}`
+############################################################################
+#
+#           Type Stability with Scalars
+#
+############################################################################
+ 
+####################################################
+#	type promotion and type conversion
+####################################################
+ 
+foo(x,y)    = x * y
 
-@btime sum($x[1:2])            # type stable
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x = [1, 2, "hello"]            # `x` has type `Vector{Any}`
+x1          = 2
+y1          = 0.5
 
-@btime sum($x[1:2])            # type UNSTABLE
+output      = foo(x1,y1)        # type stable: mixing `Int64` and `Float64` results in `Float64`
  
-############################################################################
-#
-#           TYPE STABILITY WITH SCALARS
-#
-############################################################################
+print_asis(output)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+foo(x,y)    = x * y
+
+x2::Float64 = 2               # this is converted to `2.0` 
+y2          = 0.5
+
+output      = foo(x2,y2)        # type stable: `x` and `y` are `Float64`, so output type is predictable
+ 
+print_asis(output)   #hide
+ 
+####################################################
+#	Type Instability
+####################################################
  
 function foo(x,y)
     a = (x > y) ?  x  :  y
@@ -35,8 +51,9 @@ function foo(x,y)
 end
 
 foo(1, 2)           # type stable   -> `a * i` is always `Int64`
-@btime foo(1, 2)            # hide
+@ctime foo(1, 2)    #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -48,7 +65,7 @@ function foo(x,y)
 end
 
 foo(1, 2.5)         # type UNSTABLE -> `a * i` is either `Int64` or `Float64`
-@btime foo(1, 2.5)            # hide
+@ctime foo(1, 2.5)  #hide
  
 ############################################################################
 #
@@ -56,58 +73,114 @@ foo(1, 2.5)         # type UNSTABLE -> `a * i` is either `Int64` or `Float64`
 #
 ############################################################################
  
-x1::Vector{Int}     = [1, 2, 3]
+x = [1, 2, 2.5]      # automatic conversion to `Vector{Float64}`
+print_asis(x)       #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+y = [1, 2.0, 3.0]    # automatic conversion to `Vector{Float64}`
+print_asis(y)       #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+v1                 = [1, 2.0, 3.0]     # automatic conversion to `Vector{Float64}`  
 
-sum(x1)             # type stable
+w1::Vector{Int64}  = v1                # conversion to `Vector{Int64}`
+ 
+print_asis(w1)  #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-x2::Vector{Int64}   = [1, 2, 3]
+v2                 = [1, 2, 2.5]       # automatic conversion to `Vector{Float64}`  
 
-sum(x2)             # type stable
+w2::Vector{Number} = v2                # `w2` is still `Vector{Number}`
+ 
+print_asis(w2)  #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-x3::Vector{Float64} = [1, 2, 3]
+nr_elements  = 3
+z            = Vector{Any}(undef, nr_elements)     # `Vector{Any}` always
 
-sum(x3)             # type stable
+z           .= 1
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
+print_asis(z)   #hide
  
-x4::BitVector       = [true, false, true]
+####################################################
+#	type instability
+####################################################
+ 
+z1::Vector{Int}     = [1, 2, 3]
 
-sum(x4)             # type stable
+sum(z1)             # type stable
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-x                  = [1, 2, 3]
+z2::Vector{Int64}   = [1, 2, 3]
 
-sum(x)             # type stable
-@btime sum(x)   # hide
+sum(z2)             # type stable
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-x5::Vector{Number} = [1, 2, 3]
+z3::Vector{Float64} = [1, 2, 3]
 
-sum(x5)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Number`
-@btime sum(x5)   # hide
+sum(z3)             # type stable
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-x6::Vector{Any}    = [1, 2, 3]
+z4::BitVector       = [true, false, true]
 
-sum(x6)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Any`
-@btime sum(x6)   # hide
+sum(z4)             # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+z                  = [1, 2, 3]
+
+sum(z)             # type stable
+
+@ctime sum(z)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+z5::Vector{Number} = [1, 2, 3]
+
+sum(z5)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Number`
+@ctime sum(z5)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+z6::Vector{Any}    = [1, 2, 3]
+
+sum(z6)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Any`
+@ctime sum(z6)   #hide
  

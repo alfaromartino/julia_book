@@ -1,16 +1,19 @@
 MethodInstance for foo()
-  from foo(; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region8a2.jl:1
+  from foo(; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region8a2.jl:1
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
 Locals
-  bar::var"#bar#242"{Int64}
+  bar::var"#bar#64"{Int64}
   x::Int64
 Body::Int64
 1 ─      (x = 1)
-│   %2 = Main.:(var"#bar#242")::Core.Const(var"#bar#242")
-│   %3 = Core.typeof(x::Core.Const(1))::Core.Const(Int64)
-│   %4 = Core.apply_type(%2, %3)::Core.Const(var"#bar#242"{Int64})
-│        (bar = %new(%4, x::Core.Const(1)))
-│   %6 = (bar::Core.Const(var"#bar#242"{Int64}(1)))()::Core.Const(1)
-└──      return %6
+│   %2 = Main.:(var"#bar#64")::Core.Const(var"#bar#64")
+│   %3 = x::Core.Const(1)
+│   %4 = Core.typeof(%3)::Core.Const(Int64)
+│   %5 = Core.apply_type(%2, %4)::Core.Const(var"#bar#64"{Int64})
+│   %6 = x::Core.Const(1)
+│        (bar = %new(%5, %6))
+│   %8 = bar::Core.Const(var"#bar#64"{Int64}(1))
+│   %9 = (%8)()::Core.Const(1)
+└──      return %9
 

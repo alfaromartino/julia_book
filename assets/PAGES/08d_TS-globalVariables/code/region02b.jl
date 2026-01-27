@@ -1,5 +1,7 @@
-k2::Int64 = 2
+const x2 = 1
+foo()    = x2
+foo()             # it gives 1
 
-foo() = [log(k2) for _ in 1:100]
-
-@btime foo() # hide
+x2       = 2
+foo()    = x2
+foo()             # it gives 2

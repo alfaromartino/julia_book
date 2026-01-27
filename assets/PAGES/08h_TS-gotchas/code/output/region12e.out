@@ -1,16 +1,20 @@
 MethodInstance for foo(::Vector{Int64}, ::Int64)
-  from foo(x, β) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region12e.jl:3
+  from foo(x, β) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region12e.jl:3
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Vector{Int64}
   β@_3::Int64
 Locals
-  bar::var"#bar#261"
+  bar::var"#bar#83"
   β@_5::Int64
 Body::ANY
 1 ─      (β@_5 = β@_3)
-│        (β@_5 = Main.abs(β@_5))
-│        (bar = %new(Main.:(var"#bar#261")))
-│   %4 = (bar)(x)::ANY
-└──      return %4
+│   %2 = Main.abs::Core.Const(abs)
+│   %3 = β@_5::Int64
+│        (β@_5 = (%2)(%3))
+│   %5 = Main.:(var"#bar#83")::Core.Const(var"#bar#83")
+│        (bar = %new(%5))
+│   %7 = bar::Core.Const(var"#bar#83"())
+│   %8 = (%7)(x)::ANY
+└──      return %8
 

@@ -5,4 +5,4 @@ function foo(x)
 end
 
 @code_warntype foo(1)       # type stable
-@code_warntype foo(1.)      # type UNSTABLE
+@code_warntype foo(1.0)     # type UNSTABLE

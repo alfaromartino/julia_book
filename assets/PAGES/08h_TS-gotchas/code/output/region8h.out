@@ -1,9 +1,9 @@
 MethodInstance for foo()
-  from foo(; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region8h.jl:1
+  from foo(; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region8h.jl:1
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
 Locals
-  bar::var"#bar#249"
+  bar::var"#bar#71"
   x::CORE.BOX
   @_4::Int64
   @_5::Int64
@@ -12,23 +12,32 @@ Body::Int64
 │         (x = Core.Box())
 │   %3  = x::CORE.BOX
 │         (@_4 = 1)
-│   %5  = (@_4::Core.Const(1) isa Main.Int64)::Core.Const(true)
-└──       goto #3 if not %5
+│   %5  = @_4::Core.Const(1)
+│   %6  = (%5 isa Main.Int64)::Core.Const(true)
+└──       goto #3 if not %6
 2 ─       goto #4
-3 ─       Core.Const(:(Base.convert(Main.Int64, @_4)))
-└──       Core.Const(:(@_4 = Core.typeassert(%8, Main.Int64)))
-4 ┄ %10 = @_4::Core.Const(1)
-│         Core.setfield!(%3, :contents, %10)
-│         (bar = %new(Main.:(var"#bar#249"), x))
-│   %13 = x::CORE.BOX
+3 ─       Core.Const(:(@_4))
+│         Core.Const(:(Base.convert(Main.Int64, %9)))
+│         Core.Const(:(Main.Int64))
+└──       Core.Const(:(@_4 = Core.typeassert(%10, %11)))
+4 ┄ %13 = @_4::Core.Const(1)
+│         Core.setfield!(%3, :contents, %13)
+│   %15 = Main.:(var"#bar#71")::Core.Const(var"#bar#71")
+│   %16 = x::CORE.BOX
+│         (bar = %new(%15, %16))
+│   %18 = x::CORE.BOX
 │         (@_5 = 1)
-│   %15 = (@_5::Core.Const(1) isa Main.Int64)::Core.Const(true)
-└──       goto #6 if not %15
+│   %20 = @_5::Core.Const(1)
+│   %21 = (%20 isa Main.Int64)::Core.Const(true)
+└──       goto #6 if not %21
 5 ─       goto #7
-6 ─       Core.Const(:(Base.convert(Main.Int64, @_5)))
-└──       Core.Const(:(@_5 = Core.typeassert(%18, Main.Int64)))
-7 ┄ %20 = @_5::Core.Const(1)
-│         Core.setfield!(%13, :contents, %20)
-│   %22 = (bar)()::Int64
-└──       return %22
+6 ─       Core.Const(:(@_5))
+│         Core.Const(:(Base.convert(Main.Int64, %24)))
+│         Core.Const(:(Main.Int64))
+└──       Core.Const(:(@_5 = Core.typeassert(%25, %26)))
+7 ┄ %28 = @_5::Core.Const(1)
+│         Core.setfield!(%18, :contents, %28)
+│   %30 = bar::var"#bar#71"
+│   %31 = (%30)()::Int64
+└──       return %31
 

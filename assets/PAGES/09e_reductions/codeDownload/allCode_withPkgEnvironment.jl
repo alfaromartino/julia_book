@@ -50,7 +50,7 @@ Random.seed!(123)       #setting seed for reproducibility
 x = rand(100)
 
 function foo(x)
-    output = 0.
+    output = 0.0
 
     for i in eachindex(x)
         output = output + x[i]
@@ -68,7 +68,7 @@ Random.seed!(123)       #setting seed for reproducibility
 x = rand(100)
 
 function foo(x)
-    output = 0.
+    output = 0.0
     
     for i in eachindex(x)
         output += x[i]
@@ -89,12 +89,12 @@ println(foo(x))
 ############################################################################
  
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100)
+x       = rand(100)
 
 foo1(x) = sum(x)
 
 function foo2(x)
-    output = 0.
+    output = 0.0
 
     for i in eachindex(x)
         output += x[i]
@@ -111,12 +111,12 @@ println(foo2(x))
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100)
+x       = rand(100)
 
 foo1(x) = prod(x)
 
 function foo2(x)
-    output = 1.
+    output = 1.0
 
     for i in eachindex(x)
         output *= x[i]
@@ -133,7 +133,7 @@ println(foo2(x))
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100)
+x       = rand(100)
 
 foo1(x) = maximum(x)
 
@@ -155,7 +155,7 @@ println(foo2(x))
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100)
+x       = rand(100)
 
 foo1(x) = minimum(x)
 
@@ -183,12 +183,12 @@ println(foo2(x))
 ############################################################################
  
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100)
+x       = rand(100)
 
 foo1(x) = sum(log.(x))
 
 function foo2(x)
-    output = 0.
+    output = 0.0
 
     for i in eachindex(x)
         output += log(x[i])
@@ -205,12 +205,12 @@ end
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100)
+x       = rand(100)
 
 foo1(x) = prod(log.(x))
 
 function foo2(x)
-    output = 1.
+    output = 1.0
 
     for i in eachindex(x)
         output *= log(x[i])
@@ -227,7 +227,7 @@ end
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100)
+x       = rand(100)
 
 foo1(x) = maximum(log.(x))
 
@@ -249,7 +249,7 @@ end
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100)
+x       = rand(100)
 
 foo1(x) = minimum(log.(x))
 
@@ -361,7 +361,8 @@ foo(x) = minimum(a -> 2 * a, x)   #same output as minimum(2 .* x)
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100); y = rand(100)
+x        = rand(100)
+y        = rand(100)
 
 foo(x,y) = sum(a -> a[1] * a[2], zip(x,y))         #same output as sum(x .* y)
 @ctime foo($x, $y)
@@ -370,7 +371,8 @@ foo(x,y) = sum(a -> a[1] * a[2], zip(x,y))         #same output as sum(x .* y)
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100); y = rand(100)
+x        = rand(100)
+y        = rand(100)
 
 foo(x,y) = prod(a -> a[1] * a[2], zip(x,y))        #same output as prod(x .* y)
 @ctime foo($x, $y)
@@ -379,7 +381,8 @@ foo(x,y) = prod(a -> a[1] * a[2], zip(x,y))        #same output as prod(x .* y)
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100); y = rand(100)
+x        = rand(100)
+y        = rand(100)
 
 foo(x,y) = maximum(a -> a[1] * a[2], zip(x,y))     #same output as maximum(x .* y)
 @ctime foo($x, $y)
@@ -388,7 +391,8 @@ foo(x,y) = maximum(a -> a[1] * a[2], zip(x,y))     #same output as maximum(x .* 
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100); y = rand(100)
+x        = rand(100)
+y        = rand(100)
 
 foo(x,y) = minimum(a -> a[1] * a[2], zip(x,y))     #same output as minimum(x .* y)
 @ctime foo($x, $y)
@@ -487,7 +491,8 @@ foo(x) = mapreduce(log, min, x)     #same output as minimum(log.(x))
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100); y = rand(100)
+x        = rand(100)
+y        = rand(100)
 
 foo(x,y) = mapreduce(a -> a[1] * a[2], +, zip(x,y))       #same output as sum(x .* y)
 @ctime foo($x,$y)
@@ -496,7 +501,8 @@ foo(x,y) = mapreduce(a -> a[1] * a[2], +, zip(x,y))       #same output as sum(x 
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100); y = rand(100)
+x        = rand(100)
+y        = rand(100)
 
 foo(x,y) = mapreduce(a -> a[1] * a[2], *, zip(x,y))       #same output as prod(x .* y)
 @ctime foo($x,$y)
@@ -505,7 +511,8 @@ foo(x,y) = mapreduce(a -> a[1] * a[2], *, zip(x,y))       #same output as prod(x
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100); y = rand(100)
+x        = rand(100)
+y        = rand(100)
 
 foo(x,y) = mapreduce(a -> a[1] * a[2], max, zip(x,y))     #same output as maximum(x .* y)
 @ctime foo($x,$y)
@@ -514,7 +521,8 @@ foo(x,y) = mapreduce(a -> a[1] * a[2], max, zip(x,y))     #same output as maximu
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100); y = rand(100)
+x        = rand(100)
+y        = rand(100)
 
 foo(x,y) = mapreduce(a -> a[1] * a[2], min, zip(x,y))     #same output as minimum(x .* y)
 @ctime foo($x,$y)
@@ -527,7 +535,7 @@ foo(x,y) = mapreduce(a -> a[1] * a[2], min, zip(x,y))     #same output as minimu
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100)
+x      = rand(100)
 
 foo(x) = mapreduce(a -> 2 * a, +, x)
 @ctime foo($x)
@@ -536,7 +544,7 @@ foo(x) = mapreduce(a -> 2 * a, +, x)
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100)
+x      = rand(100)
 
 foo(x) = reduce(+, map(a -> 2 * a, x))
 @ctime foo($x)

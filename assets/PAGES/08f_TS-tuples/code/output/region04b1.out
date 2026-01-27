@@ -1,11 +1,12 @@
 MethodInstance for foo(::Tuple{Int64, Int64, String})
-  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8e_TS-tuples/code/region04b1.jl:3
+  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08f_TS-tuples/code/region04b1.jl:3
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Tuple{Int64, Int64, String}
 Body::Int64
-1 ─ %1 = (1:2)::Core.Const(1:2)
-│   %2 = Base.getindex(x, %1)::Tuple{Int64, Int64}
-│   %3 = Main.sum(%2)::Int64
-└──      return %3
+1 ─ %1 = Main.sum::Core.Const(sum)
+│   %2 = (1:2)::Core.Const(1:2)
+│   %3 = Base.getindex(x, %2)::Tuple{Int64, Int64}
+│   %4 = (%1)(%3)::Int64
+└──      return %4
 

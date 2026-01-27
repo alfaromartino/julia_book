@@ -1,10 +1,10 @@
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(100)
 
 function foo(x)
-    y = (a * 2 for a in x)                  # 0 allocations
+    y = (a * 2 for a in x)      # 0 allocations
     
     sum(y)
 end
     
-@btime foo($x) #hide
+@ctime foo($x) #hide

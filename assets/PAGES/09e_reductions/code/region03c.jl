@@ -1,5 +1,5 @@
-Random.seed!(123)       #setting the seed for reproducibility #hide
-x = rand(100)
+Random.seed!(123)       #setting seed for reproducibility #hide
+x       = rand(100)
 
 foo1(x) = maximum(log.(x))
 

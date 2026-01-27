@@ -30,9 +30,17 @@ using FastBenchmark
 # necessary packages for this file
 using Random
  
-####################################################
-#	GENERATORS VS ARRAY COMPREHENSIONS
-####################################################
+############################################################################
+#
+#			LAZY OPERATIONS
+#
+############################################################################
+ 
+############################################################################
+#
+#			GENERATORS
+#
+############################################################################
  
 x = [a for a in 1:10]
 
@@ -56,20 +64,10 @@ println(y)
 
 
 
-x = 1:10
+####################################################
+#	example: generators in reductions
+####################################################
  
-println(x)
- 
-
-
-
-x = collect(1:10)
- 
-println(x)
- 
-
-
-
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(100)
 
@@ -111,26 +109,28 @@ foo(x) = sum(a * 2 for a in x)  # 0 allocations
 
 ############################################################################
 #
-#                           ITERATORS
+#			ITERATORS
 #
 ############################################################################
-
-####################################################
-#	FILTER
-####################################################
  
-Random.seed!(123)       #setting seed for reproducibility
-x = collect(1:100)
-
-function foo(x)
-    sum(x .> 50)                            # 1 allocation
-end
-    
-@ctime foo($x)
+x = 1:10
+ 
+println(x)
  
 
 
 
+x = collect(1:10)
+ 
+println(x)
+ 
+
+
+
+####################################################
+#	PACKAGE ITERATORS
+####################################################
+ 
 Random.seed!(123)       #setting seed for reproducibility
 x = collect(1:100)
 
@@ -159,24 +159,6 @@ end
 
 
 
-Random.seed!(123)       #setting seed for reproducibility
-x = collect(1:100)
-
-function foo(x)
-    y = (a for a in x if a > 50)            # 0 allocations
-
-    sum(y)
-end
-    
-@ctime foo($x)
- 
-
-
-
-####################################################
-#	MAP
-####################################################
- 
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(100)
 

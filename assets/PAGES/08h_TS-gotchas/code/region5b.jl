@@ -8,4 +8,3 @@ function foo(x)
 end
 
 @code_warntype foo(tuple_x)             # type stable
-# @btime foo(ref($tuple_x))     #hide

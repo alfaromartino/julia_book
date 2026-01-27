@@ -1,14 +1,18 @@
 MethodInstance for foo(::Int64)
-  from foo(x; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region9c.jl:1
+  from foo(x; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region9c.jl:1
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Int64
 Locals
-  closure1::var"#closure1#256"
-  closure2::var"#closure2#255"
+  closure1::var"#closure1#78"
+  closure2::var"#closure2#77"
 Body::Int64
-1 ─      (closure2 = %new(Main.:(var"#closure2#255")))
-│        (closure1 = %new(Main.:(var"#closure1#256")))
-│   %3 = (closure2)(x, closure1)::Int64
-└──      return %3
+1 ─ %1 = Main.:(var"#closure2#77")::Core.Const(var"#closure2#77")
+│        (closure2 = %new(%1))
+│   %3 = Main.:(var"#closure1#78")::Core.Const(var"#closure1#78")
+│        (closure1 = %new(%3))
+│   %5 = closure2::Core.Const(var"#closure2#77"())
+│   %6 = closure1::Core.Const(var"#closure1#78"())
+│   %7 = (%5)(x, %6)::Int64
+└──      return %7
 

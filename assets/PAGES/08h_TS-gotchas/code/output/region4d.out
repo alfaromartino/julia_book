@@ -1,28 +1,33 @@
 MethodInstance for foo(::Vector{Vector})
-  from foo(data; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region4d.jl:6
+  from foo(data) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region4d.jl:6
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   data::Vector{Vector}
 Locals
   @_3::UNION{NOTHING, TUPLE{INT64, INT64}}
   i::Int64
 Body::Nothing
-1 ─ %1  = Base.getindex(data, 2)::VECTOR
-│   %2  = Main.eachindex(%1)::Base.OneTo{Int64}
-│         (@_3 = Base.iterate(%2))
-│   %4  = (@_3 === nothing)::Bool
-│   %5  = Base.not_int(%4)::Bool
-└──       goto #4 if not %5
-2 ┄ %7  = @_3::Tuple{Int64, Int64}
-│         (i = Core.getfield(%7, 1))
-│   %9  = Core.getfield(%7, 2)::Int64
-│   %10 = Main.operation(i)::Int64
-│   %11 = Base.getindex(data, 2)::VECTOR
-│         Base.setindex!(%11, %10, i)
-│         (@_3 = Base.iterate(%2, %9))
-│   %14 = (@_3 === nothing)::Bool
-│   %15 = Base.not_int(%14)::Bool
-└──       goto #4 if not %15
+1 ─ %1  = Main.eachindex::Core.Const(eachindex)
+│   %2  = Base.getindex(data, 2)::VECTOR
+│   %3  = (%1)(%2)::Base.OneTo{Int64}
+│         (@_3 = Base.iterate(%3))
+│   %5  = @_3::UNION{NOTHING, TUPLE{INT64, INT64}}
+│   %6  = (%5 === nothing)::Bool
+│   %7  = Base.not_int(%6)::Bool
+└──       goto #4 if not %7
+2 ┄ %9  = @_3::Tuple{Int64, Int64}
+│         (i = Core.getfield(%9, 1))
+│   %11 = Core.getfield(%9, 2)::Int64
+│   %12 = i::Int64
+│   %13 = Main.operation(%12)::Int64
+│   %14 = Base.getindex(data, 2)::VECTOR
+│   %15 = i::Int64
+│         Base.setindex!(%14, %13, %15)
+│         (@_3 = Base.iterate(%3, %11))
+│   %18 = @_3::UNION{NOTHING, TUPLE{INT64, INT64}}
+│   %19 = (%18 === nothing)::Bool
+│   %20 = Base.not_int(%19)::Bool
+└──       goto #4 if not %20
 3 ─       goto #2
 4 ┄       return nothing
 

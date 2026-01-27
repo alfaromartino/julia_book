@@ -16,17 +16,20 @@ using FastBenchmark
 #
 ############################################################################
  
+# necessary packages for this file
 using Random, LoopVectorization
  
 ############################################################################
 #
-#			INDEPENDENCE OF ITERATIONS
+#			SECTION: "SIMD PACKAGES"
 #
 ############################################################################
  
-####################################################
-#	wrong result - this type of dependence is not allowed
-####################################################
+############################################################################
+#
+#			CAVEATS ABOUT IMPROPER USE OF @turbo
+#
+############################################################################
  
 x = [0.1, 0.2, 0.3]
 
@@ -67,8 +70,14 @@ println(x)
 
 
 
+############################################################################
+#
+#			SAFE APPLICATIONS OF @turbo
+#
+############################################################################
+ 
 ####################################################
-#	you should apply it only when iterations are independent
+#	independent iterations
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility
@@ -136,11 +145,9 @@ foo(x)         = @turbo calculation.(x)
 
 
 
-############################################################################
-#
-#			REDUCTIONS
-#
-############################################################################
+####################################################
+#	reductions
+####################################################
  
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
@@ -406,10 +413,8 @@ foo(x) = @turbo calculation.(x)
 
 
 
-
-
-
-
+# power functions includes calls to other function
+ 
 Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = sqrt(a)
@@ -536,6 +541,6 @@ Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = sin(a)
 
-foo(x) = @turbo calculation.(x)    
+foo(x)         = @turbo calculation.(x)
 @ctime foo($x)
  

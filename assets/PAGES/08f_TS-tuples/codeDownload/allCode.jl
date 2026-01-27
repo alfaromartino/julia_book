@@ -23,10 +23,30 @@ using FastBenchmark
 ############################################################################
  
 ############################################################################
-#  VECTORS CONTAIN LESS INFORMATION THAN TUPLES
+#  COMPARING TUPLES AND VECTORS
 ############################################################################
  
-# from tuple to vectors
+# Tuple Slices with Mixed Types Can Still Be Type Stable
+ 
+tup    = (1, 2, "hello")        # type is `Tuple{Int64, Int64, String}`
+
+foo(x) = sum(x[1:2])
+
+@code_warntype foo(tup)         # type stable (output is `Int64`)
+ 
+
+
+
+vector = [1, 2, "hello"]        # type is `Vector{Any}`
+
+foo(x) = sum(x[1:2])
+
+@code_warntype foo(vector)      # type UNSTABLE
+ 
+
+
+
+# Tuples Contain More Information than Vectors
  
 tup = (1, 2, 3.5)             # `Tuple{Int64, Int64, Float64}`
 
@@ -67,63 +87,6 @@ end
 
 
 
-############################################################################
-#  TUPLES ALLOWS HETEROGENEOUS TYPES OF ELEMENTS
-############################################################################
- 
-tup    = (1, 2, 3.5)            # type is `Tuple{Int64, Int64, Float64}` 
-
-foo(x) = sum(x)
-
-@code_warntype foo(tup)         # type stable (output returned is `Int64`)
- 
-
-
-
-vector = [1, 2, 3.5]            # type is `Vector{Float64}` (type promotion)
-
-foo(x) = sum(x)
-
-@code_warntype foo(vector)      # type stable (output returned is `Float64`)
- 
-
-
-
-tup    = (1, 2, "hello")        # type is `Tuple{Int64, Int64, String}`
-
-foo(x) = sum(x[1:2])
-
-@code_warntype foo(tup)         # type stable (output is `Int64`)
- 
-
-
-
-vector = [1, 2, "hello"]        # type is `Vector{Any}`
-
-foo(x) = sum(x[1:2])
-
-@code_warntype foo(vector)      # type UNSTABLE
- 
-
-
-
-#	The same conclusions hold for Named Tuples
- 
-nt     = (a = 1, b = 2, c = 3.5)        # `nt` has type @NamedTuple{a::Int64, b::Int64, c::Float64}
-
-foo(x) = sum(x.a + x.b)
-
-@code_warntype foo(nt)                  # type stable (output is `Int64`)
- 
-
-
-
-nt     = (a = 1, b = 2, c = "hello")    # `nt` has type @NamedTuple{a::Int64, b::Int64, c::String}
-
-foo(x) = sum(x.a + x.b)
-
-@code_warntype foo(nt)                  # type stable (output is `Int64`)
- 
 # from vector to tuples
  
 x   = [1, 2, "hello"]           # 'Vector{Any}' has no info on each individual type
@@ -154,6 +117,12 @@ end
 
 
 
+############################################################################
+#
+#			ADDRESSING VARIABLE ARGUMENTS: DISPATCH BY VALUE
+#
+############################################################################
+ 
 x   = [1, 2, 3]
 tup = Tuple(x)
 
@@ -161,12 +130,9 @@ foo(tup) = sum(tup[1:2])
 
 @code_warntype foo(tup)         # type stable
  
-############################################################################
-#  INFERENCE IS BY TYPE, NOT VALUE
-############################################################################
- 
-# remark
- 
+
+
+
 x   = [1, 2, 3]
 
 function foo(x)
@@ -193,7 +159,7 @@ end
 
 
 
-# DISPATCHING BY VALUE
+# Defining Dispatch By Value
  
 function foo(condition)
     y = condition ? 1 : 0.5      # either `Int64` or `Float64`
@@ -219,6 +185,8 @@ end
 
 
 
+# Dispatching by Value with Tuples
+ 
 x = [1, 2, 3]
 
 function foo(x, N)
@@ -228,7 +196,6 @@ function foo(x, N)
 end
 
 @code_warntype foo(x, length(x))        # type UNSTABLE
-#@ctime foo($tuple_x)
  
 
 
@@ -242,5 +209,4 @@ function foo(x, ::Val{N}) where N
 end
 
 @code_warntype foo(x, Val(length(x)))   # type stable
-#@ctime foo($tuple_x)
  

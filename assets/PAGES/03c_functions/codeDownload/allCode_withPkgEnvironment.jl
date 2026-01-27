@@ -240,19 +240,19 @@ println(output)
 #	example 2
 ####################################################
  
-x            = [1,2,3]
-y            = [4,5,6]
+x               = [1,2,3]
+y               = [4,5,6]
+add_values(a,b) = a + b
 
-add_two(a,b) = a + b
-output       = map(add_two, x, y)
+output          = map(add_values, x, y)
  
 println(output)
  
-x            = [1,2,3]
-y            = [4,5,6]
+x               = [1,2,3]
+y               = [4,5,6]
 
 
-output       = map((a,b) -> a + b, x, y)
+output          = map((a,b) -> a + b, x, y)
  
 println(output)
  
@@ -300,28 +300,28 @@ println(output)
 #	do-blocks with anonymous funcitons and multiple arguments
 ####################################################
  
-x            = [1,2,3]
-y            = [4,5,6]
+x               = [1,2,3]
+y               = [4,5,6]
+add_values(a,b) = a + b
 
-add_two(a,b) = a + b
-output       = map(add_two, x, y)
+output          = map(add_values, x, y)
  
 println(output)
  
-x        = [1,2,3]
-y        = [4,5,6]
+x               = [1,2,3]
+y               = [4,5,6]
 
 
-output   = map((a,b) -> a + b, x, y)
+output          = map((a,b) -> a + b, x, y)
  
 println(output)
  
-x        = [1,2,3]
-y        = [4,5,6]
+x               = [1,2,3]
+y               = [4,5,6]
 
-output   = map(x,y) do a,b      # not (a,b)
-                a + b
-                end
+output          = map(x,y) do a,b   # not (a,b)
+                             a + b
+                           end
  
 println(output)
  

@@ -17,6 +17,11 @@ for x in ["hello","beautiful","world"]
     println(x)
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	alternatives
 ####################################################
@@ -25,19 +30,39 @@ for x in ["hello","beautiful","world"]
     println(x)
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 for x ∈ ["hello","beautiful","world"] 
     println(x)
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 for x = ["hello","beautiful","world"] 
     println(x)
 end
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 # any term for iteration variable
  
 for word in ["hello","beautiful","world"] 
     println(word)
 end
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ############################################################################
 #
@@ -53,14 +78,29 @@ for i in 1:2:5
     println(i)
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 for i in 3:-1:1
     println(i)
 end
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 # creating a vector from a range
  
 x = collect(4:6)
 print_asis(x)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
 #	Iterating over Indices of an Array
@@ -72,11 +112,21 @@ for i in 1:length(x)
     println(x[i])
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = [4, 6, 8]
 
 for i in eachindex(x)
     println(x[i])
 end
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
 #	methods to iterate over indices
@@ -88,11 +138,21 @@ for i in eachindex(x)
     println(x[i])
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = [4, 6, 8]
 
 for i in 1:length(x)
     println(x[i])
 end
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 x = [4, 6, 8]
 
@@ -100,11 +160,21 @@ for i in LinearIndices(x)
     println(x[i])
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = [4, 6, 8]
 
 for i in firstindex(x):lastindex(x)
     println(x[i])
 end
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ############################################################################
 #
@@ -118,12 +188,22 @@ for x in ["hello"]          # this 'x' is local, not related to 'x = 2'
     println(x)
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 #no `x` defined outside the for-loop
 
 for word in ["hello"]
     x = word                # `x` is local to the for-loop, not available outside it
 end
 #print_asis(x) #ERROR   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
 #	consequences of variable scope
@@ -132,16 +212,26 @@ end
 x = [2, 4, 6]
 
 for i in eachindex(x)
-    x[i] * 10        # refers to the `x` outside of the for-loop
+    x[i] * 10            # refers to the `x` outside of the for-loop
 end
 print_asis(x)     #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 x = [2, 4, 6]
 
 for word in ["hello"]
-    x = word                        # it reassigns the `x` defined outside the for-loop
+    x = word             # reassigns the `x` defined outside the for-loop
 end
 print_asis(x)     #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ############################################################################
 #
@@ -152,21 +242,50 @@ print_asis(x)     #hide
 x      = [1,2,3]
 
 
-y      = [a^2 for a in x]        # or y = [x[i]^2 for i in eachindex(x)]
+y      = [a^2 for a in x]
+z      = [x[i]^2 for i in eachindex(x)]
+ 
 print_asis(y)   #hide
  
+print_asis(z)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x      = [1,2,3]
-
 foo(a) = a^2
-y      = [foo(a) for a in x]     # or y = [foo(x[i]) for i in eachindex(x)]
+
+y      = [foo(a) for a in x]
+z      = [foo(x[i]) for i in eachindex(x)]
+ 
 print_asis(y)   #hide
+ 
+print_asis(z)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
 #	array comprehensions with conditions
 ####################################################
  
-x = [i for i in 1:4 if i ≤ 3]
-print_asis(x)   #hide
+x = [1, 2, 3, 4]
+
+y = [a for a in x if a ≤ 2]
+z = [x[i] for i in eachindex(x) if x[i] ≤ 2]
+ 
+print_asis(y)   #hide
+ 
+print_asis(z)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
 #	array comprehensions for matrices
@@ -175,35 +294,61 @@ print_asis(x)   #hide
 y = [i * j for i in 1:2, j in 1:2]
 print_asis(y)   #hide
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			ITERATING OVER MULTIPLE OBJECTS
+#			ITERATING OVER MULTIPLE ITERABLE COLLECTIONS
 #
 ############################################################################
  
-list1 = [1, 2]
-list2 = [3, 4]
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
 
 for (a,b) in Iterators.product(list1,list2)    #it takes all possible combinations
-    println([a,b])
+    println((a,b))
 end
  
-list1 = [1, 2]
-list2 = [3, 4]
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
 
 for (a,b) in zip(list1,list2)                  #it takes pairs with the same index
-    println([a,b])
+    println((a,b))
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
-#	using zip
+#	array comprehensions
 ####################################################
  
-x = [i * j for i in 1:2 for j in 1:2]
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
+
+x     = [(i,j) for i in list1 for j in list2]
 print_asis(x)   #hide
  
-x = [i * j for (i,j) in zip(1:2, 1:2)]
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
+
+x     = [(i,j) for (i,j) in zip(list1,list2)]
 print_asis(x)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ############################################################################
 #
@@ -217,11 +362,21 @@ for (index,value) in enumerate(x)
     println("$index $value")
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = [10, 20]
 
 
 y = [index * value for (index,value) in enumerate(x)]
 print_asis(y)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ############################################################################
 #
@@ -233,5 +388,5 @@ x                        = [10, 50, 100]
 list_functions           = [maximum, minimum]
 
 descriptive(vector,list) = [foo(vector) for foo in list]
-print_asis(descriptive(x, list_functions))
+print_asis(descriptive(x, list_functions))  #hide
  

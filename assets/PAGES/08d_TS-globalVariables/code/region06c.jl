@@ -1,4 +1,4 @@
-using Random; Random.seed!(1234) # hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x           = rand(100_000)
 
 
@@ -11,4 +11,4 @@ function foo(x)
 
     return y
 end
-@btime foo($x)    # hide
+@ctime foo($x)    #hide

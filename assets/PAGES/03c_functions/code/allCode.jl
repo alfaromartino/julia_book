@@ -310,12 +310,12 @@ output          = map((a,b) -> a + b, x, y)
  
 print_asis(output)   #hide
  
-x        = [1,2,3]
-y        = [4,5,6]
+x               = [1,2,3]
+y               = [4,5,6]
 
-output   = map(x,y) do a,b      # not (a,b)
-                a + b
-                end
+output          = map(x,y) do a,b   # not (a,b)
+                             a + b
+                           end
  
 print_asis(output)   #hide
  

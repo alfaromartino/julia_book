@@ -1,17 +1,21 @@
 MethodInstance for foo(::Int64)
-  from foo(x; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region9a.jl:1
+  from foo(x; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region9a.jl:1
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Int64
 Locals
-  closure2::var"#closure2#252"{var"#closure1#251"}
-  closure1::var"#closure1#251"
+  closure2::var"#closure2#74"{var"#closure1#73"}
+  closure1::var"#closure1#73"
 Body::Int64
-1 ─      (closure1 = %new(Main.:(var"#closure1#251")))
-│   %2 = Main.:(var"#closure2#252")::Core.Const(var"#closure2#252")
-│   %3 = Core.typeof(closure1)::Core.Const(var"#closure1#251")
-│   %4 = Core.apply_type(%2, %3)::Core.Const(var"#closure2#252"{var"#closure1#251"})
-│        (closure2 = %new(%4, closure1))
-│   %6 = (closure2)(x)::Int64
-└──      return %6
+1 ─ %1  = Main.:(var"#closure1#73")::Core.Const(var"#closure1#73")
+│         (closure1 = %new(%1))
+│   %3  = Main.:(var"#closure2#74")::Core.Const(var"#closure2#74")
+│   %4  = closure1::Core.Const(var"#closure1#73"())
+│   %5  = Core.typeof(%4)::Core.Const(var"#closure1#73")
+│   %6  = Core.apply_type(%3, %5)::Core.Const(var"#closure2#74"{var"#closure1#73"})
+│   %7  = closure1::Core.Const(var"#closure1#73"())
+│         (closure2 = %new(%6, %7))
+│   %9  = closure2::Core.Const(var"#closure2#74"{var"#closure1#73"}(var"#closure1#73"()))
+│   %10 = (%9)(x)::Int64
+└──       return %10
 

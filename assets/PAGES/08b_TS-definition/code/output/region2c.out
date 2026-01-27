@@ -1,0 +1,43 @@
+MethodInstance for foo(::Float64)
+  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08b_TS-definition/code/region2c.jl:1
+Arguments
+  #self#::Core.Const(Main.foo)
+  x::Float64
+Locals
+  @_3::UNION{NOTHING, TUPLE{INT64, INT64}}
+  y::UNION{FLOAT64, INT64}
+  i::Int64
+  @_6::UNION{FLOAT64, INT64}
+Body::UNION{FLOAT64, INT64}
+1 ─       Core.NewvarNode(:(@_3))
+│         Core.NewvarNode(:(y))
+│   %3  = (x < 0)::Bool
+└──       goto #3 if not %3
+2 ─       (@_6 = 0)
+└──       goto #4
+3 ─ %7  = x::Float64
+└──       (@_6 = %7)
+4 ┄ %9  = @_6::UNION{FLOAT64, INT64}
+│         (y = %9)
+│   %11 = (1:100)::Core.Const(1:100)
+│         (@_3 = Base.iterate(%11))
+│   %13 = @_3::Core.Const((1, 1))
+│   %14 = (%13 === nothing)::Core.Const(false)
+│   %15 = Base.not_int(%14)::Core.Const(true)
+└──       goto #7 if not %15
+5 ┄ %17 = @_3::Tuple{Int64, Int64}
+│         (i = Core.getfield(%17, 1))
+│   %19 = Core.getfield(%17, 2)::Int64
+│   %20 = Main.:+::Core.Const(+)
+│   %21 = y::UNION{FLOAT64, INT64}
+│   %22 = i::Int64
+│         (y = (%20)(%21, %22))
+│         (@_3 = Base.iterate(%11, %19))
+│   %25 = @_3::UNION{NOTHING, TUPLE{INT64, INT64}}
+│   %26 = (%25 === nothing)::Bool
+│   %27 = Base.not_int(%26)::Bool
+└──       goto #7 if not %27
+6 ─       goto #5
+7 ┄ %30 = y::UNION{FLOAT64, INT64}
+└──       return %30
+

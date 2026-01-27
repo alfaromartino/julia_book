@@ -1,9 +1,6 @@
 include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
-# necessary packages for this file
-using Chairmarks, BenchmarkTools
- 
 ############################################################################
 #
 #           TYPE STABILITY WITH TUPLES
@@ -11,20 +8,44 @@ using Chairmarks, BenchmarkTools
 ############################################################################
  
 ############################################################################
-#  VECTORS CONTAIN LESS INFORMATION THAN TUPLES
+#  COMPARING TUPLES AND VECTORS
 ############################################################################
  
-# from tuple to vectors
+# Tuple Slices with Mixed Types Can Still Be Type Stable
  
-tup = (1, 2, "hello")         # `Tuple{Int64, Int64, String}`
+tup    = (1, 2, "hello")        # type is `Tuple{Int64, Int64, String}`
+
+foo(x) = sum(x[1:2])
+
+@code_warntype foo(tup)         # type stable (output is `Int64`)
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+vector = [1, 2, "hello"]        # type is `Vector{Any}`
+
+foo(x) = sum(x[1:2])
+
+@code_warntype foo(vector)      # type UNSTABLE
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# Tuples Contain More Information than Vectors
+ 
+tup = (1, 2, 3.5)             # `Tuple{Int64, Int64, Float64}`
 
 
 function foo(tup)
-    x = Vector(tup)           # 'x' has type `Vector(Any)}`
+    x = Vector(tup)           # 'x' has type `Vector(Float64)}`
     sum(x)
 end
 
-@code_warntype foo(tup)       # type UNSTABLE
+@code_warntype foo(tup)       # type stable
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -46,84 +67,20 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-tup = (1, 2, 3.5)             # `Tuple{Int64, Int64, Float64}`
+tup = (1, 2, "hello")         # `Tuple{Int64, Int64, String}`
 
 
 function foo(tup)
-    x = Vector(tup)           # 'x' has type `Vector(Float64)}`
+    x = Vector(tup)           # 'x' has type `Vector(Any)}`
     sum(x)
 end
 
-@code_warntype foo(tup)       # type stable
+@code_warntype foo(tup)       # type UNSTABLE
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
- 
-############################################################################
-#  TUPLES ALLOWS HETEROGENEOUS TYPES OF ELEMENTS
-############################################################################
- 
-tup    = (1, 2, 3.5)            # type is `Tuple{Int64, Int64, Float64}` 
-
-foo(x) = sum(x)
-
-@code_warntype foo(tup)         # type stable (output returned is `Int64`)
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-vector = [1, 2, 3.5]            # type is `Vector{Float64}` (type promotion)
-
-foo(x) = sum(x)
-
-@code_warntype foo(vector)      # type stable (output returned is `Float64`)
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-tup    = (1, 2, "hello")        # type is `Tuple{Int64, Int64, String}`
-
-foo(x) = sum(x[1:2])
-
-@code_warntype foo(tup)         # type stable (output is `Int64`)
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-vector = [1, 2, "hello"]        # type is `Vector{Any}`
-
-foo(x) = sum(x[1:2])
-
-@code_warntype foo(vector)      # type UNSTABLE
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-#	The same conclusions hold for Named Tuples
- 
-nt     = (a = 1, b = 2, c = 3.5)        # `nt` has type @NamedTuple{a::Int64, b::Int64, c::Float64}
-
-foo(x) = sum(x.a + x.b)
-
-@code_warntype foo(nt)                  # type stable (output is `Int64`)
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-nt     = (a = 1, b = 2, c = "hello")    # `nt` has type @NamedTuple{a::Int64, b::Int64, c::String}
-
-foo(x) = sum(x.a + x.b)
-
-@code_warntype foo(nt)                  # type stable (output is `Int64`)
  
 # from vector to tuples
  
@@ -159,6 +116,12 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
+############################################################################
+#
+#			ADDRESSING VARIABLE ARGUMENTS: DISPATCH BY VALUE
+#
+############################################################################
+ 
 x   = [1, 2, 3]
 tup = Tuple(x)
 
@@ -166,11 +129,10 @@ foo(tup) = sum(tup[1:2])
 
 @code_warntype foo(tup)         # type stable
  
-############################################################################
-#  INFERENCE IS BY TYPE, NOT VALUE
-############################################################################
- 
-# remark
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 x   = [1, 2, 3]
 
@@ -202,7 +164,7 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-# DISPATCHING BY VALUE
+# Defining Dispatch By Value
  
 function foo(condition)
     y = condition ? 1 : 0.5      # either `Int64` or `Float64`
@@ -232,6 +194,8 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
+# Dispatching by Value with Tuples
+ 
 x = [1, 2, 3]
 
 function foo(x, N)
@@ -241,8 +205,8 @@ function foo(x, N)
 end
 
 @code_warntype foo(x, length(x))        # type UNSTABLE
-#@btime foo($tuple_x) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -256,5 +220,4 @@ function foo(x, ::Val{N}) where N
 end
 
 @code_warntype foo(x, Val(length(x)))   # type stable
-#@btime foo($tuple_x) #hide
  

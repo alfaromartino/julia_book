@@ -29,7 +29,7 @@ function foo(x)
 end
 
 @code_warntype foo(1)      # type stable
-@code_warntype foo(1.)     # type UNSTABLE
+@code_warntype foo(1.0)    # type UNSTABLE
  
 
 
@@ -41,7 +41,7 @@ function foo(x)
 end
 
 @code_warntype foo(1)      # type stable
-@code_warntype foo(1.)     # type stable
+@code_warntype foo(1.0)    # type stable
  
 ####################################################
 #	extending the function `zero` to other VALUES
@@ -54,7 +54,7 @@ function foo(x)
 end
 
 @code_warntype foo(1)      # type stable
-@code_warntype foo(1.)     # type UNSTABLE
+@code_warntype foo(1.0)    # type UNSTABLE
  
 
 
@@ -66,7 +66,7 @@ function foo(x)
 end
 
 @code_warntype foo(1)      # type stable
-@code_warntype foo(1.)     # type stable
+@code_warntype foo(1.0)    # type stable
  
 
 
@@ -78,7 +78,7 @@ function foo(x)
 end
 
 @code_warntype foo(1)      # type stable
-@code_warntype foo(1.)     # type stable
+@code_warntype foo(1.0)    # type stable
  
 
 ############################################################################

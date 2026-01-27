@@ -1,7 +1,6 @@
-using Random; Random.seed!(1234) # hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x           = rand(100_000)
 
 
 foo(x) = x ./ sum(x)
-
-@btime foo($x)    # hide
+@ctime foo($x)    #hide

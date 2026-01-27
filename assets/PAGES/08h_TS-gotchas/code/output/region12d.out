@@ -1,11 +1,11 @@
 MethodInstance for foo(::Vector{Int64}, ::Int64)
-  from foo(x, β) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region12d.jl:3
+  from foo(x, β) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region12d.jl:3
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Vector{Int64}
   β::Int64
 Locals
-  bar::var"#bar#260"{Int64}
+  bar::var"#bar#82"{Int64}
   δ::Int64
   @_6::Int64
 Body::Vector{Int64}
@@ -15,12 +15,17 @@ Body::Vector{Int64}
 └──       goto #3 if not %3
 2 ─       (@_6 = -β)
 └──       goto #4
-3 ─       (@_6 = β)
-4 ┄       (δ = @_6)
-│   %9  = Main.:(var"#bar#260")::Core.Const(var"#bar#260")
-│   %10 = Core.typeof(δ)::Core.Const(Int64)
-│   %11 = Core.apply_type(%9, %10)::Core.Const(var"#bar#260"{Int64})
-│         (bar = %new(%11, δ))
-│   %13 = (bar)(x)::Vector{Int64}
-└──       return %13
+3 ─ %7  = β::Int64
+└──       (@_6 = %7)
+4 ┄ %9  = @_6::Int64
+│         (δ = %9)
+│   %11 = Main.:(var"#bar#82")::Core.Const(var"#bar#82")
+│   %12 = δ::Int64
+│   %13 = Core.typeof(%12)::Core.Const(Int64)
+│   %14 = Core.apply_type(%11, %13)::Core.Const(var"#bar#82"{Int64})
+│   %15 = δ::Int64
+│         (bar = %new(%14, %15))
+│   %17 = bar::var"#bar#82"{Int64}
+│   %18 = (%17)(x)::Vector{Int64}
+└──       return %18
 

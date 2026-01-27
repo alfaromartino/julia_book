@@ -1,1 +1,1 @@
-# view faster here
+# example where view is faster

@@ -1,37 +1,48 @@
 MethodInstance for foo(::Vector{Int64}, ::Int64)
-  from foo(x, β) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region10a.jl:3
+  from foo(x, β) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region10a.jl:3
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Vector{Int64}
   β@_3::Int64
 Locals
-  #262::var"#262#263"
+  #84::var"#84#85"
   β@_5::Union{}
   β@_6::Union{}
   β@_7::UNION{INT64, CORE.BOX}
 Body::Vector{Int64}
 1 ─       (β@_7 = β@_3)
-│         (β@_7 = Core.Box(β@_7::Int64))
-│         Core.NewvarNode(:(#262))
-│   %4  = Core.isdefined(β@_7::Core.Box, :contents)::Bool
-└──       goto #3 if not %4
+│   %2  = β@_7::Int64
+│         (β@_7 = Core.Box(%2))
+│         Core.NewvarNode(:(#84))
+│   %5  = Main.:<::Core.Const(<)
+│   %6  = β@_7::CORE.BOX
+│   %7  = Core.isdefined(%6, :contents)::Bool
+└──       goto #3 if not %7
 2 ─       goto #4
 3 ─       Core.NewvarNode(:(β@_5))
 └──       β@_5
-4 ┄ %9  = Core.getfield(β@_7::Core.Box, :contents)::ANY
-│   %10 = (%9 < 0)::ANY
-└──       goto #9 if not %10
-5 ─ %12 = Core.isdefined(β@_7::Core.Box, :contents)::Bool
-└──       goto #7 if not %12
+4 ┄ %12 = β@_7::CORE.BOX
+│   %13 = Core.getfield(%12, :contents)::ANY
+│   %14 = (%5)(%13, 0)::ANY
+└──       goto #9 if not %14
+5 ─ %16 = Main.:-::Core.Const(-)
+│   %17 = β@_7::CORE.BOX
+│   %18 = Core.isdefined(%17, :contents)::Bool
+└──       goto #7 if not %18
 6 ─       goto #8
 7 ─       Core.NewvarNode(:(β@_6))
 └──       β@_6
-8 ┄ %17 = Core.getfield(β@_7::Core.Box, :contents)::ANY
-│   %18 = -%17::ANY
-│         Core.setfield!(β@_7::Core.Box, :contents, %18)
+8 ┄ %23 = β@_7::CORE.BOX
+│   %24 = Core.getfield(%23, :contents)::ANY
+│   %25 = (%16)(%24)::ANY
+│   %26 = β@_7::CORE.BOX
+│         Core.setfield!(%26, :contents, %25)
 └──       goto #9
-9 ┄       (#262 = %new(Main.:(var"#262#263"), β@_7::Core.Box))
-│   %22 = #262::var"#262#263"
-│   %23 = Main.filter(%22, x)::Vector{Int64}
-└──       return %23
+9 ┄ %29 = Main.filter::Core.Const(filter)
+│   %30 = Main.:(var"#84#85")::Core.Const(var"#84#85")
+│   %31 = β@_7::CORE.BOX
+│         (#84 = %new(%30, %31))
+│   %33 = #84::var"#84#85"
+│   %34 = (%29)(%33, x)::Vector{Int64}
+└──       return %34
 

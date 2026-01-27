@@ -8,4 +8,3 @@ function foo(x)                         # 'Vector{Int64}' has no info on the num
 end
 
 @code_warntype foo(x)                   # type UNSTABLE
-# @btime foo(ref($x))           #hide

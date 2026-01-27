@@ -1,3 +1,3 @@
 ####################################################
-#	you should apply it with independent iterations
+#	independent iterations
 ####################################################

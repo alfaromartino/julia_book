@@ -1,10 +1,11 @@
 MethodInstance for foo(::Int64)
-  from foo(x; y) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region1e1.jl:2
+  from foo(x; y) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region1e1.jl:2
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Int64
 Body::Int64
-1 ─ %1 = (2 * x)::Int64
-│   %2 = Main.:(var"#foo#240")(%1, #self#, x)::Int64
-└──      return %2
+1 ─ %1 = Main.:(var"#foo#62")::Core.Const(Main.var"#foo#62")
+│   %2 = (2 * x)::Int64
+│   %3 = (%1)(%2, #self#, x)::Int64
+└──      return %3
 

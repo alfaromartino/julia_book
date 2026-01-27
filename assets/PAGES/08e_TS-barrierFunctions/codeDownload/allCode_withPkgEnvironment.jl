@@ -29,9 +29,13 @@ using FastBenchmark
  
 ############################################################################
 #
-#           BARRIER FUNCTIONS
+#			BARRIER FUNCTIONS
 #
 ############################################################################
+ 
+####################################################
+#	Applying Barrier Functions
+####################################################
  
 function foo(x)
     y = (x < 0) ?  0  :  x
@@ -40,8 +44,11 @@ function foo(x)
 end
 
 @code_warntype foo(1)       # type stable
-@code_warntype foo(1.)      # type UNSTABLE
+@code_warntype foo(1.0)     # type UNSTABLE
  
+
+
+
 operation(y) = [y * i for i in 1:100]
 
 function foo(x)
@@ -51,11 +58,13 @@ function foo(x)
 end
 
 @code_warntype operation(1)    # barrier function is type stable
-@code_warntype operation(1.)   # barrier function is type stable
+@code_warntype operation(1.0)  # barrier function is type stable
 
 @code_warntype foo(1)          # type stable
-@code_warntype foo(1.)         # barrier-function solution
+@code_warntype foo(1.0)        # barrier-function solution
  
+
+
 
 operation(y,i) = y * i 
 
@@ -66,17 +75,17 @@ function foo(x)
 end
 
 @code_warntype foo(1)          # type stable
-@code_warntype foo(1.)         # type UNSTABLE
+@code_warntype foo(1.0)        # type UNSTABLE
  
 ############################################################################
 #
-#           INTERPRETING `@code_warntype`
+#			Remarks on @code_warntype
 #
 ############################################################################
  
-################
-# EXAMPLE 1
-################
+####################################################
+#	EXAMPLE 1
+####################################################
  
 x = ["a", 1]                     # variable with type 'Any'
 
@@ -108,9 +117,9 @@ end
 
 
 
-################
-# EXAMPLE 2
-################
+####################################################
+#	EXAMPLE 2
+####################################################
  
 x = ["a", 1]                     # variable with type 'Any'
 

@@ -1,17 +1,22 @@
 MethodInstance for foo(::Int64)
-  from foo(x; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region9b.jl:1
+  from foo(x; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region9b.jl:1
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Int64
 Locals
   closure1@_3::CORE.BOX
-  closure2::var"#closure2#253"
+  closure2::var"#closure2#75"
   closure1@_5::Union{}
 Body::ANY
-1 ─      (closure1@_3 = Core.Box())
-│        (closure2 = %new(Main.:(var"#closure2#253"), closure1@_3))
-│   %3 = %new(Main.:(var"#closure1#254"))::Core.Const(var"#closure1#254"())
-│        Core.setfield!(closure1@_3, :contents, %3)
-│   %5 = (closure2)(x)::ANY
-└──      return %5
+1 ─       (closure1@_3 = Core.Box())
+│   %2  = Main.:(var"#closure2#75")::Core.Const(var"#closure2#75")
+│   %3  = closure1@_3::CORE.BOX
+│         (closure2 = %new(%2, %3))
+│   %5  = Main.:(var"#closure1#76")::Core.Const(var"#closure1#76")
+│   %6  = %new(%5)::Core.Const(var"#closure1#76"())
+│   %7  = closure1@_3::CORE.BOX
+│         Core.setfield!(%7, :contents, %6)
+│   %9  = closure2::var"#closure2#75"
+│   %10 = (%9)(x)::ANY
+└──       return %10
 

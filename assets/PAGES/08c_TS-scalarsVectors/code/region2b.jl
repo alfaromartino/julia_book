@@ -1,3 +1,3 @@
-x2::Vector{Int64}   = [1, 2, 3]
+z2::Vector{Int64}   = [1, 2, 3]
 
-sum(x2)             # type stable
+sum(z2)             # type stable

@@ -1,36 +1,47 @@
 MethodInstance for foo(::Vector{Int64}, ::Int64)
-  from foo(x, β) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region12b.jl:3
+  from foo(x, β) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region12b.jl:3
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Vector{Int64}
   β@_3::Int64
 Locals
-  bar::var"#bar#258"
+  bar::var"#bar#80"
   β@_5::Union{}
   β@_6::Union{}
   β@_7::UNION{INT64, CORE.BOX}
 Body::ANY
 1 ─       (β@_7 = β@_3)
-│         (β@_7 = Core.Box(β@_7::Int64))
+│   %2  = β@_7::Int64
+│         (β@_7 = Core.Box(%2))
 │         Core.NewvarNode(:(bar))
-│   %4  = Core.isdefined(β@_7::Core.Box, :contents)::Bool
-└──       goto #3 if not %4
+│   %5  = Main.:<::Core.Const(<)
+│   %6  = β@_7::CORE.BOX
+│   %7  = Core.isdefined(%6, :contents)::Bool
+└──       goto #3 if not %7
 2 ─       goto #4
 3 ─       Core.NewvarNode(:(β@_5))
 └──       β@_5
-4 ┄ %9  = Core.getfield(β@_7::Core.Box, :contents)::ANY
-│   %10 = (%9 < 0)::ANY
-└──       goto #9 if not %10
-5 ─ %12 = Core.isdefined(β@_7::Core.Box, :contents)::Bool
-└──       goto #7 if not %12
+4 ┄ %12 = β@_7::CORE.BOX
+│   %13 = Core.getfield(%12, :contents)::ANY
+│   %14 = (%5)(%13, 0)::ANY
+└──       goto #9 if not %14
+5 ─ %16 = Main.:-::Core.Const(-)
+│   %17 = β@_7::CORE.BOX
+│   %18 = Core.isdefined(%17, :contents)::Bool
+└──       goto #7 if not %18
 6 ─       goto #8
 7 ─       Core.NewvarNode(:(β@_6))
 └──       β@_6
-8 ┄ %17 = Core.getfield(β@_7::Core.Box, :contents)::ANY
-│   %18 = -%17::ANY
-│         Core.setfield!(β@_7::Core.Box, :contents, %18)
+8 ┄ %23 = β@_7::CORE.BOX
+│   %24 = Core.getfield(%23, :contents)::ANY
+│   %25 = (%16)(%24)::ANY
+│   %26 = β@_7::CORE.BOX
+│         Core.setfield!(%26, :contents, %25)
 └──       goto #9
-9 ┄       (bar = %new(Main.:(var"#bar#258"), β@_7::Core.Box))
-│   %22 = (bar)(x)::ANY
-└──       return %22
+9 ┄ %29 = Main.:(var"#bar#80")::Core.Const(var"#bar#80")
+│   %30 = β@_7::CORE.BOX
+│         (bar = %new(%29, %30))
+│   %32 = bar::var"#bar#80"
+│   %33 = (%32)(x)::ANY
+└──       return %33
 

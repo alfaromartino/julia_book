@@ -1,15 +1,20 @@
 MethodInstance for foo()
-  from foo(; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region8f.jl:1
+  from foo(; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region8f.jl:1
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
 Locals
-  bar::var"#bar#247"
+  bar::var"#bar#69"
   x::CORE.BOX
 Body::ANY
-1 ─      (x = Core.Box())
-│        Core.setfield!(x, :contents, 1)
-│        Core.setfield!(x, :contents, 1)
-│        (bar = %new(Main.:(var"#bar#247"), x))
-│   %5 = (bar)()::ANY
-└──      return %5
+1 ─       (x = Core.Box())
+│   %2  = x::CORE.BOX
+│         Core.setfield!(%2, :contents, 1)
+│   %4  = x::CORE.BOX
+│         Core.setfield!(%4, :contents, 1)
+│   %6  = Main.:(var"#bar#69")::Core.Const(var"#bar#69")
+│   %7  = x::CORE.BOX
+│         (bar = %new(%6, %7))
+│   %9  = bar::var"#bar#69"
+│   %10 = (%9)()::ANY
+└──       return %10
 

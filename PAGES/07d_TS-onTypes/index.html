@@ -2630,7 +2630,7 @@ color: white;
  <div class=note>  <div class=title>  <span class="note_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px; padding-right:0.4em;"><strong><code>Int</code> As an Alternative to <code>Int64</code></strong>  </span>  </div>  <div class=content>     You&#39;ll notice that packages tend to use <code>Int</code> as the default type for integers. The type <code>Int</code> is an alias that adapts to your CPU&#39;s architecture. Since most modern computers are 64-bit systems, <code>Int</code> is equivalent to <code>Int64</code>. Nonetheless, <code>Int</code> becomes <code>Int32</code> on 32-bit systems.  </div>  </div>
 <p>Julia&#39;s type system is organized in a hierarchical way. This feature permits the definition of subsets and supersets of types, which in the context of types are referred to as <strong>subtypes</strong> and <strong>supertypes</strong>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> Types don&#39;t necessarily follow a subtype-supertype hierarchy. For example, <code>Float64</code> and <code>Vector&#123;String&#125;</code> exist independently, without a hierarchical relationship. This fact will become clearer when the concepts of abstract and concrete types are defined.  </span></span>  For instance, the type <code>Any</code> is a supertype that includes all possible types in Julia, thus occupying the highest position in the type hierarchy. Another example of supertype is <code>Number</code>, which encompasses all numeric types &#40;<code>Float64</code>, <code>Float32</code>, <code>Int64</code>, etc.&#41;. </p>
-<p>Supertypes provide great flexibility for writing code. They enable the grouping of values under a common abstraction, making it possible to define operations generically. . For instance, defining <code>&#43;</code> for the abstract type <code>Number</code> ensures its applicability to all numeric types, regardless of whether they are integers, floats, or their numerical precision.</p>
+<p>Supertypes provide great flexibility for writing code. They enable the grouping of values under a common abstraction, making it possible to define operations generically. For instance, defining <code>&#43;</code> for the abstract type <code>Number</code> ensures its applicability to all numeric types, regardless of whether they are integers, floats, or their numerical precision.</p>
 <p>A particular supertype known as <code>Union</code> will be instrumental for our examples.  It allows variables to hold values of any type specified in its arguments. Its syntax is <code>Union&#123;&lt;type1&gt;, &lt;type2&gt;, ...&#125;</code>, so that a variable with type <code>Union&#123;Int64, Float64&#125;</code> could be either an <code>Int64</code> or <code>Float64</code>. Note that, by definition, union types are always supertypes of their constituent types.  </p>
 <p>      </div>
     </div>
@@ -2678,7 +2678,7 @@ color: white;
 <p>The remainder of this section is dedicated to operators and functions for handling types. Specifically, we&#39;ll introduce the operator <code>&lt;:</code>, which checks whether one type is a subtype of another. Then, we&#39;ll examine strategies for constraining variables to specific types. </p>
 <p><strong>It's possible that you won't need to apply any of the techniques we present</strong>, as Julia automatically attempts to infer types when functions are called. Nonetheless, understanding these operators is essential for grasping upcoming material.</p>
  <h4> Use of <code>&lt;:</code> </h4>
-<p>The symbol <code>:&lt;</code> tests whether a type <code>T</code> is a subtype of another type <code>S</code>. It can be used as an operator <code>T &lt;: S</code> or as a function <code>&lt;:&#40;T,S&#41;</code>. For example, <code>Int64 &lt;: Number</code> and <code>&lt;:&#40;Int64, Number&#41;</code> verifiy whether <code>Int64</code> is a subtype of <code>Number</code>, thus returning <code>true</code>. Below, we provide further examples.</p>
+<p>The symbol <code>:&lt;</code> tests whether a type <code>T</code> is a subtype of another type <code>S</code>. It can be used as an operator <code>T &lt;: S</code> or as a function <code>&lt;:&#40;T,S&#41;</code>. For example, <code>Int64 &lt;: Number</code> and <code>&lt;:&#40;Int64, Number&#41;</code> verify whether <code>Int64</code> is a subtype of <code>Number</code>, thus returning <code>true</code>. Below, we provide further examples.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2703,7 +2703,7 @@ Int64   &lt;: Vector&#123;Int64&#125;</code></pre>
 <p>The fact that <code>Int64 &lt;: Int64</code> evaluates to <code>true</code> illustrates a fundamental principle: <strong>every type is a subtype of itself</strong>. Moreover, in the case of concrete types, this is the only subtype.</p>
 <p> <h4> The Keyword <code>where</code> </h4> <div class="own-anchors"><a name="keyword_where"></a></div></p>
 <p>By combining <code>&lt;:</code> with <code>Union</code>, you can also check whether a type belongs to a given set of types. For example, <code>Int64 &lt;: Union&#123;Int64, Float64&#125;</code> assesses whether <code>Int64</code> equals <code>Int64</code> or <code>Float64</code>, thus returning <code>true</code>. </p>
-<p>The approach can be made more widely applicable by using the <code>where</code> keyword with a type parameter <code>T</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> <code>T</code> can be replaced by any other letter  </span></span> The syntax is <code>&lt;type depending on T&gt; where T &lt;: &lt;set of types&gt;</code>. This entails that <code>T</code> cover multiple possible types.</p>
+<p>The approach can be made more widely applicable by using the <code>where</code> keyword with a type parameter <code>T</code>. <span class="footn supr">&#91;note&#93;  <span class="footn_text"> <code>T</code> can be replaced by any other letter  </span></span> The syntax is <code>&lt;type depending on T&gt; where T &lt;: &lt;set of types&gt;</code>. This entails that <code>T</code> covers multiple possible types.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -3111,7 +3111,7 @@ y &#61; convert.&#40;Float64, x&#41;</code></pre>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified December 16, 2025 
+          © Martin Alfaro <br>Last Modified January 27, 2026 
       </span> 
   </div> 
 </footer>

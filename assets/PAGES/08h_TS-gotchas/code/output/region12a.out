@@ -1,28 +1,35 @@
 MethodInstance for foo(::Vector{Int64}, ::Int64)
-  from foo(x, β) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region12a.jl:3
+  from foo(x, β) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region12a.jl:3
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Vector{Int64}
   β@_3::Int64
 Locals
-  bar::var"#bar#271"
+  bar::var"#bar#93"
   β@_5::Union{}
   β@_6::UNION{INT64, CORE.BOX}
 Body::ANY
 1 ─       (β@_6 = β@_3)
-│         (β@_6 = Core.Box(β@_6::Int64))
+│   %2  = β@_6::Int64
+│         (β@_6 = Core.Box(%2))
 │         Core.NewvarNode(:(bar))
-│   %4  = (1 < 0)::Core.Const(false)
-└──       goto #3 if not %4
-2 ─       Core.Const(:(Core.isdefined(β@_6, :contents)))
-│         Core.Const(:(goto %9 if not %6))
-│         Core.Const(:(goto %11))
+│   %5  = (1 < 0)::Core.Const(false)
+└──       goto #3 if not %5
+2 ─       Core.Const(:(β@_6))
+│         Core.Const(:(Core.isdefined(%7, :contents)))
+│         Core.Const(:(goto %11 if not %8))
+│         Core.Const(:(goto %13))
 │         Core.Const(Core.NewvarNode(:(β@_5)))
 │         Core.Const(:(β@_5))
-│         Core.Const(:(Core.getfield(β@_6, :contents)))
-│         Core.Const(:(Core.setfield!(β@_6, :contents, %11)))
-└──       Core.Const(:(goto %14))
-3 ┄       (bar = %new(Main.:(var"#bar#271"), β@_6::Core.Box))
-│   %15 = (bar)(x)::ANY
-└──       return %15
+│         Core.Const(:(β@_6))
+│         Core.Const(:(Core.getfield(%13, :contents)))
+│         Core.Const(:(β@_6))
+│         Core.Const(:(Core.setfield!(%15, :contents, %14)))
+└──       Core.Const(:(goto %18))
+3 ┄ %18 = Main.:(var"#bar#93")::Core.Const(var"#bar#93")
+│   %19 = β@_6::CORE.BOX
+│         (bar = %new(%18, %19))
+│   %21 = bar::var"#bar#93"
+│   %22 = (%21)(x)::ANY
+└──       return %22
 

@@ -27,9 +27,14 @@ using FastBenchmark
 #
 ############################################################################
  
-#############################          NUMBERS           #########################################
+############################################################################
+#
+#			OBJECTS NOT ALLOCATING MEMORY
+#
+############################################################################
+ 
 ####################################################
-#   SINGLE NUMBERS DON'T ALLOCATE	
+#	SINGLE NUMBERS (SCALARS) DON'T CREATE ALLOCATIONS	
 ####################################################
  
 function foo()
@@ -43,9 +48,8 @@ end
 
 
 
-#############################          TUPLES           #########################################
 ####################################################
-#   ACCESSING or CREATING TUPLES DON'T ALLOCATE
+#	ACCESSING or CREATING TUPLES DON'T CREATE ALLOCATIONS
 ####################################################
  
 function foo()
@@ -60,7 +64,7 @@ end
 
 
 ####################################################
-#   ACCESSING or CREATING NAMED TUPLES DON'T ALLOCATE
+#	ACCESSING or CREATING NAMED TUPLES DON'T CREATE ALLOCATIONS
 ####################################################
  
 function foo()
@@ -74,6 +78,10 @@ end
 
 
 
+####################################################
+#	RANGES DON'T ALLOCATE
+####################################################
+ 
 function foo()
     rang = 1:3
 
@@ -85,11 +93,15 @@ end
 
 
 
-#############################          ARRAYS           #########################################
+############################################################################
+#
+#			OBJECTS ALLOCATING MEMORY
+#
+############################################################################
+ 
 ####################################################
-#	 CREATING ARRAYS ALLOCATE
+#	CREATION OF ARRAYS ALLOCATES
 ####################################################
-# creating array
  
 foo() = [1,2,3]
 
@@ -106,24 +118,8 @@ foo() = sum([1,2,3])
 
 
 
-foo()  = [a for a in 1:3]
-
-
-@ctime foo()
- 
-
-
-
-x      = [1,2,3]
-foo(x) = x .* x
-
-@ctime foo($x)
- 
-
-
-
 ####################################################
-#	 ACCESSING ARRAYS ALLOCATE
+#	ACCESS TO SLICES ALLOCATES
 ####################################################
  
 x      = [1,2,3]
@@ -145,7 +141,7 @@ foo(x) = x[[1,2]]               # allocations from both '[1,2]' and 'x[[1,2]]' i
 
 
 ####################################################
-#	 ACCESSING VECTORS OR SINGLE-ELEMENTS OF ARRAYS DON'T ALLOCATE
+#	ACCESS TO THE WHOLE VECTOR OR SINGLE-ELEMENTS DOESN'T ALLOCATE
 ####################################################
  
 x      = [1,2,3]
@@ -167,11 +163,23 @@ foo(x) = x[1] * x[2] + x[3]
 
 
 ####################################################
-#	 BROADCASTING ALLOCATES - CREATING TEMPORARY VECTORS
+#	ARRAY COMPREHENSIONS ALLOCATE
+####################################################
+ 
+foo()  = [a for a in 1:3]
+
+
+@ctime foo()
+ 
+
+
+
+####################################################
+#	BROADCASTING ALLOCATES
 ####################################################
  
 x      = [1,2,3]
-foo(x) = sum(x .* x)                # allocations from temporary vector 'x .* x' 
+foo(x) = x .* x
 
 @ctime foo($x)
  
@@ -179,8 +187,7 @@ foo(x) = sum(x .* x)                # allocations from temporary vector 'x .* x'
 
 
 x      = [1,2,3]
-
-foo(x) = x .* x .+ x .* 2 ./ exp.(x)
+foo(x) = sum(x .* x)                # allocations from temporary vector 'x .* x' 
 
 @ctime foo($x)
  

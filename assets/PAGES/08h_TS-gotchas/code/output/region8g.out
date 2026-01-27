@@ -1,9 +1,9 @@
 MethodInstance for foo()
-  from foo(; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region8g.jl:1
+  from foo(; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region8g.jl:1
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
 Locals
-  bar::var"#bar#248"
+  bar::var"#bar#70"
   x::CORE.BOX
   @_4::Int64
   @_5::Int64
@@ -12,23 +12,32 @@ Body::Int64
 │         (x = Core.Box())
 │   %3  = x::CORE.BOX
 │         (@_4 = 1)
-│   %5  = (@_4::Core.Const(1) isa Main.Int64)::Core.Const(true)
-└──       goto #3 if not %5
+│   %5  = @_4::Core.Const(1)
+│   %6  = (%5 isa Main.Int64)::Core.Const(true)
+└──       goto #3 if not %6
 2 ─       goto #4
-3 ─       Core.Const(:(Base.convert(Main.Int64, @_4)))
-└──       Core.Const(:(@_4 = Core.typeassert(%8, Main.Int64)))
-4 ┄ %10 = @_4::Core.Const(1)
-│         Core.setfield!(%3, :contents, %10)
-│   %12 = x::CORE.BOX
+3 ─       Core.Const(:(@_4))
+│         Core.Const(:(Base.convert(Main.Int64, %9)))
+│         Core.Const(:(Main.Int64))
+└──       Core.Const(:(@_4 = Core.typeassert(%10, %11)))
+4 ┄ %13 = @_4::Core.Const(1)
+│         Core.setfield!(%3, :contents, %13)
+│   %15 = x::CORE.BOX
 │         (@_5 = 1)
-│   %14 = (@_5::Core.Const(1) isa Main.Int64)::Core.Const(true)
-└──       goto #6 if not %14
+│   %17 = @_5::Core.Const(1)
+│   %18 = (%17 isa Main.Int64)::Core.Const(true)
+└──       goto #6 if not %18
 5 ─       goto #7
-6 ─       Core.Const(:(Base.convert(Main.Int64, @_5)))
-└──       Core.Const(:(@_5 = Core.typeassert(%17, Main.Int64)))
-7 ┄ %19 = @_5::Core.Const(1)
-│         Core.setfield!(%12, :contents, %19)
-│         (bar = %new(Main.:(var"#bar#248"), x))
-│   %22 = (bar)()::Int64
-└──       return %22
+6 ─       Core.Const(:(@_5))
+│         Core.Const(:(Base.convert(Main.Int64, %21)))
+│         Core.Const(:(Main.Int64))
+└──       Core.Const(:(@_5 = Core.typeassert(%22, %23)))
+7 ┄ %25 = @_5::Core.Const(1)
+│         Core.setfield!(%15, :contents, %25)
+│   %27 = Main.:(var"#bar#70")::Core.Const(var"#bar#70")
+│   %28 = x::CORE.BOX
+│         (bar = %new(%27, %28))
+│   %30 = bar::var"#bar#70"
+│   %31 = (%30)()::Int64
+└──       return %31
 

@@ -28,35 +28,39 @@ using FastBenchmark
 ############################################################################
  
 # necessary packages for this file
-using Random, Skipper
+using Random
  
 ############################################################################
 #
-#                           GLOBAL VARIABLES
+#			SLICE VIEWS TO DECREASE ALLOCATIONS
 #
 ############################################################################
  
-x = [1, 2, 3]
+############################################################################
+#
+#			VIEW OF SLICES
+#
+############################################################################
+ 
+x      = [1, 2, 3]
 
 foo(x) = sum(x[1:2])           # allocations from the slice 'x[1:2]'
-
 @ctime foo($x)
  
 
 
 
-x = [1, 2, 3]
+x      = [1, 2, 3]
 
 foo(x) = sum(@view(x[1:2]))    # it doesn't allocate
-
 @ctime foo($x)
  
 ####################################################
-#	views and boolean index
+#	BOOLEAN INDEX
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000)
+x      = rand(1_000)
 
 foo(x) = sum(x[x .> 0.5])
 
@@ -66,65 +70,20 @@ foo(x) = sum(x[x .> 0.5])
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000)
+x      = rand(1_000)
 
 foo(x) = @views sum(x[x .> 0.5])
 
 @ctime foo($x)
  
-
-
-
-####################################################
-#	skippers for boolean indexing (optional)
-####################################################
- 
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000)
-
-foo(x) = sum(x[x .> 0.5])
-
-@ctime foo($x)
- 
-
-
-
-using Skipper
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000)
-
-foo(x) = sum(skip(≤(0.5), x))
-
-@ctime foo($x)
- 
-
-
-
+############################################################################
 #
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000)
-
-foo(x) = sum(Iterators.filter(>(0.5), x))
-
-@ctime foo($x)
- 
-
-
-
+#			COPYING DATA MAY BE FASTER
 #
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000)
-
-foo(x) = sum(a for a in x if a > 0.5)
-
-@ctime foo($x)
- 
-####################################################
-#	copying data may be faster
-####################################################
+############################################################################
  
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100_000)
+x      = rand(100_000)
 
 foo(x) = max.(x[1:2:length(x)], 0.5)
 
@@ -134,7 +93,7 @@ foo(x) = max.(x[1:2:length(x)], 0.5)
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100_000)
+x      = rand(100_000)
 
 foo(x) = max.(@view(x[1:2:length(x)]), 0.5)
 

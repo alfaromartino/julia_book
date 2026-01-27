@@ -1,15 +1,17 @@
 MethodInstance for foo(::Vector{Any})
-  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8e_TS-tuples/code/region05b1.jl:4
+  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08f_TS-tuples/code/region05b1.jl:4
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Vector{Any}
 Locals
   tup::TUPLE
 Body::ANY
-1 ─      (tup = Main.Tuple(x))
-│   %2 = tup::TUPLE
-│   %3 = (1:2)::Core.Const(1:2)
-│   %4 = Base.getindex(%2, %3)::TUPLE{ANY, ANY}
-│   %5 = Main.sum(%4)::ANY
-└──      return %5
+1 ─ %1 = Main.Tuple::Core.Const(Tuple)
+│        (tup = (%1)(x))
+│   %3 = Main.sum::Core.Const(sum)
+│   %4 = tup::TUPLE
+│   %5 = (1:2)::Core.Const(1:2)
+│   %6 = Base.getindex(%4, %5)::TUPLE{ANY, ANY}
+│   %7 = (%3)(%6)::ANY
+└──      return %7
 

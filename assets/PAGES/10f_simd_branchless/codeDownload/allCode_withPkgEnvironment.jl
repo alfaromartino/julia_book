@@ -27,11 +27,18 @@ using FastBenchmark
 #
 ############################################################################
  
+# necessary packages for this file
 using Random
  
 ############################################################################
 #
-#			DISABLING BOUND INDEX COULD TRIGGER SIMD
+#			SECTION: "SIMD: BRANCHLESS CODE"
+#
+############################################################################
+ 
+############################################################################
+#
+#			TYPE INSTABILITY AND BOUNDS CHECKING AS CONDITIONS TO AVOID
 #
 ############################################################################
  
@@ -103,10 +110,10 @@ end
 
 
 
-
-
-
-
+####################################################
+#	remark: broadcasting and for-loops
+####################################################
+ 
 Random.seed!(123)       #setting seed for reproducibility
 x      = rand(1_000_000)
 foo(x) = 2 ./ x
@@ -152,7 +159,7 @@ end
 
 ############################################################################
 #
-#			BRANCHLESS NEW 
+#			IFELSE VS IF
 #
 ############################################################################
  
@@ -276,7 +283,7 @@ end
 
 ############################################################################
 #
-#			TERNARY OPERATOR
+#			TERNARY OPERATORS
 #
 ############################################################################
  
@@ -397,7 +404,7 @@ end
 
 
 ####################################################
-#	sometimes ternary operator makes bad choices
+#	Ternary Operator Could Choose A Less Performant Approach
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility
@@ -446,7 +453,7 @@ end
 
 ############################################################################
 #
-#			WHAT APPROACH IS OPTIMAL?
+#			WHEN EACH APPROACH IS BETTER?
 #
 ############################################################################
  
@@ -578,12 +585,12 @@ end
 
 ############################################################################
 #
-#			BITVECTOR for CONDITIONS
+#			VECTORS WITH CONDITIONS
 #
 ############################################################################
  
 ####################################################
-#	with vector of conditions
+#	BitVector vs Vector{Bool}
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility
@@ -624,27 +631,8 @@ end
 
 
 
-# REMARK
+# REMARK: No Vector With Conditions
  
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-
-function foo(x)
-    output     = similar(x)
-    
-    
-
-    @inbounds @simd for i in eachindex(x)
-        output[i] = ifelse(x[i]>0.5, x[i]/i, x[i]*i)
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-
-
-
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
@@ -683,92 +671,33 @@ end
 
 
 
+Random.seed!(123)       #setting seed for reproducibility
+x = rand(1_000_000)
+
+function foo(x)
+    output     = similar(x)
+    
+    
+
+    @inbounds @simd for i in eachindex(x)
+        output[i] = ifelse(x[i]>0.5, x[i]/i, x[i]*i)
+    end
+
+    return output
+end
+@ctime foo($x)
+ 
+
+
+
 ############################################################################
 #
-#			COMPOUND CONDITIONS AS ALGEBRAIC OPERATIONS
+#			ALGEBRAIC OPERATIONS AS COMPOUND CONDITIONS
 #
 ############################################################################
  
-####################################################
-#	BROADCASTING
-####################################################
- 
-Random.seed!(123)       #setting seed for reproducibility
-x              = rand(1_000_000)
-y              = rand(1_000_000)
-
-
-foo(x,y)       = @. ifelse((x>0.3) && (y<0.6) && (x>y), x,y)
-@ctime foo($x,$y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x              = rand(1_000_000)
-y              = rand(1_000_000)
-
-
-foo(x,y)       = @. ifelse((x>0.3) *  (y<0.6) *  (x>y), x,y)
-@ctime foo($x,$y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x              = rand(1_000_000)
-y              = rand(1_000_000)
-condition(a,b) = (a > 0.3) && (b < 0.6) && (a > b)
-
-foo(x,y)       = @. ifelse(condition(x,y), x,y)
-@ctime foo($x,$y)
- 
-
-
-
-
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x              = rand(1_000_000)
-y              = rand(1_000_000)
-
-
-foo(x,y)       = @. ifelse((x>0.3) || (y<0.6) || (x>y), x,y)
-@ctime foo($x,$y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x              = rand(1_000_000)
-y              = rand(1_000_000)
-
-
-foo(x,y)       = @. ifelse(Bool(1 - !(x>0.3) * !(y<0.6) * !(x>y)), x,y)
-@ctime foo($x,$y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x              = rand(1_000_000)
-y              = rand(1_000_000)
-condition(a,b) = (a > 0.3) || (b < 0.6) || (a > b)
-
-foo(x,y)       = @. ifelse(condition(x,y), x,y)
-@ctime foo($x,$y)
- 
-
-
-
 ####################################################
 #	FOR-LOOPS
-####################################################
- 
-####################################################
-#	REMARK: @simd could be applied even with `if` depending how we write conditions
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility
@@ -816,31 +745,6 @@ end
 Random.seed!(123)       #setting seed for reproducibility
 x                 = rand(1_000_000)
 y                 = rand(1_000_000)
-condition(a,b)    = (a > 0.3) && (b < 0.6) && (a > b)
-
-function foo(x,y)
-    output = 0.0
-
-    @inbounds @simd for i in eachindex(x)
-        if condition(x[i],y[i])
-            output += x[i]
-        end       
-    end
-
-    return output
-end
-@ctime foo($x,$y)
- 
-
-
-
-####################################################
-#	REMARK: @simd could be applied even with `if` depending how we write conditions
-####################################################
- 
-Random.seed!(123)       #setting seed for reproducibility
-x                 = rand(1_000_000)
-y                 = rand(1_000_000)
 
 
 function foo(x,y)
@@ -880,21 +784,51 @@ end
 
 
 
+####################################################
+#	BROADCASTING
+####################################################
+ 
 Random.seed!(123)       #setting seed for reproducibility
-x                 = rand(1_000_000)
-y                 = rand(1_000_000)
-condition(a,b)    = (a > 0.3) || (b < 0.6) || (a > b)
+x              = rand(1_000_000)
+y              = rand(1_000_000)
 
-function foo(x,y)
-    output = 0.0
 
-    @inbounds @simd for i in eachindex(x)
-        if condition(x[i],y[i])
-            output += x[i]
-        end       
-    end
-
-    return output
-end
+foo(x,y)       = @. ifelse((x>0.3) && (y<0.6) && (x>y), x,y)
 @ctime foo($x,$y)
  
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x              = rand(1_000_000)
+y              = rand(1_000_000)
+
+
+foo(x,y)       = @. ifelse((x>0.3) *  (y<0.6) *  (x>y), x,y)
+@ctime foo($x,$y)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x              = rand(1_000_000)
+y              = rand(1_000_000)
+
+
+foo(x,y)       = @. ifelse((x>0.3) || (y<0.6) || (x>y), x,y)
+@ctime foo($x,$y)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x              = rand(1_000_000)
+y              = rand(1_000_000)
+
+
+foo(x,y)       = @. ifelse(Bool(1 - !(x>0.3) * !(y<0.6) * !(x>y)), x,y)
+@ctime foo($x,$y)
+ 
+
+
+

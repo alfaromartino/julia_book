@@ -10,4 +10,3 @@ function operation!(x)
 end
 
 @code_warntype foo(data)            # barrier-function solution
-#@btime foo(ref($data)) #hide

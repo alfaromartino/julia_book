@@ -1,4 +1,4 @@
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1:10, 10_000_000)   # random integers between 1 and 10
 
 function foo(x)

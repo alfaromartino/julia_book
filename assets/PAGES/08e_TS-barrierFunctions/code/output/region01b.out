@@ -1,74 +1,80 @@
 MethodInstance for operation(::Int64)
-  from operation(y) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8c_barrierFunctions/code/region01b.jl:1
+  from operation(y) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08e_TS-barrierFunctions/code/region01b.jl:1
 Arguments
-  #self#::Core.Const(operation)
+  #self#::Core.Const(Main.operation)
   y::Int64
 Locals
-  #81::var"#81#82"{Int64}
+  #42::var"#42#43"{Int64}
 Body::Vector{Int64}
-1 ─ %1 = Main.:(var"#81#82")::Core.Const(var"#81#82")
+1 ─ %1 = Main.:(var"#42#43")::Core.Const(var"#42#43")
 │   %2 = Core.typeof(y)::Core.Const(Int64)
-│   %3 = Core.apply_type(%1, %2)::Core.Const(var"#81#82"{Int64})
-│        (#81 = %new(%3, y))
-│   %5 = #81::var"#81#82"{Int64}
+│   %3 = Core.apply_type(%1, %2)::Core.Const(var"#42#43"{Int64})
+│        (#42 = %new(%3, y))
+│   %5 = #42::var"#42#43"{Int64}
 │   %6 = (1:100)::Core.Const(1:100)
-│   %7 = Base.Generator(%5, %6)::Core.PartialStruct(Base.Generator{UnitRange{Int64}, var"#81#82"{Int64}}, Any[var"#81#82"{Int64}, Core.Const(1:100)])
+│   %7 = Base.Generator(%5, %6)::Core.PartialStruct(Base.Generator{UnitRange{Int64}, var"#42#43"{Int64}}, Any[var"#42#43"{Int64}, Core.Const(1:100)])
 │   %8 = Base.collect(%7)::Vector{Int64}
 └──      return %8
 
 MethodInstance for operation(::Float64)
-  from operation(y) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8c_barrierFunctions/code/region01b.jl:1
+  from operation(y) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08e_TS-barrierFunctions/code/region01b.jl:1
 Arguments
-  #self#::Core.Const(operation)
+  #self#::Core.Const(Main.operation)
   y::Float64
 Locals
-  #81::var"#81#82"{Float64}
+  #42::var"#42#43"{Float64}
 Body::Vector{Float64}
-1 ─ %1 = Main.:(var"#81#82")::Core.Const(var"#81#82")
+1 ─ %1 = Main.:(var"#42#43")::Core.Const(var"#42#43")
 │   %2 = Core.typeof(y)::Core.Const(Float64)
-│   %3 = Core.apply_type(%1, %2)::Core.Const(var"#81#82"{Float64})
-│        (#81 = %new(%3, y))
-│   %5 = #81::var"#81#82"{Float64}
+│   %3 = Core.apply_type(%1, %2)::Core.Const(var"#42#43"{Float64})
+│        (#42 = %new(%3, y))
+│   %5 = #42::var"#42#43"{Float64}
 │   %6 = (1:100)::Core.Const(1:100)
-│   %7 = Base.Generator(%5, %6)::Core.PartialStruct(Base.Generator{UnitRange{Int64}, var"#81#82"{Float64}}, Any[var"#81#82"{Float64}, Core.Const(1:100)])
+│   %7 = Base.Generator(%5, %6)::Core.PartialStruct(Base.Generator{UnitRange{Int64}, var"#42#43"{Float64}}, Any[var"#42#43"{Float64}, Core.Const(1:100)])
 │   %8 = Base.collect(%7)::Vector{Float64}
 └──      return %8
 
 MethodInstance for foo(::Int64)
-  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8c_barrierFunctions/code/region01b.jl:3
+  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08e_TS-barrierFunctions/code/region01b.jl:3
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Int64
 Locals
   y::Int64
   @_4::Int64
 Body::Vector{Int64}
-1 ─      Core.NewvarNode(:(y))
-│   %2 = (x < 0)::Bool
-└──      goto #3 if not %2
-2 ─      (@_4 = 0)
-└──      goto #4
-3 ─      (@_4 = x)
-4 ┄      (y = @_4)
-│   %8 = Main.operation(y)::Vector{Int64}
-└──      return %8
+1 ─       Core.NewvarNode(:(y))
+│   %2  = (x < 0)::Bool
+└──       goto #3 if not %2
+2 ─       (@_4 = 0)
+└──       goto #4
+3 ─ %6  = x::Int64
+└──       (@_4 = %6)
+4 ┄ %8  = @_4::Int64
+│         (y = %8)
+│   %10 = y::Int64
+│   %11 = Main.operation(%10)::Vector{Int64}
+└──       return %11
 
 MethodInstance for foo(::Float64)
-  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8c_barrierFunctions/code/region01b.jl:3
+  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08e_TS-barrierFunctions/code/region01b.jl:3
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Float64
 Locals
   y::UNION{FLOAT64, INT64}
   @_4::UNION{FLOAT64, INT64}
 Body::UNION{VECTOR{FLOAT64}, VECTOR{INT64}}
-1 ─      Core.NewvarNode(:(y))
-│   %2 = (x < 0)::Bool
-└──      goto #3 if not %2
-2 ─      (@_4 = 0)
-└──      goto #4
-3 ─      (@_4 = x)
-4 ┄      (y = @_4)
-│   %8 = Main.operation(y)::UNION{VECTOR{FLOAT64}, VECTOR{INT64}}
-└──      return %8
+1 ─       Core.NewvarNode(:(y))
+│   %2  = (x < 0)::Bool
+└──       goto #3 if not %2
+2 ─       (@_4 = 0)
+└──       goto #4
+3 ─ %6  = x::Float64
+└──       (@_4 = %6)
+4 ┄ %8  = @_4::UNION{FLOAT64, INT64}
+│         (y = %8)
+│   %10 = y::UNION{FLOAT64, INT64}
+│   %11 = Main.operation(%10)::UNION{VECTOR{FLOAT64}, VECTOR{INT64}}
+└──       return %11
 

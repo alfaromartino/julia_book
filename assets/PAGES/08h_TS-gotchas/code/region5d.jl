@@ -7,4 +7,3 @@ function foo(x)
 end
 
 @code_warntype foo(x)                   # type UNSTABLE
-# @btime foo(ref($x))           #hide

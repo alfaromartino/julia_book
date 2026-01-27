@@ -1,9 +1,14 @@
 include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
-#############################          NUMBERS           #########################################
+############################################################################
+#
+#			OBJECTS NOT ALLOCATING MEMORY
+#
+############################################################################
+ 
 ####################################################
-#   SINGLE NUMBERS DON'T ALLOCATE	
+#	SINGLE NUMBERS (SCALARS) DON'T CREATE ALLOCATIONS	
 ####################################################
  
 function foo()
@@ -17,10 +22,10 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-#############################          TUPLES           #########################################
 ####################################################
-#   ACCESSING or CREATING TUPLES DON'T ALLOCATE
+#	ACCESSING or CREATING TUPLES DON'T CREATE ALLOCATIONS
 ####################################################
  
 function foo()
@@ -34,9 +39,10 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
-#   ACCESSING or CREATING NAMED TUPLES DON'T ALLOCATE
+#	ACCESSING or CREATING NAMED TUPLES DON'T CREATE ALLOCATIONS
 ####################################################
  
 function foo()
@@ -52,6 +58,10 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
+####################################################
+#	RANGES DON'T ALLOCATE
+####################################################
+ 
 function foo()
     rang = 1:3
 
@@ -63,12 +73,17 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-#############################          ARRAYS           #########################################
+############################################################################
+#
+#			OBJECTS ALLOCATING MEMORY
+#
+############################################################################
+ 
 ####################################################
-#	 CREATING ARRAYS ALLOCATE
+#	CREATION OF ARRAYS ALLOCATES
 ####################################################
-# creating array
  
 foo() = [1,2,3]
 
@@ -89,27 +104,8 @@ foo() = sum([1,2,3])
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-foo()  = [a for a in 1:3]
-
-
-@ctime foo() #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x      = [1,2,3]
-foo(x) = x .* x
-
-@ctime foo($x) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
 ####################################################
-#	 ACCESSING ARRAYS ALLOCATE
+#	ACCESS TO SLICES ALLOCATES
 ####################################################
  
 x      = [1,2,3]
@@ -132,9 +128,10 @@ foo(x) = x[[1,2]]               # allocations from both '[1,2]' and 'x[[1,2]]' i
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
-#	 ACCESSING VECTORS OR SINGLE-ELEMENTS OF ARRAYS DON'T ALLOCATE
+#	ACCESS TO THE WHOLE VECTOR OR SINGLE-ELEMENTS DOESN'T ALLOCATE
 ####################################################
  
 x      = [1,2,3]
@@ -157,13 +154,28 @@ foo(x) = x[1] * x[2] + x[3]
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
-#	 BROADCASTING ALLOCATES - CREATING TEMPORARY VECTORS
+#	ARRAY COMPREHENSIONS ALLOCATE
+####################################################
+ 
+foo()  = [a for a in 1:3]
+
+
+@ctime foo() #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+####################################################
+#	BROADCASTING ALLOCATES
 ####################################################
  
 x      = [1,2,3]
-foo(x) = sum(x .* x)                # allocations from temporary vector 'x .* x' 
+foo(x) = x .* x
 
 @ctime foo($x) #hide
  
@@ -173,8 +185,7 @@ foo(x) = sum(x .* x)                # allocations from temporary vector 'x .* x'
 # <space_to_be_deleted>
  
 x      = [1,2,3]
-
-foo(x) = x .* x .+ x .* 2 ./ exp.(x)
+foo(x) = sum(x .* x)                # allocations from temporary vector 'x .* x' 
 
 @ctime foo($x) #hide
  

@@ -1,1 +1,32 @@
-  36.581 μs (2 allocations: 781.30 KiB)
+MethodInstance for foo(::Float64)
+  from foo(x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08b_TS-definition/code/region3a.jl:1
+Arguments
+  #self#::Core.Const(Main.foo)
+  x::Float64
+Locals
+  #44::VAR"#44#45"
+  y::UNION{FLOAT64, INT64}
+  @_5::UNION{FLOAT64, INT64}
+Body::VECTOR
+1 ─       Core.NewvarNode(:(#44))
+│         Core.NewvarNode(:(y))
+│   %3  = (x < 0)::Bool
+└──       goto #3 if not %3
+2 ─       (@_5 = 0)
+└──       goto #4
+3 ─ %7  = x::Float64
+└──       (@_5 = %7)
+4 ┄ %9  = @_5::UNION{FLOAT64, INT64}
+│         (y = %9)
+│   %11 = Main.:(var"#44#45")::Core.Const(var"#44#45")
+│   %12 = y::UNION{FLOAT64, INT64}
+│   %13 = Core.typeof(%12)::UNION{TYPE{FLOAT64}, TYPE{INT64}}
+│   %14 = Core.apply_type(%11, %13)::TYPE{VAR"#44#45"{_A}} WHERE _A
+│   %15 = y::UNION{FLOAT64, INT64}
+│         (#44 = %new(%14, %15))
+│   %17 = #44::VAR"#44#45"
+│   %18 = (1:100)::Core.Const(1:100)
+│   %19 = Base.Generator(%17, %18)::BASE.GENERATOR{UNITRANGE{INT64}, F} WHERE F<:VAR"#44#45"
+│   %20 = Base.collect(%19)::VECTOR
+└──       return %20
+

@@ -18,9 +18,13 @@ using FastBenchmark
  
 ############################################################################
 #
-#           A DEFINITION
+#			DEFINING TYPE STABILITY
 #
 ############################################################################
+ 
+####################################################
+#	An example
+####################################################
  
 x = [1, 2, 3]                  # `x` has type `Vector{Int64}`
 
@@ -35,83 +39,75 @@ x = [1, 2, "hello"]            # `x` has type `Vector{Any}`
  
 ############################################################################
 #
-#           TYPE STABILITY WITH SCALARS
+#           Checking for type stability
 #
 ############################################################################
  
-function foo(x,y)
-    a = (x > y) ?  x  :  y
-
-    [a * i for i in 1:100_000]
+function foo(x)
+    y = (x < 0) ?  0  :  x
+    
+    return [y * i for i in 1:100]
 end
-
-foo(1, 2)           # type stable   -> `a * i` is always `Int64`
-@ctime foo(1, 2)
+@code_warntype foo(1.0)
  
 
 
 
-function foo(x,y)
-    a = (x > y) ?  x  :  y
-
-    [a * i for i in 1:100_000]
+function foo(x)
+    y = (x < 0) ?  0  :  x
+    
+    return [y * i for i in 1:100]
 end
-
-foo(1, 2.5)         # type UNSTABLE -> `a * i` is either `Int64` or `Float64`
-@ctime foo(1, 2.5)
+@code_warntype foo(1)
  
 ############################################################################
 #
-#           TYPE STABILITY WITH VECTORS
+#           Yellow Warnings May Turn Red
 #
 ############################################################################
  
-x1::Vector{Int}     = [1, 2, 3]
-
-sum(x1)             # type stable
+function foo(x)
+    y = (x < 0) ?  0  :  x
+    
+    y * 2
+end
+@code_warntype foo(1.0)
  
 
 
 
-x2::Vector{Int64}   = [1, 2, 3]
-
-sum(x2)             # type stable
+function foo(x)
+    y = (x < 0) ?  0  :  x
+    
+    [y * i for i in 1:100]
+end
+@code_warntype foo(1.0)
  
 
 
 
-x3::Vector{Float64} = [1, 2, 3]
-
-sum(x3)             # type stable
+function foo(x)
+    y = (x < 0) ?  0  :  x    
+    
+    for i in 1:100
+      y = y + i
+    end
+    
+    return y
+end
+@code_warntype foo(1.0)
  
 
 
 
-x4::BitVector       = [true, false, true]
-
-sum(x4)             # type stable
+####################################################
+#	remark: For-Loops and Yellow Warnings
+####################################################
  
-
-
-
-x                  = [1, 2, 3]
-
-sum(x)             # type stable
-@ctime sum(x)
- 
-
-
-
-x5::Vector{Number} = [1, 2, 3]
-
-sum(x5)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Number`
-@ctime sum(x5)
- 
-
-
-
-x6::Vector{Any}    = [1, 2, 3]
-
-sum(x6)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Any`
-@ctime sum(x6)
+function foo()
+    for i in 1:100
+        i
+    end
+end
+@code_warntype foo()
  

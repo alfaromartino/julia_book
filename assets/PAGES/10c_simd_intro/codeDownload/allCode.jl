@@ -16,40 +16,18 @@ using FastBenchmark
 #
 ############################################################################
  
+# necessary packages for this file
 using Random, StatsBase
  
 ############################################################################
 #
-#			SIMD (SINGLE INSTRUCTION, MULTIPLE DATA)
+#			INTRODUCTION TO SIMD (SINGLE INSTRUCTION, MULTIPLE DATA)
 #
 ############################################################################
  
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-
-function foo!(x)
-    for i in eachindex(x)
-        x[i] = 2 * x[i]
-    end
-end
-@ctime foo!($x)
- 
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-
-function foo_unrolled!(x)
-    for i in 1:4:length(x)-3
-        x[i]   = 2 * x[i]
-        x[i+1] = 2 * x[i+1]
-        x[i+2] = 2 * x[i+2]
-        x[i+3] = 2 * x[i+3]
-    end
-end
-@ctime foo_unrolled!($x)
- 
 ############################################################################
 #
-#			ANTICIPATING WHEN SIMD WILL BE APPLIED IS HARD
+#			SIMD IN BROADCASTING
 #
 ############################################################################
  
@@ -67,101 +45,12 @@ function foo(x)
 end
 @ctime foo($x)
  
+
+
+
 Random.seed!(123)       #setting seed for reproducibility
 x      = rand(1_000_000)
 
 foo(x) = 2 ./ x
 @ctime foo($x)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x      = rand(1_000_000)
-
-function foo(x)
-    output = similar(x)
-
-    for i in eachindex(x)
-        output[i] = 2 / x[i]
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-
-function foo(x)
-    output = similar(x)
-
-    @simd for i in eachindex(x)
-        output[i] = 2 / x[i]
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-
-function foo(x)
-    output = similar(x)
-
-    @inbounds for i in eachindex(x)
-        output[i] = 2 / x[i]
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-
-function foo(x)
-    output = similar(x)
-
-    @inbounds @simd for i in eachindex(x)
-        output[i] = 2 / x[i]
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-
-function foo!(x)
-    for i in eachindex(x)
-        x[i] = 2 / x[i]
-    end
-end
-@ctime foo!($x)
- 
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-
-function foo!(x)
-    @inbounds for i in eachindex(x)
-        x[i] = 2 / x[i]
-    end
-end
-@ctime foo!($x)
- 
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
-
-function foo!(x)
-    @inbounds @simd for i in eachindex(x)
-        x[i] = 2 / x[i]
-    end
-end
-@ctime foo!($x)
  

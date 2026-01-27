@@ -1,20 +1,25 @@
 MethodInstance for foo(::Vector{Int64}, ::Int64)
-  from foo(x, β) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region12c.jl:3
+  from foo(x, β) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region12c.jl:3
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Vector{Int64}
   β@_3::Int64
 Locals
-  bar::var"#bar#259"
+  bar::var"#bar#81"
   β@_5::Int64
 Body::Vector{Int64}
-1 ─      (β@_5 = β@_3)
-│        Core.NewvarNode(:(bar))
-│   %3 = (β@_5 < 0)::Bool
-└──      goto #3 if not %3
-2 ─      (β@_5 = -β@_5)
-└──      goto #3
-3 ┄      (bar = %new(Main.:(var"#bar#259")))
-│   %8 = (bar)(x, β@_5)::Vector{Int64}
-└──      return %8
+1 ─       (β@_5 = β@_3)
+│         Core.NewvarNode(:(bar))
+│   %3  = β@_5::Int64
+│   %4  = (%3 < 0)::Bool
+└──       goto #3 if not %4
+2 ─ %6  = β@_5::Int64
+│         (β@_5 = -%6)
+└──       goto #3
+3 ┄ %9  = Main.:(var"#bar#81")::Core.Const(var"#bar#81")
+│         (bar = %new(%9))
+│   %11 = bar::Core.Const(var"#bar#81"())
+│   %12 = β@_5::Int64
+│   %13 = (%11)(x, %12)::Vector{Int64}
+└──       return %13
 

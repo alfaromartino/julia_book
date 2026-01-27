@@ -1,17 +1,20 @@
 include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
-using Random, LazyArrays, LoopVectorization, StatsBase, Distributions
+# necessary packages for this file
+using Random, LoopVectorization
  
 ############################################################################
 #
-#			INDEPENDENCE OF ITERATIONS
+#			SECTION: "SIMD PACKAGES"
 #
 ############################################################################
  
-####################################################
-#	wrong result - this dependence is not allowed
-####################################################
+############################################################################
+#
+#			CAVEATS ABOUT IMPROPER USE OF @turbo
+#
+############################################################################
  
 x = [0.1, 0.2, 0.3]
 
@@ -23,6 +26,11 @@ end
 foo!(x) #hide
 print_compact(x) #hide
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = [0.1, 0.2, 0.3]
 
 function foo!(x)
@@ -32,6 +40,11 @@ function foo!(x)
 end
 foo!(x) #hide
 print_compact(x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 x = [0.1, 0.2, 0.3]
 
@@ -43,11 +56,22 @@ end
 foo!(x) #hide
 print_compact(x) #hide
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+############################################################################
+#
+#			SAFE APPLICATIONS OF @turbo
+#
+############################################################################
+ 
 ####################################################
-#	you should apply it with independent iterations
+#	independent iterations
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
@@ -62,7 +86,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
@@ -77,7 +106,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
@@ -92,7 +126,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
@@ -100,13 +139,16 @@ foo(x)         = @turbo calculation.(x)
     
 @ctime foo($x) #hide
  
-############################################################################
-#
-#			REDUCTIONS
-#
-############################################################################
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+####################################################
+#	reductions
+####################################################
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
@@ -121,7 +163,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
@@ -136,7 +183,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
@@ -150,6 +202,11 @@ function foo(x)
     return output
 end
 @ctime foo($x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ############################################################################
 #
@@ -161,7 +218,7 @@ end
 #	LOGARITHMIC
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = log(a)
 
@@ -176,7 +233,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = log(a)
 
@@ -191,7 +253,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = log(a)
 
@@ -206,18 +273,28 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = log(a)
 
 foo(x) = @turbo calculation.(x)    
 @ctime foo($x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
 #	EXPONENTIAL
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = exp(a)
 
@@ -232,7 +309,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = exp(a)
 
@@ -247,7 +329,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = exp(a)
 
@@ -262,18 +349,28 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = exp(a)
 
 foo(x) = @turbo calculation.(x)    
 @ctime foo($x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
 #	POWER FUNCTIONS
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = a^4
 
@@ -288,7 +385,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = a^4
 
@@ -303,7 +405,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = a^4
 
@@ -318,7 +425,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = a^4
 
@@ -330,7 +442,9 @@ foo(x) = @turbo calculation.(x)
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# power functions includes calls to other function
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = sqrt(a)
 
@@ -345,7 +459,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = sqrt(a)
 
@@ -360,7 +479,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = sqrt(a)
 
@@ -375,18 +499,28 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = sqrt(a)
 
 foo(x) = @turbo calculation.(x)    
 @ctime foo($x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
 #	TRIGONOMETRIC FUNCTIONS
 ####################################################
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = sin(a)
 
@@ -401,7 +535,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = sin(a)
 
@@ -416,7 +555,12 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = sin(a)
 
@@ -431,10 +575,15 @@ function foo(x)
 end
 @ctime foo($x) #hide
  
-Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 calculation(a) = sin(a)
 
-foo(x) = @turbo calculation.(x)    
+foo(x)         = @turbo calculation.(x)
 @ctime foo($x) #hide
  

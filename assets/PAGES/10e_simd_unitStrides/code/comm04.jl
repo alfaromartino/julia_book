@@ -1,1 +1,1 @@
-# copy is faster below
+# example where copy is faster

@@ -1,4 +1,4 @@
-Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(2_000_000)
 condition(a)   = a > 0.5
 computation(a) = exp(a)/3 - log(a)/2

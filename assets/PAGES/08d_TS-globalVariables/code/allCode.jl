@@ -1,23 +1,26 @@
-include(joinpath(homedir(), "JULIA_UTILS", "initial_folders.jl"))
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
+# necessary packages for this file
+using Random
+ 
 ############################################################################
 #
-#                           GLOBAL VARIABLES
+#			GLOBAL VARIABLES
 #
 ############################################################################
  
+####################################################
+#	When Are We Using Global Variables?
+####################################################
+ 
+# all operations are type UNSTABLE (they're defined in the global scope)
 x = 2
 
-function foo(x) 
-    y = 2 * x 
-    z = log(y)
-
-    return z
-end
-
-@code_warntype foo(x)  # type stable
+y = 2 * x 
+z = log(y)
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -36,12 +39,33 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-# all operations are type UNSTABLE (they're defined in the global scope)
 x = 2
 
-y = 2 * x 
-z = log(y)
+function foo(x) 
+    y = 2 * x 
+    z = log(y)
+
+    return z
+end
+
+@code_warntype foo(x)  # type stable
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+############################################################################
+#
+#			Achieving Type Stability With Global Variables
+#
+############################################################################
+ 
+####################################################
+#	Constant Global Variables
+####################################################
  
 const a = 5
 foo()   = 2 * a
@@ -51,11 +75,78 @@ foo()   = 2 * a
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 const b = [1, 2, 3]
 foo()   = sum(b)
 
 @code_warntype foo()        # type stable
+ 
+####################################################
+#	warning
+####################################################
+ 
+const x1 = 1
+foo()    = x1
+foo()             # it gives 1
+
+x1       = 2
+
+foo()             # it still gives 1
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+const x2 = 1
+foo()    = x2
+foo()             # it gives 1
+
+x2       = 2
+foo()    = x2
+foo()             # it gives 2
+ 
+####################################################
+#	Type-Annotating a Global Variable
+####################################################
+ 
+x3::Int64           = 5
+foo()               = 2 * x3
+
+@code_warntype foo()     # type stable
+ 
+x4::Vector{Float64} = [1, 2, 3]
+foo()               = sum(x4)
+
+@code_warntype foo()     # type stable
+ 
+x5::Vector{Number}  = [1, 2, 3]
+foo()               = sum(x5)
+
+@code_warntype foo()     # type UNSTABLE
+ 
+############################################################################
+#
+#			DIFFERENCES BETWEEN APPROACHES
+#
+############################################################################
+ 
+####################################################
+#	differences in code
+####################################################
+ 
+x6::Int64 = 5
+foo()     = 2 * x6
+foo()               # output is 10
+
+x6        = 2
+foo()     = 2 * x6
+foo()               # output is 4
+ 
+####################################################
+#	Differences in Performance
+####################################################
  
 const k1  = 2
 
@@ -64,9 +155,9 @@ function foo()
        2^k1
     end
 end
-
-@btime foo()    # hide
+@ctime foo()    #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -78,9 +169,9 @@ function foo()
        2^k2
     end
 end
-
-@btime foo()    # hide
+@ctime foo()    #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -92,16 +183,18 @@ function foo()
        2^k2
     end
 end
-
-@btime foo()    # hide
+@ctime foo()    #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-# remark on performance
+####################################################
+#	remark: invariance of operations
+####################################################
  
-using Random; Random.seed!(1234) # hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x           = rand(100_000)
 
 
@@ -114,33 +207,29 @@ function foo(x)
 
     return y
 end
-@btime foo($x)    # hide
+@ctime foo($x)    #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-using Random; Random.seed!(1234) # hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x           = rand(100_000)
 
 
 foo(x) = x ./ sum(x)
-
-@btime foo($x)    # hide
+@ctime foo($x)    #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
 # <space_to_be_deleted>
  
-using Random; Random.seed!(1234) # hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x           = rand(100_000)
 const sum_x = sum(x)
 
 foo(x) = x ./ sum_x
-
-@btime foo($x)    # hide
+@ctime foo($x)    #hide
  

@@ -1,5 +1,6 @@
-Random.seed!(123)       #setting the seed for reproducibility #hide
-x = rand(100); y = rand(100)
+Random.seed!(123)       #setting seed for reproducibility #hide
+x        = rand(100)
+y        = rand(100)
 
 foo(x,y) = mapreduce(a -> a[1] * a[2], *, zip(x,y))       #same output as prod(x .* y)
-@btime foo($x,$y) #hide
+@ctime foo($x,$y) #hide

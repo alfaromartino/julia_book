@@ -1,17 +1,22 @@
 MethodInstance for foo(::Int64)
-  from foo(β; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region11a.jl:1
+  from foo(β; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region11a.jl:1
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   β::Int64
 Locals
   rescale_parameter@_3::CORE.BOX
-  x::var"#x#272"
+  x::var"#x#94"
   rescale_parameter@_5::Union{}
 Body::ANY
-1 ─      (rescale_parameter@_3 = Core.Box())
-│        (x = %new(Main.:(var"#x#272"), rescale_parameter@_3))
-│   %3 = %new(Main.:(var"#rescale_parameter#273"))::Core.Const(var"#rescale_parameter#273"())
-│        Core.setfield!(rescale_parameter@_3, :contents, %3)
-│   %5 = (x)(β)::ANY
-└──      return %5
+1 ─       (rescale_parameter@_3 = Core.Box())
+│   %2  = Main.:(var"#x#94")::Core.Const(var"#x#94")
+│   %3  = rescale_parameter@_3::CORE.BOX
+│         (x = %new(%2, %3))
+│   %5  = Main.:(var"#rescale_parameter#95")::Core.Const(var"#rescale_parameter#95")
+│   %6  = %new(%5)::Core.Const(var"#rescale_parameter#95"())
+│   %7  = rescale_parameter@_3::CORE.BOX
+│         Core.setfield!(%7, :contents, %6)
+│   %9  = x::var"#x#94"
+│   %10 = (%9)(β)::ANY
+└──       return %10
 

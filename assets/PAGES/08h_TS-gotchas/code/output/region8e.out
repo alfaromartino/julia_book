@@ -1,14 +1,17 @@
 MethodInstance for foo()
-  from foo(; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/8g_TS-gotchas/code/region8e.jl:1
+  from foo(; x) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08h_TS-gotchas/code/region8e.jl:1
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
 Locals
-  bar::var"#bar#246"
+  bar::var"#bar#68"
   x::Int64
 Body::Int64
 1 ─      (x = 1)
 │        (x = 1)
-│        (bar = %new(Main.:(var"#bar#246")))
-│   %4 = (bar)(x::Core.Const(1))::Core.Const(1)
-└──      return %4
+│   %3 = Main.:(var"#bar#68")::Core.Const(var"#bar#68")
+│        (bar = %new(%3))
+│   %5 = bar::Core.Const(var"#bar#68"())
+│   %6 = x::Core.Const(1)
+│   %7 = (%5)(%6)::Core.Const(1)
+└──      return %7
 
