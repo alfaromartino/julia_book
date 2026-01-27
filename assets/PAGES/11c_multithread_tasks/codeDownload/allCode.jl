@@ -2,26 +2,20 @@
 #   AUXILIARS FOR BENCHMARKING
 ############################################################################
 #= The following package defines the macro `@ctime`
-    Same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
-    For accurate results, interpolate each function argument using `$`. E.g., `@ctime foo($x)` for timing `foo(x)`=#
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
 
-# import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
-    # uncomment if you don't have the package installed
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
 using FastBenchmark
-    
-
-############################################################################
-#
-#			START OF THE CODE
-#
-############################################################################
  
 # necessary packages for this file
 using Random, Base.Threads
  
 ############################################################################
 #
-#			USING MULTITHREADING NATIVE PACKAGE
+#			SECTION: "USING MULTITHREADING NATIVE PACKAGE"
 #
 ############################################################################
  
@@ -43,7 +37,7 @@ println(nthreads())
 
 ############################################################################
 #
-#			CONCURRENT NON-BLOCKING TASKS  (SPAWN)
+#			SECTION: "CONCURRENT NON-BLOCKING TASKS  (SPAWN)"
 #
 ############################################################################
  
