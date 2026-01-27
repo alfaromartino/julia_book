@@ -1799,7 +1799,7 @@ background: transparent;
               margin-bottom: -2px;">
           <img src="/julia_book/assets/icons/search_icon.png"
             style="width:auto; height:30px; opacity:0.9; padding-bottom:5px;margin-left:0px;padding-right:0em;">
-          <span>Search</span>
+          <span>Search (<kbd>Ctrl + Shift + f</kbd>)</span>
         </button>
       </div>
       <div class="searchBar" id="searchModal" style="display:none;">
@@ -1967,6 +1967,172 @@ background: transparent;
     
     
   </style>
+
+
+
+<style>
+    #search_modal_container .pagefind-ui__result-title,
+    #search_modal_container .pagefind-ui__message,
+    #search_modal_container p {
+        display    : block;
+        width      : 100% !important;
+        white-space: normal;
+        /* prevent truncation */
+        text-indent: 0;
+    }
+
+    #search_modal_container .pagefind-ui__search-clear {
+        font-size: 100%;
+    }
+
+    .bar_top .searchBar {
+        display        : flex;
+        justify-content: center;
+        /* centers child horizontally */
+        width: auto;
+    }
+
+    .bar_top .searchBar .modal-header {
+           background-color          : rgb(63,99,136);
+          }
+
+    .bar_top .searchBar .modal-content {
+           position                  : relative;
+           width                     : auto;
+           max-width                 : 70%;
+           height                    : max-content;
+           max-height                : 90%;
+           background-color          : rgb(205, 214, 224);
+           margin                    : auto;
+           margin-left               : 160px;
+           padding                   : 8px;
+           -webkit-animation-name    : none;
+        /* -webkit-animation-duration: 0.0s; */
+           animation-name            : none;
+        /* animation-duration        : 0.0s; */
+    }
+
+    .bar_top .searchBar .modal-body {
+        padding: 10px;
+    }
+
+
+    #search_modal_container .pagefind-ui__result {
+        margin: 4px 0;        
+        padding: 6px 8px;
+            }
+
+    html.dark-mode #search_modal_container, html.dark-mode #searchLine{
+        --pagefind-ui-text         : rgb(235, 244, 252);
+        --pagefind-ui-background   : rgb(3, 9, 17);
+        --pagefind-ui-placeholder  : rgb(235, 244, 252);
+        --pagefind-ui-border-radius: 0px;
+
+    }
+
+    html.dark-mode #search_modal_container ::placeholder, html.dark-mode #searchLine ::placeholder {
+        opacity: 0.5;
+    }
+
+    html.dark-mode #search_modal_container .pagefind-ui__button {
+        color: rgba(235, 244, 252, 0.6);
+        /* faded text only */
+    }
+
+
+    #search_modal_container {
+        --pagefind-ui-scale: 0.9;
+    }
+
+    /* Put clear button inside the search bar, aligned right */
+/* .pagefind-ui__search-input-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+} */
+
+#search_modal_container .pagefind-ui__search-clear {
+  display:none;
+}
+
+#search_modal_container .pagefind-ui__button {
+  padding:0px;
+  height:auto;
+}
+
+ 
+
+</style>
+
+
+<!-- to immediately be able to type when pressing on "Search" -->
+<script>
+  let pagefind;
+
+  window.addEventListener('DOMContentLoaded', () => {
+    pagefind = new PagefindUI({
+      element: "#search_modal_container"
+    });
+  });
+
+  document.getElementById("openSearch").addEventListener("click", () => {
+    // Show modal
+    document.getElementById("searchModal").style.display = "block";
+
+    // Wait a tick for PagefindUI to render, then focus input
+    setTimeout(() => {
+      const input = document.querySelector("#search_modal_container input");
+      if (input) input.focus();
+    }, 100);
+  });
+
+  /* ---------------------------
+     KEYBOARD SHORTCUT ADDED HERE
+     Ctrl + Shift + F
+  ---------------------------- */
+  document.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "f") {
+      e.preventDefault();
+      document.getElementById("openSearch").click();
+    }
+  });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.querySelector("#search_modal_container");
+  let currentIndex = -1;
+
+  // Keyboard navigation only - no initialization!
+  container.addEventListener("keydown", (e) => {
+    const results = container.querySelectorAll(".pagefind-ui__result a");
+    if (!results.length) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      currentIndex = (currentIndex + 1) % results.length;
+      results[currentIndex].focus();
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      currentIndex = (currentIndex - 1 + results.length) % results.length;
+      results[currentIndex].focus();
+    }
+
+    if (e.key === "Enter" && currentIndex >= 0) {
+      e.preventDefault();
+      results[currentIndex].click();
+    }
+  });
+
+  // Reset index on new results
+  const observer = new MutationObserver(() => {
+    currentIndex = -1;
+  });
+  observer.observe(container, { childList: true, subtree: true });
+});
+</script>
     
     <!-- <style>
 	/* ================================================================= 
