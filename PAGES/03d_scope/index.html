@@ -593,8 +593,8 @@ section a:hover{
                             <td class="tg-ofj5"><kbd>Ctrl + x</kbd></td>
                         </tr>
                         <tr>
-                            <td class="tg-8jgo">Close Any Popped Up Window (like this one)</td>
-                            <td class="tg-ofj5"><kbd>Esc</kbd></td>
+                            <td class="tg-8jgo">Search</td>
+                            <td class="tg-ofj5"><kbd>Ctrl + Shift + F</kbd></td>
                         </tr>
                         <tr>
                             <td class="tg-8jgo">Open All Codes and Outputs in a Post</td>
@@ -1798,8 +1798,8 @@ background: transparent;
         <button class="modalButton" id="openSearch" style="background-color: transparent; color:white; display:block;
               margin-bottom: -2px;">
           <img src="/julia_book/assets/icons/search_icon.png"
-            style="width:auto; height:30px; opacity:0.9; padding-bottom:5px;margin-left:0px;padding-right:0em;">
-          <span>Search (<kbd>Ctrl + Shift + f</kbd>)</span>
+            style="width:auto; height:24px; opacity:0.9; padding-bottom:4px;margin-left:0px;padding-right:0em;">
+          <span>Search (<kbd>Ctrl + Shift + F</kbd>)</span>
         </button>
       </div>
       <div class="searchBar" id="searchModal" style="display:none;">
@@ -2134,272 +2134,128 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
     
-    <!-- <style>
-	/* ================================================================= 
-                      TOOLTIP - GENERAL APPROACH (NOT ONLY FOOTNOTES)
-================================================================= */ 
-
-
-.hovering_foot {
-  position: relative;
-  display: inline-block;
-  margin-left:-3px;
-  text-decoration: underline;
-  text-decoration-style: double;
-  text-decoration-color: rgb(85, 133, 182);  
+    <style>
+/* Base Footnote Number Style */
+.footn {
+    position: relative;
+    display: inline-block;
+    margin-left: -0.6em;
+    margin-right: 0;
+    color: #2669DD;
+    text-decoration: underline;
+    cursor: pointer;
 }
-
-.hovering_foot .h_foot_text {
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;  
-  
-  /* Position the hovering_foot */
-  position: absolute;
-  z-index: 1;
-  top: 100%;
-  left: 50%;
-  margin-left: -60px;
-}
-
-.hovering_foot:hover .h_foot_text {
-  visibility: visible;
-}
-
-
-
-
-/* ================================================================= 
-                      FOOTNOTES with TOOLTIP
-================================================================= */ 
-
 
 .supr {
-  vertical-align: 80%;
-  font-size: 75%;
-  line-height: 1; 
+    vertical-align: 80%;
+    font-size: 75%;
+    line-height: 1;
 }
-.footn {
-  position: relative;
-  display: inline-block;
-  margin-left:-0.6em;
-  margin-right:0;
-  color: #2669DD;
-  text-decoration: underline;  
-  }
 
+/* The Popup Box Style */
 .footn .footn_text {
-  font-size: 125%;
-  visibility: hidden;  
-  width: max-content; max-width: 500px;
-  text-align: justify;  
-  text-justify: inter-word;
-  text-indent: 0%;
-  line-height: 1.5;
-  background-color:#282c34;  
-  color: #e0e4eb;
-  border-radius: 6px;
-  padding: 5px 12px 5px 12px;  
-  
-  /* Position the hovering_foot */
-  position: absolute;
-  z-index: 1;
-  top: 100%;
-  left: -125px;  
+    font-size: 125%;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s;
+    
+    /* JUSTIFIED TEXT */
+    text-align: justify;
+    text-justify: inter-word; 
+    
+    /* TIGHTER LINE HEIGHT */
+    line-height: 1.2; 
+    
+    background-color: #282c34;
+    color: #e0e4eb;
+    border-radius: 6px;
+    padding: 8px 12px;
+    
+    /* WIDTH SETTINGS */
+    width: max-content;    
+    max-width: 400px;      
+    min-width: 250px;      
+    white-space: normal;   
+
+    /* Positioning */
+    position: absolute;
+    z-index: 1000;         
+    bottom: 120%;    
+    
+    /* --- THE FIX: SAFE DEFAULT --- */
+    /* We default to right:0. This prevents the box from sticking out 
+       to the right and causing a scrollbar before the JS runs. */
+    right: 0; 
+    left: auto;
 }
 
+/* ALIGNMENT CLASSES (Applied by JS) */
+
+.footn .footn_text.force-left {
+    left: 0;
+    right: auto; /* Overrides the safe default */
+}
+
+.footn .footn_text.force-right {
+    right: 0;
+    left: auto; 
+}
+
+/* Show the text on hover */
 .footn:hover .footn_text {
-  visibility: visible;
-  
+    visibility: visible;
+    opacity: 1;
 }
 
-.footn a{
-  color: #7b9fdd;
-  }
+/* Link Styling */
+.footn a { color: #7b9fdd; }
+.footn a:hover { color: #a1b6dbb2; }
 
-.footn a:hover{
-  color: #a1b6dbb2;
-}
-
-
-</style> -->
-
-
-
-<style>
-
-.footn {
-	  position: relative;
-	  display: inline-block;
-	  margin-left: -0.6em;
-	  margin-right: 0;
-	  color: #2669DD;
-	  text-decoration: underline;
-	}
-
-	.supr {
-	  vertical-align: 80%;
-	  font-size: 75%;
-	  line-height: 1; 
-	}
-	
-	
-	
-	.footn .footn_text {	
-	  font-size: 125%;
-	  visibility: hidden;  	  
-	  text-align: justify;  
-	  text-justify: inter-word;
-	  text-indent: 0%;
-	  line-height: 1.5;
-	  background-color: #282c34;
-	  color: #e0e4eb;
-	  border-radius: 6px;
-	  padding: 5px 12px 5px 12px;
-	
-	  /* Position the hovering_foot */
-	  position: absolute;
-	  z-index: 1;
-	  bottom: 100%;	  
-	  right:0;
-	}
-	
-	.footn .footn_text.left {
-		left:0;		
-		width: max-content;
-	  	max-width: 500px;
-	}
-
-	.footn .footn_text.right {	  
-		right: 0;	  
-		width: max-content;
-	  max-width: 500px;
-	}
-	
-	.footn:hover .footn_text {
-	  visibility: visible;   
-	}
-	
-	.footn a{
-	  color: #7b9fdd;
-	}
-	
-	.footn a:hover{
-	  color: #a1b6dbb2;
-	}
-		
-  </style>
-  
-  
-  <!-- Include the jQuery library and add the script to handle the hover effect -->
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-
-  
-  <script>
-$(document).ready(function() {
-  $('.footn.supr').hover(
-    function() {
-      var footnoteText = $(this).find('.footn_text');
-      var sentence = $(this).closest('p');
-	  var sentenceWidth = sentence.width();
-    //   var footnoteTextLeft = footnoteText.offset().left - sentence.offset().left;
-    //   var isRightAligned = footnoteTextLeft > sentenceWidth / 2;
-
-	  var footnoteTextLeft = footnoteText.offset().left - sentence.offset().left;
-      var isRightAligned = footnoteTextLeft > sentenceWidth / 2;
-
-     // Remove existing alignment classes
-     footnoteText.removeClass('left right');
-
-      // Add the appropriate alignment class
-      if (isRightAligned) {
-        footnoteText.addClass('right');
-      } else {
-        footnoteText.addClass('left');
-      }
-
-      // Add the "hovering" class to the footnote text
-      footnoteText.addClass('hovering');
-    },
-    function() {
-      // Remove the "hovering" class from the footnote text
-      $(this).find('.footn_text').removeClass('hovering');
-	  $(this).find('.footn_text').removeClass('left right');
+/* MOBILE ADJUSTMENTS */
+@media (max-width: 768px) {
+    .footn .footn_text {
+        max-width: 250px;
+        min-width: 200px;
+        font-size: 110%; 
     }
-  );
+}
+</style>  
+  
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var footnotes = document.querySelectorAll('.footn');
+
+    // Define the alignment function so we can use it in multiple places
+    function alignTooltip(note) {
+        var popup = note.querySelector('.footn_text');
+        if (!popup) return;
+
+        // Get the position of the footnote number
+        var rect = note.getBoundingClientRect();
+        var screenWidth = window.innerWidth;
+
+        // Remove old classes
+        popup.classList.remove('force-left', 'force-right');
+
+        // Logic: If past the middle of the screen, align Right. Else align Left.
+        if (rect.left > (screenWidth / 2)) {
+            popup.classList.add('force-right');
+        } else {
+            popup.classList.add('force-left');
+        }
+    }
+
+    // 1. Loop through all footnotes and align them IMMEDIATELY on load
+    footnotes.forEach(function(note) {
+        alignTooltip(note);
+        
+        // 2. Also align on hover (in case the window size changed)
+        note.addEventListener('mouseenter', function() {
+            alignTooltip(note);
+        });
+    });
 });
-
-  </script>
-
-
-
-<!-- FOR MOBILE PHONES -->
-<style>
-	@media (max-width: 768px) {
-		.footn .footn_text.left {
-		left:0;		
-		width: max-content;
-	  	max-width: 200px;
-	}
-
-	.footn .footn_text.right {	  
-		right: 0;	  
-		width: max-content;
-		max-width: 200px;
-	}	}
-</style>
-
-
-<!-- <script>
-	// Create a media query to match the condition (max-width: 768px)
-	var mediaQuery = window.matchMedia('(max-width: 768px)');
-
-	// Define a callback function to execute when the media query matches
-	var mediaQueryHandler = function (event) {
-		if (event.matches) {
-			// Code to be executed when the media query matches (screen width <= 768px)
-			$(document).ready(function () {
-				$('.footn.supr').hover(
-					function () {
-						var footnoteText = $(this).find('.footn_text');
-						var sentence = $(this).closest('p');
-						var sentenceWidth = sentence.width();
-						var footnoteTextLeft = footnoteText.offset().left - sentence.offset().left;
-						var isRightAligned = footnoteTextLeft > sentenceWidth / 2;
-
-						// Remove existing alignment classes
-						footnoteText.removeClass('left right');
-
-						// Add the appropriate alignment class
-						if (isRightAligned) {
-							footnoteText.addClass('right');
-						} else {
-							footnoteText.addClass('left');
-						}
-
-						// Add the "hovering" class to the footnote text
-						footnoteText.addClass('hovering');
-					},
-					function () {
-						// Remove the "hovering" class from the footnote text
-						$(this).find('.footn_text').removeClass('hovering');
-					}
-				);
-			});
-		}
-	};
-
-	// Add the event listener to the media query
-	mediaQuery.addListener(mediaQueryHandler);
-
-	// Call the handler once at the beginning to check the initial state
-	mediaQueryHandler(mediaQuery);
-
-</script> -->    
+</script>    
 
 
 
@@ -3057,7 +2913,7 @@ expenditure_iPhones &#61; expenditure&#40;gross_value, tax_paid&#41;</code></pre
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified January 27, 2026 
+          © Martin Alfaro <br>Last Modified January 28, 2026 
       </span> 
   </div> 
 </footer>
