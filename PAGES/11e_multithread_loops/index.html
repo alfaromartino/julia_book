@@ -2628,14 +2628,20 @@ color: white;
 {{end}} -->
 
 <div class="franklin-content">
+ <div class="note" style="width:62%" id=remarkCodeContent>  <div class=title>  <span class="note_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/exclamation.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">
+      <b> Code Script</b> </span>  </div>  <div class=content>     This section&#39;s scripts are available <a href="https://github.com/alfaromartino/julia_book/tree/main/assets/PAGES/11e_multithread_loops/codeDownload"><strong>here</strong></a>, under the name <code>allCode.jl</code>. They&#39;ve been tested under Julia 1.11.8.  </div>  </div>  <div style="margin-bottom:-2em"></div>
 <section id="introduction" class="scrollspy">
   <div class="container">
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>For-Loops are fundamental building blocks in scientific computing, often representing the most computationally intensive parts of a program. To accelerate these computations, parallel processing is capable of distributing a for-loop&#39;s iterations across multiple processor threads. The central challenge, however, lies in how this work is divided, as the optimal strategy heavily depends on the nature of the workload.</p>
+<p>For-Loops are fundamental building blocks in scientific computing, often representing the most computationally intensive parts of a program. To accelerate these computations, parallel processing distributes a for-loop&#39;s iterations across multiple processor threads. The central challenge, however, lies in how this work is divided, as the optimal strategy heavily depends on the nature of the workload.</p>
 <p>This section introduces Julia&#39;s <code>@threads</code> macro as a straightforward approach to parallelizing for-loops. It operates by dividing the loop iterations evenly among the available threads. For the explanations, we&#39;ll contrast its underlying mechanism with the task-based parallelism offered by <code>@spawn</code>.</p>
-<p>To clearly illustrate the differences between approaches, our examples will use <code>@spawn</code> in a simple but inefficient manner, where a separate task is created for every single iteration. While this is enough for the purpose of comparison with <code>@threads</code>, you should bear in mind that it&#39;s not representative of a typical <code>@spawn</code> usage. In the next section, we&#39;ll revisit the macro and show how to efficiently define tasks. It&#39;ll reveal that the inherent flexibility of <code>@spawn</code> enables the construction of sophisticated parallel strategies, turning the behavior of <code>@threads</code> into a particular application.</p>
+ <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Warning!</b> - Use of @spawn </span>  </div>  <div class=content>     To clearly illustrate the differences between <code>@threads</code> and <code>@spawn</code>, our examples will use <code>@spawn</code> in a simple but inefficient manner. Specifically, a separate task will be created for every single iteration. While this is enough for the purpose of comparison with <code>@threads</code>, it&#39;s not representative of a typical <code>@spawn</code> usage. </p>
+<p>In the next section, we&#39;ll revisit the macro and show how to efficiently define tasks. In fact, <code>@spawn</code> is flexible enough to define sophisticated parallel strategies, including the one employed by <code>@threads</code>.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2657,11 +2663,10 @@ color: white;
         @spawn println&#40;&quot;Iteration &#36;i is computed on Thread &#36;&#40;threadid&#40;&#41;&#41;&quot;&#41;
     end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">Iteration 1 is computed on Thread 1
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="akin_to_pre">Iteration 1 is computed on Thread 1
 Iteration 2 is computed on Thread 2
 Iteration 4 is computed on Thread 2
-Iteration 3 is computed on Thread 2
-</code></pre> </div></div> </div> 
+Iteration 3 is computed on Thread 2</div></div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">@sync begin
     @spawn println&#40;&quot;Iteration 1 is computed on Thread &#36;&#40;threadid&#40;&#41;&#41;&quot;&#41;
@@ -2669,11 +2674,10 @@ Iteration 3 is computed on Thread 2
     @spawn println&#40;&quot;Iteration 3 is computed on Thread &#36;&#40;threadid&#40;&#41;&#41;&quot;&#41;
     @spawn println&#40;&quot;Iteration 4 is computed on Thread &#36;&#40;threadid&#40;&#41;&#41;&quot;&#41;
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="franklin_output_NoFormat"><pre><code class="plaintext code-output">Iteration 1 is computed on Thread 1
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="julia_repl_NoFormat"><div class="akin_to_pre">Iteration 1 is computed on Thread 1
 Iteration 2 is computed on Thread 2
 Iteration 3 is computed on Thread 1
-Iteration 4 is computed on Thread 2
-</code></pre> </div></div> </div> 
+Iteration 4 is computed on Thread 2</div></div></div> </div> 
  </div></div>
 <p>  </p></details></div>
 <p>When there are only a few iterations involved in a for-loop, creating one task per iteration can be a straightforward and effective way to parallelize the code. However, as the number of iterations increases, the approach becomes less efficient due to the overhead of task creation. To mitigate this issue, we need to consider alternative ways of parallelizing for-loops.</p>
@@ -2809,10 +2813,10 @@ Iteration 4 is on Thread 2
     fixed_time &#61; 1 / 1_000_000
 
     for i in 1:nr_iterations
-      job&#40;i; time_working &#61; fixed_time&#41;
+        job&#40;i; time_working &#61; fixed_time&#41;
     end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt </div> <code>@btime foo&#40;1_000_000&#41;</code> <br/> <pre><code class="plaintext code-output">  1.717 s (without a warmup) (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt </div> <code>@btime foo&#40;1_000_000&#41;</code> <br/> <pre><code class="plaintext code-output">  1.732 s (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;nr_iterations&#41;
@@ -2822,7 +2826,7 @@ end</code></pre> </div></div>
         job&#40;i; time_working &#61; fixed_time&#41;
     end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt </div> <code>@btime foo&#40;1_000_000&#41;</code> <br/> <pre><code class="plaintext code-output">  858.399 ms (11 allocations: 1.094 KiB, without a warmup)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt </div> <code>@btime foo&#40;1_000_000&#41;</code> <br/> <pre><code class="plaintext code-output">  74.372 ms (122 allocations: 12.625 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
 <div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;nr_iterations&#41;
@@ -2834,7 +2838,7 @@ end</code></pre> </div></div>
         end
     end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt </div> <code>@btime foo&#40;1_000_000&#41;</code> <br/> <pre><code class="plaintext code-output">  1.270 s (5000021 allocations: 498.063 MiB, 19.16% gc time, without a warmup)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt </div> <code>@btime foo&#40;1_000_000&#41;</code> <br/> <pre><code class="plaintext code-output">  1.002 s (5000031 allocations: 505.700 MiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>

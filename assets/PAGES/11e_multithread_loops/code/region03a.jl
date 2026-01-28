@@ -1,4 +1,4 @@
-Random.seed!(1234) #hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 function foo(x)
     output = similar(x)
 

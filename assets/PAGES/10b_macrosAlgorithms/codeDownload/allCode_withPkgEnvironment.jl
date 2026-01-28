@@ -26,7 +26,13 @@ using Random
  
 ############################################################################
 #
-#			@VIEWS as an example of macro that simplifies code
+#			SECTION: "MACROS AS A MEANS FOR OPTIMIZATIONS"
+#
+############################################################################
+ 
+############################################################################
+#
+#			USE OF MACROS
 #
 ############################################################################
  
@@ -62,49 +68,13 @@ end
 
 ############################################################################
 #
-#			SECTION: "@INBOUNDS"
+#			MACROS APPLIED IN FOR-LOOPS
 #
 ############################################################################
  
 ####################################################
-#	syntax
+#	@inbounds as an example
 ####################################################
- 
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(100_000)
-
-function foo(x)
-    output = similar(x)   
-
-    for i in eachindex(x)
-        output[i] = x[i] * 2
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(100_000)
-
-function foo(x)
-    output = similar(x)   
-
-    @inbounds for i in eachindex(x)
-        output[i] = x[i] * 2
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-# equivalence
  
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
@@ -125,6 +95,8 @@ end
 
 
 
+# remark: alternative application of @inbounds
+ 
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
@@ -144,8 +116,14 @@ end
 
 
 
+############################################################################
+#
+#			MACROS COULD BE APPLIED AUTOMATICALLY OR DISREGARDED BY THE COMPILER
+#
+############################################################################
+ 
 ####################################################
-#	@inbounds could be applied automatically
+#	redundant macros
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility
@@ -183,227 +161,7 @@ end
 
 
 ####################################################
-#	@inbounds isn't necessarily applied automatically and can entail a substantial time difference
-####################################################
- 
-Random.seed!(123)       #setting seed for reproducibility
-v,w,x,y = (rand(100_000) for _ in 1:4)       # it assigns random vectors to v,w,x,y
-
-function foo(v, w, x, y)
-    output = 0.0
-
-    for i in 2:length(v)-1
-        output += v[i-1] / v[i+1] / w[i-1] * w[i+1] + x[i-1] * x[i+1] / y[i-1] * y[i+1]
-    end
-
-    return output
-end
-@ctime foo($v,$w,$x,$y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-v,w,x,y = (rand(100_000) for _ in 1:4)       # it assigns random vectors to v,w,x,y
-
-function foo(v, w, x, y)
-    output = 0.0
-
-    @inbounds for i in 2:length(v)-1
-        output += v[i-1] / v[i+1] / w[i-1] * w[i+1] + x[i-1] * x[i+1] / y[i-1] * y[i+1]
-    end
-
-    return output
-end
-@ctime foo($v,$w,$x,$y)
- 
-
-
-
-####################################################
-#	splitting @inbounds is possible
-####################################################
- 
-Random.seed!(123)       #setting seed for reproducibility
-v,w,x,y = (rand(100_000) for _ in 1:4)        # it assigns random vectors to v,w,x,y
-
-function foo(v,w,x,y)
-    output = 0.0
-
-    @inbounds for i in 2:length(v)-1
-                  term1   = v[i-1] / v[i+1] / w[i-1] * w[i+1]
-                  term2   = x[i-1] * x[i+1] / y[i-1] * y[i+1]
-        
-                  output += term1 + term2
-    end
-
-    return output
-end
-@ctime foo($v,$w,$x,$y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-v,w,x,y = (rand(100_000) for _ in 1:4)        # it assigns random vectors to v,w,x,y
-
-function foo(v,w,x,y)
-    output = 0.0
-
-    for i in 2:length(v)-1
-        @inbounds term1   = v[i-1] / v[i+1] / w[i-1] * w[i+1]
-        @inbounds term2   = x[i-1] * x[i+1] / y[i-1] * y[i+1]
-
-                  output += term1 + term2
-    end
-
-    return output
-end
-@ctime foo($v,$w,$x,$y)
- 
-
-
-
-####################################################
-#	remark - about using macros for functions in for-loops
-####################################################
- 
-Random.seed!(123)       #setting seed for reproducibility
-v,w,x,y = (rand(100_000) for _ in 1:4) # it assigns random vectors to v, w, x, y
-
-
-
-function foo(v,w,x,y)
-    output = 0.0
-
-    for i in 2:length(v)-1
-        output += v[i-1] / v[i+1] / w[i-1] * w[i+1] + 
-                  x[i-1] * x[i+1] / y[i-1] * y[i+1]
-    end
-
-    return output
-end
-@ctime foo($v,$w,$x,$y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-v,w,x,y = (rand(100_000) for _ in 1:4) # it assigns random vectors to v, w, x, y
-compute(i, v,w,x,y) = v[i-1] / v[i+1] / w[i-1] * w[i+1] + 
-                      x[i-1] * x[i+1] / y[i-1] * y[i+1]
-
-function foo(v,w,x,y)
-    output = 0.0
-
-    @inbounds for i in 2:length(v)-1
-        output += compute(i, v,w,x,y)
-
-    end
-
-    return output
-end
-@ctime foo($v,$w,$x,$y)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-v,w,x,y = (rand(100_000) for _ in 1:4) # it assigns random vectors to v, w, x, y
-
-
-
-function foo(v,w,x,y)
-    output = 0.0
-
-    @inbounds for i in 2:length(v)-1
-        output += v[i-1] / v[i+1] / w[i-1] * w[i+1] + 
-                  x[i-1] * x[i+1] / y[i-1] * y[i+1]
-    end
-
-    return output
-end
-@ctime foo($v,$w,$x,$y)
- 
-
-
-
-############################################################################
-#
-#			SIMD (SINGLE INSTRUCTION, MULTIPLE DATA)
-#
-############################################################################
- 
-####################################################
-#	@simd sometimes it's not automatic
-####################################################
- 
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(2_000_000)
-
-function foo(x)
-    output = 0.
-
-    for i in eachindex(x)
-        output += x[i]
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(2_000_000)
-
-function foo(x)
-    output = 0.
-
-    @inbounds @simd for i in eachindex(x)
-        output += x[i]
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-####################################################
-#	@simd could be applied automatically
-####################################################
- 
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(2_000_000)
-
-function foo!(x)
-    for i in eachindex(x)
-        x[i] = x[i] * 2
-    end
-end
-@ctime foo!($x)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(2_000_000)
-
-function foo!(x)
-    @inbounds @simd for i in eachindex(x)
-        x[i] = x[i] * 2
-    end
-end
-@ctime foo!($x)
- 
-
-
-
-####################################################
-#	@simd could be disregarded
+#	disregarded macro 
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility
@@ -439,78 +197,6 @@ function foo(x)
                     else
                         x[i] * 1.2
                     end
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-####################################################
-#	Simpler Example
-####################################################
- 
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1:10, 2_000_000)
-
-function foo(x)
-    output = 0
-
-    for i in eachindex(x)
-        output += x[i]
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(1:10, 2_000_000)
-
-function foo(x)
-    output = 0
-
-    @simd for i in eachindex(x)
-        output += x[i]
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(2_000_000)
-
-function foo(x)
-    output = 0.0
-
-    for i in eachindex(x)
-        output += x[i]
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
-x = rand(2_000_000)
-
-function foo(x)
-    output = 0.0
-
-    @simd for i in eachindex(x)
-        output += x[i]
     end
 
     return output

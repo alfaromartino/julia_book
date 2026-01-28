@@ -93,10 +93,6 @@ end
 #
 ############################################################################
  
-####################################################
-#	increasing time per iteration
-####################################################
- 
 function job(i; time_working)
     println("Iteration $i is on Thread $(threadid())")
 
@@ -106,6 +102,10 @@ function job(i; time_working)
         1 + 1                  # compute `1+1` repeatedly during `time_working` seconds
     end    
 end
+ 
+####################################################
+#	scenario 1: unbalanced workload
+####################################################
  
 function foo(nr_iterations)
     for i in 1:nr_iterations
@@ -146,16 +146,8 @@ foo(1);
 
 
 ####################################################
-#	same time per iteration
+#	scenario 2: balanced workload
 ####################################################
- 
-function job(i; time_working)
-    start_time = time()
-
-    while time() - start_time < time_working
-        1 + 1                  # compute `1+1` repeatedly during `time_working` seconds
-    end    
-end
  
 function foo(nr_iterations)
     fixed_time = 1 / 1_000_000

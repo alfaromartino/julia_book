@@ -2,179 +2,79 @@ include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
-using Random, Base.Threads, ChunkSplitters, OhMyThreads, LoopVectorization, Polyester, Folds, FLoops, LazyArrays
+using Random, Base.Threads
  
 ############################################################################
 #
-#			SHARED MEMORY
+#			SECTION: "PARALLEL FOR-LOOPS"
 #
 ############################################################################
  
-# writing on a shared variable
- 
-function foo()
-    output = 0
-
-    for i in 1:2
-        sleep(1/i)
-        output = i
-    end
-
-    return output
-end
-print_asis(foo()) #hide
- 
-function foo()
-    output = 0
-
-    @threads for i in 1:2
-        sleep(1/i)
-        output = i
-    end
-
-    return output
-end
-print_asis(foo()) #hide
- 
-# reading and writing a shared variable
- 
-function foo()
-    out  = zeros(Int, 2)
-    temp = 0
-
-    for i in 1:2
-        temp   = i; sleep(i)
-        out[i] = temp
-    end
-
-    return out
-end
-print_asis(foo()) #hide
- 
-function foo()
-    out  = zeros(Int, 2)
-    temp = 0
-
-    @threads for i in 1:2
-        temp   = i; sleep(i)
-        out[i] = temp
-    end
-
-    return out
-end
-print_asis(foo()) #hide
- 
-function foo()
-    out  = zeros(Int, 2)
-    
-
-    @threads for i in 1:2
-        temp   = i; sleep(i)
-        out[i] = temp
-    end
-
-    return out
-end
-print_asis(foo()) #hide
- 
 ############################################################################
 #
-#      RACE CONDITIONS
+#			SOME PRELIMINARIES
 #
 ############################################################################
+ 
+@sync begin
+    for i in 1:4
+        @spawn println("Iteration $i is computed on Thread $(threadid())")
+    end
+end
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+@sync begin
+    @spawn println("Iteration 1 is computed on Thread $(threadid())")
+    @spawn println("Iteration 2 is computed on Thread $(threadid())")
+    @spawn println("Iteration 3 is computed on Thread $(threadid())")
+    @spawn println("Iteration 4 is computed on Thread $(threadid())")
+end
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
-#	same function returns a different result every time is called
+#	differences between approaches
 ####################################################
  
-Random.seed!(1234) #hide
-x = rand(1_000_000)
-
-function foo(x)
-    output = 0.
-
-    for i in eachindex(x)
-        output += x[i]
-    end
-
-    return output
-end
-print_asis(foo(x)) #hide
- 
-Random.seed!(1234) #hide
-x = rand(1_000_000)
-
-function foo(x)
-    output = 0.
-
-    @threads for i in eachindex(x)
-        output += x[i]
-    end
-
-    return output
-end
-print_asis(foo(x)) #hide
- 
-Random.seed!(1234) #hide
-x = rand(1_000_000)
-
-function foo(x)
-    output = 0.
-
-    @threads for i in eachindex(x)
-        output += x[i]
-    end
-
-    return output
-end
-print_asis(foo(x)) #hide
- 
-Random.seed!(1234) #hide
-x = rand(1_000_000)
-
-function foo(x)
-    output = 0.
-
-    @threads for i in eachindex(x)
-        output += x[i]
-    end
-
-    return output
-end
-print_asis(foo(x)) #hide
- 
-############################################################################
-#
-#      EMBARRASSINGLY-PARALLEL PROGRAM
-#
-############################################################################
- 
-Random.seed!(1234) #hide
-x_small  = rand(    1_000)
-x_medium = rand(  100_000)
-x_big    = rand(1_000_000)
-
-function foo(x)
-    output = similar(x)
-
-    for i in eachindex(x)
-        output[i] = log(x[i])
-    end
-
-    return output
+for i in 1:4
+    println("Iteration $i is computed on Thread $(threadid())")
 end
  
-@ctime foo($x_small)
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
-@ctime foo($x_medium)
+@threads for i in 1:4
+    println("Iteration $i is computed on Thread $(threadid())")
+end
  
-@ctime foo($x_big)
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
-Random.seed!(1234) #hide
-x_small  = rand(    1_000)
-x_medium = rand(  100_000)
-x_big    = rand(1_000_000)
-
+@sync begin
+    for i in 1:4
+        @spawn println("Iteration $i is computed on Thread $(threadid())")
+    end
+end
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# typical application of `@threads`
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 function foo(x)
     output = similar(x)
 
@@ -185,9 +85,132 @@ function foo(x)
     return output
 end
  
-@ctime foo($x_small)
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
-@ctime foo($x_medium)
+############################################################################
+#
+#			@spawn vs @threads
+#
+############################################################################
  
-@ctime foo($x_big)
+####################################################
+#	increasing time per iteration
+####################################################
+ 
+function job(i; time_working)
+    println("Iteration $i is on Thread $(threadid())")
+
+    start_time = time()
+
+    while time() - start_time < time_working
+        1 + 1                  # compute `1+1` repeatedly during `time_working` seconds
+    end    
+end
+ 
+function foo(nr_iterations)
+    for i in 1:nr_iterations
+      job(i; time_working = i)      
+    end
+end
+foo(1); #hide
+ 
+@ctime foo(4) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+function foo(nr_iterations)
+    @threads for i in 1:nr_iterations
+        job(i; time_working = i)        
+    end
+end
+foo(1); #hide
+ 
+@ctime foo(4) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+function foo(nr_iterations)
+    @sync begin
+        for i in 1:nr_iterations
+            @spawn job(i; time_working = i)            
+        end
+    end
+end
+foo(1); #hide
+ 
+@ctime foo(4) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+####################################################
+#	same time per iteration
+####################################################
+ 
+function job(i; time_working)
+    start_time = time()
+
+    while time() - start_time < time_working
+        1 + 1                  # compute `1+1` repeatedly during `time_working` seconds
+    end    
+end
+ 
+function foo(nr_iterations)
+    fixed_time = 1 / 1_000_000
+
+    for i in 1:nr_iterations
+        job(i; time_working = fixed_time)
+    end
+end
+foo(1); #hide
+GC.gc() ; #hide
+ 
+@ctime foo(1_000_000) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+function foo(nr_iterations)
+    fixed_time = 1 / 1_000_000
+
+    @threads for i in 1:nr_iterations
+        job(i; time_working = fixed_time)
+    end
+end
+foo(1); #hide
+GC.gc() ; #hide
+ 
+@ctime foo(1_000_000) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+function foo(nr_iterations)
+    fixed_time = 1 / 1_000_000
+
+    @sync begin
+        for i in 1:nr_iterations
+            @spawn job(i; time_working = fixed_time)
+        end
+    end
+end
+foo(1); #hide
+GC.gc() ; #hide
+ 
+@ctime foo(1_000_000) #hide
  

@@ -26,12 +26,18 @@ using Random, Base.Threads, ChunkSplitters, OhMyThreads, LoopVectorization, FLoo
  
 ############################################################################
 #
+#			SECTION: "MULTITHREADING PACKAGES"
+#
+############################################################################
+ 
+############################################################################
+#
 #      OH MY THREADS
 #
 ############################################################################
  
 ####################################################
-#	basic functions
+#	parallel mapping
 ####################################################
  
 Random.seed!(1234)       #setting seed for reproducibility
@@ -65,38 +71,6 @@ foo_parallel!(output,x) = tmap!(log, output, x)
 
 
 
-# do-syntax
- 
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(1_000_000)
-
-function foo(x)    
-    
-    output = tmap(x) do a
-                2 * log(a)
-             end
-
-    return output
-end
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(1_000_000)
-
-function foo(x)
-    
-    output = tmap(a -> 2 * log(a), x)
-
-
-
-    return output
-end
- 
-
-
-
 # defining chunk size or number of chunks
  
 Random.seed!(1234)       #setting seed for reproducibility
@@ -114,7 +88,41 @@ foo(x) = tmap(log, eltype(x), x; chunksize = length(x) ÷ nthreads())
 
 
 
-# array comprehensions
+# remark: do-syntax
+ 
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(1_000_000)
+
+function foo(x)
+    
+    output = tmap(a -> 2 * log(a), x)
+
+
+
+    return output
+end
+ 
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(1_000_000)
+
+function foo(x)    
+    
+    output = tmap(x) do a
+                2 * log(a)
+             end
+
+    return output
+end
+ 
+
+
+
+####################################################
+#	array comprehensions
+####################################################
  
 Random.seed!(1234)       #setting seed for reproducibility
 x                = rand(1_000_000)
@@ -164,7 +172,7 @@ foo_parallel(x) = tmapreduce(log, +, x)
 
 
 ####################################################
-#	alternative to for-loops
+#	Foreach As A Faster Option for Mappings 
 ####################################################
  
 Random.seed!(1234)       #setting seed for reproducibility
@@ -218,7 +226,7 @@ end
 
 
 
-# multithreaded
+# comparing tmap and tforeach
  
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
@@ -288,7 +296,7 @@ end
 
 
 
-# control over work distribution
+# chunks: control over work distribution
  
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
@@ -326,7 +334,316 @@ end
 
 ############################################################################
 #
-#		PARALLELIZED FOR-LOOPS	
+#			POLYESTER: LIGHTER THREADS (FOR SMALL OBJECTS)
+#
+############################################################################
+ 
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(500)
+
+function foo(x)
+    output = similar(x)
+    
+    for i in eachindex(x)
+        output[i] = log(x[i])
+    end
+    
+    return output
+end
+@ctime foo($x)
+ 
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(500)
+
+function foo(x)
+    output = similar(x)
+    
+    @threads for i in eachindex(x)
+        output[i] = log(x[i])
+    end
+    
+    return output
+end
+@ctime foo($x)
+ 
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(500)
+
+function foo(x)
+    output = similar(x)
+    
+    @batch for i in eachindex(x)
+        output[i] = log(x[i])
+    end
+    
+    return output
+end
+@ctime foo($x)
+ 
+
+
+
+####################################################
+#	reductions
+####################################################
+ 
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(250)
+
+function foo(x)
+    output = 0.0
+    
+    for i in eachindex(x)
+        output += log(x[i])
+    end
+    
+    return output
+end
+@ctime foo($x)
+ 
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(250)
+
+function foo(x)
+    output = 0.0
+    
+    @batch reduction=( (+, output) ) for i in eachindex(x)
+        output += log(x[i])
+    end
+    
+    return output
+end
+@ctime foo($x)
+ 
+
+
+
+# more than one reduction
+ 
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(250)
+
+function foo(x)
+    output1 = 1.0
+    output2 = 0.0
+    
+    for i in eachindex(x)
+        output1 *= log(x[i])
+        output2 += exp(x[i])
+    end
+    
+    return output1, output2
+end
+@ctime foo($x)
+ 
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(250)
+
+function foo(x)
+    output1 = 1.0
+    output2 = 0.0
+    
+    @batch reduction=( (*, output1), (+, output2) ) for i in eachindex(x)
+        output1 *= log(x[i])
+        output2 += exp(x[i])
+    end
+    
+    return output1, output2
+end
+@ctime foo($x)
+ 
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(250)
+
+function foo(x)
+    output1 = 1.0
+    output2 = 0.0
+    
+    @batch reduction=( (*, output1), (+, output2) ) for i in eachindex(x)
+        output1  = output1 * log(x[i])
+        output2  = output2 + exp(x[i])
+    end
+    
+    return output1, output2
+end
+@ctime foo($x)
+ 
+
+
+
+####################################################
+#	local variables
+####################################################
+ 
+# it handles local variables correctly
+ 
+function foo()
+    out  = zeros(Int, 2)
+    temp = 0
+
+    for i in 1:2
+        temp   = i; sleep(i)
+        out[i] = temp
+    end
+
+    return out
+end
+println(foo())
+ 
+
+
+
+function foo()
+    out  = zeros(Int, 2)
+    
+
+    @threads for i in 1:2
+        temp   = i; sleep(i)
+        out[i] = temp
+    end
+
+    return out
+end
+println(foo())
+ 
+
+
+
+function foo()
+    out  = zeros(Int, 2)
+    temp = 0
+
+    @threads for i in 1:2
+        temp   = i; sleep(i)
+        out[i] = temp
+    end
+
+    return out
+end
+println(foo())
+ 
+
+
+
+function foo()
+    out  = zeros(Int, 2)
+    temp = 0
+
+    @batch for i in 1:2
+        temp   = i; sleep(i)
+        out[i] = temp
+    end
+
+    return out
+end
+println(foo())
+ 
+
+
+
+############################################################################
+#
+#			SIMD + MULTITHREADING
+#
+############################################################################
+ 
+Random.seed!(1234)       #setting seed for reproducibility
+x = BitVector(rand(Bool, 100_000))
+y = rand(100_000)
+
+function foo(x,y)
+    output = similar(y)
+
+    for i in eachindex(x)
+        output[i] = ifelse(x[i], log(y[i]), y[i] * 2)
+    end
+
+    output
+end
+@ctime foo($x,$y)
+ 
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
+x = BitVector(rand(Bool, 100_000))
+y = rand(100_000)
+
+function foo(x,y)
+    output = similar(y)
+
+    @threads for i in eachindex(x)
+        output[i] = ifelse(x[i], log(y[i]), y[i] * 2)
+    end
+
+    output
+end
+@ctime foo($x,$y)
+ 
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
+x = BitVector(rand(Bool, 100_000))
+y = rand(100_000)
+
+function foo(x,y)
+    output = similar(y)
+
+    @tturbo for i in eachindex(x)
+        output[i] = ifelse(x[i], log(y[i]), y[i] * 2)
+    end
+
+    output
+end
+@ctime foo($x,$y)
+ 
+
+
+
+# @tturbo for broadcasting
+ 
+Random.seed!(1234)       #setting seed for reproducibility
+x      = rand(1_000_000)
+
+function foo(x)
+    output = similar(x)
+
+    @tturbo for i in eachindex(x)
+        output[i] = log(x[i]) / x[i]
+    end
+
+    return output
+end
+@ctime foo($x)
+ 
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
+x      = rand(1_000_000)
+
+foo(x) = @tturbo log.(x) ./ x
+@ctime foo($x)
+ 
+############################################################################
+#
+#		FLOOPS
 #
 ############################################################################
  
@@ -422,453 +739,3 @@ end
 
 
 
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(1_000_000)
-
-function foo(x)
-    output = 0.0        # any value, to initialize `output`
-    
-    @floop for i in eachindex(x)
-        @reduce output  = +(0.0, log(x[i]))     # 0.0 is the initial value of `output`
-    end
-    
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-# multiple reductions
- 
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(1_000)
-
-function foo(x)
-    output1 = 1.0
-    output2 = 0.0
-    
-    for i in eachindex(x)
-        output1 *= log(x[i])
-        output2 += log(x[i])
-    end
-    
-    return output1, output2
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(1_000)
-
-function foo(x)
-    output1 = 1.0
-    output2 = 0.0
-    
-    @floop for i in eachindex(x)
-        @reduce output1 *= log(x[i])
-        @reduce output2 += log(x[i])
-    end
-    
-    return output1, output2
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(1_000)
-
-function foo(x)
-    output1 = 0.0
-    output2 = 0.0
-
-    @floop for a in eachindex(x)
-
-        @reduce() do (output1; a)
-            output1 *= log(a)
-        end
-
-        @reduce() do (output2; a)
-            output2 += log(a)
-        end
-
-    end        
-    
-    return output1, output2
-end
-@ctime foo($x)
- 
-
-
-
-############################################################################
-#
-#		LIGHTER THREADS (FOR SMALL OBJECTS)
-#
-############################################################################
- 
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(500)
-
-function foo(x)
-    output = similar(x)
-    
-    for i in eachindex(x)
-        output[i] = log(x[i])
-    end
-    
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(500)
-
-function foo(x)
-    output = similar(x)
-    
-    @threads for i in eachindex(x)
-        output[i] = log(x[i])
-    end
-    
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(500)
-
-function foo(x)
-    output = similar(x)
-    
-    @batch for i in eachindex(x)
-        output[i] = log(x[i])
-    end
-    
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-# for reductions
- 
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(250)
-
-function foo(x)
-    output = 0.0
-    
-    for i in eachindex(x)
-        output += log(x[i])
-    end
-    
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(250)
-
-function foo(x)
-    output = 0.0
-    
-    @batch reduction=( (+, output) ) for i in eachindex(x)
-        output += log(x[i])
-    end
-    
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(250)
-
-function foo(x)
-    output1 = 1.0
-    output2 = 0.0
-    
-    for i in eachindex(x)
-        output1 *= log(x[i])
-        output2 += exp(x[i])
-    end
-    
-    return output1, output2
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(250)
-
-function foo(x)
-    output1 = 1.0
-    output2 = 0.0
-    
-    @batch reduction=( (*, output1), (+, output2) ) for i in eachindex(x)
-        output1 *= log(x[i])
-        output2 += exp(x[i])
-    end
-    
-    return output1, output2
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(250)
-
-function foo(x)
-    output1 = 1.0
-    output2 = 0.0
-    
-    @batch reduction=( (*, output1), (+, output2) ) for i in eachindex(x)
-        output1  = output1 * log(x[i])
-        output2  = output2 + exp(x[i])
-    end
-    
-    return output1, output2
-end
-@ctime foo($x)
- 
-
-
-
-# it handles local variables correctly
- 
-function foo()
-    out  = zeros(Int, 2)
-    temp = 0
-
-    for i in 1:2
-        temp   = i; sleep(i)
-        out[i] = temp
-    end
-
-    return out
-end
-println(foo())
- 
-
-
-
-function foo()
-    out  = zeros(Int, 2)
-    
-
-    @threads for i in 1:2
-        temp   = i; sleep(i)
-        out[i] = temp
-    end
-
-    return out
-end
-println(foo())
- 
-
-
-
-function foo()
-    out  = zeros(Int, 2)
-    temp = 0
-
-    @threads for i in 1:2
-        temp   = i; sleep(i)
-        out[i] = temp
-    end
-
-    return out
-end
-println(foo())
- 
-
-
-
-function foo()
-    out  = zeros(Int, 2)
-    temp = 0
-
-    @batch for i in 1:2
-        temp   = i; sleep(i)
-        out[i] = temp
-    end
-
-    return out
-end
-println(foo())
- 
-
-
-
-############################################################################
-#
-#			SIMD + THREADS
-#
-############################################################################
- 
-Random.seed!(1234)       #setting seed for reproducibility
-x = BitVector(rand(Bool, 100_000))
-
-function foo(x)
-    output = similar(x)
-
-    for i in eachindex(x)
-        output[i] = !(x[i])
-    end
-
-    output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = BitVector(rand(Bool, 100_000))
-
-function foo(x)
-    output = similar(x)
-
-    @threads for i in eachindex(x)
-        output[i] = !(x[i])
-    end
-
-    output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = BitVector(rand(Bool, 100_000))
-
-function foo(x)
-    output = similar(x)
-
-    @tturbo for i in eachindex(x)
-        output[i] = !(x[i])
-    end
-
-    output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = BitVector(rand(Bool, 100_000))
-y = rand(100_000)
-
-function foo(x,y)
-    output = similar(y)
-
-    for i in eachindex(x)
-        output[i] = ifelse(x[i], log(y[i]), y[i] * 2)
-    end
-
-    output
-end
-@ctime foo($x,$y)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = BitVector(rand(Bool, 100_000))
-y = rand(100_000)
-
-function foo(x,y)
-    output = similar(y)
-
-    @threads for i in eachindex(x)
-        output[i] = ifelse(x[i], log(y[i]), y[i] * 2)
-    end
-
-    output
-end
-@ctime foo($x,$y)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = BitVector(rand(Bool, 100_000))
-y = rand(100_000)
-
-function foo(x,y)
-    output = similar(y)
-
-    @tturbo for i in eachindex(x)
-        output[i] = ifelse(x[i], log(y[i]), y[i] * 2)
-    end
-
-    output
-end
-@ctime foo($x,$y)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x      = rand(1_000_000)
-
-function foo(x)
-    output = similar(x)
-
-    for i in eachindex(x)
-        output[i] = log(x[i]) / x[i]
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x      = rand(1_000_000)
-
-function foo(x)
-    output = similar(x)
-
-    @tturbo for i in eachindex(x)
-        output[i] = log(x[i]) / x[i]
-    end
-
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x      = rand(1_000_000)
-
-foo(x) = @tturbo log.(x) ./ x
-@ctime foo($x)
- 

@@ -1,1 +1,1 @@
-# typical application of `threads`
+# typical application of `@threads`

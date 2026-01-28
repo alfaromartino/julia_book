@@ -26,61 +26,13 @@ using Random, Base.Threads, ChunkSplitters, LoopVectorization, LazyArrays
  
 ############################################################################
 #
-#      EMBARRASSINGLY-PARALLEL PROBLEM
+#			SECTION: "PARALLELIZATION IN PRACTICE"
 #
 ############################################################################
  
-Random.seed!(1234)       #setting seed for reproducibility
-x_small  = rand(    1_000)
-x_medium = rand(  100_000)
-x_big    = rand(10_000_000)
-
-function foo(x)
-    output = similar(x)
-
-    for i in eachindex(x)
-        output[i] = log(x[i])
-    end
-
-    return output
-end
- 
-@ctime foo($x_small)
- 
-@ctime foo($x_medium)
- 
-@ctime foo($x_big)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x_small  = rand(    1_000)
-x_medium = rand(  100_000)
-x_big    = rand(10_000_000)
-
-function foo(x)
-    output = similar(x)
-
-    @threads for i in eachindex(x)
-        output[i] = log(x[i])
-    end
-
-    return output
-end
- 
-@ctime foo($x_small)
- 
-@ctime foo($x_medium)
- 
-@ctime foo($x_big)
- 
-
-
-
 ############################################################################
 #
-#      BETTER PARALLELIZING AT THE TOP
+#      BETTER TO PARALLELIZE AT THE TOP
 #
 ############################################################################
  
@@ -185,92 +137,36 @@ x_large  = rand(100_000)
 
 ############################################################################
 #
-#			TASKS ARE TYPE UNSTABLE
-#
-############################################################################
- 
-x = rand(10); y = rand(10)
-
-function foo(x)
-    a = x .* -2
-    b = x .*  2
-
-    a,b
-end
- 
-
-
-
-x = rand(10); y = rand(10)
-
-function foo(x)
-    task_a = @spawn x .* -2
-    task_b = @spawn x .*  2
-
-    a,b = fetch.((task_a, task_b))
-end
- 
-
-
-
-x = rand(10); y = rand(10)
-
-function foo!(x,y)
-    @. x = -x
-    @. y = -y
-end
- 
-
-
-
-x = rand(10); y = rand(10)
-
-function foo!(x,y)
-    task_a = @spawn (@. x = -x)
-    task_b = @spawn (@. y = -y)
-
-    wait.((task_a, task_b))
-end
- 
-
-
-
-############################################################################
-#
-#			@spawn vs @threads
+#			THE IMPORTANCE OF WORK DISTRIBUTION
 #
 ############################################################################
  
 ####################################################
-#	example with real operations
+#	@threads vs @spawn
 ####################################################
- 
-# same time per iteration
  
 Random.seed!(1234)       #setting seed for reproducibility
-x = rand(10_000)
+x = rand(10_000_000)
 
 function foo(x)
     output = similar(x)
-
+    
     @threads for i in eachindex(x)
         output[i] = log(x[i])
     end
-
+    
     return output
 end
-foo(x);
- 
 @ctime foo($x)
  
 
 
 
 Random.seed!(1234)       #setting seed for reproducibility
-x = rand(10_000)
+x = rand(10_000_000)
 
 function foo(x)
-    output = similar(x)    
+    output = similar(x)
     
     @sync for i in eachindex(x)
         @spawn output[i] = log(x[i])
@@ -278,58 +174,14 @@ function foo(x)
     
     return output
 end
-foo(x);
- 
 @ctime foo($x)
  
 
 
 
-# increasing time per iteration
- 
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(10_000)
-
-function foo(x)
-    output = similar(x)
-
-    @threads for i in eachindex(x)
-        output[i] = sum(@~ log.(x[1:i]))
-    end
-
-    return output
-end
-foo(x);
- 
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(10_000)
-
-function foo(x)
-    output = similar(x)
-
-    @sync for i in eachindex(x)
-        @spawn output[i] = sum(@~ log.(x[1:i]))
-    end
-
-    return output
-end
-foo(x);
- 
-@ctime foo($x)
- 
-
-
-
-############################################################################
-#
-#			CHUNK SPLITTERS
-#
-############################################################################
+####################################################
+#	partitioning collections
+####################################################
  
 # chunks creation -> by setting the number of subsets
  
@@ -404,7 +256,7 @@ println(collect(chunk_iter2))
 
 ############################################################################
 #
-#			CHUNKS
+#			WORK DISTRIBUTION: DEFINING TASKS THROUGH CHUNKS
 #
 ############################################################################
  
@@ -420,23 +272,6 @@ function foo(x)
     
     @threads for i in eachindex(x)
         output[i] = log(x[i])
-    end
-    
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(10_000_000)
-
-function foo(x)
-    output = similar(x)
-    
-    @sync for i in eachindex(x)
-        @spawn output[i] = log(x[i])
     end
     
     return output
@@ -467,23 +302,6 @@ end
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
-function foo(x)
-    output = similar(x)
-    
-    @threads for i in eachindex(x)
-        output[i] = log(x[i])
-    end
-    
-    return output
-end
-@ctime foo($x)
- 
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(10_000_000)
-
 function foo(x, nr_chunks)
     chunk_ranges = index_chunks(x, n=nr_chunks)
     output       = similar(x)
@@ -500,6 +318,8 @@ end
 
 
 
+# flexibility of @spawn
+ 
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -552,9 +372,11 @@ end
 
 
 
-####################################################
-#	REDUCTIONS
-####################################################
+############################################################################
+#
+#			HANDLING REDUCTIONS
+#
+############################################################################
  
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
@@ -658,6 +480,32 @@ end
 
 
 
+####################################################
+#	padding
+####################################################
+ 
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(10_000_000)
+
+function foo(x)
+    chunk_ranges    = index_chunks(x, n=nthreads())
+    nr_strides      = 8
+    partial_outputs = Vector{Float64}(undef, length(chunk_ranges) * nr_strides)
+
+    @threads for (i, chunk) in enumerate(chunk_ranges)
+        for j in chunk
+            partial_outputs[(i-1)*nr_strides + 1] += log(x[j])
+        end
+    end
+
+    return sum(@view(partial_outputs[1:nr_strides:end]))
+end
+@ctime foo($x)
+ 
+####################################################
+#	other solutions
+####################################################
+ 
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
@@ -732,39 +580,3 @@ end
 
 
 
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(10_000_000)
-
-function foo(x)
-    chunk_ranges    = index_chunks(x, n=nthreads())
-    nr_strides      = 8
-    partial_outputs = Matrix{Float64}(undef, nr_strides, length(chunk_ranges))
-
-    @threads for (i, chunk) in enumerate(chunk_ranges)
-        for j in chunk
-            partial_outputs[1, i] += log(x[j])
-        end
-    end
-
-    return sum(@view(partial_outputs[1, :]))
-end
-@ctime foo($x)
- 
-Random.seed!(1234)       #setting seed for reproducibility
-x = rand(10_000_000)
-
-function foo(x)
-    chunk_ranges    = index_chunks(x, n=nthreads())
-    nr_strides      = 8
-    partial_outputs = Vector{Float64}(undef, length(chunk_ranges) * nr_strides)
-
-    @threads for (i, chunk) in enumerate(chunk_ranges)
-        for j in chunk
-            partial_outputs[(i-1)*nr_strides + 1] += log(x[j])
-        end
-    end
-
-    return sum(@view(partial_outputs[1:nr_strides:end]))
-end
-@ctime foo($x)
- 
