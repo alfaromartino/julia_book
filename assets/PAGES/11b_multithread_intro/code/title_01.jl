@@ -1,5 +1,5 @@
 ############################################################################
 #
-#			INTUITION OF SEQUENTIAL VS CONCURRENT - single thread
+#			SECTION: "INTRODUCTION TO MULTITHREADING"
 #
 ############################################################################

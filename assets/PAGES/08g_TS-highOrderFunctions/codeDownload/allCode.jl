@@ -15,7 +15,7 @@ using Random
  
 ############################################################################
 #
-#			TYPE STABILITY WITH HIGHER-ORDER FUNCTOINS
+#			SECTION: "TYPE STABILITY WITH HIGHER-ORDER FUNCTIONS"
 #
 ############################################################################
  

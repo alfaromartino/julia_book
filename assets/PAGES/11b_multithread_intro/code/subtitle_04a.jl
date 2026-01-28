@@ -1,4 +1,4 @@
 ####################################################
-#	task A -> summing 1 + 1 during `time_working`
-#	task B -> summing 1 + 1 during `time_working`
+#	task A -> sum 1 + 1 during `time_working`
+#	task B -> sum 1 + 1 during `time_working`
 ####################################################

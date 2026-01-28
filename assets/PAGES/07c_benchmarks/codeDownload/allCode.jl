@@ -15,7 +15,7 @@ using BenchmarkTools, Chairmarks
  
 ############################################################################
 #
-#			BENCHMARKING EXECUTION TIME
+#			SECTION: "BENCHMARKING EXECUTION TIME"
 #
 ############################################################################
  
