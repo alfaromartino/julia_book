@@ -1,9 +1,9 @@
 MethodInstance for foo(::Vector{Float64}, ::Val{50})
-  from foo(x, ::Val{N}) where N @ Main C:\Users\marti\Proton Drive\My files\WEBSITES\julia_book2\_assets\PAGES\8c_staticVectors\code\region6c.jl:4
+  from foo(x, ::Val{N}) where N @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/09i_staticVectors/code/region6c.jl:4
 Static Parameters
   N = 50
 Arguments
-  #self#::Core.Const(foo)
+  #self#::Core.Const(Main.foo)
   x::Vector{Float64}
   _::Core.Const(Val{50}())
 Locals
@@ -22,25 +22,33 @@ Body::MVector{50, Float64}
 │   %7  = $(Expr(:static_parameter, 1))::Core.Const(50)
 │   %8  = Main.eltype(x)::Core.Const(Float64)
 │   %9  = Core.apply_type(%6, %7, %8)::Core.Const(MVector{50, Float64})
-│         (output = (%9)(Main.undef))
-│   %11 = Main.eachindex(x)::Base.OneTo{Int64}
-│         (@_4 = Base.iterate(%11))
-│   %13 = (@_4 === nothing)::Bool
-│   %14 = Base.not_int(%13)::Bool
-└──       goto #4 if not %14
-2 ┄ %16 = @_4::Tuple{Int64, Int64}
-│         (i = Core.getfield(%16, 1))
-│   %18 = Core.getfield(%16, 2)::Int64
-│   %19 = Main.:>::Core.Const(>)
-│   %20 = Base.getindex(x, i)::Float64
-│   %21 = Base.broadcasted(%19, x, %20)::Base.Broadcast.Broadcasted{Base.Broadcast.DefaultArrayStyle{1}, Nothing, typeof(>), Tuple{Vector{Float64}, Float64}}
-│         (temp = Base.materialize(%21))
-│   %23 = Main.sum(temp)::Int64
-│         Base.setindex!(output, %23, i)
-│         (@_4 = Base.iterate(%11, %18))
-│   %26 = (@_4 === nothing)::Bool
-│   %27 = Base.not_int(%26)::Bool
-└──       goto #4 if not %27
+│   %10 = Main.undef::Core.Const(UndefInitializer())
+│         (output = (%9)(%10))
+│   %12 = Main.eachindex(x)::Base.OneTo{Int64}
+│         (@_4 = Base.iterate(%12))
+│   %14 = @_4::UNION{NOTHING, TUPLE{INT64, INT64}}
+│   %15 = (%14 === nothing)::Bool
+│   %16 = Base.not_int(%15)::Bool
+└──       goto #4 if not %16
+2 ┄ %18 = @_4::Tuple{Int64, Int64}
+│         (i = Core.getfield(%18, 1))
+│   %20 = Core.getfield(%18, 2)::Int64
+│   %21 = Main.:>::Core.Const(>)
+│   %22 = i::Int64
+│   %23 = Base.getindex(x, %22)::Float64
+│   %24 = Base.broadcasted(%21, x, %23)::Base.Broadcast.Broadcasted{Base.Broadcast.DefaultArrayStyle{1}, Nothing, typeof(>), Tuple{Vector{Float64}, Float64}}
+│         (temp = Base.materialize(%24))
+│   %26 = temp::BitVector
+│   %27 = Main.sum(%26)::Int64
+│   %28 = output::MVector{50, Float64}
+│   %29 = i::Int64
+│         Base.setindex!(%28, %27, %29)
+│         (@_4 = Base.iterate(%12, %20))
+│   %32 = @_4::UNION{NOTHING, TUPLE{INT64, INT64}}
+│   %33 = (%32 === nothing)::Bool
+│   %34 = Base.not_int(%33)::Bool
+└──       goto #4 if not %34
 3 ─       goto #2
-4 ┄       return output
+4 ┄ %37 = output::MVector{50, Float64}
+└──       return %37
 

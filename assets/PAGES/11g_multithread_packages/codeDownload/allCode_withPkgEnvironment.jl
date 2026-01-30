@@ -79,6 +79,9 @@ x      = rand(1_000_000)
 foo(x) = tmap(log, eltype(x), x; nchunks = nthreads())
 @ctime foo($x)
  
+
+
+
 Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(1_000_000)
 
@@ -172,7 +175,7 @@ foo_parallel(x) = tmapreduce(log, +, x)
 
 
 ####################################################
-#	Foreach As A Faster Option for Mappings 
+#	`foreach` as a faster option for mappings 
 ####################################################
  
 Random.seed!(1234)       #setting seed for reproducibility
@@ -736,6 +739,3 @@ function foo(x)
 end
 @ctime foo($x)
  
-
-
-

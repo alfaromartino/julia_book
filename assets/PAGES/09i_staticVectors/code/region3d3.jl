@@ -1,1 +1,1 @@
-@btime foo.(ref($mx))
+@ctime foo.($mx)

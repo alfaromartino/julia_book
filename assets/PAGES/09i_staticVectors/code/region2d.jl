@@ -1,4 +1,4 @@
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(10);   sx = SA[x...]
 
 function foo(x)
@@ -8,4 +8,4 @@ function foo(x)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo(ref($sx)) #hide
+@ctime foo($sx) #hide

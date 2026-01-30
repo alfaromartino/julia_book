@@ -1,1 +1,1 @@
-@btime foo(ref($sx))
+@ctime foo($sx)

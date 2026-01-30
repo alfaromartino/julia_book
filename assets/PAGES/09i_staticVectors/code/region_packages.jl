@@ -1,2 +1,2 @@
 # necessary packages for this file
-using BenchmarkTools, StaticArrays
+using Random, StaticArrays

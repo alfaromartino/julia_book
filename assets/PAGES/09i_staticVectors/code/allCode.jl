@@ -1,18 +1,20 @@
-include(joinpath("C:/", "JULIA_UTILS", "initial_folders.jl"))
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
-using BenchmarkTools, StaticArrays
+using Random, StaticArrays
  
-# all 'sx' define a static vector with same elements as 'x'
-x = collect(1:10)
-
-sx = SVector(x...)
-sx = SVector{length(x), eltype(x)}(x)
-sx = SA[x...]
-sx = @SVector [a for a in x]
+############################################################################
+#
+#			SECTION: "STATIC VECTORS FOR SMALL COLLECTIONS"
+#
+############################################################################
  
-print_asis(sx, 10)
+############################################################################
+#
+#			DEFINING STATIC VECTORS
+#
+############################################################################
  
 # all 'sx' define the same static vector '[3,4,5]'
 
@@ -24,6 +26,30 @@ sx = @SVector [i for i in 3:5]
  
 print_asis(sx)
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# all 'sx' define a static vector with same elements as 'x'
+x = collect(1:10)
+
+sx = SVector(x...)
+sx = SVector{length(x), eltype(x)}(x)
+sx = SA[x...]
+sx = @SVector [a for a in x]
+ 
+print_asis(sx, 10)
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+####################################################
+#	slices
+####################################################
+ 
 x = collect(3:10) ; sx = SVector(x...)
 
 # both define static vectors
@@ -34,6 +60,11 @@ print_asis(slice1)
  
 print_asis(slice2)
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = collect(3:10) ; sx = SVector(x...)
 
 # both define and ordinary vector
@@ -42,39 +73,22 @@ slice2 = sx[[1,2]]
  
 print_asis(slice2)
  
-x = collect(3:10) ; sx = SVector(x...)
-
-slice1 = sx[1]
-slice2 = sx[:]
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
-print_asis(slice2)
+############################################################################
+#
+#			SVECTORS DON'T ALLOCATE MEMORY AND ARE FASTER
+#
+############################################################################
  
-x = collect(3:10) ; sx = SVector(x...)
-
-slice1 = sx[1]
-slice2 = sx[:]
+####################################################
+#	        svectors don't allocate
+####################################################
  
-print_asis(slice2)
- 
-x  = [1,2,3]
-sx = SVector(x...)
-
-#sx[1] = 0          # ERROR: setindex!(::SVector{3, Int64}, value, ::Int) is not defined.
- 
-x  = [1,2,3]
-mx = MVector(x...)
-
-mx[1] = 0
- 
-print_asis(mx, 10)
- 
-sx = SVector(1,2,3)
-
-mx = similar(sx)        # it defines an MVector with undef elements
- 
-print_asis(mx, 10)
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(10)
 
 function foo(x)
@@ -84,9 +98,14 @@ function foo(x)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo(ref($x)) #hide
+@ctime foo($x) #hide
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(10)
 
 @views function foo(x)
@@ -96,9 +115,14 @@ x = rand(10)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo(ref($x)) #hide
+@ctime foo($x) #hide
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(10);   tup = Tuple(x)
 
 function foo(x)
@@ -108,9 +132,14 @@ function foo(x)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo(ref($tup)) #hide
+@ctime foo($tup) #hide
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(10);   sx = SA[x...]
 
 function foo(x)
@@ -120,147 +149,119 @@ function foo(x)
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
 
-@btime foo(ref($sx)) #hide
+@ctime foo($sx) #hide
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
-x = rand(10);   mx = MVector(x...)
-
-function foo(x)
-    a = x[MVector(1,2)]     # 0 allocation (slice of static array)
-    b = MVector(3,4)        # 0 allocation (static array creation)
-
-    sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
-end
-
-@btime foo(ref($mx))
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+####################################################
+#	impact on broadcasting
+####################################################
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(10)
 
 foo(x) = sum(2 .* x)
 
-@btime foo(ref($x)) #hide
+@ctime foo($x) #hide
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(10);   sx = SVector(x...)
 
 foo(x) = sum(2 .* x)
 
-@btime foo(ref($sx)) #hide
+@ctime foo($sx) #hide
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+####################################################
+#	svectors vs built-in vectors
+####################################################
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x  = rand(10)
 
 foo(x) = sum(a -> 10 + 2a +  3a^2, x)
 
-@btime foo(ref($x)) #hide
+@ctime foo($x) #hide
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x  = rand(10);  sx = SVector(x...);
 
 foo(x) = sum(a -> 10 + 2a +  3a^2, x)
 
-@btime foo(ref($sx)) #hide
+@ctime foo($sx) #hide
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
-x  = rand(10)
-sx = SVector(x...);  mx = MVector(x...)
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+############################################################################
+#
+#			SVECTOR TYPE AND ITS MUTABLE VARIANT
+#
+############################################################################
+ 
+x      = [1,2,3]
+sx     = SVector(x...)
 
-foo(x) = sum(a -> 10 + 2a +  3a^2, x)
+#sx[1] = 0          # ERROR: setindex!(::SVector{3, Int64}, value, ::Int) is not defined.
  
-@btime foo(ref($x))
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
-@btime foo(ref($sx))
- 
-@btime foo(ref($mx))
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
-x  = rand(10)
-sx = SVector(x...);  mx = MVector(x...)
+x     = [1,2,3]
+mx    = MVector(x...)
 
-foo(x) = 10 + 2x +  3x^2
+mx[1] = 0
  
-@btime foo.(ref($x))
+print_asis(mx, 10)
  
-@btime foo.(ref($sx))
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
-@btime foo.(ref($mx))
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
-x = rand(50)
+sx = SVector(1,2,3)
 
-function foo(x; output = similar(x))
-    for i in eachindex(x)
-        temp      = x .> x[i]
-        output[i] = sum(temp)
-    end
-
-    return output
-end
+mx = similar(sx)        # it defines an MVector with undef elements
  
-@btime foo(ref($x))
+print_asis(mx, 10)
  
-using Random, StaticArrays; Random.seed!(123)       #setting the seed for reproducibility #hide
-x = rand(50)
-
-function foo(x; output = similar(x), temp = similar(x))
-    for i in eachindex(x)
-        @. temp      = x > x[i]
-           output[i] = sum(temp)
-    end
-
-    return output
-end
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
-@btime foo(ref($x));
+############################################################################
+#
+#			TYPE STABILITY: SIZE IS PART OF THE STATIC VECTOR'S TYPE
+#
+############################################################################
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
-x = rand(50);   sx = SVector(x...)
-
-function foo(x; output = Vector{Float64}(undef, length(x)))
-    for i in eachindex(x)
-        temp      = x .> x[i]
-        output[i] = sum(temp)
-    end
-
-    return output
-end
- 
-@btime foo(ref($sx));
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
-x = rand(50);   sx = SVector(x...)
-
-function foo(x; output = similar(x))
-    for i in eachindex(x)
-        temp      = x .> x[i]
-        output[i] = sum(temp)
-    end
-
-    return output
-end
- 
-@btime foo(ref($sx));
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
-x = rand(50);   sx = SVector(x...)
-
-function foo(x; output = MVector{length(x),eltype(x)}(undef))
-    for i in eachindex(x)
-        temp      = x .> x[i]
-        output[i] = sum(temp)
-    end
-
-    return output
-end
- 
-@btime foo(ref($sx));
- 
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(50)
 
 function foo(x)
-    output = SVector{length(x), eltype(x)}(undef)
+    
     output = MVector{length(x), eltype(x)}(undef)
 
     for i in eachindex(x)
@@ -273,7 +274,12 @@ end
 
 @code_warntype foo(x)                     # type unstable
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(50);   sx = SVector(x...)
 
 function foo(x)
@@ -290,7 +296,12 @@ end
 
 @code_warntype foo(sx)                    # type stable
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(50)
 
 function foo(x, ::Val{N}) where N
@@ -307,21 +318,144 @@ end
 
 @code_warntype foo(x, Val(length(x)))     # type stable
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
-x = rand(100)
-y = rand(100)
-
-@btime sum($x .* $y)
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
-using Random; Random.seed!(123)       #setting the seed for reproducibility #hide
-x = tuple(rand(100)...)
-y = tuple(rand(100)...)
-
-@btime sum($x .* $y)
+############################################################################
+#
+#			PERFORMANCE COMPARISONS
+#
+############################################################################
  
-using BenchmarkTools
-x2 = SVector(rand(100)...)
-y2 = SVector(rand(100)...)
+Random.seed!(123)       #setting seed for reproducibility #hide
+x  = rand(10)
+sx = SVector(x...);  mx = MVector(x...)
 
-@btime sum($x .* $y)
+foo(x) = sum(a -> 10 + 2a +  3a^2, x)
+ 
+@ctime foo($x)
+ 
+@ctime foo($sx)
+ 
+@ctime foo($mx)
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x  = rand(10)
+sx = SVector(x...);  mx = MVector(x...)
+
+foo(x) = 10 + 2x +  3x^2
+ 
+@ctime foo.($x)
+ 
+@ctime foo.($sx)
+ 
+@ctime foo.($mx)
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+############################################################################
+#
+#			STATIC VECTORS VS PRE-ALLOCATIONS
+#
+############################################################################
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x = rand(50)
+
+function foo(x; output = similar(x))
+    for i in eachindex(x)
+        temp      = x .> x[i]
+        output[i] = sum(temp)
+    end
+
+    return output
+end
+ 
+@ctime foo($x)
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x = rand(50)
+
+function foo(x; output = similar(x), temp = similar(x))
+    for i in eachindex(x)
+        @. temp      = x > x[i]
+           output[i] = sum(temp)
+    end
+
+    return output
+end
+ 
+@ctime foo($x)
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x = rand(50);   sx = SVector(x...)
+
+function foo(x; output = Vector{Float64}(undef, length(x)))
+    for i in eachindex(x)
+        temp      = x .> x[i]
+        output[i] = sum(temp)
+    end
+
+    return output
+end
+ 
+@ctime foo($sx)
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x = rand(50);   sx = SVector(x...)
+
+function foo(x; output = similar(x))
+    for i in eachindex(x)
+        temp      = x .> x[i]
+        output[i] = sum(temp)
+    end
+
+    return output
+end
+ 
+@ctime foo($sx)
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x = rand(50);   sx = SVector(x...)
+
+function foo(x; output = MVector{length(x),eltype(x)}(undef))
+    for i in eachindex(x)
+        temp      = x .> x[i]
+        output[i] = sum(temp)
+    end
+
+    return output
+end
+ 
+@ctime foo($sx)
  
