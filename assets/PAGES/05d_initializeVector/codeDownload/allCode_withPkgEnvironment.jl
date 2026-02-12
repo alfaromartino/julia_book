@@ -23,7 +23,13 @@ using FastBenchmark
  
 ############################################################################
 #
-#           SECTION: "INITIALIZING VECTORS"
+#           SECTION: "VECTOR INITIALIZATION AND CREATION "
+#
+############################################################################
+ 
+############################################################################
+#
+#   INITIALIZING VECTORS
 #
 ############################################################################
  
@@ -42,7 +48,7 @@ println(x)
  
 ############################################################################
 #
-#           CREATION OF VECTORS
+#   CREATING VECTORS WITH GIVEN VALUES
 #
 ############################################################################
  
@@ -80,8 +86,10 @@ x = range(start=0, length=5, stop=1)    # any order for keyword arguments
 println(x)
  
 ####################################################
-#	 FILLED VECTORS
+#   SAME VALUE REPEATED
 ####################################################
+ 
+# ZEROS OR ONES
  
 length_vector = 3
 
@@ -112,6 +120,8 @@ length_vector = 3
 x             = ones(Int, length_vector)
 println(x)
  
+# WITH BOOLEAN VALUES
+ 
 
 
 
@@ -128,11 +138,7 @@ length_vector = 3
 x             = falses(length_vector)
 println(x)
  
-############################################################################
-#
-#           CREATION OF FILLED VECTORS
-#
-############################################################################
+# ARBITRARY VALUE
  
 length_vector  = 3
 filling_object = [1,2]
@@ -158,11 +164,11 @@ filling_object = [1]
 x              = fill(filling_object, length_vector)
 println(x)
  
-############################################################################
-#
-#           CONCATENATE VECTORS
-#
-############################################################################
+####################################################
+#	CONCATENATED VECTORS
+####################################################
+ 
+# vcat
  
 x = [3,4,5]
 y = [6,7,8]
@@ -194,32 +200,69 @@ println(z)
 
 
 
-nr_repetitions   = 3
-vector_to_repeat = [1,2]
+####################################################
+#	WITH ELEMENTS OF AN OBJECT REPEATED
+####################################################
+ 
+nr_repetitions     = 3
+elements_to_repeat = [1,2]
 
-x                = repeat(vector_to_repeat, nr_repetitions)
+x                  = repeat(elements_to_repeat, nr_repetitions)
 println(x)
  
 
 
 
-nr_repetitions   = 3
-vector_to_repeat = 1
+nr_repetitions     = 3
+elements_to_repeat = [1]
 
-# x                = repeat(vector_to_repeat, nr_repetitions)   #ERROR
- 
-
-
-
-nr_repetitions   = 3
-vector_to_repeat = [1]
-
-x                = repeat(vector_to_repeat, nr_repetitions)
+x                  = repeat(elements_to_repeat, nr_repetitions)
 println(x)
  
+
+
+
+nr_repetitions     = 3
+elements_to_repeat = 1
+
+# x                = repeat(elements_to_repeat, nr_repetitions)   #ERROR
+ 
+
+
+
+# difference with `fill`
+ 
+nr_repetitions     = 3
+elements_to_repeat = [1,2]
+
+x                  = repeat(filling_object, nr_repetitions)
+println(x)
+ 
+
+
+
+length_vector      = 3
+filling_object     = [1,2]
+
+x                  = fill(filling_object, length_vector)
+println(x)
+ 
+
+
+
+length_vector      = 3
+filling_object     = [1,2]
+
+temp               = fill(filling_object, length_vector)
+x                  = vcat(temp...)
+println(x)
+ 
+
+
+
 ############################################################################
 #
-#           ADDING ELEMENTS TO A VECTOR
+#           ADDING, REMOVING, AND REPLACING ELEMENTS (optional)
 #
 ############################################################################
  
