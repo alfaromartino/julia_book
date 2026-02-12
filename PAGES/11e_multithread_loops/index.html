@@ -2636,8 +2636,8 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>For-Loops are fundamental building blocks in scientific computing, often representing the most computationally intensive parts of a program. To accelerate these computations, parallel processing distributes a for-loop&#39;s iterations across multiple processor threads. The central challenge, however, lies in how this work is divided, as the optimal strategy heavily depends on the nature of the workload.</p>
-<p>This section introduces Julia&#39;s <code>@threads</code> macro as a straightforward approach to parallelizing for-loops. It operates by dividing the loop iterations evenly among the available threads. For the explanations, we&#39;ll contrast its underlying mechanism with the task-based parallelism offered by <code>@spawn</code>.</p>
+<p>The most computationally intensive parts of a program are commonly associated with for-Loops. To accelerate these computations, parallel processing distributes a for-loop&#39;s iterations across multiple processor threads. The central challenge, however, lies in how this work is divided, as the optimal strategy heavily depends on the nature of the workload.</p>
+<p>This section introduces Julia&#39;s <code>@threads</code> macro as a straightforward approach to parallelizing for-loops. It operates by splitting the iterations evenly among the available threads. For the explanations, we&#39;ll contrast its underlying mechanism with the task-based parallelism offered by <code>@spawn</code>.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
       <b>Warning!</b> - Use of @spawn </span>  </div>  <div class=content>     To clearly illustrate the differences between <code>@threads</code> and <code>@spawn</code>, our examples will use <code>@spawn</code> in a simple but inefficient manner. Specifically, a separate task will be created for every single iteration. While this is enough for the purpose of comparison with <code>@threads</code>, it&#39;s not representative of a typical <code>@spawn</code> usage. </p>
@@ -2864,7 +2864,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 11, 2026 
+          © Martin Alfaro <br>Last Modified February 12, 2026 
       </span> 
   </div> 
 </footer>

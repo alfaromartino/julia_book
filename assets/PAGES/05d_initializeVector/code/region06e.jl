@@ -1,4 +1,4 @@
-nr_repetitions   = 3
-vector_to_repeat = 1
+nr_repetitions     = 3
+elements_to_repeat = 1
 
-# x                = repeat(vector_to_repeat, nr_repetitions)   #ERROR
+# x                = repeat(elements_to_repeat, nr_repetitions)   #ERROR

@@ -3,7 +3,13 @@ include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "regi
  
 ############################################################################
 #
-#           CREATION OF FILLED VECTORS
+#           SECTION: "VECTOR INITIALIZATION AND CREATION "
+#
+############################################################################
+ 
+############################################################################
+#
+#   INITIALIZING VECTORS
 #
 ############################################################################
  
@@ -24,7 +30,7 @@ print_asis(x) #hide
  
 ############################################################################
 #
-#           CREATION OF VECTORS
+#   CREATING VECTORS WITH GIVEN VALUES
 #
 ############################################################################
  
@@ -70,8 +76,10 @@ x = range(start=0, length=5, stop=1)    # any order for keyword arguments
 print_asis(x) #hide
  
 ####################################################
-#	 FILLED VECTORS
+#   SAME VALUE REPEATED
 ####################################################
+ 
+# ZEROS OR ONES
  
 length_vector = 3
 
@@ -108,6 +116,8 @@ length_vector = 3
 x             = ones(Int, length_vector)
 print_asis(x) #hide
  
+# WITH BOOLEAN VALUES
+ 
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -128,11 +138,7 @@ length_vector = 3
 x             = falses(length_vector)
 print_asis(x) #hide
  
-############################################################################
-#
-#           CREATION OF FILLED VECTORS
-#
-############################################################################
+# ARBITRARY VALUE
  
 length_vector  = 3
 filling_object = [1,2]
@@ -162,11 +168,11 @@ filling_object = [1]
 x              = fill(filling_object, length_vector)
 print_asis(x) #hide
  
-############################################################################
-#
-#           CONCATENATE VECTORS
-#
-############################################################################
+####################################################
+#	CONCATENATED VECTORS
+####################################################
+ 
+# vcat
  
 x = [3,4,5]
 y = [6,7,8]
@@ -204,10 +210,14 @@ print_asis(z) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-nr_repetitions   = 3
-vector_to_repeat = [1,2]
+####################################################
+#	WITH ELEMENTS OF AN OBJECT REPEATED
+####################################################
+ 
+nr_repetitions     = 3
+elements_to_repeat = [1,2]
 
-x                = repeat(vector_to_repeat, nr_repetitions)
+x                  = repeat(elements_to_repeat, nr_repetitions)
 print_asis(x) #hide
  
 # <space_to_be_deleted>
@@ -215,25 +225,66 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-nr_repetitions   = 3
-vector_to_repeat = 1
+nr_repetitions     = 3
+elements_to_repeat = [1]
 
-# x                = repeat(vector_to_repeat, nr_repetitions)   #ERROR
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-nr_repetitions   = 3
-vector_to_repeat = [1]
-
-x                = repeat(vector_to_repeat, nr_repetitions)
+x                  = repeat(elements_to_repeat, nr_repetitions)
 print_asis(x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+nr_repetitions     = 3
+elements_to_repeat = 1
+
+# x                = repeat(elements_to_repeat, nr_repetitions)   #ERROR
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# difference with `fill`
+ 
+nr_repetitions     = 3
+elements_to_repeat = [1,2]
+
+x                  = repeat(filling_object, nr_repetitions)
+print_asis(x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+length_vector      = 3
+filling_object     = [1,2]
+
+x                  = fill(filling_object, length_vector)
+print_asis(x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+length_vector      = 3
+filling_object     = [1,2]
+
+temp               = fill(filling_object, length_vector)
+x                  = vcat(temp...)
+print_asis(x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ############################################################################
 #
-#           ADDING ELEMENTS TO A VECTOR
+#           ADDING, REMOVING, AND REPLACING ELEMENTS (optional)
 #
 ############################################################################
  
