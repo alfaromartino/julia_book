@@ -3,7 +3,7 @@ include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "regi
  
 ############################################################################
 #
-#			THE MAP FUNCTION
+#			SECTION: "THE MAP FUNCTION"
 #
 ############################################################################
  
@@ -173,9 +173,9 @@ print_asis(equivalent)   #hide
 #	example 3
 ####################################################
  
-country = ["France", "Canada"]
-is_in   = [" is in "  , " is in "]
-region  = ["Europe", "North America"]
+country = ["France"  , "Canada"]
+is_in   = [" is in " , " is in "]
+region  = ["Europe"  , "North America"]
 
 output  = string.(country, is_in, region)
  

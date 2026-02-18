@@ -6,7 +6,7 @@ using Random
  
 ############################################################################
 #
-#			SIMD: CONTIGUOUS ACCESS AND UNIT STRIDES
+#			SECTION: "SIMD: CONTIGUOUS ACCESS AND UNIT STRIDES"
 #
 ############################################################################
  
@@ -18,8 +18,8 @@ using Random
  
 x         = [10, 20, 30]
 
-indices   = sortperm(x)
-elements  = x[indices]    # equivalent to `sort(x)`
+indices   = [3, 2, 1]
+elements  = x[indices]
  
 print_asis(indices)
  
@@ -73,7 +73,7 @@ print_asis(elements)
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(1_000_000)
+x = rand(5_000_000)
 y = @view x[1:2:length(x)]
 
 function foo(y)
@@ -93,7 +93,7 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(1_000_000)
+x = rand(5_000_000)
 y = @view x[1:2:length(x)]
 
 function foo(y)
@@ -113,7 +113,7 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(1_000_000)
+x = rand(5_000_000)
 y = x[1:2:length(x)]
 
 function foo(y)
@@ -133,7 +133,7 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(1_000_000)
+x = rand(5_000_000)
 y = x[1:2:length(x)]
 
 function foo(y)
@@ -356,7 +356,49 @@ function foo(x, indices)
     y      = @view x[indices]
     output = 0.0
 
+    for a in y
+        output += a
+    end
+
+    return output
+end
+@ctime foo($x, $indices) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x       = rand(5_000_000)
+indices = sortperm(x)
+
+function foo(x, indices)
+    y      = @view x[indices]
+    output = 0.0
+
     @simd for a in y
+        output += a
+    end
+
+    return output
+end
+@ctime foo($x, $indices) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x       = rand(5_000_000)
+indices = sortperm(x)
+
+function foo(x, indices)
+    y      = x[indices]
+    output = 0.0
+
+    for a in y
         output += a
     end
 
@@ -400,7 +442,49 @@ function foo(x, indices)
     y      = @view x[indices]
     output = 0.0
 
+    for a in y
+        output += a^(3/2)
+    end
+
+    return output
+end
+@ctime foo($x, $indices) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x       = rand(5_000_000)
+indices = sortperm(x)
+
+function foo(x, indices)
+    y      = @view x[indices]
+    output = 0.0
+
     @simd for a in y
+        output += a^(3/2)
+    end
+
+    return output
+end
+@ctime foo($x, $indices) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x       = rand(5_000_000)
+indices = sortperm(x)
+
+function foo(x, indices)
+    y      = x[indices]
+    output = 0.0
+
+    for a in y
         output += a^(3/2)
     end
 
@@ -442,20 +526,19 @@ end
  
 Random.seed!(123)       #setting seed for reproducibility #hide
 x       = rand(1_000_000)
-
 indices = 1:length(x)
-y       = @view x[indices]
 
-function foo(y)
+function foo(x, indices)
+    y      = @view x[indices]
     output = 0.0
 
-    @simd for a in y
+    for a in y
         output += a
     end
 
     return output
 end
-@ctime foo($y) #hide
+@ctime foo($x, $indices) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -464,11 +547,10 @@ end
  
 Random.seed!(123)       #setting seed for reproducibility #hide
 x       = rand(1_000_000)
-
 indices = 1:length(x)
-y       = x[indices]
 
-function foo(y)    
+function foo(x, indices)
+    y      = @view x[indices]
     output = 0.0
 
     @simd for a in y
@@ -477,7 +559,49 @@ function foo(y)
 
     return output
 end
-@ctime foo($y) #hide
+@ctime foo($x, $indices) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x       = rand(1_000_000)
+indices = 1:length(x)
+
+function foo(x, indices)    
+    y      = x[indices]
+    output = 0.0
+
+    for a in y
+        output += a
+    end
+
+    return output
+end
+@ctime foo($x, $indices) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x       = rand(1_000_000)
+indices = 1:length(x)
+
+function foo(x, indices)
+    y      = x[indices]
+    output = 0.0
+
+    @simd for a in y
+        output += a
+    end
+
+    return output
+end
+@ctime foo($x, $indices) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -485,6 +609,29 @@ end
 # <space_to_be_deleted>
  
 # case 2
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x       = rand(5_000_000)
+indices = sortperm(x)
+
+function foo(x, indices)
+    y      = @view x[indices]
+    output1, output2, output3 = (0.0 for _ in 1:3)
+
+    for a in y
+        output1 += a^(3/2)
+        output2 += a / 3
+        output3 += a * 2.5
+    end
+
+    return output1, output2, output3
+end
+@ctime foo($x, $indices) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
 x       = rand(5_000_000)
@@ -517,7 +664,7 @@ function foo(x, indices)
     y      = x[indices]
     output1, output2, output3 = (0.0 for _ in 1:3)
 
-    @simd for a in y
+    for a in y
         output1 += a^(3/2)
         output2 += a / 3
         output3 += a * 2.5
@@ -531,4 +678,22 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x       = rand(5_000_000)
+indices = sortperm(x)
+
+function foo(x, indices)
+    y      = x[indices]
+    output1, output2, output3 = (0.0 for _ in 1:3)
+
+    @simd for a in y
+        output1 += a^(3/2)
+        output2 += a / 3
+        output3 += a * 2.5
+    end
+
+    return output1, output2, output3
+end
+@ctime foo($x, $indices) #hide
  

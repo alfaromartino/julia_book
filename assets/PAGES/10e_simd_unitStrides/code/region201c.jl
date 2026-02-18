@@ -1,10 +1,9 @@
 Random.seed!(123)       #setting seed for reproducibility #hide
 x       = rand(1_000_000)
-
 indices = 1:length(x)
-y       = @view x[indices]
 
-function foo(y)
+function foo(x, indices)
+    y      = @view x[indices]
     output = 0.0
 
     @simd for a in y
@@ -13,4 +12,4 @@ function foo(y)
 
     return output
 end
-@ctime foo($y) #hide
+@ctime foo($x, $indices) #hide
