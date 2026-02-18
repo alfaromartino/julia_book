@@ -1,5 +1,14 @@
-include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
-include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+############################################################################
+#   AUXILIARS FOR BENCHMARKING
+############################################################################
+#= The following package defines the macro `@ctime`
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
+
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+using FastBenchmark
  
 ############################################################################
 #
@@ -21,13 +30,11 @@ x    = [4,5]
 
 x[:] = [0,0]
  
-print_asis(x)   #hide
+println(x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #	ALIAS VS COPY
@@ -39,9 +46,9 @@ y = x   #'y' points to the same object as 'x' (do not interpret it as 'y' pointi
 
 x = 4   #'x' now points to another object (but 'y' still points to the object holding 2)
  
-print_asis(x)   #hide
+println(x)
  
-print_asis(y)   #hide
+println(y)
  
 ####################################################
 #	REMAR: Two variables may contain identical elements and yet refer to different objects
@@ -51,22 +58,20 @@ x = [4,5]
 
 y = x
  
-print_asis( x == y)   #hide
+println( x == y)
  
-print_asis( x === y)   #hide
+println( x === y)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = [4,5]
 
 y = [4,5]
  
-print_asis( x == y)   #hide
+println( x == y)
  
-print_asis( x === y)   #hide
+println( x === y)
  
 ####################################################
 #	variable 'y' as an alias
@@ -77,9 +82,9 @@ y    = x
 
 x[1] = 0
  
-print_asis(x)   #hide
+println(x)
  
-print_asis(y)   #hide
+println(y)
  
 ####################################################
 #	variable 'y' as a copy
@@ -90,7 +95,7 @@ y    = copy(x)
 
 x[1] = 0
  
-print_asis(x)   #hide
+println(x)
  
-print_asis(y)   #hide
+println(y)
  

@@ -1,5 +1,14 @@
-include(joinpath(homedir(),"JULIA_foldersPaths", "initial_folders.jl"))
-include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+############################################################################
+#   AUXILIARS FOR BENCHMARKING
+############################################################################
+#= The following package defines the macro `@ctime`
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
+
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+using FastBenchmark
  
 ############################################################################
 #
@@ -17,24 +26,20 @@ x   = 2
 
 y   = 3 * x
  
-print_asis(y)  #hide
+println(y)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x   = 2
 
 f() = 3 * x
  
-print_asis(f())  #hide
+println(f())
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #   FUNCTIONS AND METHODS
@@ -44,46 +49,40 @@ print_asis(f())  #hide
 foo1(a,b)                  = a + b
 foo1(a::String, b::String) = "This is $a and this is $b"
  
-print_asis(methods(foo1)) #hide
+println(methods(foo1))
  
-print_asis(foo1(1,2)) #hide
+println(foo1(1,2))
  
-print_asis(foo1("some text", "more text")) #hide
+println(foo1("some text", "more text"))
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # methods with different number of arguments
  
 foo2(x)       = x
 foo2(x, y)    = x + y
 foo2(x, y, z) = x + y + z
  
-print_asis(methods(foo2)) #hide
+println(methods(foo2))
  
-print_asis(foo2(1)) #hide
+println(foo2(1))
  
-print_asis(foo2(1,2)) #hide
+println(foo2(1,2))
  
-print_asis(foo2(1,2,3)) #hide
+println(foo2(1,2,3))
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = [2, 3, 4]
 
 y = sum(x)          # 2 + 3 + 4
 z = sum(log, x)     # log(2) + log(3) + log(4)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #   FUNCTION CALLS
@@ -92,11 +91,11 @@ z = sum(log, x)     # log(2) + log(3) + log(4)
  
 foo(a, b) = 2 + a * b
  
-print_asis(foo(1,2)) #hide
+println(foo(1,2))
  
-print_asis(foo(3,2)) #hide
+println(foo(3,2))
  
-print_asis(foo(3.0,2)) #hide
+println(foo(3.0,2))
  
 ############################################################################
 #
@@ -110,13 +109,11 @@ x       = [1, 2, "hello"]    # Vector{Any}
 
 foo3(x) = x[1] + x[2]        # type unstable
  
-print_asis(foo3(x))   #hide
+println(foo3(x))
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	global variables inherit their global type
 ####################################################
@@ -126,67 +123,57 @@ b         = 1
 
 foo4(a)   = a * b
  
-print_asis(foo4(a))   #hide
+println(foo4(a))
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 c         = 2
 d::Number = 1
 
 foo4(c)   = c * d
  
-print_asis(foo4(c))
+println(foo4(c))
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # Type-Annotating Function Arguments Does Not Improve Performance
  
 foo5(a, b) = a * b
  
-print_asis(foo5(0.5, 2.0)) #hide
+println(foo5(0.5, 2.0))
  
-print_asis(foo5(1, 2)) #hide
+println(foo5(1, 2))
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 foo6(a::Float64, b::Float64) = a * b
  
-print_asis(foo6(0.5, 2.0)) #hide
+println(foo6(0.5, 2.0))
  
-#print_asis(foo6(1, 2)) #ERROR #hide
+#println(foo6(1, 2)) #ERROR
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	REMARK: Packages Commonly Type-Annotate Function Arguments
 ####################################################
  
 revenue1(nr_tickets, price) = nr_tickets * price
  
-print_asis(revenue1(3, 2)) #hide
+println(revenue1(3, 2))
  
-print_asis(revenue1("this is ", "allowed")) #hide
+println(revenue1("this is ", "allowed"))
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 revenue2(nr_tickets::Int64, price::Number) = nr_tickets * price
  
-print_asis(revenue2(3, 2)) #hide
+println(revenue2(3, 2))
  
-# print_asis(revenue2("this is ", "not allowed")) #ERROR #hide
+# println(revenue2("this is ", "not allowed")) #ERROR
  

@@ -1,5 +1,14 @@
-include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
-include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+############################################################################
+#   AUXILIARS FOR BENCHMARKING
+############################################################################
+#= The following package defines the macro `@ctime`
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
+
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+using FastBenchmark
  
 # necessary packages for this file
 using Random
@@ -19,40 +28,36 @@ using Random
 x      = [1, 2, 3]
 
 foo(x) = sum(x[1:2])           # allocations from the slice 'x[1:2]'
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x      = [1, 2, 3]
 
 foo(x) = sum(@view(x[1:2]))    # it doesn't allocate
-@ctime foo($x) #hide
+@ctime foo($x)
  
 ####################################################
 #	BOOLEAN INDEX
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility
 x      = rand(1_000)
 
 foo(x) = sum(x[x .> 0.5])
 
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(123)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
 x      = rand(1_000)
 
 foo(x) = @views sum(x[x .> 0.5])
 
-@ctime foo($x) #hide
+@ctime foo($x)
  
 ############################################################################
 #
@@ -60,22 +65,20 @@ foo(x) = @views sum(x[x .> 0.5])
 #
 ############################################################################
  
-Random.seed!(123)       #setting seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility
 x      = rand(100_000)
 
 foo(x) = max.(x[1:2:length(x)], 0.5)
 
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(123)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
 x      = rand(100_000)
 
 foo(x) = max.(@view(x[1:2:length(x)]), 0.5)
 
-@ctime foo($x) #hide
+@ctime foo($x)
  

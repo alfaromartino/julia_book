@@ -1,5 +1,14 @@
-include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
-include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+############################################################################
+#   AUXILIARS FOR BENCHMARKING
+############################################################################
+#= The following package defines the macro `@ctime`
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
+
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+using FastBenchmark
  
 # necessary packages for this file
 using Pipe
@@ -19,29 +28,25 @@ using Pipe
 a      = -2
 
 output = round(log(abs(a)))
-print_asis(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 a      = -2
 
 temp1  = abs(a)
 temp2  = log(temp1)
 output = round(temp2)
-print_asis(output) #hide
+println(output)
  
-print_compact(temp1) #hide
+println(temp1)
  
-print_compact(temp2) #hide
+println(temp2)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 a      = -2
 
 output = let b = a         # 'b' is a local variable having the value of 'a' 
@@ -49,17 +54,15 @@ output = let b = a         # 'b' is a local variable having the value of 'a'
    temp2 = log(temp1)
    round(temp2)
 end
-print_asis(output) #hide
+println(output)
  
-#print_compact(temp1) #ERROR in a new session #hide
+#println(temp1) #ERROR in a new session
  
-#print_compact(temp2) #ERROR in a new session #hide
+#println(temp2) #ERROR in a new session
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 a      = -2
 
 output = let a = a         # the 'a' on the left of `=` defines a local variable
@@ -67,36 +70,34 @@ output = let a = a         # the 'a' on the left of `=` defines a local variable
    temp2 = log(temp1)
    round(temp2)
 end
-print_asis(output) #hide
+println(output)
  
-#print_compact(temp1) #ERROR in a new session #hide
+#println(temp1) #ERROR in a new session
  
-#print_compact(temp2) #ERROR in a new session #hide
+#println(temp2) #ERROR in a new session
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	remark: Let Blocks Can Mutate Variables
 ####################################################
  
-# just like functions, be careful as you can mutate the global variable   #hide 
+# just like functions, be careful as you can mutate the global variable 
 x = [2,2,2]
 
 output = let x = x
    x[1] = 0
 end
-print_asis(x) #hide
+println(x)
  
-# just like functions too, you can't reassign a value through a let block #hide 
+# just like functions too, you can't reassign a value through a let block 
 x = [2,2,2]
 
 output = let x = x
    x = 0
 end
-print_asis(x) #hide
+println(x)
  
 ############################################################################
 #
@@ -107,23 +108,19 @@ print_asis(x) #hide
 a      = -2
 
 output = round(log(abs(a)))
-print_asis(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 a      = -2
 
 output = a |> abs |> log |> round
-print_asis(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	remark: Let Blocks and Pipes For Long Names
 ####################################################
@@ -131,47 +128,39 @@ print_asis(output) #hide
 variable_with_a_long_name = 2
 
 output = variable_with_a_long_name - log(variable_with_a_long_name) / abs(variable_with_a_long_name)
-print_compact(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 variable_with_a_long_name = 2
 
 temp   = variable_with_a_long_name
 output = temp - log(temp) / abs(temp)
-print_compact(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 variable_with_a_long_name = 2
 
 output = variable_with_a_long_name  |>
          a -> a - log(a) / abs(a)
-print_compact(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 variable_with_a_long_name = 2
 
 output = let x = variable_with_a_long_name
     x - log(x) / abs(x)
 end
-print_compact(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	broadcasting pipes
 ####################################################
@@ -179,35 +168,29 @@ print_compact(output) #hide
 x      = [-1,2,3]
 
 output = sum(log.(abs.(x)))
-print_compact(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x      = [-1,2,3]
 
 temp1  = abs.(x)
 temp2  = log.(temp1)
 output = sum(temp2)
-print_compact(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x      = [-1,2,3]
 
 output = x .|> abs .|> log |> sum
-print_compact(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	Pipes with More Complex Operations 
 ####################################################
@@ -215,25 +198,21 @@ print_compact(output) #hide
 a      = -2
 
 output = round(2 * abs(a))
-print_asis(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 a      = -2
 
 temp1  = abs(a)
 temp2  = 2 * temp1
 output = round(temp2)
-print_asis(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 a      = -2
 
 output = a |> abs |> (x -> 2 * x) |> round
@@ -243,13 +222,11 @@ output = a              |>
          abs            |>
          x -> 2 * x     |>
          round
-print_asis(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	Package Pipe
 ####################################################
@@ -264,13 +241,11 @@ output =       a            |>
                abs          |>
                x -> 2 * x   |>
                round
-print_asis(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 using Pipe
 a = -2
 
@@ -281,13 +256,11 @@ output = @pipe a            |>
                abs          |>
                2 * _        |>
                round
-print_asis(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #  FUNCTION COMPOSITION (optional)
@@ -305,13 +278,11 @@ output   = log(abs(a))
 output   = a |> abs |> log
 output   = (log ∘ abs)(a)
 output   = ∘(log, abs)(a)
-print_asis(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 a        = 2
 outer(a) = a + 2
 inner(a) = a / 2
@@ -322,13 +293,11 @@ output   = outer(inner(a))
 output   = a |> inner |> outer
 output   = (outer ∘ inner)(a)
 output   = ∘(outer, inner)(a)
-print_asis(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # example 2
  
 x        = [1, 2, 3]
@@ -340,13 +309,11 @@ output   = log.(abs.(x))
 output   = x .|> abs .|> log
 output   = (log ∘ abs).(x)
 output   = ∘(log, abs).(x)
-print_compact(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x        = [1, 2, 3]
 outer(a) = a + 2
 inner(a) = a / 2
@@ -357,13 +324,11 @@ output   = outer.(inner.(x))
 output   = x .|> inner .|> outer
 output   = (outer ∘ inner).(x)
 output   = ∘(outer, inner).(x)
-print_compact(output) #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # broadcasting ∘
  
 a            = -1
@@ -376,7 +341,7 @@ compositions = outers .∘ inners
 output       = [log(abs(a)), sqrt(abs(a))]
 output       = [foo(a) for foo in compositions]
  
-print_asis(compositions) #hide
+println(compositions)
  
-print_asis(output) #hide
+println(output)
  

@@ -1,5 +1,14 @@
-include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
-include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+############################################################################
+#   AUXILIARS FOR BENCHMARKING
+############################################################################
+#= The following package defines the macro `@ctime`
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
+
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+using FastBenchmark
  
 ############################################################################
 #
@@ -23,13 +32,11 @@ function foo()
     x + y
 end
 
-@ctime foo() #hide
+@ctime foo()
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	ACCESSING or CREATING TUPLES DON'T CREATE ALLOCATIONS
 ####################################################
@@ -40,13 +47,11 @@ function foo()
     tup[1] + tup[2] * tup[3]
 end
 
-@ctime foo() #hide
+@ctime foo()
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	ACCESSING or CREATING NAMED TUPLES DON'T CREATE ALLOCATIONS
 ####################################################
@@ -57,13 +62,11 @@ function foo()
     nt.a + nt.b * nt.c
 end
 
-@ctime foo() #hide
+@ctime foo()
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	RANGES DON'T ALLOCATE
 ####################################################
@@ -74,13 +77,11 @@ function foo()
     sum(rang[1:2]) + rang[2] * rang[3]
 end
 
-@ctime foo() #hide
+@ctime foo()
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #   OBJECTS ALLOCATING MEMORY
@@ -93,23 +94,19 @@ end
  
 foo() = [1,2,3]
 
-@ctime foo() #hide
+@ctime foo()
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 foo() = sum([1,2,3])
 
 
-@ctime foo() #hide
+@ctime foo()
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	ACCESS TO SLICES ALLOCATES
 ####################################################
@@ -118,24 +115,20 @@ x      = [1,2,3]
 
 foo(x) = x[1:2]                 # allocations only from 'x[1:2]' itself (ranges don't allocate)
 
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x      = [1,2,3]
 
 foo(x) = x[[1,2]]               # allocations from both '[1,2]' and 'x[[1,2]]' itself
 
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	ACCESS TO THE WHOLE VECTOR OR SINGLE-ELEMENTS DOESN'T ALLOCATE
 ####################################################
@@ -144,24 +137,20 @@ x      = [1,2,3]
 
 foo(x) = 2 * sum(x)             
 
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x      = [1,2,3]
 
 foo(x) = x[1] * x[2] + x[3]
 
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	ARRAY COMPREHENSIONS ALLOCATE
 ####################################################
@@ -169,13 +158,11 @@ foo(x) = x[1] * x[2] + x[3]
 foo()  = [a for a in 1:3]
 
 
-@ctime foo() #hide
+@ctime foo()
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	BROADCASTING ALLOCATES
 ####################################################
@@ -183,15 +170,13 @@ foo()  = [a for a in 1:3]
 x      = [1,2,3]
 foo(x) = x .* x
 
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x      = [1,2,3]
 foo(x) = sum(x .* x)                # allocations from temporary vector 'x .* x' 
 
-@ctime foo($x) #hide
+@ctime foo($x)
  

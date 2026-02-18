@@ -1,5 +1,14 @@
-include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
-include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+############################################################################
+#   AUXILIARS FOR BENCHMARKING
+############################################################################
+#= The following package defines the macro `@ctime`
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
+
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+using FastBenchmark
  
 # necessary packages for this file
 using Random, Base.Threads, ChunkSplitters, OhMyThreads, LoopVectorization, FLoops
@@ -20,7 +29,7 @@ using Random, Base.Threads, ChunkSplitters, OhMyThreads, LoopVectorization, FLoo
 #	parallel mapping
 ####################################################
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x                       = rand(1_000_000)
 
 
@@ -34,12 +43,10 @@ foo_parallel2(x)        = tmap(log, eltype(x), x)
  
 @ctime foo_parallel2($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x                       = rand(1_000_000)
 output                  = similar(x)
 
@@ -50,38 +57,32 @@ foo_parallel!(output,x) = tmap!(log, output, x)
  
 @ctime foo_parallel!($output, $x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # defining chunk size or number of chunks
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(1_000_000)
 
 foo(x) = tmap(log, eltype(x), x; nchunks = nthreads())
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(1_000_000)
 
 foo(x) = tmap(log, eltype(x), x; chunksize = length(x) ÷ nthreads())
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # REMARK: do-block syntax
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -93,12 +94,10 @@ function foo(x)
     return output
 end
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)    
@@ -110,16 +109,14 @@ function foo(x)
     return output
 end
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	array comprehensions
 ####################################################
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x                = rand(1_000_000)
 output           = similar(x)
 
@@ -133,16 +130,14 @@ foo_parallel2(x) = tcollect(eltype(x), log(a) for a in x)
  
 @ctime foo_parallel2($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	reductions and mapreduce
 ####################################################
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x               = rand(1_000_000)
 
 foo(x)          =  reduce(+, x)
@@ -152,12 +147,10 @@ foo_parallel(x) = treduce(+, x)
  
 @ctime foo_parallel($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x               = rand(1_000_000)
 
 foo(x)          =  mapreduce(log, +, x)
@@ -167,16 +160,14 @@ foo_parallel(x) = tmapreduce(log, +, x)
  
 @ctime foo_parallel($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	`foreach` as a faster option for mappings 
 ####################################################
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -188,14 +179,12 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -207,14 +196,12 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -226,16 +213,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # comparing tmap and tforeach
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -247,14 +232,12 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -266,14 +249,12 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -285,14 +266,12 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -304,16 +283,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # chunks: control over work distribution
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -325,14 +302,12 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -344,20 +319,18 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #   POLYESTER: LIGHTER THREADS (FOR SMALL OBJECTS)
 #
 ############################################################################
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(500)
 
 function foo(x)
@@ -369,14 +342,12 @@ function foo(x)
     
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(500)
 
 function foo(x)
@@ -388,14 +359,12 @@ function foo(x)
     
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(500)
 
 function foo(x)
@@ -407,18 +376,16 @@ function foo(x)
     
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	reductions
 ####################################################
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(250)
 
 function foo(x)
@@ -430,14 +397,12 @@ function foo(x)
     
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(250)
 
 function foo(x)
@@ -449,16 +414,14 @@ function foo(x)
     
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # more than one reduction
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(250)
 
 function foo(x)
@@ -472,14 +435,12 @@ function foo(x)
     
     return output1, output2
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(250)
 
 function foo(x)
@@ -493,14 +454,12 @@ function foo(x)
     
     return output1, output2
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(250)
 
 function foo(x)
@@ -514,13 +473,11 @@ function foo(x)
     
     return output1, output2
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	local variables
 ####################################################
@@ -538,13 +495,11 @@ function foo()
 
     return out
 end
-print_asis(foo()) #hide
+println(foo())
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 function foo()
     out  = zeros(Int, 2)
     
@@ -556,13 +511,11 @@ function foo()
 
     return out
 end
-print_asis(foo()) #hide
+println(foo())
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 function foo()
     out  = zeros(Int, 2)
     temp = 0
@@ -574,13 +527,11 @@ function foo()
 
     return out
 end
-print_asis(foo()) #hide
+println(foo())
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 function foo()
     out  = zeros(Int, 2)
     temp = 0
@@ -592,20 +543,18 @@ function foo()
 
     return out
 end
-print_asis(foo()) #hide
+println(foo())
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #   SIMD + MULTITHREADING
 #
 ############################################################################
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = BitVector(rand(Bool, 100_000))
 y = rand(100_000)
 
@@ -618,14 +567,12 @@ function foo(x,y)
 
     output
 end
-@ctime foo($x,$y)  #hide
+@ctime foo($x,$y)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = BitVector(rand(Bool, 100_000))
 y = rand(100_000)
 
@@ -638,14 +585,12 @@ function foo(x,y)
 
     output
 end
-@ctime foo($x,$y)  #hide
+@ctime foo($x,$y)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = BitVector(rand(Bool, 100_000))
 y = rand(100_000)
 
@@ -658,16 +603,14 @@ function foo(x,y)
 
     output
 end
-@ctime foo($x,$y)  #hide
+@ctime foo($x,$y)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # @tturbo for broadcasting
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(1_000_000)
 
 function foo(x)
@@ -679,18 +622,16 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)  #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(1_000_000)
 
 foo(x) = @tturbo log.(x) ./ x
-@ctime foo($x)  #hide
+@ctime foo($x)
  
 ############################################################################
 #
@@ -700,7 +641,7 @@ foo(x) = @tturbo log.(x) ./ x
  
 # independent for-loops
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -712,14 +653,12 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -731,16 +670,14 @@ function foo(x)
     
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # reductions
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -752,14 +689,12 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -774,14 +709,12 @@ function foo(x)
     
     return sum(partial_outputs)
 end
-@ctime foo($x)  #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -793,5 +726,5 @@ function foo(x)
     
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  

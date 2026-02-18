@@ -1,5 +1,14 @@
-include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
-include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+############################################################################
+#   AUXILIARS FOR BENCHMARKING
+############################################################################
+#= The following package defines the macro `@ctime`
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
+
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+using FastBenchmark
  
 ############################################################################
 #
@@ -22,11 +31,9 @@ end
 @code_warntype foo(1)       # type stable
 @code_warntype foo(1.0)     # type UNSTABLE
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # barrier function
  
 operation(y) = [y * i for i in 1:100]
@@ -43,11 +50,9 @@ end
 @code_warntype foo(1)          # type stable
 @code_warntype foo(1.0)        # barrier-function solution
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # WARNING: wrong use
  
 operation(y,i) = y * i 
@@ -83,11 +88,9 @@ end
  
 @code_warntype foo(x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = ["a", 1]                     # variable with type 'Any'
 
 operation(y) = [y * i for i in 1:100]
@@ -100,11 +103,9 @@ end
  
 @code_warntype foo(x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	EXAMPLE 2
 ####################################################
@@ -123,11 +124,9 @@ end
  
 @ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = ["a", 1]                     # variable with type 'Any'
 
 operation(y) = [y * i for i in 1:100]
@@ -142,11 +141,9 @@ end
  
 @ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = ["a", 1]                     # variable with type 'Any'
 
 operation(y) = [y * i for i in 1:100]

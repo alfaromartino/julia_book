@@ -1,5 +1,14 @@
-include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
-include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+############################################################################
+#   AUXILIARS FOR BENCHMARKING
+############################################################################
+#= The following package defines the macro `@ctime`
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
+
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+using FastBenchmark
  
 ############################################################################
 #
@@ -17,50 +26,44 @@ x = [1, 2, 3]          #= column-vector (defined using commas or semicolons)
                            Vector{Int64} (alias for Array{Int64, 1}) =# 
 
 x = [1; 2; 3]          # equivalent
-print_asis(x)   #hide
+println(x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # accessing vector elements
  
 x = [4, 5, 6]
  
-print_asis(x)   #hide
+println(x)
  
-print_asis(x[2])   #hide
+println(x[2])
  
-print_asis(x[:])   #hide
+println(x[:])
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = [4, 5, 6, 7, 8]
  
-print_asis(x)   #hide
+println(x)
  
-print_asis(x[[1,3]])   #hide
+println(x[[1,3]])
  
-#print_asis(x[1,3]) #ERROR   #hide
+#println(x[1,3]) #ERROR
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = [4, 5, 6, 7, 8]
  
-print_asis(x)   #hide
+println(x)
  
-print_asis(x[1:2])   #hide
+println(x[1:2])
  
-print_asis(x[1:2:5])   #hide
+println(x[1:2:5])
  
-print_asis(x[begin:end])   #hide
+println(x[begin:end])
  
 ############################################################################
 #
@@ -76,41 +79,37 @@ X = [ [1,3] [2,4] ]   # identical to `X`, but defined through a collection of co
 Y = [1 2 3]           #= row-vector (defined without commas)
                          Matrix{Int64} (alias for Array{Int64, 2}) =#
  
-print_asis(X)   #hide
+println(X)
  
-print_asis(Y)   #hide
+println(Y)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 X = [5 6 ; 7 8] # matrix
 
 Y = [4 5 6]     # row-vector
  
-print_asis(X)   #hide
+println(X)
  
-print_asis(X[2,1])   #hide
+println(X[2,1])
  
-print_asis(X[1,:])   #hide
+println(X[1,:])
  
-print_asis(X[:,2])   #hide
+println(X[:,2])
  
-print_asis(Y[2])   #hide
+println(Y[2])
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 X = [5 6 ; 7 8]
  
-print_asis(X)   #hide
+println(X)
  
-print_asis(X[[1,2],1])   #hide
+println(X[[1,2],1])
  
-print_asis(X[1:2,1])   #hide
+println(X[1:2,1])
  
-print_asis(X[begin:end,1])   #hide
+println(X[begin:end,1])
  

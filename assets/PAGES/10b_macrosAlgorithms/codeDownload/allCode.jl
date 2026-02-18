@@ -1,5 +1,14 @@
-include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
-include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+############################################################################
+#   AUXILIARS FOR BENCHMARKING
+############################################################################
+#= The following package defines the macro `@ctime`
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
+
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+using FastBenchmark
  
 # necessary packages for this file
 using Random
@@ -16,7 +25,7 @@ using Random
 #
 ############################################################################
  
-Random.seed!(123)       #setting seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 function foo(x)
@@ -28,12 +37,10 @@ function foo(x)
     x1, x2, x3, x4
 end
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(123)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 @views function foo(x)
@@ -45,11 +52,9 @@ x = rand(1_000)
     x1, x2, x3, x4
 end
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #   MACROS APPLIED IN FOR-LOOPS
@@ -60,7 +65,7 @@ end
 #	@inbounds as an example
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 function foo(x)
@@ -74,16 +79,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # remark: alternative application of @inbounds
  
-Random.seed!(123)       #setting seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 function foo(x)
@@ -97,13 +100,11 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #   MACROS COULD BE APPLIED AUTOMATICALLY OR DISREGARDED BY THE COMPILER
@@ -114,7 +115,7 @@ end
 #	redundant macros
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 function foo(x)
@@ -126,14 +127,12 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(123)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 function foo(x)
@@ -145,18 +144,16 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	disregarded macro 
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(2_000_000)
 
 function foo(x)
@@ -172,14 +169,12 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(123)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(2_000_000)
 
 function foo(x)
@@ -195,5 +190,5 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  

@@ -1,5 +1,14 @@
-include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
-include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+############################################################################
+#   AUXILIARS FOR BENCHMARKING
+############################################################################
+#= The following package defines the macro `@ctime`
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
+
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+using FastBenchmark
  
 ############################################################################
 #
@@ -19,11 +28,11 @@ function foo(x)
     x[1] = 1
 end
  
-print_asis(y)       #hide
+println(y)
  
-print_asis(foo(y))       #hide
+println(foo(y))
  
-print_asis(y)       #hide
+println(y)
  
 ####################################################
 #	REMARK: functions can't reassign variables
@@ -35,28 +44,26 @@ function foo(x)
     x = 3
 end
  
-print_asis(x)       #hide
+println(x)
  
-print_asis(foo(x))       #hide
+println(foo(x))
  
-print_asis(x)       #hide
+println(x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = [1,2]
 
 function foo()
     x = [0,0]
 end
  
-print_asis(x)       #hide
+println(x)
  
-print_asis(foo(x))       #hide
+println(foo(x))
  
-print_asis(x)       #hide
+println(x)
  
 ############################################################################
 #
@@ -72,20 +79,18 @@ x      = [2, 1, 3]
 
 output = sort(x)
  
-print_asis(x)       #hide
+println(x)
  
-print_asis(output)       #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x      = [2, 1, 3]
 
 sort!(x)
  
-print_asis(x)       #hide
+println(x)
  
 ####################################################
 #	output argument
@@ -96,23 +101,21 @@ x      = [1, 2, 3]
 
 output = map(a -> a^2, x)
  
-print_asis(x)       #hide
+println(x)
  
-print_asis(output)       #hide
+println(output)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x      = [1, 2, 3]
 output = similar(x)             # we initialize `output`
 
 map!(a -> a^2, output, x)       # we update `output`
  
-print_asis(x)       #hide
+println(x)
  
-print_asis(output)       #hide
+println(output)
  
 ############################################################################
 #
@@ -128,15 +131,13 @@ function foo!(x)
     end
 end
  
-print_asis(foo!(x))       #hide
+println(foo!(x))
  
-print_asis(x)       #hide
+println(x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = Vector{Int64}(undef, 3)           # initialize a vector with 3 elements
 
 function foo!(x)
@@ -145,7 +146,7 @@ function foo!(x)
     end
 end
  
-print_asis(foo!(x))       #hide
+println(foo!(x))
  
-print_asis(x)       #hide
+println(x)
  

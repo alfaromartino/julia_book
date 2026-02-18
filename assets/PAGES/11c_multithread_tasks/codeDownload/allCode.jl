@@ -1,5 +1,14 @@
-include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
-include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+############################################################################
+#   AUXILIARS FOR BENCHMARKING
+############################################################################
+#= The following package defines the macro `@ctime`
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
+
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+using FastBenchmark
  
 # necessary packages for this file
 using Random, Base.Threads
@@ -19,23 +28,19 @@ using Random, Base.Threads
 # package `Threads` is automatically imported when you start a Julia session 
 
 Threads.nthreads()
-print_asis(Threads.nthreads()) #hide
+println(Threads.nthreads())
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 using Base.Threads      # or `using .Threads`
 
 nthreads()
-print_asis(nthreads()) #hide
+println(nthreads())
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #   TASK-BASED PARALLELISM: @SPAWN
@@ -55,11 +60,9 @@ function foo(x)
     a,b
 end
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = rand(10); y = rand(10)
 
 function foo(x)
@@ -69,11 +72,9 @@ function foo(x)
     a,b    = fetch.((task_a, task_b))
 end
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	mutating function
 ####################################################
@@ -85,11 +86,9 @@ function foo!(x,y)
     @. y = -y
 end
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = rand(10); y = rand(10)
 
 function foo!(x,y)
@@ -99,11 +98,9 @@ function foo!(x,y)
     wait.((task_a, task_b))
 end
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = rand(10); y = rand(10)
 
 function foo!(x,y)
@@ -113,11 +110,9 @@ function foo!(x,y)
     end    
 end
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #   MULTITHREADING OVERHEAD
@@ -128,7 +123,7 @@ end
 #	example with @spawn
 ####################################################
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
 function non_threaded(x)    
@@ -137,22 +132,20 @@ function non_threaded(x)
     
     all_outputs = (a,b)
 end
-non_threaded(x) #hide
+non_threaded(x)
  
 foo(x) = maximum(x)
-@ctime foo($x) #hide
+@ctime foo($x)
  
 foo(x) = sum(x)
-@ctime foo($x) #hide
+@ctime foo($x)
  
 @ctime non_threaded($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(10_000_000)
 
 function multithreaded(x)    
@@ -162,18 +155,16 @@ function multithreaded(x)
     all_tasks   = (task_a, task_b)
     all_outputs = fetch.(all_tasks)
 end
-multithreaded(x) #hide
+multithreaded(x)
  
 @ctime multithreaded($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # multithreading overhead
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x_small  = rand(    1_000)
 x_medium = rand(  100_000)
 x_big    = rand(1_000_000)
@@ -191,12 +182,10 @@ end
  
 @ctime foo($x_big)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x_small  = rand(    1_000)
 x_medium = rand(  100_000)
 x_big    = rand(1_000_000)

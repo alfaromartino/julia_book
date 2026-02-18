@@ -1,5 +1,14 @@
-include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
-include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+############################################################################
+#   AUXILIARS FOR BENCHMARKING
+############################################################################
+#= The following package defines the macro `@ctime`
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
+
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+using FastBenchmark
  
 # necessary packages for this file
 using Random
@@ -16,7 +25,7 @@ using Random
 #
 ############################################################################
  
-Random.seed!(123)       #setting seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -28,14 +37,12 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(123)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -47,19 +54,17 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(123)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 foo(x) = @. x / 2 + x^2 / 3
     
-@ctime foo($x) #hide
+@ctime foo($x)
  
 ############################################################################
 #
@@ -71,7 +76,7 @@ foo(x) = @. x / 2 + x^2 / 3
 #	automatic application of SIMD for Int in reductions
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1:10, 10_000_000)   # random integers between 1 and 10
 
 function foo(x)
@@ -83,14 +88,12 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(123)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(1:10, 10_000_000)   # random integers between 1 and 10
 
 function foo(x)
@@ -102,18 +105,16 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	no automatic application of SIMD for Float in reductions
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility #hide
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(10_000_000)
 
 function foo(x)
@@ -125,14 +126,12 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(123)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
 x = rand(10_000_000)
 
 function foo(x)
@@ -144,25 +143,21 @@ function foo(x)
 
     return output
 end
-@ctime foo($x) #hide
+@ctime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	REMAR: Why are Floating Points Treated Differently
 ####################################################
  
 x = 0.1 + (0.2 + 0.3)
-print_asis(x)   #hide
+println(x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = (0.1 + 0.2) + 0.3
-print_asis(x)   #hide
+println(x)
  

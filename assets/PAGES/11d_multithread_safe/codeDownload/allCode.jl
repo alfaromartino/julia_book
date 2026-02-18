@@ -1,5 +1,14 @@
-include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
-include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+############################################################################
+#   AUXILIARS FOR BENCHMARKING
+############################################################################
+#= The following package defines the macro `@ctime`
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
+
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+using FastBenchmark
  
 # necessary packages for this file
 using Random, Base.Threads
@@ -28,13 +37,11 @@ function foo()
 
     return output
 end
-print_asis(foo()) #hide
+println(foo())
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 function foo()
     output = 0
 
@@ -45,13 +52,11 @@ function foo()
 
     return output
 end
-print_asis(foo()) #hide
+println(foo())
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	reading and writing a shared variable
 ####################################################
@@ -67,13 +72,11 @@ function foo()
 
     return output
 end
-print_asis(foo()) #hide
+println(foo())
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 function foo()
     output = Vector{Int}(undef,2)
     temp   = 0
@@ -85,13 +88,11 @@ function foo()
 
     return output
 end
-print_asis(foo()) #hide
+println(foo())
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 function foo()
     output = Vector{Int}(undef,2)
     
@@ -103,13 +104,11 @@ function foo()
 
     return output
 end
-print_asis(foo()) #hide
+println(foo())
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #   RACE CONDITIONS WITH REDUCTIONS
@@ -120,7 +119,7 @@ print_asis(foo()) #hide
 #	same function returns a different result every time is called
 ####################################################
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -132,14 +131,12 @@ function foo(x)
 
     return output
 end
-print_asis(foo(x)) #hide
+println(foo(x))
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -151,14 +148,12 @@ function foo(x)
 
     return output
 end
-print_asis(foo(x)) #hide
+println(foo(x))
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -170,14 +165,12 @@ function foo(x)
 
     return output
 end
-print_asis(foo(x)) #hide
+println(foo(x))
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
 
 function foo(x)
@@ -189,20 +182,18 @@ function foo(x)
 
     return output
 end
-print_asis(foo(x)) #hide
+println(foo(x))
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #   EMBARRASSINGLY-PARALLEL PROGRAMS
 #
 ############################################################################
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x_small  = rand(    1_000)
 x_medium = rand(  100_000)
 x_big    = rand(1_000_000)
@@ -223,12 +214,10 @@ end
  
 @ctime foo($x_big)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x_small  = rand(    1_000)
 x_medium = rand(  100_000)
 x_big    = rand(1_000_000)

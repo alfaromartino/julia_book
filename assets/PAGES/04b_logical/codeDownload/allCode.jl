@@ -1,5 +1,14 @@
-include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
-include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+############################################################################
+#   AUXILIARS FOR BENCHMARKING
+############################################################################
+#= The following package defines the macro `@ctime`
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
+
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+using FastBenchmark
  
 ############################################################################
 #
@@ -22,25 +31,21 @@ x = 2
 #`y` equals `true` or `false`
 y = (x > 0)
  
-print_asis(y)   #hide
+println(y)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = 2
 
 #'z' element equals 'true' or 'false', represented by 1 or 0
 z = [x > 0, x < 0]
  
-print_asis(z)   #hide
+println(z)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	REMARK: comparison operators
 ####################################################
@@ -51,11 +56,9 @@ print_asis(z)   #hide
 >=(1,2)     # same as 1 ≥ 2
  >(1,2)     # same as 1 > 2
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #   LOGICAL OPERATORS
@@ -71,15 +74,13 @@ z1 = (x > 0) && (y > 0)
 # is either `x` or `y` (or both) positive? 
 z2 = (x > 0) || (y > 0)
  
-print_asis(z1)   #hide
+println(z1)
  
-print_asis(z2)   #hide
+println(z2)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = 2
 
 # is `x` positive?
@@ -88,41 +89,35 @@ y1 = (x > 0)
 # is `x` not lower than zero nor equal to zero? (equivalent)
 y2 = !(x ≤ 0)
  
-print_asis(y1)   #hide
+println(y1)
  
-print_asis(y2)   #hide
+println(y2)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	Logical Operators as Short-Circuit Operators
 ####################################################
  
 x = 10
  
-print_asis((x < 0) && (this-is-not-even-legitimate-code))   #hide
+println((x < 0) && (this-is-not-even-legitimate-code))
  
-#print_asis((x > 0) && (this-is-not-even-legitimate-code)) #ERROR   #hide
+#println((x > 0) && (this-is-not-even-legitimate-code)) #ERROR
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = 10
  
-print_asis((x > 0) || (this-is-not-even-legitimate-code))   #hide
+println((x > 0) || (this-is-not-even-legitimate-code))
  
-#print_asis((x < 0) || (this-is-not-even-legitimate-code)) #ERROR   #hide
+#println((x < 0) || (this-is-not-even-legitimate-code)) #ERROR
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #   PARENTHESIS IN MULTIPLE CONDITIONS
@@ -132,59 +127,49 @@ print_asis((x > 0) || (this-is-not-even-legitimate-code))   #hide
 x = 5
 y = 0
  
-print_asis(x < 0 && y > 4 || y < 2)   #hide
+println(x < 0 && y > 4 || y < 2)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = 5
 y = 0
  
-print_asis((x < 0) && (y > 4 || y < 2))   #hide
+println((x < 0) && (y > 4 || y < 2))
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x = 5
 y = 0
  
-print_asis((x < 0 && y > 4) || (y < 2))   #hide
+println((x < 0 && y > 4) || (y < 2))
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	Multiple Conditions without Parentheses
 ####################################################
  
-print_asis(false || true && true)   #hide
+println(false || true && true)
  
-print_asis(false || true && false)   #hide
+println(false || true && false)
  
-print_asis(true || does-not-matter)   #hide
+println(true || does-not-matter)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
+
+
+
+println(true && false || true)
  
-print_asis(true && false || true)   #hide
+println(true && false || false)
  
-print_asis(true && false || false)   #hide
+println(false && does-not-matter || true)
  
-print_asis(false && does-not-matter || true)   #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #   FUNCTIONS TO CHECK CONDITIONS ON VECTORS: `all` and `any`
@@ -204,15 +189,13 @@ are_all_positive = all([a > 0, b > 0])
 # function indicating whether at least one element satisfies the condition
 is_one_positive  = any([a > 0, b > 0])
  
-print_asis(are_all_positive)    #hide
+println(are_all_positive)
  
-print_asis(is_one_positive)    #hide
+println(is_one_positive)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	code 2
 ####################################################
@@ -222,15 +205,13 @@ x                = [1, -1]
 are_all_positive = all(x .> 0)
 is_one_positive  = any(x .> 0)
  
-print_asis(are_all_positive)    #hide
+println(are_all_positive)
  
-print_asis(is_one_positive)    #hide
+println(is_one_positive)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	Functions for Representing Multiple Conditions
 ####################################################
@@ -240,22 +221,20 @@ x                = [1, -1]
 are_all_positive = all(i -> i > 0, x)
 is_one_positive  = any(i -> i > 0, x)
  
-print_asis(are_all_positive)    #hide
+println(are_all_positive)
  
-print_asis(is_one_positive)    #hide
+println(is_one_positive)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 x                = [1, -1]
 y                = [1,  1]
 
 are_all_positive = all.(i -> i > 0, [x,y])
 is_one_positive  = any.(i -> i > 0, [x,y])
  
-print_asis(are_all_positive)    #hide
+println(are_all_positive)
  
-print_asis(is_one_positive)    #hide
+println(is_one_positive)
  

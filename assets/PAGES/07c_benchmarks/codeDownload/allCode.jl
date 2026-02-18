@@ -1,5 +1,14 @@
-include(joinpath(homedir(),"JULIA_foldersPaths", "initial_folders.jl"))
-include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
+############################################################################
+#   AUXILIARS FOR BENCHMARKING
+############################################################################
+#= The following package defines the macro `@ctime`
+    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
+    For accurate results, interpolate each function argument using `$`. 
+        e.g., `@ctime foo($x)` for timing `foo(x)` =#
+
+# uncomment the following if you don't have the package for @ctime installed
+    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
+using FastBenchmark
  
 # necessary packages for this file
 using BenchmarkTools, Chairmarks
@@ -21,11 +30,9 @@ x = 1:100
 @time sum(x)         # first run                     -> it incorporates compilation time 
 @time sum(x)         # time without compilation time -> relevant for each subsequent run
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #	PACKAGE BenchmarkTools
@@ -37,38 +44,32 @@ using BenchmarkTools
 x = 1:100
 @btime sum($x)        # provides minimum time only
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 using BenchmarkTools
 
 x = 1:100
 @benchmark sum($x)    # provides more statistics than `@btime`
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ####################################################
 #	interpolation with $ to treat function arguments as local variables
 ####################################################
  
 using BenchmarkTools
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(100)
 
 @btime sum(x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 using BenchmarkTools
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(100)
 
 @btime sum($x)
@@ -80,29 +81,25 @@ x = rand(100)
 ############################################################################
  
 using Chairmarks
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(100)
 
 display(@b sum($x))        # provides minimum time only
-print_asis(@b sum($x))    #hide
+println(@b sum($x))
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 using Chairmarks
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x = rand(100)
 
 display(@be sum($x))       # analogous to `@benchmark` in BenchmarkTools
-print_asis(@be sum($x))    #hide
+println(@be sum($x))
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 ############################################################################
 #
 #	REMARK ON RANDOM NUMBERS FOR BENCHMARKING
@@ -117,11 +114,9 @@ x = rand(100)
 
 y = rand(100)           # different from `x`
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 using Random
 
 Random.seed!(1234)      # 1234 is an arbitrary number, use any number you want
@@ -130,11 +125,9 @@ x = rand(100)
 Random.seed!(1234)
 y = rand(100)           # identical to `x`
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 using Random
 Random.seed!(123)
 
@@ -142,12 +135,10 @@ x = rand(100)
 
 y = sum(x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-using Random ; Random.seed!(123) #hide
+
+
+
+using Random ; Random.seed!(123)
 # We omit the lines that seet the seed
 
 
@@ -163,33 +154,29 @@ y = sum(x)
  
 # example 1
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(100_000)
 
 foo()  = sum(2 .* x)
 
-@btime foo()    #hide
+@btime foo()
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(100_000)
 
 foo(x) = sum(a -> 2 * a, x)
 
-@btime foo($x)    #hide
+@btime foo($x)
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
+
+
+
 # example 2
  
-Random.seed!(1234)       #setting seed for reproducibility #hide
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(100_000)
 foo()  = sum(2 .* x)
 
@@ -199,14 +186,12 @@ function replicate()
    end
 end
 
-@btime replicate()    #hide
+@btime replicate()
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-Random.seed!(1234)       #setting seed for reproducibility #hide
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(100_000)
 foo(x) = sum(a -> 2 * a, x)
 
@@ -216,5 +201,5 @@ function replicate(x)
    end
 end
 
-@btime replicate($x)    #hide
+@btime replicate($x)
  
