@@ -1,2 +1,2 @@
 # necessary packages for this file
-using Random, StatsBase, Distributions , Pipe
+using Random, StatsBase, Distributions, Pipe

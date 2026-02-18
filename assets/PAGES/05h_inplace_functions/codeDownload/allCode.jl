@@ -1,18 +1,15 @@
-############################################################################
-#   AUXILIARS FOR BENCHMARKING
-############################################################################
-#= The following package defines the macro `@ctime`
-    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
-    For accurate results, interpolate each function argument using `$`. 
-        e.g., `@ctime foo($x)` for timing `foo(x)` =#
-
-# uncomment the following if you don't have the package for @ctime installed
-    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
-using FastBenchmark
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 ############################################################################
 #
-#			SECTION: "IN-PLACE FUNCTIONS"
+#			        SECTION: "IN-PLACE FUNCTIONS"
+#
+############################################################################
+ 
+############################################################################
+#
+#	DEFINING IN-PLACE FUNCTIONS
 #
 ############################################################################
  
@@ -22,14 +19,14 @@ function foo(x)
     x[1] = 1
 end
  
-println(y)
+print_asis(y)       #hide
  
-println(foo(y))
+print_asis(foo(y))       #hide
  
-println(y)
+print_asis(y)       #hide
  
 ####################################################
-#	Functions Can't Reassign Variables
+#	REMARK: functions can't reassign variables
 ####################################################
  
 x = 2
@@ -38,30 +35,32 @@ function foo(x)
     x = 3
 end
  
-println(x)
+print_asis(x)       #hide
  
-println(foo(x))
+print_asis(foo(x))       #hide
  
-println(x)
+print_asis(x)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = [1,2]
 
 function foo()
     x = [0,0]
 end
  
-println(x)
+print_asis(x)       #hide
  
-println(foo(x))
+print_asis(foo(x))       #hide
  
-println(x)
+print_asis(x)       #hide
  
 ############################################################################
 #
-#			BUILT-IN IN-PLACE FUNCTIONS
+#   BUILT-IN IN-PLACE FUNCTIONS
 #
 ############################################################################
  
@@ -73,21 +72,23 @@ x      = [2, 1, 3]
 
 output = sort(x)
  
-println(x)
+print_asis(x)       #hide
  
-println(output)
+print_asis(output)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x      = [2, 1, 3]
 
 sort!(x)
  
-println(x)
+print_asis(x)       #hide
  
 ####################################################
-#	multiple-argument Functions
+#	output argument
 ####################################################
  
 x      = [1, 2, 3]
@@ -95,25 +96,27 @@ x      = [1, 2, 3]
 
 output = map(a -> a^2, x)
  
-println(x)
+print_asis(x)       #hide
  
-println(output)
+print_asis(output)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x      = [1, 2, 3]
 output = similar(x)             # we initialize `output`
 
 map!(a -> a^2, output, x)       # we update `output`
  
-println(x)
+print_asis(x)       #hide
  
-println(output)
+print_asis(output)       #hide
  
 ############################################################################
 #
-#			MUTATIONS VIA FOR-LOOPS
+#   FOR-LOOP MUTATION VIA IN-PLACE FUNCTION
 #
 ############################################################################
  
@@ -125,13 +128,15 @@ function foo!(x)
     end
 end
  
-println(foo!(x))
+print_asis(foo!(x))       #hide
  
-println(x)
+print_asis(x)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = Vector{Int64}(undef, 3)           # initialize a vector with 3 elements
 
 function foo!(x)
@@ -140,7 +145,7 @@ function foo!(x)
     end
 end
  
-println(foo!(x))
+print_asis(foo!(x))       #hide
  
-println(x)
+print_asis(x)       #hide
  

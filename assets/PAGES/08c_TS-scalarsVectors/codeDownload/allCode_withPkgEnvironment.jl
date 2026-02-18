@@ -23,13 +23,13 @@ using FastBenchmark
  
 ############################################################################
 #
-#			SECTION: "TYPE STABILITY WITH SCALARS AND VECTORS"
+#			        SECTION: "TYPE STABILITY WITH SCALARS AND VECTORS"
 #
 ############################################################################
  
 ############################################################################
 #
-#           Type Stability with Scalars
+#   TYPE STABILITY WITH SCALARS
 #
 ############################################################################
  
@@ -59,7 +59,7 @@ output      = foo(x2,y2)      # type stable: `x` and `y` are `Float64`, so outpu
 println(output)
  
 ####################################################
-#	Type Instability
+#	type Instability with scalars
 ####################################################
  
 function foo(x,y)
@@ -85,9 +85,11 @@ foo(1, 2.5)         # type UNSTABLE -> `a * i` is either `Int64` or `Float64`
  
 ############################################################################
 #
-#           TYPE STABILITY WITH VECTORS
+#   TYPE STABILITY WITH VECTORS
 #
 ############################################################################
+ 
+# type promotion and conversion
  
 x = [1, 2, 2.5]      # automatic conversion to `Vector{Float64}`
 println(x)

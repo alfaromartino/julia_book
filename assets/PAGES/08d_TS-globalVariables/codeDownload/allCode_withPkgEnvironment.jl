@@ -26,13 +26,15 @@ using Random
  
 ############################################################################
 #
-#			SECTION: "TYPE STABILITY WITH GLOBAL VARIABLES"
+#			        SECTION: "TYPE STABILITY WITH GLOBAL VARIABLES"
 #
 ############################################################################
  
-####################################################
-#	When Are We Using Global Variables?
-####################################################
+############################################################################
+#
+#	WHEN ARE WE USING GLOBAL VARIABLES?
+#
+############################################################################
  
 # all operations are type UNSTABLE (they're defined in the global scope)
 x = 2
@@ -73,7 +75,7 @@ end
 
 ############################################################################
 #
-#			Achieving Type Stability With Global Variables
+#   ACHIEVING TYPE STABILITY WITH GLOBAL VARIABLES
 #
 ############################################################################
  
@@ -95,7 +97,7 @@ foo()   = sum(b)
 @code_warntype foo()        # type stable
  
 ####################################################
-#	warning
+#	warning: Avoid Reassignments of Global Variables
 ####################################################
  
 const x1 = 1
@@ -138,7 +140,7 @@ foo()               = sum(x5)
  
 ############################################################################
 #
-#			DIFFERENCES BETWEEN APPROACHES
+#   DIFFERENCES BETWEEN APPROACHES
 #
 ############################################################################
  
@@ -195,7 +197,7 @@ end
 
 
 ####################################################
-#	remark: invariance of operations
+#	REMARK: invariance of operations
 ####################################################
  
 Random.seed!(1234)       #setting seed for reproducibility

@@ -23,13 +23,13 @@ using FastBenchmark
  
 ############################################################################
 #
-#			 SECTION: "FUNCTIONS: TYPE INFERENCE AND MULTIPLE DISPATCH"
+#			        SECTION: "FUNCTIONS: TYPE INFERENCE AND MULTIPLE DISPATCH"
 #
 ############################################################################
  
 ############################################################################
 #
-#			variable scope in functions
+#   VARIABLE SCOPE IN FUNCTIONS
 #
 ############################################################################
  
@@ -53,7 +53,7 @@ println(f())
 
 ############################################################################
 #
-#			functions and methods
+#   FUNCTIONS AND METHODS
 #
 ############################################################################
  
@@ -96,7 +96,7 @@ z = sum(log, x)     # log(2) + log(3) + log(4)
 
 ############################################################################
 #
-#			function calls
+#   FUNCTION CALLS
 #
 ############################################################################
  
@@ -110,9 +110,11 @@ println(foo(3.0,2))
  
 ############################################################################
 #
-#			Remarks on Type Inference
+#   TYPE INFERENCE
 #
 ############################################################################
+ 
+# Functions Do Not Guarantee The Identification of Concrete Types
  
 x       = [1, 2, "hello"]    # Vector{Any}
 
@@ -147,11 +149,7 @@ println(foo4(c))
 
 
 
-############################################################################
-#
-#			SECTION: "Type-Annotating Function Arguments Does Not Improve Performance"
-#
-############################################################################
+# Type-Annotating Function Arguments Does Not Improve Performance
  
 foo5(a, b) = a * b
  
@@ -172,7 +170,7 @@ println(foo6(0.5, 2.0))
 
 
 ####################################################
-#	remark
+#	REMARK: Packages Commonly Type-Annotate Function Arguments
 ####################################################
  
 revenue1(nr_tickets, price) = nr_tickets * price

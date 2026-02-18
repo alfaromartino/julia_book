@@ -26,15 +26,17 @@ using Random, StatsBase, Distributions, Pipe
  
 ############################################################################
 #
-#			SECTION: "ILLUSTRATION - JOHNNY, THE YOUTUBER"
+#                   SECTION: "ILLUSTRATION - JOHNNY, THE YOUTUBER"
 #
 ############################################################################
  
 ############################################################################
 #
-#       MOCK DATASET
+#	DESCRIBING THE SCENARIO
 #
 ############################################################################
+ 
+# MOCK DATASET
  
 using StatsBase, Distributions
 using Random; Random.seed!(1234)
@@ -64,9 +66,25 @@ println(earnings)
  
 ############################################################################
 #
-# SOME STATISTICS
-#    
+#	SOME STATISTICS
+#
 ############################################################################
+ 
+# code 1
+ 
+range_payrates  = unique(payrates) |> sort
+range_payrates |> println
+ 
+
+
+
+using StatsBase
+occurrences_payrates = countmap(payrates) |> sort
+occurrences_payrates |> println
+ 
+
+
+# code 2
  
 top_earnings    = sort(earnings, rev=true)[1:3]
 top_earnings |> println
@@ -81,25 +99,13 @@ indices         = sortperm(earnings, rev=true)[1:3]
 sorted_viewers  = viewers[indices]
 println(sorted_viewers)
  
-
-
-
-range_payrates  = unique(payrates) |> sort
-range_payrates |> println
- 
-
-
-
-using StatsBase
-occurrences_payrates = countmap(payrates) |> sort
-occurrences_payrates |> println
- 
 ############################################################################
 #
-# BOOLEAN INDICES
-# (to characterize viral videos defined by >100k viewers)
-#    
+#	BOOLEAN VARIABLES
+#
 ############################################################################
+ 
+# MOCK DATA CREATION
  
 # characterization of viral videos
 viral_threshold = 100
@@ -116,6 +122,9 @@ println(viral_viewers)
  
 println(viral_revenue)
  
+
+
+
 # characterization
 viral_threshold    = 100
 payrates_above_avg = 3
@@ -127,12 +136,20 @@ is_viral_lucrative = (viewers .≥ viral_threshold) .&& (payrates .> payrates_ab
 proportion_viral_lucrative = sum(is_viral_lucrative) / sum(is_viral) * 100
 println(proportion_viral_lucrative)
  
+# REMARK: rounding outputs
+ 
 rounded_proportion = round(proportion_viral_lucrative)
 println(rounded_proportion)
  
+
+
+
 rounded_proportion = round(proportion_viral_lucrative, digits=1)
 println(rounded_proportion)
  
+
+
+
 rounded_proportion = round(Int64, proportion_viral_lucrative)
 println(rounded_proportion)
  
@@ -141,8 +158,8 @@ println(rounded_proportion)
 
 ############################################################################
 #
-# FUNCTIONS TO REPRESENT TASKS
-# 
+#	FUNCTIONS TO REPRESENT TASKS
+#
 ############################################################################
  
 #
@@ -184,18 +201,28 @@ function stats_subset(viewers, payrates, condition)
     return (; nrvideos, audience, revenue)
 end
  
+
+
+# reusability of functions
+ 
 viral_threshold  = 100
 is_viral         = (viewers .≥ viral_threshold)
 viral            = stats_subset(viewers, payrates, is_viral)
  
 println(viral)
  
+
+
+
 viral_threshold  = 100
 is_notviral      = .!(is_viral)      # '!' is negating a boolean value and we broadcast it
 notviral         = stats_subset(viewers, payrates, is_notviral)
  
 println(notviral)
  
+
+
+
 days_to_consider = (1, 10, 25)      # subset of days to be characterized
 is_day           = in.(eachindex(viewers), Ref(days_to_consider))
 specific_days    = stats_subset(viewers, payrates, is_day)
@@ -207,18 +234,9 @@ println(specific_days)
 
 ############################################################################
 #
-# SUBSETTING DATA
-#    
+#	VARIABLE MUTATION
+#
 ############################################################################
- 
-# 'temp' modifies 'new_viewers'
-new_viewers     = copy(viewers)
-temp            = @view new_viewers[new_viewers .< viral_threshold]
-temp           .= 1.2 .* temp
-
-allvideos       = trues(length(new_viewers))
-targetNonViral  = stats_subset(new_viewers, payrates, allvideos)
-println(targetNonViral)
  
 # 'temp' modifies 'new_viewers'
 new_viewers     = copy(viewers)
@@ -229,15 +247,51 @@ allvideos       = trues(length(new_viewers))
 targetViral     = stats_subset(new_viewers, payrates, allvideos)
 println(targetViral)
  
-targetNonViral = let viewers = viewers, payrates = payrates, threshold = viral_threshold
-    new_viewers = copy(viewers)
-    temp        = @view new_viewers[new_viewers .< threshold]
-    temp       .= 1.2 .* temp
 
-    allvideos  = trues(length(new_viewers))
-    stats_subset(new_viewers, payrates, allvideos)
-end
+
+
+# 'temp' modifies 'new_viewers'
+new_viewers     = copy(viewers)
+temp            = @view new_viewers[new_viewers .< viral_threshold]
+temp           .= 1.2 .* temp
+
+allvideos       = trues(length(new_viewers))
+targetNonViral  = stats_subset(new_viewers, payrates, allvideos)
 println(targetNonViral)
+ 
+
+
+
+# REMARK: Be Careful with Misusing 'view'
+ 
+new_viewers = copy(viewers)
+
+
+temp  = @view new_viewers[new_viewers .≥ viral_threshold]
+temp .= temp .* 1.2
+ 
+
+
+
+new_viewers = viewers     # it creates an alias, it's a view of the original object!!!
+
+# 'temp' modifies 'viewers' -> you lose the original info
+temp  = @view new_viewers[new_viewers .≥ viral_threshold]
+temp .= temp .* 1.2
+ 
+
+
+
+new_viewers = copy(viewers)
+
+# wrong -> not using `temp .= temp .* 1.2`
+temp  = @view new_viewers[new_viewers .≥ viral_threshold]
+temp  = temp .* 1.2     # it creates a new variable 'temp', it does not modify 'new_viewers'
+ 
+
+
+
+# REMARK: Use of "Let Blocks" To Avoid Bugs
  
 targetViral    = let viewers = viewers, payrates = payrates, threshold = viral_threshold
     new_viewers = copy(viewers)
@@ -249,44 +303,25 @@ targetViral    = let viewers = viewers, payrates = payrates, threshold = viral_t
 end
 println(targetViral)
  
-############
-# REMARK: WRONG USES
-# only the first one is right
-############
+
+
+
+targetNonViral = let viewers = viewers, payrates = payrates, threshold = viral_threshold
+    new_viewers = copy(viewers)
+    temp        = @view new_viewers[new_viewers .< threshold]
+    temp       .= 1.2 .* temp
+
+    allvideos  = trues(length(new_viewers))
+    stats_subset(new_viewers, payrates, allvideos)
+end
+println(targetNonViral)
  
-new_viewers = copy(viewers)
-
-
-temp  = @view new_viewers[new_viewers .≥ viral_threshold]
-temp .= temp .* 1.2
- 
-new_viewers = viewers     # it creates an alias, it's a view of the original object!!!
-
-# 'temp' modifies 'viewers' -> you lose the original info
-temp  = @view new_viewers[new_viewers .≥ viral_threshold]
-temp .= temp .* 1.2
- 
-new_viewers = copy(viewers)
-
-# wrong -> not using `temp .= temp .* 1.2`
-temp  = @view new_viewers[new_viewers .≥ viral_threshold]
-temp  = temp .* 1.2     # it creates a new variable 'temp', it does not modify 'new_viewers'
- 
-
-
-
 ############################################################################
 #
-# BROADCASTING OVER A LIST OF FUNCTIONS (OPTIONAL)
-#    
+#	BROADCASTING OVER A LIST OF FUNCTIONS
+#
 ############################################################################
  
-describe(viewers)
-print(describe(viewers))
- 
-
-
-
 list_functions = [sum, median, mean, maximum, minimum]
 
 stats_viewers  = [fun(viewers) for fun in list_functions]
@@ -303,17 +338,11 @@ println(stats_various)
 
 
 
-stats_viewers  = NamedTuple((Symbol(fun), fun(viewers)) for fun in list_functions)
+vector_of_tuples = [(Symbol(fun), fun(viewers)) for fun in list_functions]
+stats_viewers    = NamedTuple(vector_of_tuples)
 println(stats_viewers)
  
 println(stats_viewers.mean)
  
 println(stats_viewers[:median])
- 
-
-
-
-vector_of_tuples = [(Symbol(fun), fun(viewers)) for fun in list_functions]
-stats_viewers    = NamedTuple(vector_of_tuples)
-println(stats_viewers)
  

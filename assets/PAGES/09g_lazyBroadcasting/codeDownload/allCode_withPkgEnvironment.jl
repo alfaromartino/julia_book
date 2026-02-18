@@ -26,13 +26,13 @@ using Random, LazyArrays
  
 ############################################################################
 #
-#			SECTION: "LAZY BROADCASTING AND LOOP FUSION"
+#			        SECTION: "LAZY BROADCASTING AND LOOP FUSION"
 #
 ############################################################################
  
 ############################################################################
 #
-#           HOW DOES BROADCASTING WORK INTERNALLY?
+#   HOW DOES BROADCASTING WORK INTERNALLY?
 #
 ############################################################################
  
@@ -84,26 +84,11 @@ end
 
 
 ####################################################
-#	remark: @inbounds may be automatically applied to for-loops
+#	REMARK: other optimization differences between broadcasting and for-loops
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility
-x      = rand(100)
-
-function foo(x)
-    output = zero(eltype(x))
-
-    for i in eachindex(x)
-        output += 2 * x[i]
-    end
-
-    return output
-end
-@ctime foo($x)
+# code 1
  
-
-
-
 Random.seed!(123)       #setting seed for reproducibility
 x      = rand(100)
 
@@ -138,9 +123,7 @@ end
 
 
 
-####################################################
-#	remark: there can be other optimization differences between for-loops and broadcasting
-####################################################
+# code 2
  
 Random.seed!(123)       #setting seed for reproducibility
 x      = rand(100)
@@ -189,7 +172,7 @@ end
 
 ############################################################################
 #
-#			LOOP FUSION
+#   LOOP FUSION
 #
 ############################################################################
  
@@ -229,7 +212,7 @@ foo(a)   = term1(a) + term2(a)
 
 
 ####################################################
-#	vector operations can provide identical results to broadcasting
+#	Mixing Broadcasting with Vector Operations Breaks Loop Fusion
 ####################################################
  
 # addition
@@ -301,7 +284,7 @@ end
 
 
 
-# mixing broadcasting and vector operations
+# partial fusion
  
 Random.seed!(123)       #setting seed for reproducibility
 x      = rand(100)
@@ -358,7 +341,7 @@ foo(a) = a * 2 + a * 3
 
 ############################################################################
 #
-#			LAZY BROADCASTING
+#   LAZY BROADCASTING
 #
 ############################################################################
  
@@ -430,7 +413,7 @@ foo(x) = sum(@~ 2 .* x)
 
 
 
-# remark: Lazy Broadcasting May Be Faster Than Other Lazy Alternatives
+# REMARK: Lazy Broadcasting May Be Faster Than Other Lazy Alternatives
  
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(100)

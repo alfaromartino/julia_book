@@ -1,27 +1,18 @@
-############################################################################
-#   AUXILIARS FOR BENCHMARKING
-############################################################################
-#= The following package defines the macro `@ctime`
-    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
-    For accurate results, interpolate each function argument using `$`. 
-        e.g., `@ctime foo($x)` for timing `foo(x)` =#
-
-# uncomment the following if you don't have the package for @ctime installed
-    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
-using FastBenchmark
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
 using Random, Base.Threads, ChunkSplitters, LoopVectorization, LazyArrays
  
 ############################################################################
 #
-#			SECTION: "PARALLELIZATION IN PRACTICE"
+#			        SECTION: "PARALLELIZATION IN PRACTICE"
 #
 ############################################################################
  
 ############################################################################
 #
-#      BETTER TO PARALLELIZE AT THE TOP
+#   BETTER TO PARALLELIZE AT THE TOP
 #
 ############################################################################
  
@@ -47,17 +38,19 @@ function foo(x)
    return output
 end
 
-Random.seed!(1234)       #setting seed for reproducibility
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x_small  = rand(  1_000)
 x_large  = rand(100_000)
  
-@ctime foo($x_small)
+@ctime foo($x_small) #hide
  
-@ctime foo($x_large)
+@ctime foo($x_large) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 step1(a) = a ^ 2
 step2(a) = sqrt(a)
 step3(a) = log(a + 1)
@@ -80,17 +73,19 @@ function foo(x)
    return output
 end
 
-Random.seed!(1234)       #setting seed for reproducibility
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x_small  = rand(  1_000)
 x_large  = rand(100_000)
  
-@ctime foo($x_small)
+@ctime foo($x_small) #hide
  
-@ctime foo($x_large)
+@ctime foo($x_large) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 step1(a) = a ^ 2
 step2(a) = sqrt(a)
 step3(a) = log(a + 1)
@@ -113,20 +108,22 @@ function foo(x)
    return output
 end
 
-Random.seed!(1234)       #setting seed for reproducibility
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x_small  = rand(  1_000)
 x_large  = rand(100_000)
  
-@ctime foo($x_small)
+@ctime foo($x_small) #hide
  
-@ctime foo($x_large)
+@ctime foo($x_large) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			THE IMPORTANCE OF WORK DISTRIBUTION
+#   THE IMPORTANCE OF WORK DISTRIBUTION
 #
 ############################################################################
  
@@ -134,7 +131,7 @@ x_large  = rand(100_000)
 #	@threads vs @spawn
 ####################################################
  
-Random.seed!(1234)       #setting seed for reproducibility
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -146,12 +143,14 @@ function foo(x)
     
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -163,11 +162,13 @@ function foo(x)
     
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	partitioning collections
 ####################################################
@@ -181,13 +182,15 @@ nr_chunks     = 5
 chunk_indices = index_chunks(x, n = nr_chunks)
 chunk_values  = chunks(x, n = nr_chunks)
  
-println(collect(chunk_indices))
+print_asis(collect(chunk_indices))
  
-println(collect(chunk_values))
+print_asis(collect(chunk_values))
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # chunks creation -> by setting the size of the subsets
  
 x             = string.('a':'z')            # all letters from "a" to "z"
@@ -197,13 +200,15 @@ chunk_length  = 10
 chunk_indices = index_chunks(x, size = chunk_length)
 chunk_values  = chunks(x, size = chunk_length)
  
-println(collect(chunk_indices))
+print_asis(collect(chunk_indices))
  
-println(collect(chunk_values))
+print_asis(collect(chunk_values))
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	common way to split chunks for multithreading
 ####################################################
@@ -215,13 +220,15 @@ nr_chunks     = nthreads()
 chunk_indices = index_chunks(x, n = nr_chunks)
 chunk_values  = chunks(x, n = nr_chunks)
  
-println(collect(chunk_indices))
+print_asis(collect(chunk_indices))
  
-println(collect(chunk_values))
+print_asis(collect(chunk_values))
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x             = string.('a':'z')            # all letters from "a" to "z"
 
 nr_chunks     = nthreads()
@@ -232,20 +239,22 @@ chunk_values  = chunks(x, n = nr_chunks)
 chunk_iter1   = enumerate(chunk_indices)    # pairs (i_chunk, chunk_index)
 chunk_iter2   = enumerate(chunk_values)     # pairs (i_chunk, chunk_value)
  
-println(collect(chunk_indices))
+print_asis(collect(chunk_indices))
  
-println(collect(chunk_values))
+print_asis(collect(chunk_values))
  
-println(collect(chunk_iter1))
+print_asis(collect(chunk_iter1))
  
-println(collect(chunk_iter2))
+print_asis(collect(chunk_iter2))
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			WORK DISTRIBUTION: DEFINING TASKS THROUGH CHUNKS
+#   WORK DISTRIBUTION: DEFINING TASKS THROUGH CHUNKS
 #
 ############################################################################
  
@@ -253,7 +262,7 @@ println(collect(chunk_iter2))
 #	implementation of @threads by using @spawn + chunks
 ####################################################
  
-Random.seed!(1234)       #setting seed for reproducibility
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -265,12 +274,14 @@ function foo(x)
     
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x, nr_chunks)
@@ -283,12 +294,14 @@ function foo(x, nr_chunks)
 
     return output
 end
-@ctime foo($x, nthreads())
+@ctime foo($x, nthreads())  #hide
  
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x, nr_chunks)
@@ -302,14 +315,16 @@ function foo(x, nr_chunks)
 
     return wait.(task_indices)
 end
-@ctime foo($x, nthreads())
+@ctime foo($x, nthreads())  #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # flexibility of @spawn
  
-Random.seed!(1234)       #setting seed for reproducibility
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x, nr_chunks)
@@ -323,16 +338,18 @@ function foo(x, nr_chunks)
     return output
 end
  
-@ctime foo($x, nthreads() * 1)
+@ctime foo($x, nthreads() * 1)  #hide
  
-@ctime foo($x, nthreads() * 2)
+@ctime foo($x, nthreads() * 2)  #hide
  
-@ctime foo($x, nthreads() * 4)
+@ctime foo($x, nthreads() * 4)  #hide
  
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function compute!(output, x, chunk)
@@ -352,22 +369,24 @@ function foo(x, nr_chunks)
     return output
 end
  
-@ctime foo($x, nthreads() * 1)
+@ctime foo($x, nthreads() * 1)  #hide
  
-@ctime foo($x, nthreads() * 2)
+@ctime foo($x, nthreads() * 2)  #hide
  
-@ctime foo($x, nthreads() * 4)
+@ctime foo($x, nthreads() * 4)  #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			HANDLING REDUCTIONS
+#   HANDLING DEPENDENCIES
 #
 ############################################################################
  
-Random.seed!(1234)       #setting seed for reproducibility
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -379,14 +398,16 @@ function foo(x)
 
     output
 end
-println(foo(x))
+print_asis(foo(x)) #hide
  
 @ctime foo($x)
  
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -399,14 +420,16 @@ function foo(x)
     
     return sum(partial_outputs)
 end
-println(foo(x))
+print_asis(foo(x)) #hide
  
 @ctime foo($x)
  
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -419,20 +442,22 @@ function foo(x)
         
     return sum(partial_outputs)
 end
-println(foo(x))
+print_asis(foo(x)) #hide
  
 @ctime foo($x)
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			FALSE SHARING
+#   FALSE SHARING
 #
 ############################################################################
  
-Random.seed!(1234)       #setting seed for reproducibility
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -444,12 +469,14 @@ function foo(x)
 
     output
 end
-@ctime foo($x)
+@ctime foo($x)  #hide
  
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -464,16 +491,18 @@ function foo(x)
     
     return sum(partial_outputs)
 end
-@ctime foo($x)
+@ctime foo($x)  #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	padding
 ####################################################
  
-Random.seed!(1234)       #setting seed for reproducibility
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -489,13 +518,13 @@ function foo(x)
 
     return sum(@view(partial_outputs[1:nr_strides:end]))
 end
-@ctime foo($x)
+@ctime foo($x)  #hide
  
 ####################################################
 #	other solutions
 ####################################################
  
-Random.seed!(1234)       #setting seed for reproducibility
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -512,12 +541,14 @@ function foo(x)
     
     return sum(partial_outputs)
 end
-@ctime foo($x)
+@ctime foo($x)  #hide
  
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -536,12 +567,14 @@ function foo(x)
     
     return sum(partial_outputs)
 end
-@ctime foo($x)
+@ctime foo($x)  #hide
  
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function compute(x, chunk)
@@ -564,8 +597,5 @@ function foo(x)
     
     return sum(partial_outputs)
 end
-@ctime foo($x)
+@ctime foo($x)  #hide
  
-
-
-

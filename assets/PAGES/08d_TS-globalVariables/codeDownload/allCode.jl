@@ -1,27 +1,20 @@
-############################################################################
-#   AUXILIARS FOR BENCHMARKING
-############################################################################
-#= The following package defines the macro `@ctime`
-    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
-    For accurate results, interpolate each function argument using `$`. 
-        e.g., `@ctime foo($x)` for timing `foo(x)` =#
-
-# uncomment the following if you don't have the package for @ctime installed
-    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
-using FastBenchmark
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
 using Random
  
 ############################################################################
 #
-#			SECTION: "TYPE STABILITY WITH GLOBAL VARIABLES"
+#			        SECTION: "TYPE STABILITY WITH GLOBAL VARIABLES"
 #
 ############################################################################
  
-####################################################
-#	When Are We Using Global Variables?
-####################################################
+############################################################################
+#
+#	WHEN ARE WE USING GLOBAL VARIABLES?
+#
+############################################################################
  
 # all operations are type UNSTABLE (they're defined in the global scope)
 x = 2
@@ -29,9 +22,11 @@ x = 2
 y = 2 * x 
 z = log(y)
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = 2
 
 function foo() 
@@ -43,9 +38,11 @@ end
 
 @code_warntype foo() # type UNSTABLE
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = 2
 
 function foo(x) 
@@ -57,12 +54,14 @@ end
 
 @code_warntype foo(x)  # type stable
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			Achieving Type Stability With Global Variables
+#   ACHIEVING TYPE STABILITY WITH GLOBAL VARIABLES
 #
 ############################################################################
  
@@ -75,16 +74,18 @@ foo()   = 2 * a
 
 @code_warntype foo()        # type stable
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 const b = [1, 2, 3]
 foo()   = sum(b)
 
 @code_warntype foo()        # type stable
  
 ####################################################
-#	warning
+#	warning: Avoid Reassignments of Global Variables
 ####################################################
  
 const x1 = 1
@@ -95,9 +96,11 @@ x1       = 2
 
 foo()             # it still gives 1
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 const x2 = 1
 foo()    = x2
 foo()             # it gives 1
@@ -127,7 +130,7 @@ foo()               = sum(x5)
  
 ############################################################################
 #
-#			DIFFERENCES BETWEEN APPROACHES
+#   DIFFERENCES BETWEEN APPROACHES
 #
 ############################################################################
  
@@ -154,11 +157,13 @@ function foo()
        2^k1
     end
 end
-@ctime foo()
+@ctime foo()    #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 k2::Int64 = 2
 
 function foo()
@@ -166,11 +171,13 @@ function foo()
        2^k2
     end
 end
-@ctime foo()
+@ctime foo()    #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 k2::Int64 = 2
 
 function foo()
@@ -178,16 +185,18 @@ function foo()
        2^k2
     end
 end
-@ctime foo()
+@ctime foo()    #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
-#	remark: invariance of operations
+#	REMARK: invariance of operations
 ####################################################
  
-Random.seed!(1234)       #setting seed for reproducibility
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x           = rand(100_000)
 
 
@@ -200,25 +209,29 @@ function foo(x)
 
     return y
 end
-@ctime foo($x)
+@ctime foo($x)    #hide
  
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x           = rand(100_000)
 
 
 foo(x) = x ./ sum(x)
-@ctime foo($x)
+@ctime foo($x)    #hide
  
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x           = rand(100_000)
 const sum_x = sum(x)
 
 foo(x) = x ./ sum_x
-@ctime foo($x)
+@ctime foo($x)    #hide
  

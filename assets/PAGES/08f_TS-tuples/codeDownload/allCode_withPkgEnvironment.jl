@@ -23,12 +23,14 @@ using FastBenchmark
  
 ############################################################################
 #
-#           SECTION: "TYPE STABILITY WITH TUPLES"
+#                   SECTION: "TYPE STABILITY WITH TUPLES"
 #
 ############################################################################
  
 ############################################################################
-#  COMPARING TUPLES AND VECTORS
+#
+#	COMPARING TUPLES AND VECTORS
+#
 ############################################################################
  
 # Tuple Slices with Mixed Types Can Still Be Type Stable
@@ -124,7 +126,7 @@ end
 
 ############################################################################
 #
-#			ADDRESSING VARIABLE ARGUMENTS: DISPATCH BY VALUE
+#   ADDRESSING VARIABLE ARGUMENTS: DISPATCH BY VALUE
 #
 ############################################################################
  

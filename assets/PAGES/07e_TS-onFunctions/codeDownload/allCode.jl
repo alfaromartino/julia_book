@@ -1,24 +1,15 @@
-############################################################################
-#   AUXILIARS FOR BENCHMARKING
-############################################################################
-#= The following package defines the macro `@ctime`
-    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
-    For accurate results, interpolate each function argument using `$`. 
-        e.g., `@ctime foo($x)` for timing `foo(x)` =#
-
-# uncomment the following if you don't have the package for @ctime installed
-    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
-using FastBenchmark
+include(joinpath(homedir(),"JULIA_foldersPaths", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 ############################################################################
 #
-#			 SECTION: "FUNCTIONS: TYPE INFERENCE AND MULTIPLE DISPATCH"
+#			        SECTION: "FUNCTIONS: TYPE INFERENCE AND MULTIPLE DISPATCH"
 #
 ############################################################################
  
 ############################################################################
 #
-#			variable scope in functions
+#   VARIABLE SCOPE IN FUNCTIONS
 #
 ############################################################################
  
@@ -26,92 +17,106 @@ x   = 2
 
 y   = 3 * x
  
-println(y)
+print_asis(y)  #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x   = 2
 
 f() = 3 * x
  
-println(f())
+print_asis(f())  #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			functions and methods
+#   FUNCTIONS AND METHODS
 #
 ############################################################################
  
 foo1(a,b)                  = a + b
 foo1(a::String, b::String) = "This is $a and this is $b"
  
-println(methods(foo1))
+print_asis(methods(foo1)) #hide
  
-println(foo1(1,2))
+print_asis(foo1(1,2)) #hide
  
-println(foo1("some text", "more text"))
+print_asis(foo1("some text", "more text")) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # methods with different number of arguments
  
 foo2(x)       = x
 foo2(x, y)    = x + y
 foo2(x, y, z) = x + y + z
  
-println(methods(foo2))
+print_asis(methods(foo2)) #hide
  
-println(foo2(1))
+print_asis(foo2(1)) #hide
  
-println(foo2(1,2))
+print_asis(foo2(1,2)) #hide
  
-println(foo2(1,2,3))
+print_asis(foo2(1,2,3)) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = [2, 3, 4]
 
 y = sum(x)          # 2 + 3 + 4
 z = sum(log, x)     # log(2) + log(3) + log(4)
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			function calls
+#   FUNCTION CALLS
 #
 ############################################################################
  
 foo(a, b) = 2 + a * b
  
-println(foo(1,2))
+print_asis(foo(1,2)) #hide
  
-println(foo(3,2))
+print_asis(foo(3,2)) #hide
  
-println(foo(3.0,2))
+print_asis(foo(3.0,2)) #hide
  
 ############################################################################
 #
-#			Remarks on Type Inference
+#   TYPE INFERENCE
 #
 ############################################################################
+ 
+# Functions Do Not Guarantee The Identification of Concrete Types
  
 x       = [1, 2, "hello"]    # Vector{Any}
 
 foo3(x) = x[1] + x[2]        # type unstable
  
-println(foo3(x))
+print_asis(foo3(x))   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	global variables inherit their global type
 ####################################################
@@ -121,61 +126,67 @@ b         = 1
 
 foo4(a)   = a * b
  
-println(foo4(a))
+print_asis(foo4(a))   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 c         = 2
 d::Number = 1
 
 foo4(c)   = c * d
  
-println(foo4(c))
+print_asis(foo4(c))
  
-
-
-
-############################################################################
-#
-#			SECTION: "Type-Annotating Function Arguments Does Not Improve Performance"
-#
-############################################################################
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# Type-Annotating Function Arguments Does Not Improve Performance
  
 foo5(a, b) = a * b
  
-println(foo5(0.5, 2.0))
+print_asis(foo5(0.5, 2.0)) #hide
  
-println(foo5(1, 2))
+print_asis(foo5(1, 2)) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 foo6(a::Float64, b::Float64) = a * b
  
-println(foo6(0.5, 2.0))
+print_asis(foo6(0.5, 2.0)) #hide
  
-#println(foo6(1, 2)) #ERROR
+#print_asis(foo6(1, 2)) #ERROR #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
-#	remark
+#	REMARK: Packages Commonly Type-Annotate Function Arguments
 ####################################################
  
 revenue1(nr_tickets, price) = nr_tickets * price
  
-println(revenue1(3, 2))
+print_asis(revenue1(3, 2)) #hide
  
-println(revenue1("this is ", "allowed"))
+print_asis(revenue1("this is ", "allowed")) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 revenue2(nr_tickets::Int64, price::Number) = nr_tickets * price
  
-println(revenue2(3, 2))
+print_asis(revenue2(3, 2)) #hide
  
-# println(revenue2("this is ", "not allowed")) #ERROR
+# print_asis(revenue2("this is ", "not allowed")) #ERROR #hide
  

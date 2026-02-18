@@ -23,13 +23,15 @@ using FastBenchmark
  
 ############################################################################
 #
-#			SECTION: "BARRIER FUNCTIONS"
+#			        SECTION: "BARRIER FUNCTIONS"
 #
 ############################################################################
  
 ####################################################
 #	Applying Barrier Functions
 ####################################################
+ 
+# type instability
  
 function foo(x)
     y = (x < 0) ?  0  :  x
@@ -43,6 +45,8 @@ end
 
 
 
+# barrier function
+ 
 operation(y) = [y * i for i in 1:100]
 
 function foo(x)
@@ -60,6 +64,8 @@ end
 
 
 
+# WARNING: wrong use
+ 
 operation(y,i) = y * i 
 
 function foo(x)
@@ -73,7 +79,7 @@ end
  
 ############################################################################
 #
-#			Remarks on @code_warntype
+#   REMARKS ON `@code_warntype`
 #
 ############################################################################
  

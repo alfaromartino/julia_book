@@ -1,60 +1,59 @@
-############################################################################
-#   AUXILIARS FOR BENCHMARKING
-############################################################################
-#= The following package defines the macro `@ctime`
-    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
-    For accurate results, interpolate each function argument using `$`. 
-        e.g., `@ctime foo($x)` for timing `foo(x)` =#
-
-# uncomment the following if you don't have the package for @ctime installed
-    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
-using FastBenchmark
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
 using StatsBase
  
 ############################################################################
 #
-#			SECTION: "USEFUL FUNCTIONS FOR VECTORS"
+#                   SECTION: "USEFUL FUNCTIONS FOR VECTORS"
 #
 ############################################################################
  
 ############################################################################
 #
-#           SORTING VECTORS
+#   SORTING VECTORS
 #
 ############################################################################
+ 
+# code 1
  
 x = [4, 5, 3, 2]
 
 y = sort(x)
  
-println(x)
+print_asis(x) #hide
  
-println(y)
+print_asis(y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = [4, 5, 3, 2]
 
 y = sort(x, rev=true)
  
-println(x)
+print_asis(x) #hide
  
-println(y)
+print_asis(y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = [4, 5, 3, 2]
 
 sort!(x)
-println(x)
+print_asis(x) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	option 'by'
 ####################################################
@@ -64,40 +63,46 @@ x      = [4, -5, 3]
 
 y      = sort(x, by = abs)      # 'abs' computes the absolute value
  
-println(abs.(x))
+print_asis(abs.(x)) #hide
  
-println(y)
+print_asis(y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x      = [4, -5, 3]
 
 foo(a) = a^2
 y      = sort(x, by = foo)      # same as sort(x, by = x -> x^2)
  
-println(foo.(x))
+print_asis(foo.(x)) #hide
  
-println(y)
+print_asis(y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x      = [4, -5, 3]
 
 foo(a) = -a
 y      = sort(x, by = foo)      # same as sort(x, by = x -> -x)
  
-println(foo.(x))
+print_asis(foo.(x)) #hide
  
-println(y)
+print_asis(y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			RETRIEVING INDICES OF SORTED ELEMENTS
+#   RETRIEVING INDICES OF SORTED ELEMENTS
 #
 ############################################################################
  
@@ -108,27 +113,33 @@ println(y)
 x          = [1, 2, 3, 4]
 
 sort_index = sortperm(x)
-println(sort_index)
+print_asis(sort_index) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x          = [3, 4, 5, 6]
 
 sort_index = sortperm(x)
-println(sort_index)
+print_asis(sort_index) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x          = [1, 3, 4, 2]
 
 sort_index = sortperm(x)
-println(sort_index)
+print_asis(sort_index) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	option `rev`
 ####################################################
@@ -136,27 +147,33 @@ println(sort_index)
 x          = [9, 3, 2, 1]
 
 sort_index = sortperm(x, rev=true)
-println(sort_index)
+print_asis(sort_index) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x          = [9, 5, 3, 1]
 
 sort_index = sortperm(x, rev=true)
-println(sort_index)
+print_asis(sort_index) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x          = [9, 3, 5, 1]
 
 sort_index = sortperm(x, rev=true)
-println(sort_index)
+print_asis(sort_index) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	option `by`
 ####################################################
@@ -167,45 +184,51 @@ x      = [4, -5, 3]
 value  = sort(x, by = abs)      # 'abs' computes the absolute value
 index  = sortperm(x, by = abs)
  
-println(abs.(x))
+print_asis(abs.(x)) #hide
  
-println(value)
+print_asis(value) #hide
  
-println(index)
+print_asis(index) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x      = [4, -5, 3]
 
 foo(a) = a^2
 value  = sort(x, by = foo)      # same as sort(x, by = x -> x^2)
 index  = sortperm(x, by = foo)
  
-println(foo.(x))
+print_asis(foo.(x)) #hide
  
-println(value)
+print_asis(value) #hide
  
-println(index)
+print_asis(index) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x      = [4, -5, 3]
 
 foo(a) = -a
 value  = sort(x, by = foo)      # same as sort(x, by = x -> -x)
 index  = sortperm(x, by = foo)
  
-println(foo.(x))
+print_asis(foo.(x)) #hide
  
-println(value)
+print_asis(value) #hide
  
-println(index)
+print_asis(index) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	an example
 ####################################################
@@ -216,16 +239,18 @@ failures         = [8, 2, 4]
 index            = sortperm(failures)
 days_by_failures = days[index]        # days sorted by lowest failures
  
-println(index)
+print_asis(index) #hide
  
-println(days_by_failures)
+print_asis(days_by_failures) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#           REMOVING DUPLICATES
+#   REMOVING DUPLICATES
 #
 ############################################################################
  
@@ -233,21 +258,25 @@ x = [2, 2, 3, 4]
 
 y = unique(x)       # returns a new vector
  
-println(x)
+print_asis(x) #hide
  
-println(y)
+print_asis(y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = [2, 2, 3, 4]
 
 unique!(x)          # mutates 'x'
-println(x)
+print_asis(x) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	COUNTING OCCURRENCES
 ####################################################
@@ -260,15 +289,17 @@ y           = countmap(x)              # Dict with `element => occurrences`
 elements    = collect(keys(y))
 occurrences = collect(values(y))
  
-println(y)
+print_asis(y) #hide
  
-println(elements)
+print_asis(elements) #hide
  
-println(occurrences)
+print_asis(occurrences) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 using StatsBase
 x           = [6, 6, 0, 5]
 
@@ -277,18 +308,20 @@ y           = sort(countmap(x))        # OrderedDict with `element => occurrence
 elements    = collect(keys(y))
 occurrences = collect(values(y))
  
-println(y)
+print_asis(y) #hide
  
-println(elements) #ide
+print_asis(elements) #ide
  
-println(occurrences)
+print_asis(occurrences) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#           ROUNDING NUMBERS
+#   ROUNDING NUMBERS
 #
 ############################################################################
  
@@ -304,9 +337,11 @@ round(Int, x)               # 456
 round(x, sigdigits=1)       # 500.0
 round(x, sigdigits=2)       # 460.0
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = 456.175
 
 floor(x)                    # 456.0
@@ -319,9 +354,11 @@ floor(Int, x)               # 456
 floor(x, sigdigits=1)       # 400.0
 floor(x, sigdigits=2)       # 450.0
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = 456.175
 
 ceil(x)                     # 457.0
@@ -334,12 +371,14 @@ ceil(Int, x)                # 457
 ceil(x, sigdigits=1)        # 500.0
 ceil(x, sigdigits=2)        # 460.0
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			RANKINGS
+#   RANKINGS
 #
 ############################################################################
  
@@ -347,38 +386,46 @@ using StatsBase
 x = [6, 6, 0, 5]
 
 y = competerank(x)
-println(y)
+print_asis(y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 using StatsBase
 x = [6, 6, 0, 5]
 
 y = competerank(x, rev=true)
-println(y)
+print_asis(y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 using StatsBase
 x = [6, 6, 0, 5]
 
 y = ordinalrank(x)
-println(y)
+print_asis(y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 using StatsBase
 x = [6, 6, 0, 5]
 
 y = ordinalrank(x, rev=true)
-println(y)
+print_asis(y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	Do not confuse `ordinalrank` and `sortperm`
 ####################################################
@@ -387,47 +434,55 @@ using StatsBase
 x = [3, 1, 2]
 
 y = ordinalrank(x)
-println(y)
+print_asis(y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 using StatsBase
 x = [3, 1, 2]
 
 y = sortperm(x)
-println(y)
+print_asis(y) #hide
  
 ############################################################################
 #
-#           EXTREMA (MAXIMUM AND MINIMUM)
+#   EXTREMA (MAXIMUM AND MINIMUM)
 #
 ############################################################################
  
 x = [6, 6, 0, 5]
 
 y = maximum(x)
-println(y)
+print_asis(y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = [6, 6, 0, 5]
 
 y = argmax(x)
-println(y)
+print_asis(y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = [6, 6, 0, 5]
 
 y = findmax(x)
-println(y)
+print_asis(y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	max function
 ####################################################
@@ -436,5 +491,5 @@ x = 3
 y = 4
 
 z = max(x,y)
-println(z)
+print_asis(z) #hide
  

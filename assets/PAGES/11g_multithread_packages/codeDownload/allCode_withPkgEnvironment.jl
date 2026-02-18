@@ -26,13 +26,13 @@ using Random, Base.Threads, ChunkSplitters, OhMyThreads, LoopVectorization, FLoo
  
 ############################################################################
 #
-#			SECTION: "MULTITHREADING PACKAGES"
+#			        SECTION: "MULTITHREADING PACKAGES"
 #
 ############################################################################
  
 ############################################################################
 #
-#      OH MY THREADS
+#   PACKAGE `OHMYTHREADS`
 #
 ############################################################################
  
@@ -91,7 +91,7 @@ foo(x) = tmap(log, eltype(x), x; chunksize = length(x) ÷ nthreads())
 
 
 
-# remark: do-syntax
+# REMARK: do-block syntax
  
 Random.seed!(1234)       #setting seed for reproducibility
 x = rand(1_000_000)
@@ -337,7 +337,7 @@ end
 
 ############################################################################
 #
-#			POLYESTER: LIGHTER THREADS (FOR SMALL OBJECTS)
+#   POLYESTER: LIGHTER THREADS (FOR SMALL OBJECTS)
 #
 ############################################################################
  
@@ -561,7 +561,7 @@ println(foo())
 
 ############################################################################
 #
-#			SIMD + MULTITHREADING
+#   SIMD + MULTITHREADING
 #
 ############################################################################
  
@@ -646,7 +646,7 @@ foo(x) = @tturbo log.(x) ./ x
  
 ############################################################################
 #
-#		FLOOPS
+#   FLOOPS
 #
 ############################################################################
  

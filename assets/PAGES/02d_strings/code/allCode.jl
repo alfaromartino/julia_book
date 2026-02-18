@@ -3,13 +3,15 @@ include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "regi
  
 ############################################################################
 #
-#			STRINGS
+#			        SECTION: "STRINGS"
 #
 ############################################################################
  
-####################################################
-#	characters
-####################################################
+############################################################################
+#
+#	CHARACTERS
+#
+############################################################################
  
 # x equals the character 'a'
 x = 'a'
@@ -23,23 +25,30 @@ y = '🐒'
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-# any character is allowed for defining a variable
+# any character is allowed to define a variable
 🐒 = 2      # 🐒 represents a variable, just like if we had defined x = 2
 
 y  = 🐒     # y equals 2, 🐒's value at that moment (not 🐒 itself)
 z  = '🐒'   # z equals the character 🐒 (entirely independent of the 🐒 variable )
  
-####################################################
-#	string notation
-####################################################
+############################################################################
+#
+#	STRINGS
+#
+############################################################################
  
 x = "Hello, beautiful world"
 
 x = """Hello, beautiful world"""
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			STRING INTERPOLATION
+#   STRING INTERPOLATION
 #
 ############################################################################
  

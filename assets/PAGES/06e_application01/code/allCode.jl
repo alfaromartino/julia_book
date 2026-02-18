@@ -2,13 +2,21 @@ include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
-using Random, StatsBase, Distributions , Pipe
+using Random, StatsBase, Distributions, Pipe
  
 ############################################################################
 #
-#       MOCK DATASET
+#                   SECTION: "ILLUSTRATION - JOHNNY, THE YOUTUBER"
 #
 ############################################################################
+ 
+############################################################################
+#
+#	DESCRIBING THE SCENARIO
+#
+############################################################################
+ 
+# MOCK DATASET
  
 using StatsBase, Distributions
 using Random; Random.seed!(1234)
@@ -38,9 +46,29 @@ print_compact(earnings) #hide
  
 ############################################################################
 #
-# SOME STATISTICS
-#    
+#	SOME STATISTICS
+#
 ############################################################################
+ 
+# code 1
+ 
+range_payrates  = unique(payrates) |> sort
+range_payrates |> print_compact #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+using StatsBase
+occurrences_payrates = countmap(payrates) |> sort
+occurrences_payrates |> print_compact #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# code 2
  
 top_earnings    = sort(earnings, rev=true)[1:3]
 top_earnings |> print_compact #hide
@@ -55,28 +83,13 @@ indices         = sortperm(earnings, rev=true)[1:3]
 sorted_viewers  = viewers[indices]
 print_compact(sorted_viewers) #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-range_payrates  = unique(payrates) |> sort
-range_payrates |> print_compact #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-using StatsBase
-occurrences_payrates = countmap(payrates) |> sort
-occurrences_payrates |> print_compact #hide
- 
 ############################################################################
 #
-# BOOLEAN INDICES
-# (to characterize viral videos defined by >100k viewers)
-#    
+#	BOOLEAN VARIABLES
+#
 ############################################################################
+ 
+# MOCK DATA CREATION
  
 # characterization of viral videos
 viral_threshold = 100
@@ -93,6 +106,11 @@ print_compact(viral_viewers) #hide
  
 print_compact(viral_revenue) #hide
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # characterization
 viral_threshold    = 100
 payrates_above_avg = 3
@@ -104,11 +122,23 @@ is_viral_lucrative = (viewers .≥ viral_threshold) .&& (payrates .> payrates_ab
 proportion_viral_lucrative = sum(is_viral_lucrative) / sum(is_viral) * 100
 print_compact(proportion_viral_lucrative) #hide
  
+# REMARK: rounding outputs
+ 
 rounded_proportion = round(proportion_viral_lucrative)
 print_asis(rounded_proportion) #hide
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 rounded_proportion = round(proportion_viral_lucrative, digits=1)
 print_asis(rounded_proportion) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 rounded_proportion = round(Int64, proportion_viral_lucrative)
 print_asis(rounded_proportion) #hide
@@ -116,11 +146,12 @@ print_asis(rounded_proportion) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ############################################################################
 #
-# FUNCTIONS TO REPRESENT TASKS
-# 
+#	FUNCTIONS TO REPRESENT TASKS
+#
 ############################################################################
  
 #
@@ -134,6 +165,7 @@ function stats_subset(viewers, payrates, condition)
     return (; nrvideos, audience, revenue)
 end
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -152,6 +184,7 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 using Pipe
 function stats_subset(viewers, payrates, condition)
@@ -164,17 +197,33 @@ function stats_subset(viewers, payrates, condition)
     return (; nrvideos, audience, revenue)
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# reusability of functions
+ 
 viral_threshold  = 100
 is_viral         = (viewers .≥ viral_threshold)
 viral            = stats_subset(viewers, payrates, is_viral)
  
 print_compact(viral) #hide
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 viral_threshold  = 100
 is_notviral      = .!(is_viral)      # '!' is negating a boolean value and we broadcast it
 notviral         = stats_subset(viewers, payrates, is_notviral)
  
 print_compact(notviral) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 days_to_consider = (1, 10, 25)      # subset of days to be characterized
 is_day           = in.(eachindex(viewers), Ref(days_to_consider))
@@ -185,21 +234,13 @@ print_compact(specific_days) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ############################################################################
 #
-# SUBSETTING DATA
-#    
+#	VARIABLE MUTATION
+#
 ############################################################################
- 
-# 'temp' modifies 'new_viewers'
-new_viewers     = copy(viewers)
-temp            = @view new_viewers[new_viewers .< viral_threshold]
-temp           .= 1.2 .* temp
-
-allvideos       = trues(length(new_viewers))
-targetNonViral  = stats_subset(new_viewers, payrates, allvideos)
-print_compact(targetNonViral) #hide
  
 # 'temp' modifies 'new_viewers'
 new_viewers     = copy(viewers)
@@ -210,15 +251,61 @@ allvideos       = trues(length(new_viewers))
 targetViral     = stats_subset(new_viewers, payrates, allvideos)
 print_compact(targetViral) #hide
  
-targetNonViral = let viewers = viewers, payrates = payrates, threshold = viral_threshold
-    new_viewers = copy(viewers)
-    temp        = @view new_viewers[new_viewers .< threshold]
-    temp       .= 1.2 .* temp
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# 'temp' modifies 'new_viewers'
+new_viewers     = copy(viewers)
+temp            = @view new_viewers[new_viewers .< viral_threshold]
+temp           .= 1.2 .* temp
 
-    allvideos  = trues(length(new_viewers))
-    stats_subset(new_viewers, payrates, allvideos)
-end
+allvideos       = trues(length(new_viewers))
+targetNonViral  = stats_subset(new_viewers, payrates, allvideos)
 print_compact(targetNonViral) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# REMARK: Be Careful with Misusing 'view'
+ 
+new_viewers = copy(viewers)
+
+
+temp  = @view new_viewers[new_viewers .≥ viral_threshold]
+temp .= temp .* 1.2
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+new_viewers = viewers     # it creates an alias, it's a view of the original object!!!
+
+# 'temp' modifies 'viewers' -> you lose the original info
+temp  = @view new_viewers[new_viewers .≥ viral_threshold]
+temp .= temp .* 1.2
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+new_viewers = copy(viewers)
+
+# wrong -> not using `temp .= temp .* 1.2`
+temp  = @view new_viewers[new_viewers .≥ viral_threshold]
+temp  = temp .* 1.2     # it creates a new variable 'temp', it does not modify 'new_viewers'
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# REMARK: Use of "Let Blocks" To Avoid Bugs
  
 targetViral    = let viewers = viewers, payrates = payrates, threshold = viral_threshold
     new_viewers = copy(viewers)
@@ -230,52 +317,33 @@ targetViral    = let viewers = viewers, payrates = payrates, threshold = viral_t
 end
 print_compact(targetViral) #hide
  
-############
-# REMARK: WRONG USES
-# only the first one is right
-############
- 
-new_viewers = copy(viewers)
-
-
-temp  = @view new_viewers[new_viewers .≥ viral_threshold]
-temp .= temp .* 1.2
- 
-new_viewers = viewers     # it creates an alias, it's a view of the original object!!!
-
-# 'temp' modifies 'viewers' -> you lose the original info
-temp  = @view new_viewers[new_viewers .≥ viral_threshold]
-temp .= temp .* 1.2
- 
-new_viewers = copy(viewers)
-
-# wrong -> not using `temp .= temp .* 1.2`
-temp  = @view new_viewers[new_viewers .≥ viral_threshold]
-temp  = temp .* 1.2     # it creates a new variable 'temp', it does not modify 'new_viewers'
- 
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+targetNonViral = let viewers = viewers, payrates = payrates, threshold = viral_threshold
+    new_viewers = copy(viewers)
+    temp        = @view new_viewers[new_viewers .< threshold]
+    temp       .= 1.2 .* temp
+
+    allvideos  = trues(length(new_viewers))
+    stats_subset(new_viewers, payrates, allvideos)
+end
+print_compact(targetNonViral) #hide
  
 ############################################################################
 #
-# BROADCASTING OVER A LIST OF FUNCTIONS (OPTIONAL)
-#    
+#	BROADCASTING OVER A LIST OF FUNCTIONS
+#
 ############################################################################
- 
-describe(viewers)
-print(describe(viewers)) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
  
 list_functions = [sum, median, mean, maximum, minimum]
 
 stats_viewers  = [fun(viewers) for fun in list_functions]
 print_compact(stats_viewers) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -290,19 +358,11 @@ print_compact(stats_various) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-stats_viewers  = NamedTuple((Symbol(fun), fun(viewers)) for fun in list_functions)
+vector_of_tuples = [(Symbol(fun), fun(viewers)) for fun in list_functions]
+stats_viewers    = NamedTuple(vector_of_tuples)
 print_compact(stats_viewers) #hide
  
 print_compact(stats_viewers.mean) #hide
  
 print_compact(stats_viewers[:median]) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-vector_of_tuples = [(Symbol(fun), fun(viewers)) for fun in list_functions]
-stats_viewers    = NamedTuple(vector_of_tuples)
-print_compact(stats_viewers) #hide
  

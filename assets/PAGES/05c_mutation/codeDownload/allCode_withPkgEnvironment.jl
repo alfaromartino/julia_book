@@ -23,12 +23,18 @@ using FastBenchmark
  
 ############################################################################
 #
-#			SECTION: "ASSIGNMENTS VS MUTATIONS"
+#			        SECTION: "ASSIGNMENTS VS MUTATIONS"
+#
+############################################################################
+ 
+############################################################################
+#
+#	DEFINING ASSIGNMENTS AND MUTATIONS
 #
 ############################################################################
  
 ####################################################
-#	Mutating All Elements vs Assignment
+#	REMARK: mutating all elements vs assignment
 ####################################################
  
 x    = [4,5]
@@ -40,9 +46,11 @@ println(x)
 
 
 
-####################################################
-#	alias vs copy
-####################################################
+############################################################################
+#
+#	ALIAS VS COPY
+#
+############################################################################
  
 x = 2   #'x' points to an object with value 2
 y = x   #'y' points to the same object as 'x' (do not interpret it as 'y' pointing to 'x') 
@@ -54,7 +62,7 @@ println(x)
 println(y)
  
 ####################################################
-#	Two variables may contain identical elements and yet refer to different objects
+#	REMAR: Two variables may contain identical elements and yet refer to different objects
 ####################################################
  
 x = [4,5]

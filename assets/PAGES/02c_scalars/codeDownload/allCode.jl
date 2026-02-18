@@ -1,33 +1,28 @@
-############################################################################
-#   AUXILIARS FOR BENCHMARKING
-############################################################################
-#= The following package defines the macro `@ctime`
-    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
-    For accurate results, interpolate each function argument using `$`. 
-        e.g., `@ctime foo($x)` for timing `foo(x)` =#
-
-# uncomment the following if you don't have the package for @ctime installed
-    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
-using FastBenchmark
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 ############################################################################
 #
-#			SECTION: "SCALARS"
+#			        SECTION: "SCALARS"
 #
 ############################################################################
  
-####################################################
-#	numbers
-####################################################
+############################################################################
+#
+#   NUMBERS
+#
+############################################################################
  
 x = 1       # `Int64`
 
 y = 1.0     # `Float64`
 z = 1.      # alternative notation for `1.0`
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = 1000000
 y = 1_000_000        # equivalent to `x` and more readable
 
@@ -44,18 +39,22 @@ y = 10/0
 
 z = 0/0
  
-println(x)
+print_asis(x)   #hide
  
-println(y)
+print_asis(y)   #hide
  
-println(z)
+print_asis(z)   #hide
  
-
-
-
-####################################################
-#	boolean variables
-####################################################
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+############################################################################
+#
+#   BOOLEAN VARIABLES
+#
+############################################################################
  
 x = 2
 y = 1
@@ -63,5 +62,5 @@ y = 1
 z = (x > y)       # is `x` greater than `y` ?
 z = x > y         # equivalent (don't interpret it as 'z = x')
  
-println(z)
+print_asis(z)       #hide
  

@@ -3,24 +3,24 @@ include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "regi
  
 ############################################################################
 #
-#           MUTATIONS VIA VECTORS
+#			        SECTION: "IN-PLACE OPERATIONS"
 #
 ############################################################################
  
-x         = [1, 2, 3]
-
-x[3]      = 30
-print_asis(x) #hide
+############################################################################
+#
+#   MUTATIONS VIA COLLECTIONS
+#
+############################################################################
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
+# slicing
  
 x         = [1, 2, 3]
 
 x[2:end]  = [20, 30]
 print_asis(x) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -33,15 +33,9 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-x         = [1, 2, 3]
-
-x[x .≥ 2] = x[x .≥ 2] .* 10
-print_asis(x) #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
+# updating
  
 x         = [1, 2, 3]
 
@@ -51,10 +45,51 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x         = [1, 2, 3]
+
+x[x .≥ 2] = x[x .≥ 2] .* 10
+print_asis(x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# single-element slice
+ 
+x         = [1, 2, 3]
+
+x[3]      = 30
+print_asis(x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+####################################################
+#	WARNING: vectors can only be mutated by objects of the same type
+####################################################
+ 
+x         = [1, 2, 3]    # Vector{Int64}
+
+# x[2:3]    = [3.5, 4]     #ERROR # 3.5 is Float64
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x         = [1, 2, 3]    # Vector{Int64}
+
+x[2:3]    = [3.0, 4]     # 3.0 is Float64 but accepts conversion
+print_asis(x)   #hide
  
 ############################################################################
 #
-#           MUTATION VIA FOR-LOOPS
+#   MUTATION VIA FOR-LOOPS
 #
 ############################################################################
  
@@ -66,6 +101,7 @@ for i in eachindex(x)
 end
 print_asis(x) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -81,6 +117,7 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 x     = zeros(3)
 slice = view(x, 2:3)
@@ -93,6 +130,9 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# via for-loop
  
 x     = zeros(3)
 
@@ -123,12 +163,12 @@ print_asis(x) #hide
  
 ############################################################################
 #
-#           MUTATION VIA .=
+#	MUTATION VIA .=
 #
 ############################################################################
  
 ####################################################
-#	use directly `=` for vectors on the RHS
+#	vector on the RHS
 ####################################################
  
 x       = [3, 4, 5]
@@ -136,6 +176,7 @@ x       = [3, 4, 5]
 x[1:2] .= x[1:2] .* 10    # identical output (less performant)
 print_asis(x) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -148,9 +189,10 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
-#	scalar replacement
+#	scalar on the RHS
 ####################################################
  
 x          = [-2, -1, 1]
@@ -161,9 +203,10 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
-#	WARNING: MUTATION VS ASSIGNMENT
+#	object itself on the RHS
 ####################################################
  
 # assignment
@@ -176,8 +219,19 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-# mutation
+# mutations
+ 
+x    = [1, 2, 3]
+
+x   .= x .* 10
+print_asis(x) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 x    = [1, 2, 3]
 
@@ -187,12 +241,16 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# distinguishing assignments and mutations
  
 x    = [1, 2, 3]
 
 x   .= x .* 10
 print_asis(x) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -205,6 +263,7 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 x    = [1, 2, 3]
 
@@ -214,12 +273,13 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
-############################################################################
-#
-#           COMBINING .= and view
-#
-############################################################################
+####################################################
+#	view aliases on the LHS
+####################################################
+ 
+# example 1
  
 x          = [-2, -1, 1]
 
@@ -227,6 +287,7 @@ x          = [-2, -1, 1]
 x[x .< 0] .= 0
 print_asis(x) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -240,6 +301,7 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 x      = [-2, -1, 1]
 
@@ -250,6 +312,9 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# example 2
  
 x      = [1, 2, 3]
 
@@ -257,6 +322,7 @@ slice  = view(x, x .≥ 2)
 slice .= slice .* 10        # same as 'x[x .≥ 2] = x[x .≥ 2] .* 10'
 print_asis(x) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -288,6 +354,7 @@ print_asis(x) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+# <space_to_be_deleted>
  
 # incorrect ways -> no mutation
  
@@ -297,6 +364,7 @@ slice  = x[x .< 0]          # 'slice' is a copy
 slice .= 0                  # this does NOT modify `x`
 print_asis(x) #hide
  
+# <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>

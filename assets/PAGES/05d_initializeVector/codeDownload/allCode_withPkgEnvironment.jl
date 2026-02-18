@@ -23,7 +23,7 @@ using FastBenchmark
  
 ############################################################################
 #
-#           SECTION: "VECTOR INITIALIZATION AND CREATION "
+#                   SECTION: "VECTOR CREATION AND INITIALIZATION"
 #
 ############################################################################
  
@@ -262,7 +262,7 @@ println(x)
 
 ############################################################################
 #
-#           ADDING, REMOVING, AND REPLACING ELEMENTS (optional)
+#   ADDING, REMOVING, AND REPLACING ELEMENTS (optional)
 #
 ############################################################################
  
@@ -305,7 +305,7 @@ println(x)
  
 ############################################################################
 #
-#           REMOVING ELEMENTS OF A VECTOR
+#   REMOVING ELEMENTS OF A VECTOR
 #
 ############################################################################
  

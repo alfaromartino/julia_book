@@ -1,24 +1,15 @@
-############################################################################
-#   AUXILIARS FOR BENCHMARKING
-############################################################################
-#= The following package defines the macro `@ctime`
-    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
-    For accurate results, interpolate each function argument using `$`. 
-        e.g., `@ctime foo($x)` for timing `foo(x)` =#
-
-# uncomment the following if you don't have the package for @ctime installed
-    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
-using FastBenchmark
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 ############################################################################
 #
-#			SECTION: "NAMED TUPLES AND DICTIONARIES"
+#			        SECTION: "NAMED TUPLES AND DICTIONARIES"
 #
 ############################################################################
  
 ############################################################################
 #
-#       KEY AND VALUES
+#   KEY AND VALUES
 #
 ############################################################################
  
@@ -27,25 +18,29 @@ x        = [4, 5, 6]
 x_keys   = collect(keys(x))
 x_values = collect(values(x))
  
-println(x_keys)
+print_asis(x_keys) #hide
  
-println(x_values)
+print_asis(x_values) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x        = (4, 5, 6)
 
 x_keys   = collect(keys(x))
 x_values = collect(values(x))
  
-println(x_keys)
+print_asis(x_keys) #hide
  
-println(x_values)
+print_asis(x_values) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	THE TYPE PAIR
 ####################################################
@@ -54,45 +49,49 @@ some_pair = ("a" => 1)      # or simply 'some_pair = "a" => 1'
 
 some_pair = Pair("a", 1)    # equivalent
  
-println(some_pair)
+print_asis(some_pair) #hide
  
-println(some_pair[1])
+print_asis(some_pair[1]) #hide
  
-println(some_pair.first)
+print_asis(some_pair.first) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 some_pair = ("a" => 1)      # or simply 'some_pair = "a" => 1'
 
 some_pair = Pair("a", 1)    # equivalent
  
-println(some_pair)
+print_asis(some_pair) #hide
  
-println(some_pair[2])
+print_asis(some_pair[2]) #hide
  
-println(some_pair.second)
+print_asis(some_pair.second) #hide
  
 ############################################################################
 #
-#       TYPE SYMBOL
+#   THE TYPE SYMBOL
 #
 ############################################################################
  
 vector_symbols = [:x, :y]
  
-println(vector_symbols)
+print_asis(vector_symbols) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 vector_symbols = [Symbol("x"), Symbol("y")]
  
-println(vector_symbols)
+print_asis(vector_symbols) #hide
  
 ############################################################################
 #
-#			NAMED TUPLES
+#   NAMED TUPLES
 #
 ############################################################################
  
@@ -102,15 +101,17 @@ nt = (; a=10, b=20)
 nt = (  :a => 10, :b => 20)
 nt = (; :a => 10, :b => 20)
  
-println(nt)
+print_asis(nt)  #hide
  
-println(nt.a)
+print_asis(nt.a)  #hide
  
-println(nt[:a])
+print_asis(nt[:a])  #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # all 'nt' are equivalent
 nt = (  a=10,)
 nt = (; a=10 )
@@ -120,17 +121,19 @@ nt = (; :a => 10 )
 #not 'nt =  (a = 10)'  -> this is interpreted as 'nt = a = 10'
 #not 'nt = (:a => 10)' -> this is interpreted as a pair
  
-println(nt)
+print_asis(nt)  #hide
  
-println(nt.a)
+print_asis(nt.a)  #hide
  
-println(nt[:a])
+print_asis(nt[:a])  #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
-#	remark
+#	REMARK
 ####################################################
  
 nt        = (a=10, b=20)
@@ -138,13 +141,15 @@ nt        = (a=10, b=20)
 nt_keys   = collect(keys(nt))
 nt_values = collect(values(nt))
  
-println(nt_keys)
+print_asis(nt_keys)        #hide
  
-println(nt_values)
+print_asis(nt_values)        #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	Distinction Between The Creation Of Tuples and Named Tuples
 ####################################################
@@ -155,66 +160,76 @@ y   = 20
 nt  = (; x, y)
 tup = (x, y)
  
-println(nt)
+print_asis(nt)        #hide
  
-println(tup)
+print_asis(tup)        #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x   = 10
 
 
 nt  = (; x)
 tup = (x, )
  
-println(nt)
+print_asis(nt)        #hide
  
-println(tup)
+print_asis(tup)        #hide
  
 ############################################################################
 #
-#       DICTIONARIES
+#   DICTIONARIES
 #
 ############################################################################
  
 some_dict = Dict(3 => 10, 4 => 20)
  
-println(some_dict)
+print_asis(some_dict) #hide
  
-println(some_dict[3])
+print_asis(some_dict[3]) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 some_dict = Dict("a" => 10, "b" => 20)
  
-println(some_dict)
+print_asis(some_dict) #hide
  
-println(some_dict["a"])
+print_asis(some_dict["a"]) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 some_dict = Dict(:a => 10, :b => 20)
  
-println(some_dict)
+print_asis(some_dict) #hide
  
-println(some_dict[:a])
+print_asis(some_dict[:a]) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 some_dict = Dict((1,1) => 10, (1,2) => 20)
-println(some_dict)
+print_asis(some_dict) #hide
  
-println(some_dict[(1,1)])
+print_asis(some_dict[(1,1)]) #hide
  
-println(some_dict[(1,1)])
+print_asis(some_dict[(1,1)]) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	dictionaries are unordered
 ####################################################
@@ -222,35 +237,41 @@ println(some_dict[(1,1)])
 some_dict      = Dict(3 => 10, 4 => 20)
 
 keys_from_dict = collect(keys(some_dict))
-println(keys_from_dict)
+print_asis(keys_from_dict) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 some_dict      = Dict("a" => 10, "b" => 20)
 
 keys_from_dict = collect(keys(some_dict))
-println(keys_from_dict)
+print_asis(keys_from_dict) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 some_dict      = Dict(:a => 10, :b => 20)
 
 keys_from_dict = collect(keys(some_dict))
-println(keys_from_dict)
+print_asis(keys_from_dict) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 some_dict      = Dict((1,1) => 10, (1,2) => 20)
 
 keys_from_dict = collect(keys(some_dict))
-println(keys_from_dict)
+print_asis(keys_from_dict) #hide
  
 ############################################################################
 #
-#			CREATING TUPLES, NAMED TUPLES, AND DICTIONARIES
+#   CREATING TUPLES, NAMED TUPLES, AND DICTIONARIES
 #
 ############################################################################
  
@@ -264,55 +285,65 @@ vector = [10, 20] # or tupl = (10,20)
 
 dict = Dict(pairs(vector))
  
-println(dict)
+print_asis(dict) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 keys_for_dict   = [:a, :b]
 values_for_dict = [10, 20]
 
 
 dict = Dict(zip(keys_for_dict, values_for_dict))
  
-println(dict)
+print_asis(dict) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 keys_for_dict   = (:a, :b)
 values_for_dict = (10, 20)
 
 
 dict = Dict(zip(keys_for_dict, values_for_dict))
  
-println(dict)
+print_asis(dict) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 nt_for_dict = (a = 10, b = 20)
 
 
 
 dict = Dict(pairs(nt_for_dict))
  
-println(dict)
+print_asis(dict) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 keys_for_dict      = (:a, :b)
 values_for_dict    = (10, 20)
 vector_keys_values = [(keys_for_dict[i], values_for_dict[i]) for i in eachindex(keys_for_dict)]
 
 dict = Dict(vector_keys_values)
  
-println(dict)
+print_asis(dict) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	CREATING TUPLES
 ####################################################
@@ -322,25 +353,29 @@ b              = 20
 
 tup            = (a, b)
  
-println(tup)
+print_asis(tup) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 values_for_tup = [10, 20]
 
 tup            = Tuple(values_for_tup)
  
-println(tup)
+print_asis(tup) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 values_for_tup = [10, 20]
 
 tup            = (values_for_tup... ,)
  
-println(tup)
+print_asis(tup) #hide
  
 ####################################################
 #	CREATING NAMED TUPLES
@@ -352,69 +387,81 @@ b = 20
 
 nt = (; a, b)
  
-println(nt)
+print_asis(nt) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 keys_for_nt   = [:a, :b]
 values_for_nt = [10, 20]
 
 
 nt = NamedTuple(zip(keys_for_nt, values_for_nt))
  
-println(nt)
+print_asis(nt) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 keys_for_nt   = (:a, :b)
 values_for_nt = (10, 20)
 
 
 nt = NamedTuple(zip(keys_for_nt, values_for_nt))
  
-println(nt)
+print_asis(nt) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 keys_for_nt   = [:a, :b]
 values_for_nt = [10, 20]
 
 
 nt = (; zip(keys_for_nt, values_for_nt)...)
  
-println(nt)
+print_asis(nt) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 keys_for_nt        = [:a, :b]
 values_for_nt      = [10, 20]
 vector_keys_values = [(keys_for_nt[i], values_for_nt[i]) for i in eachindex(keys_for_nt)]
 
 nt = NamedTuple(vector_keys_values)
  
-println(nt)
+print_asis(nt) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 dict = Dict(:a => 10, :b => 20)
 
 
 
 nt = NamedTuple(vector_keys_values)
  
-println(nt)
+print_asis(nt) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			DESTRUCTURING TUPLES AND NAMED TUPLES
+#   DESTRUCTURING TUPLES AND NAMED TUPLES
 #
 ############################################################################
  
@@ -426,46 +473,54 @@ list = [3,4]
 
 x,y  = list
  
-println(x)
+print_asis(x)       #hide
  
-println(y)
+print_asis(y)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 list = 3:4
 
 x,y  = list
  
-println(x)
+print_asis(x)       #hide
  
-println(y)
+print_asis(y)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 list = (3,4)
 
 x,y  = list
  
-println(x)
+print_asis(x)       #hide
  
-println(y)
+print_asis(y)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 list = (a = 3, b = 4)
 
 x,y  = list
  
-println(x)
+print_asis(x)       #hide
  
-println(y)
+print_asis(y)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	not possible to skip values
 ####################################################
@@ -474,42 +529,50 @@ list  = [3,4,5]
 
 (x,)  = list
  
-println(x)
+print_asis(x)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 list  = [3,4,5]
 
 x,y   = list
  
-println(x)
+print_asis(x)       #hide
  
-println(y)
+print_asis(y)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 list  = [3,4,5]
 
 _,_,z = list        # _ or any symbol (_ just signals we don't care about that value)
  
-println(z)
+print_asis(z)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 list  = [3,4,5]
 
 x,_,z = list        # _ or any symbol (it just signals we don't care about that value)
  
-println(x)
+print_asis(x)       #hide
  
-println(z)
+print_asis(z)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	Destructuring with Named Tuples on Both Sides 
 ####################################################
@@ -518,21 +581,23 @@ nt             = (; key1 = 10, key2 = 20, key3 = 30)
 
 (; key3, key1) = nt            # keys in any order
  
-println(key1)
+print_asis(key1)       #hide
  
-println(key3)
+print_asis(key3)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 nt             = (; key1 = 10, key2 = 20, key3 = 30)
 
 (; key2)       = nt            # only one key
  
-println(key2)
+print_asis(key2)       #hide
  
 ####################################################
-#	remark
+#	REMARK
 ####################################################
  
 nt = (; key1 = 10, key2 = 20, key3 = 30)
@@ -540,41 +605,47 @@ nt = (; key1 = 10, key2 = 20, key3 = 30)
  key2, key1    = nt     # variables defined according to POSITION
 (key2, key1)   = nt     # alternative notation
  
-println(key2)
+print_asis(key2)       #hide
  
-println(key1)
+print_asis(key1)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 nt = (; key1 = 10, key2 = 20, key3 = 30)
 
 (; key2, key1) = nt     # variables defined according to KEY
  ; key2, key1  = nt     # alternative notation
  
-println(key1)
+print_asis(key1)       #hide
  
-println(key2)
+print_asis(key2)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # same caveat for single variables
  
 nt       = (; key1 = 10, key2 = 20)
 
 (key2,)  = nt            # variable defined according to POSITION
  
-println(key2)
+print_asis(key2)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 nt       = (; key1 = 10, key2 = 20)
 
 (; key2) = nt            # variable defined according to KEY
  
-println(key2)
+print_asis(key2)       #hide
  
 ####################################################
 #	application destructuring 1: storing parameters of a model
@@ -591,11 +662,13 @@ end
 
 output = foo(2, δ, β)
  
-println(output)
+print_compact(output)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 parameters_list = (; β = 3, δ = 4, ϵ = 5)
 
 
@@ -607,11 +680,13 @@ end
 
 output = foo(2, parameters_list.β, parameters_list.δ)
  
-println(output)
+print_compact(output)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 parameters_list = (; β = 3, δ = 4, ϵ = 5)
 
 
@@ -623,11 +698,13 @@ end
 
 output = foo(2, parameters_list)
  
-println(output)
+print_compact(output)       #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	application destructuring 2: storing outputs of function
 ####################################################
@@ -642,9 +719,11 @@ end
 
 x, y, z = foo()
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 function foo()
     out1 = 2
     out2 = 3
@@ -655,9 +734,11 @@ end
 
 x, y, z = foo()
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 function foo()
     out1 = 2
     out2 = 3
@@ -668,9 +749,11 @@ end
 
 x, _, z = foo()
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 function foo()
     out1 = 2
     out2 = 3
@@ -681,9 +764,11 @@ end
 
 x, _, z = foo()
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 function foo()
     out1 = 2
     out2 = 3

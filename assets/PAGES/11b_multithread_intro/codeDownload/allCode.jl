@@ -1,27 +1,18 @@
-############################################################################
-#   AUXILIARS FOR BENCHMARKING
-############################################################################
-#= The following package defines the macro `@ctime`
-    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
-    For accurate results, interpolate each function argument using `$`. 
-        e.g., `@ctime foo($x)` for timing `foo(x)` =#
-
-# uncomment the following if you don't have the package for @ctime installed
-    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
-using FastBenchmark
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
 using Base.Threads
  
 ############################################################################
 #
-#			SECTION: "INTRODUCTION TO MULTITHREADING"
+#			        SECTION: "INTRODUCTION TO MULTITHREADING"
 #
 ############################################################################
  
 ############################################################################
 #
-#			NATURE OF COMPUTATIONS
+#   NATURE OF COMPUTATIONS
 #
 ############################################################################
  
@@ -40,9 +31,11 @@ function foo()
     return A,B
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 job_A()  = 1 + 1
 job_B()  = 2 + 2
 
@@ -53,12 +46,14 @@ function foo()
     return A,B
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			TASKS AND THREADS
+#   TASKS AND THREADS
 #
 ############################################################################
  
@@ -73,9 +68,11 @@ function job_A(time_working)
     println("A completed his task")
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 function job_B(time_working)
     start_time = time()
 
@@ -86,20 +83,24 @@ function job_B(time_working)
     println("B completed his task")
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # defining jobs as tasks
  
 A = @task job_A(2)      # A's task takes 2 seconds
 B = @task job_B(1)      # B's task takes 1 second
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			SEQUENTIAL AND CONCURRENT COMPUTATIONS
+#   SEQUENTIAL AND CONCURRENT COMPUTATIONS
 #
 ############################################################################
  
@@ -108,9 +109,11 @@ B = @task job_B(1)      # B's task takes 1 second
 A = job_A(2)            # A's task takes 2 seconds
 B = job_B(1)            # B's task takes 1 second
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # sequential computation (default in Julia)
  
 A = @task job_A(2)      # A's task takes 2 seconds
@@ -119,9 +122,11 @@ B = @task job_B(1)      # B's task takes 1 second
 schedule(A) |> wait
 schedule(B) |> wait
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # concurrent computation
  
 A = @task job_A(2)      # A's task takes 2 seconds
@@ -129,13 +134,11 @@ B = @task job_B(1)      # B's task takes 1 second
 
 (schedule(A), schedule(B)) .|> wait
  
-
-
-
-
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	task A -> sum 1 + 1 during `time_working`
 #	task B -> sum 1 + 1 during `time_working`
@@ -151,9 +154,11 @@ function job(name_worker, time_working)
     println("$name_worker completed his task")
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # sequentially (default in Julia)
  
 function schedule_of_tasks()
@@ -164,10 +169,12 @@ function schedule_of_tasks()
     schedule(B) |> wait
 end
  
-
-
-
-#concurrently
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+# concurrently
  
 function schedule_of_tasks()
     A = @task job("A", 2)      # A's task takes 2 seconds
@@ -177,9 +184,11 @@ function schedule_of_tasks()
     schedule(B)
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 function schedule_of_tasks()
     A = @task job("A", 2)      # A's task takes 2 seconds
     B = @task job("B", 1)      # B's task takes 1 second
@@ -187,12 +196,14 @@ function schedule_of_tasks()
     (schedule(A), schedule(B)) .|> wait
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			MULTITHREADING
+#   MULTITHREADING
 #
 ############################################################################
  
@@ -215,9 +226,11 @@ function job(name_worker, time_working)
     println("$name_worker completed his task")
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # sequentially (default in Julia)
  
 function schedule_of_tasks()
@@ -228,9 +241,11 @@ function schedule_of_tasks()
     schedule(B) |> wait
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 #concurrently
  
 function schedule_of_tasks()
@@ -240,18 +255,10 @@ function schedule_of_tasks()
     (schedule(A), schedule(B)) .|> wait
 end
  
-
-
-
-############################################################################
-#
-#			MULTITHREADED CODE
-#
-############################################################################
- 
-####################################################
-#	EXECUTE CODE BELOW ONLY AFTER ENABLING MULTIPLE THREADS!!!
-####################################################
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 ####################################################
 #	task A -> sum 1 + 1 during `time_working`
@@ -268,9 +275,11 @@ function job(name_worker, time_working)
     println("$name_worker completed his task")
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # sequentially (default in Julia)
  
 function schedule_of_tasks()
@@ -278,7 +287,7 @@ function schedule_of_tasks()
     B = job("B", 1)             # B's task takes 1 second
 end
 
-@ctime schedule_of_tasks()
+@ctime schedule_of_tasks() #hide
  
 # sequentially (default in Julia)
  
@@ -289,14 +298,16 @@ function schedule_of_tasks()
     (A,B) .|> wait
 end
 
-@ctime schedule_of_tasks()
+@ctime schedule_of_tasks() #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			THE IMPORTANCE OF WAITING FOR THE RESULTS
+#   THE IMPORTANCE OF WAITING FOR THE RESULTS
 #
 ############################################################################
  
@@ -324,9 +335,11 @@ end
 output = foo()
 println("the value stored in `output` is $(output)")
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # definition of task with result displayed
  
 function job!(x)
@@ -340,9 +353,11 @@ function job!(x)
     end
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 function foo()
     x = [0, 0, 0]
 
@@ -354,9 +369,11 @@ end
 output = foo()
 println("the value stored in `output` is $(output)")
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # waiting
  
 function foo()

@@ -26,13 +26,13 @@ using BenchmarkTools, Chairmarks
  
 ############################################################################
 #
-#			SECTION: "BENCHMARKING EXECUTION TIME"
+#			        SECTION: "BENCHMARKING EXECUTION TIME"
 #
 ############################################################################
  
 ############################################################################
 #
-#      @time - built-in macro (not reliable)
+#	@time - built-in macro (not reliable)
 #
 ############################################################################
  
@@ -46,7 +46,7 @@ x = 1:100
 
 ############################################################################
 #
-#      PACKAGE BenchmarkTools
+#	PACKAGE BenchmarkTools
 #
 ############################################################################
  
@@ -87,8 +87,7 @@ x = rand(100)
  
 ############################################################################
 #
-#      PACKAGE Chairmarks 
-#      (way faster, but still quite new)
+#	PACKAGE Chairmarks (way faster, but still quite new)
 #
 ############################################################################
  
@@ -114,7 +113,7 @@ println(@be sum($x))
 
 ############################################################################
 #
-#      REMARK ON RANDOM NUMBERS USED ON THE WEBSITE
+#	REMARK ON RANDOM NUMBERS FOR BENCHMARKING
 #
 ############################################################################
  
@@ -160,9 +159,11 @@ y = sum(x)
  
 ############################################################################
 #
-#     INTERPRETING BENCHMARKS
+#	BENCHMARKS IN PERSPECTIVE
 #
 ############################################################################
+ 
+# example 1
  
 Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(100_000)
@@ -184,6 +185,8 @@ foo(x) = sum(a -> 2 * a, x)
 
 
 
+# example 2
+ 
 Random.seed!(1234)       #setting seed for reproducibility
 x      = rand(100_000)
 foo()  = sum(2 .* x)

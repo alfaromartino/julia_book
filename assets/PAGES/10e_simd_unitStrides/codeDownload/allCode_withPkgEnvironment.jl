@@ -26,20 +26,20 @@ using Random
  
 ############################################################################
 #
-#			SECTION: "SIMD: CONTIGUOUS ACCESS AND UNIT STRIDES"
+#			        SECTION: "SIMD: CONTIGUOUS ACCESS AND UNIT STRIDES"
 #
 ############################################################################
  
 ############################################################################
 #
-#			REVIEW OF INDEXING APPROACHES
+#   REVIEW OF INDEXING APPROACHES
 #
 ############################################################################
  
 x         = [10, 20, 30]
 
-indices   = sortperm(x)
-elements  = x[indices]    # equivalent to `sort(x)`
+indices   = [3, 2, 1]
+elements  = x[indices]
  
 println(indices)
  
@@ -74,7 +74,7 @@ println(elements)
 
 ############################################################################
 #
-#			BENEFITS OF SEQUENTIAL ACCESS
+#   BENEFITS OF SEQUENTIAL ACCESS
 #
 ############################################################################
  
@@ -87,7 +87,7 @@ println(elements)
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
+x = rand(5_000_000)
 y = @view x[1:2:length(x)]
 
 function foo(y)
@@ -105,7 +105,7 @@ end
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
+x = rand(5_000_000)
 y = @view x[1:2:length(x)]
 
 function foo(y)
@@ -123,7 +123,7 @@ end
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
+x = rand(5_000_000)
 y = x[1:2:length(x)]
 
 function foo(y)
@@ -141,7 +141,7 @@ end
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
+x = rand(5_000_000)
 y = x[1:2:length(x)]
 
 function foo(y)
@@ -328,7 +328,7 @@ end
 
 ############################################################################
 #
-#			COPIES VS VIEWS: TOTAL EFFECTS
+#   COPIES VS VIEWS: TOTAL EFFECTS
 #
 ############################################################################
  
@@ -346,7 +346,45 @@ function foo(x, indices)
     y      = @view x[indices]
     output = 0.0
 
+    for a in y
+        output += a
+    end
+
+    return output
+end
+@ctime foo($x, $indices)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x       = rand(5_000_000)
+indices = sortperm(x)
+
+function foo(x, indices)
+    y      = @view x[indices]
+    output = 0.0
+
     @simd for a in y
+        output += a
+    end
+
+    return output
+end
+@ctime foo($x, $indices)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x       = rand(5_000_000)
+indices = sortperm(x)
+
+function foo(x, indices)
+    y      = x[indices]
+    output = 0.0
+
+    for a in y
         output += a
     end
 
@@ -386,7 +424,45 @@ function foo(x, indices)
     y      = @view x[indices]
     output = 0.0
 
+    for a in y
+        output += a^(3/2)
+    end
+
+    return output
+end
+@ctime foo($x, $indices)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x       = rand(5_000_000)
+indices = sortperm(x)
+
+function foo(x, indices)
+    y      = @view x[indices]
+    output = 0.0
+
     @simd for a in y
+        output += a^(3/2)
+    end
+
+    return output
+end
+@ctime foo($x, $indices)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x       = rand(5_000_000)
+indices = sortperm(x)
+
+function foo(x, indices)
+    y      = x[indices]
+    output = 0.0
+
+    for a in y
         output += a^(3/2)
     end
 
@@ -424,31 +500,29 @@ end
  
 Random.seed!(123)       #setting seed for reproducibility
 x       = rand(1_000_000)
-
 indices = 1:length(x)
-y       = @view x[indices]
 
-function foo(y)
+function foo(x, indices)
+    y      = @view x[indices]
     output = 0.0
 
-    @simd for a in y
+    for a in y
         output += a
     end
 
     return output
 end
-@ctime foo($y)
+@ctime foo($x, $indices)
  
 
 
 
 Random.seed!(123)       #setting seed for reproducibility
 x       = rand(1_000_000)
-
 indices = 1:length(x)
-y       = x[indices]
 
-function foo(y)    
+function foo(x, indices)
+    y      = @view x[indices]
     output = 0.0
 
     @simd for a in y
@@ -457,7 +531,45 @@ function foo(y)
 
     return output
 end
-@ctime foo($y)
+@ctime foo($x, $indices)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x       = rand(1_000_000)
+indices = 1:length(x)
+
+function foo(x, indices)    
+    y      = x[indices]
+    output = 0.0
+
+    for a in y
+        output += a
+    end
+
+    return output
+end
+@ctime foo($x, $indices)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x       = rand(1_000_000)
+indices = 1:length(x)
+
+function foo(x, indices)
+    y      = x[indices]
+    output = 0.0
+
+    @simd for a in y
+        output += a
+    end
+
+    return output
+end
+@ctime foo($x, $indices)
  
 
 
@@ -472,7 +584,49 @@ function foo(x, indices)
     y      = @view x[indices]
     output1, output2, output3 = (0.0 for _ in 1:3)
 
+    for a in y
+        output1 += a^(3/2)
+        output2 += a / 3
+        output3 += a * 2.5
+    end
+
+    return output1, output2, output3
+end
+@ctime foo($x, $indices)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x       = rand(5_000_000)
+indices = sortperm(x)
+
+function foo(x, indices)
+    y      = @view x[indices]
+    output1, output2, output3 = (0.0 for _ in 1:3)
+
     @simd for a in y
+        output1 += a^(3/2)
+        output2 += a / 3
+        output3 += a * 2.5
+    end
+
+    return output1, output2, output3
+end
+@ctime foo($x, $indices)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+x       = rand(5_000_000)
+indices = sortperm(x)
+
+function foo(x, indices)
+    y      = x[indices]
+    output1, output2, output3 = (0.0 for _ in 1:3)
+
+    for a in y
         output1 += a^(3/2)
         output2 += a / 3
         output3 += a * 2.5
@@ -503,6 +657,3 @@ function foo(x, indices)
 end
 @ctime foo($x, $indices)
  
-
-
-

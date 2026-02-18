@@ -1,23 +1,20 @@
-############################################################################
-#   AUXILIARS FOR BENCHMARKING
-############################################################################
-#= The following package defines the macro `@ctime`
-    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
-    For accurate results, interpolate each function argument using `$`. 
-        e.g., `@ctime foo($x)` for timing `foo(x)` =#
-
-# uncomment the following if you don't have the package for @ctime installed
-    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
-using FastBenchmark
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 ############################################################################
 #
-#			SECTION: "THE MAP FUNCTION"
+#			        SECTION: "MAP AND BROADCASTING"
+#
+############################################################################
+ 
+############################################################################
+#
+#	THE `map` FUNCTION
 #
 ############################################################################
  
 ####################################################
-#	first way
+#	single-argument function
 ####################################################
  
 x          = [1, 2, 3]
@@ -25,27 +22,31 @@ x          = [1, 2, 3]
 output     = map(log, x)
 equivalent = [log(x[1]), log(x[2]), log(x[3])]
  
-println(output)
+print_compact(output)   #hide
  
-println(equivalent)
+print_compact(equivalent)   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x          = [1, 2, 3]
 
 output     = map(a -> 2 * a, x)
 equivalent = [2*x[1], 2*x[2], 2*x[3]]
  
-println(output)
+print_asis(output)   #hide
  
-println(equivalent)
+print_asis(equivalent)    #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
-#	second way
+#	multiple-argument function
 ####################################################
  
 x          = [ 1, 2, 3]
@@ -54,55 +55,63 @@ y          = [-1,-2,-3]
 output     = map(+, x, y)        # `+` exists as both operator and function
 equivalent = [+(x[1],y[1]), +(x[2],y[2]), +(x[3],y[3])]
  
-println(output)
+print_asis(output)   #hide
  
-println(equivalent)
+print_asis(equivalent)    #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x          = [ 1, 2, 3]
 y          = [-1,-2,-3]
 
 output     = map((a,b) -> a+b, x, y)
 equivalent = [x[1]+y[1], x[2]+y[2], x[3]+y[3]]
  
-println(output)
+print_asis(output)   #hide
  
-println(equivalent)
+print_asis(equivalent)    #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x          = [ 1, 2, 3]
 y          = [-1,-2]
 
 output     = map(+, x, y)        # `+` exists as both operator and function
 equivalent = [+(x[1],y[1]), +(x[2],y[2])]
  
-println(output)
+print_asis(output)   #hide
  
-println([+(x[1],y[1]), +(x[2],y[2])])
+print_asis([+(x[1],y[1]), +(x[2],y[2])])    #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x          = [ 1, 2, 3]
 y          = -1
 
 output     = map(+, x, y)        # `+` exists as both operator and function
 equivalent = [+(x[1],y[1])]
  
-println(output)
+print_asis(output)   #hide
  
-println(equivalent)
+print_asis(equivalent)    #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			BROADCASTING FUNCTIONS
+#   BROADCASTING
 #
 ############################################################################
  
@@ -116,22 +125,24 @@ x          = [1,2,3]
 output     = log.(x)
 equivalent = [log(x[1]), log(x[2]), log(x[3])]
  
-println(output)
+print_compact(output)   #hide
  
-println(equivalent)
+print_compact(equivalent)   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 square(a)  = a^2     #user-defined function for a scalar 'a'
 x          = [1,2,3]
 
 output     = square.(x)
 equivalent = [square(x[1]), square(x[2]), square(x[3])]
  
-println(output)
+print_asis(output)   #hide
  
-println(equivalent)
+print_asis(equivalent)   #hide
  
 ####################################################
 #	example 2 
@@ -144,13 +155,15 @@ y          = [2, 0, 8]
 output     = max.(x,y)
 equivalent = [max(x[1],y[1]), max(x[2],y[2]), max(x[3],y[3])]
  
-println(output)
+print_asis(output)   #hide
  
-println(equivalent)
+print_asis(equivalent)   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 foo(a,b)   = a + b        # user-defined function for scalars 'a' and 'b'
 x          = [-2, -4, -10]
 y          = [ 2,  4,  10]
@@ -158,25 +171,25 @@ y          = [ 2,  4,  10]
 output     = foo.(x,y)
 equivalent = [foo(x[1],y[1]), foo(x[2],y[2]), foo(x[3],y[3])]
  
-println(output)
+print_asis(output)   #hide
  
-println(equivalent)
+print_asis(equivalent)   #hide
  
 ####################################################
-#	example 3
+#	REMARK: broadcasting applies to any function
 ####################################################
  
-country = ["France", "Canada"]
-is_in   = [" is in "  , " is in "]
-region  = ["Europe", "North America"]
+country = ["France"  , "Canada"]
+is_in   = [" is in " , " is in "]
+region  = ["Europe"  , "North America"]
 
 output  = string.(country, is_in, region)
  
-println(output)
+print_asis(output)     #hide
  
 ############################################################################
 #
-#			BROADCASTING OPERATORS
+#   BROADCASTING OPERATORS
 #
 ############################################################################
  
@@ -185,21 +198,23 @@ y      = [-1, -2, -3]
 
 output = x .+ y
  
-println(output)
+print_asis(output)   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x      = [1, 2, 3]
 
 
 output = .√x
  
-println(output)
+print_compact(output)   #hide
  
 ############################################################################
 #
-#			BROADCASTING OPERATORS with SCALARS
+#   BROADCASTING OPERATORS WITH SCALARS
 #
 ############################################################################
  
@@ -208,20 +223,22 @@ y      = 5
 
 output = x .+ y
  
-println(output)
+print_asis(output)   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x      = [0,10,20]
 y      = [5, 5, 5]
 
 output = x .+ y
  
-println(output)
+print_asis(output)   #hide
  
 ####################################################
-#	remark
+#	REMARK: broadcasting can be applied with strings
 ####################################################
  
 country = ["France", "Canada"]
@@ -230,44 +247,52 @@ region  = ["Europe", "North America"]
 
 output  = string.(country, is_in, region)
  
-println(output)
+print_asis(output)     #hide
  
 ############################################################################
 #
-#			ITERABLE OBJECTS
+#   ITERABLE OBJECTS
 #
 ############################################################################
- 
-####################################################
-#	example 1
-####################################################
  
 x = (1, 2, 3)    # or simply x = 1, 2, 3
  
-println(log.(x))
+print_compact(log.(x))   #hide
  
-println(x .+ x)
+print_asis(x .+ x)   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = 1:3
  
-println(log.(x))
+print_asis(log.(x))   #hide
  
-println(x .+ x)
+print_asis(x .+ x)    #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = (1, 2, 3)    # or simply x = 1, 2, 3
 y = 1:3
  
-println(x .+ y)
+print_asis(x .+ y)   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+############################################################################
+#
+#	 COMBINING BROADCAST OPERATIONS
+#
+############################################################################
+ 
 ####################################################
 #	example 2
 ####################################################
@@ -278,38 +303,44 @@ y         = [1, 2, 0]
 temp      = x .+ y
 output    = temp .^ 2
  
-println(temp)
+print_asis(temp)   #hide
  
-println(output)
+print_asis(output)   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x         = [1, 0, 2]
 y         = [1, 2, 0]
 
 square(x) = x^2
 output    = square.(x .+ y)
  
-println(output)
+print_asis(output)   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x         = [1, 0, 2]
 y         = [1, 2, 0]
 
 square(x) = x^2
 output    = @. square(x + y)
  
-println(output)
+print_asis(output)   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			BROADCASTING FUNCTIONS VS BROADCASTING OPERATORS
+#   BROADCASTING FUNCTIONS VS BROADCASTING OPERATORS
 #
 ############################################################################
  
@@ -318,21 +349,23 @@ x                 = [1, 2, 3]
 number_squared(a) = a ^ 2               # function for scalar 'a'
 output            = number_squared.(x)
  
-println(output)
+print_asis(output)   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x                 = [1, 2, 3]
 
 vector_squared(x) = x .^ 2              # function for a vector 'x'
 output            = vector_squared(x)   # '.' not needed (it'd be redundant)
  
-println(output)
+print_asis(output)   #hide
  
 ############################################################################
 #
-#			BROADCASTING OVER ONLY ONE ARGUMENT
+#   BROADCASTING OVER ONLY ONE ARGUMENT
 #
 ############################################################################
  
@@ -343,19 +376,23 @@ println(output)
 x    = [1, 2]
 list = [1, 2, 3]
  
-#println(in.(x, list)) #ERROR
+#print_asis(in.(x, list)) #ERROR   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x    = [1, 2, 4]
 list = [1, 2, 3]
  
-println(in.(x, list))
+print_asis(in.(x, list))   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	example 2
 ####################################################
@@ -365,27 +402,31 @@ list   = [1, 2, 3]        # 'x[1]' equals the element 2 in 'list'
 
 output = in.(x, [list])
  
-println(output)
+print_asis(output)   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x      = [2, 4, 6]
 list   = [1, 2, 3]        # 'x[1]' equals the element 2 in 'list'
 
 output = in.(x, (list,))
  
-println(output)
+print_asis(output)   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x      = [2, 4, 6]
 list   = [1, 2, 3]        # 'x[1]' equals the element 2 in 'list'
 
 output = in.(x, Ref(list))
  
-println(output)
+print_asis(output)   #hide
  
 ####################################################
 #	example 3
@@ -396,21 +437,23 @@ list   = [1, 2, 3]
 
 output = x .∈ (list,)       # only 'x[1]' equals an element in 'list'
  
-println(output)
+print_asis(output)   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x      = [2, 4, 6]
 list   = [1, 2, 3]
 
 output = x .∈ Ref(list)     # only 'x[1]' equals an element in 'list'
  
-println(output)
+print_asis(output)   #hide
  
 ############################################################################
 #
-#			CURRYING (optional)
+#   CURRYING (optional)
 #
 ############################################################################
  
@@ -420,24 +463,28 @@ println(output)
  
 addition(x,y)  = 2 * x + y
  
-println(addition(2,1))
+print_asis(addition(2,1))   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 addition(x,y)  = 2 * x + y
 
 # the following are equivalent
 curried1(x)    = (y -> addition(x,y))
 curried2       = x -> (y -> addition(x,y))
  
-println(curried1(2)(1))
+print_asis(curried1(2)(1))   #hide
  
-println(curried2(2)(1))
+print_asis(curried2(2)(1))   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 addition(x,y)  = 2 * x + y
 curried(x)     = (y -> addition(x,y))
 
@@ -445,9 +492,9 @@ curried(x)     = (y -> addition(x,y))
 f              = curried(2)          # function of 'y', with 'x' fixed to 2
 g(y)           = addition(2,y)
  
-println(f(1))
+print_asis(f(1))   #hide
  
-println(g(1))
+print_asis(g(1))   #hide
  
 ####################################################
 #	example 2
@@ -459,11 +506,13 @@ b             = [1,2,3]
 addition(x,y) = 2 * x + y
 curried(x)    = (y -> addition(x,y))   # 'curried(x)' is a function, and 'y' its argument
  
-println(curried(a).(b))
+print_asis(curried(a).(b))   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 a             = 2
 b             = [1,2,3]
 
@@ -474,9 +523,9 @@ curried(x)    = (y -> addition(x,y))
 f             = curried(a)             # 'foo1' is a function, and 'y' its argument
 g(y)          = addition(2,y)
  
-println(f.(b))
+print_asis(f.(b))   #hide
  
-println(g.(b))
+print_asis(g.(b))   #hide
  
 ####################################################
 #	example 3
@@ -485,23 +534,27 @@ println(g.(b))
 x    = [2, 4, 6]
 list = [1, 2, 3]
  
-println(in.(x,Ref(list)))
+print_asis(in.(x,Ref(list)))   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x    = [2, 4, 6]
 list = [1, 2, 3]
 
 our_in(list_elements) = (x -> in(x,list_elements))   # 'our_in(list_elements)' is a function
  
-println(our_in(list).(x))
+print_asis(our_in(list).(x))   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x    = [2, 4, 6]
 list = [1, 2, 3]
  
-println(in(list).(x))
+print_asis(in(list).(x))   #hide
  

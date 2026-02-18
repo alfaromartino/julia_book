@@ -1,31 +1,22 @@
-############################################################################
-#   AUXILIARS FOR BENCHMARKING
-############################################################################
-#= The following package defines the macro `@ctime`
-    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
-    For accurate results, interpolate each function argument using `$`. 
-        e.g., `@ctime foo($x)` for timing `foo(x)` =#
-
-# uncomment the following if you don't have the package for @ctime installed
-    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
-using FastBenchmark
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
 using Random
  
 ############################################################################
 #
-#			SECTION: "SIMD: INDEPENDENCE OF ITERATIONS"
+#			        SECTION: "SIMD: INDEPENDENCE OF ITERATIONS"
 #
 ############################################################################
  
 ############################################################################
 #
-#			INDEPENDENCE OF ITERATIONS
+#   INDEPENDENCE OF ITERATIONS
 #
 ############################################################################
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -37,12 +28,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -54,21 +47,23 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 foo(x) = @. x / 2 + x^2 / 3
     
-@ctime foo($x)
+@ctime foo($x) #hide
  
 ############################################################################
 #
-#			A SPECIAL CASE OF DEPENDENCE: REDUCTIONS
+#   A SPECIAL CASE OF DEPENDENCE: REDUCTIONS
 #
 ############################################################################
  
@@ -76,7 +71,7 @@ foo(x) = @. x / 2 + x^2 / 3
 #	automatic application of SIMD for Int in reductions
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1:10, 10_000_000)   # random integers between 1 and 10
 
 function foo(x)
@@ -88,12 +83,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1:10, 10_000_000)   # random integers between 1 and 10
 
 function foo(x)
@@ -105,16 +102,18 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	no automatic application of SIMD for Float in reductions
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -126,12 +125,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function foo(x)
@@ -143,21 +144,25 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
-#	Why Floating Points Are Treated Differently
+#	REMAR: Why are Floating Points Treated Differently
 ####################################################
  
 x = 0.1 + (0.2 + 0.3)
-println(x)
+print_asis(x)   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = (0.1 + 0.2) + 0.3
-println(x)
+print_asis(x)   #hide
  

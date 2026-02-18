@@ -26,13 +26,13 @@ using Random, StatsBase
  
 ############################################################################
 #
-#			SECTION: "INTRODUCTION TO SIMD (SINGLE INSTRUCTION, MULTIPLE DATA)"
+#			        SECTION: "INTRODUCTION TO SIMD (SINGLE INSTRUCTION, MULTIPLE DATA)"
 #
 ############################################################################
  
 ############################################################################
 #
-#			SIMD IN BROADCASTING
+#   SIMD IN BROADCASTING
 #
 ############################################################################
  

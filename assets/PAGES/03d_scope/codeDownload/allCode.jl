@@ -1,18 +1,15 @@
-############################################################################
-#   AUXILIARS FOR BENCHMARKING
-############################################################################
-#= The following package defines the macro `@ctime`
-    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
-    For accurate results, interpolate each function argument using `$`. 
-        e.g., `@ctime foo($x)` for timing `foo(x)` =#
-
-# uncomment the following if you don't have the package for @ctime installed
-    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
-using FastBenchmark
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 ############################################################################
 #
-#			SECTION: "GLOBAL AND LOCAL VARIABLES"
+#			        SECTION: "VARIABLE SCOPE & RELEVANCE OF FUNCTIONS"
+#
+############################################################################
+ 
+############################################################################
+#
+#	GLOBAL AND LOCAL VARIABLES
 #
 ############################################################################
  
@@ -24,15 +21,17 @@ function foo(x)        # 'x' is local, unrelated to 'x = hello' above
     return x,y
 end
  
-println(foo(1))
+print_asis(foo(1))   #hide
  
-println(x)
+print_asis(x)   #hide
  
-#println(y) #error
+#print_asis(y) #error   #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 z = 2
 
 function foo(x)                 
@@ -41,15 +40,15 @@ function foo(x)
     return x,y,z
 end
  
-println(foo(1))
+print_asis(foo(1))   #hide
  
-#println(x) #error
+#print_asis(x) #error  #hide
  
-println(z) #error
+print_asis(z) #error   #hide
  
 ############################################################################
 #
-#			THE ROLE OF LOCAL VARIABLES
+#   THE ROLE OF FUNCTIONS
 #
 ############################################################################
  
@@ -58,28 +57,34 @@ x          = 3
 double()   = 2 * x
 y          = double()
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x          = 3
 
 double(x)  = 2 * x
 y          = double(x)
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x          = 3
 
 double(🐒) = 2 * 🐒
 y          = double(x)
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			RECOMMENDATIONS FOR THE USE OF FUNCTIONS
+#   RECOMMENDATIONS FOR THE USE OF FUNCTIONS
 #
 ############################################################################
  
@@ -94,9 +99,11 @@ function foo(x)
    y      = x + y           # redefines a local variable
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 function foo(x)
    z      = 2 + x           # new variable
    
@@ -117,12 +124,14 @@ function foo()
     return x
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			EXAMPLE OF MODULARITY (optional)
+#   EXAMPLE OF MODULARITY (optional)
 #
 ############################################################################
  
@@ -155,11 +164,13 @@ tax_rate = 5 / 100
 #computation
 expenditure_iPhones = expenditure(price, quantity, tax_rate)
  
-println(expenditure_iPhones)
+print_asis(expenditure_iPhones) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 #functions to compute expenditure
 value_before_taxes(price, quantity)       = price * quantity
 valueAdded_tax(price, quantity, tax_rate) = price * quantity * tax_rate
@@ -177,5 +188,5 @@ tax_paid            = valueAdded_tax(price, quantity, tax_rate)
 
 expenditure_iPhones = expenditure(gross_value, tax_paid)
  
-println(expenditure_iPhones)
+print_asis(expenditure_iPhones) #hide
  

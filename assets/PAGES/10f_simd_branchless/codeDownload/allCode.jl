@@ -1,31 +1,22 @@
-############################################################################
-#   AUXILIARS FOR BENCHMARKING
-############################################################################
-#= The following package defines the macro `@ctime`
-    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
-    For accurate results, interpolate each function argument using `$`. 
-        e.g., `@ctime foo($x)` for timing `foo(x)` =#
-
-# uncomment the following if you don't have the package for @ctime installed
-    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
-using FastBenchmark
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
 using Random
  
 ############################################################################
 #
-#			SECTION: "SIMD: BRANCHLESS CODE"
+#			        SECTION: "SIMD: BRANCHLESS CODE"
 #
 ############################################################################
  
 ############################################################################
 #
-#			TYPE INSTABILITY AND BOUNDS CHECKING AS CONDITIONS TO AVOID
+#   TYPE INSTABILITY AND BOUNDS CHECKING AS CONDITIONS TO AVOID
 #
 ############################################################################
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -37,12 +28,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -54,12 +47,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -71,12 +66,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -88,25 +85,29 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	remark: broadcasting and for-loops
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x      = rand(1_000_000)
 foo(x) = 2 ./ x
 
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x      = rand(1_000_000)
 
 function foo(x)
@@ -118,12 +119,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x      = rand(1_000_000)
 
 function foo(x)
@@ -135,20 +138,22 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			IFELSE VS IF
+#   IFELSE VS IF
 #
 ############################################################################
  
 # `ifelse` facilitates SIMD, `if` hinders it
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -162,12 +167,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -181,12 +188,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -198,12 +207,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -215,14 +226,16 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # compiler could make bad choices
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x      = rand(5_000_000)
 output = similar(x)
 
@@ -231,12 +244,14 @@ function foo!(output,x)
         output[i] = ifelse(x[i] > 0.5, x[i]/2, 0)
     end
 end
-@ctime foo!($output,$x)
+@ctime foo!($output,$x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x      = rand(5_000_000)
 output = similar(x)
 
@@ -245,12 +260,14 @@ function foo!(output,x)
         output[i] = ifelse(x[i] > 0.5, x[i]/2, 0)
     end
 end
-@ctime foo!($output,$x)
+@ctime foo!($output,$x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x      = rand(5_000_000)
 output = similar(x)
 
@@ -259,14 +276,16 @@ function foo!(output,x)
         output[i] = ifelse(x[i] > 0.5, x[i]/2, 0)
     end
 end
-@ctime foo!($output,$x)
+@ctime foo!($output,$x) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			TERNARY OPERATORS
+#   TERNARY OPERATORS
 #
 ############################################################################
  
@@ -276,7 +295,7 @@ end
  
 # ternary operator selects `ifelse`
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -290,12 +309,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -307,12 +328,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -324,16 +347,18 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	ternary operator selects `if`
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -347,12 +372,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -364,12 +391,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -381,16 +410,18 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	Ternary Operator Could Choose A Less Performant Approach
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x      = rand(5_000_000)
 output = similar(x)
 
@@ -401,12 +432,14 @@ function foo!(output,x)
         end
     end
 end
-@ctime foo!($output,$x)
+@ctime foo!($output,$x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x      = rand(5_000_000)
 output = similar(x)
 
@@ -415,12 +448,14 @@ function foo!(output,x)
         output[i] = ifelse(x[i] > 0.5, log(x[i]), 0)
     end
 end
-@ctime foo!($output,$x)
+@ctime foo!($output,$x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x      = rand(5_000_000)
 output = similar(x)
 
@@ -429,14 +464,16 @@ function foo!(output,x)
         output[i] = x[i]>0.5 ? log(x[i]) : 0
     end
 end
-@ctime foo!($output,$x)
+@ctime foo!($output,$x) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			WHEN EACH APPROACH IS BETTER?
+#   WHEN EACH APPROACH IS BETTER?
 #
 ############################################################################
  
@@ -444,7 +481,7 @@ end
 #	with ternary operator, easy computations favor SIMD
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 condition(a)   = a > 0.5
 computation(a) = a * 2
@@ -460,12 +497,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 condition(a)   = a > 0.5
 computation(a) = a * 2
@@ -479,12 +518,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 condition(a)   = a > 0.5
 computation(a) = a * 2
@@ -498,16 +539,18 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	but when computations are more intensive, ternary operator chooses a lazy approach
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(2_000_000)
 condition(a)   = a > 0.5
 computation(a) = exp(a)/3 - log(a)/2
@@ -523,12 +566,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(2_000_000)
 condition(a)   = a > 0.5
 computation(a) = exp(a)/3 - log(a)/2
@@ -542,12 +587,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(2_000_000)
 condition(a)   = a > 0.5
 computation(a) = exp(a)/3 - log(a)/2
@@ -561,14 +608,16 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			VECTORS WITH CONDITIONS
+#   VECTORS WITH CONDITIONS
 #
 ############################################################################
  
@@ -576,7 +625,7 @@ end
 #	BitVector vs Vector{Bool}
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x         = rand(1_000_000)
 bitvector = x .> 0.5
 
@@ -590,12 +639,14 @@ function foo(x,bitvector)
 
     return output
 end
-@ctime foo($x,$bitvector)
+@ctime foo($x,$bitvector) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x         = rand(1_000_000)
 bitvector = x .> 0.5
 
@@ -609,14 +660,16 @@ function foo(x,bitvector)
 
     return output
 end
-@ctime foo($x,$bitvector)
+@ctime foo($x,$bitvector) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # REMARK: No Vector With Conditions
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -630,12 +683,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -649,12 +704,14 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(1_000_000)
 
 function foo(x)
@@ -668,14 +725,16 @@ function foo(x)
 
     return output
 end
-@ctime foo($x)
+@ctime foo($x) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			ALGEBRAIC OPERATIONS AS COMPOUND CONDITIONS
+#   ALGEBRAIC OPERATIONS AS COMPOUND CONDITIONS
 #
 ############################################################################
  
@@ -683,7 +742,7 @@ end
 #	FOR-LOOPS
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x                 = rand(1_000_000)
 y                 = rand(1_000_000)
 
@@ -699,12 +758,14 @@ function foo(x,y)
 
     return output
 end
-@ctime foo($x,$y)
+@ctime foo($x,$y) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x                 = rand(1_000_000)
 y                 = rand(1_000_000)
 
@@ -720,12 +781,14 @@ function foo(x,y)
 
     return output
 end
-@ctime foo($x,$y)
+@ctime foo($x,$y) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x                 = rand(1_000_000)
 y                 = rand(1_000_000)
 
@@ -741,12 +804,14 @@ function foo(x,y)
 
     return output
 end
-@ctime foo($x,$y)
+@ctime foo($x,$y) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x                 = rand(1_000_000)
 y                 = rand(1_000_000)
 
@@ -762,56 +827,66 @@ function foo(x,y)
 
     return output
 end
-@ctime foo($x,$y)
+@ctime foo($x,$y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	BROADCASTING
 ####################################################
  
-Random.seed!(123)       #setting seed for reproducibility
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 y              = rand(1_000_000)
 
 
 foo(x,y)       = @. ifelse((x>0.3) && (y<0.6) && (x>y), x,y)
-@ctime foo($x,$y)
+@ctime foo($x,$y) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 y              = rand(1_000_000)
 
 
 foo(x,y)       = @. ifelse((x>0.3) *  (y<0.6) *  (x>y), x,y)
-@ctime foo($x,$y)
+@ctime foo($x,$y) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 y              = rand(1_000_000)
 
 
 foo(x,y)       = @. ifelse((x>0.3) || (y<0.6) || (x>y), x,y)
-@ctime foo($x,$y)
+@ctime foo($x,$y) #hide
  
-
-
-
-Random.seed!(123)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
 x              = rand(1_000_000)
 y              = rand(1_000_000)
 
 
 foo(x,y)       = @. ifelse(Bool(1 - !(x>0.3) * !(y<0.6) * !(x>y)), x,y)
-@ctime foo($x,$y)
+@ctime foo($x,$y) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 

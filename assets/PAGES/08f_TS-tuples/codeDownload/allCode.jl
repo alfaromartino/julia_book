@@ -1,23 +1,16 @@
-############################################################################
-#   AUXILIARS FOR BENCHMARKING
-############################################################################
-#= The following package defines the macro `@ctime`
-    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
-    For accurate results, interpolate each function argument using `$`. 
-        e.g., `@ctime foo($x)` for timing `foo(x)` =#
-
-# uncomment the following if you don't have the package for @ctime installed
-    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
-using FastBenchmark
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 ############################################################################
 #
-#           SECTION: "TYPE STABILITY WITH TUPLES"
+#                   SECTION: "TYPE STABILITY WITH TUPLES"
 #
 ############################################################################
  
 ############################################################################
-#  COMPARING TUPLES AND VECTORS
+#
+#	COMPARING TUPLES AND VECTORS
+#
 ############################################################################
  
 # Tuple Slices with Mixed Types Can Still Be Type Stable
@@ -28,18 +21,22 @@ foo(x) = sum(x[1:2])
 
 @code_warntype foo(tup)         # type stable (output is `Int64`)
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 vector = [1, 2, "hello"]        # type is `Vector{Any}`
 
 foo(x) = sum(x[1:2])
 
 @code_warntype foo(vector)      # type UNSTABLE
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # Tuples Contain More Information than Vectors
  
 tup = (1, 2, 3.5)             # `Tuple{Int64, Int64, Float64}`
@@ -52,9 +49,11 @@ end
 
 @code_warntype foo(tup)       # type stable
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 tup = (1, 2, 3)               # `Tuple{Int64, Int64, Int64}` or just `NTuple{3, Int64}`
 
 
@@ -65,9 +64,11 @@ end
 
 @code_warntype foo(tup)       # type stable
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 tup = (1, 2, "hello")         # `Tuple{Int64, Int64, String}`
 
 
@@ -78,9 +79,11 @@ end
 
 @code_warntype foo(tup)       # type UNSTABLE
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # from vector to tuples
  
 x   = [1, 2, "hello"]           # 'Vector{Any}' has no info on each individual type
@@ -94,9 +97,11 @@ end
 
 @code_warntype foo(x)           # type UNSTABLE
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x   = [1, 2, 3]                 # 'Vector{Int64}' has no info on the number of elements
 
 
@@ -108,12 +113,14 @@ end
 
 @code_warntype foo(x)           # type UNSTABLE
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			ADDRESSING VARIABLE ARGUMENTS: DISPATCH BY VALUE
+#   ADDRESSING VARIABLE ARGUMENTS: DISPATCH BY VALUE
 #
 ############################################################################
  
@@ -124,9 +131,11 @@ foo(tup) = sum(tup[1:2])
 
 @code_warntype foo(tup)         # type stable
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x   = [1, 2, 3]
 
 function foo(x)
@@ -137,9 +146,11 @@ end
 
 @code_warntype foo(x)        # type UNSTABLE
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x   = [1, 2, 3]
 
 function foo(x)
@@ -150,9 +161,11 @@ end
 
 @code_warntype foo(tup)       # type stable
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # Defining Dispatch By Value
  
 function foo(condition)
@@ -164,9 +177,11 @@ end
 @code_warntype foo(true)         # type UNSTABLE
 @code_warntype foo(false)        # type UNSTABLE
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 function foo(::Val{condition}) where condition
     y = condition ? 1 : 0.5      # either `Int64` or `Float64`
     
@@ -176,9 +191,11 @@ end
 @code_warntype foo(Val(true))    # type stable
 @code_warntype foo(Val(false))   # type stable
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # Dispatching by Value with Tuples
  
 x = [1, 2, 3]
@@ -191,9 +208,11 @@ end
 
 @code_warntype foo(x, length(x))        # type UNSTABLE
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = [1, 2, 3]
 
 function foo(x, ::Val{N}) where N

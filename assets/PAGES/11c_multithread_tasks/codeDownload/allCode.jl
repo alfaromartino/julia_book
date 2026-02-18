@@ -1,49 +1,44 @@
-############################################################################
-#   AUXILIARS FOR BENCHMARKING
-############################################################################
-#= The following package defines the macro `@ctime`
-    It provides the same output as `@btime` from BenchmarkTools, but using Chairmarks (which is way faster) 
-    For accurate results, interpolate each function argument using `$`. 
-        e.g., `@ctime foo($x)` for timing `foo(x)` =#
-
-# uncomment the following if you don't have the package for @ctime installed
-    # import Pkg; Pkg.add(url="https://github.com/alfaromartino/FastBenchmark.git")
-using FastBenchmark
+include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
+include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
 # necessary packages for this file
 using Random, Base.Threads
  
 ############################################################################
 #
-#			SECTION: "TASK-BASED PARALLELISM: @SPAWN"
+#			        SECTION: "TASK-BASED PARALLELISM: @SPAWN"
 #
 ############################################################################
  
 ############################################################################
 #
-#			ENABLING MULTITHREADING
+#   ENABLING MULTITHREADING
 #
 ############################################################################
  
 # package `Threads` is automatically imported when you start a Julia session 
 
 Threads.nthreads()
-println(Threads.nthreads())
+print_asis(Threads.nthreads()) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 using Base.Threads      # or `using .Threads`
 
 nthreads()
-println(nthreads())
+print_asis(nthreads()) #hide
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			TASK-BASED PARALLELISM: @SPAWN
+#   TASK-BASED PARALLELISM: @SPAWN
 #
 ############################################################################
  
@@ -60,9 +55,11 @@ function foo(x)
     a,b
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = rand(10); y = rand(10)
 
 function foo(x)
@@ -72,9 +69,11 @@ function foo(x)
     a,b    = fetch.((task_a, task_b))
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ####################################################
 #	mutating function
 ####################################################
@@ -86,9 +85,11 @@ function foo!(x,y)
     @. y = -y
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = rand(10); y = rand(10)
 
 function foo!(x,y)
@@ -98,9 +99,11 @@ function foo!(x,y)
     wait.((task_a, task_b))
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 x = rand(10); y = rand(10)
 
 function foo!(x,y)
@@ -110,12 +113,14 @@ function foo!(x,y)
     end    
 end
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 ############################################################################
 #
-#			MULTITHREADING OVERHEAD
+#   MULTITHREADING OVERHEAD
 #
 ############################################################################
  
@@ -123,7 +128,7 @@ end
 #	example with @spawn
 ####################################################
  
-Random.seed!(1234)       #setting seed for reproducibility
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function non_threaded(x)    
@@ -132,20 +137,22 @@ function non_threaded(x)
     
     all_outputs = (a,b)
 end
-non_threaded(x)
+non_threaded(x) #hide
  
 foo(x) = maximum(x)
-@ctime foo($x)
+@ctime foo($x) #hide
  
 foo(x) = sum(x)
-@ctime foo($x)
+@ctime foo($x) #hide
  
 @ctime non_threaded($x)
  
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = rand(10_000_000)
 
 function multithreaded(x)    
@@ -155,16 +162,18 @@ function multithreaded(x)
     all_tasks   = (task_a, task_b)
     all_outputs = fetch.(all_tasks)
 end
-multithreaded(x)
+multithreaded(x) #hide
  
 @ctime multithreaded($x)
  
-
-
-
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
 # multithreading overhead
  
-Random.seed!(1234)       #setting seed for reproducibility
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x_small  = rand(    1_000)
 x_medium = rand(  100_000)
 x_big    = rand(1_000_000)
@@ -182,10 +191,12 @@ end
  
 @ctime foo($x_big)
  
-
-
-
-Random.seed!(1234)       #setting seed for reproducibility
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x_small  = rand(    1_000)
 x_medium = rand(  100_000)
 x_big    = rand(1_000_000)

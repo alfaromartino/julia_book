@@ -26,13 +26,15 @@ using Random, Statistics, LazyArrays
  
 ############################################################################
 #
-#                           SECTION: "PRE-ALLOCATIONS"
+#                   SECTION: "PRE-ALLOCATIONS"
 #
 ############################################################################
  
-####################################################
+############################################################################
+#
 #	INITIALIZING VECTORS
-####################################################
+#
+############################################################################
  
 ####################################################
 #	approaches
@@ -128,7 +130,7 @@ end
  
 ############################################################################
 #
-#			DESCRIBING THE TECHNIQUE
+#   DESCRIBING THE TECHNIQUE
 #
 ############################################################################
  
@@ -178,6 +180,8 @@ end
 
 
 
+# impact when `performance` is called repeatedly
+ 
 Random.seed!(123)       #setting seed for reproducibility
 nr_days            = 30
 scores             = [rand(nr_days), rand(nr_days), rand(nr_days)]  # 3 workers
@@ -349,7 +353,7 @@ end
 
 
 
-# WARNING
+# WARNING: Use of @. to update values
  
 Random.seed!(123)       #setting seed for reproducibility
 x          = rand(10)
