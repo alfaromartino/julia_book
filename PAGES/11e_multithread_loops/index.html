@@ -2638,12 +2638,16 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Introduction</h2></p>
-<p>The most computationally intensive parts of a program are commonly associated with for-Loops. To accelerate these computations, parallel processing distributes a for-loop&#39;s iterations across multiple processor threads. The central challenge, however, lies in how this work is divided, as the optimal strategy heavily depends on the nature of the workload.</p>
-<p>This section introduces Julia&#39;s <code>@threads</code> macro as a straightforward approach to parallelizing for-loops. It operates by splitting the iterations evenly among the available threads. For the explanations, we&#39;ll contrast its underlying mechanism with the task-based parallelism offered by <code>@spawn</code>.</p>
+<p>The most computationally intensive parts of a program are commonly written using for-loops. To accelerate these computations, parallel processing distributes iterations across multiple processor threads. The central challenge, however, lies in how this work is divided, as the optimal strategy heavily depends on the nature of the workload.</p>
+<p>This section introduces Julia&#39;s <code>@threads</code> macro as a straightforward approach to parallelizing for-loops. This operates by splitting the iterations evenly among the available threads. For the explanations, we&#39;ll contrast the underlying mechanism of <code>@threads</code> with the task-based parallelism offered by <code>@spawn</code>.</p>
  <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
       <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
-      <b>Warning!</b> - Use of @spawn </span>  </div>  <div class=content>     To clearly illustrate the differences between <code>@threads</code> and <code>@spawn</code>, our examples will use <code>@spawn</code> in a simple but inefficient manner. Specifically, a separate task will be created for every single iteration. While this is enough for the purpose of comparison with <code>@threads</code>, it&#39;s not representative of a typical <code>@spawn</code> usage. </p>
+      <b>Warning!</b> - Use of @spawn </span>  </div>  <div class=content>     To clearly illustrate the differences between <code>@threads</code> and <code>@spawn</code>, <strong>our examples will use</strong> <code>@spawn</code> <strong>in a simple but inefficient manner</strong>. Specifically, a separate task will be created for every single iteration. While this is enough for the purpose of comparison with <code>@threads</code>, it&#39;s not representative of a typical <code>@spawn</code> usage. </p>
 <p>In the next section, we&#39;ll revisit the macro and show how to efficiently define tasks. In fact, <code>@spawn</code> is flexible enough to define sophisticated parallel strategies, including the one employed by <code>@threads</code>.  </div>  </div>
+ <div class=warning>  <div class=title>  <span class="warning_title" style="font-weight:500;">
+      <img src="/julia_book/assets/icons/warning.png" style="width:auto; height:30px;opacity:0.99;padding-bottom:4px; margin-left:-4px;">      
+      <b>Warning!</b> - Loaded Package </span>  </div>  <div class=content>     All the scripts below assume that you&#39;ve executed <code>using Base.Threads</code>. This allows direct access to macros like <code>@threads</code> and <code>@spawn</code>.</p>
+<p>Furthermore, we assume your Julia session is running with more than one thread available. Refer to <a href="/julia_book/PAGES/11c_multithread_tasks/#enabling_multithreading">these instructions</a> to enable multithreading. In particular, our examples are based on a session with two worker threads.  </div>  </div>
 <p>      </div>
     </div>
   </div>
@@ -2653,7 +2657,7 @@ color: white;
     <div class="row">
       <div class="col-lg- mx-auto">
         <h2>Some Preliminaries</h2></p>
-<p>Parallelism techniques target code that performs multiple operations, making it a natural fit for for-loops. Using the macro <code>@spawn</code> introduced in the previous sections, we can parallelize for-loops through a task-based parallelism. In an upcoming section, we&#39;ll demonstrate that <code>@spawn</code> is flexible enough to split iterations into tasks in various ways. For now, we&#39;ll consider a simple &#40;inefficient&#41; case where each iteration defines a separate task. The code implementing this technique is shown below.</p>
+<p>Parallelism techniques target code that performs multiple operations, making it a natural fit for for-loops. Using the macro <code>@spawn</code> introduced in the previous sections, we can parallelize for-loops through a task-based parallelism.  For now, we&#39;ll consider a simple &#40;inefficient&#41; case where each iteration defines a separate task. In an upcoming section, we&#39;ll demonstrate that <code>@spawn</code> is flexible enough to split iterations into tasks in various ways. The code implementing this technique is shown below.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
  <div class="tab_wrapper">
  <div class="tab_code_links">
@@ -2682,8 +2686,8 @@ Iteration 3 is computed on Thread 1
 Iteration 4 is computed on Thread 2</div></div></div> </div> 
  </div></div>
 <p>  </p></details></div>
-<p>When there are only a few iterations involved in a for-loop, creating one task per iteration can be a straightforward and effective way to parallelize the code. However, as the number of iterations increases, the approach becomes less efficient due to the overhead of task creation. To mitigate this issue, we need to consider alternative ways of parallelizing for-loops.</p>
-<p>One such alternative is to create tasks that encompass multiple iterations, rather than just one iteration per task. The techniques to do this, which will be explored in upcoming sections, offer more granular control, but at the expense of adding substantial complexity to the code.</p>
+<p>When there are only a few iterations involved, creating one task per iteration can be a straightforward and effective way to parallelize the code. However, as the number of iterations increases, the approach becomes less efficient due to the overhead of task creation. To mitigate this issue, we need to consider alternative ways of parallelizing for-loops.</p>
+<p>One such alternative is to create tasks that encompass multiple iterations, rather than just one per task. The techniques to do this will be explored in upcoming sections. They offer more granular control, but at the expense of adding substantial complexity to the code.</p>
 <p>In light of this complexity, Julia provides the <code>@threads</code> macro from the package <code>Threads</code>. The goal is to reduce the overhead of task creation, while keeping the parallelization simple. Specifically, <code>@threads</code> divides the set of iterations evenly among threads, thereby restricting the creation of tasks to the number of threads available.</p>
 <p>The following example demonstrates the implementation of <code>@threads</code>, highlighting its difference from the approach with <code>@spawn</code>. The scenario considered is based on 4 iterations and 2 worker threads. We also display the thread on which each iteration is executed by using the <code>threadid&#40;&#41;</code> function, which identifies the thread&#39;s ID that&#39;s computing the operation.</p>
  <div class=" hide_tab"> <details  open><summary  ><div class="closed_text"> </div>  </summary>  <p></p>
@@ -2866,7 +2870,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified February 18, 2026 
+          © Martin Alfaro <br>Last Modified February 19, 2026 
       </span> 
   </div> 
 </footer>
