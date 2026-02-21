@@ -2671,13 +2671,13 @@ color: white;
 <p> <div class="multiple_pics">
   <h2 style="color:rgb(63, 99,136);"><div style="text-decoration:underline;">Hierarchy of Type Number</div></h2>
     <img src="/julia_book/assets/PAGES/07d_TS-onTypes/tikz/supertypes_Number02.svg" style="width:900px; height:auto; margin-top:1em; margin-bottom:1em;max-width:100%;">  
-    <div style="padding-bottom:1.5em;width:75%;margin:0 auto;font-size:90%;"> <u><b>Note</b></u>: Dashed red borders indicate <span style="border: 2px dashed rgb(168, 50, 50); border-style: dashed dashed; padding: 2px;">abstract types</span>, while solid blue borders indicate <span style="border: 2px solid rgb(63, 99,136); padding: 2px;">concrete types</span>.  </div>
+    <div style="padding-bottom:1.5em;width:75%;margin:0 auto;font-size:90%;"> <u><b>Note</b></u>: Dashed red borders indicate <span style="border: 2px dashed rgb(168, 50, 50); border-style: dashed; padding: 2px;">abstract types</span>, while solid blue borders indicate <span style="border: 2px solid rgb(63, 99,136); padding: 2px;">concrete types</span>.  </div>
 </div> <br/></p>
 <p>The distinction for scalars between abstract and concrete types is relatively straightforward. Instead, their difference becomes more nuanced when considering vectors, as shown in the diagram below.</p>
 <p> <div class="multiple_pics">
   <h2 style="color:rgb(63, 99,136);"><div style="text-decoration:underline;">Hierarchy of Type Vector</div></h2>
     <img src="/julia_book/assets/PAGES/07d_TS-onTypes/tikz/supertypes_Vector02.svg" style="width:900px; height:auto; margin-top:1em; margin-bottom:1em;max-width:100%;">  
-    <div style="padding-bottom:1.5em;width:75%;margin:0 auto;font-size:90%;"> <u><b>Note</b></u>: Dashed red borders indicate <span style="border: 2px dashed rgb(168, 50, 50); border-style: dashed dashed; padding: 2px;">abstract types</span>, while solid blue borders indicate <span style="border: 2px solid rgb(63, 99,136); padding: 2px;">concrete types</span>.  </div>
+    <div style="padding-bottom:1.5em;width:75%;margin:0 auto;font-size:90%;"> <u><b>Note</b></u>: Dashed red borders indicate <span style="border: 2px dashed rgb(168, 50, 50); border-style: dashed; padding: 2px;">abstract types</span>, while solid blue borders indicate <span style="border: 2px solid rgb(63, 99,136); padding: 2px;">concrete types</span>.  </div>
 </div> <br/></p>
 <p>The diagram reveals that <code>Vector&#123;T&#125;</code> <strong>is a concrete type</strong> <strong>for each specific type</strong> <code>T</code>. As a result, none of these concrete vector types have subtypes. This also means that a vector such as <code>Vector&#123;Int64&#125;</code> is not a subtype of <code>Vector&#123;Any&#125;</code>, even though <code>Int64</code> itself is a subtype of <code>Any</code> and <code>Any</code> is abstract. The design is entirely consistent with the idea of vectors representing collections of homogeneous elements, where every element must share the same type.</p>
 <p> <h4> Only concrete Types Can be Instantiated, Abstract Types Can&#39;t </h4><div class="own-anchors"><a name="instantiate"></a></div></p>
