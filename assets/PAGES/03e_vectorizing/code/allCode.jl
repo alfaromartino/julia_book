@@ -3,12 +3,18 @@ include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "regi
  
 ############################################################################
 #
-#			SECTION: "THE MAP FUNCTION"
+#			        SECTION: "MAP AND BROADCASTING"
+#
+############################################################################
+ 
+############################################################################
+#
+#	THE `map` FUNCTION
 #
 ############################################################################
  
 ####################################################
-#	first way
+#	single-argument function
 ####################################################
  
 x          = [1, 2, 3]
@@ -40,7 +46,7 @@ print_asis(equivalent)    #hide
 # <space_to_be_deleted>
  
 ####################################################
-#	second way
+#	multiple-argument function
 ####################################################
  
 x          = [ 1, 2, 3]
@@ -105,7 +111,7 @@ print_asis(equivalent)    #hide
  
 ############################################################################
 #
-#			BROADCASTING FUNCTIONS
+#   BROADCASTING
 #
 ############################################################################
  
@@ -113,7 +119,7 @@ print_asis(equivalent)    #hide
 #	example 1
 ####################################################
  
-# `log(a)` applies to scalars `a`
+# `log(a)` only applies to a scalar `a`
 x          = [1,2,3]
 
 output     = log.(x)
@@ -128,7 +134,7 @@ print_compact(equivalent)   #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-square(a)  = a^2     #user-defined function for a scalar 'a'
+square(a)  = a^2     #user-defined function for scalar 'a'
 x          = [1,2,3]
 
 output     = square.(x)
@@ -170,7 +176,7 @@ print_asis(output)   #hide
 print_asis(equivalent)   #hide
  
 ####################################################
-#	example 3
+#	REMARK: broadcasting applies to any function
 ####################################################
  
 country = ["France"  , "Canada"]
@@ -183,9 +189,21 @@ print_asis(output)     #hide
  
 ############################################################################
 #
-#			BROADCASTING OPERATORS
+#   BROADCASTING OPERATORS
 #
 ############################################################################
+ 
+x      = [1, 2, 3]
+
+
+output = .-x
+ 
+print_compact(output)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
  
 x      = [ 1,  2,  3]
 y      = [-1, -2, -3]
@@ -194,21 +212,9 @@ output = x .+ y
  
 print_asis(output)   #hide
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-x      = [1, 2, 3]
-
-
-output = .√x
- 
-print_compact(output)   #hide
- 
 ############################################################################
 #
-#			BROADCASTING OPERATORS with SCALARS
+#   BROADCASTING OPERATORS WITH SCALARS
 #
 ############################################################################
  
@@ -232,7 +238,7 @@ output = x .+ y
 print_asis(output)   #hide
  
 ####################################################
-#	remark
+#	REMARK: broadcasting can be applied with strings
 ####################################################
  
 country = ["France", "Canada"]
@@ -245,13 +251,9 @@ print_asis(output)     #hide
  
 ############################################################################
 #
-#			ITERABLE OBJECTS
+#   ITERABLE OBJECTS
 #
 ############################################################################
- 
-####################################################
-#	example 1
-####################################################
  
 x = (1, 2, 3)    # or simply x = 1, 2, 3
  
@@ -284,6 +286,12 @@ print_asis(x .+ y)   #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+ 
+############################################################################
+#
+#	 COMBINING BROADCAST OPERATIONS
+#
+############################################################################
  
 ####################################################
 #	example 2
@@ -332,7 +340,7 @@ print_asis(output)   #hide
  
 ############################################################################
 #
-#			BROADCASTING FUNCTIONS VS BROADCASTING OPERATORS
+#   BROADCASTING FUNCTIONS VS BROADCASTING OPERATORS
 #
 ############################################################################
  
@@ -357,7 +365,7 @@ print_asis(output)   #hide
  
 ############################################################################
 #
-#			BROADCASTING OVER ONLY ONE ARGUMENT
+#   BROADCASTING OVER ONLY ONE ARGUMENT
 #
 ############################################################################
  
@@ -445,7 +453,7 @@ print_asis(output)   #hide
  
 ############################################################################
 #
-#			CURRYING (optional)
+#   CURRYING (optional)
 #
 ############################################################################
  

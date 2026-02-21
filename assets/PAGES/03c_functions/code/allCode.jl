@@ -3,7 +3,13 @@ include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "regi
  
 ############################################################################
 #
-#			USER-DEFINED FUNCTIONS
+#			        SECTION: "DEFINING YOUR OWN FUNCTIONS"
+#
+############################################################################
+ 
+############################################################################
+#
+#	USER-DEFINED FUNCTIONS
 #
 ############################################################################
  
@@ -86,7 +92,7 @@ print_asis(foo(1,2))   #hide
 # <space_to_be_deleted>
  
 ####################################################
-#	Functions without Arguments
+#	REMARK: Functions without Arguments
 ####################################################
  
 function foo()
@@ -96,7 +102,7 @@ function foo()
 end
  
 ####################################################
-#	The Order In Which Functions Are Defined is Irrelevant
+#	REMARK: The Order In Which Functions Are Defined is Irrelevant
 ####################################################
  
 foo1(x) = 2 + foo2(x)
@@ -118,7 +124,7 @@ print_asis(foo1(2))   #hide
  
 ############################################################################
 #
-#			Functions as Operators
+#   FUNCTIONS AS OPERATORS
 #
 ############################################################################
  
@@ -133,7 +139,7 @@ print_asis(x ⊕ y)   #hide
  
 ############################################################################
 #
-#			Positional and Keyword Arguments
+#   POSITIONAL AND KEYWORD ARGUMENTS
 #
 ############################################################################
  
@@ -196,19 +202,19 @@ print_asis(foo(x=2))   #hide
  
 foo(x,y) = x + y
 
-z = (2,3)
+z        = (2,3)
  
 print_asis(foo(z...))   #hide
  
 foo(x,y) = x + y
 
-z = [2,3]
+z        = [2,3]
  
 print_asis(foo(z...))   #hide
  
 ############################################################################
 #
-#			ANONYMOUS FUNCTIONS
+#   ANONYMOUS FUNCTIONS
 #
 ############################################################################
  
@@ -321,7 +327,7 @@ print_asis(output)   #hide
  
 ############################################################################
 #
-#			FUNCTION DOCUMENTATION
+#   FUNCTION DOCUMENTATION
 #
 ############################################################################
  
@@ -330,6 +336,6 @@ function add_two(a)
    a + 2
 end
  
-"This function is written in a compact form. It takes a number and adds three to it."
-add_three(a) = a + 3
+"This function is written in a compact form. It takes a number and adds two to it."
+add_two(a) = a + 2
  

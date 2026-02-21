@@ -1,3 +1,3 @@
 ####################################################
-#	Functions without Arguments
+#	REMARK: Functions without Arguments
 ####################################################

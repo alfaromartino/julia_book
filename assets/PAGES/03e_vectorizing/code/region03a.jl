@@ -1,4 +1,4 @@
-# `log(a)` applies to scalars `a`
+# `log(a)` only applies to a scalar `a`
 x          = [1,2,3]
 
 output     = log.(x)

@@ -1,5 +1,5 @@
-x = [10, 20]
+x = [2, 3]
 
 
-y = [index * value for (index,value) in enumerate(x)]
+y = [x[index] - value for (index,value) in enumerate(x)]    # `x[index]` equals `value`
 print_asis(y)   #hide

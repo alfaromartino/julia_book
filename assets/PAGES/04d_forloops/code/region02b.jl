@@ -1,3 +1,3 @@
-for x ∈ ["hello","beautiful","world"] 
+for x ∈ ["hello", "beautiful", "world"] 
     println(x)
 end

@@ -1,3 +1,3 @@
-for word in ["hello","beautiful","world"] 
+for word in ["hello", "beautiful", "world"] 
     println(word)
 end
