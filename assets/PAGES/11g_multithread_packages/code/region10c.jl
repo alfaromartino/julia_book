@@ -1,5 +1,5 @@
-Random.seed!(1234) # hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x      = rand(1_000_000)
 
 foo(x) = @tturbo log.(x) ./ x
-@ctime foo($x)  # hide
+@ctime foo($x)  #hide

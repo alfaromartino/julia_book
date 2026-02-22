@@ -116,7 +116,7 @@ println(equivalent)
 #	example 1
 ####################################################
  
-# `log(a)` applies to scalars `a`
+# `log(a)` only applies to scalars `a`
 x          = [1,2,3]
 
 output     = log.(x)
@@ -129,7 +129,7 @@ println(equivalent)
 
 
 
-square(a)  = a^2     #user-defined function for a scalar 'a'
+square(a)  = a^2     #user-defined function for scalar 'a'
 x          = [1,2,3]
 
 output     = square.(x)
@@ -186,20 +186,20 @@ println(output)
 #
 ############################################################################
  
-x      = [ 1,  2,  3]
-y      = [-1, -2, -3]
+x      = [1, 2, 3]
 
-output = x .+ y
+
+output = .-x
  
 println(output)
  
 
 
 
-x      = [1, 2, 3]
+x      = [ 1,  2,  3]
+y      = [-1, -2, -3]
 
-
-output = .√x
+output = x .+ y
  
 println(output)
  
@@ -333,7 +333,7 @@ println(output)
 
 x                 = [1, 2, 3]
 
-vector_squared(x) = x .^ 2              # function for a vector 'x'
+vector_squared(x) = x .^ 2              # function for vector 'x'
 output            = vector_squared(x)   # '.' not needed (it'd be redundant)
  
 println(output)

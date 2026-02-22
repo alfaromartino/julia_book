@@ -22,7 +22,7 @@ using FastBenchmark
 #
 ############################################################################
  
-for x in ["hello","beautiful","world"]
+for x in ["hello", "beautiful", "world"]
     println(x)
 end
  
@@ -30,21 +30,21 @@ end
 #	alternatives
 ####################################################
  
-for x in ["hello","beautiful","world"] 
+for x in ["hello", "beautiful", "world"] 
     println(x)
 end
  
 
 
 
-for x ∈ ["hello","beautiful","world"] 
+for x ∈ ["hello", "beautiful", "world"] 
     println(x)
 end
  
 
 
 
-for x = ["hello","beautiful","world"] 
+for x = ["hello", "beautiful", "world"] 
     println(x)
 end
  
@@ -53,7 +53,7 @@ end
 
 # any term for iteration variable
  
-for word in ["hello","beautiful","world"] 
+for word in ["hello", "beautiful", "world"] 
     println(word)
 end
  
@@ -186,7 +186,7 @@ end
 x = [2, 4, 6]
 
 for i in eachindex(x)
-    x[i] * 10            # refers to the `x` outside of the for-loop
+    x[i] * 10              # refers to the `x` outside of the for-loop
 end
 println(x)
  
@@ -195,10 +195,21 @@ println(x)
 
 x = [2, 4, 6]
 
-for word in ["hello"]
-    x = word             # reassigns the `x` defined outside the for-loop
+for i in eachindex(x)
+    x[i] = x[i] * 10       # mutates the `x` defined outside the for-loop
 end
 println(x)
+ 
+function foo()
+    x = [2, 4, 6]
+
+    for word in ["hello"]
+        x = word             # `x` is reassigned
+    end
+
+    return x
+end
+println(foo())
  
 
 
@@ -255,8 +266,8 @@ println(z)
 #	array comprehensions for matrices
 ####################################################
  
-y = [i * j for i in 1:2, j in 1:2]
-println(y)
+X = [i * j for i in 1:2, j in 1:2]
+println(X)
  
 
 
@@ -319,10 +330,10 @@ end
 
 
 
-x = [10, 20]
+x = [2, 3]
 
 
-y = [index * value for (index,value) in enumerate(x)]
+y = [x[index] - value for (index,value) in enumerate(x)]    # `x[index]` equals `value`
 println(y)
  
 
@@ -334,8 +345,8 @@ println(y)
 #
 ############################################################################
  
-x                        = [10, 50, 100]
-list_functions           = [maximum, minimum]
+x                        = [0, 5, 10]
+list_functions           = [minimum, maximum]
 
 descriptive(vector,list) = [foo(vector) for foo in list]
 println(descriptive(x, list_functions))

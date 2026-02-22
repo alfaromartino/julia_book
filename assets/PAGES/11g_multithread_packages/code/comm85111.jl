@@ -1,1 +1,1 @@
-# it handles correctly local variables
+# it handles local variables correctly

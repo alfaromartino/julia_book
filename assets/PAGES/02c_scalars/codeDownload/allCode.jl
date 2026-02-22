@@ -31,10 +31,10 @@ z = 1.      # alternative notation for `1.0`
 
 
 x = 1000000
-y = 1_000_000        # equivalent to `x` and more readable
+x = 1_000_000        # equivalent but more readable
 
-x = 1000000.24            
-y = 1_000_000.24     # _ can be used with decimal numbers
+y = 1000000.24            
+y = 1_000_000.24     # _ can also be used with decimal numbers
  
 ####################################################
 #	Float64

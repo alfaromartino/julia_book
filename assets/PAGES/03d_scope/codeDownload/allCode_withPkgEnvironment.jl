@@ -35,7 +35,7 @@ using FastBenchmark
  
 x = "hello"
 
-function foo(x)        # 'x' is local, unrelated to 'x = hello' above
+function foo(x)        # 'x' is local, unrelated to 'x = hello'
     y = x + 2          # 'y' is local, 'x' refers to the function argument 
     
     return x,y
@@ -150,9 +150,9 @@ end
 expenditure(price, quantity, tax_rate) = price * quantity * (1 + tax_rate)
  
 value_before_taxes(price, quantity)       = price * quantity
-valueAdded_tax(price, quantity, tax_rate) = price * quantity * tax_rate     #it'll define the variable 'tax_paid'
+valueAdded_tax(price, quantity, tax_rate) = price * quantity * tax_rate           #it'll define the variable 'tax_paid'
 
-expenditure(price, quantity, tax_paid) = value_before_taxes(price, quantity) + tax_paid
+expenditure(price, quantity, tax_paid)    = value_before_taxes(price, quantity) + tax_paid
  
 ####################################################
 #	alternative
@@ -181,18 +181,18 @@ println(expenditure_iPhones)
 value_before_taxes(price, quantity)       = price * quantity
 valueAdded_tax(price, quantity, tax_rate) = price * quantity * tax_rate
 
-expenditure(gross_value, tax_paid) = gross_value + tax_paid
+expenditure(gross_value, tax_paid)        = gross_value + tax_paid
 
 #information 
-price    = 1000
-quantity = 2
-tax_rate = 5 / 100
+price       = 1000
+quantity    = 2
+tax_rate    = 5 / 100
 
 #computation
-gross_value         = value_before_taxes(price, quantity)
-tax_paid            = valueAdded_tax(price, quantity, tax_rate)
+gross_value = value_before_taxes(price, quantity)
+tax_paid    = valueAdded_tax(price, quantity, tax_rate)
 
-expenditure_iPhones = expenditure(gross_value, tax_paid)
+expenditure_iPhones                       = expenditure(gross_value, tax_paid)
  
 println(expenditure_iPhones)
  

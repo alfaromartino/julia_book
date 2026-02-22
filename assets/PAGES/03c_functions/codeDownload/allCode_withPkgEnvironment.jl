@@ -202,13 +202,13 @@ println(foo(x=2))
  
 foo(x,y) = x + y
 
-z = (2,3)
+z        = (2,3)
  
 println(foo(z...))
  
 foo(x,y) = x + y
 
-z = [2,3]
+z        = [2,3]
  
 println(foo(z...))
  
@@ -336,6 +336,6 @@ function add_two(a)
    a + 2
 end
  
-"This function is written in a compact form. It takes a number and adds three to it."
-add_three(a) = a + 3
+"This function is written in a compact form. It takes a number and adds two to it."
+add_two(a) = a + 2
  

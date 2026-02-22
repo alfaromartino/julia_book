@@ -1,4 +1,4 @@
-Random.seed!(1234) # hide
+Random.seed!(1234)       #setting seed for reproducibility #hide
 x = BitVector(rand(Bool, 100_000))
 y = rand(100_000)
 
@@ -11,4 +11,4 @@ function foo(x,y)
 
     output
 end
-@ctime foo($x,$y)  # hide
+@ctime foo($x,$y)  #hide

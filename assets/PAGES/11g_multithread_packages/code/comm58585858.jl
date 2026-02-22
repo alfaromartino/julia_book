@@ -1,1 +1,1 @@
-# multithreaded
+# comparing tmap and tforeach

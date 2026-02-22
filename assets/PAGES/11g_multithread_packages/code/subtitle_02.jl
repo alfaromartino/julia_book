@@ -1,3 +1,3 @@
 ####################################################
-#	alternative to for-loops
+#	`foreach` as a faster option for mappings 
 ####################################################

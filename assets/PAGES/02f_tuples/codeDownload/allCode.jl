@@ -32,7 +32,7 @@ println(x[1])
 
 
 
-x = (10,)    # not x = (10) (it'd be interpreted as x = 10)
+x = (10,)    # not x = (10) (that's just x = 10)
  
 println(x)
  
@@ -55,7 +55,7 @@ println(y)
 
 
 (x,y) = [4,5]
- x,y  = [4,5]      #alternative notation
+ x,y  = [4,5]      # alternative notation
  
 println(x)
  

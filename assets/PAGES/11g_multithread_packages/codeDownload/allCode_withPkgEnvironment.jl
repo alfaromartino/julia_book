@@ -22,7 +22,7 @@ Pkg.instantiate() #to install the packages
 using FastBenchmark
  
 # necessary packages for this file
-using Random, Base.Threads, ChunkSplitters, OhMyThreads, LoopVectorization, FLoops
+using Random, Base.Threads, ChunkSplitters, OhMyThreads, Polyester, LoopVectorization, FLoops
  
 ############################################################################
 #
@@ -335,6 +335,90 @@ end
 
 
 
+# parallel for-loops (mutation)
+ 
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(1_000_000)
+
+function foo(x)
+    output = similar(x)
+    
+    @tasks for i in eachindex(x)
+        output[i] = log(x[i])
+    end
+
+    return output
+end
+@ctime foo($x)
+ 
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(1_000_000)
+
+function foo(x)
+    output = similar(x)
+    
+    @tasks for i in eachindex(x)
+        @set nchunks = nthreads()                   # number of tasks spawned equal to the number of threads
+            output[i] = log(x[i])
+    end
+
+    return output
+end
+@ctime foo($x)
+ 
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(1_000_000)
+
+function foo(x)
+    output = similar(x)
+    
+    @tasks for i in eachindex(x)
+        @set chunksize = length(x) ÷ nthreads()     # size that evenly distributes work
+            output[i] = log(x[i])
+    end
+
+    return output
+end
+@ctime foo($x)
+ 
+# parallel for-loops (reductions)
+ 
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(1_000_000)
+
+function foo(x)
+    output = 0.0
+    
+    for i in eachindex(x)        
+        output += log(x[i])
+    end
+
+    return output
+end
+@ctime foo($x)
+ 
+
+
+
+Random.seed!(1234)       #setting seed for reproducibility
+x = rand(1_000_000)
+
+function foo(x)    
+    output = @tasks for i in eachindex(x)
+                @set reducer = +
+                    log(x[i])
+             end
+
+    return output
+end
+@ctime foo($x)
+ 
 ############################################################################
 #
 #   POLYESTER: LIGHTER THREADS (FOR SMALL OBJECTS)
