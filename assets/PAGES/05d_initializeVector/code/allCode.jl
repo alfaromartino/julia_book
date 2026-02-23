@@ -3,7 +3,7 @@ include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "regi
  
 ############################################################################
 #
-#           SECTION: "VECTOR INITIALIZATION AND CREATION "
+#                   SECTION: "VECTOR CREATION AND INITIALIZATION"
 #
 ############################################################################
  
@@ -251,7 +251,7 @@ elements_to_repeat = 1
 nr_repetitions     = 3
 elements_to_repeat = [1,2]
 
-x                  = repeat(filling_object, nr_repetitions)
+x                  = repeat(elements_to_repeat, nr_repetitions)
 print_asis(x) #hide
  
 # <space_to_be_deleted>
@@ -284,7 +284,7 @@ print_asis(x) #hide
  
 ############################################################################
 #
-#           ADDING, REMOVING, AND REPLACING ELEMENTS (optional)
+#   ADDING, REMOVING, AND REPLACING ELEMENTS (optional)
 #
 ############################################################################
  
@@ -333,7 +333,7 @@ print_asis(x) #hide
  
 ############################################################################
 #
-#           REMOVING ELEMENTS OF A VECTOR
+#   REMOVING ELEMENTS OF A VECTOR
 #
 ############################################################################
  

@@ -1,5 +1,5 @@
 ############################################################################
 #
-#           SECTION: "VECTOR INITIALIZATION AND CREATION "
+#                   SECTION: "VECTOR CREATION AND INITIALIZATION"
 #
 ############################################################################

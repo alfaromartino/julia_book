@@ -1,5 +1,5 @@
 ############################################################################
 #
-#			SECTION: "STATIC VECTORS FOR SMALL COLLECTIONS"
+#			        SECTION: "STATIC VECTORS FOR SMALL COLLECTIONS"
 #
 ############################################################################

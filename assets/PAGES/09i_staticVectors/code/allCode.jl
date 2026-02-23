@@ -6,13 +6,89 @@ using Random, StaticArrays
  
 ############################################################################
 #
-#			SECTION: "STATIC VECTORS FOR SMALL COLLECTIONS"
+#			        SECTION: "STATIC VECTORS FOR SMALL COLLECTIONS"
 #
 ############################################################################
  
 ############################################################################
 #
-#			DEFINING STATIC VECTORS
+#	PERFORMANCE GAINS OF TUPLES FOR SMALL COLLECTIONS
+#
+############################################################################
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+_size  = 10
+vector = rand(_size)
+tuple  = Tuple(vector)
+
+foo(x) = sum(x .* x)
+ 
+@ctime foo($vector) #hide
+ 
+@ctime foo($tuple) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+_size  = 200
+vector = rand(_size)
+tuple  = Tuple(vector)
+
+foo(x) = sum(x .* x)
+ 
+@ctime foo($vector) #hide
+ 
+@ctime foo($tuple) #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+_size  = 2_000
+vector = rand(_size)
+tuple  = Tuple(vector)
+
+foo(x) = sum(x .* x)
+ 
+@ctime foo($vector) #hide
+ 
+@ctime foo($tuple) #hide
+ 
+# Tuples Too Big
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+_size  = 10_000
+vector = rand(_size)
+tuple  = Tuple(vector)
+
+foo(x) = sum(x.* x)
+ 
+@ctime foo($vector) #hide
+ 
+# foo(tuple) #it'll get stuck in an infinite loop and never return a result #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+function foo(n)
+    if n == 0 
+        () 
+    else
+        (n, foo(n-1)...)
+    end
+end
+# foo(50_000) # ERROR: StackOverflowError #hide
+ 
+############################################################################
+#
+#   CREATING STATIC VECTORS
 #
 ############################################################################
  
@@ -80,7 +156,7 @@ print_asis(slice2)
  
 ############################################################################
 #
-#			SVECTORS DON'T ALLOCATE MEMORY AND ARE FASTER
+#   SVECTORS DON'T ALLOCATE MEMORY AND ARE FASTER
 #
 ############################################################################
  
@@ -214,7 +290,7 @@ foo(x) = sum(a -> 10 + 2a +  3a^2, x)
  
 ############################################################################
 #
-#			SVECTOR TYPE AND ITS MUTABLE VARIANT
+#   SVECTOR TYPE AND ITS MUTABLE VARIANT
 #
 ############################################################################
  
@@ -253,7 +329,7 @@ print_asis(mx, 10)
  
 ############################################################################
 #
-#			TYPE STABILITY: SIZE IS PART OF THE STATIC VECTOR'S TYPE
+#   TYPE STABILITY: SIZE IS PART OF THE STATIC VECTOR'S TYPE
 #
 ############################################################################
  
@@ -325,7 +401,7 @@ end
  
 ############################################################################
 #
-#			PERFORMANCE COMPARISONS
+#   PERFORMANCE COMPARISONS
 #
 ############################################################################
  
@@ -365,7 +441,7 @@ foo(x) = 10 + 2x +  3x^2
  
 ############################################################################
 #
-#			STATIC VECTORS VS PRE-ALLOCATIONS
+#   STATIC VECTORS VS PRE-ALLOCATIONS
 #
 ############################################################################
  

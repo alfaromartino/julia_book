@@ -1,5 +1,5 @@
 ############################################################################
 #
-#			TYPE STABILITY: SIZE IS PART OF THE STATIC VECTOR'S TYPE
+#   TYPE STABILITY: SIZE IS PART OF THE STATIC VECTOR'S TYPE
 #
 ############################################################################

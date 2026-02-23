@@ -336,27 +336,6 @@ end
 # <space_to_be_deleted>
  
 ####################################################
-#	array comprehensions
-####################################################
- 
-list1 = ["A","B"]
-list2 = [ 1 , 2 ]
-
-x     = [(i,j) for i in list1 for j in list2]
-print_asis(x)   #hide
- 
-list1 = ["A","B"]
-list2 = [ 1 , 2 ]
-
-x     = [(i,j) for (i,j) in zip(list1,list2)]
-print_asis(x)   #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-####################################################
 #	simultaneously iterating over indices and values
 ####################################################
  
@@ -374,8 +353,56 @@ end
 x = [2, 3]
 
 
-y = [x[index] - value for (index,value) in enumerate(x)]    # `x[index]` equals `value`
+y = [(x[index] - value) for (index,value) in enumerate(x)]    # `x[index]` equals `value`
 print_asis(y)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+####################################################
+#	array comprehensions
+####################################################
+ 
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
+
+x     = [(i,j) for i in list1 for j in list2]
+print_asis(x)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
+
+X     = [(i,j) for i in list1, j in list2]                     # this defines a matrix
+print_asis(X)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
+
+x     = [(i,j) for (i,j) in zip(list1,list2)]
+print_asis(x)   #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
+
+X     = [(i,j) for (i,j) in Iterators.product(list1,list2)]    # this defines a matrix
+print_asis(X)   #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>

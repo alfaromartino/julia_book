@@ -1,5 +1,5 @@
 ############################################################################
 #
-#			SVECTORS DON'T ALLOCATE MEMORY AND ARE FASTER
+#   SVECTORS DON'T ALLOCATE MEMORY AND ARE FASTER
 #
 ############################################################################

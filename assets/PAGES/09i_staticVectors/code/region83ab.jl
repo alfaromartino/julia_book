@@ -1,0 +1,1 @@
+# foo(tuple) #it'll get stuck in an infinite loop and never return a result #hide
