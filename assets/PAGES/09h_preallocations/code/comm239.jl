@@ -1,0 +1,1 @@
+# impact when `performance` is called repeatedly

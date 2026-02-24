@@ -55,7 +55,7 @@ println(y)
 ####################################################
  
 x    = [4,5]
-y    = x        # the whole object (a view)
+y    = x        # the whole object (same object)
 
 x[1] = 0        # it DOES modify 'y'
  

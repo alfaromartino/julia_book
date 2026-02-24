@@ -3,13 +3,13 @@ include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "regi
  
 ############################################################################
 #
-#           ARRAY INDEXING
+#			        SECTION: "ARRAY INDEXING"
 #
 ############################################################################
  
 ############################################################################
 #
-#			LOGICAL INDEXING
+#   LOGICAL INDEXING
 #
 ############################################################################
  
@@ -25,7 +25,7 @@ print_asis(x[y]) #hide
  
 ############################################################################
 #
-#			OPERATORS AND FUNCTIONS FOR LOGICAL INDEXING
+#   OPERATORS AND FUNCTIONS FOR LOGICAL INDEXING
 #
 ############################################################################
  
@@ -63,7 +63,6 @@ print_asis(y)       #hide
 x            = [3, 6, 8, 100]
 
 # numbers greater than 5, lower than 10, but not including 8
-
 y            = x[(x .> 5) .&& (x .< 10) .&& (x .≠ 8)]
  
 print_asis(y)       #hide
@@ -76,7 +75,6 @@ print_asis(y)       #hide
 x            = [3, 6, 8, 100]
 
 # numbers greater than 5, lower than 10, but not including 8
-
 y            = x[@. (x > 5) && (x < 10) && (x ≠ 8)]
  
 print_asis(y)       #hide
@@ -101,7 +99,7 @@ print_asis(y)       #hide
  
 ############################################################################
 #
-#			LOGICAL INDEXING VIA 'in' and '∈'
+#   LOGICAL INDEXING VIA 'in' and '∈'
 #
 ############################################################################
  
@@ -109,7 +107,7 @@ x            = [-100, 2, 4, 100]
 list         = [minimum(x), maximum(x)]
 
 # logical indexing (both versions are equivalent)
-bool_indices = in.(x, Ref(list))    #`Ref(list)` can be replaced by `(list,)`
+bool_indices = in.(x, Ref(list))    #`Ref(list)` or `(list,)`
 bool_indices = (∈).(x,Ref(list))
 
 y            = x[bool_indices]
@@ -127,7 +125,7 @@ x            = [-100, 2, 4, 100]
 list         = [minimum(x), maximum(x)]
 
 # logical indexing
-bool_indices = x .∈ Ref(list)            #only option, not possible to broadcast `in`
+bool_indices = x .∈ Ref(list)            # ∈ is the only option, not possible to broadcast `in`
 
 
 y            = x[bool_indices]
@@ -149,7 +147,7 @@ x            = [-100, 2, 4, 100]
 list         = [minimum(x), maximum(x)]
 
 #logical indexing
-bool_indices = in(list).(x)   #no need to use `Ref(list)`
+bool_indices = in(list).(x)   #no need to use `Ref(list)` or `(list,)`
 y            = x[bool_indices]
  
 print_asis(bool_indices)       #hide
@@ -196,7 +194,7 @@ print_asis(y)       #hide
  
 ############################################################################
 #
-#			THE FUNCTIONS 'findall' AND 'filter'
+#   THE FUNCTIONS 'findall' AND 'filter'
 #
 ############################################################################
  
@@ -241,9 +239,4 @@ z = x[findall(x .< 7)]
 print_asis(y)     #hide
  
 print_asis(z)     #hide
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
  

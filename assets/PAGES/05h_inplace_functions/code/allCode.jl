@@ -3,24 +3,67 @@ include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "regi
  
 ############################################################################
 #
-#           IN-PLACE FUNCTIONS
+#			        SECTION: "IN-PLACE FUNCTIONS"
 #
 ############################################################################
  
-y = [0,0]
+############################################################################
+#
+#	DEFINING IN-PLACE FUNCTIONS
+#
+############################################################################
+ 
+x = [1,1]
 
-function foo(x)
-    x[1] = 1
+
+function foo!(x)
+    x[1] = 0
+end
+ 
+print_asis(x)       #hide
+ 
+print_asis(foo!(x))       #hide
+ 
+print_asis(x)       #hide
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+y = [1,1]
+
+
+function foo!(x)
+    x[1] = 0
 end
  
 print_asis(y)       #hide
  
-print_asis(foo(y))       #hide
+print_asis(foo!(y))       #hide
  
 print_asis(y)       #hide
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x = [1,1]
+y = [2,2]
+
+function foo!(x,y)
+    x[1] = 0
+end
+ 
+print_asis(x)       #hide
+ 
+print_asis(foo!(x,y))       #hide
+ 
+print_asis(x)       #hide
+ 
 ####################################################
-#	Functions Can't Reassign Variables
+#	REMARK: functions can't reassign variables
 ####################################################
  
 x = 2
@@ -54,7 +97,7 @@ print_asis(x)       #hide
  
 ############################################################################
 #
-#			BUILT-IN IN-PLACE FUNCTIONS
+#   BUILT-IN IN-PLACE FUNCTIONS
 #
 ############################################################################
  
@@ -82,7 +125,7 @@ sort!(x)
 print_asis(x)       #hide
  
 ####################################################
-#	multiple-argument Functions
+#	output argument
 ####################################################
  
 x      = [1, 2, 3]
@@ -110,7 +153,7 @@ print_asis(output)       #hide
  
 ############################################################################
 #
-#			MUTATIONS VIA FOR-LOOPS
+#   FOR-LOOP MUTATION VIA IN-PLACE FUNCTION
 #
 ############################################################################
  

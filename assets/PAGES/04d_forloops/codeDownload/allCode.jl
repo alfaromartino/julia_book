@@ -281,16 +281,6 @@ println(X)
 list1 = ["A","B"]
 list2 = [ 1 , 2 ]
 
-for (a,b) in Iterators.product(list1,list2)    #it takes all possible combinations
-    println((a,b))
-end
- 
-
-
-
-list1 = ["A","B"]
-list2 = [ 1 , 2 ]
-
 for (a,b) in zip(list1,list2)                  #it takes pairs with the same index
     println((a,b))
 end
@@ -298,21 +288,12 @@ end
 
 
 
-####################################################
-#	array comprehensions
-####################################################
- 
 list1 = ["A","B"]
 list2 = [ 1 , 2 ]
 
-x     = [(i,j) for i in list1 for j in list2]
-println(x)
- 
-list1 = ["A","B"]
-list2 = [ 1 , 2 ]
-
-x     = [(i,j) for (i,j) in zip(list1,list2)]
-println(x)
+for (a,b) in Iterators.product(list1,list2)    #it takes all possible combinations
+    println((a,b))
+end
  
 
 
@@ -333,8 +314,48 @@ end
 x = [2, 3]
 
 
-y = [x[index] - value for (index,value) in enumerate(x)]    # `x[index]` equals `value`
+y = [(x[index] - value) for (index,value) in enumerate(x)]    # `x[index]` equals `value`
 println(y)
+ 
+
+
+
+####################################################
+#	array comprehensions
+####################################################
+ 
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
+
+x     = [(i,j) for i in list1 for j in list2]
+println(x)
+ 
+
+
+
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
+
+X     = [(i,j) for i in list1, j in list2]                     # this defines a matrix
+println(X)
+ 
+
+
+
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
+
+x     = [(i,j) for (i,j) in zip(list1,list2)]
+println(x)
+ 
+
+
+
+list1 = ["A","B"]
+list2 = [ 1 , 2 ]
+
+X     = [(i,j) for (i,j) in Iterators.product(list1,list2)]    # this defines a matrix
+println(X)
  
 
 

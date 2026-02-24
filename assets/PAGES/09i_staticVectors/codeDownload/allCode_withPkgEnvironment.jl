@@ -32,6 +32,76 @@ using Random, StaticArrays
  
 ############################################################################
 #
+#	PERFORMANCE GAINS OF TUPLES FOR SMALL COLLECTIONS
+#
+############################################################################
+ 
+Random.seed!(123)       #setting seed for reproducibility
+_size  = 10
+vector = rand(_size)
+tuple  = Tuple(vector)
+
+foo(x) = sum(x .* x)
+ 
+@ctime foo($vector)
+ 
+@ctime foo($tuple)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+_size  = 200
+vector = rand(_size)
+tuple  = Tuple(vector)
+
+foo(x) = sum(x .* x)
+ 
+@ctime foo($vector)
+ 
+@ctime foo($tuple)
+ 
+
+
+
+Random.seed!(123)       #setting seed for reproducibility
+_size  = 2_000
+vector = rand(_size)
+tuple  = Tuple(vector)
+
+foo(x) = sum(x .* x)
+ 
+@ctime foo($vector)
+ 
+@ctime foo($tuple)
+ 
+# Tuples Too Big
+ 
+Random.seed!(123)       #setting seed for reproducibility
+_size  = 10_000
+vector = rand(_size)
+tuple  = Tuple(vector)
+
+foo(x) = sum(x.* x)
+ 
+@ctime foo($vector)
+ 
+# foo(tuple) #it'll get stuck in an infinite loop and never return a result
+ 
+
+
+
+function foo(n)
+    if n == 0 
+        () 
+    else
+        (n, foo(n-1)...)
+    end
+end
+# foo(50_000) # ERROR: StackOverflowError
+ 
+############################################################################
+#
 #   CREATING STATIC VECTORS
 #
 ############################################################################

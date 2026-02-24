@@ -33,17 +33,50 @@ using FastBenchmark
 #
 ############################################################################
  
-y = [0,0]
+x = [1,1]
 
-function foo(x)
-    x[1] = 1
+
+function foo!(x)
+    x[1] = 0
+end
+ 
+println(x)
+ 
+println(foo!(x))
+ 
+println(x)
+ 
+
+
+
+y = [1,1]
+
+
+function foo!(x)
+    x[1] = 0
 end
  
 println(y)
  
-println(foo(y))
+println(foo!(y))
  
 println(y)
+ 
+
+
+
+x = [1,1]
+y = [2,2]
+
+function foo!(x,y)
+    x[1] = 0
+end
+ 
+println(x)
+ 
+println(foo!(x,y))
+ 
+println(x)
  
 ####################################################
 #	REMARK: functions can't reassign variables

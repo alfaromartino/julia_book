@@ -235,7 +235,7 @@ elements_to_repeat = 1
 nr_repetitions     = 3
 elements_to_repeat = [1,2]
 
-x                  = repeat(filling_object, nr_repetitions)
+x                  = repeat(elements_to_repeat, nr_repetitions)
 println(x)
  
 
@@ -357,7 +357,7 @@ println(x)
 x               = [5,6,7]
 indices_to_keep = [2,3]
 
-keepat!(x, index_to_keep)
+keepat!(x, indices_to_keep)
 println(x)
  
 

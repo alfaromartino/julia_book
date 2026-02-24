@@ -45,7 +45,7 @@ println(x)
 
 x         = [1, 2, 3]
 
-x[x .≥ 2] = [2, 3] .* 10
+x[x .≥ 2] = [20, 30]
 println(x)
  
 
@@ -92,7 +92,7 @@ x         = [1, 2, 3]    # Vector{Int64}
 
 x         = [1, 2, 3]    # Vector{Int64}
 
-x[2:3]    = [3.0, 4]     # 3.0 is Float64 but accepts conversion
+x[2:3]    = [3.0, 4]     # 3.0 is Float64, but accepts conversion to Int64
 println(x)
  
 ############################################################################

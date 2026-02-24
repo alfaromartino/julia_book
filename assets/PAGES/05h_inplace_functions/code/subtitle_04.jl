@@ -1,3 +1,3 @@
 ####################################################
-#	Functions Can't Reassign Variables
+#	REMARK: functions can't reassign variables
 ####################################################

@@ -6,13 +6,29 @@ using Random, Statistics, LazyArrays
  
 ############################################################################
 #
-#                           PRE-ALLOCATIONS
+#                   SECTION: "PRE-ALLOCATIONS"
 #
 ############################################################################
  
-####################################################
+############################################################################
+#
+#	THE ADVANTAGES OF MUTATING VECTORS
+#
+############################################################################
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x = rand(1_000_000)
+@ctime sort($x) #hide
+ 
+Random.seed!(123)       #setting seed for reproducibility #hide
+x = rand(1_000_000)
+@ctime sort!($x) #hide
+ 
+############################################################################
+#
 #	INITIALIZING VECTORS
-####################################################
+#
+############################################################################
  
 ####################################################
 #	approaches
@@ -120,7 +136,7 @@ end
  
 ############################################################################
 #
-#			DESCRIBING THE TECHNIQUE
+#   DESCRIBING THE TECHNIQUE
 #
 ############################################################################
  
@@ -175,6 +191,8 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+ 
+# impact when `performance` is called repeatedly
  
 Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days            = 30
@@ -359,7 +377,7 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-# WARNING
+# WARNING: Use of @. to update values
  
 Random.seed!(123)       #setting seed for reproducibility #hide
 x          = rand(10)

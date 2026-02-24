@@ -32,6 +32,20 @@ using Random, Statistics, LazyArrays
  
 ############################################################################
 #
+#	THE ADVANTAGES OF MUTATING VECTORS
+#
+############################################################################
+ 
+Random.seed!(123)       #setting seed for reproducibility
+x = rand(1_000_000)
+@ctime sort($x)
+ 
+Random.seed!(123)       #setting seed for reproducibility
+x = rand(1_000_000)
+@ctime sort!($x)
+ 
+############################################################################
+#
 #	INITIALIZING VECTORS
 #
 ############################################################################
