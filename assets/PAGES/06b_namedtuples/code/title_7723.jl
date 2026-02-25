@@ -1,5 +1,5 @@
 ############################################################################
 #
-#			CREATING TUPLES, NAMED TUPLES, AND DICTIONARIES
+#   CREATING TUPLES, NAMED TUPLES, AND DICTIONARIES
 #
 ############################################################################

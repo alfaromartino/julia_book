@@ -5,6 +5,8 @@
 # function 'foo' uses β and δ, but not ϵ
 function foo(x, δ, β) 
     x * δ + exp(β) / β
+
+
 end
 
-output = foo(2, δ, β)
+output = foo(1, δ, β)

@@ -1,18 +1,15 @@
 include(joinpath(homedir(), "JULIA_foldersPaths", "initial_folders.jl"))
 include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "region0_benchmark.jl"))
  
-# necessary packages for this file
-# using Statistics, Distributions, Random, Pipe
- 
 ############################################################################
 #
-#			NAMED TUPLES AND DICTIONARIES
+#			        SECTION: "NAMED TUPLES AND DICTIONARIES"
 #
 ############################################################################
  
 ############################################################################
 #
-#       KEY AND VALUES
+#   KEY AND VALUES
 #
 ############################################################################
  
@@ -75,7 +72,7 @@ print_asis(some_pair.second) #hide
  
 ############################################################################
 #
-#       TYPE SYMBOL
+#   THE TYPE SYMBOL
 #
 ############################################################################
  
@@ -94,7 +91,7 @@ print_asis(vector_symbols) #hide
  
 ############################################################################
 #
-#			NAMED TUPLES
+#   NAMED TUPLES
 #
 ############################################################################
  
@@ -136,7 +133,7 @@ print_asis(nt[:a])  #hide
 # <space_to_be_deleted>
  
 ####################################################
-#	remark
+#	REMARK
 ####################################################
  
 nt        = (a=10, b=20)
@@ -184,7 +181,7 @@ print_asis(tup)        #hide
  
 ############################################################################
 #
-#       DICTIONARIES
+#   DICTIONARIES
 #
 ############################################################################
  
@@ -267,11 +264,6 @@ print_asis(keys_from_dict) #hide
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
 some_dict      = Dict((1,1) => 10, (1,2) => 20)
 
 keys_from_dict = collect(keys(some_dict))
@@ -279,7 +271,7 @@ print_asis(keys_from_dict) #hide
  
 ############################################################################
 #
-#			CREATING TUPLES, NAMED TUPLES, AND DICTIONARIES
+#   CREATING TUPLES, NAMED TUPLES, AND DICTIONARIES
 #
 ############################################################################
  
@@ -469,7 +461,7 @@ print_asis(nt) #hide
  
 ############################################################################
 #
-#			DESTRUCTURING TUPLES AND NAMED TUPLES
+#   DESTRUCTURING TUPLES AND NAMED TUPLES
 #
 ############################################################################
  
@@ -559,7 +551,7 @@ print_asis(y)       #hide
  
 list  = [3,4,5]
 
-_,_,z = list        # _ or any symbol (it just signals we don't care about that value)
+_,_,z = list        # _ or any symbol (_ just signals we don't care about that value)
  
 print_asis(z)       #hide
  
@@ -605,7 +597,7 @@ nt             = (; key1 = 10, key2 = 20, key3 = 30)
 print_asis(key2)       #hide
  
 ####################################################
-#	remark
+#	REMARK
 ####################################################
  
 nt = (; key1 = 10, key2 = 20, key3 = 30)
@@ -666,9 +658,11 @@ print_asis(key2)       #hide
 # function 'foo' uses β and δ, but not ϵ
 function foo(x, δ, β) 
     x * δ + exp(β) / β
+
+
 end
 
-output = foo(2, δ, β)
+output = foo(1, δ, β)
  
 print_compact(output)       #hide
  
@@ -684,9 +678,11 @@ parameters_list = (; β = 3, δ = 4, ϵ = 5)
 # function 'foo' uses β and δ, but not ϵ
 function foo(x, parameters_list) 
     x * parameters_list.δ + exp(parameters_list.β) / parameters_list.β
+
+
 end
 
-output = foo(2, parameters_list.β, parameters_list.δ)
+output = foo(1, parameters_list)
  
 print_compact(output)       #hide
  
@@ -700,11 +696,13 @@ parameters_list = (; β = 3, δ = 4, ϵ = 5)
 
 
 # function 'foo' uses β and δ, but not ϵ
-function foo(x, parameters_list) 
-    x * parameters_list.δ + exp(parameters_list.β) / parameters_list.β
+function foo(x, parameters_list)
+    ; β, δ = parameters_list
+    
+    x * δ + exp(β) / β
 end
 
-output = foo(2, parameters_list)
+output = foo(1, parameters_list)
  
 print_compact(output)       #hide
  
@@ -737,37 +735,7 @@ function foo()
     out2 = 3
     out3 = 4
 
-    [out1, out2, out3]
-end
-
-x, y, z = foo()
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-function foo()
-    out1 = 2
-    out2 = 3
-    out3 = 4
-
     out1, out2, out3
-end
-
-x, _, z = foo()
- 
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
-# <space_to_be_deleted>
- 
-function foo()
-    out1 = 2
-    out2 = 3
-    out3 = 4
-
-    [out1, out2, out3]
 end
 
 x, _, z = foo()
