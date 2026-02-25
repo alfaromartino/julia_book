@@ -6,13 +6,13 @@ using Random
  
 ############################################################################
 #
-#			TYPE STABILITY WITH HIGHER-ORDER FUNCTOINS
+#			        SECTION: "TYPE STABILITY WITH HIGHER-ORDER FUNCTIONS"
 #
 ############################################################################
  
 ############################################################################
 #
-#			AN EXAMPLE OF NO SPECIALIZATION
+#   AN EXAMPLE OF NO SPECIALIZATION
 #
 ############################################################################
  
@@ -30,8 +30,8 @@ foo(f, x) = f.(x)
 Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(100)
 
+
 function foo(f, x)
-    
     f.(x)
 end
  
@@ -63,7 +63,7 @@ print_compact(foo(abs, x))
  
 ############################################################################
 #
-#			FORCING SPECIALIZATION
+#   FORCING SPECIALIZATION
 #
 ############################################################################
  
