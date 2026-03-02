@@ -3,30 +3,34 @@ include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "regi
  
 ############################################################################
 #
-#			DEFINING TYPE STABILITY
+#			        SECTION: "DEFINING TYPE STABILITY"
 #
 ############################################################################
  
-####################################################
-#	An example
-####################################################
+############################################################################
+#
+#	AN EXAMPLE
+#
+############################################################################
  
-x = [1, 2, 3]                  # `x` has type `Vector{Int64}`
+x      = [1, 2, 3]          # `x` has type `Vector{Int64}`
 
-@ctime sum($x[1:2])            # type stable
+foo(x) = sum(x[1:2])        # type stable with this `x`
+@ctime sum($x[1:2]) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x = [1, 2, "hello"]            # `x` has type `Vector{Any}`
+x      = [1, 2, "hello"]    # `x` has type `Vector{Any}`
 
-@ctime sum($x[1:2])            # type UNSTABLE
+foo(x) = sum(x[1:2])        # type UNSTABLE with this `x`  
+@ctime sum($x[1:2]) #hide
  
 ############################################################################
 #
-#           Checking for type stability
+#   CHECKING FOR TYPE STABILITY
 #
 ############################################################################
  
@@ -51,7 +55,7 @@ end
  
 ############################################################################
 #
-#           Yellow Warnings May Turn Red
+#   YELLOW WARNINGS MAY TURN RED
 #
 ############################################################################
  
@@ -96,7 +100,7 @@ end
 # <space_to_be_deleted>
  
 ####################################################
-#	remark: For-Loops and Yellow Warnings
+#	REMARK: For-Loops and Yellow Warnings
 ####################################################
  
 function foo()

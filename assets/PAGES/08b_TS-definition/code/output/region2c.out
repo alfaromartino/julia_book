@@ -28,16 +28,15 @@ Body::UNION{FLOAT64, INT64}
 5 ┄ %17 = @_3::Tuple{Int64, Int64}
 │         (i = Core.getfield(%17, 1))
 │   %19 = Core.getfield(%17, 2)::Int64
-│   %20 = Main.:+::Core.Const(+)
-│   %21 = y::UNION{FLOAT64, INT64}
-│   %22 = i::Int64
-│         (y = (%20)(%21, %22))
+│   %20 = y::UNION{FLOAT64, INT64}
+│   %21 = i::Int64
+│         (y = %20 + %21)
 │         (@_3 = Base.iterate(%11, %19))
-│   %25 = @_3::UNION{NOTHING, TUPLE{INT64, INT64}}
-│   %26 = (%25 === nothing)::Bool
-│   %27 = Base.not_int(%26)::Bool
-└──       goto #7 if not %27
+│   %24 = @_3::UNION{NOTHING, TUPLE{INT64, INT64}}
+│   %25 = (%24 === nothing)::Bool
+│   %26 = Base.not_int(%25)::Bool
+└──       goto #7 if not %26
 6 ─       goto #5
-7 ┄ %30 = y::UNION{FLOAT64, INT64}
-└──       return %30
+7 ┄ %29 = y::UNION{FLOAT64, INT64}
+└──       return %29
 
