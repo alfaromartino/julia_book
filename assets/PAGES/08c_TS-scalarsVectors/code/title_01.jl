@@ -1,5 +1,5 @@
 ############################################################################
 #
-#			TYPE STABILITY WITH SCALARS AND VECTORS
+#			        SECTION: "TYPE STABILITY WITH SCALARS AND VECTORS"
 #
 ############################################################################

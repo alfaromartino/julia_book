@@ -1026,8 +1026,17 @@ color: white;
       html.dark-mode .index_container,  html.dark-mode .index_container h1{
           background-color: rgb(3, 13, 24) !important;}
       
-      html.dark-mode .index_container ul > li{
+      html.dark-mode .index_container ul > li, html.dark-mode .index_container ol > li{
           color: rgb(235, 244, 252) !important;}
+
+      html.dark-mode ul ::marker {  
+        color: rgb(73, 115, 157); 
+      }
+
+      html.dark-mode ol ::marker {
+          color: rgb(83, 129, 175);
+          font-weight: bold;
+      }
   
       html.dark-mode .index_container a {  
           color: rgb(88, 140, 192);
@@ -2157,6 +2166,12 @@ document.addEventListener("DOMContentLoaded", () => {
     line-height: 1;
 }
 
+.footn.supr { color: rgb(83, 129, 175); }
+.footn.supr:hover { color: rgba(83, 129, 175, 0.541); }
+
+
+
+
 /* The Popup Box Style */
 .footn .footn_text {
     font-size: 125%;
@@ -2678,7 +2693,8 @@ color: white;
     <div style="padding-bottom:1.5em;width:75%;margin:0 auto;font-size:90%;"> <u><b>Note</b></u>: Dashed red borders indicate <span style="border: 2px dashed rgb(168, 50, 50); border-style: dashed; padding: 2px;">abstract types</span>, while solid blue borders indicate <span style="border: 2px solid rgb(63, 99,136); padding: 2px;">concrete types</span>.  </div>
 </div> <br/></p>
 <p>The distinction between abstract and concrete types for scalars is relatively straightforward. Instead, their difference becomes more nuanced when considering vectors, as shown in the diagram below.</p>
-<p> <div class="multiple_pics">
+<p> <div class="own-anchors"><a name="vector-type"></a></div>
+<div class="multiple_pics">
   <h2 style="color:rgb(63, 99,136);"><div style="text-decoration:underline;">Hierarchy of Type Vector</div></h2>
     <img src="/julia_book/assets/PAGES/07d_TS-onTypes/tikz/supertypes_Vector02.svg" style="width:900px; height:auto; margin-top:1em; margin-bottom:1em;max-width:100%;">  
     <div style="padding-bottom:1.5em;width:75%;margin:0 auto;font-size:90%;"> <u><b>Note</b></u>: Dashed red borders indicate <span style="border: 2px dashed rgb(168, 50, 50); border-style: dashed; padding: 2px;">abstract types</span>, while solid blue borders indicate <span style="border: 2px solid rgb(63,99,136); padding: 2px;">concrete types</span>.  </div>

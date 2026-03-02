@@ -1,3 +1,3 @@
-z4::BitVector       = [true, false, true]
+z3::BitVector       = [true, false, true]
 
-sum(z4)             # type stable
+sum(z3)             # type stable

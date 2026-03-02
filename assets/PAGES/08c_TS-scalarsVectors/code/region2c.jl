@@ -1,3 +1,3 @@
-z3::Vector{Float64} = [1, 2, 3]
+z2::Vector{Float64} = [1, 2, 3]
 
-sum(z3)             # type stable
+sum(z2)             # type stable
