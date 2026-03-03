@@ -6,4 +6,4 @@ function foo(x)
     sum(tup)
 end
 
-@code_warntype foo(x)        # type UNSTABLE
+@code_warntype foo(x)      # type UNSTABLE

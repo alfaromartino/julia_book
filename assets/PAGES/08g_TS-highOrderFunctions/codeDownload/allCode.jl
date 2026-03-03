@@ -37,8 +37,8 @@ foo(f, x) = f.(x)
 Random.seed!(123)       #setting seed for reproducibility
 x = rand(100)
 
+
 function foo(f, x)
-    
     f.(x)
 end
  
@@ -73,8 +73,8 @@ println(foo(abs, x))
 Random.seed!(123)       #setting seed for reproducibility
 x     = rand(100)
 
-function foo(f, x)
-    
+
+function foo(f, x)    
     f.(x)
 end
  

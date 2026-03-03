@@ -11,9 +11,8 @@ Body::ANY
 │   %2 = Main.eltype(x)::Core.Const(Int64)
 │   %3 = Core.apply_type(%1, N, %2)::TYPE{NTUPLE{_A, INT64}} WHERE _A
 │        (tuple_x = (%3)(x))
-│   %5 = Main.:+::Core.Const(+)
-│   %6 = tuple_x::TUPLE{VARARG{INT64}}
-│   %7 = Base.broadcasted(%5, 2, %6)::BASE.BROADCAST.BROADCASTED{BASE.BROADCAST.STYLE{TUPLE}, NOTHING, TYPEOF(+), <:TUPLE{INT64, TUPLE{VARARG{INT64}}}}
-│   %8 = Base.materialize(%7)::ANY
-└──      return %8
+│   %5 = tuple_x::TUPLE{VARARG{INT64}}
+│   %6 = Base.broadcasted(Main.:+, 2, %5)::BASE.BROADCAST.BROADCASTED{BASE.BROADCAST.STYLE{TUPLE}, NOTHING, TYPEOF(+), <:TUPLE{INT64, TUPLE{VARARG{INT64}}}}
+│   %7 = Base.materialize(%6)::ANY
+└──      return %7
 

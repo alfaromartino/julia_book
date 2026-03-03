@@ -3,12 +3,14 @@ include(joinpath(folderBook.julia_utils, "for_coding", "for_codeDownload", "regi
  
 ############################################################################
 #
-#           TYPE STABILITY WITH TUPLES
+#                   SECTION: "TYPE STABILITY WITH TUPLES"
 #
 ############################################################################
  
 ############################################################################
-#  COMPARING TUPLES AND VECTORS
+#
+#	COMPARING TUPLES AND VECTORS
+#
 ############################################################################
  
 # Tuple Slices with Mixed Types Can Still Be Type Stable
@@ -82,43 +84,104 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-# from vector to tuples
+# from vector to tuples 1
  
-x   = [1, 2, "hello"]           # 'Vector{Any}' has no info on each individual type
-
+x   = [1, 2, "hello"]     # 'Vector{Any}' has no info on each individual type or number of elements
 
 function foo(x)
-    tup = Tuple(x)              # 'tup' has type `Tuple`
+    tup   = Tuple(x)      # Tuple with type elements `Any` and undefined number of arguments 
+    
 
-    sum(tup[1:2])
+    sum(tup)
 end
 
-@code_warntype foo(x)           # type UNSTABLE
+@code_warntype foo(x)     # type UNSTABLE
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x   = [1, 2, 3]                 # 'Vector{Int64}' has no info on the number of elements
+x   = [1, 2, "hello"]     # 'Vector{Any}' has no info on each individual type or number of elements
 
+function foo(x, limit)
+    tup   = Tuple(x)      # Tuple with type elements `Any` and undefined number of arguments
+    slice = tup[1:limit]  # compiler won't identify number of elements through `limit`
+
+    sum(slice)
+end
+
+@code_warntype foo(x,2)   # type UNSTABLE
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x   = [1, 2, "hello"]     # 'Vector{Any}' has no info on each individual type or number of elements
 
 function foo(x)
-    tup = Tuple(x)              # 'tup' has type `Tuple{Vararg(Int64)}` (`Vararg` means "variable arguments")
+    tup   = Tuple(x)      # Tuple with type elements `Any` and undefined number of arguments
+    slice = tup[1:2]      # `Tuple{Any,Any}`, compiler smart enough to identify number of elements  
 
-    sum(tup[1:2])
+    sum(slice)
 end
 
-@code_warntype foo(x)           # type UNSTABLE
+@code_warntype foo(x)     # type UNSTABLE (still operating with `Any`)
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
+ 
+# from vector to tuples 2
+ 
+x   = [1 ,2 ,3]            # 'Vector{Int64}' identifies `Int64`, but no info on the number of elements
+
+function foo(x)
+    tup   = Tuple(x)       # type `Tuple{Vararg(Int64)}` (`Vararg` is "variable number of arguments")
+    
+
+    sum(tup)
+end
+
+@code_warntype foo(x)      # type UNSTABLE
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x   = [1 ,2 ,3]            # 'Vector{Int64}' identifies `Int64`, but no info on the number of elements
+
+function foo(x,limit)
+    tup   = Tuple(x)       # type `Tuple{Vararg(Int64)}` (`Vararg` is "variable number of arguments") 
+    slice = tup[1:limit]   # compiler won't identify the number of elements through `limit` 
+
+    sum(tup)
+end
+
+@code_warntype foo(x,2)    # type UNSTABLE
+ 
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+x   = [1 ,2 ,3]            # 'Vector{Int64}' identifies `Int64`, but no info on the number of elements
+
+function foo(x)
+    tup   = Tuple(x)       # type `Tuple{Vararg(Int64)}` (`Vararg` is "variable number of arguments")
+    slice = tup[1:2]       # compiler smart enough to identify number of elements
+
+    sum(slice)
+end
+
+@code_warntype foo(x)      # type STABLE (the sum)
  
 ############################################################################
 #
-#			ADDRESSING VARIABLE ARGUMENTS: DISPATCH BY VALUE
+#   ADDRESSING VARIABLE ARGUMENTS: DISPATCH BY VALUE
 #
 ############################################################################
  
@@ -142,7 +205,7 @@ function foo(x)
     sum(tup)
 end
 
-@code_warntype foo(x)        # type UNSTABLE
+@code_warntype foo(x)      # type UNSTABLE
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -157,7 +220,7 @@ function foo(x)
     sum(tup)
 end
 
-@code_warntype foo(tup)       # type stable
+@code_warntype foo(tup)    # type stable
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>

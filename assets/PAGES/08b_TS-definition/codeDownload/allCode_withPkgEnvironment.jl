@@ -33,16 +33,18 @@ using FastBenchmark
 #
 ############################################################################
  
-x = [1, 2, 3]                  # `x` has type `Vector{Int64}`
+x      = [1, 2, 3]          # `x` has type `Vector{Int64}`
 
-@ctime sum($x[1:2])            # type stable
+foo(x) = sum(x[1:2])        # type stable with this `x`
+@ctime sum($x[1:2])
  
 
 
 
-x = [1, 2, "hello"]            # `x` has type `Vector{Any}`
+x      = [1, 2, "hello"]    # `x` has type `Vector{Any}`
 
-@ctime sum($x[1:2])            # type UNSTABLE
+foo(x) = sum(x[1:2])        # type UNSTABLE with this `x`  
+@ctime sum($x[1:2])
  
 ############################################################################
 #

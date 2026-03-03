@@ -78,6 +78,47 @@ foo(1, 2.5)         # type UNSTABLE -> `a * i` is either `Int64` or `Float64`
 #
 ############################################################################
  
+####################################################
+#	type instability
+####################################################
+ 
+z1::Vector{Int64}   = [1, 2, 3]
+
+sum(z1)             # type stable
+ 
+
+
+
+z2::Vector{Float64} = [1, 2, 3]
+
+sum(z2)             # type stable
+ 
+
+
+
+z3::BitVector       = [true, false, true]
+
+sum(z3)             # type stable
+ 
+
+
+
+z4::Vector{Number} = [1, 2, 3]
+
+sum(z4)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Number`
+@ctime sum(z4)
+ 
+
+
+
+z5::Vector{Any}    = [1, 2, 3]
+
+sum(z5)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Any`
+@ctime sum(z5)
+ 
+
+
+
 # type promotion and conversion
  
 x = [1, 2, 2.5]      # automatic conversion to `Vector{Float64}`
@@ -106,61 +147,4 @@ v2                 = [1, 2, 2.5]       # automatic conversion to `Vector{Float64
 w2::Vector{Number} = v2                # `w2` is still `Vector{Number}`
  
 println(w2)
- 
-
-
-
-####################################################
-#	type instability
-####################################################
- 
-z1::Vector{Int}     = [1, 2, 3]
-
-sum(z1)             # type stable
- 
-
-
-
-z2::Vector{Int64}   = [1, 2, 3]
-
-sum(z2)             # type stable
- 
-
-
-
-z3::Vector{Float64} = [1, 2, 3]
-
-sum(z3)             # type stable
- 
-
-
-
-z4::BitVector       = [true, false, true]
-
-sum(z4)             # type stable
- 
-
-
-
-z                  = [1, 2, 3]
-
-sum(z)             # type stable
-
-@ctime sum(z)
- 
-
-
-
-z5::Vector{Number} = [1, 2, 3]
-
-sum(z5)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Number`
-@ctime sum(z5)
- 
-
-
-
-z6::Vector{Any}    = [1, 2, 3]
-
-sum(z6)             # type UNSTABLE -> `sum` must consider all possible subtypes of `Any`
-@ctime sum(z6)
  

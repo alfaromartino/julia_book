@@ -1,0 +1,18 @@
+MethodInstance for foo(::Vector{Int64}, ::Int64)
+  from foo(x, limit) @ Main ~/MEGA/WEBSITES/julia_book2/_assets/PAGES/08f_TS-tuples/code/region05b4.jl:3
+Arguments
+  #self#::Core.Const(Main.foo)
+  x::Vector{Int64}
+  limit::Int64
+Locals
+  slice::TUPLE
+  tup::TUPLE{VARARG{INT64}}
+Body::Int64
+1 ─      (tup = Main.Tuple(x))
+│   %2 = tup::TUPLE{VARARG{INT64}}
+│   %3 = (1:limit)::Core.PartialStruct(UnitRange{Int64}, Any[Core.Const(1), Int64])
+│        (slice = Base.getindex(%2, %3))
+│   %5 = tup::TUPLE{VARARG{INT64}}
+│   %6 = Main.sum(%5)::Int64
+└──      return %6
+

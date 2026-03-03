@@ -1,10 +1,10 @@
-x   = [1, 2, "hello"]           # 'Vector{Any}' has no info on each individual type
+x   = [1, 2, "hello"]     # 'Vector{Any}' has no info on each individual type or number of elements
 
+function foo(x, limit)
+    tup   = Tuple(x)      # Tuple with type elements `Any` and undefined number of arguments
+    slice = tup[1:limit]  # compiler won't identify number of elements through `limit`
 
-function foo(x)
-    tup = Tuple(x)              # 'tup' has type `Tuple`
-
-    sum(tup[1:2])
+    sum(slice)
 end
 
-@code_warntype foo(x)           # type UNSTABLE
+@code_warntype foo(x,2)   # type UNSTABLE

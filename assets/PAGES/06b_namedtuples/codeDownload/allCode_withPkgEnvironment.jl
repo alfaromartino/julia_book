@@ -141,22 +141,6 @@ println(nt[:a])
 
 
 ####################################################
-#	REMARK
-####################################################
- 
-nt        = (a=10, b=20)
-
-nt_keys   = collect(keys(nt))
-nt_values = collect(values(nt))
- 
-println(nt_keys)
- 
-println(nt_values)
- 
-
-
-
-####################################################
 #	Distinction Between The Creation Of Tuples and Named Tuples
 ####################################################
  
@@ -548,8 +532,8 @@ println(key2)
  
 nt = (; key1 = 10, key2 = 20, key3 = 30)
 
- key2, key1    = nt     # variables defined according to POSITION
-(key2, key1)   = nt     # alternative notation
+(key2, key1)   = nt     # variables defined according to POSITION
+key2, key1     = nt     # alternative notation
  
 println(key2)
  
@@ -598,9 +582,11 @@ println(key2)
 # function 'foo' uses β and δ, but not ϵ
 function foo(x, δ, β) 
     x * δ + exp(β) / β
+
+
 end
 
-output = foo(2, δ, β)
+output = foo(1, δ, β)
  
 println(output)
  
@@ -614,9 +600,11 @@ parameters_list = (; β = 3, δ = 4, ϵ = 5)
 # function 'foo' uses β and δ, but not ϵ
 function foo(x, parameters_list) 
     x * parameters_list.δ + exp(parameters_list.β) / parameters_list.β
+
+
 end
 
-output = foo(2, parameters_list.β, parameters_list.δ)
+output = foo(1, parameters_list)
  
 println(output)
  
@@ -628,11 +616,13 @@ parameters_list = (; β = 3, δ = 4, ϵ = 5)
 
 
 # function 'foo' uses β and δ, but not ϵ
-function foo(x, parameters_list) 
-    x * parameters_list.δ + exp(parameters_list.β) / parameters_list.β
+function foo(x, parameters_list)
+    (; β, δ) = parameters_list
+    
+    x * δ + exp(β) / β
 end
 
-output = foo(2, parameters_list)
+output = foo(1, parameters_list)
  
 println(output)
  
@@ -661,33 +651,7 @@ function foo()
     out2 = 3
     out3 = 4
 
-    [out1, out2, out3]
-end
-
-x, y, z = foo()
- 
-
-
-
-function foo()
-    out1 = 2
-    out2 = 3
-    out3 = 4
-
     out1, out2, out3
-end
-
-x, _, z = foo()
- 
-
-
-
-function foo()
-    out1 = 2
-    out2 = 3
-    out3 = 4
-
-    [out1, out2, out3]
 end
 
 x, _, z = foo()
