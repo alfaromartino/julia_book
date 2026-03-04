@@ -6,13 +6,13 @@ using Random
  
 ############################################################################
 #
-#			SLICE VIEWS TO DECREASE ALLOCATIONS
+#			        SECTION: "SLICE VIEWS TO DECREASE ALLOCATIONS"
 #
 ############################################################################
  
 ############################################################################
 #
-#			VIEW OF SLICES
+#   VIEW OF SLICES
 #
 ############################################################################
  
@@ -56,15 +56,18 @@ foo(x) = @views sum(x[x .> 0.5])
  
 ############################################################################
 #
-#			COPYING DATA MAY BE FASTER
+#   COPYING DATA MAY BE FASTER
 #
 ############################################################################
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x      = rand(100_000)
+x = rand(100_000)
 
-foo(x) = max.(x[1:2:length(x)], 0.5)
-
+function foo(x) 
+    y = x[1:2:length(x)]
+    
+    max.(y, 0.5)
+end
 @ctime foo($x) #hide
  
 # <space_to_be_deleted>
@@ -73,9 +76,12 @@ foo(x) = max.(x[1:2:length(x)], 0.5)
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x      = rand(100_000)
+x = rand(100_000)
 
-foo(x) = max.(@view(x[1:2:length(x)]), 0.5)
-
+function foo(x) 
+    y = @view x[1:2:length(x)]
+    
+    max.(y, 0.5)
+end
 @ctime foo($x) #hide
  

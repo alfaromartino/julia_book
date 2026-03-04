@@ -1,3 +1,5 @@
+nr_iterations = 1_000
+
 function foo(nr_iterations)
     fixed_time = 1 / 1_000_000
 

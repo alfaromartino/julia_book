@@ -6,18 +6,18 @@ using Random
  
 ############################################################################
 #
-#			SIMD: INDEPENDENCE OF ITERATIONS
+#			        SECTION: "SIMD: INDEPENDENCE OF ITERATIONS"
 #
 ############################################################################
  
 ############################################################################
 #
-#			INDEPENDENCE OF ITERATIONS
+#   INDEPENDENCE OF ITERATIONS
 #
 ############################################################################
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(1_000_000)
+x      = rand(1_000_000)
 
 function foo(x)
     output = similar(x)
@@ -36,7 +36,7 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(1_000_000)
+x      = rand(1_000_000)
 
 function foo(x)
     output = similar(x)
@@ -55,7 +55,7 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(1_000_000)
+x      = rand(1_000_000)
 
 foo(x) = @. x / 2 + x^2 / 3
     
@@ -63,7 +63,7 @@ foo(x) = @. x / 2 + x^2 / 3
  
 ############################################################################
 #
-#			A SPECIAL CASE OF DEPENDENCE: REDUCTIONS
+#   A SPECIAL CASE OF DEPENDENCE: REDUCTIONS
 #
 ############################################################################
  
@@ -152,7 +152,7 @@ end
 # <space_to_be_deleted>
  
 ####################################################
-#	Why Floating Points Are Treated Differently
+#	REMAR: Why are Floating Points Treated Differently
 ####################################################
  
 x = 0.1 + (0.2 + 0.3)

@@ -1,4 +1,5 @@
-x = collect(3:10) ; sx = SVector(x...)
+x      = collect(3:10)
+sx     = SVector(x...)
 
 # both define static vectors
 slice1 = sx[:]

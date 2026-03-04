@@ -6,13 +6,13 @@ using Random, Base.Threads
  
 ############################################################################
 #
-#			SECTION: "TASK-BASED PARALLELISM: @SPAWN"
+#			        SECTION: "TASK-BASED PARALLELISM: @SPAWN"
 #
 ############################################################################
  
 ############################################################################
 #
-#			ENABLING MULTITHREADING
+#   ENABLING MULTITHREADING
 #
 ############################################################################
  
@@ -38,7 +38,7 @@ print_asis(nthreads()) #hide
  
 ############################################################################
 #
-#			TASK-BASED PARALLELISM: @SPAWN
+#   TASK-BASED PARALLELISM: @SPAWN
 #
 ############################################################################
  
@@ -46,28 +46,32 @@ print_asis(nthreads()) #hide
 #	`fetch`
 ####################################################
  
-x = rand(10); y = rand(10)
+x = 2
 
 function foo(x)
-    a      = x .* -2
-    b      = x .*  2
+    a      = x * -2
+    b      = x *  2
     
     a,b
 end
  
+print_asis(foo(x)) #hide
+ 
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x = rand(10); y = rand(10)
+x = 2
 
 function foo(x)
-    task_a = @spawn x .* -2
-    task_b = @spawn x .*  2
+    task_a = @spawn x * -2
+    task_b = @spawn x *  2
     
     a,b    = fetch.((task_a, task_b))
 end
+ 
+print_asis(foo(x)) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -78,7 +82,8 @@ end
 #	mutating function
 ####################################################
  
-x = rand(10); y = rand(10)
+x = rand(10)
+y = rand(10)
 
 function foo!(x,y)
     @. x = -x
@@ -90,7 +95,8 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x = rand(10); y = rand(10)
+x = rand(10)
+y = rand(10)
 
 function foo!(x,y)
     task_a = @spawn (@. x = -x)
@@ -104,7 +110,8 @@ end
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x = rand(10); y = rand(10)
+x = rand(10)
+y = rand(10)
 
 function foo!(x,y)
     @sync begin
@@ -120,7 +127,7 @@ end
  
 ############################################################################
 #
-#			MULTITHREADING OVERHEAD
+#   MULTITHREADING OVERHEAD
 #
 ############################################################################
  

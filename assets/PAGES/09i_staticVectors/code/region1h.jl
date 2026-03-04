@@ -1,1 +1,1 @@
-print_asis(slice2)
+print_asis(slice1)

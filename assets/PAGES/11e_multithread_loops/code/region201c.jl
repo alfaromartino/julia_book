@@ -1,3 +1,5 @@
+nr_iterations = 4
+
 function foo(nr_iterations)
     @sync begin
         for i in 1:nr_iterations

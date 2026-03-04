@@ -2787,7 +2787,9 @@ end</code></pre> </div></div>
     <button class="tablink" data-id=""> @threads </button>
     <button class="tablink" data-id=""> @spawn  </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;nr_iterations&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">nr_iterations &#61; 4
+
+function foo&#40;nr_iterations&#41;
     for i in 1:nr_iterations
       job&#40;i; time_working &#61; i&#41;      
     end
@@ -2798,7 +2800,9 @@ Iteration 3 is on Thread 1
 Iteration 4 is on Thread 1
   10.000 s (40 allocations: 1.562 KiB)</div></div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;nr_iterations&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">nr_iterations &#61; 4
+
+function foo&#40;nr_iterations&#41;
     @threads for i in 1:nr_iterations
         job&#40;i; time_working &#61; i&#41;        
     end
@@ -2809,7 +2813,9 @@ Iteration 2 is on Thread 1
 Iteration 4 is on Thread 2
   7.000 s (51 allocations: 2.625 KiB)</div></div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;nr_iterations&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">nr_iterations &#61; 4
+
+function foo&#40;nr_iterations&#41;
     @sync begin
         for i in 1:nr_iterations
             @spawn job&#40;i; time_working &#61; i&#41;            
@@ -2835,27 +2841,33 @@ Iteration 4 is on Thread 2
     <button class="tablink" data-id=""> @threads </button>
     <button class="tablink" data-id=""> @spawn </button>
 </div><div data-id="" class="tabcontent active">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;nr_iterations&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">nr_iterations &#61; 1_000
+
+function foo&#40;nr_iterations&#41;
     fixed_time &#61; 1 / 1_000_000
 
     for i in 1:nr_iterations
         job&#40;i; time_working &#61; fixed_time&#41;
     end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt </div> <code>@btime foo&#40;1_000_000&#41;</code> <br/> <pre><code class="plaintext code-output">  1.732 s (0 allocations: 0 bytes)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt </div> <code>@btime foo&#40;&#36;nr_iterations&#36;&#41;</code> <br/> <pre><code class="plaintext code-output">  1.714 ms (0 allocations: 0 bytes)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;nr_iterations&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">nr_iterations &#61; 1_000
+
+function foo&#40;nr_iterations&#41;
     fixed_time &#61; 1 / 1_000_000
 
     @threads for i in 1:nr_iterations
         job&#40;i; time_working &#61; fixed_time&#41;
     end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt </div> <code>@btime foo&#40;1_000_000&#41;</code> <br/> <pre><code class="plaintext code-output">  74.372 ms (122 allocations: 12.625 KiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt </div> <code>@btime foo&#40;&#36;nr_iterations&#36;&#41;</code> <br/> <pre><code class="plaintext code-output">  80.212 μs (122 allocations: 12.625 KiB)
 </code></pre> </div></div> </div> 
  </div><div data-id="" class="tabcontent">
-<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">function foo&#40;nr_iterations&#41;
+<div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">nr_iterations &#61; 1_000
+
+function foo&#40;nr_iterations&#41;
     fixed_time &#61; 1 / 1_000_000
 
     @sync begin
@@ -2864,7 +2876,7 @@ end</code></pre> </div></div>
         end
     end
 end</code></pre> </div></div> 
-<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt </div> <code>@btime foo&#40;1_000_000&#41;</code> <br/> <pre><code class="plaintext code-output">  1.002 s (5000031 allocations: 505.700 MiB)
+<div class="output_in_modal"><div class="sign_output">Output in REPL </div>  <div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt </div> <code>@btime foo&#40;&#36;nr_iterations&#36;&#41;</code> <br/> <pre><code class="plaintext code-output">  606.384 μs (5015 allocations: 522.125 KiB)
 </code></pre> </div></div> </div> 
  </div></div>
 <p>  </p></details></div>
@@ -2890,7 +2902,7 @@ end</code></pre> </div></div>
           </a>
       </span> 
       <span class="center-text"> 
-          © Martin Alfaro <br>Last Modified March 2, 2026 
+          © Martin Alfaro <br>Last Modified March 4, 2026 
       </span> 
   </div> 
 </footer>

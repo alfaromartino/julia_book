@@ -1,6 +1,6 @@
 Random.seed!(123)       #setting seed for reproducibility #hide
 nr_days            = 30
-scores             = [rand(nr_days), rand(nr_days), rand(nr_days)]  # 3 workers
+scores             = [rand(nr_days), rand(nr_days), rand(nr_days)]   # 3 workers
 
 performance(score) = score .> 0.5
 

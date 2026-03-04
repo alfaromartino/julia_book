@@ -6,13 +6,13 @@ using Random, Base.Threads
  
 ############################################################################
 #
-#			SECTION: "PARALLEL FOR-LOOPS"
+#			        SECTION: "PARALLEL FOR-LOOPS"
 #
 ############################################################################
  
 ############################################################################
 #
-#			SOME PRELIMINARIES
+#   SOME PRELIMINARIES
 #
 ############################################################################
  
@@ -92,12 +92,12 @@ end
  
 ############################################################################
 #
-#			@spawn vs @threads
+#   `@spawn` VS `@threads`
 #
 ############################################################################
  
 ####################################################
-#	increasing time per iteration
+#	scenario 1: unbalanced workload
 ####################################################
  
 function job(i; time_working)
@@ -110,6 +110,13 @@ function job(i; time_working)
     end    
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+nr_iterations = 4
+
 function foo(nr_iterations)
     for i in 1:nr_iterations
       job(i; time_working = i)      
@@ -117,13 +124,15 @@ function foo(nr_iterations)
 end
 foo(1); #hide
  
-@ctime foo(4) #hide
+@ctime foo($nr_iterations) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
+nr_iterations = 4
+
 function foo(nr_iterations)
     @threads for i in 1:nr_iterations
         job(i; time_working = i)        
@@ -131,13 +140,15 @@ function foo(nr_iterations)
 end
 foo(1); #hide
  
-@ctime foo(4) #hide
+@ctime foo($nr_iterations) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
+nr_iterations = 4
+
 function foo(nr_iterations)
     @sync begin
         for i in 1:nr_iterations
@@ -147,7 +158,7 @@ function foo(nr_iterations)
 end
 foo(1); #hide
  
-@ctime foo(4) #hide
+@ctime foo($nr_iterations) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
@@ -155,10 +166,12 @@ foo(1); #hide
 # <space_to_be_deleted>
  
 ####################################################
-#	same time per iteration
+#	scenario 2: balanced workload
 ####################################################
  
 function job(i; time_working)
+
+
     start_time = time()
 
     while time() - start_time < time_working
@@ -166,6 +179,13 @@ function job(i; time_working)
     end    
 end
  
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+# <space_to_be_deleted>
+ 
+nr_iterations = 1_000
+
 function foo(nr_iterations)
     fixed_time = 1 / 1_000_000
 
@@ -176,13 +196,15 @@ end
 foo(1); #hide
 GC.gc() ; #hide
  
-@ctime foo(1_000_000) #hide
+@ctime foo($nr_iterations) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
+nr_iterations = 1_000
+
 function foo(nr_iterations)
     fixed_time = 1 / 1_000_000
 
@@ -193,13 +215,15 @@ end
 foo(1); #hide
 GC.gc() ; #hide
  
-@ctime foo(1_000_000) #hide
+@ctime foo($nr_iterations) #hide
  
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
+nr_iterations = 1_000
+
 function foo(nr_iterations)
     fixed_time = 1 / 1_000_000
 
@@ -212,5 +236,5 @@ end
 foo(1); #hide
 GC.gc() ; #hide
  
-@ctime foo(1_000_000) #hide
+@ctime foo($nr_iterations) #hide
  

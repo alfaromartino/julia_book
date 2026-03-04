@@ -1,5 +1,6 @@
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(50)
+x  = rand(50)
+
 
 function foo(x, ::Val{N}) where N
     sx     = SVector{N, eltype(x)}(x)

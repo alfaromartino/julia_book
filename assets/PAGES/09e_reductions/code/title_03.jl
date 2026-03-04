@@ -1,5 +1,5 @@
 ############################################################################
 #
-#                           REDUCTIONS TO AVOID ALLOCATIONS OF INTERMEDIATE RESULTS
+#   AVOIDING MEMORY ALLOCATIONS THROUGH REDUCTIONS
 #
 ############################################################################

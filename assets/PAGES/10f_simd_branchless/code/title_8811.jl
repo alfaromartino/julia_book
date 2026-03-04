@@ -1,5 +1,5 @@
 ############################################################################
 #
-#			ALGEBRAIC OPERATIONS AS COMPOUND CONDITIONS
+#   ALGEBRAIC OPERATIONS AS COMPOUND CONDITIONS
 #
 ############################################################################

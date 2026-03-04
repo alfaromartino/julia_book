@@ -6,13 +6,13 @@ using Random
  
 ############################################################################
 #
-#			SECTION: "SIMD: BRANCHLESS CODE"
+#			        SECTION: "SIMD: BRANCHLESS CODE"
 #
 ############################################################################
  
 ############################################################################
 #
-#			TYPE INSTABILITY AND BOUNDS CHECKING AS CONDITIONS TO AVOID
+#   TYPE INSTABILITY AND BOUNDS CHECKING AS CONDITIONS TO AVOID
 #
 ############################################################################
  
@@ -147,7 +147,7 @@ end
  
 ############################################################################
 #
-#			IFELSE VS IF
+#   IFELSE VS IF
 #
 ############################################################################
  
@@ -285,7 +285,7 @@ end
  
 ############################################################################
 #
-#			TERNARY OPERATORS
+#   TERNARY OPERATORS
 #
 ############################################################################
  
@@ -473,7 +473,7 @@ end
  
 ############################################################################
 #
-#			WHEN EACH APPROACH IS BETTER?
+#   WHEN EACH APPROACH IS BETTER?
 #
 ############################################################################
  
@@ -617,7 +617,7 @@ end
  
 ############################################################################
 #
-#			VECTORS WITH CONDITIONS
+#   VECTORS WITH CONDITIONS
 #
 ############################################################################
  
@@ -734,7 +734,7 @@ end
  
 ############################################################################
 #
-#			ALGEBRAIC OPERATIONS AS COMPOUND CONDITIONS
+#   ALGEBRAIC OPERATIONS AS COMPOUND CONDITIONS
 #
 ############################################################################
  
@@ -743,8 +743,8 @@ end
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x                 = rand(1_000_000)
-y                 = rand(1_000_000)
+x = rand(1_000_000)
+y = rand(1_000_000)
 
 
 function foo(x,y)
@@ -766,8 +766,8 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x                 = rand(1_000_000)
-y                 = rand(1_000_000)
+x = rand(1_000_000)
+y = rand(1_000_000)
 
 
 function foo(x,y)
@@ -789,8 +789,8 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x                 = rand(1_000_000)
-y                 = rand(1_000_000)
+x = rand(1_000_000)
+y = rand(1_000_000)
 
 
 function foo(x,y)
@@ -812,8 +812,8 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x                 = rand(1_000_000)
-y                 = rand(1_000_000)
+x = rand(1_000_000)
+y = rand(1_000_000)
 
 
 function foo(x,y)
@@ -839,11 +839,10 @@ end
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x              = rand(1_000_000)
-y              = rand(1_000_000)
+x        = rand(1_000_000)
+y        = rand(1_000_000)
 
-
-foo(x,y)       = @. ifelse((x>0.3) && (y<0.6) && (x>y), x,y)
+foo(x,y) = @. ifelse((x>0.3) && (y<0.6) && (x>y), x,y)
 @ctime foo($x,$y) #hide
  
 # <space_to_be_deleted>
@@ -852,11 +851,10 @@ foo(x,y)       = @. ifelse((x>0.3) && (y<0.6) && (x>y), x,y)
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x              = rand(1_000_000)
-y              = rand(1_000_000)
+x        = rand(1_000_000)
+y        = rand(1_000_000)
 
-
-foo(x,y)       = @. ifelse((x>0.3) *  (y<0.6) *  (x>y), x,y)
+foo(x,y) = @. ifelse((x>0.3) *  (y<0.6) *  (x>y), x,y)
 @ctime foo($x,$y) #hide
  
 # <space_to_be_deleted>
@@ -865,11 +863,10 @@ foo(x,y)       = @. ifelse((x>0.3) *  (y<0.6) *  (x>y), x,y)
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x              = rand(1_000_000)
-y              = rand(1_000_000)
+x        = rand(1_000_000)
+y        = rand(1_000_000)
 
-
-foo(x,y)       = @. ifelse((x>0.3) || (y<0.6) || (x>y), x,y)
+foo(x,y) = @. ifelse((x>0.3) || (y<0.6) || (x>y), x,y)
 @ctime foo($x,$y) #hide
  
 # <space_to_be_deleted>
@@ -878,11 +875,10 @@ foo(x,y)       = @. ifelse((x>0.3) || (y<0.6) || (x>y), x,y)
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x              = rand(1_000_000)
-y              = rand(1_000_000)
+x        = rand(1_000_000)
+y        = rand(1_000_000)
 
-
-foo(x,y)       = @. ifelse(Bool(1 - !(x>0.3) * !(y<0.6) * !(x>y)), x,y)
+foo(x,y) = @. ifelse(Bool(1 - !(x>0.3) * !(y<0.6) * !(x>y)), x,y)
 @ctime foo($x,$y) #hide
  
 # <space_to_be_deleted>

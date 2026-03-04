@@ -1,6 +1,6 @@
 Random.seed!(123)       #setting seed for reproducibility #hide
-x                 = rand(1_000_000)
-y                 = rand(1_000_000)
+x = rand(1_000_000)
+y = rand(1_000_000)
 
 
 function foo(x,y)

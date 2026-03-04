@@ -37,238 +37,238 @@ end</code></pre></div></div><div class="output_in_modal"><div class="sign_output
 calculation&#40;a&#41; &#61; a * 0.1 &#43; a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
 function foo&#40;x&#41;
-    output     &#61; similar&#40;x&#41;
+    output &#61; similar&#40;x&#41;
     
     for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.840 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.721 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; a * 0.1 &#43; a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
 function foo&#40;x&#41;
-    output     &#61; similar&#40;x&#41;
+    output &#61; similar&#40;x&#41;
     
     @inbounds @simd for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  4.096 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.940 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; a * 0.1 &#43; a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
 function foo&#40;x&#41;
-    output     &#61; similar&#40;x&#41;
+    output &#61; similar&#40;x&#41;
     
     @turbo for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  271.104 μs (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  279.068 μs (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; a * 0.1 &#43; a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
-foo&#40;x&#41;         &#61; @turbo calculation.&#40;x&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  482.698 μs (3 allocations: 7.629 MiB)
+foo&#40;x&#41;         &#61; @turbo calculation.&#40;x&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  272.868 μs (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div></div><p></p></details></div><p>The second safe application is <strong>reductions</strong>. While reductions introduce dependencies across iterations, the package only requires that iterations can be arbitrarily reordered. This is satisfied by reduction operations.</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">Default</button> <button class="tablink" data-id="">@simd</button> <button class="tablink" data-id="">@turbo</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; a * 0.1 &#43; a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
 function foo&#40;x&#41;
-    output     &#61; 0.0
+    output &#61; 0.0
     
     for i in eachindex&#40;x&#41;
         output &#43;&#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.892 ms (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.424 ms (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; a * 0.1 &#43; a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
 function foo&#40;x&#41;
-    output     &#61; 0.0
+    output &#61; 0.0
     
     @inbounds @simd for i in eachindex&#40;x&#41;
         output &#43;&#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.937 ms (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.758 ms (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; a * 0.1 &#43; a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
 function foo&#40;x&#41;
-    output     &#61; 0.0
+    output &#61; 0.0
     
     @turbo for i in eachindex&#40;x&#41;
         output &#43;&#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  179.364 μs (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  169.195 μs (0 allocations: 0 bytes)
 </code></pre></div></div></div></div></div><p></p></details></div><p></p></div></div></div></section><section id="accelerated_versions_of_certain_functions" class="scrollspy"><div class="container"><div class="row"><div class="col-lg- mx-auto"><h2>Accelerated Versions of Certain Functions</h2><p></p><p>Another advantage of <code>LoopVectorization</code> comes from its integration with the library <em>SLEEF</em> &#40;an anocrym for &quot;SIMD Library for Evaluating Elementary Functions&quot;&#41;. This feature accelerates the evaluation of several mathematical functions, including the exponential, logarithmic, power, and trigonometric functions. SLEEF is exposed in <code>LoopVectorization</code> via the <code>SLEEFPirates</code> package,</p><p>Below, we illustrate the use of <code>@turbo</code> across these different functions. For a complete list of supported functions, consult the <a href="https://juliasimd.github.io/SLEEFPirates.jl/stable/">SLEEFPirates documentation</a>. All examples are based on an element-wise transformation of <code>x</code> via the function <code>calculation</code>, which will take different definitions depending on the function illustrated.</p><h4>Logarithm</h4><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">Default</button> <button class="tablink" data-id="">@simd</button> <button class="tablink" data-id="">@turbo (for-loop)</button> <button class="tablink" data-id="">@turbo (broadcasting)</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; log&#40;a&#41;
 
 function foo&#40;x&#41;
-    output     &#61; similar&#40;x&#41;
+    output &#61; similar&#40;x&#41;
     
     for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.542 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.511 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; log&#40;a&#41;
 
 function foo&#40;x&#41;
-    output     &#61; similar&#40;x&#41;
+    output &#61; similar&#40;x&#41;
     
     @inbounds @simd for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.546 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.526 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; log&#40;a&#41;
 
 function foo&#40;x&#41;
-    output     &#61; similar&#40;x&#41;
+    output &#61; similar&#40;x&#41;
     
     @turbo for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.617 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.556 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; log&#40;a&#41;
 
-foo&#40;x&#41; &#61; @turbo calculation.&#40;x&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.618 ms (3 allocations: 7.629 MiB)
+foo&#40;x&#41;         &#61; @turbo calculation.&#40;x&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.615 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div></div><p></p></details></div><h4>Exponential Function</h4><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">Default</button> <button class="tablink" data-id="">@simd</button> <button class="tablink" data-id="">@turbo (for-loop)</button> <button class="tablink" data-id="">@turbo (broadcasting)</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; exp&#40;a&#41;
 
 function foo&#40;x&#41;
-    output     &#61; similar&#40;x&#41;
+    output &#61; similar&#40;x&#41;
     
     for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  2.608 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  2.577 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; exp&#40;a&#41;
 
 function foo&#40;x&#41;
-    output     &#61; similar&#40;x&#41;
+    output &#61; similar&#40;x&#41;
     
     @inbounds @simd for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  2.639 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  2.719 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; exp&#40;a&#41;
 
 function foo&#40;x&#41;
-    output     &#61; similar&#40;x&#41;
+    output &#61; similar&#40;x&#41;
     
     @turbo for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  555.012 μs (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  581.658 μs (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; exp&#40;a&#41;
 
-foo&#40;x&#41; &#61; @turbo calculation.&#40;x&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  544.043 μs (3 allocations: 7.629 MiB)
+foo&#40;x&#41;         &#61; @turbo calculation.&#40;x&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  552.402 μs (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div></div><p></p></details></div><h4>Power Functions</h4><p>This includes any operation comprising terms \(x^{y}\).</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">Default</button> <button class="tablink" data-id="">@simd</button> <button class="tablink" data-id="">@turbo (for-loop)</button> <button class="tablink" data-id="">@turbo (broadcasting)</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; a^4
 
 function foo&#40;x&#41;
-    output     &#61; similar&#40;x&#41;
+    output &#61; similar&#40;x&#41;
     
     for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.517 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.695 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; a^4
 
 function foo&#40;x&#41;
-    output     &#61; similar&#40;x&#41;
+    output &#61; similar&#40;x&#41;
     
     @inbounds @simd for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.578 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.751 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; a^4
 
 function foo&#40;x&#41;
-    output     &#61; similar&#40;x&#41;
+    output &#61; similar&#40;x&#41;
     
     @turbo for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  371.218 μs (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  272.640 μs (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; a^4
 
-foo&#40;x&#41; &#61; @turbo calculation.&#40;x&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  302.605 μs (3 allocations: 7.629 MiB)
+foo&#40;x&#41;         &#61; @turbo calculation.&#40;x&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  297.336 μs (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div></div><p></p></details></div><p>The implementation for power functions includes calls to other functions, such as the one used for computing square roots.</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">Default</button> <button class="tablink" data-id="">@simd</button> <button class="tablink" data-id="">@turbo (for-loop)</button> <button class="tablink" data-id="">@turbo (broadcasting)</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; sqrt&#40;a&#41;
 
 function foo&#40;x&#41;
-    output     &#61; similar&#40;x&#41;
+    output &#61; similar&#40;x&#41;
     
     for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.159 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.209 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; sqrt&#40;a&#41;
 
 function foo&#40;x&#41;
-    output     &#61; similar&#40;x&#41;
+    output &#61; similar&#40;x&#41;
     
     @inbounds @simd for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.200 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.230 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; sqrt&#40;a&#41;
 
 function foo&#40;x&#41;
-    output     &#61; similar&#40;x&#41;
+    output &#61; similar&#40;x&#41;
     
     @turbo for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; calculation&#40;x&#91;i&#93;&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  590.429 μs (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  601.689 μs (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; sqrt&#40;a&#41;
 
-foo&#40;x&#41; &#61; @turbo calculation.&#40;x&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  578.698 μs (3 allocations: 7.629 MiB)
+foo&#40;x&#41;         &#61; @turbo calculation.&#40;x&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  601.851 μs (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div></div><p></p></details></div><h4>Trigonometric Functions</h4><p>Among others, <code>@turbo</code> can handle the functions <code>sin</code>, <code>cos</code>, and <code>tan</code>. Below, we demonstrate its use with <code>sin</code>.</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">Default</button> <button class="tablink" data-id="">@simd</button> <button class="tablink" data-id="">@turbo (for-loop)</button> <button class="tablink" data-id="">@turbo (broadcasting)</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; sin&#40;a&#41;
 
@@ -280,7 +280,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.915 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  4.127 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; sin&#40;a&#41;
 
@@ -292,7 +292,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.895 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  4.165 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; sin&#40;a&#41;
 
@@ -304,12 +304,12 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.341 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.337 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 calculation&#40;a&#41; &#61; sin&#40;a&#41;
 
-foo&#40;x&#41;         &#61; @turbo calculation.&#40;x&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.315 ms (3 allocations: 7.629 MiB)
-</code></pre></div></div></div></div></div><p></p></details></div><p></p></div></div></div></section><footer class="py-1"><div class="container"><span class="left-text"><a href="/julia_book/PAGES/10f_simd_branchless" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png" style="width:50px;height:auto;opacity:.9;padding-bottom:5px"> Previous Section <span class="ctrl-text">( <kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_left.png" style="width:15px;height:auto;opacity:.9;padding-bottom:2px"> </kbd>)</span> </a></span><span class="right-text"><a href="/julia_book/PAGES/11a_overview" class="nextPage">Next Section <span class="ctrl-text">( <kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_right.png" style="width:15px;height:auto;opacity:.9;padding-bottom:2px"> </kbd>)</span> <img src="/julia_book/assets/icons/next-page.png" style="width:50px;height:auto;opacity:.9;padding-bottom:5px"> </a></span><span class="center-text">© Martin Alfaro<br>Last Modified March 2, 2026</span></div></footer><style>@media (max-width:850px),(max-height:600px){.ctrl-text{display:none}}footer{font-family:Inter}footer .container{width:100%;margin-top:.6em;margin-bottom:.5em;overflow:hidden;text-align:center;align-items:center;justify-content:center;color:#fff}footer .center-text{text-align:center}footer .left-text{float:left}footer .right-text{float:right}footer a{color:#fff}footer a:hover{color:#fff;opacity:.9;text-decoration:none}</style><script>const prevPageURL=document.querySelector(".prevPage").href,nextPageURL=document.querySelector(".nextPage").href;function goToPrevPage(){window.location=prevPageURL}function goToNextPage(){window.location=nextPageURL}document.querySelector(".prevPage").addEventListener("click",goToPrevPage),document.querySelector(".nextPage").addEventListener("click",goToNextPage),document.addEventListener("keyup",e=>{"ArrowLeft"===e.key&&e.ctrlKey?goToPrevPage():"ArrowRight"===e.key&&e.ctrlKey&&goToNextPage()})</script></div><script src="/julia_book/libs/katex/katex.min.js"></script><script src="/julia_book/libs/katex/auto-render.min.js"></script><script>renderMathInElement(document.body)</script><script src="/julia_book/libs/highlight/highlight.js"></script><script>hljs.highlightAll(),hljs.configure({tabReplace:"    "})</script><script src="/julia_book/libs/simple-scrollspy.min.js"></script><script>window.onload=function(){scrollSpy("#navbarResponsive",{sectionClass:".scrollspy",menuActiveTarget:".nav-link",offset:100})}</script></body></html><!-- 
+foo&#40;x&#41;         &#61; @turbo calculation.&#40;x&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.307 ms (3 allocations: 7.629 MiB)
+</code></pre></div></div></div></div></div><p></p></details></div><p></p></div></div></div></section><footer class="py-1"><div class="container"><span class="left-text"><a href="/julia_book/PAGES/10f_simd_branchless" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png" style="width:50px;height:auto;opacity:.9;padding-bottom:5px"> Previous Section <span class="ctrl-text">( <kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_left.png" style="width:15px;height:auto;opacity:.9;padding-bottom:2px"> </kbd>)</span> </a></span><span class="right-text"><a href="/julia_book/PAGES/11a_overview" class="nextPage">Next Section <span class="ctrl-text">( <kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_right.png" style="width:15px;height:auto;opacity:.9;padding-bottom:2px"> </kbd>)</span> <img src="/julia_book/assets/icons/next-page.png" style="width:50px;height:auto;opacity:.9;padding-bottom:5px"> </a></span><span class="center-text">© Martin Alfaro<br>Last Modified March 4, 2026</span></div></footer><style>@media (max-width:850px),(max-height:600px){.ctrl-text{display:none}}footer{font-family:Inter}footer .container{width:100%;margin-top:.6em;margin-bottom:.5em;overflow:hidden;text-align:center;align-items:center;justify-content:center;color:#fff}footer .center-text{text-align:center}footer .left-text{float:left}footer .right-text{float:right}footer a{color:#fff}footer a:hover{color:#fff;opacity:.9;text-decoration:none}</style><script>const prevPageURL=document.querySelector(".prevPage").href,nextPageURL=document.querySelector(".nextPage").href;function goToPrevPage(){window.location=prevPageURL}function goToNextPage(){window.location=nextPageURL}document.querySelector(".prevPage").addEventListener("click",goToPrevPage),document.querySelector(".nextPage").addEventListener("click",goToNextPage),document.addEventListener("keyup",e=>{"ArrowLeft"===e.key&&e.ctrlKey?goToPrevPage():"ArrowRight"===e.key&&e.ctrlKey&&goToNextPage()})</script></div><script src="/julia_book/libs/katex/katex.min.js"></script><script src="/julia_book/libs/katex/auto-render.min.js"></script><script>renderMathInElement(document.body)</script><script src="/julia_book/libs/highlight/highlight.js"></script><script>hljs.highlightAll(),hljs.configure({tabReplace:"    "})</script><script src="/julia_book/libs/simple-scrollspy.min.js"></script><script>window.onload=function(){scrollSpy("#navbarResponsive",{sectionClass:".scrollspy",menuActiveTarget:".nav-link",offset:100})}</script></body></html><!-- 
 #################################################
 # FOR ALL PAGES
 ################################################# 

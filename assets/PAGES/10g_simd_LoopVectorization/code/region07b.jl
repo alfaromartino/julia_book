@@ -3,7 +3,7 @@ x              = rand(1_000_000)
 calculation(a) = sqrt(a)
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     @inbounds @simd for i in eachindex(x)
         output[i] = calculation(x[i])

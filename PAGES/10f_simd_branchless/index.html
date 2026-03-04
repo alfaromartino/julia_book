@@ -16,7 +16,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  824.276 μs (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.684 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -27,7 +27,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.109 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.683 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -38,7 +38,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  390.190 μs (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  904.666 μs (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -49,9 +49,9 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  393.380 μs (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  915.628 μs (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div></div><p></p></details></div><p>A practical lesson from these examples is that, when signaling to the compiler that SIMD is appropriate, for-loops should be annotated with <code>@inbounds @simd</code> rather than using <code>@simd</code> alone.</p><div class="note"><div class="title"><span class="note_title" style="font-weight:500"><img src="/julia_book/assets/icons/exclamation.png" style="width:auto;height:30px;opacity:.99;padding-bottom:4px;margin-left:-4px;padding-right:.4em"><strong>Broadcasting and For-Loops</strong></span></div><div class="content">Broadcasting in Julia automatically disables bounds checking and applies SIMD instructions. This often makes broadcast versions appear faster than a straightforward for-loop. However, <a href="/julia_book/PAGES/09g_lazyBroadcasting/#how_does_broadcasting_work_internally">broadcasting is just compact notation for implementing for-loops</a>. As a result, a for-loop annotated with <code>@inbounds @simd</code> usually achieves a similar performance to its broadcast variant, as demonstrated below.<p></p><p></p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">Broadcasting</button> <button class="tablink" data-id="">For-Loop (No Macros)</button> <button class="tablink" data-id="">For-Loop (Optimized with Macros)</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;1_000_000&#41;
-foo&#40;x&#41; &#61; 2 ./ x</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  452.692 μs (3 allocations: 7.629 MiB)
+foo&#40;x&#41; &#61; 2 ./ x</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  963.645 μs (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -62,7 +62,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  802.428 μs (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.928 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -73,7 +73,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  399.047 μs (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.011 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div></div><p></p></details></div></div></div><p></p></div></div></div></section><section id="approaches_to_conditional_statements" class="scrollspy"><div class="container"><div class="row"><div class="col-lg- mx-auto"><h2>Approaches to Conditional Statements</h2><p></p><p>Certain workflows require the user to introduce conditional statements. When this occurs, conditions are integral to a program&#39;s logical flow and can&#39;t be avoided. This is why it&#39;s important to consider the most effective way to introduce conditions.</p><p>Regarding SIMD, a relevant distinction for conditional statements is whether they&#39;re evaluated eagerly or lazily. To illustrate, let&#39;s consider computing <code>1 &#43; 1</code> only when certain condition <code>C</code> is met. A lazy strategy checks <code>C</code> first, performing the addition <code>1 &#43; 1</code> only if the condition is true. Expressed differently, the operation is deferred until it&#39;s actually needed. By contrast, an eager approach performs <code>1 &#43; 1</code> immediately, regardless of whether <code>C</code> is satisfied. If the condition eventually evaluates to <code>false</code>, the result of <code>1 &#43; 1</code> is simply discarded.</p><p>When conditional statements are applied only once, a lazy approach is more performant as it avoids unnecessary work. Instead, a trade-off arises when the conditional appears inside a for-loop, as they may involve many potential computations. In this case, as SIMD can evaluate multiple operations simultaneously, it may be advantageous to compute all branches upfront, selecting the relevant results only afterward. This is especially true when the branches involve inexpensive computations.</p><p>In Julia, whether a conditional expression is evaluated lazily or eagerly depends on how the code is written. Next, we&#39;ll examine this aspect in more detail.</p><p></p></div></div></div></section><section id="ifelse_vs_if" class="scrollspy section-bg-color"><div class="container"><div class="row"><div class="col-lg- mx-auto"><h2>ifelse vs if</h2><p></p><p>The <code>ifelse</code> function in Julia follows an eager evaluation strategy. This means that both the condition and all possible outcomes are computed before deciding which result to return. In contrast, the <code>if</code> construct favors lazy computations, only evaluating the branch corresponding to the condition&#39;s truth value.</p><p>The following example demonstrates the computational difference between <code>if</code> and <code>ifelse</code>. The example is based on a reduction operation, where the elements to be summed are contingent on a condition. Note that <code>ifelse</code> requires specifying an operation for both the true and false cases, we return zero when the condition introduced isn&#39;t met.</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">if</button> <button class="tablink" data-id="">if + SIMD</button> <button class="tablink" data-id="">ifelse</button> <button class="tablink" data-id="">ifelse + SIMD</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -86,7 +86,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  409.692 μs (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.097 ms (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -99,7 +99,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  406.976 μs (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.109 ms (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -110,7 +110,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  385.429 μs (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  969.382 μs (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -121,7 +121,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  89.666 μs (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>@btime foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  234.668 μs (0 allocations: 0 bytes)
 </code></pre></div></div></div></div></div><p></p></details></div><p>As the example reveals, the fact that <code>ifelse</code> is eager doesn&#39;t automatically trigger the application of SIMD. This is precisely why <code>@inbounds @simd</code> had to be included.</p><p>It&#39;s also worth noting that applying SIMD instructions with <code>ifelse</code> doesn&#39;t necessarily increase performance. The example below demonstrates this point.</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">ifelse</button> <button class="tablink" data-id="">ifelse + SIMD</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;5_000_000&#41;
 output &#61; similar&#40;x&#41;
 
@@ -129,7 +129,7 @@ function foo&#33;&#40;output,x&#41;
     for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; ifelse&#40;x&#91;i&#93; &gt; 0.5, x&#91;i&#93;/2, 0&#41;
     end
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  18.720 ms (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  45.187 ms (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;5_000_000&#41;
 output &#61; similar&#40;x&#41;
 
@@ -137,7 +137,7 @@ function foo&#33;&#40;output,x&#41;
     @inbounds @simd for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; ifelse&#40;x&#91;i&#93; &gt; 0.5, x&#91;i&#93;/2, 0&#41;
     end
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  16.518 ms (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  40.844 ms (0 allocations: 0 bytes)
 </code></pre></div></div></div></div></div><p></p></details></div><p></p></div></div></div></section><section id="ternary_operators" class="scrollspy"><div class="container"><div class="row"><div class="col-lg- mx-auto"><h2>Ternary Operators</h2><p></p><p>Ternary operators are an alternative approach to expressing conditional logic. They follow the syntax <code>&lt;condition&gt; ? &lt;action if true&gt; : &lt;action if false&gt;</code>. Unlike the previous methods, this form doesn&#39;t enforce an eager or a lazy approach. Instead, it relies on heuristics to determine which approach should be implemented. The decision depends on the compiler&#39;s assessment about which strategy will likely be faster in the application considered.</p><p>To illustrate this behavior, we revisit the same reduction example used earlier, now applying <code>@inbounds @simd</code> directly within each construct. In the following case, the ternary operator chooses an eager strategy, thus evaluating both expressions before selecting the appropriate result.</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">if</button> <button class="tablink" data-id="">ifelse</button> <button class="tablink" data-id="">Ternary</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -150,7 +150,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  407.000 μs (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.052 ms (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -161,7 +161,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  89.095 μs (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  288.050 μs (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -172,7 +172,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  88.226 μs (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  250.049 μs (0 allocations: 0 bytes)
 </code></pre></div></div></div></div></div><p></p></details></div><p>Instead, the ternary operator opts for a lazy approach in the following example.</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">if</button> <button class="tablink" data-id="">ifelse</button> <button class="tablink" data-id="">Ternary</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -185,7 +185,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  393.501 μs (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  977.767 μs (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -196,7 +196,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.609 ms (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  9.453 ms (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -207,7 +207,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  413.706 μs (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.094 ms (0 allocations: 0 bytes)
 </code></pre></div></div></div></div></div><p></p></details></div><h4>Ternary Operator Could Choose A Less Performant Approach</h4><p>It&#39;s worth noting that the method chosen by the ternary operator isn&#39;t foolproof. In the following example, the ternary operator ends up implementing the slower approach.</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">if</button> <button class="tablink" data-id="">ifelse</button> <button class="tablink" data-id="">Ternary</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;5_000_000&#41;
 output &#61; similar&#40;x&#41;
 
@@ -217,7 +217,7 @@ function foo&#33;&#40;output,x&#41;
             output&#91;i&#93; &#61; log&#40;x&#91;i&#93;&#41;
         end
     end
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  26.299 ms (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  63.213 ms (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;5_000_000&#41;
 output &#61; similar&#40;x&#41;
 
@@ -225,7 +225,7 @@ function foo&#33;&#40;output,x&#41;
     @inbounds @simd for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; ifelse&#40;x&#91;i&#93; &gt; 0.5, log&#40;x&#91;i&#93;&#41;, 0&#41;
     end
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  17.272 ms (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  44.092 ms (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x      &#61; rand&#40;5_000_000&#41;
 output &#61; similar&#40;x&#41;
 
@@ -233,7 +233,7 @@ function foo&#33;&#40;output,x&#41;
     @inbounds @simd for i in eachindex&#40;x&#41;
         output&#91;i&#93; &#61; x&#91;i&#93;&gt;0.5 ? log&#40;x&#91;i&#93;&#41; : 0
     end
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  25.943 ms (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  62.488 ms (0 allocations: 0 bytes)
 </code></pre></div></div></div></div></div><p></p></details></div><p></p></div></div></div></section><section id="when_is_each_approach_better" class="scrollspy section-bg-color"><div class="container"><div class="row"><div class="col-lg- mx-auto"><h2>When Is Each Approach Better?</h2><p></p><p>As a general guideline, conditional statements with <strong>computationally-demanding operations will more likely benefit from a lazy implementation</strong>. In contrast, <strong>an eager approach is usually more performant when branches comprise simple algebraic computations</strong>. These heuristics tend to drive the decision adopted by the ternary operator.</p><p>To make this concrete, consider a case where only one branch performs a computation and that computation is straightforward. Under these conditions, an eager evaluation combined with SIMD typically outperforms a lazy alternative. In fact, this is precisely the strategy adopted when using a ternary operator.</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">if</button> <button class="tablink" data-id="">ifelse</button> <button class="tablink" data-id="">Ternary</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 condition&#40;a&#41;   &#61; a &gt; 0.5
 computation&#40;a&#41; &#61; a * 2
@@ -248,7 +248,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  399.915 μs (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  968.814 μs (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 condition&#40;a&#41;   &#61; a &gt; 0.5
 computation&#40;a&#41; &#61; a * 2
@@ -261,7 +261,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  88.727 μs (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  217.739 μs (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
 condition&#40;a&#41;   &#61; a &gt; 0.5
 computation&#40;a&#41; &#61; a * 2
@@ -274,7 +274,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  89.035 μs (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  272.096 μs (0 allocations: 0 bytes)
 </code></pre></div></div></div></div></div><p></p></details></div><p>Instead, below we consider a branch with computational-intensive calculations. In this case, a lazy approach is faster, which is the approach implemented by the ternary operator.</p><p>When the conditional branch involves a computationally intensive operation, the situation reverses. Here, a lazy strategy avoids performing expensive work unnecessarily, which leads to better performance overall. Below, we illustrate a scenario like, showing that the ternary operator also chooses a lazy evaluation.</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">if</button> <button class="tablink" data-id="">ifelse</button> <button class="tablink" data-id="">Ternary</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;2_000_000&#41;
 condition&#40;a&#41;   &#61; a &gt; 0.5
 computation&#40;a&#41; &#61; exp&#40;a&#41;/3 - log&#40;a&#41;/2
@@ -289,7 +289,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  12.655 ms (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  31.847 ms (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;2_000_000&#41;
 condition&#40;a&#41;   &#61; a &gt; 0.5
 computation&#40;a&#41; &#61; exp&#40;a&#41;/3 - log&#40;a&#41;/2
@@ -302,7 +302,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  12.023 ms (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  31.127 ms (0 allocations: 0 bytes)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;2_000_000&#41;
 condition&#40;a&#41;   &#61; a &gt; 0.5
 computation&#40;a&#41; &#61; exp&#40;a&#41;/3 - log&#40;a&#41;/2
@@ -315,7 +315,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;output,&#36;x&#41;</code><br><pre><code class="plaintext code-output">  13.124 ms (0 allocations: 0 bytes)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#33;&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  32.026 ms (0 allocations: 0 bytes)
 </code></pre></div></div></div></div></div><p></p></details></div><p></p></div></div></div></section><section id="vectors_with_conditions" class="scrollspy"><div class="container"><div class="row"><div class="col-lg- mx-auto"><h2>Vectors With Conditions</h2><p></p><p>In many situations, you may already have a vector of Boolean conditions available. This can happen because the condition vector is part of the dataset itself, or because the same conditions will be reused throughout the code, making it worthwhile to compute and store them in advance.</p><p>Julia represents such condition vectors using either <code>Vector&#123;Bool&#125;</code> or <code>BitVector</code>. The latter is Julia&#39;s default for broadcasted comparisons, as in expressions like <code>x .&gt; 0</code>. While <code>BitVector</code> is memory-efficient and can be faster in some contexts, it can also inhibit SIMD optimizations. When this occurs, converting the <code>BitVector</code> to a <code>Vector&#123;Bool&#125;</code> can improve performance. The example below illustrates this effect: even after accounting for the cost of converting the type, the version using <code>Vector&#123;Bool&#125;</code> achieves a shorter execution time.</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">BitVector</button> <button class="tablink" data-id="">Vector{Bool}</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x         &#61; rand&#40;1_000_000&#41;
 bitvector &#61; x .&gt; 0.5
 
@@ -328,7 +328,7 @@ function foo&#40;x,bitvector&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x,&#36;bitvector&#41;</code><br><pre><code class="plaintext code-output">  3.098 ms (3 allocations: 7.629 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x,&#36;bitvector&#41;</code><br><pre><code class="plaintext code-output">  10.300 ms (3 allocations: 7.629 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x         &#61; rand&#40;1_000_000&#41;
 bitvector &#61; x .&gt; 0.5
 
@@ -341,7 +341,7 @@ function foo&#40;x,bitvector&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x,&#36;bitvector&#41;</code><br><pre><code class="plaintext code-output">  848.068 μs (5 allocations: 8.583 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x,&#36;bitvector&#41;</code><br><pre><code class="plaintext code-output">  2.417 ms (5 allocations: 8.583 MiB)
 </code></pre></div></div></div></div></div><p></p></details></div><div class="note"><div class="title"><span class="note_title" style="font-weight:500"><img src="/julia_book/assets/icons/exclamation.png" style="width:auto;height:30px;opacity:.99;padding-bottom:4px;margin-left:-4px;padding-right:.4em"><strong>No Vector Holding Conditions</strong></span></div><div class="content">When the vector of conditions isn&#39;t already available, the conclusions above no longer apply. If your goal is to leverage SIMD, the most efficient strategy is to avoid building a condition vector altogether, and instead rely on <code>ifelse</code> applied directly to scalar values inside the for-loop. This approach eliminates unnecessary memory allocations, while still allowing the compiler to generate SIMD instructions effectively. The following example demonstrates this point.<p></p><p></p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">BitVector</button> <button class="tablink" data-id="">Vector{Bool}</button> <button class="tablink" data-id="">No Vector</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -354,7 +354,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.254 ms (7 allocations: 7.749 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  11.126 ms (7 allocations: 7.749 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -367,7 +367,7 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  704.903 μs (5 allocations: 8.583 MiB)
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.842 ms (5 allocations: 8.583 MiB)
 </code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
 
 function foo&#40;x&#41;
@@ -380,9 +380,9 @@ function foo&#40;x&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  467.963 μs (3 allocations: 7.629 MiB)
-</code></pre></div></div></div></div></div><p></p></details></div></div></div><p></p></div></div></div></section><section id="algebraic_operations_as_compound_conditions" class="scrollspy section-bg-color"><div class="container"><div class="row"><div class="col-lg- mx-auto"><h2>Algebraic Operations as Compound Conditions</h2><p></p><p>We can often eliminate branches by rewriting logical conditions using simple algebraic identities. By doing so, we&#39;re eliminating the hurdle due to branching that impedes a direct application of SIMD.</p><p>To see how this works, let&#39;s first express the logic in mathematical terms. Given a set \(\left\{ b_{i}\right\} _{i=1}^{n}\) where \(b_{i}\in\left\{ 0,1\right\}\), two frequent constructs can be expressed:</p><ul><li><p>all conditions are satisfied when</p></li></ul><div class="nonumber">\[ \prod_{i=1}^{n}c_{i} = 1 \]</div><ul><li><p>least one condition is satisfied when</p></li></ul><div class="nonumber">\[ 1-\prod_{i=1}^{n}(1-c_{i}) = 1 \]</div><p>These identities translate directly into Boolean expressions in Julia. Given two Boolean scalars <code>c1</code> and <code>c2</code>:</p><ul><li><p><code>c1 &amp;&amp; c2</code> becomes <code>Bool&#40;c1 * c2&#41;</code>,</p></li><li><p><code>c1 || c2</code> becomes <code>Bool&#40;1 - &#33;c1 * &#33;c2&#41;</code>.</p></li></ul><p>Once you adopt this perspective, you can rewrite control flow in a way that&#39;s friendlier to vectorization. For example, you can replace branching logic in a for-loop as follows.</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">&&</button> <button class="tablink" data-id="">Algebraic &&</button> <button class="tablink" data-id="">||</button> <button class="tablink" data-id="">Algebraic ||</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x                 &#61; rand&#40;1_000_000&#41;
-y                 &#61; rand&#40;1_000_000&#41;
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  1.210 ms (3 allocations: 7.629 MiB)
+</code></pre></div></div></div></div></div><p></p></details></div></div></div><p></p></div></div></div></section><section id="algebraic_operations_as_compound_conditions" class="scrollspy section-bg-color"><div class="container"><div class="row"><div class="col-lg- mx-auto"><h2>Algebraic Operations as Compound Conditions</h2><p></p><p>We can often eliminate branches by rewriting logical conditions using simple algebraic identities. By doing so, we&#39;re eliminating the hurdle due to branching that impedes a direct application of SIMD.</p><p>To see how this works, let&#39;s first express the logic in mathematical terms. Given a set \(\left\{ b_{i}\right\} _{i=1}^{n}\) where \(b_{i}\in\left\{ 0,1\right\}\), two frequent constructs can be expressed:</p><ul><li><p>all conditions are satisfied when</p></li></ul><div class="nonumber">\[ \prod_{i=1}^{n}c_{i} = 1 \]</div><ul><li><p>least one condition is satisfied when</p></li></ul><div class="nonumber">\[ 1-\prod_{i=1}^{n}(1-c_{i}) = 1 \]</div><p>These identities translate directly into Boolean expressions in Julia. Given two Boolean scalars <code>c1</code> and <code>c2</code>:</p><ul><li><p><code>c1 &amp;&amp; c2</code> becomes <code>Bool&#40;c1 * c2&#41;</code>,</p></li><li><p><code>c1 || c2</code> becomes <code>Bool&#40;1 - &#33;c1 * &#33;c2&#41;</code>.</p></li></ul><p>Once you adopt this perspective, you can rewrite control flow in a way that&#39;s friendlier to vectorization. For example, you can replace branching logic in a for-loop as follows.</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">&&</button> <button class="tablink" data-id="">Algebraic &&</button> <button class="tablink" data-id="">||</button> <button class="tablink" data-id="">Algebraic ||</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
+y &#61; rand&#40;1_000_000&#41;
 
 
 function foo&#40;x,y&#41;
@@ -395,9 +395,9 @@ function foo&#40;x,y&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  2.063 ms (0 allocations: 0 bytes)
-</code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x                 &#61; rand&#40;1_000_000&#41;
-y                 &#61; rand&#40;1_000_000&#41;
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x,&#36;y&#41;</code><br><pre><code class="plaintext code-output">  5.536 ms (0 allocations: 0 bytes)
+</code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
+y &#61; rand&#40;1_000_000&#41;
 
 
 function foo&#40;x,y&#41;
@@ -410,9 +410,9 @@ function foo&#40;x,y&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  865.019 μs (0 allocations: 0 bytes)
-</code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x                 &#61; rand&#40;1_000_000&#41;
-y                 &#61; rand&#40;1_000_000&#41;
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x,&#36;y&#41;</code><br><pre><code class="plaintext code-output">  2.174 ms (0 allocations: 0 bytes)
+</code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
+y &#61; rand&#40;1_000_000&#41;
 
 
 function foo&#40;x,y&#41;
@@ -425,9 +425,9 @@ function foo&#40;x,y&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  2.917 ms (0 allocations: 0 bytes)
-</code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x                 &#61; rand&#40;1_000_000&#41;
-y                 &#61; rand&#40;1_000_000&#41;
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x,&#36;y&#41;</code><br><pre><code class="plaintext code-output">  7.377 ms (0 allocations: 0 bytes)
+</code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x &#61; rand&#40;1_000_000&#41;
+y &#61; rand&#40;1_000_000&#41;
 
 
 function foo&#40;x,y&#41;
@@ -440,28 +440,24 @@ function foo&#40;x,y&#41;
     end
 
     return output
-end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  868.655 μs (0 allocations: 0 bytes)
-</code></pre></div></div></div></div></div><p></p></details></div><p>With broadcasting, we can reexpress the conditional logic as follows.</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">&&</button> <button class="tablink" data-id="">Algebraic &&</button> <button class="tablink" data-id="">||</button> <button class="tablink" data-id="">Algebraic ||</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
-y              &#61; rand&#40;1_000_000&#41;
+end</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x,&#36;y&#41;</code><br><pre><code class="plaintext code-output">  2.177 ms (0 allocations: 0 bytes)
+</code></pre></div></div></div></div></div><p></p></details></div><p>With broadcasting, we can reexpress the conditional logic as follows.</p><div class="hide_tab"><details open><summary><div class="closed_text"></div></summary><p></p><div class="tab_wrapper"><div class="tab_code_links"><button class="tablink first_tab active" data-id="">&&</button> <button class="tablink" data-id="">Algebraic &&</button> <button class="tablink" data-id="">||</button> <button class="tablink" data-id="">Algebraic ||</button></div><div data-id="" class="tabcontent active"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x        &#61; rand&#40;1_000_000&#41;
+y        &#61; rand&#40;1_000_000&#41;
 
+foo&#40;x,y&#41; &#61; @. ifelse&#40;&#40;x&gt;0.3&#41; &amp;&amp; &#40;y&lt;0.6&#41; &amp;&amp; &#40;x&gt;y&#41;, x,y&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x,&#36;y&#41;</code><br><pre><code class="plaintext code-output">  12.407 ms (3 allocations: 7.629 MiB)
+</code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x        &#61; rand&#40;1_000_000&#41;
+y        &#61; rand&#40;1_000_000&#41;
 
-foo&#40;x,y&#41;       &#61; @. ifelse&#40;&#40;x&gt;0.3&#41; &amp;&amp; &#40;y&lt;0.6&#41; &amp;&amp; &#40;x&gt;y&#41;, x,y&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  5.223 ms (3 allocations: 7.629 MiB)
-</code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
-y              &#61; rand&#40;1_000_000&#41;
+foo&#40;x,y&#41; &#61; @. ifelse&#40;&#40;x&gt;0.3&#41; *  &#40;y&lt;0.6&#41; *  &#40;x&gt;y&#41;, x,y&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x,&#36;y&#41;</code><br><pre><code class="plaintext code-output">  1.168 ms (3 allocations: 7.629 MiB)
+</code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x        &#61; rand&#40;1_000_000&#41;
+y        &#61; rand&#40;1_000_000&#41;
 
+foo&#40;x,y&#41; &#61; @. ifelse&#40;&#40;x&gt;0.3&#41; || &#40;y&lt;0.6&#41; || &#40;x&gt;y&#41;, x,y&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x,&#36;y&#41;</code><br><pre><code class="plaintext code-output">  8.729 ms (3 allocations: 7.629 MiB)
+</code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x        &#61; rand&#40;1_000_000&#41;
+y        &#61; rand&#40;1_000_000&#41;
 
-foo&#40;x,y&#41;       &#61; @. ifelse&#40;&#40;x&gt;0.3&#41; *  &#40;y&lt;0.6&#41; *  &#40;x&gt;y&#41;, x,y&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  537.296 μs (3 allocations: 7.629 MiB)
-</code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
-y              &#61; rand&#40;1_000_000&#41;
-
-
-foo&#40;x,y&#41;       &#61; @. ifelse&#40;&#40;x&gt;0.3&#41; || &#40;y&lt;0.6&#41; || &#40;x&gt;y&#41;, x,y&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  3.248 ms (3 allocations: 7.629 MiB)
-</code></pre></div></div></div></div><div data-id="" class="tabcontent"><div class="code_in_modal"><div class="code_NoFormat"><pre><code class="language-julia">x              &#61; rand&#40;1_000_000&#41;
-y              &#61; rand&#40;1_000_000&#41;
-
-
-foo&#40;x,y&#41;       &#61; @. ifelse&#40;Bool&#40;1 - &#33;&#40;x&gt;0.3&#41; * &#33;&#40;y&lt;0.6&#41; * &#33;&#40;x&gt;y&#41;&#41;, x,y&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x&#41;</code><br><pre><code class="plaintext code-output">  497.927 μs (3 allocations: 7.629 MiB)
-</code></pre></div></div></div></div></div><p></p></details></div><p></p></div></div></div></section><footer class="py-1"><div class="container"><span class="left-text"><a href="/julia_book/PAGES/10e_simd_unitStrides" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png" style="width:50px;height:auto;opacity:.9;padding-bottom:5px"> Previous Section <span class="ctrl-text">( <kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_left.png" style="width:15px;height:auto;opacity:.9;padding-bottom:2px"> </kbd>)</span> </a></span><span class="right-text"><a href="/julia_book/PAGES/10g_simd_LoopVectorization" class="nextPage">Next Section <span class="ctrl-text">( <kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_right.png" style="width:15px;height:auto;opacity:.9;padding-bottom:2px"> </kbd>)</span> <img src="/julia_book/assets/icons/next-page.png" style="width:50px;height:auto;opacity:.9;padding-bottom:5px"> </a></span><span class="center-text">© Martin Alfaro<br>Last Modified March 2, 2026</span></div></footer><style>@media (max-width:850px),(max-height:600px){.ctrl-text{display:none}}footer{font-family:Inter}footer .container{width:100%;margin-top:.6em;margin-bottom:.5em;overflow:hidden;text-align:center;align-items:center;justify-content:center;color:#fff}footer .center-text{text-align:center}footer .left-text{float:left}footer .right-text{float:right}footer a{color:#fff}footer a:hover{color:#fff;opacity:.9;text-decoration:none}</style><script>const prevPageURL=document.querySelector(".prevPage").href,nextPageURL=document.querySelector(".nextPage").href;function goToPrevPage(){window.location=prevPageURL}function goToNextPage(){window.location=nextPageURL}document.querySelector(".prevPage").addEventListener("click",goToPrevPage),document.querySelector(".nextPage").addEventListener("click",goToNextPage),document.addEventListener("keyup",e=>{"ArrowLeft"===e.key&&e.ctrlKey?goToPrevPage():"ArrowRight"===e.key&&e.ctrlKey&&goToNextPage()})</script></div><script src="/julia_book/libs/katex/katex.min.js"></script><script src="/julia_book/libs/katex/auto-render.min.js"></script><script>renderMathInElement(document.body)</script><script src="/julia_book/libs/highlight/highlight.js"></script><script>hljs.highlightAll(),hljs.configure({tabReplace:"    "})</script><script src="/julia_book/libs/simple-scrollspy.min.js"></script><script>window.onload=function(){scrollSpy("#navbarResponsive",{sectionClass:".scrollspy",menuActiveTarget:".nav-link",offset:100})}</script></body></html><!-- 
+foo&#40;x,y&#41; &#61; @. ifelse&#40;Bool&#40;1 - &#33;&#40;x&gt;0.3&#41; * &#33;&#40;y&lt;0.6&#41; * &#33;&#40;x&gt;y&#41;&#41;, x,y&#41;</code></pre></div></div><div class="output_in_modal"><div class="sign_output">Output in REPL</div><div class="mixed_output_inline"><div class="mixed_output_NoFormat"><div class="julia_line">julia&gt</div><code>foo&#40;&#36;x,&#36;y&#41;</code><br><pre><code class="plaintext code-output">  1.241 ms (3 allocations: 7.629 MiB)
+</code></pre></div></div></div></div></div><p></p></details></div><p></p></div></div></div></section><footer class="py-1"><div class="container"><span class="left-text"><a href="/julia_book/PAGES/10e_simd_unitStrides" class="prevPage"><img src="/julia_book/assets/icons/prev-page.png" style="width:50px;height:auto;opacity:.9;padding-bottom:5px"> Previous Section <span class="ctrl-text">( <kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_left.png" style="width:15px;height:auto;opacity:.9;padding-bottom:2px"> </kbd>)</span> </a></span><span class="right-text"><a href="/julia_book/PAGES/10g_simd_LoopVectorization" class="nextPage">Next Section <span class="ctrl-text">( <kbd>Ctrl + <img src="/julia_book/assets/icons/arrow_right.png" style="width:15px;height:auto;opacity:.9;padding-bottom:2px"> </kbd>)</span> <img src="/julia_book/assets/icons/next-page.png" style="width:50px;height:auto;opacity:.9;padding-bottom:5px"> </a></span><span class="center-text">© Martin Alfaro<br>Last Modified March 4, 2026</span></div></footer><style>@media (max-width:850px),(max-height:600px){.ctrl-text{display:none}}footer{font-family:Inter}footer .container{width:100%;margin-top:.6em;margin-bottom:.5em;overflow:hidden;text-align:center;align-items:center;justify-content:center;color:#fff}footer .center-text{text-align:center}footer .left-text{float:left}footer .right-text{float:right}footer a{color:#fff}footer a:hover{color:#fff;opacity:.9;text-decoration:none}</style><script>const prevPageURL=document.querySelector(".prevPage").href,nextPageURL=document.querySelector(".nextPage").href;function goToPrevPage(){window.location=prevPageURL}function goToNextPage(){window.location=nextPageURL}document.querySelector(".prevPage").addEventListener("click",goToPrevPage),document.querySelector(".nextPage").addEventListener("click",goToNextPage),document.addEventListener("keyup",e=>{"ArrowLeft"===e.key&&e.ctrlKey?goToPrevPage():"ArrowRight"===e.key&&e.ctrlKey&&goToNextPage()})</script></div><script src="/julia_book/libs/katex/katex.min.js"></script><script src="/julia_book/libs/katex/auto-render.min.js"></script><script>renderMathInElement(document.body)</script><script src="/julia_book/libs/highlight/highlight.js"></script><script>hljs.highlightAll(),hljs.configure({tabReplace:"    "})</script><script src="/julia_book/libs/simple-scrollspy.min.js"></script><script>window.onload=function(){scrollSpy("#navbarResponsive",{sectionClass:".scrollspy",menuActiveTarget:".nav-link",offset:100})}</script></body></html><!-- 
 #################################################
 # FOR ALL PAGES
 ################################################# 

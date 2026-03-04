@@ -1,1 +1,1 @@
-@ctime foo(4) #hide
+@ctime foo($nr_iterations) #hide

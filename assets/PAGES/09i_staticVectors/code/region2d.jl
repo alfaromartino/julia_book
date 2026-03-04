@@ -1,5 +1,6 @@
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(10);   sx = SA[x...]
+x   = rand(10)
+sx  = SA[x...]
 
 function foo(x)
     a = x[SA[1,2]]          # 0 allocation (slice of static array)

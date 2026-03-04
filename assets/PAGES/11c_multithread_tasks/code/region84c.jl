@@ -1,4 +1,5 @@
-x = rand(10); y = rand(10)
+x = rand(10)
+y = rand(10)
 
 function foo!(x,y)
     @sync begin

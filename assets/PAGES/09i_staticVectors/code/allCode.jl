@@ -126,7 +126,8 @@ print_asis(sx, 10)
 #	slices
 ####################################################
  
-x = collect(3:10) ; sx = SVector(x...)
+x      = collect(3:10)
+sx     = SVector(x...)
 
 # both define static vectors
 slice1 = sx[:]
@@ -141,11 +142,14 @@ print_asis(slice2)
 # <space_to_be_deleted>
 # <space_to_be_deleted>
  
-x = collect(3:10) ; sx = SVector(x...)
+x      = collect(3:10)
+sx     = SVector(x...)
 
 # both define and ordinary vector
-slice2 = sx[1:2]
+slice1 = sx[1:2]
 slice2 = sx[[1,2]]
+ 
+print_asis(slice1)
  
 print_asis(slice2)
  
@@ -165,11 +169,12 @@ print_asis(slice2)
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(10)
+x   = rand(10)
+
 
 function foo(x)
-    a = x[1:2]              # 1 allocation (copy of slice)
-    b = [3,4]               # 1 allocation (vector creation)
+    a = x[1:2]              #   allocation (copy of slice)
+    b = [3,4]               #   allocation (vector creation)
 
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
@@ -182,11 +187,12 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(10)
+x   = rand(10)
+
 
 @views function foo(x)
     a = x[1:2]              # 0 allocation (view of slice)
-    b = [3,4]               # 1 allocation (vector creation) 
+    b = [3,4]               #   allocation (vector creation) 
 
     sum(a) * sum(b)         # 0 allocation (scalars don't allocate)
 end
@@ -199,7 +205,8 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(10);   tup = Tuple(x)
+x   = rand(10)
+tup = Tuple(x)
 
 function foo(x)
     a = x[1:2]              # 0 allocation (slice of tuple)
@@ -216,7 +223,8 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(10);   sx = SA[x...]
+x   = rand(10)
+sx  = SA[x...]
 
 function foo(x)
     a = x[SA[1,2]]          # 0 allocation (slice of static array)
@@ -237,7 +245,8 @@ end
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(10)
+x      = rand(10)
+
 
 foo(x) = sum(2 .* x)
 
@@ -249,7 +258,8 @@ foo(x) = sum(2 .* x)
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(10);   sx = SVector(x...)
+x      = rand(10)
+sx     = SVector(x...)
 
 foo(x) = sum(2 .* x)
 
@@ -265,7 +275,8 @@ foo(x) = sum(2 .* x)
 ####################################################
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x  = rand(10)
+x      = rand(10)
+
 
 foo(x) = sum(a -> 10 + 2a +  3a^2, x)
 
@@ -277,7 +288,8 @@ foo(x) = sum(a -> 10 + 2a +  3a^2, x)
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x  = rand(10);  sx = SVector(x...);
+x      = rand(10)
+sx     = SVector(x...)
 
 foo(x) = sum(a -> 10 + 2a +  3a^2, x)
 
@@ -334,7 +346,8 @@ print_asis(mx, 10)
 ############################################################################
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(50)
+x  = rand(50)
+
 
 function foo(x)
     
@@ -356,7 +369,8 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(50);   sx = SVector(x...)
+x  = rand(50)
+sx = SVector(x...)
 
 function foo(x)
     
@@ -378,7 +392,8 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(50)
+x  = rand(50)
+
 
 function foo(x, ::Val{N}) where N
     sx     = SVector{N, eltype(x)}(x)
@@ -406,8 +421,9 @@ end
 ############################################################################
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x  = rand(10)
-sx = SVector(x...);  mx = MVector(x...)
+x      = rand(10)
+sx     = SVector(x...)
+mx     = MVector(x...)
 
 foo(x) = sum(a -> 10 + 2a +  3a^2, x)
  
@@ -423,8 +439,9 @@ foo(x) = sum(a -> 10 + 2a +  3a^2, x)
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x  = rand(10)
-sx = SVector(x...);  mx = MVector(x...)
+x      = rand(10)
+sx     = SVector(x...)
+mx     = MVector(x...)
 
 foo(x) = 10 + 2x +  3x^2
  
@@ -448,7 +465,8 @@ foo(x) = 10 + 2x +  3x^2
 Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(50)
 
-function foo(x; output = similar(x))
+
+function foo(x; output = similar(x))    
     for i in eachindex(x)
         temp      = x .> x[i]
         output[i] = sum(temp)
@@ -465,7 +483,8 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(50)
+x  = rand(50)
+
 
 function foo(x; output = similar(x), temp = similar(x))
     for i in eachindex(x)
@@ -484,7 +503,8 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(50);   sx = SVector(x...)
+x  = rand(50)
+sx = SVector(x...)
 
 function foo(x; output = Vector{Float64}(undef, length(x)))
     for i in eachindex(x)
@@ -503,7 +523,8 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(50);   sx = SVector(x...)
+x  = rand(50)
+sx = SVector(x...)
 
 function foo(x; output = similar(x))
     for i in eachindex(x)
@@ -522,7 +543,8 @@ end
 # <space_to_be_deleted>
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(50);   sx = SVector(x...)
+x  = rand(50)
+sx = SVector(x...)
 
 function foo(x; output = MVector{length(x),eltype(x)}(undef))
     for i in eachindex(x)
