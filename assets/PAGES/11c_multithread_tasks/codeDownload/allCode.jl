@@ -51,26 +51,30 @@ println(nthreads())
 #	`fetch`
 ####################################################
  
-x = rand(10); y = rand(10)
+x = 2
 
 function foo(x)
-    a      = x .* -2
-    b      = x .*  2
+    a      = x * -2
+    b      = x *  2
     
     a,b
 end
  
+println(foo(x))
+ 
 
 
 
-x = rand(10); y = rand(10)
+x = 2
 
 function foo(x)
-    task_a = @spawn x .* -2
-    task_b = @spawn x .*  2
+    task_a = @spawn x * -2
+    task_b = @spawn x *  2
     
     a,b    = fetch.((task_a, task_b))
 end
+ 
+println(foo(x))
  
 
 
@@ -79,7 +83,8 @@ end
 #	mutating function
 ####################################################
  
-x = rand(10); y = rand(10)
+x = rand(10)
+y = rand(10)
 
 function foo!(x,y)
     @. x = -x
@@ -89,7 +94,8 @@ end
 
 
 
-x = rand(10); y = rand(10)
+x = rand(10)
+y = rand(10)
 
 function foo!(x,y)
     task_a = @spawn (@. x = -x)
@@ -101,7 +107,8 @@ end
 
 
 
-x = rand(10); y = rand(10)
+x = rand(10)
+y = rand(10)
 
 function foo!(x,y)
     @sync begin

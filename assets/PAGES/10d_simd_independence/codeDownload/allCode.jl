@@ -26,7 +26,7 @@ using Random
 ############################################################################
  
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
+x      = rand(1_000_000)
 
 function foo(x)
     output = similar(x)
@@ -43,7 +43,7 @@ end
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
+x      = rand(1_000_000)
 
 function foo(x)
     output = similar(x)
@@ -60,7 +60,7 @@ end
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(1_000_000)
+x      = rand(1_000_000)
 
 foo(x) = @. x / 2 + x^2 / 3
     

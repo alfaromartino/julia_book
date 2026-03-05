@@ -403,6 +403,7 @@ function foo(x)
                 @set reducer = +
                     log(x[i])
              end
+             
 
     return output
 end

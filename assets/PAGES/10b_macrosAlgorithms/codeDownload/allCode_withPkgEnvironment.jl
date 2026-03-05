@@ -80,7 +80,7 @@ Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 function foo(x)
-    output = 0.    
+    output = 0.0    
 
     @inbounds for i in eachindex(x)
                   a       = log(x[i])
@@ -101,7 +101,7 @@ Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 function foo(x)
-    output = 0.    
+    output = 0.0
 
     for i in eachindex(x)
         @inbounds a       = log(x[i])
@@ -130,7 +130,7 @@ Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 function foo(x)
-    output = 0.
+    output = 0.0
 
     for i in eachindex(x)
         output += log(x[i])
@@ -147,7 +147,7 @@ Random.seed!(123)       #setting seed for reproducibility
 x = rand(1_000)
 
 function foo(x)
-    output = 0.
+    output = 0.0
 
     @inbounds for i in eachindex(x)
         output += log(x[i])

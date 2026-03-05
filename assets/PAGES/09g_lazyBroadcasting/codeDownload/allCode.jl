@@ -405,7 +405,7 @@ foo(x) = sum(@~ 2 .* x)
 # REMARK: Lazy Broadcasting May Be Faster Than Other Lazy Alternatives
  
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100)
+x        = rand(100)
 
 term1(a) = a * 2
 term2(a) = a * 3
@@ -418,7 +418,7 @@ foo(x)   = sum(@~ temp.(x))
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x = rand(100)
+x        = rand(100)
 
 term1(a) = a * 2
 term2(a) = a * 3

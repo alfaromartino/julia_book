@@ -38,9 +38,9 @@ using FastBenchmark
 ####################################################
  
 function foo()
-    x = 1; y = 2
+    x = 1; y = 2; z = 3
     
-    x + y
+    x + y + z
 end
 
 @ctime foo()
@@ -55,7 +55,7 @@ end
 function foo()
     tup = (1,2,3)
 
-    tup[1] + tup[2] * tup[3]
+    sum(tup[1:2]) + tup[3]
 end
 
 @ctime foo()
@@ -70,7 +70,7 @@ end
 function foo()
     nt = (a=1, b=2, c=3)
 
-    nt.a + nt.b * nt.c
+    sum((nt.a, nt.b)) + nt.c
 end
 
 @ctime foo()
@@ -85,7 +85,7 @@ end
 function foo()
     rang = 1:3
 
-    sum(rang[1:2]) + rang[2] * rang[3]
+    sum(rang[1:2]) + rang[3]
 end
 
 @ctime foo()

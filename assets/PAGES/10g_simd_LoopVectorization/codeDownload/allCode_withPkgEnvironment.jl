@@ -90,7 +90,7 @@ x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -108,7 +108,7 @@ x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     @inbounds @simd for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -126,7 +126,7 @@ x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     @turbo for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -159,7 +159,7 @@ x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
 function foo(x)
-    output     = 0.0
+    output = 0.0
     
     for i in eachindex(x)
         output += calculation(x[i])
@@ -177,7 +177,7 @@ x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
 function foo(x)
-    output     = 0.0
+    output = 0.0
     
     @inbounds @simd for i in eachindex(x)
         output += calculation(x[i])
@@ -195,7 +195,7 @@ x              = rand(1_000_000)
 calculation(a) = a * 0.1 + a^2 * 0.2 - a^3 * 0.3 - a^4 * 0.4
 
 function foo(x)
-    output     = 0.0
+    output = 0.0
     
     @turbo for i in eachindex(x)
         output += calculation(x[i])
@@ -223,7 +223,7 @@ x              = rand(1_000_000)
 calculation(a) = log(a)
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -241,7 +241,7 @@ x              = rand(1_000_000)
 calculation(a) = log(a)
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     @inbounds @simd for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -259,7 +259,7 @@ x              = rand(1_000_000)
 calculation(a) = log(a)
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     @turbo for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -276,7 +276,7 @@ Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = log(a)
 
-foo(x) = @turbo calculation.(x)    
+foo(x)         = @turbo calculation.(x)
 @ctime foo($x)
  
 
@@ -291,7 +291,7 @@ x              = rand(1_000_000)
 calculation(a) = exp(a)
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -309,7 +309,7 @@ x              = rand(1_000_000)
 calculation(a) = exp(a)
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     @inbounds @simd for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -327,7 +327,7 @@ x              = rand(1_000_000)
 calculation(a) = exp(a)
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     @turbo for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -344,7 +344,7 @@ Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = exp(a)
 
-foo(x) = @turbo calculation.(x)    
+foo(x)         = @turbo calculation.(x)
 @ctime foo($x)
  
 
@@ -359,7 +359,7 @@ x              = rand(1_000_000)
 calculation(a) = a^4
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -377,7 +377,7 @@ x              = rand(1_000_000)
 calculation(a) = a^4
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     @inbounds @simd for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -395,7 +395,7 @@ x              = rand(1_000_000)
 calculation(a) = a^4
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     @turbo for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -412,7 +412,7 @@ Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = a^4
 
-foo(x) = @turbo calculation.(x)    
+foo(x)         = @turbo calculation.(x)
 @ctime foo($x)
  
 
@@ -425,7 +425,7 @@ x              = rand(1_000_000)
 calculation(a) = sqrt(a)
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -443,7 +443,7 @@ x              = rand(1_000_000)
 calculation(a) = sqrt(a)
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     @inbounds @simd for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -461,7 +461,7 @@ x              = rand(1_000_000)
 calculation(a) = sqrt(a)
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     @turbo for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -478,7 +478,7 @@ Random.seed!(123)       #setting seed for reproducibility
 x              = rand(1_000_000)
 calculation(a) = sqrt(a)
 
-foo(x) = @turbo calculation.(x)    
+foo(x)         = @turbo calculation.(x)
 @ctime foo($x)
  
 
@@ -493,7 +493,7 @@ x              = rand(1_000_000)
 calculation(a) = sin(a)
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -511,7 +511,7 @@ x              = rand(1_000_000)
 calculation(a) = sin(a)
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     @inbounds @simd for i in eachindex(x)
         output[i] = calculation(x[i])
@@ -529,7 +529,7 @@ x              = rand(1_000_000)
 calculation(a) = sin(a)
 
 function foo(x)
-    output     = similar(x)
+    output = similar(x)
     
     @turbo for i in eachindex(x)
         output[i] = calculation(x[i])

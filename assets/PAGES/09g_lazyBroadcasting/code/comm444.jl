@@ -1,1 +1,1 @@
-# comparison with lazy map
+# REMARK: Lazy Broadcasting May Be Faster Than Other Lazy Alternatives

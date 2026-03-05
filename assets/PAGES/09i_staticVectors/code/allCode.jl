@@ -463,7 +463,7 @@ foo(x) = 10 + 2x +  3x^2
 ############################################################################
  
 Random.seed!(123)       #setting seed for reproducibility #hide
-x = rand(50)
+x  = rand(50)
 
 
 function foo(x; output = similar(x))    

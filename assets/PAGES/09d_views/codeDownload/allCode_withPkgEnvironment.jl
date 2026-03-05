@@ -77,19 +77,25 @@ foo(x) = @views sum(x[x .> 0.5])
 ############################################################################
  
 Random.seed!(123)       #setting seed for reproducibility
-x      = rand(100_000)
+x = rand(100_000)
 
-foo(x) = max.(x[1:2:length(x)], 0.5)
-
+function foo(x) 
+    y = x[1:2:length(x)]
+    
+    max.(y, 0.5)
+end
 @ctime foo($x)
  
 
 
 
 Random.seed!(123)       #setting seed for reproducibility
-x      = rand(100_000)
+x = rand(100_000)
 
-foo(x) = max.(@view(x[1:2:length(x)]), 0.5)
-
+function foo(x) 
+    y = @view x[1:2:length(x)]
+    
+    max.(y, 0.5)
+end
 @ctime foo($x)
  

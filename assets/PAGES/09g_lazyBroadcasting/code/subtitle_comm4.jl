@@ -1,3 +1,3 @@
 ####################################################
-#	vector operations can provide identical results to broadcasting
+#	Mixing Broadcasting with Vector Operations Breaks Loop Fusion
 ####################################################

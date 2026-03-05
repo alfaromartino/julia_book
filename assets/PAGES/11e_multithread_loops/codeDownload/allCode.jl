@@ -93,6 +93,10 @@ end
 #
 ############################################################################
  
+####################################################
+#	scenario 1: unbalanced workload
+####################################################
+ 
 function job(i; time_working)
     println("Iteration $i is on Thread $(threadid())")
 
@@ -103,10 +107,11 @@ function job(i; time_working)
     end    
 end
  
-####################################################
-#	scenario 1: unbalanced workload
-####################################################
- 
+
+
+
+nr_iterations = 4
+
 function foo(nr_iterations)
     for i in 1:nr_iterations
       job(i; time_working = i)      
@@ -114,10 +119,12 @@ function foo(nr_iterations)
 end
 foo(1);
  
-@ctime foo(4)
+@ctime foo($nr_iterations)
  
 
 
+
+nr_iterations = 4
 
 function foo(nr_iterations)
     @threads for i in 1:nr_iterations
@@ -126,10 +133,12 @@ function foo(nr_iterations)
 end
 foo(1);
  
-@ctime foo(4)
+@ctime foo($nr_iterations)
  
 
 
+
+nr_iterations = 4
 
 function foo(nr_iterations)
     @sync begin
@@ -140,7 +149,7 @@ function foo(nr_iterations)
 end
 foo(1);
  
-@ctime foo(4)
+@ctime foo($nr_iterations)
  
 
 
@@ -149,6 +158,21 @@ foo(1);
 #	scenario 2: balanced workload
 ####################################################
  
+function job(i; time_working)
+
+
+    start_time = time()
+
+    while time() - start_time < time_working
+        1 + 1                  # compute `1+1` repeatedly during `time_working` seconds
+    end    
+end
+ 
+
+
+
+nr_iterations = 1_000
+
 function foo(nr_iterations)
     fixed_time = 1 / 1_000_000
 
@@ -159,10 +183,12 @@ end
 foo(1);
 GC.gc() ;
  
-@ctime foo(1_000_000)
+@ctime foo($nr_iterations)
  
 
 
+
+nr_iterations = 1_000
 
 function foo(nr_iterations)
     fixed_time = 1 / 1_000_000
@@ -174,10 +200,12 @@ end
 foo(1);
 GC.gc() ;
  
-@ctime foo(1_000_000)
+@ctime foo($nr_iterations)
  
 
 
+
+nr_iterations = 1_000
 
 function foo(nr_iterations)
     fixed_time = 1 / 1_000_000
@@ -191,5 +219,5 @@ end
 foo(1);
 GC.gc() ;
  
-@ctime foo(1_000_000)
+@ctime foo($nr_iterations)
  

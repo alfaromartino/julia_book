@@ -1,3 +1,3 @@
 ####################################################
-#	remark: @inbounds may be automatically applied to for-loops
+#	REMARK: other optimization differences between broadcasting and for-loops
 ####################################################
