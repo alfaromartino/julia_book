@@ -2,7 +2,7 @@ Random.seed!(123)       #setting seed for reproducibility #hide
 x = collect(1:100)
 
 function foo(x)
-    y = filter(a -> a > 50, x)              # 1 allocation 
+    y = filter(a -> a > 50, x)              # it does allocate 
 
     sum(y)
 end
