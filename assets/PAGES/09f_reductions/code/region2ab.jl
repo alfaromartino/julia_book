@@ -1,1 +1,0 @@
-print_asis(foo2(x))

@@ -56,7 +56,7 @@ x      = rand(100)
 function foo(x)
     output = similar(x)
 
-    @inbounds for i in eachindex(x)
+    @inbounds @simd for i in eachindex(x)
         output[i] = 2 * x[i]
     end
 

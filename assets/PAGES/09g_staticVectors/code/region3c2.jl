@@ -1,1 +1,0 @@
-@btime foo(ref($sx))

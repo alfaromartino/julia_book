@@ -6,13 +6,13 @@ using Random
  
 ############################################################################
 #
-#			LAZY OPERATIONS
+#			        SECTION: "LAZY OPERATIONS"
 #
 ############################################################################
  
 ############################################################################
 #
-#			GENERATORS
+#   GENERATORS
 #
 ############################################################################
  
@@ -50,7 +50,7 @@ Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(100)
 
 function foo(x)
-    y = [a * 2 for a in x]       # 1 allocation
+    y = [a * 2 for a in x]       # it does allocate
     
     sum(y)
 end
@@ -66,7 +66,7 @@ Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(100)
 
 function foo(x)
-    y = (a * 2 for a in x)      # 0 allocations
+    y = (a * 2 for a in x)      # it does NOT allocate
     
     sum(y)
 end
@@ -82,7 +82,7 @@ Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(100)
 
 
-foo(x) = sum(a * 2 for a in x)  # 0 allocations
+foo(x) = sum(a * 2 for a in x)  # it does NOT allocate
     
 @ctime foo($x) #hide
  
@@ -93,7 +93,7 @@ foo(x) = sum(a * 2 for a in x)  # 0 allocations
  
 ############################################################################
 #
-#			ITERATORS
+#   ITERATORS
 #
 ############################################################################
  
@@ -123,7 +123,7 @@ Random.seed!(123)       #setting seed for reproducibility #hide
 x = collect(1:100)
 
 function foo(x)
-    y = filter(a -> a > 50, x)              # 1 allocation 
+    y = filter(a -> a > 50, x)              # it does allocate 
 
     sum(y)
 end
@@ -139,7 +139,7 @@ Random.seed!(123)       #setting seed for reproducibility #hide
 x = collect(1:100)
 
 function foo(x)
-    y = Iterators.filter(a -> a > 50, x)    # 0 allocations 
+    y = Iterators.filter(a -> a > 50, x)    # it does NOT allocate 
 
     sum(y)
 end
@@ -155,7 +155,7 @@ Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(100)
 
 function foo(x) 
-    y = map(a -> a * 2, x)                  # 1 allocation
+    y = map(a -> a * 2, x)                  # it does allocate
 
     sum(y)
 end
@@ -171,7 +171,7 @@ Random.seed!(123)       #setting seed for reproducibility #hide
 x = rand(100)
 
 function foo(x)
-    y = Iterators.map(a -> a * 2, x)        # 0 allocations
+    y = Iterators.map(a -> a * 2, x)        # it does NOT allocate
 
     sum(y)
 end

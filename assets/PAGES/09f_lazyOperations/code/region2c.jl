@@ -2,7 +2,7 @@ Random.seed!(123)       #setting seed for reproducibility #hide
 x = collect(1:100)
 
 function foo(x)
-    y = Iterators.filter(a -> a > 50, x)    # 0 allocations 
+    y = Iterators.filter(a -> a > 50, x)    # it does NOT allocate 
 
     sum(y)
 end
